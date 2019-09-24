@@ -1,0 +1,62 @@
+  <!-- ************* -->
+  <!-- Channel: bbbb -->
+  <!-- ************* -->
+
+  <Channel Name="bbbb">
+
+    <File Name="bbbb_INPUT_WS"/>
+    <Workspace Name="combWS"/>
+    <ModelConfig Name="ModelConfig"/>
+    <ModelPOI Name="POINAME"/>
+    <ModelData Name="combData"/>
+
+   <RenameMap>
+    <!-- Format: -->
+    <!-- OldName="PDFname_old( NPname_old, GlobalObs_old)" NewName="NPname_new" -->
+
+    <!-- bbbb systematics rename map -->
+
+    <!-- Luminosity -->
+		  <!-- None found -->
+
+    <!-- Electron -->
+		  <!-- None found -->
+
+    <!-- Photon -->
+		  <!-- None found -->
+
+    <!-- E/gamma -->
+		  <!-- None found -->
+
+    <!-- Muon -->
+		  <!-- None found -->
+
+    <!-- Tau -->
+		  <!-- None found -->
+
+    <!-- Jet systematics -->
+	 <Syst OldName="alpha_Signal_JET_JER_SINGLE_NPConstraint( alpha_Signal_JET_JER_SINGLE_NP, nom_alpha_Signal_JET_JER_SINGLE_NP)" NewName="ATLAS_JET_JER" />
+	 <Syst OldName="alpha_Signal_JET_GroupedNP_1Constraint( alpha_Signal_JET_GroupedNP_1, nom_alpha_Signal_JET_GroupedNP_1 )"                               NewName="ATLAS_JET_GroupedNP_1" />
+	 <Syst OldName="alpha_Signal_JET_GroupedNP_2Constraint( alpha_Signal_JET_GroupedNP_2, nom_alpha_Signal_JET_GroupedNP_2 )"                               NewName="ATLAS_JET_GroupedNP_2" />
+	 <Syst OldName="alpha_Signal_JET_GroupedNP_3Constraint( alpha_Signal_JET_GroupedNP_3, nom_alpha_Signal_JET_GroupedNP_3 )"                               NewName="ATLAS_JET_GroupedNP_3" />
+	 <Syst OldName="alpha_Signal_JET_EtaIntercalib_NonclosConstraint( alpha_Signal_JET_EtaIntercalib_Nonclos, nom_alpha_Signal_JET_EtaIntercalib_Nonclos )" NewName="ATLAS_JET_EtaIntercalib_Nonclos" /> <!--added-->
+
+    <!-- Flavour tagging systematics -->
+	 <Syst OldName="alpha_Signal_FT_EFF_Eigen_B_0Constraint( alpha_Signal_FT_EFF_Eigen_B_0, nom_alpha_Signal_FT_EFF_Eigen_B_0 )" NewName="ATLAS_FT_EFF_Eigen_B_0" />
+	 <Syst OldName="alpha_Signal_FT_EFF_Eigen_B_1Constraint( alpha_Signal_FT_EFF_Eigen_B_1, nom_alpha_Signal_FT_EFF_Eigen_B_1 )" NewName="ATLAS_FT_EFF_Eigen_B_1" />
+	 <Syst OldName="alpha_Signal_FT_EFF_Eigen_B_2Constraint( alpha_Signal_FT_EFF_Eigen_B_2, nom_alpha_Signal_FT_EFF_Eigen_B_2 )" NewName="ATLAS_FT_EFF_Eigen_B_2" />
+	 <Syst OldName="alpha_Signal_FT_EFF_Eigen_B_3Constraint( alpha_Signal_FT_EFF_Eigen_B_3, nom_alpha_Signal_FT_EFF_Eigen_B_3 )" NewName="ATLAS_FT_EFF_Eigen_B_3" /> <!--added-->
+	 <Syst OldName="alpha_Signal_FT_EFF_extrapolationConstraint(alpha_Signal_FT_EFF_extrapolation, nom_alpha_Signal_FT_EFF_extrapolation)" NewName="ATLAS_FT_EFF_extrapolation" />
+		  <!-- Other FT systs not found -->
+
+    <!-- MET -->
+		  <!-- None found -->
+
+    <!-- Pile-up reweighting -->
+		  <!-- None found -->
+
+    <!-- bbbb category renaming -->
+    <Syst OldName="channelCat" NewName="Cat_bbbb"/> 
+   </RenameMap>
+
+  </Channel>

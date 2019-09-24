@@ -1,0 +1,15 @@
+<!DOCTYPE Organization  SYSTEM 'Organization.dtd'>
+<Organization InFile="/.data/englert/projects/hh_combination/software/hh_combination_fw/tests/test_pipeline/test_batch/regularised/spin0/bbbb/500.root"
+		  OutFile="/.data/englert/projects/hh_combination/software/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbbb/500.root"
+	     ModelName="dummy"
+	     POINames="xsec_br">
+
+  <!-- Rescaling. -->
+  <Item Name="expr::mu_old('@0/99.0', xsec_br[0.0,-1.0,20.0])"/>
+
+  <!-- PDF -->
+  <Item Name="EDIT::NEWPDF(OLDPDF,
+	      NormFactorToPrediction=mu_old,
+	      )"/>
+
+</Organization>

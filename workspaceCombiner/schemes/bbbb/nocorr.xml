@@ -1,0 +1,18 @@
+  <!-- ************* -->
+  <!-- Channel: bbbb -->
+  <!-- ************* -->
+
+  <Channel Name="bbbb">
+
+   <File Name="bbbb_INPUT_WS"/>
+   <Workspace Name="combWS"/>
+   <ModelConfig Name="ModelConfig"/>
+   <ModelPOI Name="POINAME"/>
+   <ModelData Name="combData"/>
+
+   <RenameMap>
+    <Syst OldName="channelCat" NewName="Cat_bbbb"/> 
+   </RenameMap>
+
+  </Channel>
+

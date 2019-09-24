@@ -1,0 +1,341 @@
+
+[1mRooFit v3.60 -- Developed by Wouter Verkerke and David Kirkby[0m 
+                Copyright (C) 2000-2013 NIKHEF, University of California & Stanford University
+                All rights reserved, please read http://roofit.sourceforge.net/license.txt
+
+Error in <TCling::RegisterModule>: cannot find dictionary module HggTwoSidedCBPdfDict_rdict.pcm
+You called: 
+/.data/englert/projects/hh_combination/software/hh_combination_fw/submodules/RooStatTools/./bin/makeAsimovData /.data/englert/projects/hh_combination/software/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbbb/600.root /.data/englert/projects/hh_combination/software/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbbb/600_with_Asimov_POI_0_NP_fit.root combWS ModelConfig combData true 0.0 asimovData_POI_0_NP_fit 
+#--- Running makeAsimovData ---
+# - Settings: 
+  - input_ws:           /.data/englert/projects/hh_combination/software/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbbb/600.root
+  - output_ws:          /.data/englert/projects/hh_combination/software/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbbb/600_with_Asimov_POI_0_NP_fit.root
+  - workspacename:      combWS
+  - modelConfigName:    ModelConfig
+  - dataName:           combData
+  - doConditional:      1 (true)
+  - mu:                 0
+  - asimovData_name:    asimovData_POI_0_NP_fit
+Executing makeAsimovData().
+inside makeAsimovData().
+- doConditional: 1
+Pairing nui: alpha_r15_Luminosity, with glob: nom_alpha_r15_Luminosity, from constraint: alpha_r15_LuminosityConstraint
+Pairing nui: alpha_Signal_JET_JER, with glob: nom_alpha_Signal_JET_JER, from constraint: alpha_Signal_JET_JERConstraint
+Pairing nui: alpha_Signal_Theory_ShowerHad, with glob: nom_alpha_Signal_Theory_ShowerHad, from constraint: alpha_Signal_Theory_ShowerHadConstraint
+Pairing nui: alpha_Signal_Theory_Scales, with glob: nom_alpha_Signal_Theory_Scales, from constraint: alpha_Signal_Theory_ScalesConstraint
+Pairing nui: alpha_Signal_JET_GroupedNP_1, with glob: nom_alpha_Signal_JET_GroupedNP_1, from constraint: alpha_Signal_JET_GroupedNP_1Constraint
+Pairing nui: alpha_Signal_JET_GroupedNP_2, with glob: nom_alpha_Signal_JET_GroupedNP_2, from constraint: alpha_Signal_JET_GroupedNP_2Constraint
+Pairing nui: alpha_Signal_JET_GroupedNP_3, with glob: nom_alpha_Signal_JET_GroupedNP_3, from constraint: alpha_Signal_JET_GroupedNP_3Constraint
+Pairing nui: alpha_Signal_JET_EtaIntercalib_Nonclos, with glob: nom_alpha_Signal_JET_EtaIntercalib_Nonclos, from constraint: alpha_Signal_JET_EtaIntercalib_NonclosConstraint
+Pairing nui: alpha_Signal_FT_EFF_Eigen_B_0, with glob: nom_alpha_Signal_FT_EFF_Eigen_B_0, from constraint: alpha_Signal_FT_EFF_Eigen_B_0Constraint
+Pairing nui: alpha_Signal_FT_EFF_Eigen_B_1, with glob: nom_alpha_Signal_FT_EFF_Eigen_B_1, from constraint: alpha_Signal_FT_EFF_Eigen_B_1Constraint
+Pairing nui: alpha_Signal_FT_EFF_Eigen_B_2, with glob: nom_alpha_Signal_FT_EFF_Eigen_B_2, from constraint: alpha_Signal_FT_EFF_Eigen_B_2Constraint
+Pairing nui: alpha_Signal_FT_EFF_Eigen_B_3, with glob: nom_alpha_Signal_FT_EFF_Eigen_B_3, from constraint: alpha_Signal_FT_EFF_Eigen_B_3Constraint
+Pairing nui: alpha_Signal_trig, with glob: nom_alpha_Signal_trig, from constraint: alpha_Signal_trigConstraint
+Pairing nui: alpha_r15_norm_NP0, with glob: nom_alpha_r15_norm_NP0, from constraint: alpha_r15_norm_NP0Constraint
+Pairing nui: alpha_r15_norm_NP1, with glob: nom_alpha_r15_norm_NP1, from constraint: alpha_r15_norm_NP1Constraint
+Pairing nui: alpha_r15_norm_NP2, with glob: nom_alpha_r15_norm_NP2, from constraint: alpha_r15_norm_NP2Constraint
+Pairing nui: alpha_r15_LowHtCR, with glob: nom_alpha_r15_LowHtCR, from constraint: alpha_r15_LowHtCRConstraint
+Pairing nui: alpha_r15_HighHtCR, with glob: nom_alpha_r15_HighHtCR, from constraint: alpha_r15_HighHtCRConstraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_0_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_0, from constraint: gamma_stat_combined_r15_hh_bin_0_constraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_1_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_1, from constraint: gamma_stat_combined_r15_hh_bin_1_constraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_22_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_22, from constraint: gamma_stat_combined_r15_hh_bin_22_constraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_23_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_23, from constraint: gamma_stat_combined_r15_hh_bin_23_constraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_24_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_24, from constraint: gamma_stat_combined_r15_hh_bin_24_constraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_25_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_25, from constraint: gamma_stat_combined_r15_hh_bin_25_constraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_26_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_26, from constraint: gamma_stat_combined_r15_hh_bin_26_constraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_27_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_27, from constraint: gamma_stat_combined_r15_hh_bin_27_constraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_28_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_28, from constraint: gamma_stat_combined_r15_hh_bin_28_constraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_29_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_29, from constraint: gamma_stat_combined_r15_hh_bin_29_constraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_30_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_30, from constraint: gamma_stat_combined_r15_hh_bin_30_constraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_31_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_31, from constraint: gamma_stat_combined_r15_hh_bin_31_constraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_32_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_32, from constraint: gamma_stat_combined_r15_hh_bin_32_constraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_33_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_33, from constraint: gamma_stat_combined_r15_hh_bin_33_constraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_34_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_34, from constraint: gamma_stat_combined_r15_hh_bin_34_constraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_35_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_35, from constraint: gamma_stat_combined_r15_hh_bin_35_constraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_36_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_36, from constraint: gamma_stat_combined_r15_hh_bin_36_constraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_37_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_37, from constraint: gamma_stat_combined_r15_hh_bin_37_constraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_38_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_38, from constraint: gamma_stat_combined_r15_hh_bin_38_constraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_39_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_39, from constraint: gamma_stat_combined_r15_hh_bin_39_constraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_40_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_40, from constraint: gamma_stat_combined_r15_hh_bin_40_constraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_41_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_41, from constraint: gamma_stat_combined_r15_hh_bin_41_constraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_42_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_42, from constraint: gamma_stat_combined_r15_hh_bin_42_constraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_43_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_43, from constraint: gamma_stat_combined_r15_hh_bin_43_constraint
+Pairing nui: gamma_stat_combined_r15_hh_bin_44_poisMean, with glob: nom_gamma_stat_combined_r15_hh_bin_44, from constraint: gamma_stat_combined_r15_hh_bin_44_constraint
+Pairing nui: alpha_r16_Luminosity, with glob: nom_alpha_r16_Luminosity, from constraint: alpha_r16_LuminosityConstraint
+Pairing nui: alpha_r16_norm_NP0, with glob: nom_alpha_r16_norm_NP0, from constraint: alpha_r16_norm_NP0Constraint
+Pairing nui: alpha_r16_norm_NP1, with glob: nom_alpha_r16_norm_NP1, from constraint: alpha_r16_norm_NP1Constraint
+Pairing nui: alpha_r16_norm_NP2, with glob: nom_alpha_r16_norm_NP2, from constraint: alpha_r16_norm_NP2Constraint
+Pairing nui: alpha_r16_LowHtCR, with glob: nom_alpha_r16_LowHtCR, from constraint: alpha_r16_LowHtCRConstraint
+Pairing nui: alpha_r16_HighHtCR, with glob: nom_alpha_r16_HighHtCR, from constraint: alpha_r16_HighHtCRConstraint
+Pairing nui: gamma_stat_combined_r16_hh_bin_0_poisMean, with glob: nom_gamma_stat_combined_r16_hh_bin_0, from constraint: gamma_stat_combined_r16_hh_bin_0_constraint
+Pairing nui: gamma_stat_combined_r16_hh_bin_1_poisMean, with glob: nom_gamma_stat_combined_r16_hh_bin_1, from constraint: gamma_stat_combined_r16_hh_bin_1_constraint
+Pairing nui: gamma_stat_combined_r16_hh_bin_27_poisMean, with glob: nom_gamma_stat_combined_r16_hh_bin_27, from constraint: gamma_stat_combined_r16_hh_bin_27_constraint
+Pairing nui: gamma_stat_combined_r16_hh_bin_28_poisMean, with glob: nom_gamma_stat_combined_r16_hh_bin_28, from constraint: gamma_stat_combined_r16_hh_bin_28_constraint
+Pairing nui: gamma_stat_combined_r16_hh_bin_30_poisMean, with glob: nom_gamma_stat_combined_r16_hh_bin_30, from constraint: gamma_stat_combined_r16_hh_bin_30_constraint
+Pairing nui: gamma_stat_combined_r16_hh_bin_31_poisMean, with glob: nom_gamma_stat_combined_r16_hh_bin_31, from constraint: gamma_stat_combined_r16_hh_bin_31_constraint
+Pairing nui: gamma_stat_combined_r16_hh_bin_32_poisMean, with glob: nom_gamma_stat_combined_r16_hh_bin_32, from constraint: gamma_stat_combined_r16_hh_bin_32_constraint
+Pairing nui: gamma_stat_combined_r16_hh_bin_33_poisMean, with glob: nom_gamma_stat_combined_r16_hh_bin_33, from constraint: gamma_stat_combined_r16_hh_bin_33_constraint
+Pairing nui: gamma_stat_combined_r16_hh_bin_34_poisMean, with glob: nom_gamma_stat_combined_r16_hh_bin_34, from constraint: gamma_stat_combined_r16_hh_bin_34_constraint
+Pairing nui: gamma_stat_combined_r16_hh_bin_35_poisMean, with glob: nom_gamma_stat_combined_r16_hh_bin_35, from constraint: gamma_stat_combined_r16_hh_bin_35_constraint
+Pairing nui: gamma_stat_combined_r16_hh_bin_36_poisMean, with glob: nom_gamma_stat_combined_r16_hh_bin_36, from constraint: gamma_stat_combined_r16_hh_bin_36_constraint
+Pairing nui: gamma_stat_combined_r16_hh_bin_37_poisMean, with glob: nom_gamma_stat_combined_r16_hh_bin_37, from constraint: gamma_stat_combined_r16_hh_bin_37_constraint
+Pairing nui: gamma_stat_combined_r16_hh_bin_38_poisMean, with glob: nom_gamma_stat_combined_r16_hh_bin_38, from constraint: gamma_stat_combined_r16_hh_bin_38_constraint
+Pairing nui: gamma_stat_combined_r16_hh_bin_39_poisMean, with glob: nom_gamma_stat_combined_r16_hh_bin_39, from constraint: gamma_stat_combined_r16_hh_bin_39_constraint
+Pairing nui: gamma_stat_combined_r16_hh_bin_40_poisMean, with glob: nom_gamma_stat_combined_r16_hh_bin_40, from constraint: gamma_stat_combined_r16_hh_bin_40_constraint
+Pairing nui: gamma_stat_combined_r16_hh_bin_41_poisMean, with glob: nom_gamma_stat_combined_r16_hh_bin_41, from constraint: gamma_stat_combined_r16_hh_bin_41_constraint
+Pairing nui: gamma_stat_combined_r16_hh_bin_42_poisMean, with glob: nom_gamma_stat_combined_r16_hh_bin_42, from constraint: gamma_stat_combined_r16_hh_bin_42_constraint
+Pairing nui: gamma_stat_combined_r16_hh_bin_43_poisMean, with glob: nom_gamma_stat_combined_r16_hh_bin_43, from constraint: gamma_stat_combined_r16_hh_bin_43_constraint
+Pairing nui: gamma_stat_combined_r16_hh_bin_44_poisMean, with glob: nom_gamma_stat_combined_r16_hh_bin_44, from constraint: gamma_stat_combined_r16_hh_bin_44_constraint
+Starting minimization..
+[#1] INFO:Minization -- p.d.f. provides expected number of events, including extended term in likelihood.
+[#1] INFO:Minization -- createNLL: caching constraint set under name CONSTR_OF_PDF_simPdf_FOR_OBS_channelCat:obs_x_combined_r15_hh:obs_x_combined_r16_hh with 68 entries
+[#1] INFO:Minization --  Including the following contraint terms in minimization: (alpha_r15_LuminosityConstraint,alpha_Signal_JET_JERConstraint,alpha_Signal_Theory_ShowerHadConstraint,alpha_Signal_Theory_ScalesConstraint,alpha_Signal_JET_GroupedNP_1Constraint,alpha_Signal_JET_GroupedNP_2Constraint,alpha_Signal_JET_GroupedNP_3Constraint,alpha_Signal_JET_EtaIntercalib_NonclosConstraint,alpha_Signal_FT_EFF_Eigen_B_0Constraint,alpha_Signal_FT_EFF_Eigen_B_1Constraint,alpha_Signal_FT_EFF_Eigen_B_2Constraint,alpha_Signal_FT_EFF_Eigen_B_3Constraint,alpha_Signal_trigConstraint,alpha_r15_norm_NP0Constraint,alpha_r15_norm_NP1Constraint,alpha_r15_norm_NP2Constraint,alpha_r15_LowHtCRConstraint,alpha_r15_HighHtCRConstraint,gamma_stat_combined_r15_hh_bin_0_constraint,gamma_stat_combined_r15_hh_bin_1_constraint,gamma_stat_combined_r15_hh_bin_22_constraint,gamma_stat_combined_r15_hh_bin_23_constraint,gamma_stat_combined_r15_hh_bin_24_constraint,gamma_stat_combined_r15_hh_bin_25_constraint,gamma_stat_combined_r15_hh_bin_26_constraint,gamma_stat_combined_r15_hh_bin_27_constraint,gamma_stat_combined_r15_hh_bin_28_constraint,gamma_stat_combined_r15_hh_bin_29_constraint,gamma_stat_combined_r15_hh_bin_30_constraint,gamma_stat_combined_r15_hh_bin_31_constraint,gamma_stat_combined_r15_hh_bin_32_constraint,gamma_stat_combined_r15_hh_bin_33_constraint,gamma_stat_combined_r15_hh_bin_34_constraint,gamma_stat_combined_r15_hh_bin_35_constraint,gamma_stat_combined_r15_hh_bin_36_constraint,gamma_stat_combined_r15_hh_bin_37_constraint,gamma_stat_combined_r15_hh_bin_38_constraint,gamma_stat_combined_r15_hh_bin_39_constraint,gamma_stat_combined_r15_hh_bin_40_constraint,gamma_stat_combined_r15_hh_bin_41_constraint,gamma_stat_combined_r15_hh_bin_42_constraint,gamma_stat_combined_r15_hh_bin_43_constraint,gamma_stat_combined_r15_hh_bin_44_constraint,alpha_r16_LuminosityConstraint,alpha_r16_norm_NP0Constraint,alpha_r16_norm_NP1Constraint,alpha_r16_norm_NP2Constraint,alpha_r16_LowHtCRConstraint,alpha_r16_HighHtCRConstraint,gamma_stat_combined_r16_hh_bin_0_constraint,gamma_stat_combined_r16_hh_bin_1_constraint,gamma_stat_combined_r16_hh_bin_27_constraint,gamma_stat_combined_r16_hh_bin_28_constraint,gamma_stat_combined_r16_hh_bin_30_constraint,gamma_stat_combined_r16_hh_bin_31_constraint,gamma_stat_combined_r16_hh_bin_32_constraint,gamma_stat_combined_r16_hh_bin_33_constraint,gamma_stat_combined_r16_hh_bin_34_constraint,gamma_stat_combined_r16_hh_bin_35_constraint,gamma_stat_combined_r16_hh_bin_36_constraint,gamma_stat_combined_r16_hh_bin_37_constraint,gamma_stat_combined_r16_hh_bin_38_constraint,gamma_stat_combined_r16_hh_bin_39_constraint,gamma_stat_combined_r16_hh_bin_40_constraint,gamma_stat_combined_r16_hh_bin_41_constraint,gamma_stat_combined_r16_hh_bin_42_constraint,gamma_stat_combined_r16_hh_bin_43_constraint,gamma_stat_combined_r16_hh_bin_44_constraint)
+[#1] INFO:Fitting -- RooAddition::defaultErrorLevel(nll_simPdf_combData_with_constr) Summation contains a RooNLLVar, using its error level
+Minuit2Minimizer: Minimize with max-calls 34000 convergence for edm < 1 strategy 2
+RooAbsTestStatistic::initSimMode: creating slave calculator #0 for state combined_r15_hh (45 dataset entries)
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(combined_r15_hh_model_Int[obs_x_combined_r15_hh]) using numeric integrator RooBinIntegrator to calculate Int(obs_x_combined_r15_hh)
+RooAbsTestStatistic::initSimMode: creating slave calculator #1 for state combined_r16_hh (45 dataset entries)
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(combined_r16_hh_model_Int[obs_x_combined_r16_hh]) using numeric integrator RooBinIntegrator to calculate Int(obs_x_combined_r16_hh)
+[#1] INFO:Fitting -- RooAbsTestStatistic::initSimMode: created 2 slave calculators.
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(combined_r15_hh_model_Int[obs_x_combined_r15_hh]) using numeric integrator RooBinIntegrator to calculate Int(obs_x_combined_r15_hh)
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(combined_r16_hh_model_Int[obs_x_combined_r16_hh]) using numeric integrator RooBinIntegrator to calculate Int(obs_x_combined_r16_hh)
+MnSeedGenerator: for initial parameters FCN = -35147.52517882
+MnSeedGenerator: Initial state:   - FCN =  -35147.52517882 Edm =      12.9177 NCalls =    233 Dcovar =      1
+MnSeedGenerator: run Hesse - new state:   - FCN =  -35147.52517882 Edm =       8.4426 NCalls =   2844 Dcovar =      0
+VariableMetric: start iterating until Edm is < 0.001
+VariableMetric: Initial state   - FCN =  -35147.52517882 Edm =       8.4426 NCalls =   2844 Dcovar =      0
+VariableMetric: Iteration #   0 - FCN =  -35147.52517882 Edm =       8.4426 NCalls =   2844 Dcovar =      0
+VariableMetric: Iteration #   1 - FCN =  -35154.74183186 Edm =     0.289714 NCalls =   3004 Dcovar = 0.00296188
+VariableMetric: Iteration #   2 - FCN =  -35155.00079872 Edm =   0.00274363 NCalls =   3142 Dcovar = 0.00498301
+VariableMetric: Iteration #   3 - FCN =  -35155.00431198 Edm =  2.82085e-05 NCalls =   3280 Dcovar = 0.00530981
+VariableMetric: After Hessian   - FCN =  -35155.00431198 Edm =  9.64542e-05 NCalls =   5935 Dcovar =      0
+VariableMetric: Iteration #   4 - FCN =  -35155.00431198 Edm =  9.64542e-05 NCalls =   5935 Dcovar =      0
+Minuit2Minimizer : Valid minimum - status = 0
+FVAL  = -35155.0043119797992
+Edm   = 9.6454207790170956e-05
+Nfcn  = 5935
+alpha_Signal_FT_EFF_Eigen_B_0	  = -4.9992e-11	 +/-  0.993456	(limited)
+alpha_Signal_FT_EFF_Eigen_B_1	  = -4.9992e-11	 +/-  0.993456	(limited)
+alpha_Signal_FT_EFF_Eigen_B_2	  = -4.9992e-11	 +/-  0.993456	(limited)
+alpha_Signal_FT_EFF_Eigen_B_3	  = -4.9992e-11	 +/-  0.993456	(limited)
+alpha_Signal_JET_EtaIntercalib_Nonclos	  = -4.9992e-11	 +/-  0.993456	(limited)
+alpha_Signal_JET_GroupedNP_1	  = -4.9992e-11	 +/-  0.993456	(limited)
+alpha_Signal_JET_GroupedNP_2	  = -4.9992e-11	 +/-  0.993456	(limited)
+alpha_Signal_JET_GroupedNP_3	  = -4.9992e-11	 +/-  0.993456	(limited)
+alpha_Signal_JET_JER	  = -4.9992e-11	 +/-  0.993456	(limited)
+alpha_Signal_Theory_Scales	  = -4.9992e-11	 +/-  0.993456	(limited)
+alpha_Signal_Theory_ShowerHad	  = -4.9992e-11	 +/-  0.993456	(limited)
+alpha_Signal_trig	  = -4.9992e-11	 +/-  0.993456	(limited)
+alpha_r15_HighHtCR	  = -0.0713391	 +/-  0.513979	(limited)
+alpha_r15_LowHtCR	  = 0.408421	 +/-  0.46548	(limited)
+alpha_r15_Luminosity	  = -4.9992e-11	 +/-  0.993456	(limited)
+alpha_r15_norm_NP0	  = -0.0176998	 +/-  0.985263	(limited)
+alpha_r15_norm_NP1	  = -0.102141	 +/-  0.965158	(limited)
+alpha_r15_norm_NP2	  = 0.279477	 +/-  0.876775	(limited)
+alpha_r16_HighHtCR	  = 0.308018	 +/-  0.378366	(limited)
+alpha_r16_LowHtCR	  = 1.58081	 +/-  0.660073	(limited)
+alpha_r16_Luminosity	  = -4.9992e-11	 +/-  0.993456	(limited)
+alpha_r16_norm_NP0	  = 0.648851	 +/-  0.947027	(limited)
+alpha_r16_norm_NP1	  = -0.474152	 +/-  0.977798	(limited)
+alpha_r16_norm_NP2	  = 0.544448	 +/-  0.886015	(limited)
+gamma_stat_combined_r15_hh_bin_0	  = 1.00117	 +/-  0.566715	(limited)
+gamma_stat_combined_r15_hh_bin_1	  = 1.00117	 +/-  0.566715	(limited)
+gamma_stat_combined_r15_hh_bin_22	  = 1.00088	 +/-  0.0541447	(limited)
+gamma_stat_combined_r15_hh_bin_23	  = 0.998536	 +/-  0.0653275	(limited)
+gamma_stat_combined_r15_hh_bin_24	  = 0.999168	 +/-  0.0658642	(limited)
+gamma_stat_combined_r15_hh_bin_25	  = 0.997518	 +/-  0.0685711	(limited)
+gamma_stat_combined_r15_hh_bin_26	  = 1.00436	 +/-  0.0731958	(limited)
+gamma_stat_combined_r15_hh_bin_27	  = 0.986822	 +/-  0.0893662	(limited)
+gamma_stat_combined_r15_hh_bin_28	  = 1.01161	 +/-  0.104332	(limited)
+gamma_stat_combined_r15_hh_bin_29	  = 0.989682	 +/-  0.0999008	(limited)
+gamma_stat_combined_r15_hh_bin_30	  = 0.99715	 +/-  0.113097	(limited)
+gamma_stat_combined_r15_hh_bin_31	  = 0.975899	 +/-  0.160063	(limited)
+gamma_stat_combined_r15_hh_bin_32	  = 0.981989	 +/-  0.168523	(limited)
+gamma_stat_combined_r15_hh_bin_33	  = 0.9806	 +/-  0.175495	(limited)
+gamma_stat_combined_r15_hh_bin_34	  = 0.983998	 +/-  0.225983	(limited)
+gamma_stat_combined_r15_hh_bin_35	  = 1.05902	 +/-  0.279891	(limited)
+gamma_stat_combined_r15_hh_bin_36	  = 1.08578	 +/-  0.321156	(limited)
+gamma_stat_combined_r15_hh_bin_37	  = 0.979406	 +/-  0.456523	(limited)
+gamma_stat_combined_r15_hh_bin_38	  = 0.99477	 +/-  0.587688	(limited)
+gamma_stat_combined_r15_hh_bin_39	  = 0.994608	 +/-  1.12489	(limited)
+gamma_stat_combined_r15_hh_bin_40	  = 0.994868	 +/-  0.961265	(limited)
+gamma_stat_combined_r15_hh_bin_41	  = 0.994336	 +/-  0.987452	(limited)
+gamma_stat_combined_r15_hh_bin_42	  = 1.00117	 +/-  0.566715	(limited)
+gamma_stat_combined_r15_hh_bin_43	  = 1.00117	 +/-  0.566715	(limited)
+gamma_stat_combined_r15_hh_bin_44	  = 1.00117	 +/-  0.566715	(limited)
+gamma_stat_combined_r16_hh_bin_0	  = 1.00117	 +/-  0.566715	(limited)
+gamma_stat_combined_r16_hh_bin_1	  = 1.00117	 +/-  0.566715	(limited)
+gamma_stat_combined_r16_hh_bin_27	  = 1.00752	 +/-  0.0535346	(limited)
+gamma_stat_combined_r16_hh_bin_28	  = 0.993209	 +/-  0.059462	(limited)
+gamma_stat_combined_r16_hh_bin_30	  = 1.00092	 +/-  0.0525279	(limited)
+gamma_stat_combined_r16_hh_bin_31	  = 0.99351	 +/-  0.1455	(limited)
+gamma_stat_combined_r16_hh_bin_32	  = 1.03079	 +/-  0.11159	(limited)
+gamma_stat_combined_r16_hh_bin_33	  = 0.999376	 +/-  0.0826421	(limited)
+gamma_stat_combined_r16_hh_bin_34	  = 0.996009	 +/-  0.0980691	(limited)
+gamma_stat_combined_r16_hh_bin_35	  = 1.0516	 +/-  0.127894	(limited)
+gamma_stat_combined_r16_hh_bin_36	  = 1.01743	 +/-  0.17879	(limited)
+gamma_stat_combined_r16_hh_bin_37	  = 0.983486	 +/-  0.296865	(limited)
+gamma_stat_combined_r16_hh_bin_38	  = 0.992887	 +/-  0.380689	(limited)
+gamma_stat_combined_r16_hh_bin_39	  = 0.988916	 +/-  0.578815	(limited)
+gamma_stat_combined_r16_hh_bin_40	  = 0.994361	 +/-  0.39028	(limited)
+gamma_stat_combined_r16_hh_bin_41	  = 0.991125	 +/-  1.19482	(limited)
+gamma_stat_combined_r16_hh_bin_42	  = 0.998979	 +/-  0.964998	(limited)
+gamma_stat_combined_r16_hh_bin_43	  = 1.00117	 +/-  0.566715	(limited)
+gamma_stat_combined_r16_hh_bin_44	  = 1.00117	 +/-  0.566715	(limited)
+Done
+nui: 0x2cb05d0, glob: 0x37d1d80
+Setting glob: nom_alpha_r15_Luminosity, which had previous val: 0, to conditional val: -4.9992e-11
+nui: 0x2cc7fc0, glob: 0x37d08b0
+Setting glob: nom_alpha_Signal_JET_JER, which had previous val: 0, to conditional val: -4.9992e-11
+nui: 0x323ca30, glob: 0x323d700
+Setting glob: nom_alpha_Signal_Theory_ShowerHad, which had previous val: 0, to conditional val: -4.9992e-11
+nui: 0x3243300, glob: 0x3243fd0
+Setting glob: nom_alpha_Signal_Theory_Scales, which had previous val: 0, to conditional val: -4.9992e-11
+nui: 0x3245ce0, glob: 0x3375080
+Setting glob: nom_alpha_Signal_JET_GroupedNP_1, which had previous val: 0, to conditional val: -4.9992e-11
+nui: 0x35a6040, glob: 0x35a7310
+Setting glob: nom_alpha_Signal_JET_GroupedNP_2, which had previous val: 0, to conditional val: -4.9992e-11
+nui: 0x35a8b20, glob: 0x35a9d90
+Setting glob: nom_alpha_Signal_JET_GroupedNP_3, which had previous val: 0, to conditional val: -4.9992e-11
+nui: 0x35ab5a0, glob: 0x35ac850
+Setting glob: nom_alpha_Signal_JET_EtaIntercalib_Nonclos, which had previous val: 0, to conditional val: -4.9992e-11
+nui: 0x35ae0c0, glob: 0x35af330
+Setting glob: nom_alpha_Signal_FT_EFF_Eigen_B_0, which had previous val: 0, to conditional val: -4.9992e-11
+nui: 0x35b0b40, glob: 0x35b1db0
+Setting glob: nom_alpha_Signal_FT_EFF_Eigen_B_1, which had previous val: 0, to conditional val: -4.9992e-11
+nui: 0x35b35c0, glob: 0x35b4830
+Setting glob: nom_alpha_Signal_FT_EFF_Eigen_B_2, which had previous val: 0, to conditional val: -4.9992e-11
+nui: 0x35b6040, glob: 0x35b72b0
+Setting glob: nom_alpha_Signal_FT_EFF_Eigen_B_3, which had previous val: 0, to conditional val: -4.9992e-11
+nui: 0x35b8ac0, glob: 0x35b9d10
+Setting glob: nom_alpha_Signal_trig, which had previous val: 0, to conditional val: -4.9992e-11
+nui: 0x3376e00, glob: 0x36ee700
+Setting glob: nom_alpha_r15_norm_NP0, which had previous val: 0, to conditional val: -0.0176998
+nui: 0x36176b0, glob: 0x3618960
+Setting glob: nom_alpha_r15_norm_NP1, which had previous val: 0, to conditional val: -0.102141
+nui: 0x36d7240, glob: 0x36d8490
+Setting glob: nom_alpha_r15_norm_NP2, which had previous val: 0, to conditional val: 0.279477
+nui: 0x365eff0, glob: 0x36602a0
+Setting glob: nom_alpha_r15_LowHtCR, which had previous val: 0, to conditional val: 0.408421
+nui: 0x36868f0, glob: 0x3687ba0
+Setting glob: nom_alpha_r15_HighHtCR, which had previous val: 0, to conditional val: -0.0713391
+nui: 0x3230a50, glob: 0x323a320
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_0, which had previous val: 3, to conditional val: 3.0035
+nui: 0x36f03c0, glob: 0x36f2910
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_1, which had previous val: 3, to conditional val: 3.0035
+nui: 0x3746290, glob: 0x37487e0
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_22, which had previous val: 334.515, to conditional val: 334.808
+nui: 0x374a3b0, glob: 0x374c900
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_23, which had previous val: 228.645, to conditional val: 228.31
+nui: 0x374e4d0, glob: 0x3750a20
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_24, which had previous val: 225.151, to conditional val: 224.964
+nui: 0x37525f0, glob: 0x3754b40
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_25, which had previous val: 207.682, to conditional val: 207.167
+nui: 0x3756710, glob: 0x3758c60
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_26, which had previous val: 183.375, to conditional val: 184.175
+nui: 0x375a830, glob: 0x375cd80
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_27, which had previous val: 120.247, to conditional val: 118.662
+nui: 0x375e950, glob: 0x3760ea0
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_28, which had previous val: 90.375, to conditional val: 91.4239
+nui: 0x3762a70, glob: 0x3764fc0
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_29, which had previous val: 96.5069, to conditional val: 95.5111
+nui: 0x3766b90, glob: 0x37690e0
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_30, which had previous val: 76.1882, to conditional val: 75.9711
+nui: 0x376acb0, glob: 0x376d200
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_31, which had previous val: 36.8045, to conditional val: 35.9175
+nui: 0x376edd0, glob: 0x3771320
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_32, which had previous val: 33.5783, to conditional val: 32.9735
+nui: 0x3772ef0, glob: 0x3775440
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_33, which had previous val: 30.8622, to conditional val: 30.2634
+nui: 0x3777010, glob: 0x3779560
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_34, which had previous val: 18.6914, to conditional val: 18.3923
+nui: 0x377b130, glob: 0x377d680
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_35, which had previous val: 13.0441, to conditional val: 13.8141
+nui: 0x377f250, glob: 0x37817a0
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_36, which had previous val: 10.1795, to conditional val: 11.0527
+nui: 0x3783370, glob: 0x37858c0
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_37, which had previous val: 4.46127, to conditional val: 4.36939
+nui: 0x3787490, glob: 0x37899e0
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_38, which had previous val: 2.75106, to conditional val: 2.73667
+nui: 0x378b5b0, glob: 0x378db00
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_39, which had previous val: 0.720702, to conditional val: 0.716817
+nui: 0x378f6d0, glob: 0x3791c20
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_40, which had previous val: 1.00001, to conditional val: 0.994873
+nui: 0x37937f0, glob: 0x3795d40
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_41, which had previous val: 0.944767, to conditional val: 0.939416
+nui: 0x3797910, glob: 0x3799e60
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_42, which had previous val: 3, to conditional val: 3.0035
+nui: 0x379ba30, glob: 0x379df80
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_43, which had previous val: 3, to conditional val: 3.0035
+nui: 0x379fb50, glob: 0x37a20a0
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_44, which had previous val: 3, to conditional val: 3.0035
+nui: 0x2cc9040, glob: 0x2cca2d0
+Setting glob: nom_alpha_r16_Luminosity, which had previous val: 0, to conditional val: -4.9992e-11
+nui: 0x33a8070, glob: 0x33a9320
+Setting glob: nom_alpha_r16_norm_NP0, which had previous val: 0, to conditional val: 0.648851
+nui: 0x33cf960, glob: 0x33d0c10
+Setting glob: nom_alpha_r16_norm_NP1, which had previous val: 0, to conditional val: -0.474152
+nui: 0x3587e40, glob: 0x3589090
+Setting glob: nom_alpha_r16_norm_NP2, which had previous val: 0, to conditional val: 0.544448
+nui: 0x33f7260, glob: 0x33f8510
+Setting glob: nom_alpha_r16_LowHtCR, which had previous val: 0, to conditional val: 1.58081
+nui: 0x33f9cf0, glob: 0x33faed0
+Setting glob: nom_alpha_r16_HighHtCR, which had previous val: 0, to conditional val: 0.308018
+nui: 0x3296a60, glob: 0x32989c0
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_0, which had previous val: 3, to conditional val: 3.0035
+nui: 0x329bdb0, glob: 0x329dd10
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_1, which had previous val: 3, to conditional val: 3.0035
+nui: 0x3314290, glob: 0x3316230
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_27, which had previous val: 335.4, to conditional val: 337.922
+nui: 0x33183d0, glob: 0x331a370
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_28, which had previous val: 268.564, to conditional val: 266.74
+nui: 0x3320690, glob: 0x3322630
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_30, which had previous val: 355.326, to conditional val: 355.652
+nui: 0x33247c0, glob: 0x3326760
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_31, which had previous val: 41.4657, to conditional val: 41.1966
+nui: 0x33288f0, glob: 0x332a890
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_32, which had previous val: 78.9458, to conditional val: 81.3769
+nui: 0x332ca20, glob: 0x332e9c0
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_33, which had previous val: 143.473, to conditional val: 143.383
+nui: 0x3330b50, glob: 0x3332af0
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_34, which had previous val: 101.523, to conditional val: 101.117
+nui: 0x3334c80, glob: 0x3336c20
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_35, which had previous val: 63.0098, to conditional val: 66.2614
+nui: 0x3338dc0, glob: 0x333ad60
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_36, which had previous val: 30.9942, to conditional val: 31.5345
+nui: 0x333cef0, glob: 0x333ee90
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_37, which had previous val: 10.7575, to conditional val: 10.5798
+nui: 0x3341020, glob: 0x3342fc0
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_38, which had previous val: 6.62737, to conditional val: 6.58023
+nui: 0x33551b0, glob: 0x3357150
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_39, which had previous val: 2.80407, to conditional val: 2.77299
+nui: 0x3359940, glob: 0x335b8c0
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_40, which had previous val: 6.31999, to conditional val: 6.28435
+nui: 0x335da50, glob: 0x335f9f0
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_41, which had previous val: 0.630833, to conditional val: 0.625235
+nui: 0x3361b80, glob: 0x3363b20
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_42, which had previous val: 1.00001, to conditional val: 0.998989
+nui: 0x3365cb0, glob: 0x3367c50
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_43, which had previous val: 3, to conditional val: 3.0035
+nui: 0x3369de0, glob: 0x32a1620
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_44, which had previous val: 3, to conditional val: 3.0035
+Saving conditional snapshots
+Making asimov
+adding obs
+adding weight
+weightVar: 0x38143a0
+defining set
+ check expectedData by category
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(combined_r15_hh_model_Int[obs_x_combined_r15_hh]) using numeric integrator RooBinIntegrator to calculate Int(obs_x_combined_r15_hh)
+RooRealVar::obs_x_combined_r15_hh = 44.5  L(0 - 45) B(45) 
+pdf: model_combined_r15_hh
+expected events 916.655
+-----
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(combined_r16_hh_model_Int[obs_x_combined_r16_hh]) using numeric integrator RooBinIntegrator to calculate Int(obs_x_combined_r16_hh)
+RooRealVar::obs_x_combined_r16_hh = 44.5  L(0 - 45) B(45) 
+pdf: model_combined_r16_hh
+expected events 7369.45
+-----
+Import 2
+[#1] INFO:ObjectHandling -- RooWorkspace::import(combWS) importing dataset asimovData_POI_0_NP_fit

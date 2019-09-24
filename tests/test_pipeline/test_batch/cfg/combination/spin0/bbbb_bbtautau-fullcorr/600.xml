@@ -1,0 +1,163 @@
+<!DOCTYPE Combination  SYSTEM 'Combination.dtd'>
+<Combination>
+
+<Channel Name="combined" IsCombined="true" Mass="MASS">
+<File Name="/.data/englert/projects/hh_combination/software/hh_combination_fw/./tests/test_combination/test_combined/spin0/bbbb_bbtautau-fullcorr/600.root"/>
+<Workspace Name="combWS"/>
+<ModelConfig  Name="ModelConfig"/>
+<ModelData Name="combData"/>
+<ModelPOI Name="xsec_br"/>
+</Channel>
+
+  <!-- ************* -->
+  <!-- Channel: bbbb -->
+  <!-- ************* -->
+
+  <Channel Name="bbbb">
+
+    <File Name="/.data/englert/projects/hh_combination/software/hh_combination_fw/./tests/test_pipeline/test_batch/rescaled/spin0/bbbb/600_with_Asimov_POI_0_NP_nom.root"/>
+    <Workspace Name="combWS"/>
+    <ModelConfig Name="ModelConfig"/>
+    <ModelPOI Name="xsec_br"/>
+    <ModelData Name="combData"/>
+
+   <RenameMap>
+    <!-- Format: -->
+    <!-- OldName="PDFname_old( NPname_old, GlobalObs_old)" NewName="NPname_new" -->
+
+    <!-- bbbb systematics rename map -->
+
+    <!-- Luminosity -->
+		  <!-- None found -->
+
+    <!-- Electron -->
+		  <!-- None found -->
+
+    <!-- Photon -->
+		  <!-- None found -->
+
+    <!-- E/gamma -->
+		  <!-- None found -->
+
+    <!-- Muon -->
+		  <!-- None found -->
+
+    <!-- Tau -->
+		  <!-- None found -->
+
+    <!-- Jet systematics -->
+	 <Syst OldName="alpha_Signal_JET_JERConstraint( alpha_Signal_JET_JER, nom_alpha_Signal_JET_JER)" NewName="ATLAS_JET_JER" />
+	 <Syst OldName="alpha_Signal_JET_GroupedNP_1Constraint( alpha_Signal_JET_GroupedNP_1, nom_alpha_Signal_JET_GroupedNP_1 )"                               NewName="ATLAS_JET_GroupedNP_1" />
+	 <Syst OldName="alpha_Signal_JET_GroupedNP_2Constraint( alpha_Signal_JET_GroupedNP_2, nom_alpha_Signal_JET_GroupedNP_2 )"                               NewName="ATLAS_JET_GroupedNP_2" />
+	 <Syst OldName="alpha_Signal_JET_GroupedNP_3Constraint( alpha_Signal_JET_GroupedNP_3, nom_alpha_Signal_JET_GroupedNP_3 )"                               NewName="ATLAS_JET_GroupedNP_3" />
+	 <Syst OldName="alpha_Signal_JET_EtaIntercalib_NonclosConstraint( alpha_Signal_JET_EtaIntercalib_Nonclos, nom_alpha_Signal_JET_EtaIntercalib_Nonclos )" NewName="ATLAS_JET_EtaIntercalib_Nonclos" />
+
+    <!-- Flavour tagging systematics -->
+	 <Syst OldName="alpha_Signal_FT_EFF_Eigen_B_0Constraint( alpha_Signal_FT_EFF_Eigen_B_0, nom_alpha_Signal_FT_EFF_Eigen_B_0 )" NewName="ATLAS_FT_EFF_Eigen_B_0" />
+	 <Syst OldName="alpha_Signal_FT_EFF_Eigen_B_1Constraint( alpha_Signal_FT_EFF_Eigen_B_1, nom_alpha_Signal_FT_EFF_Eigen_B_1 )" NewName="ATLAS_FT_EFF_Eigen_B_1" />
+	 <Syst OldName="alpha_Signal_FT_EFF_Eigen_B_2Constraint( alpha_Signal_FT_EFF_Eigen_B_2, nom_alpha_Signal_FT_EFF_Eigen_B_2 )" NewName="ATLAS_FT_EFF_Eigen_B_2" />
+	 <Syst OldName="alpha_Signal_FT_EFF_Eigen_B_3Constraint( alpha_Signal_FT_EFF_Eigen_B_3, nom_alpha_Signal_FT_EFF_Eigen_B_3 )" NewName="ATLAS_FT_EFF_Eigen_B_3" />
+		  <!-- Other FT systs not found -->
+
+    <!-- MET -->
+		  <!-- None found -->
+
+    <!-- Pile-up reweighting -->
+		  <!-- None found -->
+
+    <!-- bbbb category renaming -->
+    <Syst OldName="channelCat" NewName="Cat_bbbb"/> 
+   </RenameMap>
+
+  </Channel>
+
+  <!-- ***************** -->
+  <!-- Channel: bbtautau -->
+  <!-- ***************** -->
+
+  <Channel Name="bbtautau">
+
+    <File Name="/.data/englert/projects/hh_combination/software/hh_combination_fw/./tests/test_pipeline/test_batch/rescaled/spin0/bbtautau/600_with_Asimov_POI_0_NP_nom.root"/>
+    <Workspace Name="combWS"/>
+    <ModelConfig Name="ModelConfig"/>
+    <ModelPOI Name="xsec_br"/>
+    <ModelData Name="combData"/>
+   <RenameMap>
+    <!-- Format: -->
+    <!-- OldName="PDFname_old( NPname_old, GlobalObs_old)" NewName="NPname_new" -->
+
+    <!-- bbtautau systematics rename map -->
+
+    <!-- Luminosity -->
+	 <Syst OldName="alpha_ATLAS_LUMI_2015_2016Constraint( alpha_ATLAS_LUMI_2015_2016, nom_alpha_ATLAS_LUMI_2015_2016)" NewName="ATLAS_LUMI_15_16" />
+
+    <!-- Electron systematics -->
+	 <Syst OldName="alpha_SysEL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCORConstraint( alpha_SysEL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR, nom_alpha_SysEL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR )"          NewName="ATLAS_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR" />
+	 <Syst OldName="alpha_SysEL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCORConstraint( alpha_SysEL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR, nom_alpha_SysEL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR )" NewName="ATLAS_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR" />
+	 <Syst OldName="alpha_SysEL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCORConstraint( alpha_SysEL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR, nom_alpha_SysEL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR )"                NewName="ATLAS_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR" />
+
+    <!-- Muon systematics -->
+	 <Syst OldName="alpha_SysMUON_EFF_SYSConstraint( alpha_SysMUON_EFF_SYS, nom_alpha_SysMUON_EFF_SYS )" NewName="ATLAS_MUON_EFF_SYS" />
+	 <Syst OldName="alpha_SysMUON_EFF_TrigSystUncertaintyConstraint( alpha_SysMUON_EFF_TrigSystUncertainty, nom_alpha_SysMUON_EFF_TrigSystUncertainty )" NewName="ATLAS_MUON_EFF_TrigSystUncertainty" />
+
+    <!-- EG systematics -->
+	 <Syst OldName="alpha_SysEG_SCALE_ALLConstraint( alpha_SysEG_SCALE_ALL, nom_alpha_SysEG_SCALE_ALL )" NewName="ATLAS_EG_SCALE_ALL" />
+
+    <!-- Tau systematics -->
+	 <Syst OldName="alpha_SysTAUS_TRUEELECTRON_EFF_ELEOLR_TOTALConstraint( alpha_SysTAUS_TRUEELECTRON_EFF_ELEOLR_TOTAL, nom_alpha_SysTAUS_TRUEELECTRON_EFF_ELEOLR_TOTAL )" NewName="ATLAS_TAUS_TRUEELECTRON_EFF_ELEOLR_TOTAL" />
+	 <Syst OldName="alpha_SysTAUS_TRUEHADTAU_EFF_ELEOLR_TOTALConstraint( alpha_SysTAUS_TRUEHADTAU_EFF_ELEOLR_TOTAL, nom_alpha_SysTAUS_TRUEHADTAU_EFF_ELEOLR_TOTAL )" NewName="ATLAS_TAUS_TRUEHADTAU_EFF_ELEOLR_TOTAL" />
+	 <Syst OldName="alpha_SysTAUS_TRUEHADTAU_EFF_JETID_HIGHPTConstraint( alpha_SysTAUS_TRUEHADTAU_EFF_JETID_HIGHPT, nom_alpha_SysTAUS_TRUEHADTAU_EFF_JETID_HIGHPT )" NewName="ATLAS_TAUS_TRUEHADTAU_EFF_JETID_HIGHPT" />
+	 <Syst OldName="alpha_SysTAUS_TRUEHADTAU_EFF_JETID_TOTALConstraint( alpha_SysTAUS_TRUEHADTAU_EFF_JETID_TOTAL, nom_alpha_SysTAUS_TRUEHADTAU_EFF_JETID_TOTAL )" NewName="ATLAS_TAUS_TRUEHADTAU_EFF_JETID_TOTAL" />
+	 <Syst OldName="alpha_SysTAUS_TRUEHADTAU_EFF_RECO_TOTALConstraint( alpha_SysTAUS_TRUEHADTAU_EFF_RECO_TOTAL, nom_alpha_SysTAUS_TRUEHADTAU_EFF_RECO_TOTAL )" NewName="ATLAS_TAUS_TRUEHADTAU_EFF_RECO_TOTAL" />
+	 <Syst OldName="alpha_SysTAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA2015Constraint( alpha_SysTAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA2015, nom_alpha_SysTAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA2015 )" NewName="ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA2015" />
+	 <Syst OldName="alpha_SysTAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA2016Constraint( alpha_SysTAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA2016, nom_alpha_SysTAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA2016 )" NewName="ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA2016" />
+	 <Syst OldName="alpha_SysTAUS_TRUEHADTAU_EFF_TRIGGER_STATMC2016Constraint( alpha_SysTAUS_TRUEHADTAU_EFF_TRIGGER_STATMC2016, nom_alpha_SysTAUS_TRUEHADTAU_EFF_TRIGGER_STATMC2016 )" NewName="ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATMC2016" />
+	 <Syst OldName="alpha_SysTAUS_TRUEHADTAU_EFF_TRIGGER_SYST2016Constraint( alpha_SysTAUS_TRUEHADTAU_EFF_TRIGGER_SYST2016, nom_alpha_SysTAUS_TRUEHADTAU_EFF_TRIGGER_SYST2016 )" NewName="ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_SYST2016" />
+	 <Syst OldName="alpha_SysTAUS_TRUEHADTAU_SME_TES_DETECTORConstraint( alpha_SysTAUS_TRUEHADTAU_SME_TES_DETECTOR, nom_alpha_SysTAUS_TRUEHADTAU_SME_TES_DETECTOR )" NewName="ATLAS_TAUS_TRUEHADTAU_SME_TES_DETECTOR" />
+	 <Syst OldName="alpha_SysTAUS_TRUEHADTAU_SME_TES_INSITUConstraint( alpha_SysTAUS_TRUEHADTAU_SME_TES_INSITU, nom_alpha_SysTAUS_TRUEHADTAU_SME_TES_INSITU )" NewName="ATLAS_TAUS_TRUEHADTAU_SME_TES_INSITU" />
+	 <Syst OldName="alpha_SysTAUS_TRUEHADTAU_SME_TES_MODELConstraint( alpha_SysTAUS_TRUEHADTAU_SME_TES_MODEL, nom_alpha_SysTAUS_TRUEHADTAU_SME_TES_MODEL )" NewName="ATLAS_TAUS_TRUEHADTAU_SME_TES_MODEL" />
+
+    <!-- Jet systematics -->
+	 <Syst OldName="alpha_SysJET_GroupedNP_1Constraint( alpha_SysJET_GroupedNP_1, nom_alpha_SysJET_GroupedNP_1 )" NewName="ATLAS_JET_GroupedNP_1" />
+	 <Syst OldName="alpha_SysJET_GroupedNP_2Constraint( alpha_SysJET_GroupedNP_2, nom_alpha_SysJET_GroupedNP_2 )" NewName="ATLAS_JET_GroupedNP_2" />
+	 <Syst OldName="alpha_SysJET_GroupedNP_3Constraint( alpha_SysJET_GroupedNP_3, nom_alpha_SysJET_GroupedNP_3 )" NewName="ATLAS_JET_GroupedNP_3" />
+	 <Syst OldName="alpha_SysJET_JER_SINGLE_NPConstraint( alpha_SysJET_JER_SINGLE_NP, nom_alpha_SysJET_JER_SINGLE_NP )" NewName="ATLAS_JET_JER" />
+
+    <!-- Flavour tagging systematics -->
+	    <!-- B -->
+	 <Syst OldName="alpha_SysFT_EFF_Eigen_B_0Constraint( alpha_SysFT_EFF_Eigen_B_0, nom_alpha_SysFT_EFF_Eigen_B_0 )" NewName="ATLAS_FT_EFF_Eigen_B_0" />
+	 <Syst OldName="alpha_SysFT_EFF_Eigen_B_1Constraint( alpha_SysFT_EFF_Eigen_B_1, nom_alpha_SysFT_EFF_Eigen_B_1 )" NewName="ATLAS_FT_EFF_Eigen_B_1" />
+	 <Syst OldName="alpha_SysFT_EFF_Eigen_B_2Constraint( alpha_SysFT_EFF_Eigen_B_2, nom_alpha_SysFT_EFF_Eigen_B_2 )" NewName="ATLAS_FT_EFF_Eigen_B_2" />
+	    <!-- C -->
+	 <Syst OldName="alpha_SysFT_EFF_Eigen_C_0Constraint( alpha_SysFT_EFF_Eigen_C_0, nom_alpha_SysFT_EFF_Eigen_C_0 )" NewName="ATLAS_FT_EFF_Eigen_C_0" />
+	 <Syst OldName="alpha_SysFT_EFF_Eigen_C_1Constraint( alpha_SysFT_EFF_Eigen_C_1, nom_alpha_SysFT_EFF_Eigen_C_1 )" NewName="ATLAS_FT_EFF_Eigen_C_1" />
+	 <Syst OldName="alpha_SysFT_EFF_Eigen_C_2Constraint( alpha_SysFT_EFF_Eigen_C_2, nom_alpha_SysFT_EFF_Eigen_C_2 )" NewName="ATLAS_FT_EFF_Eigen_C_2" />
+	 <Syst OldName="alpha_SysFT_EFF_Eigen_C_3Constraint( alpha_SysFT_EFF_Eigen_C_3, nom_alpha_SysFT_EFF_Eigen_C_3 )" NewName="ATLAS_FT_EFF_Eigen_C_3" />
+	    <!-- Light -->
+	 <Syst OldName="alpha_SysFT_EFF_Eigen_Light_0Constraint( alpha_SysFT_EFF_Eigen_Light_0, nom_alpha_SysFT_EFF_Eigen_Light_0 )" NewName="ATLAS_FT_EFF_Eigen_Light_0" />
+	 <Syst OldName="alpha_SysFT_EFF_Eigen_Light_1Constraint( alpha_SysFT_EFF_Eigen_Light_1, nom_alpha_SysFT_EFF_Eigen_Light_1 )" NewName="ATLAS_FT_EFF_Eigen_Light_1" />
+	 <Syst OldName="alpha_SysFT_EFF_Eigen_Light_2Constraint( alpha_SysFT_EFF_Eigen_Light_2, nom_alpha_SysFT_EFF_Eigen_Light_2 )" NewName="ATLAS_FT_EFF_Eigen_Light_2" />
+	 <Syst OldName="alpha_SysFT_EFF_Eigen_Light_3Constraint( alpha_SysFT_EFF_Eigen_Light_3, nom_alpha_SysFT_EFF_Eigen_Light_3 )" NewName="ATLAS_FT_EFF_Eigen_Light_3" />
+	 <Syst OldName="alpha_SysFT_EFF_Eigen_Light_4Constraint( alpha_SysFT_EFF_Eigen_Light_4, nom_alpha_SysFT_EFF_Eigen_Light_4 )" NewName="ATLAS_FT_EFF_Eigen_Light_4" />
+
+	   <!-- Extrapolation -->
+	 <Syst OldName="alpha_SysFT_EFF_extrapolationConstraint( alpha_SysFT_EFF_extrapolation, nom_alpha_SysFT_EFF_extrapolation )" NewName="ATLAS_FT_EFF_extrapolation" />
+	 <Syst OldName="alpha_SysFT_EFF_extrapolation_from_charmConstraint( alpha_SysFT_EFF_extrapolation_from_charm, nom_alpha_SysFT_EFF_extrapolation_from_charm )" NewName="ATLAS_FT_EFF_extrapolation_from_charm" />
+
+    <!-- MET systematics -->
+	 <Syst OldName="alpha_SysMET_SoftTrk_ResoParaConstraint( alpha_SysMET_SoftTrk_ResoPara, nom_alpha_SysMET_SoftTrk_ResoPara )" NewName="ATLAS_MET_SoftTrk_ResoPara" />
+	 <Syst OldName="alpha_SysMET_SoftTrk_ResoPerpConstraint( alpha_SysMET_SoftTrk_ResoPerp, nom_alpha_SysMET_SoftTrk_ResoPerp )" NewName="ATLAS_MET_SoftTrk_ResoPerp" />
+	 <Syst OldName="alpha_SysMET_SoftTrk_ScaleConstraint( alpha_SysMET_SoftTrk_Scale, nom_alpha_SysMET_SoftTrk_Scale )" NewName="ATLAS_MET_SoftTrk_Scale" />
+
+    <!-- Pile-up reweight systematics -->
+	 <Syst OldName="alpha_SysPRW_DATASFConstraint( alpha_SysPRW_DATASF, nom_alpha_SysPRW_DATASF )" NewName="ATLAS_PRW_DATASF" />
+
+    <!-- bbtautau category renaming -->
+    <Syst OldName="channelCat" NewName="Cat_bbtautau"/> 
+   </RenameMap>
+
+  </Channel>
+
+
+
+</Combination>

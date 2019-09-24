@@ -1,0 +1,127 @@
+  <!-- ***************** -->
+  <!-- Channel: WWWW     -->
+  <!-- ***************** -->
+
+  <Channel Name="WWWW">
+
+    <File Name="WWWW_INPUT_WS"/>
+    <Workspace Name="combWS"/>
+    <ModelConfig Name="ModelConfig"/>
+    <ModelPOI Name="POINAME"/>
+    <ModelData Name="combData"/>
+   <RenameMap>
+    <!-- Format: -->
+    <!-- OldName="PDFname_old( NPname_old, GlobalObs_old)" NewName="NPname_new" -->
+
+    <!-- WWWW systematics rename map -->
+
+    <!-- Luminosity -->
+	 <Syst OldName="alpha_LUMIConstraint( alpha_LUMI, nom_alpha_LUMI )" NewName="ATLAS_LUMI_15_16" />
+
+    <!-- Electron systematics -->
+	 <Syst OldName="alpha_ATLAS_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCORConstraint(alpha_ATLAS_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR, nom_alpha_ATLAS_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR)"       NewName="ATLAS_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR" /> 
+	 <Syst OldName="alpha_ATLAS_EL_EFF_ISO_TOTAL_1NPCOR_PLUS_UNCORConstraint(alpha_ATLAS_EL_EFF_ISO_TOTAL_1NPCOR_PLUS_UNCOR, nom_alpha_ATLAS_EL_EFF_ISO_TOTAL_1NPCOR_PLUS_UNCOR)"    NewName="ATLAS_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR" /> 
+	 <Syst OldName="alpha_ATLAS_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCORConstraint(alpha_ATLAS_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR, nom_alpha_ATLAS_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR)"    NewName="ATLAS_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR" /> 
+	 <Syst OldName="alpha_ATLAS_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCORConstraint(alpha_ATLAS_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR, nom_alpha_ATLAS_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR)" NewName="ATLAS_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR" /> 
+
+    <!-- Photon -->
+           <!-- None found -->
+
+    <!-- E/gamma -->
+	 <Syst OldName="alpha_ATLAS_EG_RESOLUTION_ALLConstraint( alpha_ATLAS_EG_RESOLUTION_ALL, nom_alpha_ATLAS_EG_RESOLUTION_ALL )" NewName="ATLAS_EG_RESOLUTION_ALL" /> 
+	 <Syst OldName="alpha_ATLAS_EG_SCALE_ALLConstraint( alpha_ATLAS_EG_SCALE_ALL, nom_alpha_ATLAS_EG_SCALE_ALL)"                 NewName="ATLAS_EG_SCALE_ALL" /> 
+	 <Syst OldName="alpha_ATLAS_EG_SCALE_ALLCORRConstraint( alpha_ATLAS_EG_SCALE_ALLCORR, nom_alpha_ATLAS_EG_SCALE_ALLCORR)"                 NewName="ATLAS_EG_SCALE_ALL" /> 
+
+    <!-- Muon systematics -->
+	 <Syst OldName="alpha_ATLAS_MUON_EFF_STATConstraint( alpha_ATLAS_MUON_EFF_STAT,  nom_alpha_ATLAS_MUON_EFF_STAT)"      NewName="ATLAS_MUON_EFF_STAT" /> 
+	 <Syst OldName="alpha_ATLAS_MUON_EFF_SYSConstraint( alpha_ATLAS_MUON_EFF_SYS,   nom_alpha_ATLAS_MUON_EFF_SYS)"        NewName="ATLAS_MUON_EFF_SYS" /> 
+	 <Syst OldName="alpha_ATLAS_MUON_EFF_TrigSystUncertaintyConstraint( alpha_ATLAS_MUON_EFF_TrigSystUncertainty,   nom_alpha_ATLAS_MUON_EFF_TrigSystUncertainty)"        NewName="ATLAS_MUON_EFF_TrigSystUncertainty" /> 
+	 
+	 <Syst OldName="alpha_MUON_TTVA_STATConstraint( alpha_MUON_TTVA_STAT, nom_alpha_MUON_TTVA_STAT)"                  NewName="ATLAS_MUON_TTVA_STAT" /> 
+	 <Syst OldName="alpha_ATLAS_MUON_SAGITTA_RESBIASConstraint( alpha_ATLAS_MUON_SAGITTA_RESBIAS, nom_alpha_ATLAS_MUON_SAGITTA_RESBIAS)"       NewName="ATLAS_MUON_SAGITTA_RESBIAS" /> 
+	 <Syst OldName="alpha_ATLAS_MUON_SAGITTA_RHOConstraint( alpha_ATLAS_MUON_SAGITTA_RHO, nom_alpha_ATLAS_MUON_SAGITTA_RHO)"       NewName="ATLAS_MUON_SAGITTA_RHO" /> 
+
+	 <Syst OldName="alpha_ATLAS_MUON_IDConstraint( alpha_ATLAS_MUON_ID, nom_alpha_ATLAS_MUON_ID)"                                        NewName="ATLAS_MUON_ID" />
+	 <Syst OldName="alpha_ATLAS_MUON_ISO_SYSConstraint( alpha_ATLAS_MUON_ISO_SYS, nom_alpha_ATLAS_MUON_ISO_SYS)"                         NewName="ATLAS_MUON_ISO_SYS" />
+	 <Syst OldName="alpha_ATLAS_MUON_MSConstraint( alpha_ATLAS_MUON_MS, nom_alpha_ATLAS_MUON_MS)"                                        NewName="ATLAS_MUON_MS" />
+	 <Syst OldName="alpha_ATLAS_MUON_SCALEConstraint( alpha_ATLAS_MUON_SCALE,  nom_alpha_ATLAS_MUON_SCALE)"                              NewName="ATLAS_MUON_SCALE" />
+
+    <!-- Jet systematics -->
+	 <Syst OldName="alpha_ATLAS_JERConstraint( alpha_ATLAS_JER, nom_alpha_ATLAS_JER)"           NewName="ATLAS_JET_JER" />
+	 <Syst OldName="alpha_ATLAS_JET_JER_SINGLE_NPConstraint( alpha_ATLAS_JET_JER_SINGLE_NP, nom_alpha_ATLAS_JET_JER_SINGLE_NP)"           NewName="ATLAS_JET_JER" />
+	 <Syst OldName="alpha_ATLAS_JVTConstraint( alpha_ATLAS_JVT, nom_alpha_ATLAS_JVT)"           NewName="ATLAS_JET_JVT" />
+	 <Syst OldName="alpha_ATLAS_JET_BJES_ResponseConstraint( alpha_ATLAS_JET_BJES_Response, nom_alpha_ATLAS_JET_BJES_Response)"           NewName="ATLAS_JET_BJES_Response" />
+	 <Syst OldName="alpha_ATLAS_JET_21NP_JET_BJES_ResponseConstraint( alpha_ATLAS_JET_21NP_JET_BJES_Response, nom_alpha_ATLAS_JET_21NP_JET_BJES_Response)"           NewName="ATLAS_JET_BJES_Response" />
+	 <Syst OldName="alpha_ATLAS_JET_21NP_JET_EtaIntercalibration_ModellingConstraint( alpha_ATLAS_JET_21NP_JET_EtaIntercalibration_Modelling, nom_alpha_ATLAS_JET_21NP_JET_EtaIntercalibration_Modelling)"      NewName="ATLAS_JET_EtaIntercalibration_Modelling" />
+	 <Syst OldName="alpha_ATLAS_JET_21NP_JET_EtaIntercalibration_NonClosureConstraint( alpha_ATLAS_JET_21NP_JET_EtaIntercalibration_NonClosure, nom_alpha_ATLAS_JET_21NP_JET_EtaIntercalibration_NonClosure)"      NewName="ATLAS_JET_EtaIntercalibration_NonClosure" />
+	 <Syst OldName="alpha_ATLAS_JET_21NP_JET_EtaIntercalibration_TotalStatConstraint( alpha_ATLAS_JET_21NP_JET_EtaIntercalibration_TotalStat, nom_alpha_ATLAS_JET_21NP_JET_EtaIntercalibration_TotalStat)"      NewName="ATLAS_JET_EtaIntercalibration_TotalStat" />
+	 <Syst OldName="alpha_ATLAS_JET_21NP_JET_Flavor_CompositionConstraint( alpha_ATLAS_JET_21NP_JET_Flavor_Composition, nom_alpha_ATLAS_JET_21NP_JET_Flavor_Composition)"           NewName="ATLAS_JET_Flavor_Composition" />
+	 <Syst OldName="alpha_ATLAS_JET_21NP_JET_Flavor_ResponseConstraint( alpha_ATLAS_JET_21NP_JET_Flavor_Response, nom_alpha_ATLAS_JET_21NP_JET_Flavor_Response)"                    NewName="ATLAS_JET_Flavor_Response" />
+	<!-- <Syst OldName="alpha_ATLAS_JET_21NP_JET_Pileup_OffsetMuConstraint( alpha_ATLAS_JET_21NP_JET_Pileup_OffsetMu, nom_alpha_ATLAS_JET_21NP_JET_Pileup_OffsetMu)"                    NewName="ATLAS_JET_Pileup_OffsetMu" />-->
+	 <Syst OldName="alpha_ATLAS_JET_21NP_JET_Pileup_OffsetNPVConstraint( alpha_ATLAS_JET_21NP_JET_Pileup_OffsetNPV, nom_alpha_ATLAS_JET_21NP_JET_Pileup_OffsetNPV)"                 NewName="ATLAS_JET_Pileup_OffsetNPV" />
+	 <Syst OldName="alpha_ATLAS_JET_21NP_JET_Pileup_PtTermConstraint( alpha_ATLAS_JET_21NP_JET_Pileup_PtTerm, nom_alpha_ATLAS_JET_21NP_JET_Pileup_PtTerm)"                 NewName="ATLAS_JET_Pileup_PtTerm" />
+	 <Syst OldName="alpha_ATLAS_JET_21NP_JET_Pileup_RhoTopologyConstraint( alpha_ATLAS_JET_21NP_JET_Pileup_RhoTopology, nom_alpha_ATLAS_JET_21NP_JET_Pileup_RhoTopology)"                 NewName="ATLAS_JET_Pileup_RhoTopology" />
+	 <Syst OldName="alpha_ATLAS_JET_21NP_JET_PunchThrough_MC15Constraint( alpha_ATLAS_JET_21NP_JET_PunchThrough_MC15, nom_alpha_ATLAS_JET_21NP_JET_PunchThrough_MC15)"                 NewName="ATLAS_JET_PunchThrough_MC15" />
+	 <Syst OldName="alpha_ATLAS_JET_EtaIntercalibration_ModellingConstraint( alpha_ATLAS_JET_EtaIntercalibration_Modelling, nom_alpha_ATLAS_JET_EtaIntercalibration_Modelling)"      NewName="ATLAS_JET_EtaIntercalibration_Modelling" />
+	 <Syst OldName="alpha_ATLAS_JET_EtaIntercalibration_NonClosureConstraint( alpha_ATLAS_JET_EtaIntercalibration_NonClosure, nom_alpha_ATLAS_JET_EtaIntercalibration_NonClosure)"      NewName="ATLAS_JET_EtaIntercalibration_NonClosure" />
+	 <Syst OldName="alpha_ATLAS_JET_EtaIntercalibration_TotalStatConstraint( alpha_ATLAS_JET_EtaIntercalibration_TotalStat, nom_alpha_ATLAS_JET_EtaIntercalibration_TotalStat)"      NewName="ATLAS_JET_EtaIntercalibration_TotalStat" />
+	 <Syst OldName="alpha_ATLAS_JET_Flavor_CompositionConstraint( alpha_ATLAS_JET_Flavor_Composition, nom_alpha_ATLAS_JET_Flavor_Composition)"           NewName="ATLAS_JET_Flavor_Composition" />
+	 <Syst OldName="alpha_ATLAS_JET_Flavor_ResponseConstraint( alpha_ATLAS_JET_Flavor_Response, nom_alpha_ATLAS_JET_Flavor_Response)"                    NewName="ATLAS_JET_Flavor_Response" />
+	 <Syst OldName="alpha_ATLAS_JET_Pileup_OffsetMuConstraint( alpha_ATLAS_JET_Pileup_OffsetMu, nom_alpha_ATLAS_JET_Pileup_OffsetMu)"                    NewName="ATLAS_JET_Pileup_OffsetMu" />
+	 <Syst OldName="alpha_ATLAS_JET_Pileup_OffsetNPVConstraint( alpha_ATLAS_JET_Pileup_OffsetNPV, nom_alpha_ATLAS_JET_Pileup_OffsetNPV)"                 NewName="ATLAS_JET_Pileup_OffsetNPV" />
+	 <Syst OldName="alpha_ATLAS_JET_Pileup_PtTermConstraint( alpha_ATLAS_JET_Pileup_PtTerm, nom_alpha_ATLAS_JET_Pileup_PtTerm)"                 NewName="ATLAS_JET_Pileup_PtTerm" />
+	 <Syst OldName="alpha_ATLAS_JET_Pileup_RhoTopologyConstraint( alpha_ATLAS_JET_Pileup_RhoTopology, nom_alpha_ATLAS_JET_Pileup_RhoTopology)"                 NewName="ATLAS_JET_Pileup_RhoTopology" />
+	 <Syst OldName="alpha_ATLAS_JET_PunchThrough_MC15Constraint( alpha_ATLAS_JET_PunchThrough_MC15, nom_alpha_ATLAS_JET_PunchThrough_MC15)"                 NewName="ATLAS_JET_PunchThrough_MC15" />
+
+
+    <!-- Flavour tagging systematics -->
+	    <!-- B -->
+	 <Syst OldName="alpha_ATLAS_FT_EFF_Eigen_B_0Constraint( alpha_ATLAS_FT_EFF_Eigen_B_0, nom_alpha_ATLAS_FT_EFF_Eigen_B_0 )"             NewName="ATLAS_FT_EFF_Eigen_B_0" /> 
+	 <Syst OldName="alpha_ATLAS_FT_EFF_Eigen_B_1Constraint( alpha_ATLAS_FT_EFF_Eigen_B_1, nom_alpha_ATLAS_FT_EFF_Eigen_B_1 )"             NewName="ATLAS_FT_EFF_Eigen_B_1" /> 
+	 <Syst OldName="alpha_ATLAS_FT_EFF_Eigen_B_2Constraint( alpha_ATLAS_FT_EFF_Eigen_B_2, nom_alpha_ATLAS_FT_EFF_Eigen_B_2 )"             NewName="ATLAS_FT_EFF_Eigen_B_2" /> 
+
+	    <!-- C -->
+	 <Syst OldName="alpha_ATLAS_FT_EFF_Eigen_C_0Constraint( alpha_ATLAS_FT_EFF_Eigen_C_0, nom_alpha_ATLAS_FT_EFF_Eigen_C_0 )"             NewName="ATLAS_FT_EFF_Eigen_C_0" /> 
+	 <Syst OldName="alpha_ATLAS_FT_EFF_Eigen_C_1Constraint( alpha_ATLAS_FT_EFF_Eigen_C_1, nom_alpha_ATLAS_FT_EFF_Eigen_C_1 )"             NewName="ATLAS_FT_EFF_Eigen_C_1" /> 
+
+	    <!-- Light -->
+	 <Syst OldName="alpha_ATLAS_FT_EFF_Eigen_Light_0Constraint( alpha_ATLAS_FT_EFF_Eigen_Light_0, nom_alpha_ATLAS_FT_EFF_Eigen_Light_0)" NewName="ATLAS_FT_EFF_Eigen_Light_0" /> 
+	 <Syst OldName="alpha_ATLAS_FT_EFF_Eigen_Light_1Constraint( alpha_ATLAS_FT_EFF_Eigen_Light_1, nom_alpha_ATLAS_FT_EFF_Eigen_Light_1)" NewName="ATLAS_FT_EFF_Eigen_Light_1" /> 
+	 <Syst OldName="alpha_ATLAS_FT_EFF_Eigen_Light_2Constraint( alpha_ATLAS_FT_EFF_Eigen_Light_2, nom_alpha_ATLAS_FT_EFF_Eigen_Light_2)" NewName="ATLAS_FT_EFF_Eigen_Light_2" /> 
+	 <Syst OldName="alpha_ATLAS_FT_EFF_Eigen_Light_3Constraint( alpha_ATLAS_FT_EFF_Eigen_Light_3, nom_alpha_ATLAS_FT_EFF_Eigen_Light_3)" NewName="ATLAS_FT_EFF_Eigen_Light_3" /> 
+
+	   <!-- Extrapolation -->
+
+    <!-- MET -->
+         <Syst OldName="alpha_ATLAS_MET_SoftTrk_ResoParaConstraint( alpha_ATLAS_MET_SoftTrk_ResoPara, nom_alpha_ATLAS_MET_SoftTrk_ResoPara )"             NewName="ATLAS_MET_SoftTrk_ResoPara" /> 
+         <Syst OldName="alpha_ATLAS_MET_SoftTrk_ResoPerpConstraint( alpha_ATLAS_MET_SoftTrk_ResoPerp, nom_alpha_ATLAS_MET_SoftTrk_ResoPerp )"             NewName="ATLAS_MET_SoftTrk_ResoPerp" />
+	 <Syst OldName="alpha_ATLAS_MET_SoftTrk_ScaleConstraint( alpha_ATLAS_MET_SoftTrk_Scale, nom_alpha_ATLAS_MET_SoftTrk_Scale )"             NewName="ATLAS_MET_SoftTrk_Scale" />
+	 <Syst OldName="alpha_ATLAS_MET_SoftTrk_SCALEConstraint( alpha_ATLAS_MET_SoftTrk_SCALE, nom_alpha_ATLAS_MET_SoftTrk_SCALE )"             NewName="ATLAS_MET_SoftTrk_Scale" />
+
+    <!-- Pile-up reweight systematics -->
+	 <Syst OldName="alpha_ATLAS_PU_PRW_DATASFConstraint( alpha_ATLAS_PU_PRW_DATASF, nom_alpha_ATLAS_PU_PRW_DATASF)" NewName="ATLAS_PRW_DATASF" /> 
+	 <Syst OldName="alpha_ATLAS_PU_SFConstraint( alpha_ATLAS_PU_SF, nom_alpha_ATLAS_PU_SF)" NewName="ATLAS_PRW_DATASF" /> 
+	 <Syst OldName="alpha_ATLAS_pileupEventWeightConstraint( alpha_ATLAS_pileupEventWeight, nom_alpha_ATLAS_pileupEventWeight)" NewName="ATLAS_PRW_DATASF" /> 
+
+    <!-- Signal related systematics -->
+           <!-- PDF -->
+	 <Syst OldName="alpha_ATLAS_PDFConstraint( alpha_ATLAS_PDF, nom_alpha_ATLAS_PDF)" NewName="ATLAS_SIG_PDF" /> 
+	 <Syst OldName="alpha_ATLAS_SMhhPDFConstraint( alpha_ATLAS_SMhhPDF, nom_alpha_ATLAS_SMhhPDF)" NewName="ATLAS_SIG_PDF" /> 
+
+	   <!-- Scale -->
+	 <Syst OldName="alpha_ATLAS_SCALEConstraint( alpha_ATLAS_SCALE, nom_alpha_ATLAS_SCALE)" NewName="ATLAS_SIG_SCALE" /> 
+	 <Syst OldName="alpha_ATLAS_SMhhSCALEConstraint( alpha_ATLAS_SMhhSCALE, nom_alpha_ATLAS_SMhhSCALE)" NewName="ATLAS_SIG_SCALE" /> 
+
+	   <!-- PS -->
+	 <Syst OldName="alpha_ATLAS_PSConstraint( alpha_ATLAS_PS, nom_alpha_ATLAS_PS)" NewName="ATLAS_SIG_PS" /> 
+
+    <!-- Branching ratios -->
+	 <Syst OldName="alpha_ATLAS_BR_WWConstraint( alpha_ATLAS_BR_WW, nom_alpha_ATLAS_BR_WW)" NewName="ATLAS_BR_WW" /> 
+
+
+    <!-- WWyy category renaming -->
+    <Syst OldName="channelCat" NewName="Cat_WWWW"/> 
+   </RenameMap>
+
+  </Channel>
+

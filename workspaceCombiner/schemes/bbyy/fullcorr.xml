@@ -1,0 +1,68 @@
+  <!-- ************* -->
+  <!-- Channel: bbyy -->
+  <!-- ************* -->
+
+  <Channel Name="bbyy">
+
+    <File Name="bbyy_INPUT_WS"/>
+    <Workspace Name="combWS"/>
+    <ModelConfig Name="ModelConfig"/>
+    <ModelPOI Name="POINAME"/>
+    <ModelData Name="combData"/>
+
+   <RenameMap>
+
+    <!-- Format: -->
+    <!-- OldName="PDFname_old( NPname_old, GlobalObs_old)" NewName="NPname_new" -->
+
+    <!-- bbyy systematics rename map -->
+
+    <!-- Note: bbyy has an unconventional NP naming scheme -->
+
+    <!-- Luminosity -->
+    <Syst OldName="nui_lumi_2012_bb(lumi_2012, RNDM_lumi_2012)" NewName="ATLAS_LUMI_15_16" />
+    <Syst OldName="nui_dlumi_2012(dlumi_2012, RNDM_dlumi_2012)" NewName="ATLAS_LUMI_15_16" /> <!-- for lambda workspaces -->
+
+    <!-- Electron systematics -->
+
+    <!-- Muon systematics -->
+
+    <!-- EG systematics -->
+    <Syst OldName="nui_dSig_bb(dSig, RNDM_dSig)" NewName="ATLAS_EG_RESOLUTION_ALL" />
+    <Syst OldName="nui_dSig(dSig, RNDM_dSig)" NewName="ATLAS_EG_RESOLUTION_ALL" /> <!-- for lambda workspaces -->
+    <Syst OldName="nui_dMass_bb(dMass, RNDM_dMass)" NewName="ATLAS_EG_SCALE_ALL" />
+    <Syst OldName="nui_dMass(dMass, RNDM_dMass)" NewName="ATLAS_EG_SCALE_ALL" /> <!-- for lambda workspaces -->
+
+    <!-- Photon systematics -->
+    <Syst OldName="nui_isEM_bb(isEM, RNDM_isEM)" NewName="ATLAS_PH_EFF_ID" />
+    <Syst OldName="nui_isEM(disEM, RNDM_disEM)" NewName="ATLAS_PH_EFF_ID" /> <!-- for lambda workspaces -->
+
+    <!-- Tau systematics -->
+
+    <!-- Jet systematics -->
+    <Syst OldName="nui_dJER_bb(dJER, RNDM_dJER)" NewName="ATLAS_JET_JER" />
+    <Syst OldName="nui_dJER(dJER, RNDM_dJER)" NewName="ATLAS_JET_JER" /> <!-- for lambda workspaces -->
+
+    <!-- Flavour tagging systematics -->
+    <!-- Note: The flavour tagging systematics were merged in bbyy, and therefore do not have a
+               a one-to-one correspondence with the associated NPs in the other channels-->
+	    <!-- B -->
+	    <!-- Light -->
+	    <!-- Extrapolation -->
+
+    <!-- MET systematics -->
+
+    <!-- Pile-up reweight systematics -->
+    <Syst OldName="nui_PRW_DATASF_bb( PRW_DATASF, RNDM_PRW_DATASF )" NewName="ATLAS_PRW_DATASF" />
+    <Syst OldName="nui_PRW_DATASF( dPRW_DATASF, RNDM_dPRW_DATASF )" NewName="ATLAS_PRW_DATASF" /> <!-- for lambda workspaces -->
+
+    <!-- Branching ratios -->
+    <Syst OldName="nui_BRgg_bb( BRgg, RNDM_BRgg)" NewName="ATLAS_BR_yy" />
+    <Syst OldName="nui_dBRgg( dBRgg, RNDM_dBRgg)" NewName="ATLAS_BR_yy" /> <!-- for lambda workspaces -->
+
+    <!-- bbyy category renaming -->
+    <Syst OldName="channelCat" NewName="Cat_bbyy"/> 
+   </RenameMap>
+
+  </Channel>
+

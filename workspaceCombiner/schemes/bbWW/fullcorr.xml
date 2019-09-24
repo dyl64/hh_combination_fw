@@ -1,0 +1,112 @@
+  <!-- ************* -->
+  <!-- Channel: bbWW -->
+  <!-- ************* -->
+
+  <Channel Name="bbWW">
+
+    <File Name="bbWW_INPUT_WS"/>
+    <Workspace Name="combWS"/>
+    <ModelConfig Name="ModelConfig"/>
+    <ModelPOI Name="POINAME"/>
+    <ModelData Name="combData"/>
+
+   <RenameMap>
+    <!-- Format: -->
+    <!-- OldName="PDFname_old( NPname_old, GlobalObs_old)" NewName="NPname_new" -->
+
+    <!-- bbbb systematics rename map -->
+
+    <!-- Luminosity -->
+	 <Syst OldName="alpha_ATLAS_LUMI_2015_2016Constraint(alpha_ATLAS_LUMI_2015_2016, nom_alpha_ATLAS_LUMI_2015_2016)" NewName="ATLAS_LUMI_15_16" />
+
+
+	 <!-- Electron systematics -->
+	 <Syst OldName="alpha_SysEL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCORConstraint(alpha_SysEL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR, nom_alpha_SysEL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR)" NewName="ATLAS_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR" />
+	 <Syst OldName="alpha_SysEL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCORConstraint(alpha_SysEL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR, nom_alpha_SysEL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR)" NewName="ATLAS_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR" /> <!--NEW-->
+
+
+    <!-- Photon systematics -->
+		  <!-- None found -->
+
+    <!-- EG systematics -->
+    <Syst OldName="alpha_SysEG_RESOLUTION_ALLConstraint( alpha_SysEG_RESOLUTION_ALL, nom_alpha_SysEG_RESOLUTION_ALL)" NewName="ATLAS_EG_RESOLUTION_ALL" />
+    <Syst OldName="alpha_SysEG_SCALE_ALLConstraint( alpha_SysEG_SCALE_ALL, nom_alpha_SysEG_SCALE_ALL)" NewName="ATLAS_EG_SCALE_ALL" />
+
+    <!-- Muon systematics -->
+    <Syst OldName="alpha_SysMUON_EFF_SYSConstraint( alpha_SysMUON_EFF_SYS, nom_alpha_SysMUON_EFF_SYS)" NewName="ATLAS_MUON_EFF_SYS" />
+    <Syst OldName="alpha_SysMUON_IDConstraint( alpha_SysMUON_ID, nom_alpha_SysMUON_ID)" NewName="ATLAS_MUON_ID" />
+    <!-- <Syst OldName="alpha_SysMUON_SAGITTA_RHOConstraint( alpha_SysMUON_SAGITTA_RHO, mon_alpha_SysMUON_SAGITTA_RHO)" NewName="ATLAS_MUON_SAGITTA_RHO" /> --> <!-- only in WWyy non-res and low mass, whie this is in bbWW boosted high mass, irelevant -->
+
+    <!-- Tau -->
+		  <!-- None found -->
+
+    <!-- Jet systematics -->
+	<!-- small R jet -->
+	 <Syst OldName="alpha_SysJET_JER_SINGLE_NPConstraint( alpha_SysJET_JER_SINGLE_NP, nom_alpha_SysJET_JER_SINGLE_NP)" NewName="ATLAS_JET_JER" />
+	 <Syst OldName="alpha_SysJET_SR1_JET_EtaIntercalibration_NonClosureConstraint( alpha_SysJET_SR1_JET_EtaIntercalibration_NonClosure, nom_alpha_SysJET_SR1_JET_EtaIntercalibration_NonClosure)" NewName="ATLAS_JET_EtaIntercalibration_NonClosure" />
+
+	 <Syst OldName="alpha_SysJET_SR1_JET_GroupedNP_1Constraint( alpha_SysJET_SR1_JET_GroupedNP_1, nom_alpha_SysJET_SR1_JET_GroupedNP_1)" NewName="ATLAS_JET_GroupedNP_1" />
+	 <Syst OldName="alpha_SysJET_SR1_JET_GroupedNP_2Constraint( alpha_SysJET_SR1_JET_GroupedNP_2, nom_alpha_SysJET_SR1_JET_GroupedNP_2)" NewName="ATLAS_JET_GroupedNP_2" />
+	 <Syst OldName="alpha_SysJET_SR1_JET_GroupedNP_3Constraint( alpha_SysJET_SR1_JET_GroupedNP_3, nom_alpha_SysJET_SR1_JET_GroupedNP_3)" NewName="ATLAS_JET_GroupedNP_3" />
+
+    <!-- large R jet, calo, for corr with 4b boosted -->
+	 <!-- <Syst OldName="alpha_SysFATJET_JERConstraint( alpha_SysFATJET_JER, nom_alpha_SysFATJET_JER)" NewName="ATLAS_FATJET_JER" /> --> <!-- not in 4b -->
+	 <Syst OldName="alpha_SysFATJET_JMRConstraint( alpha_SysFATJET_JMR, nom_alpha_SysFATJET_JMR)" NewName="ATLAS_JET_JMR" />
+
+    <!-- small R jet, trk, for corr with 4b boosted -->
+	 <Syst OldName="alpha_SysFATJET_Medium_JET_Comb_Baseline_KinConstraint( alpha_SysFATJET_Medium_JET_Comb_Baseline_Kin, nom_alpha_SysFATJET_Medium_JET_Comb_Baseline_Kin)" NewName="ATLAS_JET_Rtrk_Baseline" />
+	 <Syst OldName="alpha_SysFATJET_Medium_JET_Comb_Modelling_KinConstraint( alpha_SysFATJET_Medium_JET_Comb_Modelling_Kin, nom_alpha_SysFATJET_Medium_JET_Comb_Modelling_Kin)" NewName="ATLAS_JET_Rtrk_Modelling" />
+	 <Syst OldName="alpha_SysFATJET_Medium_JET_Comb_Tracking_KinConstraint( alpha_SysFATJET_Medium_JET_Comb_Tracking_Kin, nom_alpha_SysFATJET_Medium_JET_Comb_Tracking_Kin)" NewName="ATLAS_JET_Rtrk_Tracking" />
+
+    <!-- Flavour tagging systematics -->
+	<!-- calo jet -->
+	   <!-- B -->
+	 <Syst OldName="alpha_SysFT_EFF_Eigen_B_0_AntiKt4EMTopoJetsConstraint(alpha_SysFT_EFF_Eigen_B_0_AntiKt4EMTopoJets, nom_alpha_SysFT_EFF_Eigen_B_0_AntiKt4EMTopoJets)" NewName="ATLAS_FT_EFF_Eigen_B_0" />
+	 <Syst OldName="alpha_SysFT_EFF_Eigen_B_1_AntiKt4EMTopoJetsConstraint(alpha_SysFT_EFF_Eigen_B_1_AntiKt4EMTopoJets, nom_alpha_SysFT_EFF_Eigen_B_1_AntiKt4EMTopoJets)" NewName="ATLAS_FT_EFF_Eigen_B_1" />
+	 <Syst OldName="alpha_SysFT_EFF_Eigen_B_2_AntiKt4EMTopoJetsConstraint(alpha_SysFT_EFF_Eigen_B_2_AntiKt4EMTopoJets, nom_alpha_SysFT_EFF_Eigen_B_2_AntiKt4EMTopoJets)" NewName="ATLAS_FT_EFF_Eigen_B_2" />
+	 <Syst OldName="alpha_SysFT_EFF_Eigen_B_3_AntiKt4EMTopoJetsConstraint(alpha_SysFT_EFF_Eigen_B_3_AntiKt4EMTopoJets, nom_alpha_SysFT_EFF_Eigen_B_3_AntiKt4EMTopoJets)" NewName="ATLAS_FT_EFF_Eigen_B_3" />
+
+	   <!-- C -->
+	 <Syst OldName="alpha_SysFT_EFF_Eigen_C_0_AntiKt4EMTopoJetsConstraint(alpha_SysFT_EFF_Eigen_C_0_AntiKt4EMTopoJets, nom_alpha_SysFT_EFF_Eigen_C_0_AntiKt4EMTopoJets)" NewName="ATLAS_FT_EFF_Eigen_C_0" />
+	 <Syst OldName="alpha_SysFT_EFF_Eigen_C_1_AntiKt4EMTopoJetsConstraint(alpha_SysFT_EFF_Eigen_C_1_AntiKt4EMTopoJets, nom_alpha_SysFT_EFF_Eigen_C_1_AntiKt4EMTopoJets)" NewName="ATLAS_FT_EFF_Eigen_C_1" />
+	 <Syst OldName="alpha_SysFT_EFF_Eigen_C_2_AntiKt4EMTopoJetsConstraint(alpha_SysFT_EFF_Eigen_C_2_AntiKt4EMTopoJets, nom_alpha_SysFT_EFF_Eigen_C_2_AntiKt4EMTopoJets)" NewName="ATLAS_FT_EFF_Eigen_C_2" />
+	 <!--<Syst OldName="alpha_SysFT_EFF_Eigen_C_3_AntiKt4EMTopoJetsConstraint(alpha_SysFT_EFF_Eigen_C_3_AntiKt4EMTopoJets, nom_alpha_SysFT_EFF_Eigen_C_3_AntiKt4EMTopoJets)" NewName="ATLAS_FT_EFF_Eigen_C_3" />-->  <!--NEW only in track jet-->
+
+	   <!-- Light -->
+	 <Syst OldName="alpha_SysFT_EFF_Eigen_Light_0_AntiKt4EMTopoJetsConstraint( alpha_SysFT_EFF_Eigen_Light_0_AntiKt4EMTopoJets, nom_alpha_SysFT_EFF_Eigen_Light_0_AntiKt4EMTopoJets)" NewName="ATLAS_FT_EFF_Eigen_Light_0" />
+	 <Syst OldName="alpha_SysFT_EFF_Eigen_Light_1_AntiKt4EMTopoJetsConstraint( alpha_SysFT_EFF_Eigen_Light_1_AntiKt4EMTopoJets, nom_alpha_SysFT_EFF_Eigen_Light_1_AntiKt4EMTopoJets)" NewName="ATLAS_FT_EFF_Eigen_Light_1" />
+	 <Syst OldName="alpha_SysFT_EFF_Eigen_Light_2_AntiKt4EMTopoJetsConstraint( alpha_SysFT_EFF_Eigen_Light_2_AntiKt4EMTopoJets, nom_alpha_SysFT_EFF_Eigen_Light_2_AntiKt4EMTopoJets)" NewName="ATLAS_FT_EFF_Eigen_Light_2" />
+	 <Syst OldName="alpha_SysFT_EFF_Eigen_Light_3_AntiKt4EMTopoJetsConstraint( alpha_SysFT_EFF_Eigen_Light_3_AntiKt4EMTopoJets, nom_alpha_SysFT_EFF_Eigen_Light_3_AntiKt4EMTopoJets)" NewName="ATLAS_FT_EFF_Eigen_Light_3" />
+	 <Syst OldName="alpha_SysFT_EFF_Eigen_Light_4_AntiKt4EMTopoJetsConstraint( alpha_SysFT_EFF_Eigen_Light_4_AntiKt4EMTopoJets, nom_alpha_SysFT_EFF_Eigen_Light_4_AntiKt4EMTopoJets)" NewName="ATLAS_FT_EFF_Eigen_Light_4" />
+	 <!--<Syst OldName="alpha_SysFT_EFF_Eigen_Light_5_AntiKt4EMTopoJetsConstraint( alpha_SysFT_EFF_Eigen_Light_5_AntiKt4EMTopoJets, nom_alpha_SysFT_EFF_Eigen_Light_5_AntiKt4EMTopoJets)" NewName="ATLAS_FT_EFF_Eigen_Light_5" />--> <!--removed-->
+	 <!--<Syst OldName="alpha_SysFT_EFF_Eigen_Light_6_AntiKt4EMTopoJetsConstraint( alpha_SysFT_EFF_Eigen_Light_6_AntiKt4EMTopoJets, nom_alpha_SysFT_EFF_Eigen_Light_6_AntiKt4EMTopoJets)" NewName="ATLAS_FT_EFF_Eigen_Light_6" />--> <!--removed-->
+
+           <!-- extrapolation -->
+	 <Syst OldName="alpha_SysFT_EFF_extrapolation_AntiKt4EMTopoJetsConstraint( alpha_SysFT_EFF_extrapolation_AntiKt4EMTopoJets, nom_alpha_SysFT_EFF_extrapolation_AntiKt4EMTopoJets)" NewName="ATLAS_FT_EFF_extrapolation" />
+	 <Syst OldName="alpha_SysFT_EFF_extrapolation_from_charm_AntiKt4EMTopoJetsConstraint( alpha_SysFT_EFF_extrapolation_from_charm_AntiKt4EMTopoJets, nom_alpha_SysFT_EFF_extrapolation_from_charm_AntiKt4EMTopoJets)" NewName="ATLAS_FT_EFF_extrapolation_from_charm" />
+
+
+    <!-- MET -->
+	 <Syst OldName="alpha_SysMET_SoftTrk_ResoParaConstraint(alpha_SysMET_SoftTrk_ResoPara, nom_alpha_SysMET_SoftTrk_ResoPara)" NewName="ATLAS_MET_SoftTrk_ResoPara" />
+	 <Syst OldName="alpha_SysMET_SoftTrk_ResoPerpConstraint(alpha_SysMET_SoftTrk_ResoPerp, nom_alpha_SysMET_SoftTrk_ResoPerp)" NewName="ATLAS_MET_SoftTrk_ResoPerp" />
+
+    <!-- Pile-up -->
+	 <Syst OldName="alpha_SysPRW_DATASFConstraint(alpha_SysPRW_DATASF, nom_alpha_SysPRW_DATASF)" NewName="ATLAS_PRW_DATASF" />
+
+    <!-- Signal related systematics -->
+           <!-- PDF -->
+	 <Syst OldName="alpha_SysSig_PDFacceptanceConstraint(alpha_SysSig_PDFacceptance, nom_alpha_SysSig_PDFacceptance)" NewName="ATLAS_SIG_PDF" />
+
+	   <!-- Scale -->
+	 <Syst OldName="alpha_SysSig_ScaleacceptanceConstraint(alpha_SysSig_Scaleacceptance, nom_alpha_SysSig_Scaleacceptance)" NewName="ATLAS_SIG_SCALE" />
+
+	   <!-- PS -->
+	 <Syst OldName="alpha_SysSig_PSConstraint(alpha_SysSig_PS, nom_alpha_SysSig_PS)" NewName="ATLAS_SIG_PS" />
+
+
+    <!-- bbbb category renaming -->
+    <Syst OldName="channelCat" NewName="Cat_bbWW"/> 
+   </RenameMap>
+
+  </Channel>
+

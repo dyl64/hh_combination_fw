@@ -1,0 +1,504 @@
+
+[1mRooFit v3.60 -- Developed by Wouter Verkerke and David Kirkby[0m 
+                Copyright (C) 2000-2013 NIKHEF, University of California & Stanford University
+                All rights reserved, please read http://roofit.sourceforge.net/license.txt
+
+Error in <TCling::RegisterModule>: cannot find dictionary module HggTwoSidedCBPdfDict_rdict.pcm
+You called: 
+/.data/englert/projects/hh_combination/software/hh_combination_fw/submodules/RooStatTools/./bin/makeAsimovData /.data/englert/projects/hh_combination/software/hh_combination_fw/./tests/test_combination/test_combined/spin0/bbbb_bbtautau-fullcorr/600.root /.data/englert/projects/hh_combination/software/hh_combination_fw/./tests/test_combination/test_combined/spin0/bbbb_bbtautau-fullcorr/600_with_Asimov_POI_0_NP_nom.root combWS ModelConfig combData false 0.0 asimovData_POI_0_NP_nom 
+#--- Running makeAsimovData ---
+# - Settings: 
+  - input_ws:           /.data/englert/projects/hh_combination/software/hh_combination_fw/./tests/test_combination/test_combined/spin0/bbbb_bbtautau-fullcorr/600.root
+  - output_ws:          /.data/englert/projects/hh_combination/software/hh_combination_fw/./tests/test_combination/test_combined/spin0/bbbb_bbtautau-fullcorr/600_with_Asimov_POI_0_NP_nom.root
+  - workspacename:      combWS
+  - modelConfigName:    ModelConfig
+  - dataName:           combData
+  - doConditional:      0 (false)
+  - mu:                 0
+  - asimovData_name:    asimovData_POI_0_NP_nom
+Executing makeAsimovData().
+inside makeAsimovData().
+- doConditional: 0
+Pairing nui: ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_SYST2016, with glob: ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_SYST2016_In, from constraint: ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_SYST2016_Pdf
+Pairing nui: ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATMC2016, with glob: ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATMC2016_In, from constraint: ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATMC2016_Pdf
+Pairing nui: ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA2016, with glob: ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA2016_In, from constraint: ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA2016_Pdf
+Pairing nui: ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA2015, with glob: ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA2015_In, from constraint: ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA2015_Pdf
+Pairing nui: ATLAS_PRW_DATASF, with glob: ATLAS_PRW_DATASF_In, from constraint: ATLAS_PRW_DATASF_Pdf
+Pairing nui: ATLAS_FT_EFF_Eigen_B_1, with glob: ATLAS_FT_EFF_Eigen_B_1_In, from constraint: ATLAS_FT_EFF_Eigen_B_1_Pdf
+Pairing nui: ATLAS_FT_EFF_Eigen_B_0, with glob: ATLAS_FT_EFF_Eigen_B_0_In, from constraint: ATLAS_FT_EFF_Eigen_B_0_Pdf
+Pairing nui: ATLAS_LUMI_15_16, with glob: ATLAS_LUMI_15_16_In, from constraint: ATLAS_LUMI_15_16_Pdf
+Pairing nui: ATLAS_FT_EFF_Eigen_Light_0, with glob: ATLAS_FT_EFF_Eigen_Light_0_In, from constraint: ATLAS_FT_EFF_Eigen_Light_0_Pdf
+Pairing nui: ATLAS_FT_EFF_Eigen_C_0, with glob: ATLAS_FT_EFF_Eigen_C_0_In, from constraint: ATLAS_FT_EFF_Eigen_C_0_Pdf
+Pairing nui: ATLAS_TAUS_TRUEHADTAU_EFF_RECO_TOTAL, with glob: ATLAS_TAUS_TRUEHADTAU_EFF_RECO_TOTAL_In, from constraint: ATLAS_TAUS_TRUEHADTAU_EFF_RECO_TOTAL_Pdf
+Pairing nui: ATLAS_TAUS_TRUEHADTAU_EFF_JETID_TOTAL, with glob: ATLAS_TAUS_TRUEHADTAU_EFF_JETID_TOTAL_In, from constraint: ATLAS_TAUS_TRUEHADTAU_EFF_JETID_TOTAL_Pdf
+Pairing nui: ATLAS_TAUS_TRUEHADTAU_EFF_ELEOLR_TOTAL, with glob: ATLAS_TAUS_TRUEHADTAU_EFF_ELEOLR_TOTAL_In, from constraint: ATLAS_TAUS_TRUEHADTAU_EFF_ELEOLR_TOTAL_Pdf
+Pairing nui: ATLAS_JET_JER, with glob: ATLAS_JET_JER_In, from constraint: ATLAS_JET_JER_Pdf
+Pairing nui: ATLAS_JET_GroupedNP_1, with glob: ATLAS_JET_GroupedNP_1_In, from constraint: ATLAS_JET_GroupedNP_1_Pdf
+Pairing nui: alpha_SysHiggsNorm_bbtautau, with glob: nom_alpha_SysHiggsNorm_bbtautau, from constraint: alpha_SysHiggsNormConstraint_bbtautau
+Pairing nui: ATLAS_FT_EFF_Eigen_B_2, with glob: ATLAS_FT_EFF_Eigen_B_2_In, from constraint: ATLAS_FT_EFF_Eigen_B_2_Pdf
+Pairing nui: ATLAS_TAUS_TRUEHADTAU_SME_TES_DETECTOR, with glob: ATLAS_TAUS_TRUEHADTAU_SME_TES_DETECTOR_In, from constraint: ATLAS_TAUS_TRUEHADTAU_SME_TES_DETECTOR_Pdf
+Pairing nui: alpha_SysWNorm_bbtautau, with glob: nom_alpha_SysWNorm_bbtautau, from constraint: alpha_SysWNormConstraint_bbtautau
+Pairing nui: ATLAS_FT_EFF_Eigen_C_2, with glob: ATLAS_FT_EFF_Eigen_C_2_In, from constraint: ATLAS_FT_EFF_Eigen_C_2_Pdf
+Pairing nui: ATLAS_FT_EFF_Eigen_C_1, with glob: ATLAS_FT_EFF_Eigen_C_1_In, from constraint: ATLAS_FT_EFF_Eigen_C_1_Pdf
+Pairing nui: alpha_SysTTBAR_NNLO_bbtautau, with glob: nom_alpha_SysTTBAR_NNLO_bbtautau, from constraint: alpha_SysTTBAR_NNLOConstraint_bbtautau
+Pairing nui: ATLAS_MET_SoftTrk_ResoPerp, with glob: ATLAS_MET_SoftTrk_ResoPerp_In, from constraint: ATLAS_MET_SoftTrk_ResoPerp_Pdf
+Pairing nui: ATLAS_MET_SoftTrk_ResoPara, with glob: ATLAS_MET_SoftTrk_ResoPara_In, from constraint: ATLAS_MET_SoftTrk_ResoPara_Pdf
+Pairing nui: alpha_SysSubtraction_bkg_SpcTauHH_bbtautau, with glob: nom_alpha_SysSubtraction_bkg_SpcTauHH_bbtautau, from constraint: alpha_SysSubtraction_bkg_SpcTauHHConstraint_bbtautau
+Pairing nui: alpha_SysOSSS_bbtautau, with glob: nom_alpha_SysOSSS_bbtautau, from constraint: alpha_SysOSSSConstraint_bbtautau
+Pairing nui: alpha_SysFFStatQCD_SpcTauHH_bbtautau, with glob: nom_alpha_SysFFStatQCD_SpcTauHH_bbtautau, from constraint: alpha_SysFFStatQCD_SpcTauHHConstraint_bbtautau
+Pairing nui: alpha_SysANTITAU_BDT_CUT_bbtautau, with glob: nom_alpha_SysANTITAU_BDT_CUT_bbtautau, from constraint: alpha_SysANTITAU_BDT_CUTConstraint_bbtautau
+Pairing nui: alpha_SysZtautauPTH_bbtautau, with glob: nom_alpha_SysZtautauPTH_bbtautau, from constraint: alpha_SysZtautauPTHConstraint_bbtautau
+Pairing nui: alpha_SysZtautauMBB_bbtautau, with glob: nom_alpha_SysZtautauMBB_bbtautau, from constraint: alpha_SysZtautauMBBConstraint_bbtautau
+Pairing nui: ATLAS_JET_GroupedNP_2, with glob: ATLAS_JET_GroupedNP_2_In, from constraint: ATLAS_JET_GroupedNP_2_Pdf
+Pairing nui: ATLAS_FT_EFF_extrapolation, with glob: ATLAS_FT_EFF_extrapolation_In, from constraint: ATLAS_FT_EFF_extrapolation_Pdf
+Pairing nui: ATLAS_FT_EFF_Eigen_C_3, with glob: ATLAS_FT_EFF_Eigen_C_3_In, from constraint: ATLAS_FT_EFF_Eigen_C_3_Pdf
+Pairing nui: ATLAS_TAUS_TRUEELECTRON_EFF_ELEOLR_TOTAL, with glob: ATLAS_TAUS_TRUEELECTRON_EFF_ELEOLR_TOTAL_In, from constraint: ATLAS_TAUS_TRUEELECTRON_EFF_ELEOLR_TOTAL_Pdf
+Pairing nui: alpha_SysZNorm_bbtautau, with glob: nom_alpha_SysZNorm_bbtautau, from constraint: alpha_SysZNormConstraint_bbtautau
+Pairing nui: ATLAS_FT_EFF_Eigen_Light_4, with glob: ATLAS_FT_EFF_Eigen_Light_4_In, from constraint: ATLAS_FT_EFF_Eigen_Light_4_Pdf
+Pairing nui: ATLAS_FT_EFF_Eigen_Light_3, with glob: ATLAS_FT_EFF_Eigen_Light_3_In, from constraint: ATLAS_FT_EFF_Eigen_Light_3_Pdf
+Pairing nui: ATLAS_FT_EFF_Eigen_Light_2, with glob: ATLAS_FT_EFF_Eigen_Light_2_In, from constraint: ATLAS_FT_EFF_Eigen_Light_2_Pdf
+Pairing nui: ATLAS_FT_EFF_Eigen_Light_1, with glob: ATLAS_FT_EFF_Eigen_Light_1_In, from constraint: ATLAS_FT_EFF_Eigen_Light_1_Pdf
+Pairing nui: alpha_SysstoptNorm_bbtautau, with glob: nom_alpha_SysstoptNorm_bbtautau, from constraint: alpha_SysstoptNormConstraint_bbtautau
+Pairing nui: alpha_SysstopWtNorm_bbtautau, with glob: nom_alpha_SysstopWtNorm_bbtautau, from constraint: alpha_SysstopWtNormConstraint_bbtautau
+Pairing nui: ATLAS_TAUS_TRUEHADTAU_SME_TES_INSITU, with glob: ATLAS_TAUS_TRUEHADTAU_SME_TES_INSITU_In, from constraint: ATLAS_TAUS_TRUEHADTAU_SME_TES_INSITU_Pdf
+Pairing nui: alpha_SysFR_Subtraction_bkg_bbtautau, with glob: nom_alpha_SysFR_Subtraction_bkg_bbtautau, from constraint: alpha_SysFR_Subtraction_bkgConstraint_bbtautau
+Pairing nui: alpha_SysFR_StatTtbar_bbtautau, with glob: nom_alpha_SysFR_StatTtbar_bbtautau, from constraint: alpha_SysFR_StatTtbarConstraint_bbtautau
+Pairing nui: alpha_SysFR_MTW_CUT_bbtautau, with glob: nom_alpha_SysFR_MTW_CUT_bbtautau, from constraint: alpha_SysFR_MTW_CUTConstraint_bbtautau
+Pairing nui: alpha_SysTTbarMBB_bbtautau, with glob: nom_alpha_SysTTbarMBB_bbtautau, from constraint: alpha_SysTTbarMBBConstraint_bbtautau
+Pairing nui: alpha_SysZttNorm_bbtautau, with glob: nom_alpha_SysZttNorm_bbtautau, from constraint: alpha_SysZttNormConstraint_bbtautau
+Pairing nui: ATLAS_FT_EFF_extrapolation_from_charm, with glob: ATLAS_FT_EFF_extrapolation_from_charm_In, from constraint: ATLAS_FT_EFF_extrapolation_from_charm_Pdf
+Pairing nui: ATLAS_TAUS_TRUEHADTAU_EFF_JETID_HIGHPT, with glob: ATLAS_TAUS_TRUEHADTAU_EFF_JETID_HIGHPT_In, from constraint: ATLAS_TAUS_TRUEHADTAU_EFF_JETID_HIGHPT_Pdf
+Pairing nui: alpha_SysDibosonNorm_bbtautau, with glob: nom_alpha_SysDibosonNorm_bbtautau, from constraint: alpha_SysDibosonNormConstraint_bbtautau
+Pairing nui: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L0_Y2015_dist600_DSR2HDMBDT_SpcTauHH_bin_0_poisMean_bbtautau, with glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L0_Y2015_dist600_DSR2HDMBDT_SpcTauHH_bin_0_bbtautau, from constraint: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L0_Y2015_dist600_DSR2HDMBDT_SpcTauHH_bin_0_constraint_bbtautau
+Pairing nui: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L0_Y2015_dist600_DSR2HDMBDT_SpcTauHH_bin_1_poisMean_bbtautau, with glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L0_Y2015_dist600_DSR2HDMBDT_SpcTauHH_bin_1_bbtautau, from constraint: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L0_Y2015_dist600_DSR2HDMBDT_SpcTauHH_bin_1_constraint_bbtautau
+Pairing nui: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L0_Y2015_dist600_DSR2HDMBDT_SpcTauHH_bin_2_poisMean_bbtautau, with glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L0_Y2015_dist600_DSR2HDMBDT_SpcTauHH_bin_2_bbtautau, from constraint: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L0_Y2015_dist600_DSR2HDMBDT_SpcTauHH_bin_2_constraint_bbtautau
+Pairing nui: ATLAS_MUON_EFF_TrigSystUncertainty, with glob: ATLAS_MUON_EFF_TrigSystUncertainty_In, from constraint: ATLAS_MUON_EFF_TrigSystUncertainty_Pdf
+Pairing nui: ATLAS_MET_SoftTrk_Scale, with glob: ATLAS_MET_SoftTrk_Scale_In, from constraint: ATLAS_MET_SoftTrk_Scale_Pdf
+Pairing nui: ATLAS_JET_GroupedNP_3, with glob: ATLAS_JET_GroupedNP_3_In, from constraint: ATLAS_JET_GroupedNP_3_Pdf
+Pairing nui: ATLAS_TAUS_TRUEHADTAU_SME_TES_MODEL, with glob: ATLAS_TAUS_TRUEHADTAU_SME_TES_MODEL_In, from constraint: ATLAS_TAUS_TRUEHADTAU_SME_TES_MODEL_Pdf
+Pairing nui: ATLAS_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR, with glob: ATLAS_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_In, from constraint: ATLAS_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_Pdf
+Pairing nui: ATLAS_EG_SCALE_ALL, with glob: ATLAS_EG_SCALE_ALL_In, from constraint: ATLAS_EG_SCALE_ALL_Pdf
+Pairing nui: alpha_SysEL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_bbtautau, with glob: nom_alpha_SysEL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_bbtautau, from constraint: alpha_SysEL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCORConstraint_bbtautau
+Pairing nui: ATLAS_MUON_EFF_SYS, with glob: ATLAS_MUON_EFF_SYS_In, from constraint: ATLAS_MUON_EFF_SYS_Pdf
+Pairing nui: alpha_SysTTbarPTH_bbtautau, with glob: nom_alpha_SysTTbarPTH_bbtautau, from constraint: alpha_SysTTbarPTHConstraint_bbtautau
+Pairing nui: alpha_SysTTbarGenFakes_bbtautau, with glob: nom_alpha_SysTTbarGenFakes_bbtautau, from constraint: alpha_SysTTbarGenFakesConstraint_bbtautau
+Pairing nui: alpha_SysSubtraction_bkg_SpcTauLH_bbtautau, with glob: nom_alpha_SysSubtraction_bkg_SpcTauLH_bbtautau, from constraint: alpha_SysSubtraction_bkg_SpcTauLHConstraint_bbtautau
+Pairing nui: alpha_SysSS_bbtautau, with glob: nom_alpha_SysSS_bbtautau, from constraint: alpha_SysSSConstraint_bbtautau
+Pairing nui: alpha_SysFF_MTW_bbtautau, with glob: nom_alpha_SysFF_MTW_bbtautau, from constraint: alpha_SysFF_MTWConstraint_bbtautau
+Pairing nui: alpha_SysFFStatTtbar_bbtautau, with glob: nom_alpha_SysFFStatTtbar_bbtautau, from constraint: alpha_SysFFStatTtbarConstraint_bbtautau
+Pairing nui: alpha_SysCompFakes_bbtautau, with glob: nom_alpha_SysCompFakes_bbtautau, from constraint: alpha_SysCompFakesConstraint_bbtautau
+Pairing nui: alpha_SysCPVarFakes_bbtautau, with glob: nom_alpha_SysCPVarFakes_bbtautau, from constraint: alpha_SysCPVarFakesConstraint_bbtautau
+Pairing nui: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_0_poisMean_bbtautau, with glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_0_bbtautau, from constraint: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_0_constraint_bbtautau
+Pairing nui: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_1_poisMean_bbtautau, with glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_1_bbtautau, from constraint: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_1_constraint_bbtautau
+Pairing nui: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_2_poisMean_bbtautau, with glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_2_bbtautau, from constraint: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_2_constraint_bbtautau
+Pairing nui: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_3_poisMean_bbtautau, with glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_3_bbtautau, from constraint: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_3_constraint_bbtautau
+Pairing nui: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_4_poisMean_bbtautau, with glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_4_bbtautau, from constraint: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_4_constraint_bbtautau
+Pairing nui: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_5_poisMean_bbtautau, with glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_5_bbtautau, from constraint: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_5_constraint_bbtautau
+Pairing nui: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_6_poisMean_bbtautau, with glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_6_bbtautau, from constraint: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_6_constraint_bbtautau
+Pairing nui: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_7_poisMean_bbtautau, with glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_7_bbtautau, from constraint: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_7_constraint_bbtautau
+Pairing nui: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_8_poisMean_bbtautau, with glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_8_bbtautau, from constraint: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_8_constraint_bbtautau
+Pairing nui: alpha_SysFFStatQCD_SpcTauLH_bbtautau, with glob: nom_alpha_SysFFStatQCD_SpcTauLH_bbtautau, from constraint: alpha_SysFFStatQCD_SpcTauLHConstraint_bbtautau
+Pairing nui: ATLAS_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR, with glob: ATLAS_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_In, from constraint: ATLAS_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_Pdf
+Pairing nui: ATLAS_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR, with glob: ATLAS_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_In, from constraint: ATLAS_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_Pdf
+Pairing nui: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT1_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_0_poisMean_bbtautau, with glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT1_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_0_bbtautau, from constraint: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT1_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_0_constraint_bbtautau
+Pairing nui: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT1_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_1_poisMean_bbtautau, with glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT1_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_1_bbtautau, from constraint: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT1_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_1_constraint_bbtautau
+Pairing nui: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT1_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_2_poisMean_bbtautau, with glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT1_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_2_bbtautau, from constraint: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT1_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_2_constraint_bbtautau
+Pairing nui: alpha_SysTTbarPTV_bbtautau, with glob: nom_alpha_SysTTbarPTV_bbtautau, from constraint: alpha_SysTTbarPTVConstraint_bbtautau
+Pairing nui: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L2_Y2015_distmLL_DSR_bin_0_poisMean_bbtautau, with glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L2_Y2015_distmLL_DSR_bin_0_bbtautau, from constraint: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L2_Y2015_distmLL_DSR_bin_0_constraint_bbtautau
+Pairing nui: alpha_r15_Luminosity_bbbb, with glob: nom_alpha_r15_Luminosity_bbbb, from constraint: alpha_r15_LuminosityConstraint_bbbb
+Pairing nui: alpha_Signal_Theory_ShowerHad_bbbb, with glob: nom_alpha_Signal_Theory_ShowerHad_bbbb, from constraint: alpha_Signal_Theory_ShowerHadConstraint_bbbb
+Pairing nui: alpha_Signal_Theory_Scales_bbbb, with glob: nom_alpha_Signal_Theory_Scales_bbbb, from constraint: alpha_Signal_Theory_ScalesConstraint_bbbb
+Pairing nui: ATLAS_JET_EtaIntercalib_Nonclos, with glob: ATLAS_JET_EtaIntercalib_Nonclos_In, from constraint: ATLAS_JET_EtaIntercalib_Nonclos_Pdf
+Pairing nui: ATLAS_FT_EFF_Eigen_B_3, with glob: ATLAS_FT_EFF_Eigen_B_3_In, from constraint: ATLAS_FT_EFF_Eigen_B_3_Pdf
+Pairing nui: alpha_Signal_trig_bbbb, with glob: nom_alpha_Signal_trig_bbbb, from constraint: alpha_Signal_trigConstraint_bbbb
+Pairing nui: alpha_r15_norm_NP0_bbbb, with glob: nom_alpha_r15_norm_NP0_bbbb, from constraint: alpha_r15_norm_NP0Constraint_bbbb
+Pairing nui: alpha_r15_norm_NP1_bbbb, with glob: nom_alpha_r15_norm_NP1_bbbb, from constraint: alpha_r15_norm_NP1Constraint_bbbb
+Pairing nui: alpha_r15_norm_NP2_bbbb, with glob: nom_alpha_r15_norm_NP2_bbbb, from constraint: alpha_r15_norm_NP2Constraint_bbbb
+Pairing nui: alpha_r15_LowHtCR_bbbb, with glob: nom_alpha_r15_LowHtCR_bbbb, from constraint: alpha_r15_LowHtCRConstraint_bbbb
+Pairing nui: alpha_r15_HighHtCR_bbbb, with glob: nom_alpha_r15_HighHtCR_bbbb, from constraint: alpha_r15_HighHtCRConstraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_0_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_0_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_0_constraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_1_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_1_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_1_constraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_22_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_22_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_22_constraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_23_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_23_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_23_constraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_24_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_24_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_24_constraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_25_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_25_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_25_constraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_26_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_26_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_26_constraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_27_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_27_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_27_constraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_28_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_28_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_28_constraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_29_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_29_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_29_constraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_30_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_30_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_30_constraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_31_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_31_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_31_constraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_32_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_32_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_32_constraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_33_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_33_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_33_constraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_34_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_34_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_34_constraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_35_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_35_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_35_constraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_36_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_36_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_36_constraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_37_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_37_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_37_constraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_38_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_38_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_38_constraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_39_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_39_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_39_constraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_40_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_40_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_40_constraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_41_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_41_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_41_constraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_42_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_42_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_42_constraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_43_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_43_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_43_constraint_bbbb
+Pairing nui: gamma_stat_combined_r15_hh_bin_44_poisMean_bbbb, with glob: nom_gamma_stat_combined_r15_hh_bin_44_bbbb, from constraint: gamma_stat_combined_r15_hh_bin_44_constraint_bbbb
+Pairing nui: alpha_r16_Luminosity_bbbb, with glob: nom_alpha_r16_Luminosity_bbbb, from constraint: alpha_r16_LuminosityConstraint_bbbb
+Pairing nui: alpha_r16_norm_NP0_bbbb, with glob: nom_alpha_r16_norm_NP0_bbbb, from constraint: alpha_r16_norm_NP0Constraint_bbbb
+Pairing nui: alpha_r16_norm_NP1_bbbb, with glob: nom_alpha_r16_norm_NP1_bbbb, from constraint: alpha_r16_norm_NP1Constraint_bbbb
+Pairing nui: alpha_r16_norm_NP2_bbbb, with glob: nom_alpha_r16_norm_NP2_bbbb, from constraint: alpha_r16_norm_NP2Constraint_bbbb
+Pairing nui: alpha_r16_LowHtCR_bbbb, with glob: nom_alpha_r16_LowHtCR_bbbb, from constraint: alpha_r16_LowHtCRConstraint_bbbb
+Pairing nui: alpha_r16_HighHtCR_bbbb, with glob: nom_alpha_r16_HighHtCR_bbbb, from constraint: alpha_r16_HighHtCRConstraint_bbbb
+Pairing nui: gamma_stat_combined_r16_hh_bin_0_poisMean_bbbb, with glob: nom_gamma_stat_combined_r16_hh_bin_0_bbbb, from constraint: gamma_stat_combined_r16_hh_bin_0_constraint_bbbb
+Pairing nui: gamma_stat_combined_r16_hh_bin_1_poisMean_bbbb, with glob: nom_gamma_stat_combined_r16_hh_bin_1_bbbb, from constraint: gamma_stat_combined_r16_hh_bin_1_constraint_bbbb
+Pairing nui: gamma_stat_combined_r16_hh_bin_27_poisMean_bbbb, with glob: nom_gamma_stat_combined_r16_hh_bin_27_bbbb, from constraint: gamma_stat_combined_r16_hh_bin_27_constraint_bbbb
+Pairing nui: gamma_stat_combined_r16_hh_bin_28_poisMean_bbbb, with glob: nom_gamma_stat_combined_r16_hh_bin_28_bbbb, from constraint: gamma_stat_combined_r16_hh_bin_28_constraint_bbbb
+Pairing nui: gamma_stat_combined_r16_hh_bin_30_poisMean_bbbb, with glob: nom_gamma_stat_combined_r16_hh_bin_30_bbbb, from constraint: gamma_stat_combined_r16_hh_bin_30_constraint_bbbb
+Pairing nui: gamma_stat_combined_r16_hh_bin_31_poisMean_bbbb, with glob: nom_gamma_stat_combined_r16_hh_bin_31_bbbb, from constraint: gamma_stat_combined_r16_hh_bin_31_constraint_bbbb
+Pairing nui: gamma_stat_combined_r16_hh_bin_32_poisMean_bbbb, with glob: nom_gamma_stat_combined_r16_hh_bin_32_bbbb, from constraint: gamma_stat_combined_r16_hh_bin_32_constraint_bbbb
+Pairing nui: gamma_stat_combined_r16_hh_bin_33_poisMean_bbbb, with glob: nom_gamma_stat_combined_r16_hh_bin_33_bbbb, from constraint: gamma_stat_combined_r16_hh_bin_33_constraint_bbbb
+Pairing nui: gamma_stat_combined_r16_hh_bin_34_poisMean_bbbb, with glob: nom_gamma_stat_combined_r16_hh_bin_34_bbbb, from constraint: gamma_stat_combined_r16_hh_bin_34_constraint_bbbb
+Pairing nui: gamma_stat_combined_r16_hh_bin_35_poisMean_bbbb, with glob: nom_gamma_stat_combined_r16_hh_bin_35_bbbb, from constraint: gamma_stat_combined_r16_hh_bin_35_constraint_bbbb
+Pairing nui: gamma_stat_combined_r16_hh_bin_36_poisMean_bbbb, with glob: nom_gamma_stat_combined_r16_hh_bin_36_bbbb, from constraint: gamma_stat_combined_r16_hh_bin_36_constraint_bbbb
+Pairing nui: gamma_stat_combined_r16_hh_bin_37_poisMean_bbbb, with glob: nom_gamma_stat_combined_r16_hh_bin_37_bbbb, from constraint: gamma_stat_combined_r16_hh_bin_37_constraint_bbbb
+Pairing nui: gamma_stat_combined_r16_hh_bin_38_poisMean_bbbb, with glob: nom_gamma_stat_combined_r16_hh_bin_38_bbbb, from constraint: gamma_stat_combined_r16_hh_bin_38_constraint_bbbb
+Pairing nui: gamma_stat_combined_r16_hh_bin_39_poisMean_bbbb, with glob: nom_gamma_stat_combined_r16_hh_bin_39_bbbb, from constraint: gamma_stat_combined_r16_hh_bin_39_constraint_bbbb
+Pairing nui: gamma_stat_combined_r16_hh_bin_40_poisMean_bbbb, with glob: nom_gamma_stat_combined_r16_hh_bin_40_bbbb, from constraint: gamma_stat_combined_r16_hh_bin_40_constraint_bbbb
+Pairing nui: gamma_stat_combined_r16_hh_bin_41_poisMean_bbbb, with glob: nom_gamma_stat_combined_r16_hh_bin_41_bbbb, from constraint: gamma_stat_combined_r16_hh_bin_41_constraint_bbbb
+Pairing nui: gamma_stat_combined_r16_hh_bin_42_poisMean_bbbb, with glob: nom_gamma_stat_combined_r16_hh_bin_42_bbbb, from constraint: gamma_stat_combined_r16_hh_bin_42_constraint_bbbb
+Pairing nui: gamma_stat_combined_r16_hh_bin_43_poisMean_bbbb, with glob: nom_gamma_stat_combined_r16_hh_bin_43_bbbb, from constraint: gamma_stat_combined_r16_hh_bin_43_constraint_bbbb
+Pairing nui: gamma_stat_combined_r16_hh_bin_44_poisMean_bbbb, with glob: nom_gamma_stat_combined_r16_hh_bin_44_bbbb, from constraint: gamma_stat_combined_r16_hh_bin_44_constraint_bbbb
+[#1] INFO:ObjectHandling -- RooWorkspace::saveSnaphot(combWS) replacing previous snapshot with name nominalGlobs
+[#1] INFO:ObjectHandling -- RooWorkspace::saveSnaphot(combWS) replacing previous snapshot with name nominalNuis
+nui: 0x406ba70, glob: 0x5e32fa0
+Setting glob: ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_SYST2016_In, which had previous val: 0, to conditional val: 0
+nui: 0x40e38c0, glob: 0x40e4b30
+Setting glob: ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATMC2016_In, which had previous val: 0, to conditional val: 0
+nui: 0x40f2590, glob: 0x5e305d0
+Setting glob: ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA2016_In, which had previous val: 0, to conditional val: 0
+nui: 0x514b5b0, glob: 0x514c8d0
+Setting glob: ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA2015_In, which had previous val: 0, to conditional val: 0
+nui: 0x47c1ed0, glob: 0x47c3180
+Setting glob: ATLAS_PRW_DATASF_In, which had previous val: 0, to conditional val: 0
+nui: 0x5159a60, glob: 0x515ad20
+Setting glob: ATLAS_FT_EFF_Eigen_B_1_In, which had previous val: 0, to conditional val: 0
+nui: 0x5156be0, glob: 0x5157ea0
+Setting glob: ATLAS_FT_EFF_Eigen_B_0_In, which had previous val: 0, to conditional val: 0
+nui: 0x4dc3280, glob: 0x4dc4540
+Setting glob: ATLAS_LUMI_15_16_In, which had previous val: 0, to conditional val: 0
+nui: 0x4cd86f0, glob: 0x4cd99b0
+Setting glob: ATLAS_FT_EFF_Eigen_Light_0_In, which had previous val: 0, to conditional val: 0
+nui: 0x4dc0430, glob: 0x4dc16f0
+Setting glob: ATLAS_FT_EFF_Eigen_C_0_In, which had previous val: 0, to conditional val: 0
+nui: 0x40f3680, glob: 0x40f4960
+Setting glob: ATLAS_TAUS_TRUEHADTAU_EFF_RECO_TOTAL_In, which had previous val: 0, to conditional val: 0
+nui: 0x40f7690, glob: 0x5ded7d0
+Setting glob: ATLAS_TAUS_TRUEHADTAU_EFF_JETID_TOTAL_In, which had previous val: 0, to conditional val: 0
+nui: 0x48ec530, glob: 0x48eda40
+Setting glob: ATLAS_TAUS_TRUEHADTAU_EFF_ELEOLR_TOTAL_In, which had previous val: 0, to conditional val: 0
+nui: 0x4dc60f0, glob: 0x4dc7370
+Setting glob: ATLAS_JET_JER_In, which had previous val: 0, to conditional val: 0
+nui: 0x50ef9d0, glob: 0x50f0c90
+Setting glob: ATLAS_JET_GroupedNP_1_In, which had previous val: 0, to conditional val: 0
+nui: 0x5150f70, glob: 0x5152230
+Setting glob: nom_alpha_SysHiggsNorm_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x514e1c0, glob: 0x514f420
+Setting glob: ATLAS_FT_EFF_Eigen_B_2_In, which had previous val: 0, to conditional val: 0
+nui: 0x48474c0, glob: 0x48487c0
+Setting glob: ATLAS_TAUS_TRUEHADTAU_SME_TES_DETECTOR_In, which had previous val: 0, to conditional val: 0
+nui: 0x47c4d00, glob: 0x47c5f90
+Setting glob: nom_alpha_SysWNorm_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x4d05470, glob: 0x4d06730
+Setting glob: ATLAS_FT_EFF_Eigen_C_2_In, which had previous val: 0, to conditional val: 0
+nui: 0x4d22fa0, glob: 0x4d24260
+Setting glob: ATLAS_FT_EFF_Eigen_C_1_In, which had previous val: 0, to conditional val: 0
+nui: 0x40f8770, glob: 0x40f9a10
+Setting glob: nom_alpha_SysTTBAR_NNLO_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x49c8c80, glob: 0x49c9f40
+Setting glob: ATLAS_MET_SoftTrk_ResoPerp_In, which had previous val: 0, to conditional val: 0
+nui: 0x4dbd5b0, glob: 0x4dbe870
+Setting glob: ATLAS_MET_SoftTrk_ResoPara_In, which had previous val: 0, to conditional val: 0
+nui: 0x5a9dce0, glob: 0x5a9efe0
+Setting glob: nom_alpha_SysSubtraction_bkg_SpcTauHH_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x5aa0860, glob: 0x5aa1a70
+Setting glob: nom_alpha_SysOSSS_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x5aa31e0, glob: 0x5aa4460
+Setting glob: nom_alpha_SysFFStatQCD_SpcTauHH_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x5aa5c80, glob: 0x5aa6f00
+Setting glob: nom_alpha_SysANTITAU_BDT_CUT_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x479d4f0, glob: 0x479e7b0
+Setting glob: nom_alpha_SysZtautauPTH_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x48e96a0, glob: 0x48ea960
+Setting glob: nom_alpha_SysZtautauMBB_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x5443630, glob: 0x5444b00
+Setting glob: ATLAS_JET_GroupedNP_2_In, which had previous val: 0, to conditional val: 0
+nui: 0x4855d40, glob: 0x4857000
+Setting glob: ATLAS_FT_EFF_extrapolation_In, which had previous val: 0, to conditional val: 0
+nui: 0x4af9350, glob: 0x4afa610
+Setting glob: ATLAS_FT_EFF_Eigen_C_3_In, which had previous val: 0, to conditional val: 0
+nui: 0x4af6420, glob: 0x4af7720
+Setting glob: ATLAS_TAUS_TRUEELECTRON_EFF_ELEOLR_TOTAL_In, which had previous val: 0, to conditional val: 0
+nui: 0x4858b40, glob: 0x4859dd0
+Setting glob: nom_alpha_SysZNorm_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x485b9d0, glob: 0x485cc90
+Setting glob: ATLAS_FT_EFF_Eigen_Light_4_In, which had previous val: 0, to conditional val: 0
+nui: 0x4a7dad0, glob: 0x4a7ed90
+Setting glob: ATLAS_FT_EFF_Eigen_Light_3_In, which had previous val: 0, to conditional val: 0
+nui: 0x4c110d0, glob: 0x4c12390
+Setting glob: ATLAS_FT_EFF_Eigen_Light_2_In, which had previous val: 0, to conditional val: 0
+nui: 0x4c74be0, glob: 0x4c75ea0
+Setting glob: ATLAS_FT_EFF_Eigen_Light_1_In, which had previous val: 0, to conditional val: 0
+nui: 0x48ef680, glob: 0x48f0940
+Setting glob: nom_alpha_SysstoptNorm_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x49422c0, glob: 0x4943580
+Setting glob: nom_alpha_SysstopWtNorm_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x49cbaf0, glob: 0x49ccdf0
+Setting glob: ATLAS_TAUS_TRUEHADTAU_SME_TES_INSITU_In, which had previous val: 0, to conditional val: 0
+nui: 0x47eed50, glob: 0x47f0030
+Setting glob: nom_alpha_SysFR_Subtraction_bkg_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x47f1c30, glob: 0x47f2ef0
+Setting glob: nom_alpha_SysFR_StatTtbar_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x4810c80, glob: 0x4811f40
+Setting glob: nom_alpha_SysFR_MTW_CUT_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x47c9890, glob: 0x47cab50
+Setting glob: nom_alpha_SysTTbarMBB_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x4852e80, glob: 0x4854140
+Setting glob: nom_alpha_SysZttNorm_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x4b62b70, glob: 0x4b63e70
+Setting glob: ATLAS_FT_EFF_extrapolation_from_charm_In, which had previous val: 0, to conditional val: 0
+nui: 0x52b65b0, glob: 0x52b7840
+Setting glob: ATLAS_TAUS_TRUEHADTAU_EFF_JETID_HIGHPT_In, which had previous val: 0, to conditional val: 0
+nui: 0x556eef0, glob: 0x55701b0
+Setting glob: nom_alpha_SysDibosonNorm_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x4816670, glob: 0x48187d0
+Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L0_Y2015_dist600_DSR2HDMBDT_SpcTauHH_bin_0_bbtautau, which had previous val: 4036.37, to conditional val: 4036.37
+nui: 0x481ac40, glob: 0x481cda0
+Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L0_Y2015_dist600_DSR2HDMBDT_SpcTauHH_bin_1_bbtautau, which had previous val: 173.577, to conditional val: 173.577
+nui: 0x481f210, glob: 0x4821370
+Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L0_Y2015_dist600_DSR2HDMBDT_SpcTauHH_bin_2_bbtautau, which had previous val: 46.7581, to conditional val: 46.7581
+nui: 0x40fc2d0, glob: 0x5deab10
+Setting glob: ATLAS_MUON_EFF_TrigSystUncertainty_In, which had previous val: 0, to conditional val: 0
+nui: 0x49c5e40, glob: 0x49c7100
+Setting glob: ATLAS_MET_SoftTrk_Scale_In, which had previous val: 0, to conditional val: 0
+nui: 0x53a9890, glob: 0x53aab50
+Setting glob: ATLAS_JET_GroupedNP_3_In, which had previous val: 0, to conditional val: 0
+nui: 0x46a21e0, glob: 0x46a34e0
+Setting glob: ATLAS_TAUS_TRUEHADTAU_SME_TES_MODEL_In, which had previous val: 0, to conditional val: 0
+nui: 0x524dc00, glob: 0x524ef00
+Setting glob: ATLAS_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_In, which had previous val: 0, to conditional val: 0
+nui: 0x52b9990, glob: 0x52bac10
+Setting glob: ATLAS_EG_SCALE_ALL_In, which had previous val: 0, to conditional val: 0
+nui: 0x5b897d0, glob: 0x5b8aa90
+Setting glob: nom_alpha_SysEL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x5153dd0, glob: 0x5155060
+Setting glob: ATLAS_MUON_EFF_SYS_In, which had previous val: 0, to conditional val: 0
+nui: 0x5201af0, glob: 0x5202db0
+Setting glob: nom_alpha_SysTTbarPTH_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x4bab150, glob: 0x4bac610
+Setting glob: nom_alpha_SysTTbarGenFakes_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x4ba81f0, glob: 0x4ba94f0
+Setting glob: nom_alpha_SysSubtraction_bkg_SpcTauLH_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x4badbf0, glob: 0x4baf030
+Setting glob: nom_alpha_SysSS_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x4bb0520, glob: 0x4bb1970
+Setting glob: nom_alpha_SysFF_MTW_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x4bb2f70, glob: 0x4bb43b0
+Setting glob: nom_alpha_SysFFStatTtbar_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x4bb5920, glob: 0x4bb6d60
+Setting glob: nom_alpha_SysCompFakes_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x53574b0, glob: 0x5358920
+Setting glob: nom_alpha_SysCPVarFakes_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x4603a80, glob: 0x4615100
+Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_0_bbtautau, which had previous val: 19283, to conditional val: 19283
+nui: 0x461c6a0, glob: 0x461e800
+Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_1_bbtautau, which had previous val: 10230.3, to conditional val: 10230.3
+nui: 0x4620ca0, glob: 0x4622e50
+Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_2_bbtautau, which had previous val: 10006.3, to conditional val: 10006.3
+nui: 0x46252f0, glob: 0x46274a0
+Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_3_bbtautau, which had previous val: 10009.7, to conditional val: 10009.7
+nui: 0x4629940, glob: 0x462baf0
+Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_4_bbtautau, which had previous val: 9917.71, to conditional val: 9917.71
+nui: 0x462df90, glob: 0x4630140
+Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_5_bbtautau, which had previous val: 8079.4, to conditional val: 8079.4
+nui: 0x46325e0, glob: 0x4634790
+Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_6_bbtautau, which had previous val: 1724.58, to conditional val: 1724.58
+nui: 0x4636c30, glob: 0x4638de0
+Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_7_bbtautau, which had previous val: 233.792, to conditional val: 233.792
+nui: 0x46432f0, glob: 0x46454a0
+Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_8_bbtautau, which had previous val: 69.9314, to conditional val: 69.9314
+nui: 0x535a700, glob: 0x535b980
+Setting glob: nom_alpha_SysFFStatQCD_SpcTauLH_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x54d4c00, glob: 0x54d5f10
+Setting glob: ATLAS_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_In, which had previous val: 0, to conditional val: 0
+nui: 0x54d7b30, glob: 0x54d8e30
+Setting glob: ATLAS_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_In, which had previous val: 0, to conditional val: 0
+nui: 0x4a17370, glob: 0x4a19520
+Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT1_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_0_bbtautau, which had previous val: 3968.07, to conditional val: 3968.07
+nui: 0x4a1b9c0, glob: 0x4a1db70
+Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT1_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_1_bbtautau, which had previous val: 168.541, to conditional val: 168.541
+nui: 0x4a20010, glob: 0x4a221c0
+Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT1_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bin_2_bbtautau, which had previous val: 18.7078, to conditional val: 18.7078
+nui: 0x47c87e0, glob: 0x533dcc0
+Setting glob: nom_alpha_SysTTbarPTV_bbtautau, which had previous val: 0, to conditional val: 0
+nui: 0x5228780, glob: 0x522a860
+Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L2_Y2015_distmLL_DSR_bin_0_bbtautau, which had previous val: 18466.5, to conditional val: 18466.5
+nui: 0x50f7650, glob: 0x50f8910
+Setting glob: nom_alpha_r15_Luminosity_bbbb, which had previous val: 0, to conditional val: 0
+nui: 0x50f4590, glob: 0x50f5a80
+Setting glob: nom_alpha_Signal_Theory_ShowerHad_bbbb, which had previous val: 0, to conditional val: 0
+nui: 0x50fa0b0, glob: 0x50fb320
+Setting glob: nom_alpha_Signal_Theory_Scales_bbbb, which had previous val: 0, to conditional val: 0
+nui: 0x587e390, glob: 0x587f680
+Setting glob: ATLAS_JET_EtaIntercalib_Nonclos_In, which had previous val: 0, to conditional val: 0
+nui: 0x5880eb0, glob: 0x5882110
+Setting glob: ATLAS_FT_EFF_Eigen_B_3_In, which had previous val: 0, to conditional val: 0
+nui: 0x58838e0, glob: 0x5884b40
+Setting glob: nom_alpha_Signal_trig_bbbb, which had previous val: 0, to conditional val: 0
+nui: 0x4effb40, glob: 0x4f01010
+Setting glob: nom_alpha_r15_norm_NP0_bbbb, which had previous val: 0, to conditional val: 0
+nui: 0x4f27680, glob: 0x4f28940
+Setting glob: nom_alpha_r15_norm_NP1_bbbb, which had previous val: 0, to conditional val: 0
+nui: 0x50d1760, glob: 0x50d2bd0
+Setting glob: nom_alpha_r15_norm_NP2_bbbb, which had previous val: 0, to conditional val: 0
+nui: 0x4f4efe0, glob: 0x4f502a0
+Setting glob: nom_alpha_r15_LowHtCR_bbbb, which had previous val: 0, to conditional val: 0
+nui: 0x4f51aa0, glob: 0x4f52c90
+Setting glob: nom_alpha_r15_HighHtCR_bbbb, which had previous val: 0, to conditional val: 0
+nui: 0x4e192a0, glob: 0x4e1b250
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_0_bbbb, which had previous val: 3, to conditional val: 3
+nui: 0x4e1d400, glob: 0x4e1f3b0
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_1_bbbb, which had previous val: 3, to conditional val: 3
+nui: 0x4e73860, glob: 0x4e75810
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_22_bbbb, which had previous val: 334.515, to conditional val: 334.515
+nui: 0x4e779c0, glob: 0x4e79970
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_23_bbbb, which had previous val: 228.645, to conditional val: 228.645
+nui: 0x4e7bb20, glob: 0x4e7dad0
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_24_bbbb, which had previous val: 225.151, to conditional val: 225.151
+nui: 0x4e7fc80, glob: 0x4e81c30
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_25_bbbb, which had previous val: 207.682, to conditional val: 207.682
+nui: 0x4e83de0, glob: 0x4e85d90
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_26_bbbb, which had previous val: 183.375, to conditional val: 183.375
+nui: 0x4e87f40, glob: 0x4e89ef0
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_27_bbbb, which had previous val: 120.247, to conditional val: 120.247
+nui: 0x4e8c0a0, glob: 0x4e8e050
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_28_bbbb, which had previous val: 90.375, to conditional val: 90.375
+nui: 0x4e90200, glob: 0x4e921b0
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_29_bbbb, which had previous val: 96.5069, to conditional val: 96.5069
+nui: 0x4e94370, glob: 0x4e96320
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_30_bbbb, which had previous val: 76.1882, to conditional val: 76.1882
+nui: 0x4e984d0, glob: 0x4e9a480
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_31_bbbb, which had previous val: 36.8045, to conditional val: 36.8045
+nui: 0x4e9c630, glob: 0x4e9e5e0
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_32_bbbb, which had previous val: 33.5783, to conditional val: 33.5783
+nui: 0x4ea0790, glob: 0x4ea2740
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_33_bbbb, which had previous val: 30.8622, to conditional val: 30.8622
+nui: 0x4ea48f0, glob: 0x4ea68a0
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_34_bbbb, which had previous val: 18.6914, to conditional val: 18.6914
+nui: 0x4ea8a50, glob: 0x4eaaa00
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_35_bbbb, which had previous val: 13.0441, to conditional val: 13.0441
+nui: 0x4eacbb0, glob: 0x4eaeb60
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_36_bbbb, which had previous val: 10.1795, to conditional val: 10.1795
+nui: 0x4eb0d10, glob: 0x4eb2cc0
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_37_bbbb, which had previous val: 4.46127, to conditional val: 4.46127
+nui: 0x4eb4e80, glob: 0x4eb6e30
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_38_bbbb, which had previous val: 2.75106, to conditional val: 2.75106
+nui: 0x4eb8fe0, glob: 0x4ebaf90
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_39_bbbb, which had previous val: 0.720702, to conditional val: 0.720702
+nui: 0x4ebd140, glob: 0x4ebf0f0
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_40_bbbb, which had previous val: 1.00001, to conditional val: 1.00001
+nui: 0x4ec12a0, glob: 0x4ec3250
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_41_bbbb, which had previous val: 0.944767, to conditional val: 0.944767
+nui: 0x4ec5400, glob: 0x4ec73b0
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_42_bbbb, which had previous val: 3, to conditional val: 3
+nui: 0x4ec9560, glob: 0x4ecb510
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_43_bbbb, which had previous val: 3, to conditional val: 3
+nui: 0x4ecd6c0, glob: 0x4ecf670
+Setting glob: nom_gamma_stat_combined_r15_hh_bin_44_bbbb, which had previous val: 3, to conditional val: 3
+nui: 0x50f3500, glob: 0x5b1b340
+Setting glob: nom_alpha_r16_Luminosity_bbbb, which had previous val: 0, to conditional val: 0
+nui: 0x57be0d0, glob: 0x57bf390
+Setting glob: nom_alpha_r16_norm_NP0_bbbb, which had previous val: 0, to conditional val: 0
+nui: 0x57e59f0, glob: 0x57e6cb0
+Setting glob: nom_alpha_r16_norm_NP1_bbbb, which had previous val: 0, to conditional val: 0
+nui: 0x58602f0, glob: 0x5861550
+Setting glob: nom_alpha_r16_norm_NP2_bbbb, which had previous val: 0, to conditional val: 0
+nui: 0x580d350, glob: 0x580e610
+Setting glob: nom_alpha_r16_LowHtCR_bbbb, which had previous val: 0, to conditional val: 0
+nui: 0x580fe10, glob: 0x5811000
+Setting glob: nom_alpha_r16_HighHtCR_bbbb, which had previous val: 0, to conditional val: 0
+nui: 0x56d77d0, glob: 0x56d9780
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_0_bbbb, which had previous val: 3, to conditional val: 3
+nui: 0x56db930, glob: 0x56dd8e0
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_1_bbbb, which had previous val: 3, to conditional val: 3
+nui: 0x5746550, glob: 0x5748500
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_27_bbbb, which had previous val: 335.4, to conditional val: 335.4
+nui: 0x574a6b0, glob: 0x574c660
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_28_bbbb, which had previous val: 268.564, to conditional val: 268.564
+nui: 0x5752970, glob: 0x5754920
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_30_bbbb, which had previous val: 355.326, to conditional val: 355.326
+nui: 0x5756ad0, glob: 0x5758a80
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_31_bbbb, which had previous val: 41.4657, to conditional val: 41.4657
+nui: 0x575ac30, glob: 0x575cbe0
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_32_bbbb, which had previous val: 78.9458, to conditional val: 78.9458
+nui: 0x575ed90, glob: 0x5760d40
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_33_bbbb, which had previous val: 143.473, to conditional val: 143.473
+nui: 0x5762ef0, glob: 0x5764ea0
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_34_bbbb, which had previous val: 101.523, to conditional val: 101.523
+nui: 0x5767050, glob: 0x5769000
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_35_bbbb, which had previous val: 63.0098, to conditional val: 63.0098
+nui: 0x576b1b0, glob: 0x576d160
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_36_bbbb, which had previous val: 30.9942, to conditional val: 30.9942
+nui: 0x576f310, glob: 0x57712c0
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_37_bbbb, which had previous val: 10.7575, to conditional val: 10.7575
+nui: 0x5773470, glob: 0x5775420
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_38_bbbb, which had previous val: 6.62737, to conditional val: 6.62737
+nui: 0x57775d0, glob: 0x5779580
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_39_bbbb, which had previous val: 2.80407, to conditional val: 2.80407
+nui: 0x577b730, glob: 0x577d6e0
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_40_bbbb, which had previous val: 6.31999, to conditional val: 6.31999
+nui: 0x577f890, glob: 0x5781840
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_41_bbbb, which had previous val: 0.630833, to conditional val: 0.630833
+nui: 0x57839f0, glob: 0x57859a0
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_42_bbbb, which had previous val: 1.00001, to conditional val: 1.00001
+nui: 0x5787b50, glob: 0x5789b00
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_43_bbbb, which had previous val: 3, to conditional val: 3
+nui: 0x578bcb0, glob: 0x578dc60
+Setting glob: nom_gamma_stat_combined_r16_hh_bin_44_bbbb, which had previous val: 3, to conditional val: 3
+Saving conditional snapshots
+Making asimov
+adding obs
+adding weight
+[#1] INFO:ObjectHandling -- RooWorkspace::import(combWS) importing RooRealVar::weightVar
+weightVar: 0x5c10e10
+defining set
+ check expectedData by category
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(combined_r15_hh_model_bbbb_Int[obs_x_combined_r15_hh]) using numeric integrator RooBinIntegrator to calculate Int(obs_x_combined_r15_hh)
+RooRealVar::obs_x_combined_r15_hh = 44.5  L(0 - 45) B(45) 
+pdf: model_combined_r15_hh_bbbb_deComposed
+expected events 932.27
+-----
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(combined_r16_hh_model_bbbb_Int[obs_x_combined_r16_hh]) using numeric integrator RooBinIntegrator to calculate Int(obs_x_combined_r16_hh)
+RooRealVar::obs_x_combined_r16_hh = 44.5  L(0 - 45) B(45) 
+pdf: model_combined_r16_hh_bbbb_deComposed
+expected events 7133.78
+-----
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_model_bbtautau_Int[obs_x_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH]) using numeric integrator RooBinIntegrator to calculate Int(obs_x_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH)
+RooRealVar::obs_x_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH = 0.888889  L(-1 - 1) B(9) 
+pdf: model_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bbtautau_deComposed
+expected events 28691.5
+-----
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(Region_BMin0_incJet1_J2_T2_isMVA0_L0_Y2015_dist600_DSR2HDMBDT_SpcTauHH_model_bbtautau_Int[obs_x_Region_BMin0_incJet1_J2_T2_isMVA0_L0_Y2015_dist600_DSR2HDMBDT_SpcTauHH]) using numeric integrator RooBinIntegrator to calculate Int(obs_x_Region_BMin0_incJet1_J2_T2_isMVA0_L0_Y2015_dist600_DSR2HDMBDT_SpcTauHH)
+RooRealVar::obs_x_Region_BMin0_incJet1_J2_T2_isMVA0_L0_Y2015_dist600_DSR2HDMBDT_SpcTauHH = 0.666667  L(-1 - 1) B(3) 
+pdf: model_Region_BMin0_incJet1_J2_T2_isMVA0_L0_Y2015_dist600_DSR2HDMBDT_SpcTauHH_bbtautau_deComposed
+expected events 1280.38
+-----
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(Region_BMin0_incJet1_J2_T2_isMVA0_L2_Y2015_distmLL_DSR_model_bbtautau_Int[obs_x_Region_BMin0_incJet1_J2_T2_isMVA0_L2_Y2015_distmLL_DSR]) using numeric integrator RooBinIntegrator to calculate Int(obs_x_Region_BMin0_incJet1_J2_T2_isMVA0_L2_Y2015_distmLL_DSR)
+RooRealVar::obs_x_Region_BMin0_incJet1_J2_T2_isMVA0_L2_Y2015_distmLL_DSR = 91  L(81 - 101) B(1) 
+pdf: model_Region_BMin0_incJet1_J2_T2_isMVA0_L2_Y2015_distmLL_DSR_bbtautau_deComposed
+expected events 10545
+-----
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT1_Y2015_dist600_DSR2HDMBDT_SpcTauLH_model_bbtautau_Int[obs_x_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT1_Y2015_dist600_DSR2HDMBDT_SpcTauLH]) using numeric integrator RooBinIntegrator to calculate Int(obs_x_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT1_Y2015_dist600_DSR2HDMBDT_SpcTauLH)
+RooRealVar::obs_x_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT1_Y2015_dist600_DSR2HDMBDT_SpcTauLH = 0.666667  L(-1 - 1) B(3) 
+pdf: model_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT1_Y2015_dist600_DSR2HDMBDT_SpcTauLH_bbtautau_deComposed
+expected events 2110.32
+-----
+Import 2
+[#1] INFO:ObjectHandling -- RooWorkspace::import(combWS) importing dataset asimovData_POI_0_NP_nom

@@ -1,0 +1,29 @@
+
+[1mRooFit v3.60 -- Developed by Wouter Verkerke and David Kirkby[0m 
+                Copyright (C) 2000-2013 NIKHEF, University of California & Stanford University
+                All rights reserved, please read http://roofit.sourceforge.net/license.txt
+
+Error in <TCling::RegisterModule>: cannot find dictionary module manager_Dict_rdict.pcm
+******************* Decorating *******************
+Renaming workspace...
+Workspace: old name combined, new name combWS
+ModelConfig: old name ModelConfig, new name ModelConfig
+Dataset: old name obsData, new name combData
+[#0] ERROR:ObjectHandling -- RooWorkspace::loadSnapshot(combWS) no snapshot with name nominalGlobs is available
+Saving `nominalGlobs` snapshot.
+[#0] ERROR:ObjectHandling -- RooWorkspace::loadSnapshot(combWS) no snapshot with name nominalNuis is available
+Saving `nominalNuis` snapshot.
+**************************************************
+	~~~~~~~~Begin Summary~~~~~~~~
+	There are 2 sub channels:
+		Index: 0, Pdf: model_combined_r15_hh, Data: combined_r15_hh, SumEntries: 928
+		Index: 1, Pdf: model_combined_r16_hh, Data: combined_r16_hh, SumEntries: 7430
+	 ########### POI ########### 	
+  1) 0x4d24b70 RooRealVar:: NormFactorToPrediction = 1  L(0 - 10000)  "NormFactorToPrediction"
+	 ########### Dataset ########### 	
+RooDataSet::asimovData[obs_x_combined_r15_hh,obs_x_combined_r16_hh,weightVar,channelCat,weight:binWeightAsimov] = 90 entries (18638.9 weighted)
+RooDataSet::combData[channelCat,obs_x_combined_r15_hh,obs_x_combined_r16_hh,weight:weightVar] = 90 entries (8358 weighted)
+	~~~~~~~~~End Summary~~~~~~~~~
+[#0] ERROR:ObjectHandling -- RooWorkspace::loadSnapshot(combWS) no snapshot with name ucmles is available
+File /.data/englert/projects/hh_combination/software/hh_combination_fw/tests/test_pipeline/test_batch/regularised/spin0/bbbb/600.root has been saved.
+Done in 0.01 min (cpu), 0.01 min (real)

@@ -1,0 +1,168 @@
+  <!-- ***************** -->
+  <!-- Channel: WWyy     -->
+  <!-- ***************** -->
+
+  <Channel Name="WWyy">
+
+    <File Name="WWyy_INPUT_WS"/>
+    <Workspace Name="combWS"/>
+    <ModelConfig Name="ModelConfig"/>
+    <ModelPOI Name="POINAME"/>
+    <ModelData Name="combData"/>
+   <RenameMap>
+    <!-- Format: -->
+    <!-- OldName="PDFname_old( NPname_old, GlobalObs_old)" NewName="NPname_new" -->
+
+    <!-- WWyy systematics rename map -->
+
+    <!-- Luminosity -->
+	 <Syst OldName="constrain_Lumi( d_Lumi, d_Lumi_Aux )" NewName="ATLAS_LUMI_15_16" />
+
+    <!-- Electron systematics -->
+	 <Syst OldName="constrain_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR(d_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR, d_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_Aux)" NewName="ATLAS_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR" /> 
+	 <Syst OldName="constrain_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR(d_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR, d_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_Aux)" NewName="ATLAS_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR" /> 
+	 <Syst OldName="constrain_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR(d_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR, d_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_Aux)" NewName="ATLAS_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR" /> 
+
+    <!-- Photon -->
+	 <Syst OldName="constrain_PH_EFF_ID_Uncertainty( d_PH_EFF_ID_Uncertainty, d_PH_EFF_ID_Uncertainty_Aux)" NewName="ATLAS_PH_EFF_ID" />
+	 <!--<Syst OldName="constrain_PH_EFF_TRKISO_Uncertainty( d_PH_EFF_TRKISO_Uncertainty, d_PH_EFF_TRKISO_Uncertainty_Aux)" NewName="ATLAS_PH_EFF_TRKISO_Uncertainty" />--> <!--removed, bbyy merged two ISO NP, cannot correlate-->
+	 <!--<Syst OldName="constrain_PH_Iso_DDonoff( d_PH_Iso_DDonoff, d_PH_Iso_DDonoff_Aux)" NewName="ATLAS_PH_Iso_DDonoff" />--> <!--removed bbyy merged two ISO NP, cannot correlate-->
+
+    <!-- E/gamma -->
+	 <Syst OldName="constrain_EG_RESOLUTION_ALL( d_EG_RESOLUTION_ALL, d_EG_RESOLUTION_ALL_Aux )" NewName="ATLAS_EG_RESOLUTION_ALL" /> 
+	 <Syst OldName="constrain_EG_SCALE_ALL( d_EG_SCALE_ALL, d_EG_SCALE_ALL_Aux)"                NewName="ATLAS_EG_SCALE_ALL" /> 
+
+    <!-- Muon systematics -->
+	 <Syst OldName="constrain_MUON_EFF_STAT( d_MUON_EFF_STAT,  d_MUON_EFF_STAT_Aux)" NewName="ATLAS_MUON_EFF_STAT" /> 
+	 <Syst OldName="constrain_MUON_EFF_SYS( d_MUON_EFF_SYS,   d_MUON_EFF_SYS_Aux)"    NewName="ATLAS_MUON_EFF_SYS" /> 
+	 <Syst OldName="constrain_MUON_TTVA_STAT( d_MUON_TTVA_STAT, d_MUON_TTVA_STAT_Aux)"    NewName="ATLAS_MUON_TTVA_STAT" /> 
+	 <Syst OldName="constrain_MUON_TTVA_SYS(  d_MUON_TTVA_SYS, d_MUON_TTVA_SYS_Aux)"                      NewName="ATLAS_MUON_TTVA_SYS" /> <!--removed, not found in bbtautau to corr-->
+
+	 <Syst OldName="constrain_MUON_SAGITTA_RESBIAS( d_MUON_SAGITTA_RESBIAS, d_MUON_SAGITTA_RESBIAS_Aux)" NewName="ATLAS_MUON_SAGITTA_RESBIAS" /> 
+	 <Syst OldName="constrain_MUON_SAGITTA_RHO(     d_MUON_SAGITTA_RHO,   d_MUON_SAGITTA_RHO_Aux)"             NewName="ATLAS_MUON_SAGITTA_RHO" /> <!-- found in boosted bbWW, high mass, not in non-res, irrelevant here-->
+
+	 <Syst OldName="constrain_MUON_ISO_STAT( d_MUON_ISO_STAT, d_MUON_ISO_STAT_Aux)" NewName="ATLAS_MUON_ISO_STAT" /> <!--removed-->
+	 <Syst OldName="constrain_MUON_ISO_SYS(  d_MUON_ISO_SYS, d_MUON_ISO_SYS_Aux)"    NewName="ATLAS_MUON_ISO_SYS" />
+
+	 <Syst OldName="constrain_MUON_ID( d_MUON_ID, d_MUON_ID_Aux)"                                        NewName="ATLAS_MUON_ID" />
+	 <Syst OldName="constrain_MUON_MS( d_MUON_MS, d_MUON_MS_Aux)"                                        NewName="ATLAS_MUON_MS" />
+	 <Syst OldName="constrain_MUON_SCALE( d_MUON_SCALE,  d_MUON_SCALE_Aux)"                               NewName="ATLAS_MUON_SCALE" />
+
+    <!-- Jet systematics -->
+         <!-- WWyy uses the 21 NP scheme, cannot be correlated to others who use 3-4 NP strongly reduced scheme-->
+	 <Syst OldName="constrain_JET_JER_SINGLE_NP( d_JET_JER_SINGLE_NP, d_JET_JER_SINGLE_NP_Aux)"           NewName="ATLAS_JET_JER" />  <!--NEW-->
+	 <Syst OldName="constrain_JET_JvtEfficiency( d_JET_JvtEfficiency, d_JET_JvtEfficiency_Aux)"           NewName="ATLAS_JET_JVT" />
+
+	 <Syst OldName="constrain_JET_BJES_Response( d_JET_BJES_Response, d_JET_BJES_Response_Aux)"           NewName="ATLAS_JET_BJES_Response" />
+	 <Syst OldName="constrain_JET_EffectiveNP_1( d_JET_EffectiveNP_1, d_JET_EffectiveNP_1_Aux)"           NewName="ATLAS_JET_EffectiveNP_1" />
+	 <Syst OldName="constrain_JET_EffectiveNP_2( d_JET_EffectiveNP_2, d_JET_EffectiveNP_2_Aux)"           NewName="ATLAS_JET_EffectiveNP_2" />
+	 <Syst OldName="constrain_JET_EffectiveNP_3( d_JET_EffectiveNP_3, d_JET_EffectiveNP_3_Aux)"           NewName="ATLAS_JET_EffectiveNP_3" />
+	 <Syst OldName="constrain_JET_EffectiveNP_4( d_JET_EffectiveNP_4, d_JET_EffectiveNP_4_Aux)"           NewName="ATLAS_JET_EffectiveNP_4" />
+	 <Syst OldName="constrain_JET_EffectiveNP_5( d_JET_EffectiveNP_5, d_JET_EffectiveNP_5_Aux)"           NewName="ATLAS_JET_EffectiveNP_5" />
+	 <Syst OldName="constrain_JET_EffectiveNP_6( d_JET_EffectiveNP_6, d_JET_EffectiveNP_6_Aux)"           NewName="ATLAS_JET_EffectiveNP_6" />
+	 <Syst OldName="constrain_JET_EffectiveNP_7( d_JET_EffectiveNP_7, d_JET_EffectiveNP_7_Aux)"           NewName="ATLAS_JET_EffectiveNP_7" />
+	 <Syst OldName="constrain_JET_EffectiveNP_8restTerm( d_JET_EffectiveNP_8restTerm, d_JET_EffectiveNP_8restTerm_Aux)"           NewName="ATLAS_JET_EffectiveNP_8restTerm" />
+	 <Syst OldName="constrain_JET_EtaIntercalibration_Modelling( d_JET_EtaIntercalibration_Modelling, d_JET_EtaIntercalibration_Modelling_Aux)"           NewName="ATLAS_JET_EtaIntercalibration_Modelling" />
+	 <Syst OldName="constrain_JET_EtaIntercalibration_NonClosure( d_JET_EtaIntercalibration_NonClosure, d_JET_EtaIntercalibration_NonClosure_Aux)"           NewName="ATLAS_JET_EtaIntercalibration_NonClosure" />
+	 <Syst OldName="constrain_JET_EtaIntercalibration_TotalStat( d_JET_EtaIntercalibration_TotalStat, d_JET_EtaIntercalibration_TotalStat_Aux)"           NewName="ATLAS_JET_EtaIntercalibration_TotalStat" />
+	 <Syst OldName="constrain_JET_Flavor_Composition( d_JET_Flavor_Composition, d_JET_Flavor_Composition_Aux)"           NewName="ATLAS_JET_Flavor_Composition" />
+	 <Syst OldName="constrain_JET_Flavor_Response( d_JET_Flavor_Response, d_JET_Flavor_Response_Aux)"                    NewName="ATLAS_JET_Flavor_Response" />
+	 <Syst OldName="constrain_JET_Pileup_OffsetMu( d_JET_Pileup_OffsetMu, d_JET_Pileup_OffsetMu_Aux)"                    NewName="ATLAS_JET_Pileup_OffsetMu" />
+	 <Syst OldName="constrain_JET_Pileup_OffsetNPV( d_JET_Pileup_OffsetNPV, d_JET_Pileup_OffsetNPV_Aux)"                 NewName="ATLAS_JET_Pileup_OffsetNPV" />
+	 <Syst OldName="constrain_JET_Pileup_PtTerm( d_JET_Pileup_PtTerm, d_JET_Pileup_PtTerm_Aux)"                 NewName="ATLAS_JET_Pileup_PtTerm" />
+	 <Syst OldName="constrain_JET_Pileup_RhoTopology( d_JET_Pileup_RhoTopology, d_JET_Pileup_RhoTopology_Aux)"                 NewName="ATLAS_JET_Pileup_RhoTopology" />
+	 <Syst OldName="constrain_JET_PunchThrough_MC15( d_JET_PunchThrough_MC15, d_JET_PunchThrough_MC15_Aux)"                 NewName="ATLAS_JET_PunchThrough_MC15" />
+
+    <!-- Flavour tagging systematics -->
+	    <!-- B -->
+	 <Syst OldName="constrain_FT_EFF_Eigen_B_0( d_FT_EFF_Eigen_B_0, d_FT_EFF_Eigen_B_0_Aux )"             NewName="ATLAS_FT_EFF_Eigen_B_0" /> 
+	 <Syst OldName="constrain_FT_EFF_Eigen_B_1( d_FT_EFF_Eigen_B_1, d_FT_EFF_Eigen_B_1_Aux )"             NewName="ATLAS_FT_EFF_Eigen_B_1" /> 
+	 <Syst OldName="constrain_FT_EFF_Eigen_B_2( d_FT_EFF_Eigen_B_2, d_FT_EFF_Eigen_B_2_Aux )"             NewName="ATLAS_FT_EFF_Eigen_B_2" /> 
+
+	    <!-- C -->
+	 <Syst OldName="constrain_FT_EFF_Eigen_C_0( d_FT_EFF_Eigen_C_0, d_FT_EFF_Eigen_C_0_Aux )"             NewName="ATLAS_FT_EFF_Eigen_C_0" /> 
+	 <Syst OldName="constrain_FT_EFF_Eigen_C_1( d_FT_EFF_Eigen_C_1, d_FT_EFF_Eigen_C_1_Aux )"             NewName="ATLAS_FT_EFF_Eigen_C_1" /> 
+	 <Syst OldName="constrain_FT_EFF_Eigen_C_2( d_FT_EFF_Eigen_C_2, d_FT_EFF_Eigen_C_2_Aux )"             NewName="ATLAS_FT_EFF_Eigen_C_2" /> 
+	 <Syst OldName="constrain_FT_EFF_Eigen_C_3( d_FT_EFF_Eigen_C_3, d_FT_EFF_Eigen_C_3_Aux )"             NewName="ATLAS_FT_EFF_Eigen_C_3" /> 
+
+	    <!-- Light -->
+	 <Syst OldName="constrain_FT_EFF_Eigen_Light_0( d_FT_EFF_Eigen_Light_0, d_FT_EFF_Eigen_Light_0_Aux)" NewName="ATLAS_FT_EFF_Eigen_Light_0" /> 
+	 <Syst OldName="constrain_FT_EFF_Eigen_Light_1( d_FT_EFF_Eigen_Light_1, d_FT_EFF_Eigen_Light_1_Aux)" NewName="ATLAS_FT_EFF_Eigen_Light_1" /> 
+	 <Syst OldName="constrain_FT_EFF_Eigen_Light_2( d_FT_EFF_Eigen_Light_2, d_FT_EFF_Eigen_Light_2_Aux)" NewName="ATLAS_FT_EFF_Eigen_Light_2" /> 
+	 <Syst OldName="constrain_FT_EFF_Eigen_Light_3( d_FT_EFF_Eigen_Light_3, d_FT_EFF_Eigen_Light_3_Aux)" NewName="ATLAS_FT_EFF_Eigen_Light_3" /> 
+	 <Syst OldName="constrain_FT_EFF_Eigen_Light_4( d_FT_EFF_Eigen_Light_4, d_FT_EFF_Eigen_Light_4_Aux)" NewName="ATLAS_FT_EFF_Eigen_Light_4" /> 
+
+	   <!-- Extrapolation -->
+	 <Syst OldName="constrain_FT_EFF_extrapolation( d_FT_EFF_extrapolation, d_FT_EFF_extrapolation_Aux)" NewName="ATLAS_FT_EFF_extrapolation" /> 
+	 <Syst OldName="constrain_FT_EFF_extrapolation_from_charm(d_FT_EFF_extrapolation_from_charm, d_FT_EFF_extrapolation_from_charm_Aux)" NewName="ATLAS_FT_EFF_extrapolation_from_charm" /> 
+
+    <!-- MET -->
+		  <!-- None found -->
+
+    <!-- Pile-up reweight systematics -->
+	 <Syst OldName="constrain_PRW_DATASF( d_PRW_DATASF, d_PRW_DATASF_Aux)" NewName="ATLAS_PRW_DATASF" /> 
+
+    <!-- Signal related systematics -->
+           <!-- PDF -->
+	 <Syst OldName="constrain_PDF_Acc_nonres( d_PDF_Acc_nonres, d_PDF_Acc_nonres_Aux)" NewName="ATLAS_SIG_PDF" /> 
+	 <Syst OldName="constrain_PDF_Acc_mX260( d_PDF_Acc_mX260, d_PDF_Acc_mX260_Aux)" NewName="ATLAS_SIG_PDF" /> 
+	 <Syst OldName="constrain_PDF_Acc_mX275( d_PDF_Acc_mX275, d_PDF_Acc_mX275_Aux)" NewName="ATLAS_SIG_PDF" /> 
+	 <Syst OldName="constrain_PDF_Acc_mX300( d_PDF_Acc_mX300, d_PDF_Acc_mX300_Aux)" NewName="ATLAS_SIG_PDF" /> 
+	 <Syst OldName="constrain_PDF_Acc_mX325( d_PDF_Acc_mX325, d_PDF_Acc_mX325_Aux)" NewName="ATLAS_SIG_PDF" /> 
+	 <Syst OldName="constrain_PDF_Acc_mX350( d_PDF_Acc_mX350, d_PDF_Acc_mX350_Aux)" NewName="ATLAS_SIG_PDF" /> 
+	 <Syst OldName="constrain_PDF_Acc_mX400( d_PDF_Acc_mX400, d_PDF_Acc_mX400_Aux)" NewName="ATLAS_SIG_PDF" /> 
+	 <Syst OldName="constrain_PDF_Acc_mX450( d_PDF_Acc_mX450, d_PDF_Acc_mX450_Aux)" NewName="ATLAS_SIG_PDF" /> 
+	 <Syst OldName="constrain_PDF_Acc_mX500( d_PDF_Acc_mX500, d_PDF_Acc_mX500_Aux)" NewName="ATLAS_SIG_PDF" /> 
+	 <Syst OldName="constrain_PDF_SMhh( d_PDF_SMhh, d_PDF_SMhh_Aux)" NewName="ATLAS_SIG_SCALE" /> 
+
+	   <!-- Scale -->
+	 <Syst OldName="constrain_The_Scale_nonres( d_The_Scale_nonres, d_The_Scale_nonres_Aux)" NewName="ATLAS_SIG_SCALE" /> 
+	 <Syst OldName="constrain_The_Scale_mX260( d_The_Scale_mX260, d_The_Scale_mX260_Aux)" NewName="ATLAS_SIG_SCALE" /> 
+	 <Syst OldName="constrain_The_Scale_mX275( d_The_Scale_mX275, d_The_Scale_mX275_Aux)" NewName="ATLAS_SIG_SCALE" /> 
+	 <Syst OldName="constrain_The_Scale_mX300( d_The_Scale_mX300, d_The_Scale_mX300_Aux)" NewName="ATLAS_SIG_SCALE" /> 
+	 <Syst OldName="constrain_The_Scale_mX325( d_The_Scale_mX325, d_The_Scale_mX325_Aux)" NewName="ATLAS_SIG_SCALE" /> 
+	 <Syst OldName="constrain_The_Scale_mX350( d_The_Scale_mX350, d_The_Scale_mX350_Aux)" NewName="ATLAS_SIG_SCALE" /> 
+	 <Syst OldName="constrain_The_Scale_mX400( d_The_Scale_mX400, d_The_Scale_mX400_Aux)" NewName="ATLAS_SIG_SCALE" /> 
+	 <Syst OldName="constrain_The_Scale_mX450( d_The_Scale_mX450, d_The_Scale_mX450_Aux)" NewName="ATLAS_SIG_SCALE" /> 
+	 <Syst OldName="constrain_The_Scale_mX500( d_The_Scale_mX500, d_The_Scale_mX500_Aux)" NewName="ATLAS_SIG_SCALE" /> 
+	 <Syst OldName="constrain_Scale_Acc_mX260( d_Scale_Acc_mX260, d_Scale_Acc_mX260_Aux)" NewName="ATLAS_SIG_SCALE" /> 
+	 <Syst OldName="constrain_Scale_Acc_mX275( d_Scale_Acc_mX275, d_Scale_Acc_mX275_Aux)" NewName="ATLAS_SIG_SCALE" /> 
+	 <Syst OldName="constrain_Scale_Acc_mX300( d_Scale_Acc_mX300, d_Scale_Acc_mX300_Aux)" NewName="ATLAS_SIG_SCALE" /> 
+	 <Syst OldName="constrain_Scale_Acc_mX325( d_Scale_Acc_mX325, d_Scale_Acc_mX325_Aux)" NewName="ATLAS_SIG_SCALE" /> 
+	 <Syst OldName="constrain_Scale_Acc_mX350( d_Scale_Acc_mX350, d_Scale_Acc_mX350_Aux)" NewName="ATLAS_SIG_SCALE" /> 
+	 <Syst OldName="constrain_Scale_Acc_mX400( d_Scale_Acc_mX400, d_Scale_Acc_mX400_Aux)" NewName="ATLAS_SIG_SCALE" /> 
+	 <Syst OldName="constrain_Scale_Acc_mX450( d_Scale_Acc_mX450, d_Scale_Acc_mX450_Aux)" NewName="ATLAS_SIG_SCALE" /> 
+	 <Syst OldName="constrain_Scale_Acc_mX500( d_Scale_Acc_mX500, d_Scale_Acc_mX500_Aux)" NewName="ATLAS_SIG_SCALE" />
+	 <Syst OldName="constrain_SCALE_SMhh( d_SCALE_SMhh, d_SCALE_SMhh_Aux)" NewName="ATLAS_SIG_SCALE" /> 
+
+	   <!-- PS -->
+	 <Syst OldName="constrain_The_PS_nonres( d_The_PS_nonres, d_The_PS_nonres_Aux)" NewName="ATLAS_SIG_PS" /> 
+	 <Syst OldName="constrain_The_PS_mX260( d_The_PS_mX260, d_The_PS_mX260_Aux)" NewName="ATLAS_SIG_PS" /> 
+	 <Syst OldName="constrain_The_PS_mX275( d_The_PS_mX275, d_The_PS_mX275_Aux)" NewName="ATLAS_SIG_PS" /> 
+	 <Syst OldName="constrain_The_PS_mX300( d_The_PS_mX300, d_The_PS_mX300_Aux)" NewName="ATLAS_SIG_PS" /> 
+	 <Syst OldName="constrain_The_PS_mX325( d_The_PS_mX325, d_The_PS_mX325_Aux)" NewName="ATLAS_SIG_PS" /> 
+	 <Syst OldName="constrain_The_PS_mX350( d_The_PS_mX350, d_The_PS_mX350_Aux)" NewName="ATLAS_SIG_PS" /> 
+	 <Syst OldName="constrain_The_PS_mX400( d_The_PS_mX400, d_The_PS_mX400_Aux)" NewName="ATLAS_SIG_PS" /> 
+	 <Syst OldName="constrain_The_PS_mX450( d_The_PS_mX450, d_The_PS_mX450_Aux)" NewName="ATLAS_SIG_PS" /> 
+	 <Syst OldName="constrain_The_PS_mX500( d_The_PS_mX500, d_The_PS_mX500_Aux)" NewName="ATLAS_SIG_PS" /> 
+	 <Syst OldName="constrain_PS_Acc_mX260( d_PS_Acc_mX260, d_PS_Acc_mX260_Aux)" NewName="ATLAS_SIG_PS" /> 
+	 <Syst OldName="constrain_PS_Acc_mX275( d_PS_Acc_mX275, d_PS_Acc_mX275_Aux)" NewName="ATLAS_SIG_PS" /> 
+	 <Syst OldName="constrain_PS_Acc_mX300( d_PS_Acc_mX300, d_PS_Acc_mX300_Aux)" NewName="ATLAS_SIG_PS" /> 
+	 <Syst OldName="constrain_PS_Acc_mX325( d_PS_Acc_mX325, d_PS_Acc_mX325_Aux)" NewName="ATLAS_SIG_PS" /> 
+	 <Syst OldName="constrain_PS_Acc_mX350( d_PS_Acc_mX350, d_PS_Acc_mX350_Aux)" NewName="ATLAS_SIG_PS" /> 
+	 <Syst OldName="constrain_PS_Acc_mX400( d_PS_Acc_mX400, d_PS_Acc_mX400_Aux)" NewName="ATLAS_SIG_PS" /> 
+	 <Syst OldName="constrain_PS_Acc_mX450( d_PS_Acc_mX450, d_PS_Acc_mX450_Aux)" NewName="ATLAS_SIG_PS" /> 
+	 <Syst OldName="constrain_PS_Acc_mX500( d_PS_Acc_mX500, d_PS_Acc_mX500_Aux)" NewName="ATLAS_SIG_PS" />
+
+
+    <!-- Branching ratios -->
+	 <Syst OldName="constrain_Br_h_WW( d_Br_h_WW, d_Br_h_WW_Aux)" NewName="ATLAS_BR_WW" />
+	 <Syst OldName="constrain_Br_h_yy( d_Br_h_yy, d_Br_h_yy_Aux)" NewName="ATLAS_BR_yy" />
+
+
+    <!-- WWyy category renaming -->
+    <Syst OldName="channelCat" NewName="Cat_WWyy"/> 
+   </RenameMap>
+
+  </Channel>
+

@@ -1,0 +1,11 @@
+getAvgLimit_old.py
+
+uses gaussian error propagation to calculate average error bands -> seems to be wrong
+
+
+
+Instead, use
+
+getAvgLimit.py
+
+uses new average error band calculation: ( (median1+err1) + (median2+err2) ) / 2   ->  median_average+err_average

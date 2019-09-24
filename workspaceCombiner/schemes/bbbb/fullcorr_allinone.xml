@@ -1,0 +1,110 @@
+  <!-- ************* -->
+  <!-- Channel: bbbb -->
+  <!-- ************* -->
+
+  <!-- WSC skips NPs that do not exist, now simply write here all NPs in the same xml from non-res, res different masses -->
+
+  <Channel Name="bbbb">
+
+    <File Name="bbbb_INPUT_WS"/>
+    <Workspace Name="combWS"/>
+    <ModelConfig Name="ModelConfig"/>
+    <ModelPOI Name="POINAME"/>
+    <ModelData Name="combData"/>
+
+   <RenameMap>
+    <!-- Format: -->
+    <!-- OldName="PDFname_old( NPname_old, GlobalObs_old)" NewName="NPname_new" -->
+
+    <!-- bbbb systematics rename map -->
+
+    <!-- Luminosity -->
+	  <!-- Combined 15+16 lumi NP available only when boosted is in use -->
+	  <!-- [800,1400] resolved+boosted; [1400,3000] boosted only -->
+      <Syst OldName="alpha_2015_2016_LuminosityConstraint( alpha_2015_2016_Luminosity, nom_alpha_2015_2016_Luminosity)" NewName="ATLAS_LUMI_15_16" />
+      <Syst OldName="alpha_2015_LuminosityConstraint( alpha_2015_Luminosity, nom_alpha_2015_Luminosity)" NewName="ATLAS_LUMI_15_16" /> <!--for nonres lumi 15+16 combination test-->
+      <Syst OldName="alpha_2016_LuminosityConstraint( alpha_2016_Luminosity, nom_alpha_2016_Luminosity)" NewName="ATLAS_LUMI_15_16" /> <!--for nonres lumi 15+16 combination test-->
+      <Syst OldName="alpha_r15_LuminosityConstraint( alpha_r15_Luminosity, nom_alpha_r15_Luminosity)" NewName="ATLAS_LUMI_15_16" /> <!--for spin0 800 GeV lumi 15+16 combination test-->
+      <Syst OldName="alpha_r16_LuminosityConstraint( alpha_r16_Luminosity, nom_alpha_r16_Luminosity)" NewName="ATLAS_LUMI_15_16" /> <!--for spin0 800 GeV lumi 15+16 combination test-->
+
+    <!-- Electron -->
+		  <!-- None found -->
+
+    <!-- Photon -->
+		  <!-- None found -->
+
+    <!-- E/gamma -->
+		  <!-- None found -->
+
+    <!-- Muon -->
+		  <!-- None found -->
+
+    <!-- Tau -->
+		  <!-- None found -->
+
+    <!-- Jet systematics (calo, small R) -->
+	 <!-- non-res NP names -->
+	 <!--<Syst OldName="alpha_Signal_JET_JER_SINGLE_NPConstraint( alpha_Signal_JET_JER_SINGLE_NP, nom_alpha_Signal_JET_JER_SINGLE_NP)" NewName="ATLAS_JET_JER" /> -->
+	 <!--<Syst OldName="alpha_Signal_JET_GroupedNP_1Constraint( alpha_Signal_JET_GroupedNP_1, nom_alpha_Signal_JET_GroupedNP_1)" NewName="ATLAS_JET_GroupedNP_1" /> -->
+	 <!--<Syst OldName="alpha_Signal_JET_GroupedNP_2Constraint( alpha_Signal_JET_GroupedNP_2, nom_alpha_Signal_JET_GroupedNP_2)" NewName="ATLAS_JET_GroupedNP_2" /> -->
+	 <!--<Syst OldName="alpha_Signal_JET_GroupedNP_3Constraint( alpha_Signal_JET_GroupedNP_3, nom_alpha_Signal_JET_GroupedNP_3)" NewName="ATLAS_JET_GroupedNP_3" /> -->
+	 <!--<Syst OldName="alpha_Signal_JET_EtaIntercalib_NonclosConstraint( alpha_Signal_JET_EtaIntercalib_Nonclos, nom_alpha_Signal_JET_EtaIntercalib_Nonclos)" NewName="ATLAS_JET_EtaIntercalib_Nonclos" /> -->
+	 <!-- res NP names -->
+	 <Syst OldName="alpha_JET_JERConstraint( alpha_JET_JER, nom_alpha_JET_JER)" NewName="ATLAS_JET_JER" />
+	 <Syst OldName="alpha_JET_GroupedNP_1Constraint( alpha_JET_GroupedNP_1, nom_alpha_JET_GroupedNP_1 )"                               NewName="ATLAS_JET_GroupedNP_1" />
+	 <Syst OldName="alpha_JET_GroupedNP_2Constraint( alpha_JET_GroupedNP_2, nom_alpha_JET_GroupedNP_2 )"                               NewName="ATLAS_JET_GroupedNP_2" />
+	 <Syst OldName="alpha_JET_GroupedNP_3Constraint( alpha_JET_GroupedNP_3, nom_alpha_JET_GroupedNP_3 )"                               NewName="ATLAS_JET_GroupedNP_3" />
+	 <Syst OldName="alpha_JET_EtaIntercalib_NonclosConstraint( alpha_JET_EtaIntercalib_Nonclos, nom_alpha_JET_EtaIntercalib_Nonclos )" NewName="ATLAS_JET_EtaIntercalib_Nonclos" /> <!--added-->
+
+    <!-- Jet systematics (calo, large R) -->
+	 <!-- NPs only in boosted -->
+	 <Syst OldName="alpha_JET_JMRConstraint( alpha_JET_JMR, nom_alpha_JET_JMR)" NewName="ATLAS_JET_JMR" />
+
+    <!-- Jet systematics (track, small R) -->
+	 <!-- NPs only in boosted -->
+	 <Syst OldName="alpha_JET_Rtrk_BaselineConstraint( alpha_JET_Rtrk_Baseline, nom_alpha_JET_Rtrk_Baseline)" NewName="ATLAS_JET_Rtrk_Baseline" />
+	 <Syst OldName="alpha_JET_Rtrk_ModellingConstraint( alpha_JET_Rtrk_Modelling, nom_alpha_JET_Rtrk_Modelling)" NewName="ATLAS_JET_Rtrk_Modelling" />
+	 <Syst OldName="alpha_JET_Rtrk_TotalStatConstraint( alpha_JET_Rtrk_TotalStat, nom_alpha_JET_Rtrk_TotalStat)" NewName="ATLAS_JET_Rtrk_TotalStat" />
+	 <Syst OldName="alpha_JET_Rtrk_TrackingConstraint( alpha_JET_Rtrk_Tracking, nom_alpha_JET_Rtrk_Tracking)" NewName="ATLAS_JET_Rtrk_Tracking" />
+
+    <!-- Flavour tagging systematics -->
+	 <!-- non-res NP names -->
+	 <!-- <Syst OldName="alpha_Signal_FT_EFF_Eigen_B_0Constraint( alpha_Signal_FT_EFF_Eigen_B_0, nom_alpha_Signal_FT_EFF_Eigen_B_0)" NewName="ATLAS_FT_EFF_Eigen_B_0" /> -->
+	 <!-- <Syst OldName="alpha_Signal_FT_EFF_Eigen_B_1Constraint( alpha_Signal_FT_EFF_Eigen_B_1, nom_alpha_Signal_FT_EFF_Eigen_B_1)" NewName="ATLAS_FT_EFF_Eigen_B_1" /> -->
+	 <!-- <Syst OldName="alpha_Signal_FT_EFF_Eigen_B_2Constraint( alpha_Signal_FT_EFF_Eigen_B_2, nom_alpha_Signal_FT_EFF_Eigen_B_2)" NewName="ATLAS_FT_EFF_Eigen_B_2" /> -->
+	 <!-- <Syst OldName="alpha_Signal_FT_EFF_Eigen_B_3Constraint( alpha_Signal_FT_EFF_Eigen_B_3, nom_alpha_Signal_FT_EFF_Eigen_B_3)" NewName="ATLAS_FT_EFF_Eigen_B_3" /> -->
+	 <!-- <Syst OldName="alpha_Signal_FT_EFF_Eigen_B_4Constraint( alpha_Signal_FT_EFF_Eigen_B_4, nom_alpha_Signal_FT_EFF_Eigen_B_4)" NewName="ATLAS_FT_EFF_Eigen_B_4" /> -->
+	 <!-- <Syst OldName="alpha_Signal_FT_EFF_extrapolationConstraint( alpha_Signal_FT_EFF_extrapolation, nom_alpha_Signal_FT_EFF_extrapolation)" NewName="ATLAS_FT_EFF_extrapolation" /> -->
+     <!-- res NP names -->
+	 <Syst OldName="alpha_FT_EFF_Eigen_B_0Constraint( alpha_FT_EFF_Eigen_B_0, nom_alpha_FT_EFF_Eigen_B_0 )" NewName="ATLAS_FT_EFF_Eigen_B_0" />
+	 <Syst OldName="alpha_FT_EFF_Eigen_B_1Constraint( alpha_FT_EFF_Eigen_B_1, nom_alpha_FT_EFF_Eigen_B_1 )" NewName="ATLAS_FT_EFF_Eigen_B_1" />
+	 <Syst OldName="alpha_FT_EFF_Eigen_B_2Constraint( alpha_FT_EFF_Eigen_B_2, nom_alpha_FT_EFF_Eigen_B_2 )" NewName="ATLAS_FT_EFF_Eigen_B_2" />
+	 <Syst OldName="alpha_FT_EFF_Eigen_B_3Constraint( alpha_FT_EFF_Eigen_B_3, nom_alpha_FT_EFF_Eigen_B_3 )" NewName="ATLAS_FT_EFF_Eigen_B_3" />
+	 <Syst OldName="alpha_FT_EFF_Eigen_B_4Constraint( alpha_FT_EFF_Eigen_B_4, nom_alpha_FT_EFF_Eigen_B_4 )" NewName="ATLAS_FT_EFF_Eigen_B_4" />
+	 <Syst OldName="alpha_FT_EFF_extrapolationConstraint(alpha_FT_EFF_extrapolation, nom_alpha_FT_EFF_extrapolation)" NewName="ATLAS_FT_EFF_extrapolation" />
+		  <!-- Other FT systs not found -->
+
+    <!-- MET -->
+		  <!-- None found -->
+
+    <!-- Pile-up reweighting -->
+		  <!-- None found -->
+
+    <!-- Signal related systematics -->
+           <!-- PDF -->
+		  <!-- None found -->
+
+	   <!-- Scale -->
+	 <Syst OldName="alpha_Signal_Theory_ScalesConstraint( alpha_Signal_Theory_Scales, nom_alpha_Signal_Theory_Scales)" NewName="ATLAS_SIG_SCALE" />
+
+	   <!-- PS -->
+	 <Syst OldName="alpha_Shower_and_hadronisationConstraint( alpha_Shower_and_hadronisation, nom_alpha_Shower_and_hadronisation)" NewName="ATLAS_SIG_PS" />
+	 <Syst OldName="alpha_Signal_Theory_ShowerHadConstraint( alpha_Signal_Theory_ShowerHad, nom_alpha_Signal_Theory_ShowerHad)" NewName="ATLAS_SIG_PS" />
+	 <Syst OldName="alpha_TheoreticalConstraint( alpha_Theoretical, nom_alpha_Theoretical)" NewName="ATLAS_SIG_PS" />
+
+
+    <!-- bbbb category renaming -->
+    <Syst OldName="channelCat" NewName="Cat_bbbb"/> 
+   </RenameMap>
+
+  </Channel>

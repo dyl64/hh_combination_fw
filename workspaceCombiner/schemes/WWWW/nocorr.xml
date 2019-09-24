@@ -1,0 +1,15 @@
+  <!-- ***************** -->
+  <!-- Channel: WWWW     -->
+  <!-- ***************** -->
+
+  <Channel Name="WWWW">
+    <File Name="WWWW_INPUT_WS"/>
+    <Workspace Name="combWS"/>
+    <ModelConfig Name="ModelConfig"/>
+    <ModelPOI Name="POINAME"/>
+    <ModelData Name="combData"/>
+   <RenameMap>
+    <Syst OldName="channelCat" NewName="Cat_WWWW"/> 
+   </RenameMap>
+  </Channel>
+

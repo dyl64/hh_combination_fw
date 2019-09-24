@@ -1,0 +1,12 @@
+[submodule "submodules/RooStatTools"]
+	path = submodules/RooStatTools
+	url = ssh://git@gitlab.cern.ch:7999/atlas-physics/HDBS/DiHiggs/combination/RooStatTools.git
+[submodule "submodules/ModelTools"]
+	path = submodules/ModelTools
+	url = ssh://git@gitlab.cern.ch:7999/atlas-physics/HDBS/DiHiggs/combination/ModelTools.git 
+[submodule "submodules/UtilTools"]
+	path = submodules/UtilTools
+	url = ssh://git@gitlab.cern.ch:7999/atlas-physics/HDBS/DiHiggs/combination/UtilTools.git
+[submodule "submodules/PhysicsLib"]
+	path = submodules/PhysicsLib
+	url = ssh://git@gitlab.cern.ch:7999/atlas-physics/HDBS/DiHiggs/combination/PhysicsLib.git

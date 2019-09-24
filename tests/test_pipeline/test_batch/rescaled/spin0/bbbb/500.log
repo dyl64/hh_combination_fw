@@ -1,0 +1,15 @@
+
+[1mRooFit v3.60 -- Developed by Wouter Verkerke and David Kirkby[0m 
+                Copyright (C) 2000-2013 NIKHEF, University of California & Stanford University
+                All rights reserved, please read http://roofit.sourceforge.net/license.txt
+
+Error in <TCling::RegisterModule>: cannot find dictionary module manager_Dict_rdict.pcm
+Parsing file: /.data/englert/projects/hh_combination/software/hh_combination_fw/tests/test_pipeline/test_batch/cfg/rescale/spin0/bbbb/500.xml
+	Item 0, expr::mu_old('@0/99.0',xsec_br[0.0,-1.0,20.0])
+	old: ,NormFactorToPrediction
+	new: ,mu_old
+List of POIs in the new parameterization:
+xsec_br
+Writing to file: /.data/englert/projects/hh_combination/software/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbbb/500.root
+Written to file: /.data/englert/projects/hh_combination/software/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbbb/500.root
+Done in 0.01 min (cpu), 0.01 min (real)
