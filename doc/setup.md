@@ -27,7 +27,7 @@
     You can check out the [`hh_combination_fw`][hh_combination_fw] `git` repository, including the submodules with:
 
     ~~~~
-    git clone --recursive ssh://git@gitlab.cern.ch:7999/atlasHBSM/atlas-phys-higgs-dihiggs-combteam/hh_combination_fw.git
+    git clone --recursive ssh://git@gitlab.cern.ch:7999/atlas-physics/HDBS/DiHiggs/combination/hh_combination_fw.git
     ~~~~
 
 3.  **Setting up the framework**
@@ -122,6 +122,6 @@
     and try `make` again.
 
 
-[hh_combination_fw]: https://gitlab.cern.ch/atlasHBSM/atlas-phys-higgs-dihiggs-combteam/hh_combination_fw
+[hh_combination_fw]: https://gitlab.cern.ch/atlas-physics/HDBS/DiHiggs/combination/hh_combination_fw
 [workspaceCombiner]: https://twiki.cern.ch/twiki/bin/viewauth/AtlasProtected/WorkspaceCombiner
 [workspaceCombiner_install]: https://twiki.cern.ch/twiki/bin/viewauth/AtlasProtected/WorkspaceCombiner#Installation
