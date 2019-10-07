@@ -118,7 +118,7 @@
     make[2]: Entering directory `/.data/englert/projects/hh_combination/software/hhcomb_test/submodules/RooStatTools/src'
     Makefile:32: .depend_cpp: No such file or directory
     ~~~~
-    just create an empty file with `touch .depend_cpp`.
+    just create an empty file with `touch .depend_cpp` in `./submodules/RooStatTools/src`
     and try `make` again.
 
 
