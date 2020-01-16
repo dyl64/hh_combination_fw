@@ -9,16 +9,17 @@ import workspaceCombiner as wsc
 import aux_utils as utils
 import git
 
-input_dir_prepath  = "/afs/cern.ch/user/f/fbeisieg/work/HHcombination/hh_combination_fw_FullRun2/hh_combination_fw_FullRun2/input/workspaces/vfinal_02/"
+input_dir_prepath  = "/afs/cern.ch/user/f/fbeisieg/work/HHcombination/hh_combination_fw_FullRun2/input/workspaces/v00/"
 #output_dir_prepath = "/.data/englert/projects/hh_combination/workspaces/2017_11_27/"
-output_dir_prepath = "/afs/cern.ch/user/f/fbeisieg/work/HHcombination/hh_combination_fw_FullRun2/hh_combination_fw_FullRun2/output/vfinal_04/"
+output_dir_prepath = "/afs/cern.ch/user/f/fbeisieg/work/HHcombination/hh_combination_fw_FullRun2/output/v00/"
 new_poiname        = "xsec_br"
 exp_or_obs         = "exp"
 doBetterBands      = "false"
 dataName           = "combData"
 asimovDataName     = "asimovData_0"
 CL                 = "0.95"
-scaling_release    = 'r03'
+scaling_release    = 'r00'
+blind              = True
 git_stamp_path     = os.path.join(output_dir_prepath, "git.stamp")
 
 def create_task_arg(type, channel):
@@ -26,11 +27,11 @@ def create_task_arg(type, channel):
     input_dir_path = os.path.join(input_dir_prepath, channel, type)
 
     return (input_dir_path, output_dir_prepath, type, channel, scaling_release, new_poiname,
-            exp_or_obs, doBetterBands, dataName, asimovDataName, CL)
+            exp_or_obs, doBetterBands, dataName, asimovDataName, CL, blind)
 
 
 task_list = []
-task_list.append( create_task_arg('nonres',       'bbbb') )
+#task_list.append( create_task_arg('nonres',       'bbbb') )
 #task_list.append( create_task_arg('nonres',       'bbtautau') )
 task_list.append( create_task_arg('nonres',       'bbyy') )
 #task_list.append( create_task_arg('nonres',       'WWyy') )

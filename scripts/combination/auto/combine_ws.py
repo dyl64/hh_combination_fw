@@ -13,7 +13,7 @@ import git
 
 #batch_tag = "Debugging_fit_option_-1"
 #batch_tag = "2017_11_27"
-batch_tag = "output/vfinal_04"
+batch_tag = "output/v00"
 
 # - Number of processes to run in parallel
 nProc = 14
@@ -40,6 +40,8 @@ asimovDataName = 'asimovData_0'
 CL             = 0.95
 
 POI_name = 'xsec_br'
+
+blind = True
 
 # - List containing all pt_config`s
 all_pt_configs = []
@@ -103,8 +105,8 @@ def combine_list(masses, combination_list, type, scheme, scheme_tag=None, same_s
 
 nonres_combination_list = { 
                             #'A-bbbb_bbtautau'                     : ['bbbb', 'bbtautau'],
-                            'A-bbbb_bbyy'                         : ['bbbb', 'bbyy'],
-                            #'A-bbbb_bbtautau_bbyy'                : ['bbbb', 'bbtautau', 'bbyy'],
+                            #'A-bbbb_bbyy'                         : ['bbbb', 'bbyy'],
+                            'A-bbbb_bbtautau_bbyy'                : ['bbbb', 'bbtautau', 'bbyy'],
                             #'A-bbbb_bbtautau_bbyy_WWyy'           : ['bbbb', 'bbtautau', 'bbyy', 'WWyy'],
                             #'A-bbbb_bbtautau_WWyy_bbWW'           : ['bbbb', 'bbtautau', 'WWyy', 'bbWW'],
                             #'A-bbbb_bbtautau_bbyy_WWyy_bbWW'      : ['bbbb', 'bbtautau', 'bbyy', 'WWyy', 'bbWW'],
@@ -124,8 +126,8 @@ nonres_pts = [0]
 nonres_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy':'fullcorr', 'WWyy':'fullcorr', 'bbWW':'fullcorr', 'WWWW':'fullcorr' }
 #nonres_scheme = {'bbbb' : 'fullcorr_test', 'bbtautau' : 'fullcorr_test', 'bbyy':'fullcorr_test', 'WWyy':'fullcorr_test', 'bbWW':'fullcorr_test', 'WWWW':'fullcorr_test' }
 
-combine_list(nonres_pts, nonres_combination_list, 'nonres',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
-#combine_list(nonres_pts, nonres_combination_list, 'nonres',  "nocorr"  )
+#combine_list(nonres_pts, nonres_combination_list, 'nonres',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
+combine_list(nonres_pts, nonres_combination_list, 'nonres',  "nocorr"  )
 #combine_list(nonres_pts, nonres_combination_list_B, 'nonres',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
 #combine_list(nonres_pts, nonres_combination_list_B, 'nonres',  "nocorr"  )
 
@@ -150,11 +152,11 @@ spin0_combination_list_AB = {
                             }
 
 spin0_combination_list_A = { 
-                            'A-bbbb_bbtautau'                : ['bbbb', 'bbtautau'],#
-                            'A-bbbb_bbtautau_bbyy'           : ['bbbb', 'bbtautau', 'bbyy'], #
-                            'A-bbbb_bbtautau_bbyy_WWyy'      : ['bbbb', 'bbtautau', 'bbyy', 'WWyy'],
-                            'A-bbbb_bbtautau_bbyy_WWyy_WWWW' : ['bbbb', 'bbtautau', 'bbyy', 'WWyy', 'WWWW'],
-                            ##'A-bbbb_bbyy'                    : ['bbbb', 'bbyy'],
+                            #'A-bbbb_bbtautau'                : ['bbbb', 'bbtautau'],#
+                            #'A-bbbb_bbtautau_bbyy'           : ['bbbb', 'bbtautau', 'bbyy'], #
+                            #'A-bbbb_bbtautau_bbyy_WWyy'      : ['bbbb', 'bbtautau', 'bbyy', 'WWyy'],
+                            #'A-bbbb_bbtautau_bbyy_WWyy_WWWW' : ['bbbb', 'bbtautau', 'bbyy', 'WWyy', 'WWWW'],
+                            'A-bbbb_bbyy'                    : ['bbbb', 'bbyy'],
                            }
 
 spin0_combination_list_B = { 
@@ -225,9 +227,9 @@ spin0_combination_list_Z = {
 spin0_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy' : 'fullcorr', 'WWyy' : 'fullcorr', 'bbWW' : 'fullcorr', 'WWWW' : 'fullcorr'}
 
 spin0_masses    = [260, 300, 400, 500, 600, 700, 800, 900, 1000]
-spin0_masses_A  = [260, 275, 300, 325, 350, 400, 450]#
+#spin0_masses_A  = [260, 275, 300, 325, 350, 400, 450]#
 #spin0_masses_A  = [260, 280, 300]
-#spin0_masses_A  = [300]
+spin0_masses_A  = [400, 450, 500]
 spin0_masses_AB = [260, 300, 400, 500]
 spin0_masses_B  = [500]
 spin0_masses_C  = [550, 600, 700, 800, 900, 1000]
@@ -552,6 +554,6 @@ manager.submit()
     
 for rootfiles_dir, scaling, datafile_path, isSM in datafile_arg_list:
 
-    ls.get_exp_and_obs_limit(rootfiles_dir, scaling=scaling, output_dat=datafile_path, isSM=isSM)   
+    ls.get_exp_and_obs_limit(rootfiles_dir, scaling=scaling, output_dat=datafile_path, isSM=isSM, blind=blind)   
 
 git.save_hash_to_file(git_stamp_path)
