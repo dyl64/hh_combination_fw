@@ -55,6 +55,7 @@ prep_pts = wsc.prepare_pts_short(fit_option,
                                  dataName,
                                  asimovDataName,
                                  CL,
+                                 blind,
                                  POI_name,
                                  rescaled_ws_prepath,
                                  config_file_prepath,
@@ -105,8 +106,8 @@ def combine_list(masses, combination_list, type, scheme, scheme_tag=None, same_s
 
 nonres_combination_list = { 
                             #'A-bbbb_bbtautau'                     : ['bbbb', 'bbtautau'],
-                            #'A-bbbb_bbyy'                         : ['bbbb', 'bbyy'],
-                            'A-bbbb_bbtautau_bbyy'                : ['bbbb', 'bbtautau', 'bbyy'],
+                            'A-bbbb_bbyy'                         : ['bbbb', 'bbyy'],
+                            #'A-bbbb_bbtautau_bbyy'                : ['bbbb', 'bbtautau', 'bbyy'],
                             #'A-bbbb_bbtautau_bbyy_WWyy'           : ['bbbb', 'bbtautau', 'bbyy', 'WWyy'],
                             #'A-bbbb_bbtautau_WWyy_bbWW'           : ['bbbb', 'bbtautau', 'WWyy', 'bbWW'],
                             #'A-bbbb_bbtautau_bbyy_WWyy_bbWW'      : ['bbbb', 'bbtautau', 'bbyy', 'WWyy', 'bbWW'],
