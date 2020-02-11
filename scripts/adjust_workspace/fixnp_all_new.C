@@ -174,7 +174,7 @@ void fixnp_all_new(){
   std::string model = "nonres";
   std::string channel = "bbbb";
 
-  TString baseName = "/afs/cern.ch/user/f/fbeisieg/work/HHcombination/hh_combination_fw_FullRun2/input/workspaces/vfinal_02";
+  TString baseName = "/afs/cern.ch/user/f/fbeisieg/work/HHcombination/hh_combination_fw_FullRun2/input/workspaces/v00";
 
 
   std::map<std::string, std::map<std::string, std::vector<int> > > point_map;
@@ -227,10 +227,17 @@ void fixnp_all_new(){
       mc = (ModelConfig*) w->obj("ModelConfig");
       data = (RooDataSet*) w->data("obsData");
     }
-    else if (channel == "bbyy" && model == "spin0") {
+    else if (channel == "bbyy") {
+      if ( model == "spin0") {
       w = (RooWorkspace*) f.Get("combination");
       mc = (ModelConfig*) w->obj("mconfig");
       data = (RooDataSet*) w->data("obsData");
+      }
+      else {
+	w = (RooWorkspace*) f.Get("combWS");
+	mc = (ModelConfig*) w->obj("ModelConfig");
+	data = (RooDataSet*) w->data("combData");
+      }
     }
     else {
       w = (RooWorkspace*) f.Get("combined");
@@ -328,11 +335,23 @@ void fixnp_all_new(){
       RooRealVar* hf_lumi = w->var("Lumi"); // the histfactory lognormal Lumi
       hf_lumi->setRange( 1-2e-4, 1+2e-4 );
       hf_lumi->setConstant(0);
+
+      // set all NPs containing "lumi" free-floating
+      TIterator* iter = nplist->createIterator();
+      RooRealVar* var_tmp;
+      while((var = (RooRealVar*)itr->Next())){
+	TString varname( var_tmp->GetName() );
+	if( varname.Contains("lumi", TString::kIgnoreCase)) {
+	  var_tmp->setRange( 1-1e-8, 1+1e-8 );
+	  var_tmp->setConstant(0);
+	}
+      }
     }
     
     mc->SetNuisanceParameters( *nplist_save );
     mc->SetGlobalObservables( *gobslist_save );
     
+    gSystem->Exec(Form("mkdir -p %s/%s/%s_statOnly", (const char*) baseName, (const char*) channel.c_str(), (const char*) model.c_str()));
     w->writeToFile( Form("%s/%s/%s_statOnly/%i.root", (const char*) baseName, (const char*) channel.c_str(), (const char*) model.c_str(), points[i]));
     
     f.Close();
