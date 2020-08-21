@@ -1,47 +1,64 @@
-#!/usr/bin/env bash
+#!/bin/bash
+# Some hacky settings in order to run RooStatTool
+# Further clean up should make them set at proper places and time (Rui Zhang)
 
-### -- Save the path of the hh combination framework as an environment variable
-hh_combination_fw_path=$(pwd)
+unset hh_combination_fw_path
+hh_combination_fw_path=${PWD}
 export hh_combination_fw_path
 
-source_if_exists()
-{
-    if [ -f $1 ]
-    then
-        echo "$1 exists, sourcing..."
-        source $1
-    else
-        echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-        echo "!!! ERROR: $1 not found !!!!"
-        echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-		  return 1
-    fi
-}
+# Setup workspaceCombiner
+# Copied from workspaceCombiner/setup.sh (Rui Zhang)
+cd submodules/workspaceCombiner
+setupATLAS
+lsetup "views LCG_97_ATLAS_1 x86_64-centos7-gcc8-opt"
 
-source_if_exists $hh_combination_fw_path/setup_local.sh
+# More memory
+ulimit -S -s unlimited
 
-################################################
-### --- Sourcing submodule setup scripts --- ###
-################################################
+# Greet the user
+if [ $_DIRCOMB ]; then
+    echo _DIRCOMB is already defined, use a clean shell
+    return 1
+fi
 
-for dir in $hh_combination_fw_path/submodules/*
-do
-	cd ${dir}
-	setup_script="setup.sh"
-	if [ -f "${setup_script}" ]
-	then
-      last_dir=$(basename $dir)
-		echo "### --- Submodule ${last_dir}."
-		source_if_exists ${setup_script}
-	 else
-      echo "${setup_script} not found."
-	fi
-	cd ${hh_combination_fw_path}
-done
+# speficy the SFRAME base directory, i.e. the directory in which this file lives
+export _DIRCOMB=${PWD}
 
+# Modify to describe your directory structure. Default is to use the a structure where
+# all directories are below the SFrame base directory specified above
+export _BIN_PATH=${_DIRCOMB}/bin
+export _LIB_PATH=${_DIRCOMB}/lib
+
+# The Makefiles depend only on the root-config script to use ROOT,
+# so make sure that is available
+if [[ `which root-config` == "" ]]; then
+    echo "Error: ROOT environment doesn't seem to be configured!"
+fi
+
+if [[ `root-config --platform` == "macosx" ]]; then
+    export DYLD_LIBRARY_PATH=${_LIB_PATH}:${DYLD_LIBRARY_PATH}
+else
+    export LD_LIBRARY_PATH=${_LIB_PATH}:${LD_LIBRARY_PATH}
+fi
+export PATH=${_BIN_PATH}:${PATH}
 cd ${hh_combination_fw_path}
 
-### -- Add the hh_combination_fw python modules to PYTHONPATH
-hh_combination_fw_pkgs="${hh_combination_fw_path}/python_modules"
-echo "Prepending ${hh_combination_fw_pkgs} to PYTHONPATH."
-export PYTHONPATH=${hh_combination_fw_pkgs}:$PYTHONPATH
+
+
+# Setup RooFitExtensions
+cd submodules/RooFitExtensions
+if [[ -f build/setup.sh ]]; then
+    echo "submodules/RooFitExtensions/build/setup.sh"
+    source build/setup.sh
+fi
+cd ${hh_combination_fw_path}
+
+PYTHONPATH=$PYTHONPATH:${hh_combination_fw_path}/python_modules/:${hh_combination_fw_path}/submodules/RooStatTools/python_modules/
+ROOSTATPATH=${hh_combination_fw_path}/submodules/RooStatTools
+export ROOSTATPATH
+
+WORKSPACECOMBINER_PATH=submodules/workspaceCombiner/
+export WORKSPACECOMBINER_PATH
+
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROOSTATPATH/lib
+ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${hh_combination_fw_path}/submodules/RooStatTools/inc/

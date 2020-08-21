@@ -1,6 +1,6 @@
 <!DOCTYPE Organization  SYSTEM 'Organization.dtd'>
-<Organization InFile="/.data/englert/projects/hh_combination/software/hh_combination_fw/tests/test_pipeline/test_batch/regularised/spin0/bbbb/500.root"
-		  OutFile="/.data/englert/projects/hh_combination/software/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbbb/500.root"
+<Organization InFile="/afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/tests/test_pipeline/test_batch/regularised/spin0/bbbb/500.root"
+		  OutFile="/afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbbb/500.root"
 	     ModelName="dummy"
 	     POINames="xsec_br">
 

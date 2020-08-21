@@ -1,0 +1,65 @@
+stages:
+  - build
+  - pipeline
+
+# image: atlas/analysisbase:latest
+# image: atlas/slc6-atlasos:latest
+image: atlasadc/atlas-grid-centos7
+
+hhCompile:
+  stage: build
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+    GIT_SSL_NO_VERIFY: "true"
+  script:
+    - set +e
+    # - source /release_setup.sh
+    - base_path=$(pwd)
+    - sed -i '25i#pragma link C++ class ExpGausExpPDF+;\n#pragma link C++ class HggTwoSidedCBPdf+;\n#pragma link C++ class RooNovosibirsk_nancy+;' ./submodules/workspaceCombiner/interface/manager_LinkDef.h
+    - sed -i 's/data = (RooDataSet/RooDataSet\* data = (RooDataSet/g' ./submodules/RooStatTools/src/runAsymptoticsCLs.cc
+    - cd ./submodules/workspaceCombiner
+    - source setup.sh && make
+    - cd $base_path
+    - echo ./submodules/workspaceCombiner/ | source setup_framework.sh
+    - touch submodules/RooStatTools/src/.depend_cpp
+    - make
+    - source setup.sh
+    - cp ./submodules/RooStatTools/*pcm ./submodules/RooStatTools/lib/
+  artifacts:
+    paths:
+      - submodules
+      - python_modules
+      - scripts
+      - setup_local.sh
+      - setup.sh
+  when: manual
+
+RunPipeline:
+  stage: pipeline
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+    GIT_SSL_NO_VERIFY: "true"
+    output_dir: output
+    input_dir: input
+  before_script:
+    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+    - eval "$(ssh-agent -s)"
+    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - echo "lxplus.cern.ch, ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBPZvfRF+9L7TR3FRPyLFdcsXSZ6RQYJHfOjzzWB94sX0gP34Cgij9p4ukL900sVVvw3LPM5OxxFSNIXGztFYu4o=" > ~/.ssh/known_hosts
+    - echo -e "Host *\n\tGSSAPIDelegateCredentials yes\n\tGSSAPITrustDNS yes\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - echo $SERVICE_PASS | kinit -f $CERN_USER || echo something
+    - mkdir -p $input_dir
+    - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/input/v01 $input_dir
+  script:
+    # - source /release_setup.sh
+    - shopt -s expand_aliases
+    - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
+    - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
+    - source setup.sh || echo ignore setupATLAS return code
+    - which python
+    - python scripts/pipeline/processChannels.py $input_dir $output_dir
+    - python scripts/combination/auto/combine_ws.py $output_dir
+  artifacts:
+    paths:
+      - $output_dir
+  when: manual

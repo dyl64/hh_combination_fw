@@ -3,13 +3,21 @@
                 Copyright (C) 2000-2013 NIKHEF, University of California & Stanford University
                 All rights reserved, please read http://roofit.sourceforge.net/license.txt
 
+Warning in <TClassTable::Add>: class RooNovosibirsk_nancy already in TClassTable
+Error in <TCling::RegisterModule>: cannot find dictionary module RooNovosibirsk_nancy_cc_ACLiC_dict_rdict.pcm
+Warning in <TClassTable::Add>: class ExpGausExpPDF already in TClassTable
+Error in <TCling::RegisterModule>: cannot find dictionary module ExpGausExpPDF_cc_ACLiC_dict_rdict.pcm
+Warning in <TClassTable::Add>: class HggTwoSidedCBPdf already in TClassTable
+Error in <TCling::RegisterModule>: cannot find dictionary module HggTwoSidedCBPdf_cc_ACLiC_dict_rdict.pcm
 Error in <TCling::RegisterModule>: cannot find dictionary module HggTwoSidedCBPdfDict_rdict.pcm
+Error in <TCling::RegisterModule>: cannot find dictionary module ExpGausExpPDFDict_rdict.pcm
+Error in <TCling::RegisterModule>: cannot find dictionary module RooNovosibirsk_nancyDict_rdict.pcm
 You called: 
-/.data/englert/projects/hh_combination/software/hh_combination_fw/submodules/RooStatTools/./bin/makeAsimovData /.data/englert/projects/hh_combination/software/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbtautau/500.root /.data/englert/projects/hh_combination/software/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbtautau/500_with_Asimov_POI_0_NP_nom.root combWS ModelConfig combData false 0.0 asimovData_POI_0_NP_nom 
+/afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/submodules/RooStatTools/./bin/makeAsimovData /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbtautau/500.root /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbtautau/500_with_Asimov_POI_0_NP_nom.root combWS ModelConfig combData false 0.0 asimovData_POI_0_NP_nom 
 #--- Running makeAsimovData ---
 # - Settings: 
-  - input_ws:           /.data/englert/projects/hh_combination/software/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbtautau/500.root
-  - output_ws:          /.data/englert/projects/hh_combination/software/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbtautau/500_with_Asimov_POI_0_NP_nom.root
+  - input_ws:           /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbtautau/500.root
+  - output_ws:          /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbtautau/500_with_Asimov_POI_0_NP_nom.root
   - workspacename:      combWS
   - modelConfigName:    ModelConfig
   - dataName:           combData
@@ -107,187 +115,187 @@ Pairing nui: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT1_Y2015_dist500_
 Pairing nui: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT1_Y2015_dist500_DSR2HDMBDT_SpcTauLH_bin_2_poisMean, with glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT1_Y2015_dist500_DSR2HDMBDT_SpcTauLH_bin_2, from constraint: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT1_Y2015_dist500_DSR2HDMBDT_SpcTauLH_bin_2_constraint
 Pairing nui: alpha_SysTTbarPTV, with glob: nom_alpha_SysTTbarPTV, from constraint: alpha_SysTTbarPTVConstraint
 Pairing nui: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L2_Y2015_distmLL_DSR_bin_0_poisMean, with glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L2_Y2015_distmLL_DSR_bin_0, from constraint: gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L2_Y2015_distmLL_DSR_bin_0_constraint
-nui: 0x47ec000, glob: 0x6198190
+nui: 0x2e600b0, glob: 0x48c3660
 Setting glob: nom_alpha_SysTAUS_TRUEHADTAU_EFF_TRIGGER_SYST2016, which had previous val: 0, to conditional val: 0
-nui: 0x4803ab0, glob: 0x6196bb0
+nui: 0x2e77b60, glob: 0x48c2080
 Setting glob: nom_alpha_SysTAUS_TRUEHADTAU_EFF_TRIGGER_STATMC2016, which had previous val: 0, to conditional val: 0
-nui: 0x4804b90, glob: 0x4806100
+nui: 0x2e78c40, glob: 0x2e7a1b0
 Setting glob: nom_alpha_SysTAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA2016, which had previous val: 0, to conditional val: 0
-nui: 0x4d72380, glob: 0x4d73690
+nui: 0x349ebb0, glob: 0x349fec0
 Setting glob: nom_alpha_SysTAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA2015, which had previous val: 0, to conditional val: 0
-nui: 0x4d78070, glob: 0x4d79300
+nui: 0x34a48a0, glob: 0x34a5b30
 Setting glob: nom_alpha_SysPRW_DATASF, which had previous val: 0, to conditional val: 0
-nui: 0x50bfa80, glob: 0x50c0d50
+nui: 0x37eaf20, glob: 0x37ec1f0
 Setting glob: nom_alpha_SysFT_EFF_Eigen_B_2, which had previous val: 0, to conditional val: 0
-nui: 0x50c2920, glob: 0x50c3bf0
+nui: 0x37eddc0, glob: 0x37ef090
 Setting glob: nom_alpha_SysFT_EFF_Eigen_B_1, which had previous val: 0, to conditional val: 0
-nui: 0x52ec010, glob: 0x52ed2e0
+nui: 0x3a174c0, glob: 0x3a18790
 Setting glob: nom_alpha_SysFT_EFF_Eigen_B_0, which had previous val: 0, to conditional val: 0
-nui: 0x5473ec0, glob: 0x5475190
+nui: 0x3b9f360, glob: 0x3ba0630
 Setting glob: nom_alpha_ATLAS_LUMI_2015_2016, which had previous val: 0, to conditional val: 0
-nui: 0x4d2bfb0, glob: 0x4d2d260
+nui: 0x34587e0, glob: 0x3459a90
 Setting glob: nom_alpha_SysFT_EFF_Eigen_Light_0, which had previous val: 0, to conditional val: 0
-nui: 0x4fa8500, glob: 0x4fa99e0
+nui: 0x36d39c0, glob: 0x36d4ea0
 Setting glob: nom_alpha_SysFT_EFF_Eigen_C_0, which had previous val: 0, to conditional val: 0
-nui: 0x48de000, glob: 0x6191b90
+nui: 0x2f44d80, glob: 0x48bd060
 Setting glob: nom_alpha_SysTAUS_TRUEHADTAU_EFF_RECO_TOTAL, which had previous val: 0, to conditional val: 0
-nui: 0x48e2be0, glob: 0x618e330
+nui: 0x2f49960, glob: 0x48b9800
 Setting glob: nom_alpha_SysTAUS_TRUEHADTAU_EFF_JETID_TOTAL, which had previous val: 0, to conditional val: 0
-nui: 0x50bcb10, glob: 0x50bde20
+nui: 0x37e7fb0, glob: 0x37e92c0
 Setting glob: nom_alpha_SysTAUS_TRUEHADTAU_EFF_ELEOLR_TOTAL, which had previous val: 0, to conditional val: 0
-nui: 0x506c390, glob: 0x506d640
+nui: 0x3797840, glob: 0x3798af0
 Setting glob: nom_alpha_SysJET_JER_SINGLE_NP, which had previous val: 0, to conditional val: 0
-nui: 0x50947a0, glob: 0x5095a70
+nui: 0x37bfc40, glob: 0x37c0f10
 Setting glob: nom_alpha_SysJET_GroupedNP_1, which had previous val: 0, to conditional val: 0
-nui: 0x50c57b0, glob: 0x50c6a60
+nui: 0x37f0c50, glob: 0x37f1f00
 Setting glob: nom_alpha_SysHiggsNorm, which had previous val: 0, to conditional val: 0
-nui: 0x50b9ca0, glob: 0x50baf70
+nui: 0x37e5140, glob: 0x37e6410
 Setting glob: nom_alpha_SysJET_GroupedNP_2, which had previous val: 0, to conditional val: 0
-nui: 0x4d75300, glob: 0x4d76530
+nui: 0x34a1b30, glob: 0x34a2d60
 Setting glob: nom_alpha_SysWNorm, which had previous val: 0, to conditional val: 0
-nui: 0x4fd55f0, glob: 0x4fd68c0
+nui: 0x3700ab0, glob: 0x3701d80
 Setting glob: nom_alpha_SysFT_EFF_Eigen_C_2, which had previous val: 0, to conditional val: 0
-nui: 0x5091910, glob: 0x5092be0
+nui: 0x37bcdb0, glob: 0x37be080
 Setting glob: nom_alpha_SysFT_EFF_Eigen_C_1, which had previous val: 0, to conditional val: 0
-nui: 0x48df0e0, glob: 0x48e0370
+nui: 0x2f45e60, glob: 0x2f470f0
 Setting glob: nom_alpha_SysTTBAR_NNLO, which had previous val: 0, to conditional val: 0
-nui: 0x4f0b040, glob: 0x4f0c310
+nui: 0x3636500, glob: 0x36377d0
 Setting glob: nom_alpha_SysMET_SoftTrk_ResoPerp, which had previous val: 0, to conditional val: 0
-nui: 0x52e9140, glob: 0x52ea410
+nui: 0x3a145f0, glob: 0x3a158c0
 Setting glob: nom_alpha_SysMET_SoftTrk_ResoPara, which had previous val: 0, to conditional val: 0
-nui: 0x4d30b60, glob: 0x4d31df0
+nui: 0x345d390, glob: 0x345e620
 Setting glob: nom_alpha_SysTTbarMBB, which had previous val: 0, to conditional val: 0
-nui: 0x53320a0, glob: 0x5333390
+nui: 0x3a5d540, glob: 0x3a5e830
 Setting glob: nom_alpha_SysSubtraction_bkg_SpcTauHH, which had previous val: 0, to conditional val: 0
-nui: 0x5334bf0, glob: 0x5335df0
+nui: 0x3a60090, glob: 0x3a61290
 Setting glob: nom_alpha_SysOSSS, which had previous val: 0, to conditional val: 0
-nui: 0x53374a0, glob: 0x5338700
+nui: 0x3a62940, glob: 0x3a63ba0
 Setting glob: nom_alpha_SysFFStatQCD_SpcTauHH, which had previous val: 0, to conditional val: 0
-nui: 0x5339ed0, glob: 0x533b130
+nui: 0x3a65370, glob: 0x3a665d0
 Setting glob: nom_alpha_SysANTITAU_BDT_CUT, which had previous val: 0, to conditional val: 0
-nui: 0x4d7ae40, glob: 0x4d7c130
+nui: 0x34a7670, glob: 0x34a8960
 Setting glob: nom_alpha_SysTAUS_TRUEHADTAU_SME_TES_INSITU, which had previous val: 0, to conditional val: 0
-nui: 0x6092070, glob: 0x6093320
+nui: 0x47bd550, glob: 0x47be800
 Setting glob: nom_alpha_SysTAUS_TRUEHADTAU_EFF_JETID_HIGHPT, which had previous val: 0, to conditional val: 0
-nui: 0x5154220, glob: 0x51554f0
+nui: 0x387f6d0, glob: 0x38809a0
 Setting glob: nom_alpha_SysFT_EFF_extrapolation, which had previous val: 0, to conditional val: 0
-nui: 0x52eeea0, glob: 0x52f0170
+nui: 0x3a1a350, glob: 0x3a1b620
 Setting glob: nom_alpha_SysFT_EFF_Eigen_C_3, which had previous val: 0, to conditional val: 0
-nui: 0x5a0fae0, glob: 0x5a10d90
+nui: 0x413afb0, glob: 0x413c260
 Setting glob: nom_alpha_SysDibosonNorm, which had previous val: 0, to conditional val: 0
-nui: 0x50695c0, glob: 0x506a810
+nui: 0x3794a70, glob: 0x3795cc0
 Setting glob: nom_alpha_SysZNorm, which had previous val: 0, to conditional val: 0
-nui: 0x5066650, glob: 0x5067960
+nui: 0x3791b00, glob: 0x3792e10
 Setting glob: nom_alpha_SysTAUS_TRUEELECTRON_EFF_ELEOLR_TOTAL, which had previous val: 0, to conditional val: 0
-nui: 0x51c79f0, glob: 0x51c8cc0
+nui: 0x38f2ea0, glob: 0x38f4170
 Setting glob: nom_alpha_SysFT_EFF_Eigen_Light_4, which had previous val: 0, to conditional val: 0
-nui: 0x55193f0, glob: 0x551a6c0
+nui: 0x3c448b0, glob: 0x3c45b80
 Setting glob: nom_alpha_SysFT_EFF_Eigen_Light_3, which had previous val: 0, to conditional val: 0
-nui: 0x5648bf0, glob: 0x5649ec0
+nui: 0x3d740b0, glob: 0x3d75380
 Setting glob: nom_alpha_SysFT_EFF_Eigen_Light_2, which had previous val: 0, to conditional val: 0
-nui: 0x5476d50, glob: 0x5478020
+nui: 0x3ba21f0, glob: 0x3ba34c0
 Setting glob: nom_alpha_SysFT_EFF_Eigen_Light_1, which had previous val: 0, to conditional val: 0
-nui: 0x4f87ab0, glob: 0x4f88d60
+nui: 0x36b2f70, glob: 0x36b4220
 Setting glob: nom_alpha_SysZttNorm, which had previous val: 0, to conditional val: 0
-nui: 0x4f84c80, glob: 0x4f85f30
+nui: 0x36b0140, glob: 0x36b13f0
 Setting glob: nom_alpha_SysZtautauPTH, which had previous val: 0, to conditional val: 0
-nui: 0x4f8a8e0, glob: 0x4f8bb70
+nui: 0x36b5da0, glob: 0x36b7030
 Setting glob: nom_alpha_SysZtautauMBB, which had previous val: 0, to conditional val: 0
-nui: 0x539a0e0, glob: 0x539b3f0
+nui: 0x3ac5580, glob: 0x3ac6890
 Setting glob: nom_alpha_SysFT_EFF_extrapolation_from_charm, which had previous val: 0, to conditional val: 0
-nui: 0x5361310, glob: 0x53625e0
+nui: 0x3a8c7b0, glob: 0x3a8da80
 Setting glob: nom_alpha_SysFR_Subtraction_bkg, which had previous val: 0, to conditional val: 0
-nui: 0x53641a0, glob: 0x5365450
+nui: 0x3a8f640, glob: 0x3a908f0
 Setting glob: nom_alpha_SysFR_StatTtbar, which had previous val: 0, to conditional val: 0
-nui: 0x5b1a530, glob: 0x5b1b7e0
+nui: 0x4245a10, glob: 0x4246cc0
 Setting glob: nom_alpha_SysFR_MTW_CUT, which had previous val: 0, to conditional val: 0
-nui: 0x4d81d70, glob: 0x4d83000
+nui: 0x34ae5a0, glob: 0x34af830
 Setting glob: nom_alpha_SysstoptNorm, which had previous val: 0, to conditional val: 0
-nui: 0x4de9350, glob: 0x4dea600
+nui: 0x3515790, glob: 0x3516a20
 Setting glob: nom_alpha_SysstopWtNorm, which had previous val: 0, to conditional val: 0
-nui: 0x56aa0d0, glob: 0x56ac230
+nui: 0x3dd5580, glob: 0x3dd76e0
 Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L0_Y2015_dist500_DSR2HDMBDT_SpcTauHH_bin_0, which had previous val: 3577.04, to conditional val: 3577.04
-nui: 0x56ae640, glob: 0x56b07a0
+nui: 0x3dd9af0, glob: 0x3ddbc50
 Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L0_Y2015_dist500_DSR2HDMBDT_SpcTauHH_bin_1, which had previous val: 547.938, to conditional val: 547.938
-nui: 0x56b2bb0, glob: 0x56b4d10
+nui: 0x3dde070, glob: 0x3de01d0
 Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L0_Y2015_dist500_DSR2HDMBDT_SpcTauHH_bin_2, which had previous val: 138.526, to conditional val: 138.526
-nui: 0x56b7120, glob: 0x56b9280
+nui: 0x3de25e0, glob: 0x3de4740
 Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L0_Y2015_dist500_DSR2HDMBDT_SpcTauHH_bin_3, which had previous val: 42.2056, to conditional val: 42.2056
-nui: 0x4e9f320, glob: 0x4ea0630
+nui: 0x35ca7d0, glob: 0x35cbae0
 Setting glob: nom_alpha_SysTAUS_TRUEHADTAU_SME_TES_DETECTOR, which had previous val: 0, to conditional val: 0
-nui: 0x5246040, glob: 0x5247310
+nui: 0x39714f0, glob: 0x39727c0
 Setting glob: nom_alpha_SysMET_SoftTrk_Scale, which had previous val: 0, to conditional val: 0
-nui: 0x546e0f0, glob: 0x546f3c0
+nui: 0x3b99590, glob: 0x3b9a860
 Setting glob: nom_alpha_SysJET_GroupedNP_3, which had previous val: 0, to conditional val: 0
-nui: 0x59069c0, glob: 0x5907c70
+nui: 0x4031e90, glob: 0x4033140
 Setting glob: nom_alpha_SysEG_SCALE_ALL, which had previous val: 0, to conditional val: 0
-nui: 0x5243130, glob: 0x5244420
+nui: 0x396e5e0, glob: 0x396f8d0
 Setting glob: nom_alpha_SysMUON_EFF_TrigSystUncertainty, which had previous val: 0, to conditional val: 0
-nui: 0x5470f60, glob: 0x5472270
+nui: 0x3b9c400, glob: 0x3b9d710
 Setting glob: nom_alpha_SysEL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR, which had previous val: 0, to conditional val: 0
-nui: 0x50c85e0, glob: 0x50c9870
+nui: 0x37f3a80, glob: 0x37f4d10
 Setting glob: nom_alpha_SysMUON_EFF_SYS, which had previous val: 0, to conditional val: 0
-nui: 0x55ec420, glob: 0x55ed6d0
+nui: 0x3d178e0, glob: 0x3d18b90
 Setting glob: nom_alpha_SysTTbarPTH, which had previous val: 0, to conditional val: 0
-nui: 0x572a730, glob: 0x572b9e0
+nui: 0x3e55bf0, glob: 0x3e56ea0
 Setting glob: nom_alpha_SysTTbarGenFakes, which had previous val: 0, to conditional val: 0
-nui: 0x572d180, glob: 0x572e410
+nui: 0x3e58640, glob: 0x3e598d0
 Setting glob: nom_alpha_SysSubtraction_bkg_SpcTauLH, which had previous val: 0, to conditional val: 0
-nui: 0x5730040, glob: 0x5731270
+nui: 0x3e5b500, glob: 0x3e5c730
 Setting glob: nom_alpha_SysSS, which had previous val: 0, to conditional val: 0
-nui: 0x5732920, glob: 0x5733b50
+nui: 0x3e5dde0, glob: 0x3e5f010
 Setting glob: nom_alpha_SysFF_MTW, which had previous val: 0, to conditional val: 0
-nui: 0x528d0d0, glob: 0x5738050
+nui: 0x39b8580, glob: 0x3e63510
 Setting glob: nom_alpha_SysFFStatTtbar, which had previous val: 0, to conditional val: 0
-nui: 0x57278f0, glob: 0x5728ba0
+nui: 0x3e52db0, glob: 0x3e54060
 Setting glob: nom_alpha_SysCompFakes, which had previous val: 0, to conditional val: 0
-nui: 0x573bfb0, glob: 0x573d200
+nui: 0x3e67470, glob: 0x3e686c0
 Setting glob: nom_alpha_SysCPVarFakes, which had previous val: 0, to conditional val: 0
-nui: 0x546b1a0, glob: 0x546c4b0
+nui: 0x3b96640, glob: 0x3b97950
 Setting glob: nom_alpha_SysTAUS_TRUEHADTAU_SME_TES_MODEL, which had previous val: 0, to conditional val: 0
-nui: 0x56ce180, glob: 0x56d0320
+nui: 0x3df9640, glob: 0x3dfb7e0
 Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist500_DSR2HDMBDT_SpcTauLH_bin_0, which had previous val: 10515.8, to conditional val: 10515.8
-nui: 0x56d2770, glob: 0x56d4910
+nui: 0x3dfdc30, glob: 0x3dffdd0
 Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist500_DSR2HDMBDT_SpcTauLH_bin_1, which had previous val: 10148.1, to conditional val: 10148.1
-nui: 0x56d6d60, glob: 0x56d8f00
+nui: 0x3e02220, glob: 0x3e043c0
 Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist500_DSR2HDMBDT_SpcTauLH_bin_2, which had previous val: 9992.43, to conditional val: 9992.43
-nui: 0x56db350, glob: 0x56dd4f0
+nui: 0x3e06810, glob: 0x3e089b0
 Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist500_DSR2HDMBDT_SpcTauLH_bin_3, which had previous val: 9795.26, to conditional val: 9795.26
-nui: 0x56df940, glob: 0x56e1ae0
+nui: 0x3e0ae00, glob: 0x3e0cfa0
 Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist500_DSR2HDMBDT_SpcTauLH_bin_4, which had previous val: 9782.17, to conditional val: 9782.17
-nui: 0x56e3f30, glob: 0x56e60d0
+nui: 0x3e0f3f0, glob: 0x3e11590
 Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist500_DSR2HDMBDT_SpcTauLH_bin_5, which had previous val: 9076.04, to conditional val: 9076.04
-nui: 0x56e8520, glob: 0x56ea6c0
+nui: 0x3e139e0, glob: 0x3e15b80
 Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist500_DSR2HDMBDT_SpcTauLH_bin_6, which had previous val: 6703.25, to conditional val: 6703.25
-nui: 0x56ecb10, glob: 0x56eecb0
+nui: 0x3e17fd0, glob: 0x3e1a170
 Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist500_DSR2HDMBDT_SpcTauLH_bin_7, which had previous val: 2522.7, to conditional val: 2522.7
-nui: 0x56f1100, glob: 0x56f32a0
+nui: 0x3e1c5c0, glob: 0x3e1e760
 Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist500_DSR2HDMBDT_SpcTauLH_bin_8, which had previous val: 751.074, to conditional val: 751.074
-nui: 0x56f56f0, glob: 0x56f7890
+nui: 0x3e20bb0, glob: 0x3e22d50
 Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist500_DSR2HDMBDT_SpcTauLH_bin_9, which had previous val: 268.603, to conditional val: 268.603
-nui: 0x56f9ce0, glob: 0x56fbe80
+nui: 0x3e251a0, glob: 0x3e27340
 Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist500_DSR2HDMBDT_SpcTauLH_bin_10, which had previous val: 75.0467, to conditional val: 75.0467
-nui: 0x5739570, glob: 0x573a7e0
+nui: 0x3e64a30, glob: 0x3e65ca0
 Setting glob: nom_alpha_SysFFStatQCD_SpcTauLH, which had previous val: 0, to conditional val: 0
-nui: 0x569ef50, glob: 0x56a0260
+nui: 0x3dca400, glob: 0x3dcb710
 Setting glob: nom_alpha_SysEL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR, which had previous val: 0, to conditional val: 0
-nui: 0x56a1f00, glob: 0x56a3210
+nui: 0x3dcd3b0, glob: 0x3dce6c0
 Setting glob: nom_alpha_SysEL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR, which had previous val: 0, to conditional val: 0
-nui: 0x55baef0, glob: 0x55c4bd0
+nui: 0x3ce63e0, glob: 0x3cf00c0
 Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT1_Y2015_dist500_DSR2HDMBDT_SpcTauLH_bin_0, which had previous val: 4068.83, to conditional val: 4068.83
-nui: 0x55c6d20, glob: 0x55c9090
+nui: 0x3cf2210, glob: 0x3cf4580
 Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT1_Y2015_dist500_DSR2HDMBDT_SpcTauLH_bin_1, which had previous val: 64.078, to conditional val: 64.078
-nui: 0x55cb250, glob: 0x55cd5c0
+nui: 0x3cf6740, glob: 0x3cf8ab0
 Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT1_Y2015_dist500_DSR2HDMBDT_SpcTauLH_bin_2, which had previous val: 18.1969, to conditional val: 18.1969
-nui: 0x4d2fab0, glob: 0x60eb960
+nui: 0x345c2e0, glob: 0x4816e40
 Setting glob: nom_alpha_SysTTbarPTV, which had previous val: 0, to conditional val: 0
-nui: 0x5a023f0, glob: 0x5a044d0
+nui: 0x412d8c0, glob: 0x412f9a0
 Setting glob: nom_gamma_stat_Region_BMin0_incJet1_J2_T2_isMVA0_L2_Y2015_distmLL_DSR_bin_0, which had previous val: 18466.5, to conditional val: 18466.5
 Saving conditional snapshots
 Making asimov
 adding obs
 adding weight
-weightVar: 0x5735380
+weightVar: 0x3e60840
 defining set
  check expectedData by category
 [#1] INFO:NumericIntegration -- RooRealIntegral::init(Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist500_DSR2HDMBDT_SpcTauLH_model_Int[obs_x_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist500_DSR2HDMBDT_SpcTauLH]) using numeric integrator RooBinIntegrator to calculate Int(obs_x_Region_BMin0_incJet1_J2_T2_isMVA0_L1_LTT0_Y2015_dist500_DSR2HDMBDT_SpcTauLH)

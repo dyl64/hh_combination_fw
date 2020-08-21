@@ -6,26 +6,26 @@ import correlation_scheme as cs
 import LimitSetting as ls
 import os
 import git
+import sys
 
 ############################################
 ##### ----- Combination settings ----- #####
 ############################################
 
-#batch_tag = "Debugging_fit_option_-1"
-#batch_tag = "2017_11_27"
-batch_tag = "output/v00"
+#batch_tag = "output/v00"
+batch_tag = "output/v140invfb_v01"
 
 # - Number of processes to run in parallel
 nProc = 14
 
 # - Input folder where the regularised and rescaled workspaces are found:
-rescaled_ws_prepath = "/afs/cern.ch/user/f/fbeisieg/work/HHcombination/hh_combination_fw_FullRun2/{0}/rescaled/".format(batch_tag)
+rescaled_ws_prepath = ("../{0}/rescaled/" if len(sys.argv) < 2 else '{0}/rescaled/').format(batch_tag)
 
 # - Config folder where the the .xml config files are placed
-config_file_prepath = "/afs/cern.ch/user/f/fbeisieg/work/HHcombination/hh_combination_fw_FullRun2/{0}/cfg/combination/".format(batch_tag)
+config_file_prepath = ("../{0}/cfg/combination/" if len(sys.argv) < 2 else '{0}/rescaled/').format(batch_tag)
 
 # - Output folder where the combined workspaces will be placed:
-output_ws_prepath = "/afs/cern.ch/user/f/fbeisieg/work/HHcombination/hh_combination_fw_FullRun2/{0}/combined/".format(batch_tag)
+output_ws_prepath = ("../{0}/combined/" if len(sys.argv) < 2 else '{0}/rescaled/').format(batch_tag)
 
 # - Git stamp path
 git_stamp_path     = os.path.join(output_ws_prepath, "git.stamp")
@@ -33,8 +33,8 @@ git_stamp_path     = os.path.join(output_ws_prepath, "git.stamp")
 # - Fit option
 fit_option = -1
 
-exp_or_obs     = "exp"
-doBetterBands  = "false"   
+exp_or_obs     = "obs"
+doBetterBands  = "true"   
 dataName       = 'combData'
 asimovDataName = 'asimovData_0'
 CL             = 0.95
@@ -104,15 +104,16 @@ def combine_list(masses, combination_list, type, scheme, scheme_tag=None, same_s
 ### --- Non-res combination --- ###
 ###################################
 
-nonres_combination_list = { 
+nonres_combination_list = {
+                            # 'A-bbtautau'                : ['bbtautau'],
                             'A-bbbb_bbtautau'                     : ['bbbb', 'bbtautau'],
-                            'A-bbbb_bbyy'                         : ['bbbb', 'bbyy'],
-                            'A-bbtautau_bbyy'                     : ['bbtautau', 'bbyy'],
-                            'A-bbbb_bbtautau_bbyy'                : ['bbbb', 'bbtautau', 'bbyy'],
+                            # 'A-bbbb_bbyy'                         : ['bbbb', 'bbyy'],
+                            # 'A-bbtautau_bbyy'                     : ['bbtautau', 'bbyy'],
+                            # 'A-bbbb_bbtautau_bbyy'                : ['bbbb', 'bbtautau', 'bbyy'],
                             #'A-bbbb_bbtautau_bbyy_WWyy'           : ['bbbb', 'bbtautau', 'bbyy', 'WWyy'],
                             #'A-bbbb_bbtautau_WWyy_bbWW'           : ['bbbb', 'bbtautau', 'WWyy', 'bbWW'],
                             #'A-bbbb_bbtautau_bbyy_WWyy_bbWW'      : ['bbbb', 'bbtautau', 'bbyy', 'WWyy', 'bbWW'],
-                            #'A-bbbb_bbtautau_bbyy_WWyy_bbWW_WWWW' : ['bbbb', 'bbtautau', 'bbyy', 'WWyy', 'bbWW', 'WWWW']
+                            # 'A-bbbb_bbtautau_bbyy_WWyy_bbWW_WWWW' : ['bbbb', 'bbtautau', 'bbyy', 'WWyy', 'bbWW', 'WWWW']
                           }
 # Test 4b Lumi 15+16 correlation
 nonres_combination_list_B = { 
@@ -125,17 +126,18 @@ nonres_combination_list_C = {
 
 nonres_pts = [0]
 
-nonres_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy':'fullcorr', 'WWyy':'fullcorr', 'bbWW':'fullcorr', 'WWWW':'fullcorr' }
+# nonres_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy':'fullcorr', 'WWyy':'fullcorr', 'bbWW':'fullcorr', 'WWWW':'fullcorr' }
+nonres_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy':'fullcorr' }
 #nonres_scheme = {'bbbb' : 'fullcorr_test', 'bbtautau' : 'fullcorr_test', 'bbyy':'fullcorr_test', 'WWyy':'fullcorr_test', 'bbWW':'fullcorr_test', 'WWWW':'fullcorr_test' }
 
-#combine_list(nonres_pts, nonres_combination_list, 'nonres',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
-#combine_list(nonres_pts, nonres_combination_list, 'nonres',  "nocorr"  )
+combine_list(nonres_pts, nonres_combination_list, 'nonres',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
+# combine_list(nonres_pts, nonres_combination_list, 'nonres',  "nocorr"  )
 #combine_list(nonres_pts, nonres_combination_list_B, 'nonres',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
-#combine_list(nonres_pts, nonres_combination_list_B, 'nonres',  "nocorr"  )
+# combine_list(nonres_pts, nonres_combination_list, 'nonres',  "nocorr"  )
 
 #STAT-ONLY
-#combine_list(nonres_pts, nonres_combination_list, 'nonres_statOnly',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
-combine_list(nonres_pts, nonres_combination_list, 'nonres_statOnly',  "nocorr"  )
+# combine_list(nonres_pts, nonres_combination_list, 'nonres_statOnly',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
+# combine_list(nonres_pts, nonres_combination_list, 'nonres_statOnly',  "nocorr"  )
 
 #End of run 2 and 3 extrapolations
 #combine_list(nonres_pts, nonres_combination_list_C, 'nonres_140invfb',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
@@ -153,20 +155,21 @@ spin0_combination_list_AB = {
                              'AB-bbbb_bbtautau_WWyy' : ['bbbb', 'bbtautau', 'WWyy']
                             }
 
-spin0_combination_list_A = { 
-                            #'A-bbbb_bbtautau'                : ['bbbb', 'bbtautau'],#
-                            #'A-bbbb_bbtautau_bbyy'           : ['bbbb', 'bbtautau', 'bbyy'], #
+spin0_combination_list_A = {
+                            # 'A-bbtautau'           : ['bbtautau'], #
+                            'A-bbbb_bbtautau'                : ['bbbb', 'bbtautau'],#
+                            # 'A-bbbb_bbtautau_bbyy'           : ['bbbb', 'bbtautau', 'bbyy'], #
                             #'A-bbbb_bbtautau_bbyy_WWyy'      : ['bbbb', 'bbtautau', 'bbyy', 'WWyy'],
                             #'A-bbbb_bbtautau_bbyy_WWyy_WWWW' : ['bbbb', 'bbtautau', 'bbyy', 'WWyy', 'WWWW'],
-                            'A-bbbb_bbyy'                    : ['bbbb', 'bbyy'],
+                            # 'A-bbbb_bbyy'                    : ['bbbb', 'bbyy'],
                            }
 
 spin0_combination_list_B = { 
                             'B-bbbb_bbtautau'                     : ['bbbb', 'bbtautau'],#
-                            'B-bbbb_bbtautau_bbyy'                : ['bbbb', 'bbtautau', 'bbyy'],#
-                            'B-bbbb_bbtautau_bbyy_WWyy'           : ['bbbb', 'bbtautau', 'bbyy', 'WWyy'],
-                            'B-bbbb_bbtautau_bbyy_WWyy_bbWW'      : ['bbbb', 'bbtautau', 'bbyy', 'WWyy', 'bbWW'],
-                            'B-bbbb_bbtautau_bbyy_WWyy_bbWW_WWWW' : ['bbbb', 'bbtautau', 'bbyy', 'WWyy', 'bbWW', 'WWWW'],
+                            # 'B-bbbb_bbtautau_bbyy'                : ['bbbb', 'bbtautau', 'bbyy'],#
+                            # 'B-bbbb_bbtautau_bbyy_WWyy'           : ['bbbb', 'bbtautau', 'bbyy', 'WWyy'],
+                            # 'B-bbbb_bbtautau_bbyy_WWyy_bbWW'      : ['bbbb', 'bbtautau', 'bbyy', 'WWyy', 'bbWW'],
+                            # 'B-bbbb_bbtautau_bbyy_WWyy_bbWW_WWWW' : ['bbbb', 'bbtautau', 'bbyy', 'WWyy', 'bbWW', 'WWWW'],
                            }
 
 spin0_combination_list_C = { 
@@ -231,9 +234,9 @@ spin0_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy' : 
 spin0_masses    = [260, 300, 400, 500, 600, 700, 800, 900, 1000]
 #spin0_masses_A  = [260, 275, 300, 325, 350, 400, 450]#
 #spin0_masses_A  = [260, 280, 300]
-spin0_masses_A  = [400, 450, 500]
+spin0_masses_A  = [300]
 spin0_masses_AB = [260, 300, 400, 500]
-spin0_masses_B  = [500]
+spin0_masses_B  = [400, 500, 600, 700, 800, 900, 1000, 1200, 1400, 1600, 1800, 2000, 2500, 3000]
 spin0_masses_C  = [550, 600, 700, 800, 900, 1000]
 #spin0_masses_C  = [1000]
 spin0_masses_D  = [1000, 1100, 1200, 1300, 1400, 1500, 1600, 1800, 2000, 2250, 2500, 2750, 3000]
@@ -250,14 +253,14 @@ spin0_masses_L  = [260, 275, 280, 300, 325, 350, 400, 450, 500] # for interpolat
 #spin0_masses_Z  = [500, 600, 700, 800, 900, 1000] #DPG plots
 
 
-#combine_list(spin0_masses_A, spin0_combination_list_A,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(spin0_masses_A, spin0_combination_list_A,   'spin0', "nocorr")
+# combine_list(spin0_masses_A, spin0_combination_list_A,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
+combine_list(spin0_masses_A, spin0_combination_list_A,   'spin0', "nocorr")
 #
 #combine_list(spin0_masses_AB, spin0_combination_list_AB, 'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
 #combine_list(spin0_masses_AB, spin0_combination_list_AB, 'spin0', "nocorr")
 #
-#combine_list(spin0_masses_B, spin0_combination_list_B,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(spin0_masses_B, spin0_combination_list_B,   'spin0', "nocorr")
+# combine_list(spin0_masses_B, spin0_combination_list_B,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
+# combine_list(spin0_masses_B, spin0_combination_list_B,   'spin0', "nocorr")
 #combine_list(spin0_masses_C, spin0_combination_list_C,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
 #combine_list(spin0_masses_C, spin0_combination_list_C,   'spin0', "nocorr")
 #combine_list(spin0_masses_D, spin0_combination_list_D,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
@@ -449,6 +452,11 @@ lambda_combination_list_D = {
                               ##'D-bbbb_bbyy'          : ['bbbb', 'bbyy'],
                               ##'D-bbtautau_bbyy'      : ['bbtautau', 'bbyy'],
                             }
+lambda_combination_list_F = { 
+                            #'F-bbbb_bbtautau'                : ['bbbb', 'bbtautau'],#
+                            'F-bbbb_bbtautau_bbyy'           : ['bbbb', 'bbtautau', 'bbyy'],#
+                            #'F-bbbb_bbtautau_bbyy_bbWW'      : ['bbbb', 'bbtautau', 'bbyy', 'bbWW']
+                           }
 lambda_combination_list_G = { 
                               'G-bbbb_bbtautau'      : ['bbbb', 'bbtautau'],
                               'G-bbbb_bbtautau_bbyy' : ['bbbb', 'bbtautau', 'bbyy']
@@ -488,6 +496,7 @@ lambda_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy' :
 #combine_list(lambda_values_C, lambda_combination_list_C, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
 #combine_list(lambda_values_D, lambda_combination_list_D, 'lambda', "nocorr")
 #combine_list(lambda_values_D, lambda_combination_list_D, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+# combine_list(lambda_values_A+lambda_values_B+lambda_values_C+lambda_values_D, lambda_combination_list_F, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
 
 # old version before 
 #combine_list(lambda_values_A, lambda_combination_list_G, 'lambda', "nocorr")
@@ -508,6 +517,7 @@ lambda_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy' :
 #combine_list(lambda_values_C, lambda_combination_list_C, 'lambda_statOnly', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
 #combine_list(lambda_values_D, lambda_combination_list_D, 'lambda_statOnly', "nocorr")
 #combine_list(lambda_values_D, lambda_combination_list_D, 'lambda_statOnly', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+# combine_list(lambda_values_A+lambda_values_B+lambda_values_C+lambda_values_D, lambda_combination_list_F, 'lambda_statOnly', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
 
 
 #End of run 2 and 3 extrapolations

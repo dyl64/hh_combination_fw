@@ -13,7 +13,7 @@ hh_combination_fw_path = os.environ['hh_combination_fw_path']
 ##### ----- Combination settings ----- #####
 ############################################
 
-batch_tag = "2017_12_18_without_bbyy"
+batch_tag = "test"
 
 # - Number of processes to run in parallel
 nProc = 14
@@ -41,6 +41,8 @@ CL             = 0.95
 
 POI_name = 'xsec_br'
 
+blind = False
+
 # - List containing all pt_config`s
 all_pt_configs = []
 
@@ -53,6 +55,7 @@ prep_pts = wsc.prepare_pts_short(fit_option,
                                  dataName,
                                  asimovDataName,
                                  CL,
+                                 blind,
                                  POI_name,
                                  rescaled_ws_prepath,
                                  config_file_prepath,
@@ -117,6 +120,6 @@ manager.submit()
 
 for rootfiles_dir, scaling, datafile_path, isSM in datafile_arg_list:
 
-    ls.get_exp_and_obs_limit(rootfiles_dir, scaling=scaling, output_dat=datafile_path, isSM=isSM)   
+    ls.get_exp_and_obs_limit(rootfiles_dir, scaling=scaling, output_dat=datafile_path, isSM=isSM, blind=blind)   
 
 git.save_hash_to_file(git_stamp_path)
