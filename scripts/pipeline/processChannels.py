@@ -9,16 +9,15 @@ import workspaceCombiner as wsc
 import aux_utils as utils
 import git
 
-input_dir_prepath  = "/afs/cern.ch/user/f/fbeisieg/work/HHcombination/hh_combination_fw_FullRun2/input/workspaces/v00/"
-#output_dir_prepath = "/.data/englert/projects/hh_combination/workspaces/2017_11_27/"
-output_dir_prepath = "/afs/cern.ch/user/f/fbeisieg/work/HHcombination/hh_combination_fw_FullRun2/output/v00/"
+input_dir_prepath  = ("../input" if len(sys.argv) < 2 else sys.argv[1]) + '/v01/'
+output_dir_prepath = ("../output" if len(sys.argv) < 3 else sys.argv[2]) + '/v140invfb_v01_test'
 new_poiname        = "xsec_br"
-exp_or_obs         = "exp"
-doBetterBands      = "false"
+exp_or_obs         = "obs"
+doBetterBands      = "true"
 dataName           = "combData"
 asimovDataName     = "asimovData_0"
 CL                 = "0.95"
-scaling_release    = 'r00'
+scaling_release    = 'r02'
 blind              = True
 git_stamp_path     = os.path.join(output_dir_prepath, "git.stamp")
 
@@ -31,20 +30,20 @@ def create_task_arg(type, channel):
 
 
 task_list = []
-#task_list.append( create_task_arg('nonres',       'bbbb') )
-#task_list.append( create_task_arg('nonres',       'bbtautau') )
-#task_list.append( create_task_arg('nonres',       'bbyy') )
-#task_list.append( create_task_arg('nonres',       'WWyy') )
+task_list.append( create_task_arg('nonres',       'bbbb') )
+# task_list.append( create_task_arg('nonres',       'bbtautau') )
+# task_list.append( create_task_arg('nonres',       'bbyy') )
+#task_list.append( create_task_arg('resolved/nonres_SM',       'WWyy') )
 #task_list.append( create_task_arg('nonres',       'bbWW') )
 #task_list.append( create_task_arg('nonres',       'WWWW') )
-#task_list.append( create_task_arg('spin0',        'bbbb') )
-#task_list.append( create_task_arg('spin0',        'bbtautau') )
-#task_list.append( create_task_arg('spin0',        'bbyy') )
+# task_list.append( create_task_arg('spin0',        'bbbb') )
+# task_list.append( create_task_arg('spin0',        'bbtautau') )
+# task_list.append( create_task_arg('spin0',        'bbyy') )
 #task_list.append( create_task_arg('spin0',        'WWyy') )
 #task_list.append( create_task_arg('spin0',        'bbWW') )
 #task_list.append( create_task_arg('spin0',        'WWWW') )
 #task_list.append( create_task_arg('spin0_boosted_statOnly_fromChannel', 'bbbb') )
-task_list.append( create_task_arg('spin0_boosted', 'bbtautau') )
+#task_list.append( create_task_arg('spin0_boosted', 'bbtautau') )
 #task_list.append( create_task_arg('spin2_c_1.0',  'bbbb') )
 #task_list.append( create_task_arg('spin2_c_1.0',  'bbtautau') )
 #task_list.append( create_task_arg('spin2_c_1.0',  'bbWW') )
@@ -52,9 +51,9 @@ task_list.append( create_task_arg('spin0_boosted', 'bbtautau') )
 #task_list.append( create_task_arg('spin2_c_2.0',  'bbtautau') )
 #task_list.append( create_task_arg('spin2_c_2.0',  'bbWW') )
 
-#task_list.append( create_task_arg('lambda',  'bbbb') )
-#task_list.append( create_task_arg('lambda',  'bbtautau') )
-#task_list.append( create_task_arg('lambda',  'bbyy') )
+# task_list.append( create_task_arg('lambda',  'bbbb') )
+# task_list.append( create_task_arg('lambda',  'bbtautau') )
+# task_list.append( create_task_arg('lambda',  'bbyy') )
 
 
 #task_list.append( create_task_arg('nonres_statOnly',       'bbbb') )

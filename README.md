@@ -1,5 +1,58 @@
 # Di-Higgs combination framework
+The framework is largely refactored to abandon `root 6.04.16-HiggsComb-x86_64-slc6-gcc49-opt` version resctricted by an old `workspaceCombiner`.
+Other submodules are also removed but could be recovered easily from gitlab repo.
+Some unused files are also cleaned up.
+Current structure is:
 
+    |-- scripts
+    |-- python_modules
+    |-- README.md
+    |-- setup.sh
+    |-- doc
+    |-- submodules
+        |-- RooFitExtensions
+        |-- RooStatTools
+        |-- workspaceCombiner
+
+# How to run (on lxplus)
+### Check out the packages
+```
+git clone --recursive ssh://git@gitlab.cern.ch:7999/atlas-physics/HDBS/DiHiggs/combination/hh_combination_fw.git
+```
+It doesn't work for the submodules not a master branch.
+You should check `ls submodules/*` and manually check out the missing ones.
+For example, in `submodules/`, do
+```
+git clone ssh://git@gitlab.cern.ch:7999/atlas_higgs_combination/software/workspaceCombiner.git
+git branch development --track remotes/origin/development
+git checkout development
+```
+### Patch `workspaceCombiner`
+The `development` branch (need double check for the real branch you are using) changed the default of `wsName_` in `app/manager.cxx` which will accidentally enter the if-condition block in [src/decorator.cxx](https://gitlab.cern.ch/atlas_higgs_combination/software/workspaceCombiner/-/blob/master/src/decorator.cxx#L28-43) with a wrong name for our workspaces.
+Apply the patch to reset the default to empty.
+```
+cd submodules/workspaceCombiner
+git apply ../../workspaceCombiner.patch
+```
+### For the first time
+```
+source compile.sh
+source setup.sh
+python scripts/pipeline/processChannels.py
+...
+```
+
+### For the future time
+```
+source setup.sh
+python scripts/pipeline/processChannels.py
+...
+```
+
+</p>
+</details>
+<details><summary>Old README</summary>
+<p>
 ## Description
 
 A python and C++ based software framework developed for the di-Higgs combination effort.
@@ -117,3 +170,6 @@ You can find more documentation on the package [`./doc`](./doc) folder.
 [processChannels_doc]: ./doc/processChannels.md
 [combine_ws_doc]: ./doc/combine_ws.md
 [model_scan_doc]: ./doc/model_scan.md
+
+</p>
+</details>

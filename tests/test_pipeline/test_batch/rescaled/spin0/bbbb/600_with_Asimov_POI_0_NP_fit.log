@@ -3,13 +3,21 @@
                 Copyright (C) 2000-2013 NIKHEF, University of California & Stanford University
                 All rights reserved, please read http://roofit.sourceforge.net/license.txt
 
+Warning in <TClassTable::Add>: class RooNovosibirsk_nancy already in TClassTable
+Error in <TCling::RegisterModule>: cannot find dictionary module RooNovosibirsk_nancy_cc_ACLiC_dict_rdict.pcm
+Warning in <TClassTable::Add>: class ExpGausExpPDF already in TClassTable
+Error in <TCling::RegisterModule>: cannot find dictionary module ExpGausExpPDF_cc_ACLiC_dict_rdict.pcm
+Warning in <TClassTable::Add>: class HggTwoSidedCBPdf already in TClassTable
+Error in <TCling::RegisterModule>: cannot find dictionary module HggTwoSidedCBPdf_cc_ACLiC_dict_rdict.pcm
 Error in <TCling::RegisterModule>: cannot find dictionary module HggTwoSidedCBPdfDict_rdict.pcm
+Error in <TCling::RegisterModule>: cannot find dictionary module ExpGausExpPDFDict_rdict.pcm
+Error in <TCling::RegisterModule>: cannot find dictionary module RooNovosibirsk_nancyDict_rdict.pcm
 You called: 
-/.data/englert/projects/hh_combination/software/hh_combination_fw/submodules/RooStatTools/./bin/makeAsimovData /.data/englert/projects/hh_combination/software/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbbb/600.root /.data/englert/projects/hh_combination/software/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbbb/600_with_Asimov_POI_0_NP_fit.root combWS ModelConfig combData true 0.0 asimovData_POI_0_NP_fit 
+/afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/submodules/RooStatTools/./bin/makeAsimovData /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbbb/600.root /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbbb/600_with_Asimov_POI_0_NP_fit.root combWS ModelConfig combData true 0.0 asimovData_POI_0_NP_fit 
 #--- Running makeAsimovData ---
 # - Settings: 
-  - input_ws:           /.data/englert/projects/hh_combination/software/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbbb/600.root
-  - output_ws:          /.data/englert/projects/hh_combination/software/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbbb/600_with_Asimov_POI_0_NP_fit.root
+  - input_ws:           /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbbb/600.root
+  - output_ws:          /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/tests/test_pipeline/test_batch/rescaled/spin0/bbbb/600_with_Asimov_POI_0_NP_fit.root
   - workspacename:      combWS
   - modelConfigName:    ModelConfig
   - dataName:           combData
@@ -184,147 +192,147 @@ gamma_stat_combined_r16_hh_bin_42	  = 0.998979	 +/-  0.964998	(limited)
 gamma_stat_combined_r16_hh_bin_43	  = 1.00117	 +/-  0.566715	(limited)
 gamma_stat_combined_r16_hh_bin_44	  = 1.00117	 +/-  0.566715	(limited)
 Done
-nui: 0x2cb05d0, glob: 0x37d1d80
+nui: 0x38b5470, glob: 0x448e450
 Setting glob: nom_alpha_r15_Luminosity, which had previous val: 0, to conditional val: -4.9992e-11
-nui: 0x2cc7fc0, glob: 0x37d08b0
+nui: 0x38cce60, glob: 0x448cf80
 Setting glob: nom_alpha_Signal_JET_JER, which had previous val: 0, to conditional val: -4.9992e-11
-nui: 0x323ca30, glob: 0x323d700
+nui: 0x3efa170, glob: 0x3efae40
 Setting glob: nom_alpha_Signal_Theory_ShowerHad, which had previous val: 0, to conditional val: -4.9992e-11
-nui: 0x3243300, glob: 0x3243fd0
+nui: 0x3f00a40, glob: 0x3f01710
 Setting glob: nom_alpha_Signal_Theory_Scales, which had previous val: 0, to conditional val: -4.9992e-11
-nui: 0x3245ce0, glob: 0x3375080
+nui: 0x3f03420, glob: 0x4031740
 Setting glob: nom_alpha_Signal_JET_GroupedNP_1, which had previous val: 0, to conditional val: -4.9992e-11
-nui: 0x35a6040, glob: 0x35a7310
+nui: 0x4262710, glob: 0x42639e0
 Setting glob: nom_alpha_Signal_JET_GroupedNP_2, which had previous val: 0, to conditional val: -4.9992e-11
-nui: 0x35a8b20, glob: 0x35a9d90
+nui: 0x42651f0, glob: 0x4266460
 Setting glob: nom_alpha_Signal_JET_GroupedNP_3, which had previous val: 0, to conditional val: -4.9992e-11
-nui: 0x35ab5a0, glob: 0x35ac850
+nui: 0x4267c70, glob: 0x4268f20
 Setting glob: nom_alpha_Signal_JET_EtaIntercalib_Nonclos, which had previous val: 0, to conditional val: -4.9992e-11
-nui: 0x35ae0c0, glob: 0x35af330
+nui: 0x426a790, glob: 0x426ba00
 Setting glob: nom_alpha_Signal_FT_EFF_Eigen_B_0, which had previous val: 0, to conditional val: -4.9992e-11
-nui: 0x35b0b40, glob: 0x35b1db0
+nui: 0x426d210, glob: 0x426e480
 Setting glob: nom_alpha_Signal_FT_EFF_Eigen_B_1, which had previous val: 0, to conditional val: -4.9992e-11
-nui: 0x35b35c0, glob: 0x35b4830
+nui: 0x426fc90, glob: 0x4270f00
 Setting glob: nom_alpha_Signal_FT_EFF_Eigen_B_2, which had previous val: 0, to conditional val: -4.9992e-11
-nui: 0x35b6040, glob: 0x35b72b0
+nui: 0x4272710, glob: 0x4273980
 Setting glob: nom_alpha_Signal_FT_EFF_Eigen_B_3, which had previous val: 0, to conditional val: -4.9992e-11
-nui: 0x35b8ac0, glob: 0x35b9d10
+nui: 0x4275190, glob: 0x42763e0
 Setting glob: nom_alpha_Signal_trig, which had previous val: 0, to conditional val: -4.9992e-11
-nui: 0x3376e00, glob: 0x36ee700
+nui: 0x40334c0, glob: 0x43aade0
 Setting glob: nom_alpha_r15_norm_NP0, which had previous val: 0, to conditional val: -0.0176998
-nui: 0x36176b0, glob: 0x3618960
+nui: 0x42d3d80, glob: 0x42d5030
 Setting glob: nom_alpha_r15_norm_NP1, which had previous val: 0, to conditional val: -0.102141
-nui: 0x36d7240, glob: 0x36d8490
+nui: 0x4393920, glob: 0x4394b70
 Setting glob: nom_alpha_r15_norm_NP2, which had previous val: 0, to conditional val: 0.279477
-nui: 0x365eff0, glob: 0x36602a0
+nui: 0x431b6c0, glob: 0x431c970
 Setting glob: nom_alpha_r15_LowHtCR, which had previous val: 0, to conditional val: 0.408421
-nui: 0x36868f0, glob: 0x3687ba0
+nui: 0x4342fc0, glob: 0x4344270
 Setting glob: nom_alpha_r15_HighHtCR, which had previous val: 0, to conditional val: -0.0713391
-nui: 0x3230a50, glob: 0x323a320
+nui: 0x3eee190, glob: 0x3ef7a60
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_0, which had previous val: 3, to conditional val: 3.0035
-nui: 0x36f03c0, glob: 0x36f2910
+nui: 0x43acaa0, glob: 0x43aeff0
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_1, which had previous val: 3, to conditional val: 3.0035
-nui: 0x3746290, glob: 0x37487e0
+nui: 0x4402960, glob: 0x4404eb0
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_22, which had previous val: 334.515, to conditional val: 334.808
-nui: 0x374a3b0, glob: 0x374c900
+nui: 0x4406a80, glob: 0x4408fd0
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_23, which had previous val: 228.645, to conditional val: 228.31
-nui: 0x374e4d0, glob: 0x3750a20
+nui: 0x440aba0, glob: 0x440d0f0
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_24, which had previous val: 225.151, to conditional val: 224.964
-nui: 0x37525f0, glob: 0x3754b40
+nui: 0x440ecc0, glob: 0x4411210
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_25, which had previous val: 207.682, to conditional val: 207.167
-nui: 0x3756710, glob: 0x3758c60
+nui: 0x4412de0, glob: 0x4415330
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_26, which had previous val: 183.375, to conditional val: 184.175
-nui: 0x375a830, glob: 0x375cd80
+nui: 0x4416f00, glob: 0x4419450
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_27, which had previous val: 120.247, to conditional val: 118.662
-nui: 0x375e950, glob: 0x3760ea0
+nui: 0x441b020, glob: 0x441d570
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_28, which had previous val: 90.375, to conditional val: 91.4239
-nui: 0x3762a70, glob: 0x3764fc0
+nui: 0x441f140, glob: 0x4421690
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_29, which had previous val: 96.5069, to conditional val: 95.5111
-nui: 0x3766b90, glob: 0x37690e0
+nui: 0x4423260, glob: 0x44257b0
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_30, which had previous val: 76.1882, to conditional val: 75.9711
-nui: 0x376acb0, glob: 0x376d200
+nui: 0x4427380, glob: 0x44298d0
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_31, which had previous val: 36.8045, to conditional val: 35.9175
-nui: 0x376edd0, glob: 0x3771320
+nui: 0x442b4a0, glob: 0x442d9f0
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_32, which had previous val: 33.5783, to conditional val: 32.9735
-nui: 0x3772ef0, glob: 0x3775440
+nui: 0x442f5c0, glob: 0x4431b10
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_33, which had previous val: 30.8622, to conditional val: 30.2634
-nui: 0x3777010, glob: 0x3779560
+nui: 0x44336e0, glob: 0x4435c30
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_34, which had previous val: 18.6914, to conditional val: 18.3923
-nui: 0x377b130, glob: 0x377d680
+nui: 0x4437800, glob: 0x4439d50
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_35, which had previous val: 13.0441, to conditional val: 13.8141
-nui: 0x377f250, glob: 0x37817a0
+nui: 0x443b920, glob: 0x443de70
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_36, which had previous val: 10.1795, to conditional val: 11.0527
-nui: 0x3783370, glob: 0x37858c0
+nui: 0x443fa40, glob: 0x4441f90
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_37, which had previous val: 4.46127, to conditional val: 4.36939
-nui: 0x3787490, glob: 0x37899e0
+nui: 0x4443b60, glob: 0x44460b0
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_38, which had previous val: 2.75106, to conditional val: 2.73667
-nui: 0x378b5b0, glob: 0x378db00
+nui: 0x4447c80, glob: 0x444a1d0
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_39, which had previous val: 0.720702, to conditional val: 0.716817
-nui: 0x378f6d0, glob: 0x3791c20
+nui: 0x444bda0, glob: 0x444e2f0
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_40, which had previous val: 1.00001, to conditional val: 0.994873
-nui: 0x37937f0, glob: 0x3795d40
+nui: 0x444fec0, glob: 0x4452410
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_41, which had previous val: 0.944767, to conditional val: 0.939416
-nui: 0x3797910, glob: 0x3799e60
+nui: 0x4453fe0, glob: 0x4456530
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_42, which had previous val: 3, to conditional val: 3.0035
-nui: 0x379ba30, glob: 0x379df80
+nui: 0x4458100, glob: 0x445a650
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_43, which had previous val: 3, to conditional val: 3.0035
-nui: 0x379fb50, glob: 0x37a20a0
+nui: 0x445c220, glob: 0x445e770
 Setting glob: nom_gamma_stat_combined_r15_hh_bin_44, which had previous val: 3, to conditional val: 3.0035
-nui: 0x2cc9040, glob: 0x2cca2d0
+nui: 0x38cdee0, glob: 0x38cf170
 Setting glob: nom_alpha_r16_Luminosity, which had previous val: 0, to conditional val: -4.9992e-11
-nui: 0x33a8070, glob: 0x33a9320
+nui: 0x4064740, glob: 0x40659f0
 Setting glob: nom_alpha_r16_norm_NP0, which had previous val: 0, to conditional val: 0.648851
-nui: 0x33cf960, glob: 0x33d0c10
+nui: 0x408c030, glob: 0x408d2e0
 Setting glob: nom_alpha_r16_norm_NP1, which had previous val: 0, to conditional val: -0.474152
-nui: 0x3587e40, glob: 0x3589090
+nui: 0x4244510, glob: 0x4245760
 Setting glob: nom_alpha_r16_norm_NP2, which had previous val: 0, to conditional val: 0.544448
-nui: 0x33f7260, glob: 0x33f8510
+nui: 0x40b3930, glob: 0x40b4be0
 Setting glob: nom_alpha_r16_LowHtCR, which had previous val: 0, to conditional val: 1.58081
-nui: 0x33f9cf0, glob: 0x33faed0
+nui: 0x40b63c0, glob: 0x40b75a0
 Setting glob: nom_alpha_r16_HighHtCR, which had previous val: 0, to conditional val: 0.308018
-nui: 0x3296a60, glob: 0x32989c0
+nui: 0x3f541a0, glob: 0x3f56100
 Setting glob: nom_gamma_stat_combined_r16_hh_bin_0, which had previous val: 3, to conditional val: 3.0035
-nui: 0x329bdb0, glob: 0x329dd10
+nui: 0x3f594f0, glob: 0x3f5b450
 Setting glob: nom_gamma_stat_combined_r16_hh_bin_1, which had previous val: 3, to conditional val: 3.0035
-nui: 0x3314290, glob: 0x3316230
+nui: 0x3fd0bb0, glob: 0x3fd2b10
 Setting glob: nom_gamma_stat_combined_r16_hh_bin_27, which had previous val: 335.4, to conditional val: 337.922
-nui: 0x33183d0, glob: 0x331a370
+nui: 0x3fd4c20, glob: 0x3fd6b80
 Setting glob: nom_gamma_stat_combined_r16_hh_bin_28, which had previous val: 268.564, to conditional val: 266.74
-nui: 0x3320690, glob: 0x3322630
+nui: 0x3fdcd60, glob: 0x3fded00
 Setting glob: nom_gamma_stat_combined_r16_hh_bin_30, which had previous val: 355.326, to conditional val: 355.652
-nui: 0x33247c0, glob: 0x3326760
+nui: 0x3fe0e90, glob: 0x3fe2e30
 Setting glob: nom_gamma_stat_combined_r16_hh_bin_31, which had previous val: 41.4657, to conditional val: 41.1966
-nui: 0x33288f0, glob: 0x332a890
+nui: 0x3fe4fc0, glob: 0x3fe6f60
 Setting glob: nom_gamma_stat_combined_r16_hh_bin_32, which had previous val: 78.9458, to conditional val: 81.3769
-nui: 0x332ca20, glob: 0x332e9c0
+nui: 0x3fe90f0, glob: 0x3feb090
 Setting glob: nom_gamma_stat_combined_r16_hh_bin_33, which had previous val: 143.473, to conditional val: 143.383
-nui: 0x3330b50, glob: 0x3332af0
+nui: 0x3fed220, glob: 0x3fef1c0
 Setting glob: nom_gamma_stat_combined_r16_hh_bin_34, which had previous val: 101.523, to conditional val: 101.117
-nui: 0x3334c80, glob: 0x3336c20
+nui: 0x3ff1350, glob: 0x3ff32f0
 Setting glob: nom_gamma_stat_combined_r16_hh_bin_35, which had previous val: 63.0098, to conditional val: 66.2614
-nui: 0x3338dc0, glob: 0x333ad60
+nui: 0x3ff5480, glob: 0x3ff7420
 Setting glob: nom_gamma_stat_combined_r16_hh_bin_36, which had previous val: 30.9942, to conditional val: 31.5345
-nui: 0x333cef0, glob: 0x333ee90
+nui: 0x3ff95b0, glob: 0x3ffb550
 Setting glob: nom_gamma_stat_combined_r16_hh_bin_37, which had previous val: 10.7575, to conditional val: 10.5798
-nui: 0x3341020, glob: 0x3342fc0
+nui: 0x3ffd6e0, glob: 0x3fff680
 Setting glob: nom_gamma_stat_combined_r16_hh_bin_38, which had previous val: 6.62737, to conditional val: 6.58023
-nui: 0x33551b0, glob: 0x3357150
+nui: 0x4011870, glob: 0x4013810
 Setting glob: nom_gamma_stat_combined_r16_hh_bin_39, which had previous val: 2.80407, to conditional val: 2.77299
-nui: 0x3359940, glob: 0x335b8c0
+nui: 0x4016000, glob: 0x4017f80
 Setting glob: nom_gamma_stat_combined_r16_hh_bin_40, which had previous val: 6.31999, to conditional val: 6.28435
-nui: 0x335da50, glob: 0x335f9f0
+nui: 0x401a110, glob: 0x401c0b0
 Setting glob: nom_gamma_stat_combined_r16_hh_bin_41, which had previous val: 0.630833, to conditional val: 0.625235
-nui: 0x3361b80, glob: 0x3363b20
+nui: 0x401e240, glob: 0x40201e0
 Setting glob: nom_gamma_stat_combined_r16_hh_bin_42, which had previous val: 1.00001, to conditional val: 0.998989
-nui: 0x3365cb0, glob: 0x3367c50
+nui: 0x4022370, glob: 0x4024310
 Setting glob: nom_gamma_stat_combined_r16_hh_bin_43, which had previous val: 3, to conditional val: 3.0035
-nui: 0x3369de0, glob: 0x32a1620
+nui: 0x40264a0, glob: 0x3f5ed60
 Setting glob: nom_gamma_stat_combined_r16_hh_bin_44, which had previous val: 3, to conditional val: 3.0035
 Saving conditional snapshots
 Making asimov
 adding obs
 adding weight
-weightVar: 0x38143a0
+weightVar: 0x44d0a70
 defining set
  check expectedData by category
 [#1] INFO:NumericIntegration -- RooRealIntegral::init(combined_r15_hh_model_Int[obs_x_combined_r15_hh]) using numeric integrator RooBinIntegrator to calculate Int(obs_x_combined_r15_hh)

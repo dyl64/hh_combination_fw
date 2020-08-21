@@ -1,0 +1,13 @@
+diff --git a/app/manager.cxx b/app/manager.cxx
+index 90e7e21..0da4b12 100644
+--- a/app/manager.cxx
++++ b/app/manager.cxx
+@@ -30,7 +30,7 @@ std::string injectDataSet_ = "asimovData_1";
+ std::string replaceStr_ = "";
+ std::string usePseudoData_ = "";
+ std::string dataName_ = "obsData";
+-std::string wsName_ = "combWS";
++std::string wsName_ = "";
+ std::string mcName_ = "ModelConfig";
+ 
+ double rMax_ = -999;

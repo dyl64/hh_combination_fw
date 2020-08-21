@@ -1,0 +1,42 @@
+#!/bin/bash
+# This is not to compile hh_combination_fw
+# But a wrapper to compile submodules (Rui Zhang)
+
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+if [[ ! -v hh_combination_fw_path ]]; then
+    printf "${GREEN}\n
+==================================
+| Sourcing   source setup.sh  ...
+==================================${NC}\n"
+    source setup.sh
+fi
+
+printf "${GREEN}\n
+==================================================
+| Compiling 1/3) submodules/RooFitExtensions  ...
+==================================================${NC}\n"
+cd submodules/RooFitExtensions
+mkdir build && cd build && cmake .. && make -j8 && cd ..
+source build/setup.sh
+cd ${hh_combination_fw_path}
+
+
+printf "${GREEN}\n
+==================================================
+| Compiling 2/3) submodules/workspaceCombiner ...
+==================================================${NC}\n"
+cd submodules/workspaceCombiner
+mkdir build && cd build && cmake .. && make -j8 && cd ..
+cd ${hh_combination_fw_path}
+
+
+printf "${GREEN}\n
+==============================================
+| Compiling 3/3) submodules/RooStatTools  ...
+==============================================${NC}\n"
+cd submodules/RooStatTools
+make
+cd ${hh_combination_fw_path}
+
