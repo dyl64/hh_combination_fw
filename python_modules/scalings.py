@@ -1944,7 +1944,7 @@ scalings_releases = {
                       'r02' : {
                                 'bbbb'     : bbbb_scalings['v02'],
                                 'bbtautau' : bbtautau_scalings['v02'], 
-                                # 'bbyy'     : bbyy_scalings['v01'],
+                                'bbyy'     : bbyy_scalings['v01'],
                               },
                     }
  

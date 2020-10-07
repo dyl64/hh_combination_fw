@@ -47,6 +47,8 @@ python scripts/pipeline/processChannels.py
 source setup.sh
 python scripts/pipeline/processChannels.py
 ...
+python scripts/combination/auto/combine_ws.py
+...
 ```
 
 </p>

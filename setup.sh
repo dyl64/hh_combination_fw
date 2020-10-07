@@ -57,7 +57,7 @@ PYTHONPATH=$PYTHONPATH:${hh_combination_fw_path}/python_modules/:${hh_combinatio
 ROOSTATPATH=${hh_combination_fw_path}/submodules/RooStatTools
 export ROOSTATPATH
 
-WORKSPACECOMBINER_PATH=submodules/workspaceCombiner/
+WORKSPACECOMBINER_PATH=${hh_combination_fw_path}/submodules/workspaceCombiner/
 export WORKSPACECOMBINER_PATH
 
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROOSTATPATH/lib
