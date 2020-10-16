@@ -19,6 +19,7 @@ hhCompile:
     - git branch development --track remotes/origin/development
     - git checkout development
     - git apply ../../workspaceCombiner.patch
+    - cd $base_path
     - source compile.sh
     - source setup.sh
   artifacts:
@@ -27,7 +28,7 @@ hhCompile:
       - python_modules
       - scripts
       - setup.sh
-  when: manual
+#  when: manual
 
 RunPipeline:
   stage: pipeline
@@ -57,4 +58,4 @@ RunPipeline:
   artifacts:
     paths:
       - $output_dir
-  when: manual
+  #when: manual
