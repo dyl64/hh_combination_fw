@@ -48,9 +48,9 @@ RunPipeline:
     - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
     - echo "lxplus.cern.ch, ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBPZvfRF+9L7TR3FRPyLFdcsXSZ6RQYJHfOjzzWB94sX0gP34Cgij9p4ukL900sVVvw3LPM5OxxFSNIXGztFYu4o=" > ~/.ssh/known_hosts
     - echo -e "Host *\n\tGSSAPIDelegateCredentials yes\n\tGSSAPITrustDNS yes\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    - echo $SERVICE_PASS | kinit -f $CERN_USER || echo something
+    - echo $SERVICE_PASS2 | kinit -f $CERN_USER2 || echo something
     - mkdir -p $input_dir
-    - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/input/20201007 $input_dir
+    - scp -r -i ~/.ssh/id_rsa ${CERN_USER2}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/input/20201007 $input_dir
   script:
     # - source /release_setup.sh
     - shopt -s expand_aliases
