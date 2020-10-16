@@ -15,22 +15,17 @@ hhCompile:
     - set +e
     # - source /release_setup.sh
     - base_path=$(pwd)
-    - sed -i '25i#pragma link C++ class ExpGausExpPDF+;\n#pragma link C++ class HggTwoSidedCBPdf+;\n#pragma link C++ class RooNovosibirsk_nancy+;' ./submodules/workspaceCombiner/interface/manager_LinkDef.h
-    - sed -i 's/data = (RooDataSet/RooDataSet\* data = (RooDataSet/g' ./submodules/RooStatTools/src/runAsymptoticsCLs.cc
-    - cd ./submodules/workspaceCombiner
-    - source setup.sh && make
-    - cd $base_path
-    - echo ./submodules/workspaceCombiner/ | source setup_framework.sh
-    - touch submodules/RooStatTools/src/.depend_cpp
-    - make
+    - cd submodules/workspaceCombiner; ls
+    - git branch development --track remotes/origin/development
+    - git checkout development
+    - git apply ../../workspaceCombiner.patch
+    - source compile.sh
     - source setup.sh
-    - cp ./submodules/RooStatTools/*pcm ./submodules/RooStatTools/lib/
   artifacts:
     paths:
       - submodules
       - python_modules
       - scripts
-      - setup_local.sh
       - setup.sh
   when: manual
 
@@ -49,7 +44,7 @@ RunPipeline:
     - echo -e "Host *\n\tGSSAPIDelegateCredentials yes\n\tGSSAPITrustDNS yes\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - echo $SERVICE_PASS | kinit -f $CERN_USER || echo something
     - mkdir -p $input_dir
-    - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/input/v01 $input_dir
+    - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/input/20201007 $input_dir
   script:
     # - source /release_setup.sh
     - shopt -s expand_aliases
