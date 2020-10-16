@@ -70,13 +70,14 @@ RunPlot:
   variables:
 #    GIT_SUBMODULE_STRATEGY: recursive
     GIT_SSL_NO_VERIFY: "true"
-    output_dir: limit_plots
-    input_dir: output
+    output_dir: submodules/hh_plot/limit_plots
   script:
     - set +e
     - pwd
     - ls
     - ls *
+    - ls submodules/*
+    - ls submodules/workspaceCombiner
     - shopt -s expand_aliases
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
