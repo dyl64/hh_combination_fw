@@ -14,6 +14,9 @@ hhCompile:
   script:
     - set +e
     # - source /release_setup.sh
+    - shopt -s expand_aliases
+    - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
+    - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - base_path=$(pwd)
     - cd submodules/workspaceCombiner; ls
     - git branch development --track remotes/origin/development
