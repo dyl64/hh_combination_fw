@@ -13,3 +13,8 @@
 	url = ../../../../../atlas_higgs_combination/software/RooFitExtensions.git
 	branch = master
 	update = merge
+[submodule "submodules/hh_plot"]
+	path = submodules/hh_plot
+	url = ../hh_plot.git
+	branch = master
+	update = merge

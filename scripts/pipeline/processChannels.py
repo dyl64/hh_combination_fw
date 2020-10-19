@@ -9,8 +9,8 @@ import workspaceCombiner as wsc
 import aux_utils as utils
 import git
 
-input_dir_prepath  = ("../input" if len(sys.argv) < 2 else sys.argv[1]) + '/v01/'
-output_dir_prepath = ("../output" if len(sys.argv) < 3 else sys.argv[2]) + '/v140invfb_v01_test'
+input_dir_prepath  = ("../input" if len(sys.argv) < 2 else sys.argv[1]) + '/20201007/'
+output_dir_prepath = ("../output" if len(sys.argv) < 3 else sys.argv[2]) + '/v140invfb_20201007'
 new_poiname        = "xsec_br"
 exp_or_obs         = "obs"
 doBetterBands      = "true"
@@ -31,8 +31,8 @@ def create_task_arg(type, channel):
 
 task_list = []
 task_list.append( create_task_arg('nonres',       'bbbb') )
-# task_list.append( create_task_arg('nonres',       'bbtautau') )
-# task_list.append( create_task_arg('nonres',       'bbyy') )
+task_list.append( create_task_arg('nonres',       'bbtautau') )
+task_list.append( create_task_arg('nonres',       'bbyy') )
 #task_list.append( create_task_arg('resolved/nonres_SM',       'WWyy') )
 #task_list.append( create_task_arg('nonres',       'bbWW') )
 #task_list.append( create_task_arg('nonres',       'WWWW') )

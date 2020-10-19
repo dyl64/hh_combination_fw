@@ -13,7 +13,7 @@ import sys
 ############################################
 
 #batch_tag = "output/v00"
-batch_tag = "output/v140invfb_v01"
+batch_tag = "output/v140invfb_20201007"
 
 # - Number of processes to run in parallel
 nProc = 14
@@ -106,10 +106,10 @@ def combine_list(masses, combination_list, type, scheme, scheme_tag=None, same_s
 
 nonres_combination_list = {
                             # 'A-bbtautau'                : ['bbtautau'],
-                            'A-bbbb_bbtautau'                     : ['bbbb', 'bbtautau'],
+                            # 'A-bbbb_bbtautau'                     : ['bbbb', 'bbtautau'],
                             # 'A-bbbb_bbyy'                         : ['bbbb', 'bbyy'],
                             # 'A-bbtautau_bbyy'                     : ['bbtautau', 'bbyy'],
-                            # 'A-bbbb_bbtautau_bbyy'                : ['bbbb', 'bbtautau', 'bbyy'],
+                            'A-bbbb_bbtautau_bbyy'                : ['bbbb', 'bbtautau', 'bbyy'],
                             #'A-bbbb_bbtautau_bbyy_WWyy'           : ['bbbb', 'bbtautau', 'bbyy', 'WWyy'],
                             #'A-bbbb_bbtautau_WWyy_bbWW'           : ['bbbb', 'bbtautau', 'WWyy', 'bbWW'],
                             #'A-bbbb_bbtautau_bbyy_WWyy_bbWW'      : ['bbbb', 'bbtautau', 'bbyy', 'WWyy', 'bbWW'],
@@ -130,8 +130,8 @@ nonres_pts = [0]
 nonres_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy':'fullcorr' }
 #nonres_scheme = {'bbbb' : 'fullcorr_test', 'bbtautau' : 'fullcorr_test', 'bbyy':'fullcorr_test', 'WWyy':'fullcorr_test', 'bbWW':'fullcorr_test', 'WWWW':'fullcorr_test' }
 
-combine_list(nonres_pts, nonres_combination_list, 'nonres',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
-# combine_list(nonres_pts, nonres_combination_list, 'nonres',  "nocorr"  )
+# combine_list(nonres_pts, nonres_combination_list, 'nonres',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
+combine_list(nonres_pts, nonres_combination_list, 'nonres',  "nocorr"  )
 #combine_list(nonres_pts, nonres_combination_list_B, 'nonres',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
 # combine_list(nonres_pts, nonres_combination_list, 'nonres',  "nocorr"  )
 
@@ -254,7 +254,7 @@ spin0_masses_L  = [260, 275, 280, 300, 325, 350, 400, 450, 500] # for interpolat
 
 
 # combine_list(spin0_masses_A, spin0_combination_list_A,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
-combine_list(spin0_masses_A, spin0_combination_list_A,   'spin0', "nocorr")
+# combine_list(spin0_masses_A, spin0_combination_list_A,   'spin0', "nocorr")
 #
 #combine_list(spin0_masses_AB, spin0_combination_list_AB, 'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
 #combine_list(spin0_masses_AB, spin0_combination_list_AB, 'spin0', "nocorr")
