@@ -23,6 +23,7 @@ hhCompile:
     - git branch development --track remotes/origin/development
     - git checkout development
     - git apply ../../workspaceCombiner.patch
+    - head -n 30 app/manager.cxx
     - cd $base_path
     - source compile.sh
     - source setup.sh
