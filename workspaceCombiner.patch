@@ -1,13 +1,13 @@
 diff --git a/app/manager.cxx b/app/manager.cxx
-index 735a2e4..0710dbd 100644
+index f18a4d4..b972c2a 100644
 --- a/app/manager.cxx
 +++ b/app/manager.cxx
-@@ -26,7 +26,7 @@ std::string injectDataSet_ = "asimovData_1"; // To be moved to workspace editing
- std::string replaceStr_ = "";		     // To be moved to workspace editing
- std::string usePseudoData_ = "";	     // To be moved to workspace editing
- std::string dataName_ = "obsData";	     // To be moved to XML file
--std::string wsName_ = "combWS";		     // To be moved to XML file
-+std::string wsName_ = "";		     // To be moved to XML file
- std::string mcName_ = "ModelConfig";	     // To be moved to XML file
- 
- double rMax_ = -999;		// To be moved to XML file
+@@ -15,7 +15,7 @@ int numThreads_ = 1;
+ TString inputFile_ = "";
+ TString outputFile_ = "splitted.root";
+ TString dataName_ = "obsData";
+-TString wsName_ = "combWS";
++TString wsName_ = "";
+ TString mcName_ = "ModelConfig";
+ TString indices_ = "";
+ TString snapshots_ = "";
