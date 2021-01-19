@@ -45,7 +45,6 @@ printf "${GREEN}\n
 | Compiling 4/4) submodules/DiagnosticTools ...
 ==============================================${NC}\n"
 cd submodules/DiagnosticTools
-cd NPranking
 rm -fr build; mkdir -p build; cd build; cmake ../; make -j4
 cd ${hh_combination_fw_path}
 
