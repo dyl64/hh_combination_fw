@@ -29,6 +29,7 @@ hhCompile:
     - cd $base_path
     - cd submodules/RooFitExtensions; git status
     - git checkout 7af33678
+    - cd $base_path
     - source compile.sh
     - source setup.sh
   artifacts:
