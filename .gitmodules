@@ -18,3 +18,8 @@
 	url = ../hh_plot.git
 	branch = master
 	update = merge
+[submodule "submodules/DiagnosticTools"]
+	path = submodules/DiagnosticTools
+	url = ../DiagnosticTools.git
+	branch = master
+	update = merge

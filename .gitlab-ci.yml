@@ -19,10 +19,16 @@ hhCompile:
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - base_path=$(pwd)
-    - cd submodules/workspaceCombiner; ls
+    - cd submodules/workspaceCombiner; git status
     - git branch development --track remotes/origin/development
-    - git checkout development
+    #- git checkout development
+    - git checkout 0db0e09c
     - git apply ../../workspaceCombiner.patch
+    - git apply ../../workspaceCombiner.patch2
+    - head -n 30 app/manager.cxx
+    - cd $base_path
+    - cd submodules/RooFitExtensions; git status
+    - git checkout 7af33678
     - cd $base_path
     - source compile.sh
     - source setup.sh

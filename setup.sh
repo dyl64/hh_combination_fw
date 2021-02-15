@@ -10,7 +10,8 @@ export hh_combination_fw_path
 # Copied from workspaceCombiner/setup.sh (Rui Zhang)
 cd submodules/workspaceCombiner
 setupATLAS
-lsetup "views LCG_97_ATLAS_1 x86_64-centos7-gcc8-opt"
+#lsetup "views LCG_97_ATLAS_1 x86_64-centos7-gcc8-opt"
+lsetup "views LCG_98 x86_64-centos7-gcc8-opt"
 
 # More memory
 ulimit -S -s unlimited
