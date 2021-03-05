@@ -18,7 +18,7 @@ printf "${GREEN}\n
 | Compiling 1/4) submodules/RooFitExtensions  ...
 ==================================================${NC}\n"
 cd submodules/RooFitExtensions
-mkdir -p build && cd build && cmake .. && make -j8 && cd ..
+mkdir -p build && cd build && rm -fr * && cmake .. && make -j8 && cd ..
 source build/setup.sh
 cd ${hh_combination_fw_path}
 
@@ -28,7 +28,7 @@ printf "${GREEN}\n
 | Compiling 2/4) submodules/workspaceCombiner ...
 ==================================================${NC}\n"
 cd submodules/workspaceCombiner
-mkdir -p build && cd build && cmake .. && make -j8 && cd ..
+mkdir -p build && cd build && rm -fr * && cmake .. && make -j8 && cd ..
 cd ${hh_combination_fw_path}
 
 
@@ -37,7 +37,7 @@ printf "${GREEN}\n
 | Compiling 3/4) submodules/RooStatTools  ...
 ==============================================${NC}\n"
 cd submodules/RooStatTools
-make
+make clean && make
 cd ${hh_combination_fw_path}
 
 printf "${GREEN}\n

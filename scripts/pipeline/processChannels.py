@@ -9,8 +9,8 @@ import workspaceCombiner as wsc
 import aux_utils as utils
 import git
 
-input_dir_prepath  = ("../input" if len(sys.argv) < 2 else sys.argv[1]) + '/20201007/'
-output_dir_prepath = ("../output" if len(sys.argv) < 3 else sys.argv[2]) + '/v140invfb_20201007'
+input_dir_prepath  = ("../input" if len(sys.argv) < 2 else sys.argv[1]) + '/20210213/'
+output_dir_prepath = ("../output" if len(sys.argv) < 3 else sys.argv[2]) + '/v140invfb_20210213'
 new_poiname        = "xsec_br"
 exp_or_obs         = "obs"
 doBetterBands      = "true"
@@ -24,16 +24,26 @@ git_stamp_path     = os.path.join(output_dir_prepath, "git.stamp")
 def create_task_arg(type, channel):
 
     input_dir_path = os.path.join(input_dir_prepath, channel, type)
+    job_batch_start = [s for s in sys.argv if 'job_batch_start=' in s]
+    job_batch_start = int(job_batch_start[0].split('=')[-1]) if job_batch_start else None
+    job_batch_stop   = [s for s in sys.argv if 'job_batch_stop=' in s]
+    job_batch_stop   = int(job_batch_stop[0].split('=')[-1]) if job_batch_stop else None
 
     return (input_dir_path, output_dir_prepath, type, channel, scaling_release, new_poiname,
-            exp_or_obs, doBetterBands, dataName, asimovDataName, CL, blind)
+            exp_or_obs, doBetterBands, dataName, asimovDataName, CL, blind, job_batch_start, job_batch_stop)
 
+
+channel = [s for s in sys.argv if 'channel=' in s]
+channel = channel[0].split('=')[-1]
+signal = [s for s in sys.argv if 'signal=' in s]
+signal = signal[0].split('=')[-1]
 
 task_list = []
-task_list.append( create_task_arg('nonres',       'bbbb') )
-task_list.append( create_task_arg('nonres',       'bbtautau') )
-task_list.append( create_task_arg('nonres',       'bbyy') )
-#task_list.append( create_task_arg('resolved/nonres_SM',       'WWyy') )
+task_list.append( create_task_arg(signal,       channel) )
+# task_list.append( create_task_arg('nonres',       'bbbb') )
+# task_list.append( create_task_arg('nonres',       'bbtautau') )
+# task_list.append( create_task_arg('nonres',       'bbyy') )
+# task_list.append( create_task_arg('nonres',       'WWWW') )
 #task_list.append( create_task_arg('nonres',       'bbWW') )
 #task_list.append( create_task_arg('nonres',       'WWWW') )
 # task_list.append( create_task_arg('spin0',        'bbbb') )

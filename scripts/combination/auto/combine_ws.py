@@ -13,19 +13,19 @@ import sys
 ############################################
 
 #batch_tag = "output/v00"
-batch_tag = "output/v140invfb_20201007"
+batch_tag = "output/v140invfb_20210213"
 
 # - Number of processes to run in parallel
 nProc = 14
 
 # - Input folder where the regularised and rescaled workspaces are found:
-rescaled_ws_prepath = ("../{0}/rescaled/" if len(sys.argv) < 2 else '{0}/rescaled/').format(batch_tag)
+rescaled_ws_prepath = ("../{0}/rescaled/" if 'gitlabci' not in sys.argv[1] else '{0}/rescaled/').format(batch_tag)
 
 # - Config folder where the the .xml config files are placed
-config_file_prepath = ("../{0}/cfg/combination/" if len(sys.argv) < 2 else '{0}/rescaled/').format(batch_tag)
+config_file_prepath = ("../{0}/cfg/combination/" if 'gitlabci' not in sys.argv[1] else '{0}/rescaled/').format(batch_tag)
 
 # - Output folder where the combined workspaces will be placed:
-output_ws_prepath = ("../{0}/combined/" if len(sys.argv) < 2 else '{0}/rescaled/').format(batch_tag)
+output_ws_prepath = ("../{0}/combined/" if 'gitlabci' not in sys.argv[1] else '{0}/rescaled/').format(batch_tag)
 
 # - Git stamp path
 git_stamp_path     = os.path.join(output_ws_prepath, "git.stamp")
@@ -105,12 +105,13 @@ def combine_list(masses, combination_list, type, scheme, scheme_tag=None, same_s
 ###################################
 
 nonres_combination_list = {
-                            # 'A-bbtautau'                : ['bbtautau'],
+                            'A-bbyy'                : ['bbyy'],
+                            # 'A-bbbb'                : ['bbbb'],
                             # 'A-bbbb_bbtautau'                     : ['bbbb', 'bbtautau'],
                             # 'A-bbbb_bbyy'                         : ['bbbb', 'bbyy'],
                             # 'A-bbtautau_bbyy'                     : ['bbtautau', 'bbyy'],
-                            'A-bbbb_bbtautau_bbyy'                : ['bbbb', 'bbtautau', 'bbyy'],
-                            #'A-bbbb_bbtautau_bbyy_WWyy'           : ['bbbb', 'bbtautau', 'bbyy', 'WWyy'],
+                            # 'A-bbbb_bbtautau_bbyy'                : ['bbbb', 'bbtautau', 'bbyy'],
+                            # 'A-bbbb_bbtautau_bbyy_WWWW'           : ['bbbb', 'bbtautau', 'bbyy', 'WWWW'],
                             #'A-bbbb_bbtautau_WWyy_bbWW'           : ['bbbb', 'bbtautau', 'WWyy', 'bbWW'],
                             #'A-bbbb_bbtautau_bbyy_WWyy_bbWW'      : ['bbbb', 'bbtautau', 'bbyy', 'WWyy', 'bbWW'],
                             # 'A-bbbb_bbtautau_bbyy_WWyy_bbWW_WWWW' : ['bbbb', 'bbtautau', 'bbyy', 'WWyy', 'bbWW', 'WWWW']
@@ -124,10 +125,15 @@ nonres_combination_list_C = {
                              'C-bbtautau_bbyy'           : ['bbtautau', 'bbyy'],
                             }
 
-nonres_pts = [0]
+nonrespt = [s for s in sys.argv if 'nonres=' in s]
+if nonrespt:
+  nonres_pts = [nonrespt[0].split('=')[-1]]
+else:
+  nonres_pts = [0]
+
 
 # nonres_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy':'fullcorr', 'WWyy':'fullcorr', 'bbWW':'fullcorr', 'WWWW':'fullcorr' }
-nonres_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy':'fullcorr' }
+# nonres_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy':'fullcorr' }
 #nonres_scheme = {'bbbb' : 'fullcorr_test', 'bbtautau' : 'fullcorr_test', 'bbyy':'fullcorr_test', 'WWyy':'fullcorr_test', 'bbWW':'fullcorr_test', 'WWWW':'fullcorr_test' }
 
 # combine_list(nonres_pts, nonres_combination_list, 'nonres',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
@@ -562,7 +568,6 @@ manager = utils.job_manager(func=wsc.task_combine_calc_limit_and_generate_asimov
 
 manager.set_task_args(task_list)
 manager.submit()
-
     
 for rootfiles_dir, scaling, datafile_path, isSM in datafile_arg_list:
 

@@ -62,4 +62,5 @@ WORKSPACECOMBINER_PATH=${hh_combination_fw_path}/submodules/workspaceCombiner/
 export WORKSPACECOMBINER_PATH
 
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROOSTATPATH/lib
-ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${hh_combination_fw_path}/submodules/RooStatTools/inc/
+ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${hh_combination_fw_path}/submodules/RooStatTools/inc/:${hh_combination_fw_path}/submodules/RooFitExtensions
+export ROOT_INCLUDE_PATH
