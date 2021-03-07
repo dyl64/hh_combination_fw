@@ -19,13 +19,13 @@ batch_tag = "output/v140invfb_20210213"
 nProc = 14
 
 # - Input folder where the regularised and rescaled workspaces are found:
-rescaled_ws_prepath = ("../{0}/rescaled/" if 'gitlabci' not in sys.argv[1] else '{0}/rescaled/').format(batch_tag)
+rescaled_ws_prepath = ('{0}/rescaled/' if len(sys.argv) > 1 and 'gitlabci' in sys.argv[1] else "../{0}/rescaled/").format(batch_tag)
 
 # - Config folder where the the .xml config files are placed
-config_file_prepath = ("../{0}/cfg/combination/" if 'gitlabci' not in sys.argv[1] else '{0}/rescaled/').format(batch_tag)
+config_file_prepath = ('{0}/cfg/combination/' if len(sys.argv) > 1 and 'gitlabci' in sys.argv[1] else "../{0}/cfg/combination/").format(batch_tag)
 
 # - Output folder where the combined workspaces will be placed:
-output_ws_prepath = ("../{0}/combined/" if 'gitlabci' not in sys.argv[1] else '{0}/rescaled/').format(batch_tag)
+output_ws_prepath = ('{0}/combined/' if len(sys.argv) > 1 and 'gitlabci' in sys.argv[1] else "../{0}/combined/").format(batch_tag)
 
 # - Git stamp path
 git_stamp_path     = os.path.join(output_ws_prepath, "git.stamp")
@@ -107,6 +107,7 @@ def combine_list(masses, combination_list, type, scheme, scheme_tag=None, same_s
 nonres_combination_list = {
                             'A-bbyy'                : ['bbyy'],
                             # 'A-bbbb'                : ['bbbb'],
+                            # 'A-bbtautau'                : ['bbtautau'],
                             # 'A-bbbb_bbtautau'                     : ['bbbb', 'bbtautau'],
                             # 'A-bbbb_bbyy'                         : ['bbbb', 'bbyy'],
                             # 'A-bbtautau_bbyy'                     : ['bbtautau', 'bbyy'],
