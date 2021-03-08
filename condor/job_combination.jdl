@@ -11,52 +11,254 @@ stream_error    = False
 Requirements = ((Arch == "X86_64") && (regexp("CentOS7",OpSysAndVer)))
 WhenToTransferOutput = ON_EXIT_OR_EVICT
 OnExitRemove         = TRUE
-+JobFlavour = "nextweek"
-+JobType="training"
++JobFlavour = "longlunch"
++JobType="analysis"
 +AccountingGroup ="group_u_ATLASWISC.all"
 RequestCpus = 1
 Request_memory = 500 MB
 Request_disk   = 500 MB
 
-Arguments = nonres bbyy 0 5
+Arguments = combine  0
 Queue 1
-Arguments = nonres bbyy 5 10
+Arguments = combine  2
 Queue 1
-Arguments = nonres bbyy 10 15
+Arguments = combine  4
 Queue 1
-Arguments = nonres bbyy 15 20
+Arguments = combine  6
 Queue 1
-Arguments = nonres bbyy 20 25
+Arguments = combine  8
 Queue 1
-Arguments = nonres bbyy 25 30
+Arguments = combine  10
 Queue 1
-Arguments = nonres bbyy 30 35
+Arguments = combine  20
 Queue 1
-Arguments = nonres bbyy 35 40
+Arguments = combine  30
 Queue 1
-Arguments = nonres bbyy 40 45
+Arguments = combine  40
 Queue 1
-Arguments = nonres bbyy 45 50
+Arguments = combine  50
 Queue 1
-Arguments = nonres bbyy 50 55
+Arguments = combine  60
 Queue 1
-Arguments = nonres bbyy 55 60
+Arguments = combine  70
 Queue 1
-Arguments = nonres bbyy 60 65
+Arguments = combine  80
 Queue 1
-Arguments = nonres bbyy 65 70
+Arguments = combine  90
 Queue 1
-Arguments = nonres bbyy 70 75
+Arguments = combine  100
 Queue 1
-Arguments = nonres bbyy 75 80
+Arguments = combine  502
 Queue 1
-Arguments = nonres bbyy 80 85
+Arguments = combine  504
 Queue 1
-Arguments = nonres bbyy 85 90
+Arguments = combine  506
 Queue 1
-Arguments = nonres bbyy 90 100
+Arguments = combine  508
 Queue 1
-Arguments = nonres bbyy 95 100
+Arguments = combine  510
 Queue 1
-Arguments = nonres bbyy 100 110
+Arguments = combine  5100
 Queue 1
+Arguments = combine  512
+Queue 1
+Arguments = combine  514
+Queue 1
+Arguments = combine  516
+Queue 1
+Arguments = combine  518
+Queue 1
+Arguments = combine  12
+Queue 1
+Arguments = combine  22
+Queue 1
+Arguments = combine  32
+Queue 1
+Arguments = combine  42
+Queue 1
+Arguments = combine  52
+Queue 1
+Arguments = combine  62
+Queue 1
+Arguments = combine  72
+Queue 1
+Arguments = combine  82
+Queue 1
+Arguments = combine  92
+Queue 1
+Arguments = combine  520
+Queue 1
+Arguments = combine  522
+Queue 1
+Arguments = combine  524
+Queue 1
+Arguments = combine  526
+Queue 1
+Arguments = combine  528
+Queue 1
+Arguments = combine  530
+Queue 1
+Arguments = combine  532
+Queue 1
+Arguments = combine  534
+Queue 1
+Arguments = combine  536
+Queue 1
+Arguments = combine  538
+Queue 1
+Arguments = combine  14
+Queue 1
+Arguments = combine  24
+Queue 1
+Arguments = combine  34
+Queue 1
+Arguments = combine  44
+Queue 1
+Arguments = combine  54
+Queue 1
+Arguments = combine  64
+Queue 1
+Arguments = combine  74
+Queue 1
+Arguments = combine  84
+Queue 1
+Arguments = combine  94
+Queue 1
+Arguments = combine  540
+Queue 1
+Arguments = combine  542
+Queue 1
+Arguments = combine  544
+Queue 1
+Arguments = combine  546
+Queue 1
+Arguments = combine  548
+Queue 1
+Arguments = combine  550
+Queue 1
+Arguments = combine  552
+Queue 1
+Arguments = combine  554
+Queue 1
+Arguments = combine  556
+Queue 1
+Arguments = combine  558
+Queue 1
+Arguments = combine  16
+Queue 1
+Arguments = combine  26
+Queue 1
+Arguments = combine  36
+Queue 1
+Arguments = combine  46
+Queue 1
+Arguments = combine  56
+Queue 1
+Arguments = combine  66
+Queue 1
+Arguments = combine  76
+Queue 1
+Arguments = combine  86
+Queue 1
+Arguments = combine  96
+Queue 1
+Arguments = combine  560
+Queue 1
+Arguments = combine  562
+Queue 1
+Arguments = combine  564
+Queue 1
+Arguments = combine  566
+Queue 1
+Arguments = combine  568
+Queue 1
+Arguments = combine  570
+Queue 1
+Arguments = combine  572
+Queue 1
+Arguments = combine  574
+Queue 1
+Arguments = combine  576
+Queue 1
+Arguments = combine  578
+Queue 1
+Arguments = combine  18
+Queue 1
+Arguments = combine  28
+Queue 1
+Arguments = combine  38
+Queue 1
+Arguments = combine  48
+Queue 1
+Arguments = combine  58
+Queue 1
+Arguments = combine  68
+Queue 1
+Arguments = combine  78
+Queue 1
+Arguments = combine  88
+Queue 1
+Arguments = combine  98
+Queue 1
+Arguments = combine  580
+Queue 1
+Arguments = combine  582
+Queue 1
+Arguments = combine  584
+Queue 1
+Arguments = combine  586
+Queue 1
+Arguments = combine  588
+Queue 1
+Arguments = combine  590
+Queue 1
+Arguments = combine  592
+Queue 1
+Arguments = combine  594
+Queue 1
+Arguments = combine  596
+Queue 1
+Arguments = combine  598
+Queue 1
+#Arguments = pipeline nonres bbyy 0 5
+#Queue 1
+#Arguments = pipeline nonres bbyy 5 10
+#Queue 1
+#Arguments = pipeline nonres bbyy 10 15
+#Queue 1
+#Arguments = pipeline nonres bbyy 15 20
+#Queue 1
+#Arguments = pipeline nonres bbyy 20 25
+#Queue 1
+#Arguments = pipeline nonres bbyy 25 30
+#Queue 1
+#Arguments = pipeline nonres bbyy 30 35
+#Queue 1
+#Arguments = pipeline nonres bbyy 35 40
+#Queue 1
+#Arguments = pipeline nonres bbyy 40 45
+#Queue 1
+#Arguments = pipeline nonres bbyy 45 50
+#Queue 1
+#Arguments = pipeline nonres bbyy 50 55
+#Queue 1
+#Arguments = pipeline nonres bbyy 55 60
+#Queue 1
+#Arguments = pipeline nonres bbyy 60 65
+#Queue 1
+#Arguments = pipeline nonres bbyy 65 70
+#Queue 1
+#Arguments = pipeline nonres bbyy 70 75
+#Queue 1
+#Arguments = pipeline nonres bbyy 75 80
+#Queue 1
+#Arguments = pipeline nonres bbyy 80 85
+#Queue 1
+#Arguments = pipeline nonres bbyy 85 90
+#Queue 1
+#Arguments = pipeline nonres bbyy 90 100
+#Queue 1
+#Arguments = pipeline nonres bbyy 95 100
+#Queue 1
+#Arguments = pipeline nonres bbyy 100 110
+#Queue 1

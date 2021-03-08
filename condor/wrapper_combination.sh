@@ -9,7 +9,12 @@ source $ATLAS_LOCAL_ROOT_BASE/user/atlasLocalSetup.sh;
 
 source setup.sh
 
-command="python scripts/pipeline/processChannels.py ../input ../output signal=$1 channel=$2 job_batch_start=$3 job_batch_stop=$4"
+job=$1
+if [[ $job == "pipeline" ]]; then
+    command="python scripts/pipeline/processChannels.py ../input ../output signal=$2 channel=$3 job_batch_start=$4 job_batch_stop=$5"
+elif [[ $job == "combine" ]]; then
+    command="python scripts/combination/auto/combine_ws.py nonres=$2"
+fi
 
 echo $command
 $command
