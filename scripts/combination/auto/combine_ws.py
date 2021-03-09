@@ -13,7 +13,7 @@ import sys
 ############################################
 
 #batch_tag = "output/v00"
-batch_tag = "output/v140invfb_20210213"
+batch_tag = "output/v140invfb_20210309"
 
 # - Number of processes to run in parallel
 nProc = 14
@@ -105,13 +105,13 @@ def combine_list(masses, combination_list, type, scheme, scheme_tag=None, same_s
 ###################################
 
 nonres_combination_list = {
-                            'A-bbyy'                : ['bbyy'],
+                            # 'A-bbyy'                : ['bbyy'],
                             # 'A-bbbb'                : ['bbbb'],
                             # 'A-bbtautau'                : ['bbtautau'],
                             # 'A-bbbb_bbtautau'                     : ['bbbb', 'bbtautau'],
                             # 'A-bbbb_bbyy'                         : ['bbbb', 'bbyy'],
                             # 'A-bbtautau_bbyy'                     : ['bbtautau', 'bbyy'],
-                            # 'A-bbbb_bbtautau_bbyy'                : ['bbbb', 'bbtautau', 'bbyy'],
+                            'A-bbbb_bbtautau_bbyy'                : ['bbbb', 'bbtautau', 'bbyy'],
                             # 'A-bbbb_bbtautau_bbyy_WWWW'           : ['bbbb', 'bbtautau', 'bbyy', 'WWWW'],
                             #'A-bbbb_bbtautau_WWyy_bbWW'           : ['bbbb', 'bbtautau', 'WWyy', 'bbWW'],
                             #'A-bbbb_bbtautau_bbyy_WWyy_bbWW'      : ['bbbb', 'bbtautau', 'bbyy', 'WWyy', 'bbWW'],
@@ -129,6 +129,8 @@ nonres_combination_list_C = {
 nonrespt = [s for s in sys.argv if 'nonres=' in s]
 if nonrespt:
   nonres_pts = [nonrespt[0].split('=')[-1]]
+  nonres_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy':'fullcorr' }
+  combine_list(nonres_pts, nonres_combination_list, 'nonres',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
 else:
   nonres_pts = [0]
 
@@ -138,7 +140,7 @@ else:
 #nonres_scheme = {'bbbb' : 'fullcorr_test', 'bbtautau' : 'fullcorr_test', 'bbyy':'fullcorr_test', 'WWyy':'fullcorr_test', 'bbWW':'fullcorr_test', 'WWWW':'fullcorr_test' }
 
 # combine_list(nonres_pts, nonres_combination_list, 'nonres',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
-combine_list(nonres_pts, nonres_combination_list, 'nonres',  "nocorr"  )
+# combine_list(nonres_pts, nonres_combination_list, 'nonres',  "nocorr"  )
 #combine_list(nonres_pts, nonres_combination_list_B, 'nonres',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
 # combine_list(nonres_pts, nonres_combination_list, 'nonres',  "nocorr"  )
 
@@ -165,7 +167,7 @@ spin0_combination_list_AB = {
 spin0_combination_list_A = {
                             # 'A-bbtautau'           : ['bbtautau'], #
                             'A-bbbb_bbtautau'                : ['bbbb', 'bbtautau'],#
-                            # 'A-bbbb_bbtautau_bbyy'           : ['bbbb', 'bbtautau', 'bbyy'], #
+                            'A-bbbb_bbtautau_bbyy'           : ['bbbb', 'bbtautau', 'bbyy'], #
                             #'A-bbbb_bbtautau_bbyy_WWyy'      : ['bbbb', 'bbtautau', 'bbyy', 'WWyy'],
                             #'A-bbbb_bbtautau_bbyy_WWyy_WWWW' : ['bbbb', 'bbtautau', 'bbyy', 'WWyy', 'WWWW'],
                             # 'A-bbbb_bbyy'                    : ['bbbb', 'bbyy'],
@@ -238,30 +240,37 @@ spin0_combination_list_Z = {
 
 spin0_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy' : 'fullcorr', 'WWyy' : 'fullcorr', 'bbWW' : 'fullcorr', 'WWWW' : 'fullcorr'}
 
-spin0_masses    = [260, 300, 400, 500, 600, 700, 800, 900, 1000]
-#spin0_masses_A  = [260, 275, 300, 325, 350, 400, 450]#
-#spin0_masses_A  = [260, 280, 300]
-spin0_masses_A  = [300]
-spin0_masses_AB = [260, 300, 400, 500]
-spin0_masses_B  = [400, 500, 600, 700, 800, 900, 1000, 1200, 1400, 1600, 1800, 2000, 2500, 3000]
-spin0_masses_C  = [550, 600, 700, 800, 900, 1000]
-#spin0_masses_C  = [1000]
-spin0_masses_D  = [1000, 1100, 1200, 1300, 1400, 1500, 1600, 1800, 2000, 2250, 2500, 2750, 3000]
-spin0_masses_E  = [260, 275, 300, 325, 350, 400, 450, 500]
-spin0_masses_F  = [500, 550, 600, 700, 800, 900, 1000]
-spin0_masses_G  = [260, 275, 300, 325, 350, 400, 450, 500, 550, 600, 700, 800, 900, 1000]
-spin0_masses_H  = [275, 325, 350, 450, 550]
-spin0_masses_I  = [260, 1000]
-spin0_masses_J  = [500, 1000, 2000]
-spin0_masses_K  = [800]
-spin0_masses_L  = [260, 275, 280, 300, 325, 350, 400, 450, 500] # for interpolation at 280 GeV to account for 4b excess
+# spin0_masses    = [260, 300, 400, 500, 600, 700, 800, 900, 1000]
+# #spin0_masses_A  = [260, 275, 300, 325, 350, 400, 450]#
+# #spin0_masses_A  = [260, 280, 300]
+# spin0_masses_A  = [300]
+# spin0_masses_AB = [260, 300, 400, 500]
+# spin0_masses_B  = [400, 500, 600, 700, 800, 900, 1000, 1200, 1400, 1600, 1800, 2000, 2500, 3000]
+# spin0_masses_C  = [550, 600, 700, 800, 900, 1000]
+# #spin0_masses_C  = [1000]
+# spin0_masses_D  = [1000, 1100, 1200, 1300, 1400, 1500, 1600, 1800, 2000, 2250, 2500, 2750, 3000]
+# spin0_masses_E  = [260, 275, 300, 325, 350, 400, 450, 500]
+# spin0_masses_F  = [500, 550, 600, 700, 800, 900, 1000]
+# spin0_masses_G  = [260, 275, 300, 325, 350, 400, 450, 500, 550, 600, 700, 800, 900, 1000]
+# spin0_masses_H  = [275, 325, 350, 450, 550]
+# spin0_masses_I  = [260, 1000]
+# spin0_masses_J  = [500, 1000, 2000]
+# spin0_masses_K  = [800]
+# spin0_masses_L  = [260, 275, 280, 300, 325, 350, 400, 450, 500] # for interpolation at 280 GeV to account for 4b excess
 #spin0_masses_L  = [280] # for interpolation at 280 GeV to account for 4b excess
 
 #spin0_masses_Z  = [500, 600, 700, 800, 900, 1000] #DPG plots
 
+spin0pt = [s for s in sys.argv if 'spin0pt=' in s]
+if spin0pt:
+  spin0pt = [spin0pt[0].split('=')[-1]]
+  spin0_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy' : 'fullcorr', 'WWyy' : 'fullcorr', 'bbWW' : 'fullcorr', 'WWWW' : 'fullcorr'}
+  combine_list(spin0pt, spin0_combination_list_A,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
+else:
+  spin0pt = [260, 300, 400, 500, 600, 700, 800, 900, 1000]
 
-# combine_list(spin0_masses_A, spin0_combination_list_A,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
-# combine_list(spin0_masses_A, spin0_combination_list_A,   'spin0', "nocorr")
+# combine_list(spin0pt, spin0_combination_list_A,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
+# combine_list(spin0pt, spin0_combination_list_A,   'spin0', "nocorr")
 #
 #combine_list(spin0_masses_AB, spin0_combination_list_AB, 'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
 #combine_list(spin0_masses_AB, spin0_combination_list_AB, 'spin0', "nocorr")
@@ -430,14 +439,14 @@ spin2_c20_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy
 
 ### There is in principal no difference between regions A, B, C and D. Only the masses are split for performance reasons.
 
-lambda_values_A = [-20, -19, -18, -17, -16, -15, -14, -13, -12, -11]
 lambda_values_B = [-10, -9, -8, -7, -6, -5, -4, -3, -2, -1]
 lambda_values_C = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 lambda_values_D = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 
 lambda_combination_list_A = { 
-                              'A-bbbb_bbtautau'      : ['bbbb', 'bbtautau'],
-                              'A-bbbb_bbtautau_bbyy' : ['bbbb', 'bbtautau', 'bbyy'],
+                              'A-bbyy'      : ['bbyy'],
+                              # 'A-bbbb_bbtautau'      : ['bbbb', 'bbtautau'],
+                              # 'A-bbbb_bbtautau_bbyy' : ['bbbb', 'bbtautau', 'bbyy'],
                               ##'A-bbbb_bbyy'          : ['bbbb', 'bbyy'],
                               ##'A-bbtautau_bbyy'      : ['bbtautau', 'bbyy'],
                             }
@@ -493,9 +502,17 @@ lambda_combination_list_N = {
                               'N-bbtautau_bbyy' : ['bbtautau', 'bbyy']
                             }
 
-lambda_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy' : 'fullcorr', 'WWyy' : 'fullcorr', 'bbWW' : 'fullcorr' }
 
-#combine_list(lambda_values_A, lambda_combination_list_A, 'lambda', "nocorr")
+lambdapt = [s for s in sys.argv if 'lambdapt=' in s]
+if lambdapt:
+  lambda_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy' : 'fullcorr', 'WWyy' : 'fullcorr', 'bbWW' : 'fullcorr' }
+  combine_list(lambdapt, lambda_combination_list_A, 'lambda', "nocorr")
+  lambdapt = [lambdapt[0].split('=')[-1]]
+else:
+  lambdapt = [-0.2, 0.0, 0.2]
+
+# lambda_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy' : 'fullcorr', 'WWyy' : 'fullcorr', 'bbWW' : 'fullcorr' }
+# combine_list(lambdapt, lambda_combination_list_A, 'lambda', "nocorr")
 #combine_list(lambda_values_A, lambda_combination_list_A, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
 #combine_list(lambda_values_B, lambda_combination_list_B, 'lambda', "nocorr")
 #combine_list(lambda_values_B, lambda_combination_list_B, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
@@ -516,7 +533,7 @@ lambda_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy' :
 #combine_list(lambda_values_D, lambda_combination_list_J, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
 
 # STAT-ONLY
-#combine_list(lambda_values_A, lambda_combination_list_A, 'lambda_statOnly', "nocorr")
+# combine_list(lambda_values_A, lambda_combination_list_A, 'lambda_statOnly', "nocorr")
 #combine_list(lambda_values_A, lambda_combination_list_A, 'lambda_statOnly', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
 #combine_list(lambda_values_B, lambda_combination_list_B, 'lambda_statOnly', "nocorr")
 #combine_list(lambda_values_B, lambda_combination_list_B, 'lambda_statOnly', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)

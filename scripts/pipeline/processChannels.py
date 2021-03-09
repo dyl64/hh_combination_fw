@@ -9,8 +9,8 @@ import workspaceCombiner as wsc
 import aux_utils as utils
 import git
 
-input_dir_prepath  = ("../input" if len(sys.argv) < 2 else sys.argv[1]) + '/20210213/'
-output_dir_prepath = ("../output" if len(sys.argv) < 3 else sys.argv[2]) + '/v140invfb_20210213'
+input_dir_prepath  = ("../input" if len(sys.argv) < 2 else sys.argv[1]) + '/20210309/'
+output_dir_prepath = ("../output" if len(sys.argv) < 3 else sys.argv[2]) + '/v140invfb_20210309'
 new_poiname        = "xsec_br"
 exp_or_obs         = "obs"
 doBetterBands      = "true"
@@ -46,7 +46,7 @@ if signal:
 else:
     # task_list.append( create_task_arg('nonres',       'bbbb') )
     # task_list.append( create_task_arg('nonres',       'bbtautau') )
-    task_list.append( create_task_arg('nonres',       'bbyy') )
+    # task_list.append( create_task_arg('nonres',       'bbyy') )
     # task_list.append( create_task_arg('nonres',       'WWWW') )
     #task_list.append( create_task_arg('nonres',       'bbWW') )
     #task_list.append( create_task_arg('nonres',       'WWWW') )
@@ -67,7 +67,7 @@ else:
 
     # task_list.append( create_task_arg('lambda',  'bbbb') )
     # task_list.append( create_task_arg('lambda',  'bbtautau') )
-    # task_list.append( create_task_arg('lambda',  'bbyy') )
+    task_list.append( create_task_arg('lambda',  'bbyy') )
 
 
     #task_list.append( create_task_arg('nonres_statOnly',       'bbbb') )
@@ -91,7 +91,7 @@ else:
 
     #task_list.append( create_task_arg('lambda_statOnly',  'bbbb') )
     #task_list.append( create_task_arg('lambda_statOnly',  'bbtautau') )
-    #task_list.append( create_task_arg('lambda_statOnly',  'bbyy') )
+    # task_list.append( create_task_arg('lambda_statOnly',  'bbyy') )
 
 
     #task_list.append( create_task_arg('nonres_140invfb',       'bbtautau') )

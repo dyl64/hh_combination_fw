@@ -13,7 +13,7 @@ job=$1
 if [[ $job == "pipeline" ]]; then
     command="python scripts/pipeline/processChannels.py ../input ../output signal=$2 channel=$3 job_batch_start=$4 job_batch_stop=$5"
 elif [[ $job == "combine" ]]; then
-    command="python scripts/combination/auto/combine_ws.py nonres=$2"
+    command="python scripts/combination/auto/combine_ws.py $2=$3"
 fi
 
 echo $command
