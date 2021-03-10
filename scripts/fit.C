@@ -7,8 +7,7 @@ using namespace RooStats;
 int profileToData(ModelConfig *mc, RooAbsData *data);
 
 int fit() {
-    //TFile* file = new TFile("../output/v140invfb_20210213_debug/rescaled/nonres/bbyy/0_with_Asimov_POI_0_NP_nom.root");
-    //TFile* file = new TFile("../output/v140invfb_20210213_debug/combined/nonres/A-bbbb-nocorr/0.root_raw.root");
+    TFile* file = new TFile("../output/v140invfb_20210309/rescaled/nonres/bbyy/0_with_Asimov_POI_0_NP_fit.root");
     RooWorkspace *w = (RooWorkspace *)file->Get("combWS");
 
     if (!w) {
@@ -72,6 +71,7 @@ int fit() {
 }
 
 int profileToData(ModelConfig *mc, RooAbsData *data){
+    RooAbsPdf *pdf=mc->GetPdf();
     RooWorkspace *w=mc->GetWS();
     RooArgSet funcs = w->allPdfs();
 

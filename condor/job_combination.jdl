@@ -586,7 +586,7 @@ Request_disk   = 500 MB
 #Queue 1
 
 #####################
-## spin-0 combination
+## spin-0 combine  ##
 #####################
 Arguments = combine spin0pt 260
 Queue 1
@@ -610,9 +610,14 @@ Queue 1
 ######################
 ## non-res pipeline ##
 ######################
-#Arguments = pipeline nonrespt bbyy 0 1
+#Arguments = pipeline nonres bbyy 0 1
 #Queue 1
-#Arguments = pipeline nonrespt bbtautau 0 1
+#Arguments = pipeline nonres bbtautau 0 1
 #Queue 1
-#Arguments = pipeline nonrespt bbbb 0 1
+#Arguments = pipeline nonres bbbb 0 1
+#Queue 1
+######################
+## non-res combine  ##
+######################
+#Arguments = combine nonrespt 0
 #Queue 1

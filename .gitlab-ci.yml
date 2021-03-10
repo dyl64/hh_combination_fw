@@ -64,8 +64,10 @@ RunPipeline:
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
     - which python
-    - python scripts/pipeline/processChannels.py $input_dir $output_dir
-    - python scripts/combination/auto/combine_ws.py gitlabci
+    - python scripts/pipeline/processChannels.py $input_dir $output_dir signal=nonres channel=bbyy job_batch_start=0 job_batch_stop=1
+    - python scripts/pipeline/processChannels.py $input_dir $output_dir signal=nonres channel=bbtautau job_batch_start=0 job_batch_stop=1
+    - python scripts/pipeline/processChannels.py $input_dir $output_dir signal=nonres channel=bbbb job_batch_start=0 job_batch_stop=1
+    - python scripts/combination/auto/combine_ws.py gitlabci nonrespt=0
   artifacts:
     paths:
       - $output_dir
