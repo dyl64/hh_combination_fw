@@ -56,7 +56,7 @@ RunPipeline:
     - echo -e "Host *\n\tGSSAPIDelegateCredentials yes\n\tGSSAPITrustDNS yes\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - echo $SERVICE_PASS | kinit -f $CERN_USER || echo something
     - mkdir -p $input_dir
-    - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/input/20201007 $input_dir
+    - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/input/20210309/ $input_dir
   script:
     # - source /release_setup.sh
     - shopt -s expand_aliases
