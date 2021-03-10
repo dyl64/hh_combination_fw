@@ -11,216 +11,220 @@ stream_error    = False
 Requirements = ((Arch == "X86_64") && (regexp("CentOS7",OpSysAndVer)))
 WhenToTransferOutput = ON_EXIT_OR_EVICT
 OnExitRemove         = TRUE
-+JobFlavour = "longlunch"
++JobFlavour = "workday"
 +JobType="analysis"
 +AccountingGroup ="group_u_ATLASWISC.all"
 RequestCpus = 1
 Request_memory = 500 MB
 Request_disk   = 500 MB
 
-#Arguments = combine  0
+#####################
+## lambda combine  ##
+#####################
+#Arguments = combine lambdapt 10.0 batch_tag 20210213
 #Queue 1
-#Arguments = combine  2
+#Arguments = combine lambdapt 9.8 batch_tag 20210213
 #Queue 1
-#Arguments = combine  4
+#Arguments = combine lambdapt 9.6 batch_tag 20210213
 #Queue 1
-#Arguments = combine  6
+#Arguments = combine lambdapt 9.4 batch_tag 20210213
 #Queue 1
-#Arguments = combine  8
+#Arguments = combine lambdapt 9.2 batch_tag 20210213
 #Queue 1
-#Arguments = combine  10
+#Arguments = combine lambdapt 9.0 batch_tag 20210213
 #Queue 1
-#Arguments = combine  20
+#Arguments = combine lambdapt 8.8 batch_tag 20210213
 #Queue 1
-#Arguments = combine  30
+#Arguments = combine lambdapt 8.6 batch_tag 20210213
 #Queue 1
-#Arguments = combine  40
+#Arguments = combine lambdapt 8.4 batch_tag 20210213
 #Queue 1
-#Arguments = combine  50
+#Arguments = combine lambdapt 8.2 batch_tag 20210213
 #Queue 1
-#Arguments = combine  60
+#Arguments = combine lambdapt 8.0 batch_tag 20210213
 #Queue 1
-#Arguments = combine  70
+#Arguments = combine lambdapt 7.8 batch_tag 20210213
 #Queue 1
-#Arguments = combine  80
+#Arguments = combine lambdapt 7.6 batch_tag 20210213
 #Queue 1
-#Arguments = combine  90
+#Arguments = combine lambdapt 7.4 batch_tag 20210213
 #Queue 1
-#Arguments = combine  100
+#Arguments = combine lambdapt 7.2 batch_tag 20210213
 #Queue 1
-#Arguments = combine  502
+#Arguments = combine lambdapt 7.0 batch_tag 20210213
 #Queue 1
-#Arguments = combine  504
+#Arguments = combine lambdapt 6.8 batch_tag 20210213
 #Queue 1
-#Arguments = combine  506
+#Arguments = combine lambdapt 6.6 batch_tag 20210213
 #Queue 1
-#Arguments = combine  508
+#Arguments = combine lambdapt 6.4 batch_tag 20210213
 #Queue 1
-#Arguments = combine  510
+#Arguments = combine lambdapt 6.2 batch_tag 20210213
 #Queue 1
-#Arguments = combine  5100
+#Arguments = combine lambdapt 6.0 batch_tag 20210213
 #Queue 1
-#Arguments = combine  512
+#Arguments = combine lambdapt 5.8 batch_tag 20210213
 #Queue 1
-#Arguments = combine  514
+#Arguments = combine lambdapt 5.6 batch_tag 20210213
 #Queue 1
-#Arguments = combine  516
+#Arguments = combine lambdapt 5.4 batch_tag 20210213
 #Queue 1
-#Arguments = combine  518
+#Arguments = combine lambdapt 5.2 batch_tag 20210213
 #Queue 1
-#Arguments = combine  12
+#Arguments = combine lambdapt 5.0 batch_tag 20210213
 #Queue 1
-#Arguments = combine  22
+#Arguments = combine lambdapt 4.8 batch_tag 20210213
 #Queue 1
-#Arguments = combine  32
+#Arguments = combine lambdapt 4.6 batch_tag 20210213
 #Queue 1
-#Arguments = combine  42
+#Arguments = combine lambdapt 4.4 batch_tag 20210213
 #Queue 1
-#Arguments = combine  52
+#Arguments = combine lambdapt 4.2 batch_tag 20210213
 #Queue 1
-#Arguments = combine  62
+#Arguments = combine lambdapt 4.0 batch_tag 20210213
 #Queue 1
-#Arguments = combine  72
+#Arguments = combine lambdapt 3.8 batch_tag 20210213
 #Queue 1
-#Arguments = combine  82
+#Arguments = combine lambdapt 3.6 batch_tag 20210213
 #Queue 1
-#Arguments = combine  92
+#Arguments = combine lambdapt 3.4 batch_tag 20210213
 #Queue 1
-#Arguments = combine  520
+#Arguments = combine lambdapt 3.2 batch_tag 20210213
 #Queue 1
-#Arguments = combine  522
+#Arguments = combine lambdapt 3.0 batch_tag 20210213
 #Queue 1
-#Arguments = combine  524
+#Arguments = combine lambdapt 2.8 batch_tag 20210213
 #Queue 1
-#Arguments = combine  526
+#Arguments = combine lambdapt 2.6 batch_tag 20210213
 #Queue 1
-#Arguments = combine  528
+#Arguments = combine lambdapt 2.4 batch_tag 20210213
 #Queue 1
-#Arguments = combine  530
+#Arguments = combine lambdapt 2.2 batch_tag 20210213
 #Queue 1
-#Arguments = combine  532
+#Arguments = combine lambdapt 2.0 batch_tag 20210213
 #Queue 1
-#Arguments = combine  534
+#Arguments = combine lambdapt 1.8 batch_tag 20210213
 #Queue 1
-#Arguments = combine  536
+#Arguments = combine lambdapt 1.6 batch_tag 20210213
 #Queue 1
-#Arguments = combine  538
+#Arguments = combine lambdapt 1.4 batch_tag 20210213
 #Queue 1
-#Arguments = combine  14
+#Arguments = combine lambdapt 1.2 batch_tag 20210213
 #Queue 1
-#Arguments = combine  24
+#Arguments = combine lambdapt 1.0 batch_tag 20210213
 #Queue 1
-#Arguments = combine  34
+#Arguments = combine lambdapt 0.8 batch_tag 20210213
 #Queue 1
-#Arguments = combine  44
+#Arguments = combine lambdapt 0.6 batch_tag 20210213
 #Queue 1
-#Arguments = combine  54
+#Arguments = combine lambdapt 0.4 batch_tag 20210213
 #Queue 1
-#Arguments = combine  64
+#Arguments = combine lambdapt 0.2 batch_tag 20210213
 #Queue 1
-#Arguments = combine  74
+#Arguments = combine lambdapt 0.0 batch_tag 20210213
 #Queue 1
-#Arguments = combine  84
+#Arguments = combine lambdapt -0.2 batch_tag 20210213
 #Queue 1
-#Arguments = combine  94
+#Arguments = combine lambdapt -0.4 batch_tag 20210213
 #Queue 1
-#Arguments = combine  540
+#Arguments = combine lambdapt -0.6 batch_tag 20210213
 #Queue 1
-#Arguments = combine  542
+#Arguments = combine lambdapt -0.8 batch_tag 20210213
 #Queue 1
-#Arguments = combine  544
+#Arguments = combine lambdapt -1.0 batch_tag 20210213
 #Queue 1
-#Arguments = combine  546
+#Arguments = combine lambdapt -1.2 batch_tag 20210213
 #Queue 1
-#Arguments = combine  548
+#Arguments = combine lambdapt -1.4 batch_tag 20210213
 #Queue 1
-#Arguments = combine  550
+#Arguments = combine lambdapt -1.6 batch_tag 20210213
 #Queue 1
-#Arguments = combine  552
+#Arguments = combine lambdapt -1.8 batch_tag 20210213
 #Queue 1
-#Arguments = combine  554
+#Arguments = combine lambdapt -2.0 batch_tag 20210213
 #Queue 1
-#Arguments = combine  556
+#Arguments = combine lambdapt -2.2 batch_tag 20210213
 #Queue 1
-#Arguments = combine  558
+#Arguments = combine lambdapt -2.4 batch_tag 20210213
 #Queue 1
-#Arguments = combine  16
+#Arguments = combine lambdapt -2.6 batch_tag 20210213
 #Queue 1
-#Arguments = combine  26
+#Arguments = combine lambdapt -2.8 batch_tag 20210213
 #Queue 1
-#Arguments = combine  36
+#Arguments = combine lambdapt -3.0 batch_tag 20210213
 #Queue 1
-#Arguments = combine  46
+#Arguments = combine lambdapt -3.2 batch_tag 20210213
 #Queue 1
-#Arguments = combine  56
+#Arguments = combine lambdapt -3.4 batch_tag 20210213
 #Queue 1
-#Arguments = combine  66
+#Arguments = combine lambdapt -3.6 batch_tag 20210213
 #Queue 1
-#Arguments = combine  76
+#Arguments = combine lambdapt -3.8 batch_tag 20210213
 #Queue 1
-#Arguments = combine  86
+#Arguments = combine lambdapt -4.0 batch_tag 20210213
 #Queue 1
-#Arguments = combine  96
+#Arguments = combine lambdapt -4.2 batch_tag 20210213
 #Queue 1
-#Arguments = combine  560
+#Arguments = combine lambdapt -4.4 batch_tag 20210213
 #Queue 1
-#Arguments = combine  562
+#Arguments = combine lambdapt -4.6 batch_tag 20210213
 #Queue 1
-#Arguments = combine  564
+#Arguments = combine lambdapt -4.8 batch_tag 20210213
 #Queue 1
-#Arguments = combine  566
+#Arguments = combine lambdapt -5.0 batch_tag 20210213
 #Queue 1
-#Arguments = combine  568
+#Arguments = combine lambdapt -5.2 batch_tag 20210213
 #Queue 1
-#Arguments = combine  570
+#Arguments = combine lambdapt -5.4 batch_tag 20210213
 #Queue 1
-#Arguments = combine  572
+#Arguments = combine lambdapt -5.6 batch_tag 20210213
 #Queue 1
-#Arguments = combine  574
+#Arguments = combine lambdapt -5.8 batch_tag 20210213
 #Queue 1
-#Arguments = combine  576
+#Arguments = combine lambdapt -6.0 batch_tag 20210213
 #Queue 1
-#Arguments = combine  578
+#Arguments = combine lambdapt -6.2 batch_tag 20210213
 #Queue 1
-#Arguments = combine  18
+#Arguments = combine lambdapt -6.4 batch_tag 20210213
 #Queue 1
-#Arguments = combine  28
+#Arguments = combine lambdapt -6.6 batch_tag 20210213
 #Queue 1
-#Arguments = combine  38
+#Arguments = combine lambdapt -6.8 batch_tag 20210213
 #Queue 1
-#Arguments = combine  48
+#Arguments = combine lambdapt -7.0 batch_tag 20210213
 #Queue 1
-#Arguments = combine  58
+#Arguments = combine lambdapt -7.2 batch_tag 20210213
 #Queue 1
-#Arguments = combine  68
+#Arguments = combine lambdapt -7.4 batch_tag 20210213
 #Queue 1
-#Arguments = combine  78
+#Arguments = combine lambdapt -7.6 batch_tag 20210213
 #Queue 1
-#Arguments = combine  88
+#Arguments = combine lambdapt -7.8 batch_tag 20210213
 #Queue 1
-#Arguments = combine  98
+#Arguments = combine lambdapt -8.0 batch_tag 20210213
 #Queue 1
-#Arguments = combine  580
+#Arguments = combine lambdapt -8.2 batch_tag 20210213
 #Queue 1
-#Arguments = combine  582
+#Arguments = combine lambdapt -8.4 batch_tag 20210213
 #Queue 1
-#Arguments = combine  584
+#Arguments = combine lambdapt -8.6 batch_tag 20210213
 #Queue 1
-#Arguments = combine  586
+#Arguments = combine lambdapt -8.8 batch_tag 20210213
 #Queue 1
-#Arguments = combine  588
+#Arguments = combine lambdapt -9.0 batch_tag 20210213
 #Queue 1
-#Arguments = combine  590
+#Arguments = combine lambdapt -9.2 batch_tag 20210213
 #Queue 1
-#Arguments = combine  592
+#Arguments = combine lambdapt -9.4 batch_tag 20210213
 #Queue 1
-#Arguments = combine  594
+#Arguments = combine lambdapt -9.6 batch_tag 20210213
 #Queue 1
-#Arguments = combine  596
+#Arguments = combine lambdapt -9.8 batch_tag 20210213
 #Queue 1
-#Arguments = combine  598
-#Queue 1
-
+#
+#####################
+## lambda pipeline ##
+#####################
 #Arguments = pipeline lambda bbyy 0 1
 #Queue 1
 #Arguments = pipeline lambda bbyy 1 2
@@ -606,9 +610,9 @@ Queue 1
 ######################
 ## non-res pipeline ##
 ######################
-#Arguments = pipeline nonres bbyy 0 1
+#Arguments = pipeline nonrespt bbyy 0 1
 #Queue 1
-#Arguments = pipeline nonres bbtautau 0 1
+#Arguments = pipeline nonrespt bbtautau 0 1
 #Queue 1
-#Arguments = pipeline nonres bbbb 0 1
+#Arguments = pipeline nonrespt bbbb 0 1
 #Queue 1

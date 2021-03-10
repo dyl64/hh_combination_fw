@@ -51,7 +51,7 @@ else:
     #task_list.append( create_task_arg('nonres',       'bbWW') )
     #task_list.append( create_task_arg('nonres',       'WWWW') )
     # task_list.append( create_task_arg('spin0',        'bbbb') )
-    # task_list.append( create_task_arg('spin0',        'bbtautau') )
+    task_list.append( create_task_arg('spin0',        'bbtautau') )
     # task_list.append( create_task_arg('spin0',        'bbyy') )
     #task_list.append( create_task_arg('spin0',        'WWyy') )
     #task_list.append( create_task_arg('spin0',        'bbWW') )
@@ -67,7 +67,7 @@ else:
 
     # task_list.append( create_task_arg('lambda',  'bbbb') )
     # task_list.append( create_task_arg('lambda',  'bbtautau') )
-    task_list.append( create_task_arg('lambda',  'bbyy') )
+    # task_list.append( create_task_arg('lambda',  'bbyy') )
 
 
     #task_list.append( create_task_arg('nonres_statOnly',       'bbbb') )

@@ -12,8 +12,13 @@ import sys
 ##### ----- Combination settings ----- #####
 ############################################
 
-#batch_tag = "output/v00"
-batch_tag = "output/v140invfb_20210309"
+batch_tag = [s for s in sys.argv if 'batch_tag=' in s]
+if batch_tag:
+  batch_tag = batch_tag[0].split('=')[-1]
+  batch_tag = "output/v140invfb_"+batch_tag
+else:
+  batch_tag = "output/v140invfb_20210309"
+print(batch_tag)
 
 # - Number of processes to run in parallel
 nProc = 14
@@ -126,7 +131,7 @@ nonres_combination_list_C = {
                              'C-bbtautau_bbyy'           : ['bbtautau', 'bbyy'],
                             }
 
-nonrespt = [s for s in sys.argv if 'nonres=' in s]
+nonrespt = [s for s in sys.argv if 'nonrespt=' in s]
 if nonrespt:
   nonres_pts = [nonrespt[0].split('=')[-1]]
   nonres_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy':'fullcorr' }
@@ -166,7 +171,7 @@ spin0_combination_list_AB = {
 
 spin0_combination_list_A = {
                             # 'A-bbtautau'           : ['bbtautau'], #
-                            'A-bbbb_bbtautau'                : ['bbbb', 'bbtautau'],#
+                            # 'A-bbbb_bbtautau'                : ['bbbb', 'bbtautau'],#
                             'A-bbbb_bbtautau_bbyy'           : ['bbbb', 'bbtautau', 'bbyy'], #
                             #'A-bbbb_bbtautau_bbyy_WWyy'      : ['bbbb', 'bbtautau', 'bbyy', 'WWyy'],
                             #'A-bbbb_bbtautau_bbyy_WWyy_WWWW' : ['bbbb', 'bbtautau', 'bbyy', 'WWyy', 'WWWW'],
@@ -505,9 +510,9 @@ lambda_combination_list_N = {
 
 lambdapt = [s for s in sys.argv if 'lambdapt=' in s]
 if lambdapt:
+  lambdapt = [lambdapt[0].split('=')[-1]]
   lambda_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy' : 'fullcorr', 'WWyy' : 'fullcorr', 'bbWW' : 'fullcorr' }
   combine_list(lambdapt, lambda_combination_list_A, 'lambda', "nocorr")
-  lambdapt = [lambdapt[0].split('=')[-1]]
 else:
   lambdapt = [-0.2, 0.0, 0.2]
 
