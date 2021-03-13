@@ -7,7 +7,10 @@ using namespace RooStats;
 int profileToData(ModelConfig *mc, RooAbsData *data);
 
 int fit() {
-    TFile* file = new TFile("../output/v140invfb_20210309/rescaled/nonres/bbyy/0_with_Asimov_POI_0_NP_fit.root");
+    //TFile* file = new TFile("../output/v140invfb_20210309/rescaled/nonres/bbyy/0_with_Asimov_POI_0_NP_fit.root");
+    //TFile* file = new TFile("../input/20210309/bbyy/nonres/0.root");
+    TFile* file = new TFile("/afs/cern.ch/user/n/nhehir/public/forRui/bbyy_ws/0_with_Asimov_POI_0_NP_fit.root");
+    //TFile* file = new TFile("../output/v140invfb_20210309/regularised/nonres/bbyy/0.root");
     RooWorkspace *w = (RooWorkspace *)file->Get("combWS");
 
     if (!w) {
@@ -94,3 +97,30 @@ int profileToData(ModelConfig *mc, RooAbsData *data){
     return status;
 }
 
+int printSummary(ModelConfig *m_mc, bool verbose)
+{
+  assert ( m_mc );
+  RooStats::ModelConfig* m_mc;
+  RooWorkspace* m_comb;
+  RooAbsData* m_data;
+  // RooRealVar* m_poi;
+  RooArgSet m_poi;
+
+
+  RooSimultaneous* m_pdf = dynamic_cast<RooSimultaneous*>(m_mc->GetPdf()); assert (m_pdf);
+  RooCategory* m_cat = (RooCategory*)&m_pdf->indexCat();
+  RooArgSet* m_gobs = dynamic_cast<const RooArgSet*>(m_mc->GetGlobalObservables()); assert(m_gobs);
+  RooArgSet* m_nuis = const_cast<RooArgSet*>(m_mc->GetNuisanceParameters()); assert(m_nuis);
+  int numChannels = m_cat->numBins(0);
+
+
+  std::cout << "\t~~~~~~~~Begin Summary~~~~~~~~" << std::endl;
+  std::cout << "\tThere are " << numChannels << " sub channels:" << std::endl;
+  for ( int i= 0; i < numChannels; i++ ) {
+    m_cat->setBin(i);
+    TString channelname=m_cat->getLabel();
+    RooAbsPdf* pdfi = m_pdf->getPdf(channelname);
+    RooDataSet* datai = ( RooDataSet* )( m_dataList->FindObject( channelname ) );
+    std::cout << "\t\tIndex: " << i << ", Pdf: " << pdfi->GetName() << ", Data: " << datai->GetName()  << ", SumEntries: " << datai->sumEntries() << std::endl;
+  }
+}
