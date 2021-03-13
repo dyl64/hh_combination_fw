@@ -147,14 +147,12 @@ RunCombine:
     - python scripts/combination/auto/combine_ws.py gitlabci nonrespt=0
     - echo 'cat output/v140invfb_20210309/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0.log'
     - cat output/v140invfb_20210309/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0.log
-    - echo 'ls'
-    - ls
-    - echo 'ls *'
-    - ls *
-    - echo 'ls */*'
-    - ls */*
-    - echo 'ls */*/*'
-    - ls */*/*
+    - echo 'ls output/v140invfb_20210309'
+    - ls output/v140invfb_20210309
+    - echo 'ls output/v140invfb_20210309/combined/nonres'
+    - ls output/v140invfb_20210309/combined/nonres
+    - echo 'ls output/v140invfb_20210309/combined/nonres/*'
+    - ls output/v140invfb_20210309/combined/nonres/*
   artifacts:
     paths:
       - $output_dir
