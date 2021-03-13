@@ -110,13 +110,13 @@ def combine_list(masses, combination_list, type, scheme, scheme_tag=None, same_s
 ###################################
 
 nonres_combination_list = {
-                            'A-bbyy'                : ['bbyy'],
+                            # 'A-bbyy'                : ['bbyy'],
                             # 'A-bbbb'                : ['bbbb'],
                             # 'A-bbtautau'                : ['bbtautau'],
                             # 'A-bbbb_bbtautau'                     : ['bbbb', 'bbtautau'],
                             # 'A-bbbb_bbyy'                         : ['bbbb', 'bbyy'],
                             # 'A-bbtautau_bbyy'                     : ['bbtautau', 'bbyy'],
-                            # 'A-bbbb_bbtautau_bbyy'                : ['bbbb', 'bbtautau', 'bbyy'],
+                            'A-bbbb_bbtautau_bbyy'                : ['bbbb', 'bbtautau', 'bbyy'],
                             # 'A-bbbb_bbtautau_bbyy_WWWW'           : ['bbbb', 'bbtautau', 'bbyy', 'WWWW'],
                             #'A-bbbb_bbtautau_WWyy_bbWW'           : ['bbbb', 'bbtautau', 'WWyy', 'bbWW'],
                             #'A-bbbb_bbtautau_bbyy_WWyy_bbWW'      : ['bbbb', 'bbtautau', 'bbyy', 'WWyy', 'bbWW'],
