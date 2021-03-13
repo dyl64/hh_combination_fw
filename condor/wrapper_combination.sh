@@ -1,6 +1,7 @@
 #!/bin/bash
 
 cd /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/
+export HH_COMBINATION_FW_MODE="skip_exist";
 
 ## setupATLAS
 #export ALRB_localConfigDir="/etc/hepix/sh/GROUP/zp/alrb";

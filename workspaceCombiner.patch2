@@ -1,14 +1,12 @@
 diff --git a/app/manager.cxx b/app/manager.cxx
-index 735a2e4..7b935d0 100644
+index 735a2e4..0710dbd 100644
 --- a/app/manager.cxx
 +++ b/app/manager.cxx
-@@ -25,8 +25,8 @@ std::string injectStr_ = "mu~1"; // To be moved to workspace editing
- std::string injectDataSet_ = "asimovData_1"; // To be moved to workspace editing
+@@ -26,7 +26,7 @@ std::string injectDataSet_ = "asimovData_1"; // To be moved to workspace editing
  std::string replaceStr_ = "";		     // To be moved to workspace editing
  std::string usePseudoData_ = "";	     // To be moved to workspace editing
--std::string dataName_ = "obsData";	     // To be moved to XML file
+ std::string dataName_ = "obsData";	     // To be moved to XML file
 -std::string wsName_ = "combWS";		     // To be moved to XML file
-+std::string dataName_ = "combData";	     // To be moved to XML file
 +std::string wsName_ = "";		     // To be moved to XML file
  std::string mcName_ = "ModelConfig";	     // To be moved to XML file
  
@@ -43,10 +41,24 @@ index 691e7a1..b0dcd86 100644
  	      TString type = Form( "%s_%s_%s", m_catName.c_str(), indivCat->getLabel(), channelName.c_str() );
  	      m_cat->setLabel( type, true ); // print error
 diff --git a/src/decorator.cxx b/src/decorator.cxx
-index ce1e686..656676f 100644
+index ce1e686..2463e0d 100644
 --- a/src/decorator.cxx
 +++ b/src/decorator.cxx
-@@ -234,8 +234,8 @@ void decorator::hist2dataset()
+@@ -77,7 +77,12 @@ decorator::decorator(std::string combinedFile, std::string splittedFile, std::st
+     std::cerr<<"Warning! Dataset "<<dataName.c_str()<<" cannot be found in the workspace."<<std::endl
+ 	     <<"Will try other dataset names. Press any key to continue..."<<std::endl;
+     getchar();
+-    m_data = (RooDataSet*)(m_comb->allData().front());
++    //m_data = (RooDataSet*)(m_comb->allData().front());
++    m_data = (RooDataSet*)(m_comb->data("combData"));
++    if(!m_data){
++        std::cerr<<"Warning! Dataset combData cannot be found in the workspace."<<std::endl;
++        abort();
++    }
+   }
+ 
+   m_dataList = m_data->split( *m_cat, true );
+@@ -234,8 +239,8 @@ void decorator::hist2dataset()
    for ( int ich= 0; ich < numChannels; ich++ ) {
      m_cat->setBin(ich);
      TString channelname=m_cat->getLabel();
@@ -57,7 +69,7 @@ index ce1e686..656676f 100644
      RooRealVar *obsi=(RooRealVar*)pdfi->getObservables(datai)->first();
      x[ich]=m_comb->var(obsi->GetName());
      w[ich]=new RooRealVar(Form("wt_%d",ich),Form("wt_%d",ich),1);
-@@ -279,8 +279,9 @@ void decorator::printSummary(bool verbose)
+@@ -279,8 +284,9 @@ void decorator::printSummary(bool verbose)
    std::cout << "\tThere are " << numChannels << " sub channels:" << std::endl;
    for ( int i= 0; i < numChannels; i++ ) {
      m_cat->setBin(i);
