@@ -19,3 +19,4 @@ for i in np.arange(hi, low, -step):
     i = '{:.1f}'.format(i)
     print('Arguments = {0} {1} {2} batch_tag {3}'.format(process, job, i, batch_tag))
     print('Queue 1')
+print([float('{:.1f}'.format(i)) for i in np.arange(hi, low, -step)])
