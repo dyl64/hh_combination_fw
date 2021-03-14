@@ -132,11 +132,11 @@ nonres_combination_list_C = {
                             }
 
 nonrespt = [s for s in sys.argv if 'nonrespt=' in s]
-if nonrespt:
+if nonrespt: # split job behaviour
   nonres_pts = [nonrespt[0].split('=')[-1]]
   nonres_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy':'fullcorr' }
   combine_list(nonres_pts, nonres_combination_list, 'nonres',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
-else:
+elif 'gitlabci' not in sys.argv[1]: # default behaviour
   nonres_pts = [0]
 
 
@@ -247,11 +247,11 @@ spin0_combination_list_Z = {
 spin0_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy' : 'fullcorr', 'WWyy' : 'fullcorr', 'bbWW' : 'fullcorr', 'WWWW' : 'fullcorr'}
 
 spin0pt = [s for s in sys.argv if 'spin0pt=' in s]
-if spin0pt:
+if spin0pt: # split job behaviour
   spin0pt = [spin0pt[0].split('=')[-1]]
   spin0_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy' : 'fullcorr', 'WWyy' : 'fullcorr', 'bbWW' : 'fullcorr', 'WWWW' : 'fullcorr'}
   combine_list(spin0pt, spin0_combination_list_A,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
-else:
+elif 'gitlabci' not in sys.argv[1]: # default behaviour
   spin0pt = [260, 300, 400, 500, 600, 700, 800, 900, 1000]
   # spin0_masses    = [260, 300, 400, 500, 600, 700, 800, 900, 1000]
   # #spin0_masses_A  = [260, 275, 300, 325, 350, 400, 450]#
@@ -506,13 +506,13 @@ lambda_combination_list_N = {
 
 
 lambdapt = [s for s in sys.argv if 'lambdapt=' in s]
-if lambdapt:
+if lambdapt: # split job behaviour
   lambdapt = [lambdapt[0].split('=')[-1]]
   lambda_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy' : 'fullcorr', 'WWyy' : 'fullcorr', 'bbWW' : 'fullcorr' }
   combine_list(lambdapt, lambda_combination_list_A, 'lambda', "nocorr")
-else:
+elif 'gitlabci' not in sys.argv[1]: # default behaviour
   lambdapt = [10.0, 9.8, 9.6, 9.4, 9.2, 9.0, 8.8, 8.6, 8.4, 8.2, 8.0, 7.8, 7.6, 7.4, 7.2, 7.0, 6.8, 6.6, 6.4, 6.2, 6.0, 5.8, 5.6, 5.4, 5.2, 5.0, 4.8, 4.6, 4.4, 4.2, 4.0, 3.8, 3.6, 3.4, 3.2, 3.0, 2.8, 2.6, 2.4, 2.2, 2.0, 1.8, 1.6, 1.4, 1.2, 1.0, 0.8, 0.6, 0.4, 0.2, 0.0, -0.2, -0.4, -0.6, -0.8, -1.0, -1.2, -1.4, -1.6, -1.8, -2.0, -2.2, -2.4, -2.6, -2.8, -3.0, -3.2, -3.4, -3.6, -3.8, -4.0, -4.2, -4.4, -4.6, -4.8, -5.0, -5.2, -5.4, -5.6, -5.8, -6.0, -6.2, -6.4, -6.6, -6.8, -7.0, -7.2, -7.4, -7.6, -7.8, -8.0, -8.2, -8.4, -8.6, -8.8, -9.0, -9.2, -9.4, -9.6, -9.8]
-  combine_list(lambdapt, lambda_combination_list_A, 'lambda', "nocorr")
+  # combine_list(lambdapt, lambda_combination_list_A, 'lambda', "nocorr")
 
   #combine_list(lambda_values_A, lambda_combination_list_A, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
   #combine_list(lambda_values_B, lambda_combination_list_B, 'lambda', "nocorr")

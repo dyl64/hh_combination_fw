@@ -2,6 +2,8 @@
 # Some hacky settings in order to run RooStatTool
 # Further clean up should make them set at proper places and time (Rui Zhang)
 
+export HH_COMBINATION_FW_MODE="overwrite" #"skip_exist";
+echo $HH_COMBINATION_FW_MODE
 unset hh_combination_fw_path
 hh_combination_fw_path=${PWD}
 export hh_combination_fw_path
