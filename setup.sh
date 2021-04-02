@@ -5,8 +5,7 @@
 export HH_COMBINATION_FW_MODE="overwrite" #"skip_exist";
 echo $HH_COMBINATION_FW_MODE
 unset hh_combination_fw_path
-hh_combination_fw_path=${PWD}
-export hh_combination_fw_path
+export hh_combination_fw_path="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # Setup workspaceCombiner
 # Copied from workspaceCombiner/setup.sh (Rui Zhang)
