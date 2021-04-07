@@ -16,7 +16,7 @@ int fit() {
     //TFile* file = new TFile("../output/v140invfb_20210309/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_with_Asimov_POI_0_NP_fit.root");
 
     //TFile* file = new TFile("../output/v140invfb_20201007/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_with_Asimov_POI_0_NP_fit.root");
-    TFile* file = new TFile("../output/v140invfb_20210309/rescaled/nonres/bbtautau/0_with_Asimov_POI_0_NP_fit.root");
+    TFile* file = new TFile("../output/v140invfb_20210309/rescaled/nonres/bbbb/0_with_Asimov_POI_0_NP_fit.root");
     RooWorkspace *w = (RooWorkspace *)file->Get("combWS");
 
     if (!w) {
@@ -59,24 +59,24 @@ int fit() {
 
     printSummary(mc, data);
 
-    ////ModelConfig* mc, RooAbsData& realdata
-    //RooArgSet  poi( *mc->GetParametersOfInterest() );
-    ////poi.Print("v");
-    //RooRealVar* r = dynamic_cast<RooRealVar*>( poi.first() );
-    ////printf("There are %d pois:\n", poi.getSize());
-    ////poi.Print("v");
-    ////std::cout << "\t~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+    //ModelConfig* mc, RooAbsData& realdata
+    RooArgSet  poi( *mc->GetParametersOfInterest() );
+    //poi.Print("v");
+    RooRealVar* r = dynamic_cast<RooRealVar*>( poi.first() );
+    //printf("There are %d pois:\n", poi.getSize());
+    //poi.Print("v");
+    //std::cout << "\t~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
 
-    //double poiValue = 0; // 0, 1, -100(free fit)
-    //if ( poiValue<-99 ) {
-    //    r->setConstant(false);
-    //} else {
-    //    r->setConstant( true );
-    //    r->setVal( poiValue );
-    //}
+    double poiValue = 0; // 0, 1, -100(free fit)
+    if ( poiValue<-99 ) {
+        r->setConstant(false);
+    } else {
+        r->setConstant( true );
+        r->setVal( poiValue );
+    }
 
-    //profileToData(mc, data);
-    //std::cout << "REGTEST: Fit finished" << std::endl;
+    profileToData(mc, data);
+    std::cout << "REGTEST: Fit finished" << std::endl;
     return 0;
 }
 
