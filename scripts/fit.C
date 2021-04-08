@@ -15,8 +15,8 @@ int fit() {
     //TFile* file = new TFile("/afs/cern.ch/user/n/nhehir/public/forRui/comb_logs/A-bbbb_bbtautau_bbyy-fullcorr/0_with_Asimov_POI_0_NP_fit.root");
     //TFile* file = new TFile("../output/v140invfb_20210309/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_with_Asimov_POI_0_NP_fit.root");
 
-    //TFile* file = new TFile("../output/v140invfb_20201007/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_with_Asimov_POI_0_NP_fit.root");
-    TFile* file = new TFile("../output/v140invfb_20210309/rescaled/nonres/bbbb/0_with_Asimov_POI_0_NP_fit.root");
+    TFile* file = new TFile("../output/v140invfb_20201007/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_with_Asimov_POI_0_NP_fit.root");
+    //TFile* file = new TFile("../output/v140invfb_20210309/rescaled/nonres/bbbb/0_with_Asimov_POI_0_NP_fit.root");
     RooWorkspace *w = (RooWorkspace *)file->Get("combWS");
 
     if (!w) {

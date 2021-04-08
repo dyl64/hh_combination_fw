@@ -128,6 +128,35 @@ RunPipeline_bbtautau:
       - $output_dir
   #when: manual
 
+RunPipeline_multilep:
+  stage: pipeline
+  variables:
+#    GIT_SUBMODULE_STRATEGY: recursive
+    GIT_SSL_NO_VERIFY: "true"
+    output_dir: output
+    input_dir: input
+  before_script:
+    - set +e
+    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+    - eval "$(ssh-agent -s)"
+    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - echo "lxplus.cern.ch, ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBPZvfRF+9L7TR3FRPyLFdcsXSZ6RQYJHfOjzzWB94sX0gP34Cgij9p4ukL900sVVvw3LPM5OxxFSNIXGztFYu4o=" > ~/.ssh/known_hosts
+    - echo -e "Host *\n\tGSSAPIDelegateCredentials yes\n\tGSSAPITrustDNS yes\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - echo $SERVICE_PASS | kinit -f $CERN_USER || echo something
+    - mkdir -p $input_dir
+    - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/input/20210309/ $input_dir
+  script:
+    # - source /release_setup.sh
+    - shopt -s expand_aliases
+    - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
+    - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
+    - source setup.sh || echo ignore setupATLAS return code
+    - python scripts/pipeline/processChannels.py $input_dir $output_dir signal=nonres channel=WWWW job_batch_start=0 job_batch_stop=1
+  artifacts:
+    paths:
+      - $output_dir
+  #when: manual
+
 RunCombine:
   stage: combine
   variables:
@@ -143,8 +172,6 @@ RunCombine:
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
     - python scripts/combination/auto/combine_ws.py gitlabci nonrespt=0
-    - echo 'cat output/v140invfb_20210309/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0.log'
-    - cat output/v140invfb_20210309/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0.log
   artifacts:
     paths:
       - $output_dir
