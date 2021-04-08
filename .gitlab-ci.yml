@@ -152,6 +152,8 @@ RunPipeline_multilep:
     - echo ls */*/*
     - ls */*/*
     - python scripts/pipeline/processChannels.py $input_dir $output_dir signal=nonres channel=$channel job_batch_start=0 job_batch_stop=1
+    - echo cat output/v140invfb_20210309/regularised/nonres/WWWW/0.log
+    - cat output/v140invfb_20210309/regularised/nonres/WWWW/0.log
   artifacts:
     paths:
       - $output_dir
