@@ -151,6 +151,7 @@ RunPipeline_multilep:
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
+    - echo python scripts/pipeline/processChannels.py $input_dir $output_dir signal=nonres channel=WWWW job_batch_start=0 job_batch_stop=1
     - python scripts/pipeline/processChannels.py $input_dir $output_dir signal=nonres channel=WWWW job_batch_start=0 job_batch_stop=1
   artifacts:
     paths:
