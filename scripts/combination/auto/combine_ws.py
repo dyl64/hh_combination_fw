@@ -134,8 +134,9 @@ nonres_combination_list_C = {
 nonrespt = [s for s in sys.argv if 'nonrespt=' in s]
 if nonrespt: # split job behaviour
   nonres_pts = [nonrespt[0].split('=')[-1]]
-  nonres_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy':'fullcorr' }
-  combine_list(nonres_pts, nonres_combination_list, 'nonres',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
+  # nonres_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy':'fullcorr' }
+  # combine_list(nonres_pts, nonres_combination_list, 'nonres',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
+  combine_list(nonres_pts, nonres_combination_list, 'nonres',  "nocorr"  )
 elif len(sys.argv) < 2 or 'gitlabci' not in sys.argv[1]: # default behaviour
   nonres_pts = [0]
 
