@@ -49,7 +49,7 @@ else:
     # task_list.append( create_task_arg('nonres',       'bbbb') )
     # task_list.append( create_task_arg('nonres',       'bbtautau') )
     # task_list.append( create_task_arg('nonres',       'bbyy') )
-    task_list.append( create_task_arg('nonres',       'WWWW') )
+    # task_list.append( create_task_arg('nonres',       'WWWW') )
     #task_list.append( create_task_arg('nonres',       'bbWW') )
     #task_list.append( create_task_arg('nonres',       'WWWW') )
     # task_list.append( create_task_arg('spin0',        'bbbb') )
