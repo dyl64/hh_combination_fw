@@ -10,7 +10,7 @@ import aux_utils as utils
 import git
 
 input_dir_prepath  = ("../input" if len(sys.argv) < 2 else sys.argv[1]) + '/20210309/'
-output_dir_prepath = ("../output" if len(sys.argv) < 3 else sys.argv[2]) + '/v140invfb_20210309'
+output_dir_prepath = ("../output" if len(sys.argv) < 3 else sys.argv[2]) + '/v140invfb_20210309-2'
 new_poiname        = "xsec_br"
 exp_or_obs         = "obs"
 doBetterBands      = "true"
@@ -43,6 +43,7 @@ if signal:
 task_list = []
 if signal:
     task_list.append( create_task_arg(signal,       channel) )
+    nProc = 4
 else:
     # task_list.append( create_task_arg('nonres',       'bbbb') )
     # task_list.append( create_task_arg('nonres',       'bbtautau') )
@@ -129,11 +130,11 @@ else:
     #task_list.append( create_task_arg('nonres_testLibIssue', 'bbbb') )
     #task_list.append( create_task_arg('nonres_testLibIssue', 'bbtautau') )
     #task_list.append( create_task_arg('nonres_testLibIssue', 'bbyy') )
-
+    nProc = 16
 
 
 # - Create a job manager
-nProc = 16
+
 manager = utils.job_manager(func=wsc.task_pipeline_ws, nProc=nProc)
 
 manager.set_task_args(task_list)
