@@ -21,7 +21,6 @@ hhCompile:
     - git branch development --track remotes/origin/development
     - git checkout 0db0e09c
     - git apply ../../workspaceCombiner.patch
-    - git apply ../../workspaceCombiner.patch2
     - head -n 30 app/manager.cxx
     - cd $base_path
     - cd submodules/RooFitExtensions; git status

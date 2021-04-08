@@ -41,14 +41,16 @@ index 691e7a1..b0dcd86 100644
  	      TString type = Form( "%s_%s_%s", m_catName.c_str(), indivCat->getLabel(), channelName.c_str() );
  	      m_cat->setLabel( type, true ); // print error
 diff --git a/src/decorator.cxx b/src/decorator.cxx
-index ce1e686..895e431 100644
+index ce1e686..bbac871 100644
 --- a/src/decorator.cxx
 +++ b/src/decorator.cxx
-@@ -77,7 +77,12 @@ decorator::decorator(std::string combinedFile, std::string splittedFile, std::st
+@@ -76,8 +76,13 @@ decorator::decorator(std::string combinedFile, std::string splittedFile, std::st
+   if(!m_data){
      std::cerr<<"Warning! Dataset "<<dataName.c_str()<<" cannot be found in the workspace."<<std::endl
  	     <<"Will try other dataset names. Press any key to continue..."<<std::endl;
-     getchar();
+-    getchar();
 -    m_data = (RooDataSet*)(m_comb->allData().front());
++    //getchar();
 +    m_data = (RooDataSet*)(m_comb->data("combData"));
 +    if(!m_data){
 +        m_data = (RooDataSet*)(m_comb->allData().front());
