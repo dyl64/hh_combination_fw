@@ -165,7 +165,7 @@ RunPipeline_multilep:
       - $output_dir
   #when: manual
 
-RunCombine:
+RunCombineBig3:
   stage: combine
   variables:
 #    GIT_SUBMODULE_STRATEGY: recursive
@@ -179,7 +179,27 @@ RunCombine:
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
-    - python scripts/combination/auto/combine_ws.py gitlabci nonrespt=0
+    - python scripts/combination/auto/combine_ws.py gitlabci nonrespt=0 comblist=A-bbbb_bbtautau_bbyy
+  artifacts:
+    paths:
+      - $output_dir
+  #when: manual
+
+RunCombineAll:
+  stage: combine
+  variables:
+#    GIT_SUBMODULE_STRATEGY: recursive
+    GIT_SSL_NO_VERIFY: "true"
+    output_dir: output
+  before_script:
+    - set +e
+  script:
+    # - source /release_setup.sh
+    - shopt -s expand_aliases
+    - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
+    - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
+    - source setup.sh || echo ignore setupATLAS return code
+    - python scripts/combination/auto/combine_ws.py gitlabci nonrespt=0 comblist=A-bbbb_bbtautau_bbyy_WWWW
   artifacts:
     paths:
       - $output_dir

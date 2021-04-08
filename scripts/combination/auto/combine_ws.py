@@ -116,7 +116,7 @@ nonres_combination_list = {
                             # 'A-bbbb_bbtautau'                     : ['bbbb', 'bbtautau'],
                             # 'A-bbbb_bbyy'                         : ['bbbb', 'bbyy'],
                             # 'A-bbtautau_bbyy'                     : ['bbtautau', 'bbyy'],
-                            # 'A-bbbb_bbtautau_bbyy'                : ['bbbb', 'bbtautau', 'bbyy'],
+                            'A-bbbb_bbtautau_bbyy'                : ['bbbb', 'bbtautau', 'bbyy'],
                             'A-bbbb_bbtautau_bbyy_WWWW'           : ['bbbb', 'bbtautau', 'bbyy', 'WWWW'],
                             #'A-bbbb_bbtautau_WWyy_bbWW'           : ['bbbb', 'bbtautau', 'WWyy', 'bbWW'],
                             #'A-bbbb_bbtautau_bbyy_WWyy_bbWW'      : ['bbbb', 'bbtautau', 'bbyy', 'WWyy', 'bbWW'],
@@ -131,12 +131,13 @@ nonres_combination_list_C = {
                              'C-bbtautau_bbyy'           : ['bbtautau', 'bbyy'],
                             }
 
-nonrespt = [s for s in sys.argv if 'nonrespt=' in s]
+nonrespt = [s.split('=')[-1] for s in sys.argv if 'nonrespt=' in s]
 if nonrespt: # split job behaviour
-  nonres_pts = [nonrespt[0].split('=')[-1]]
+  nonres_pts = [int(p) for p in nonrespt]
+  comblist = [s.split('=')[-1] for s in sys.argv if 'comblist=' in s][0]
   # nonres_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy':'fullcorr' }
   # combine_list(nonres_pts, nonres_combination_list, 'nonres',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
-  combine_list(nonres_pts, nonres_combination_list, 'nonres',  "nocorr"  )
+  combine_list(nonres_pts, {comblist: nonres_combination_list[comblist]}, 'nonres',  "nocorr"  )
 elif len(sys.argv) < 2 or 'gitlabci' not in sys.argv[1]: # default behaviour
   nonres_pts = [0]
 

@@ -42,6 +42,7 @@ if signal:
 
 task_list = []
 if signal:
+    print('zhangr signal', signal, channel)
     task_list.append( create_task_arg(signal,       channel) )
     nProc = 4
 else:
