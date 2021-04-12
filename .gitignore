@@ -23,3 +23,5 @@ setup_local.sh
 results/
 *.so
 external/
+condor/*cc
+condor/log/*
