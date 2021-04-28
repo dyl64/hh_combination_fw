@@ -22,8 +22,8 @@ quickstats compile
 ### Example commands
 
 ```
-python NPrenaming.py --allow-same-new -c bbbb -p spin0  -m 400 -w w
-python NPrenaming.py --allow-same-new -c bbbb -p spin0  -m 1600 -w combined
-python NPrenaming.py --allow-same-new -c bbtautau -p spin0  -m 1600 -w combined
-python NPnaming.py -c bbyy
+python NPrenaming.py --path ../../../input/20210309/ -c bbbb -p spin0  -m 400 -w w
+python NPrenaming.py --path ../../../input/20210309/ -c bbbb -p spin0  -m 1600 -w combined
+python NPrenaming.py --path ../../../input/20210309/ -c bbtautau -p spin0  -m 1600 -w combined
+python NPrenaming.py --path ../../../input/20210309/ -c bbyy
 ```

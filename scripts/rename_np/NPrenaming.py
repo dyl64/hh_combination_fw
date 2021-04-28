@@ -370,7 +370,7 @@ def _syst(old_names, new_names, category):
 def main(args):
     channel = args.channel
 
-    fname = f'../input/{args.version}/{channel}/{args.process}/{args.mass}.root'
+    fname = f'{args.path}/{channel}/{args.process}/{args.mass}.root'
     print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mWorkspace file\033[0m'.rjust(40, ' '), fname)
     ws_names = {'bbbb': 'w', 'bbyy': 'combWS', 'bbtautau': 'combined',
     }
@@ -422,8 +422,6 @@ def main(args):
         new_np = [np for np in new_NP if _UNKNOW != np]
         old_np = [old_NP[new_NP.index(value)] for value in new_np]
 
-        import pdb
-        pdb.set_trace()
         contents.append(_syst(old_np, new_np, 'Uncategorised'))
         for i in old_np:
             if args.allow_same_new:
@@ -454,7 +452,7 @@ if __name__ == '__main__':
     parser.add_argument('--allow-same-new', action='store_true', default=False, help='Allow different old names to map to the same new name. \033[92mUse it with Caution; should by default turned off. This is a walkaround for typos of channels.\033[0m (default: %(default)s)')
     parser.add_argument('-c', '--channel', type=str, default='bbtautau', choices=['bbbb', 'bbyy', 'bbtautau'], help='Channel of workspace (example: %(default)s)')
     parser.add_argument('-p', '--process', type=str, default='nonres', choices=['non-res', 'spin0', 'spin2'], help='Signal process of workspace (example: %(default)s)')
-    parser.add_argument('-v', '--version', type=str, default='20210309', help='Version of workspace (example: %(default)s)')
+    parser.add_argument('--path', type=str, default='../../input/20210309/', help='Path to workspace up to the parent of process folder (example: %(default)s)')
     parser.add_argument('-m', '--mass', type=str, default='0', help='Mass point of workspace (example: %(default)s)')
     parser.add_argument('-w', '--workspace', type=str, default=None, help='Name of workspace (example: %(default)s)')
 
