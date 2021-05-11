@@ -1,8 +1,8 @@
 *.pyc
 test/
 src/.depend_cpp
-bin/
-!bin/HHComb
+sub
+submodules/*/bin
 lib/
 limits/
 scripts_development/
