@@ -2,6 +2,7 @@
 test/
 src/.depend_cpp
 bin/
+!bin/HHComb
 lib/
 limits/
 scripts_development/
