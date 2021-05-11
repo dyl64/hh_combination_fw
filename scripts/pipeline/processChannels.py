@@ -7,6 +7,7 @@ from functools import partial
 
 import workspaceCombiner as wsc
 import aux_utils as utils
+import click
 import git
 
 input_dir_prepath  = ("../input" if len(sys.argv) < 2 else sys.argv[1]) + '/20201007/'

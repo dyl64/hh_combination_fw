@@ -9,15 +9,14 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
   SOURCE="$(readlink "$SOURCE")"
   [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
 done
+
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
 export hh_combination_fw_path=${DIR}
+
 # Setup workspaceCombiner
 # Copied from workspaceCombiner/setup.sh (Rui Zhang)
-cd ${hh_combination_fw_path}/submodules/workspaceCombiner
-setupATLAS
-#lsetup "views LCG_97_ATLAS_1 x86_64-centos7-gcc8-opt"
-lsetup "views LCG_98python3 x86_64-centos7-gcc8-opt"
+cd $DIR/submodules/workspaceCombiner
 
 # More memory
 ulimit -S -s unlimited
@@ -60,12 +59,11 @@ if [[ -f build/setup.sh ]]; then
 fi
 cd ${hh_combination_fw_path}
 
-PYTHONPATH=$PYTHONPATH:${hh_combination_fw_path}/python_modules/:${hh_combination_fw_path}/submodules/RooStatTools/python_modules/
-ROOSTATPATH=${hh_combination_fw_path}/submodules/RooStatTools
-export ROOSTATPATH
+export PYTHONPATH=$PYTHONPATH:${hh_combination_fw_path}/python_modules/:${hh_combination_fw_path}/submodules/RooStatTools/python_modules/
+export ROOSTATPATH=${hh_combination_fw_path}/submodules/RooStatTools
 
-WORKSPACECOMBINER_PATH=${hh_combination_fw_path}/submodules/workspaceCombiner/
-export WORKSPACECOMBINER_PATH
+export WORKSPACECOMBINER_PATH=${hh_combination_fw_path}/submodules/workspaceCombiner/
 
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROOSTATPATH/lib
-ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${hh_combination_fw_path}/submodules/RooStatTools/inc/
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROOSTATPATH/lib
+export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${hh_combination_fw_path}/submodules/RooStatTools/inc/
+#export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/cvmfs/sft.cern.ch/lcg/views/LCG_98/x86_64-centos7-gcc8-opt/lib

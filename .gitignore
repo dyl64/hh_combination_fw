@@ -23,3 +23,8 @@ setup_local.sh
 results/
 *.so
 external/
+output/
+inputs/
+kl_study/
+notebooks/
+diagnostics/	
