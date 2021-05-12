@@ -47,6 +47,7 @@ def process_channels(input_path, resonant_type, channels, output_path, do_better
                 new_poi, old_dataname, new_dataname, do_better_bands, 
                 cl, blind, param)
         task_list.append(task)
+        
     if param is not None:
         # forcing parallelization across parameterization instead of channels
         for task in task_list:
