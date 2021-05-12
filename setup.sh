@@ -2,19 +2,14 @@
 # Some hacky settings in order to run RooStatTool
 # Further clean up should make them set at proper places and time (Rui Zhang)
 
-# set up environmental paths
-SOURCE="${BASH_SOURCE[0]}"
-while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
-  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
-  SOURCE="$(readlink "$SOURCE")"
-  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
-done
-DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+export HH_COMBINATION_FW_MODE="overwrite" #"skip_exist";
+echo $HH_COMBINATION_FW_MODE
+unset hh_combination_fw_path
+export hh_combination_fw_path="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-export hh_combination_fw_path=${DIR}
 # Setup workspaceCombiner
 # Copied from workspaceCombiner/setup.sh (Rui Zhang)
-cd ${hh_combination_fw_path}/submodules/workspaceCombiner
+cd submodules/workspaceCombiner
 setupATLAS
 #lsetup "views LCG_97_ATLAS_1 x86_64-centos7-gcc8-opt"
 lsetup "views LCG_98python3 x86_64-centos7-gcc8-opt"
@@ -29,7 +24,7 @@ if [ $_DIRCOMB ]; then
 fi
 
 # speficy the SFRAME base directory, i.e. the directory in which this file lives
-export _DIRCOMB=${DIR}
+export _DIRCOMB=${PWD}
 
 # Modify to describe your directory structure. Default is to use the a structure where
 # all directories are below the SFrame base directory specified above
@@ -53,7 +48,7 @@ cd ${hh_combination_fw_path}
 
 
 # Setup RooFitExtensions
-cd $DIR/submodules/RooFitExtensions
+cd submodules/RooFitExtensions
 if [[ -f build/setup.sh ]]; then
     echo "submodules/RooFitExtensions/build/setup.sh"
     source build/setup.sh
@@ -68,4 +63,5 @@ WORKSPACECOMBINER_PATH=${hh_combination_fw_path}/submodules/workspaceCombiner/
 export WORKSPACECOMBINER_PATH
 
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROOSTATPATH/lib
-ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${hh_combination_fw_path}/submodules/RooStatTools/inc/
+ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${hh_combination_fw_path}/submodules/RooStatTools/inc/:${hh_combination_fw_path}/submodules/RooFitExtensions
+export ROOT_INCLUDE_PATH

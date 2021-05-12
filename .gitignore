@@ -1,7 +1,6 @@
 *.pyc
 test/
 src/.depend_cpp
-sub
 submodules/*/bin
 lib/
 limits/
@@ -24,8 +23,6 @@ setup_local.sh
 results/
 *.so
 external/
-output/
-inputs/
-kl_study/
+condor/*cc
+condor/log/*
 notebooks/
-diagnostics/	

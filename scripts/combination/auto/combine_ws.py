@@ -12,20 +12,25 @@ import sys
 ##### ----- Combination settings ----- #####
 ############################################
 
-#batch_tag = "output/v00"
-batch_tag = "output/v140invfb_20201007"
+batch_tag = [s for s in sys.argv if 'batch_tag=' in s]
+if batch_tag:
+  batch_tag = batch_tag[0].split('=')[-1]
+  batch_tag = "output/v140invfb_"+batch_tag
+else:
+  batch_tag = "output/v140invfb_20210309"
+print(batch_tag)
 
 # - Number of processes to run in parallel
 nProc = 14
 
 # - Input folder where the regularised and rescaled workspaces are found:
-rescaled_ws_prepath = ("../{0}/rescaled/" if len(sys.argv) < 2 else '{0}/rescaled/').format(batch_tag)
+rescaled_ws_prepath = ('{0}/rescaled/' if len(sys.argv) > 1 and 'gitlabci' in sys.argv[1] else "../{0}/rescaled/").format(batch_tag)
 
 # - Config folder where the the .xml config files are placed
-config_file_prepath = ("../{0}/cfg/combination/" if len(sys.argv) < 2 else '{0}/rescaled/').format(batch_tag)
+config_file_prepath = ('{0}/cfg/combination/' if len(sys.argv) > 1 and 'gitlabci' in sys.argv[1] else "../{0}/cfg/combination/").format(batch_tag)
 
 # - Output folder where the combined workspaces will be placed:
-output_ws_prepath = ("../{0}/combined/" if len(sys.argv) < 2 else '{0}/rescaled/').format(batch_tag)
+output_ws_prepath = ('{0}/combined/' if len(sys.argv) > 1 and 'gitlabci' in sys.argv[1] else "../{0}/combined/").format(batch_tag)
 
 # - Git stamp path
 git_stamp_path     = os.path.join(output_ws_prepath, "git.stamp")
@@ -105,12 +110,14 @@ def combine_list(masses, combination_list, type, scheme, scheme_tag=None, same_s
 ###################################
 
 nonres_combination_list = {
+                            # 'A-bbyy'                : ['bbyy'],
+                            # 'A-bbbb'                : ['bbbb'],
                             # 'A-bbtautau'                : ['bbtautau'],
                             # 'A-bbbb_bbtautau'                     : ['bbbb', 'bbtautau'],
                             # 'A-bbbb_bbyy'                         : ['bbbb', 'bbyy'],
                             # 'A-bbtautau_bbyy'                     : ['bbtautau', 'bbyy'],
                             'A-bbbb_bbtautau_bbyy'                : ['bbbb', 'bbtautau', 'bbyy'],
-                            #'A-bbbb_bbtautau_bbyy_WWyy'           : ['bbbb', 'bbtautau', 'bbyy', 'WWyy'],
+                            'A-bbbb_bbtautau_bbyy_WWWW'           : ['bbbb', 'bbtautau', 'bbyy', 'WWWW'],
                             #'A-bbbb_bbtautau_WWyy_bbWW'           : ['bbbb', 'bbtautau', 'WWyy', 'bbWW'],
                             #'A-bbbb_bbtautau_bbyy_WWyy_bbWW'      : ['bbbb', 'bbtautau', 'bbyy', 'WWyy', 'bbWW'],
                             # 'A-bbbb_bbtautau_bbyy_WWyy_bbWW_WWWW' : ['bbbb', 'bbtautau', 'bbyy', 'WWyy', 'bbWW', 'WWWW']
@@ -124,26 +131,35 @@ nonres_combination_list_C = {
                              'C-bbtautau_bbyy'           : ['bbtautau', 'bbyy'],
                             }
 
-nonres_pts = [0]
+nonrespt = [s.split('=')[-1] for s in sys.argv if 'nonrespt=' in s]
+if nonrespt: # split job behaviour
+  nonres_pts = [int(p) for p in nonrespt]
+  comblist = [s.split('=')[-1] for s in sys.argv if 'comblist=' in s][0]
+  # nonres_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy':'fullcorr' }
+  # combine_list(nonres_pts, nonres_combination_list, 'nonres',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
+  combine_list(nonres_pts, {comblist: nonres_combination_list[comblist]}, 'nonres',  "nocorr"  )
+elif len(sys.argv) < 2 or 'gitlabci' not in sys.argv[1]: # default behaviour
+  nonres_pts = [0]
 
-# nonres_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy':'fullcorr', 'WWyy':'fullcorr', 'bbWW':'fullcorr', 'WWWW':'fullcorr' }
-nonres_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy':'fullcorr' }
-#nonres_scheme = {'bbbb' : 'fullcorr_test', 'bbtautau' : 'fullcorr_test', 'bbyy':'fullcorr_test', 'WWyy':'fullcorr_test', 'bbWW':'fullcorr_test', 'WWWW':'fullcorr_test' }
 
-# combine_list(nonres_pts, nonres_combination_list, 'nonres',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
-combine_list(nonres_pts, nonres_combination_list, 'nonres',  "nocorr"  )
-#combine_list(nonres_pts, nonres_combination_list_B, 'nonres',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
-# combine_list(nonres_pts, nonres_combination_list, 'nonres',  "nocorr"  )
+  # nonres_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy':'fullcorr', 'WWyy':'fullcorr', 'bbWW':'fullcorr', 'WWWW':'fullcorr' }
+  # nonres_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy':'fullcorr' }
+  #nonres_scheme = {'bbbb' : 'fullcorr_test', 'bbtautau' : 'fullcorr_test', 'bbyy':'fullcorr_test', 'WWyy':'fullcorr_test', 'bbWW':'fullcorr_test', 'WWWW':'fullcorr_test' }
 
-#STAT-ONLY
-# combine_list(nonres_pts, nonres_combination_list, 'nonres_statOnly',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
-# combine_list(nonres_pts, nonres_combination_list, 'nonres_statOnly',  "nocorr"  )
+  # combine_list(nonres_pts, nonres_combination_list, 'nonres',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
+  combine_list(nonres_pts, nonres_combination_list, 'nonres',  "nocorr"  )
+  #combine_list(nonres_pts, nonres_combination_list_B, 'nonres',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
+  # combine_list(nonres_pts, nonres_combination_list, 'nonres',  "nocorr"  )
 
-#End of run 2 and 3 extrapolations
-#combine_list(nonres_pts, nonres_combination_list_C, 'nonres_140invfb',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
-#combine_list(nonres_pts, nonres_combination_list_C, 'nonres_140invfb',  "nocorr"  )
-#combine_list(nonres_pts, nonres_combination_list_C, 'nonres_440invfb',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
-#combine_list(nonres_pts, nonres_combination_list_C, 'nonres_440invfb',  "nocorr"  )
+  #STAT-ONLY
+  # combine_list(nonres_pts, nonres_combination_list, 'nonres_statOnly',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
+  # combine_list(nonres_pts, nonres_combination_list, 'nonres_statOnly',  "nocorr"  )
+
+  #End of run 2 and 3 extrapolations
+  #combine_list(nonres_pts, nonres_combination_list_C, 'nonres_140invfb',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
+  #combine_list(nonres_pts, nonres_combination_list_C, 'nonres_140invfb',  "nocorr"  )
+  #combine_list(nonres_pts, nonres_combination_list_C, 'nonres_440invfb',  nonres_scheme, 'fullcorr', same_scheme_for_all_channels=False)
+  #combine_list(nonres_pts, nonres_combination_list_C, 'nonres_440invfb',  "nocorr"  )
 
 
 ##################################
@@ -157,8 +173,9 @@ spin0_combination_list_AB = {
 
 spin0_combination_list_A = {
                             # 'A-bbtautau'           : ['bbtautau'], #
-                            'A-bbbb_bbtautau'                : ['bbbb', 'bbtautau'],#
-                            # 'A-bbbb_bbtautau_bbyy'           : ['bbbb', 'bbtautau', 'bbyy'], #
+                            # 'A-bbtautau'           : ['bbtautau'], #
+                            # 'A-bbbb_bbtautau'                : ['bbbb', 'bbtautau'],#
+                            'A-bbbb_bbtautau_bbyy'           : ['bbbb', 'bbtautau', 'bbyy'], #
                             #'A-bbbb_bbtautau_bbyy_WWyy'      : ['bbbb', 'bbtautau', 'bbyy', 'WWyy'],
                             #'A-bbbb_bbtautau_bbyy_WWyy_WWWW' : ['bbbb', 'bbtautau', 'bbyy', 'WWyy', 'WWWW'],
                             # 'A-bbbb_bbyy'                    : ['bbbb', 'bbyy'],
@@ -231,68 +248,71 @@ spin0_combination_list_Z = {
 
 spin0_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy' : 'fullcorr', 'WWyy' : 'fullcorr', 'bbWW' : 'fullcorr', 'WWWW' : 'fullcorr'}
 
-spin0_masses    = [260, 300, 400, 500, 600, 700, 800, 900, 1000]
-#spin0_masses_A  = [260, 275, 300, 325, 350, 400, 450]#
-#spin0_masses_A  = [260, 280, 300]
-spin0_masses_A  = [300]
-spin0_masses_AB = [260, 300, 400, 500]
-spin0_masses_B  = [400, 500, 600, 700, 800, 900, 1000, 1200, 1400, 1600, 1800, 2000, 2500, 3000]
-spin0_masses_C  = [550, 600, 700, 800, 900, 1000]
-#spin0_masses_C  = [1000]
-spin0_masses_D  = [1000, 1100, 1200, 1300, 1400, 1500, 1600, 1800, 2000, 2250, 2500, 2750, 3000]
-spin0_masses_E  = [260, 275, 300, 325, 350, 400, 450, 500]
-spin0_masses_F  = [500, 550, 600, 700, 800, 900, 1000]
-spin0_masses_G  = [260, 275, 300, 325, 350, 400, 450, 500, 550, 600, 700, 800, 900, 1000]
-spin0_masses_H  = [275, 325, 350, 450, 550]
-spin0_masses_I  = [260, 1000]
-spin0_masses_J  = [500, 1000, 2000]
-spin0_masses_K  = [800]
-spin0_masses_L  = [260, 275, 280, 300, 325, 350, 400, 450, 500] # for interpolation at 280 GeV to account for 4b excess
-#spin0_masses_L  = [280] # for interpolation at 280 GeV to account for 4b excess
+spin0pt = [s for s in sys.argv if 'spin0pt=' in s]
+if spin0pt: # split job behaviour
+  spin0pt = [spin0pt[0].split('=')[-1]]
+  spin0_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy' : 'fullcorr', 'WWyy' : 'fullcorr', 'bbWW' : 'fullcorr', 'WWWW' : 'fullcorr'}
+  combine_list(spin0pt, spin0_combination_list_A,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
+elif len(sys.argv) < 2 or 'gitlabci' not in sys.argv[1]: # default behaviour
+  spin0pt = [260, 300, 400, 500, 600, 700, 800, 900, 1000]
+  # spin0_masses    = [260, 300, 400, 500, 600, 700, 800, 900, 1000]
+  # #spin0_masses_A  = [260, 275, 300, 325, 350, 400, 450]#
+  # #spin0_masses_A  = [260, 280, 300]
+  # spin0_masses_A  = [300]
+  # spin0_masses_AB = [260, 300, 400, 500]
+  # spin0_masses_B  = [400, 500, 600, 700, 800, 900, 1000, 1200, 1400, 1600, 1800, 2000, 2500, 3000]
+  # spin0_masses_C  = [550, 600, 700, 800, 900, 1000]
+  # #spin0_masses_C  = [1000]
+  # spin0_masses_D  = [1000, 1100, 1200, 1300, 1400, 1500, 1600, 1800, 2000, 2250, 2500, 2750, 3000]
+  # spin0_masses_E  = [260, 275, 300, 325, 350, 400, 450, 500]
+  # spin0_masses_F  = [500, 550, 600, 700, 800, 900, 1000]
+  # spin0_masses_G  = [260, 275, 300, 325, 350, 400, 450, 500, 550, 600, 700, 800, 900, 1000]
+  # spin0_masses_H  = [275, 325, 350, 450, 550]
+  # spin0_masses_I  = [260, 1000]
+  # spin0_masses_J  = [500, 1000, 2000]
+  # spin0_masses_K  = [800]
+  # spin0_masses_L  = [260, 275, 280, 300, 325, 350, 400, 450, 500] # for interpolation at 280 GeV to account for 4b excess
+  #spin0_masses_L  = [280] # for interpolation at 280 GeV to account for 4b excess
+  #spin0_masses_Z  = [500, 600, 700, 800, 900, 1000] #DPG plots
 
-#spin0_masses_Z  = [500, 600, 700, 800, 900, 1000] #DPG plots
 
+  #combine_list(spin0_masses_AB, spin0_combination_list_AB, 'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(spin0_masses_AB, spin0_combination_list_AB, 'spin0', "nocorr")
+  #
+  # combine_list(spin0_masses_B, spin0_combination_list_B,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
+  # combine_list(spin0_masses_B, spin0_combination_list_B,   'spin0', "nocorr")
+  #combine_list(spin0_masses_C, spin0_combination_list_C,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(spin0_masses_C, spin0_combination_list_C,   'spin0', "nocorr")
+  #combine_list(spin0_masses_D, spin0_combination_list_D,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(spin0_masses_D, spin0_combination_list_D,   'spin0', "nocorr")
+  #combine_list(spin0_masses_E, spin0_combination_list_E,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(spin0_masses_E, spin0_combination_list_E,   'spin0', "nocorr")
+  #combine_list(spin0_masses_F, spin0_combination_list_F,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(spin0_masses_F, spin0_combination_list_F,   'spin0', "nocorr")
+  #combine_list(spin0_masses_G, spin0_combination_list_G,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(spin0_masses_G, spin0_combination_list_G,   'spin0', "nocorr")
+  #combine_list(spin0_masses_H, spin0_combination_list_H,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(spin0_masses_H, spin0_combination_list_H,   'spin0', "nocorr")
+  #combine_list(spin0_masses_I, spin0_combination_list_I,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(spin0_masses_I, spin0_combination_list_I,   'spin0', "nocorr")
+  #combine_list(spin0_masses_K, spin0_combination_list_K,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(spin0_masses_K, spin0_combination_list_K,   'spin0', "nocorr")
 
-# combine_list(spin0_masses_A, spin0_combination_list_A,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
-# combine_list(spin0_masses_A, spin0_combination_list_A,   'spin0', "nocorr")
-#
-#combine_list(spin0_masses_AB, spin0_combination_list_AB, 'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(spin0_masses_AB, spin0_combination_list_AB, 'spin0', "nocorr")
-#
-# combine_list(spin0_masses_B, spin0_combination_list_B,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
-# combine_list(spin0_masses_B, spin0_combination_list_B,   'spin0', "nocorr")
-#combine_list(spin0_masses_C, spin0_combination_list_C,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(spin0_masses_C, spin0_combination_list_C,   'spin0', "nocorr")
-#combine_list(spin0_masses_D, spin0_combination_list_D,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(spin0_masses_D, spin0_combination_list_D,   'spin0', "nocorr")
-#combine_list(spin0_masses_E, spin0_combination_list_E,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(spin0_masses_E, spin0_combination_list_E,   'spin0', "nocorr")
-#combine_list(spin0_masses_F, spin0_combination_list_F,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(spin0_masses_F, spin0_combination_list_F,   'spin0', "nocorr")
-#combine_list(spin0_masses_G, spin0_combination_list_G,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(spin0_masses_G, spin0_combination_list_G,   'spin0', "nocorr")
-#combine_list(spin0_masses_H, spin0_combination_list_H,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(spin0_masses_H, spin0_combination_list_H,   'spin0', "nocorr")
-#combine_list(spin0_masses_I, spin0_combination_list_I,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(spin0_masses_I, spin0_combination_list_I,   'spin0', "nocorr")
-#combine_list(spin0_masses_K, spin0_combination_list_K,   'spin0', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(spin0_masses_K, spin0_combination_list_K,   'spin0', "nocorr")
+  #STAT-ONLY
+  #combine_list(spin0_masses_D, spin0_combination_list_D,   'spin0_statOnly', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(spin0_masses_D, spin0_combination_list_D,   'spin0_statOnly', "nocorr")
+  #combine_list(spin0_masses_E, spin0_combination_list_E,   'spin0_statOnly', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(spin0_masses_E, spin0_combination_list_E,   'spin0_statOnly', "nocorr")
+  #combine_list(spin0_masses_F, spin0_combination_list_F,   'spin0_statOnly', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(spin0_masses_F, spin0_combination_list_F,   'spin0_statOnly', "nocorr")
+  #combine_list(spin0_masses_G, spin0_combination_list_G,   'spin0_statOnly', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(spin0_masses_G, spin0_combination_list_G,   'spin0_statOnly', "nocorr")
 
-#STAT-ONLY
-#combine_list(spin0_masses_D, spin0_combination_list_D,   'spin0_statOnly', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(spin0_masses_D, spin0_combination_list_D,   'spin0_statOnly', "nocorr")
-#combine_list(spin0_masses_E, spin0_combination_list_E,   'spin0_statOnly', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(spin0_masses_E, spin0_combination_list_E,   'spin0_statOnly', "nocorr")
-#combine_list(spin0_masses_F, spin0_combination_list_F,   'spin0_statOnly', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(spin0_masses_F, spin0_combination_list_F,   'spin0_statOnly', "nocorr")
-#combine_list(spin0_masses_G, spin0_combination_list_G,   'spin0_statOnly', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(spin0_masses_G, spin0_combination_list_G,   'spin0_statOnly', "nocorr")
-
-#interpolation in bbtautau from 275 and 300 GeV to account for excess in 4b at 280 GeV
-#combine_list(spin0_masses_L, spin0_combination_list_L,   'spin0_interp275', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(spin0_masses_L, spin0_combination_list_L,   'spin0_interp275', "nocorr")
-#combine_list(spin0_masses_L, spin0_combination_list_L,   'spin0_interp300', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(spin0_masses_L, spin0_combination_list_L,   'spin0_interp300', "nocorr")
+  #interpolation in bbtautau from 275 and 300 GeV to account for excess in 4b at 280 GeV
+  #combine_list(spin0_masses_L, spin0_combination_list_L,   'spin0_interp275', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(spin0_masses_L, spin0_combination_list_L,   'spin0_interp275', "nocorr")
+  #combine_list(spin0_masses_L, spin0_combination_list_L,   'spin0_interp300', spin0_scheme,  "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(spin0_masses_L, spin0_combination_list_L,   'spin0_interp300', "nocorr")
 
 
 
@@ -423,14 +443,14 @@ spin2_c20_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy
 
 ### There is in principal no difference between regions A, B, C and D. Only the masses are split for performance reasons.
 
-lambda_values_A = [-20, -19, -18, -17, -16, -15, -14, -13, -12, -11]
 lambda_values_B = [-10, -9, -8, -7, -6, -5, -4, -3, -2, -1]
 lambda_values_C = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 lambda_values_D = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 
 lambda_combination_list_A = { 
-                              'A-bbbb_bbtautau'      : ['bbbb', 'bbtautau'],
-                              'A-bbbb_bbtautau_bbyy' : ['bbbb', 'bbtautau', 'bbyy'],
+                              'A-bbyy'      : ['bbyy'],
+                              # 'A-bbbb_bbtautau'      : ['bbbb', 'bbtautau'],
+                              # 'A-bbbb_bbtautau_bbyy' : ['bbbb', 'bbtautau', 'bbyy'],
                               ##'A-bbbb_bbyy'          : ['bbbb', 'bbyy'],
                               ##'A-bbtautau_bbyy'      : ['bbtautau', 'bbyy'],
                             }
@@ -486,58 +506,65 @@ lambda_combination_list_N = {
                               'N-bbtautau_bbyy' : ['bbtautau', 'bbyy']
                             }
 
-lambda_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy' : 'fullcorr', 'WWyy' : 'fullcorr', 'bbWW' : 'fullcorr' }
 
-#combine_list(lambda_values_A, lambda_combination_list_A, 'lambda', "nocorr")
-#combine_list(lambda_values_A, lambda_combination_list_A, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(lambda_values_B, lambda_combination_list_B, 'lambda', "nocorr")
-#combine_list(lambda_values_B, lambda_combination_list_B, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(lambda_values_C, lambda_combination_list_C, 'lambda', "nocorr")
-#combine_list(lambda_values_C, lambda_combination_list_C, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(lambda_values_D, lambda_combination_list_D, 'lambda', "nocorr")
-#combine_list(lambda_values_D, lambda_combination_list_D, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
-# combine_list(lambda_values_A+lambda_values_B+lambda_values_C+lambda_values_D, lambda_combination_list_F, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+lambdapt = [s for s in sys.argv if 'lambdapt=' in s]
+if lambdapt: # split job behaviour
+  lambdapt = [lambdapt[0].split('=')[-1]]
+  lambda_scheme = {'bbbb' : 'fullcorr_allinone', 'bbtautau' : 'fullcorr', 'bbyy' : 'fullcorr', 'WWyy' : 'fullcorr', 'bbWW' : 'fullcorr' }
+  combine_list(lambdapt, lambda_combination_list_A, 'lambda', "nocorr")
+elif len(sys.argv) < 2 or 'gitlabci' not in sys.argv[1]: # default behaviour
+  lambdapt = [10.0, 9.8, 9.6, 9.4, 9.2, 9.0, 8.8, 8.6, 8.4, 8.2, 8.0, 7.8, 7.6, 7.4, 7.2, 7.0, 6.8, 6.6, 6.4, 6.2, 6.0, 5.8, 5.6, 5.4, 5.2, 5.0, 4.8, 4.6, 4.4, 4.2, 4.0, 3.8, 3.6, 3.4, 3.2, 3.0, 2.8, 2.6, 2.4, 2.2, 2.0, 1.8, 1.6, 1.4, 1.2, 1.0, 0.8, 0.6, 0.4, 0.2, 0.0, -0.2, -0.4, -0.6, -0.8, -1.0, -1.2, -1.4, -1.6, -1.8, -2.0, -2.2, -2.4, -2.6, -2.8, -3.0, -3.2, -3.4, -3.6, -3.8, -4.0, -4.2, -4.4, -4.6, -4.8, -5.0, -5.2, -5.4, -5.6, -5.8, -6.0, -6.2, -6.4, -6.6, -6.8, -7.0, -7.2, -7.4, -7.6, -7.8, -8.0, -8.2, -8.4, -8.6, -8.8, -9.0, -9.2, -9.4, -9.6, -9.8]
+  # combine_list(lambdapt, lambda_combination_list_A, 'lambda', "nocorr")
 
-# old version before 
-#combine_list(lambda_values_A, lambda_combination_list_G, 'lambda', "nocorr")
-#combine_list(lambda_values_A, lambda_combination_list_G, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(lambda_values_B, lambda_combination_list_H, 'lambda', "nocorr")
-#combine_list(lambda_values_B, lambda_combination_list_H, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(lambda_values_C, lambda_combination_list_I, 'lambda', "nocorr")
-#combine_list(lambda_values_C, lambda_combination_list_I, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(lambda_values_D, lambda_combination_list_J, 'lambda', "nocorr")
-#combine_list(lambda_values_D, lambda_combination_list_J, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(lambda_values_A, lambda_combination_list_A, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(lambda_values_B, lambda_combination_list_B, 'lambda', "nocorr")
+  #combine_list(lambda_values_B, lambda_combination_list_B, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(lambda_values_C, lambda_combination_list_C, 'lambda', "nocorr")
+  #combine_list(lambda_values_C, lambda_combination_list_C, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(lambda_values_D, lambda_combination_list_D, 'lambda', "nocorr")
+  #combine_list(lambda_values_D, lambda_combination_list_D, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+  # combine_list(lambda_values_A+lambda_values_B+lambda_values_C+lambda_values_D, lambda_combination_list_F, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
 
-# STAT-ONLY
-#combine_list(lambda_values_A, lambda_combination_list_A, 'lambda_statOnly', "nocorr")
-#combine_list(lambda_values_A, lambda_combination_list_A, 'lambda_statOnly', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(lambda_values_B, lambda_combination_list_B, 'lambda_statOnly', "nocorr")
-#combine_list(lambda_values_B, lambda_combination_list_B, 'lambda_statOnly', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(lambda_values_C, lambda_combination_list_C, 'lambda_statOnly', "nocorr")
-#combine_list(lambda_values_C, lambda_combination_list_C, 'lambda_statOnly', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(lambda_values_D, lambda_combination_list_D, 'lambda_statOnly', "nocorr")
-#combine_list(lambda_values_D, lambda_combination_list_D, 'lambda_statOnly', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
-# combine_list(lambda_values_A+lambda_values_B+lambda_values_C+lambda_values_D, lambda_combination_list_F, 'lambda_statOnly', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+  # old version before 
+  #combine_list(lambda_values_A, lambda_combination_list_G, 'lambda', "nocorr")
+  #combine_list(lambda_values_A, lambda_combination_list_G, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(lambda_values_B, lambda_combination_list_H, 'lambda', "nocorr")
+  #combine_list(lambda_values_B, lambda_combination_list_H, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(lambda_values_C, lambda_combination_list_I, 'lambda', "nocorr")
+  #combine_list(lambda_values_C, lambda_combination_list_I, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(lambda_values_D, lambda_combination_list_J, 'lambda', "nocorr")
+  #combine_list(lambda_values_D, lambda_combination_list_J, 'lambda', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+
+  # STAT-ONLY
+  #combine_list(lambda_values_A, lambda_combination_list_A, 'lambda_statOnly', "nocorr")
+  #combine_list(lambda_values_A, lambda_combination_list_A, 'lambda_statOnly', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(lambda_values_B, lambda_combination_list_B, 'lambda_statOnly', "nocorr")
+  #combine_list(lambda_values_B, lambda_combination_list_B, 'lambda_statOnly', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(lambda_values_C, lambda_combination_list_C, 'lambda_statOnly', "nocorr")
+  #combine_list(lambda_values_C, lambda_combination_list_C, 'lambda_statOnly', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(lambda_values_D, lambda_combination_list_D, 'lambda_statOnly', "nocorr")
+  #combine_list(lambda_values_D, lambda_combination_list_D, 'lambda_statOnly', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+  # combine_list(lambda_values_A+lambda_values_B+lambda_values_C+lambda_values_D, lambda_combination_list_F, 'lambda_statOnly', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
 
 
-#End of run 2 and 3 extrapolations
-#combine_list(lambda_values_A, lambda_combination_list_K, 'lambda_140invfb', "nocorr")
-#combine_list(lambda_values_A, lambda_combination_list_K, 'lambda_140invfb', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(lambda_values_B, lambda_combination_list_L, 'lambda_140invfb', "nocorr")
-#combine_list(lambda_values_B, lambda_combination_list_L, 'lambda_140invfb', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(lambda_values_C, lambda_combination_list_M, 'lambda_140invfb', "nocorr")
-#combine_list(lambda_values_C, lambda_combination_list_M, 'lambda_140invfb', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(lambda_values_D, lambda_combination_list_N, 'lambda_140invfb', "nocorr")
-#combine_list(lambda_values_D, lambda_combination_list_N, 'lambda_140invfb', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+  #End of run 2 and 3 extrapolations
+  #combine_list(lambda_values_A, lambda_combination_list_K, 'lambda_140invfb', "nocorr")
+  #combine_list(lambda_values_A, lambda_combination_list_K, 'lambda_140invfb', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(lambda_values_B, lambda_combination_list_L, 'lambda_140invfb', "nocorr")
+  #combine_list(lambda_values_B, lambda_combination_list_L, 'lambda_140invfb', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(lambda_values_C, lambda_combination_list_M, 'lambda_140invfb', "nocorr")
+  #combine_list(lambda_values_C, lambda_combination_list_M, 'lambda_140invfb', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(lambda_values_D, lambda_combination_list_N, 'lambda_140invfb', "nocorr")
+  #combine_list(lambda_values_D, lambda_combination_list_N, 'lambda_140invfb', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
 
-#combine_list(lambda_values_A, lambda_combination_list_K, 'lambda_440invfb', "nocorr")
-#combine_list(lambda_values_A, lambda_combination_list_K, 'lambda_440invfb', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(lambda_values_B, lambda_combination_list_L, 'lambda_440invfb', "nocorr")
-#combine_list(lambda_values_B, lambda_combination_list_L, 'lambda_440invfb', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(lambda_values_C, lambda_combination_list_M, 'lambda_440invfb', "nocorr")
-#combine_list(lambda_values_C, lambda_combination_list_M, 'lambda_440invfb', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
-#combine_list(lambda_values_D, lambda_combination_list_N, 'lambda_440invfb', "nocorr")
-#combine_list(lambda_values_D, lambda_combination_list_N, 'lambda_440invfb', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(lambda_values_A, lambda_combination_list_K, 'lambda_440invfb', "nocorr")
+  #combine_list(lambda_values_A, lambda_combination_list_K, 'lambda_440invfb', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(lambda_values_B, lambda_combination_list_L, 'lambda_440invfb', "nocorr")
+  #combine_list(lambda_values_B, lambda_combination_list_L, 'lambda_440invfb', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(lambda_values_C, lambda_combination_list_M, 'lambda_440invfb', "nocorr")
+  #combine_list(lambda_values_C, lambda_combination_list_M, 'lambda_440invfb', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
+  #combine_list(lambda_values_D, lambda_combination_list_N, 'lambda_440invfb', "nocorr")
+  #combine_list(lambda_values_D, lambda_combination_list_N, 'lambda_440invfb', lambda_scheme, "fullcorr", same_scheme_for_all_channels=False)
 
 
 
@@ -557,12 +584,10 @@ utils.prog_info()
 print("##########################")
 
 # - Create a job manager
-#manager = utils.job_manager(func=wsc.task_combine_and_calc_limit, nProc=nProc)
 manager = utils.job_manager(func=wsc.task_combine_calc_limit_and_generate_asimov, nProc=nProc)
 
 manager.set_task_args(task_list)
 manager.submit()
-
     
 for rootfiles_dir, scaling, datafile_path, isSM in datafile_arg_list:
 
