@@ -506,9 +506,10 @@ def combine_list(masses, combination_list, resonant_type, scheme, pts_func, inpu
 @click.option('--cl', default="0.95", help='confidence level')
 @click.option('--blind/--unblind', default=True, help='blind analysis')
 @click.option('-n', 'n_proc', type=int, default=16, help='number of concurrent processes')
+@click.option('-s', '--scheme', default='fullcorr', type=click.Choice(['fullcorr', 'nocorr']), help='correlation scheme')
 def combine_ws(input_path, poi, resonant_type, channels, mass_points, prefix,
                fit_option, exp_or_obs, do_better_bands, data_name, 
-               asimov_data_name, cl, blind, n_proc):
+               asimov_data_name, cl, blind, n_proc, scheme):
     rescaled_ws_path = os.path.join(input_path, 'rescaled')
     config_file_path = os.path.join(input_path, 'cfg', 'combination')
     output_ws_path   = os.path.join(input_path, 'combined')
@@ -533,7 +534,7 @@ def combine_ws(input_path, poi, resonant_type, channels, mass_points, prefix,
     combination_list = {}
     combination_list['{}-{}'.format(prefix, '_'.join(channels.split(',')))] = channels.split(',')
     pt_configs, datafile_args = combine_list(combine_pts, combination_list, 
-                                             resonant_type,  "nocorr", prep_pts, input_path)
+                                             resonant_type,  scheme, prep_pts, input_path)
     
     #############################
     ### ----- Task list ----- ###
@@ -562,12 +563,3 @@ def combine_ws(input_path, poi, resonant_type, channels, mass_points, prefix,
         ls.get_exp_and_obs_limit(rootfiles_dir, scaling=scaling, output_dat=datafile_path, isSM=isSM, blind=blind)   
 
     git.save_hash_to_file(git_stamp_path)
-
-    
-
-
-
-
-
-
-

@@ -10,11 +10,11 @@ dataset:
   combination:
     blind: combData
     unblind: combData
-  multilepton:
+  WWWW:
     blind: asimovData
 poi:
   bbbb: mu
   bbtautau: SigXsecOverSM
   bbyy: mu_XS_HH
   combination: xsec_br
-  multilepton: SigXsecOverSM
+  WWWW: SigXsecOverSM
