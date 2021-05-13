@@ -21,6 +21,10 @@ hhCompile:
     - git apply --whitespace=nowarn ../../workspaceCombiner.patch
     - head -n 30 app/manager.cxx
     - cd $base_path
+    - echo "python version"
+    - which python
+    - python -V
+    - echo $PYTHONPATH
     - source compile.sh
     - source setup.sh
   artifacts:
@@ -53,11 +57,13 @@ RunPipeline_bbyy:
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
-    - echo "tree ."
-    - tree .
     - echo "ls "
-    - ls
+    - ls -d input/*/*/*/*
     - which HHComb
+    - echo "python version"
+    - which python
+    - python -V
+    - echo $PYTHONPATH
     #- python scripts/pipeline/processChannels.py $input_dir $output_dir signal=nonres channel=$channel job_batch_start=0 job_batch_stop=1
     - HHComb process_channels -i $input_dir/$version -r nonres -c bbyy -o $output_dir --config configs/regularization_v1.yaml
   artifacts:
