@@ -18,6 +18,9 @@ printf "${GREEN}\n
 | Compiling 1/4) submodules/RooFitExtensions  ...
 ==================================================${NC}\n"
 cd submodules/RooFitExtensions
+if [ -d "submodules/RooFitExtensions/build" ] ; then
+    rm -r submodules/RooFitExtensions/build
+fi
 mkdir -p build && cd build && rm -fr * && cmake .. && make -j8 && cd ..
 source build/setup.sh
 cd ${hh_combination_fw_path}
@@ -28,6 +31,9 @@ printf "${GREEN}\n
 | Compiling 2/4) submodules/workspaceCombiner ...
 ==================================================${NC}\n"
 cd submodules/workspaceCombiner
+if [ -d "submodules/workspaceCombiner/build" ] ; then
+    rm -r submodules/workspaceCombiner/build
+fi
 mkdir -p build && cd build && rm -fr * && cmake .. && make -j8 && cd ..
 cd ${hh_combination_fw_path}
 
@@ -45,6 +51,15 @@ printf "${GREEN}\n
 | Compiling 4/4) submodules/DiagnosticTools ...
 ==============================================${NC}\n"
 cd submodules/DiagnosticTools
-rm -fr build; mkdir -p build; cd build; cmake ../; make -j4
+if [ -d "submodules/DiagnosticTools/build" ] ; then
+    rm -r submodules/DiagnosticTools/build
+fi
+mkdir -p build; cd build; cmake ../; make -j4
 cd ${hh_combination_fw_path}
+
+
+
+
+
+
 

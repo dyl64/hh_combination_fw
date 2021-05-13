@@ -1,5 +1,5 @@
 diff --git a/app/manager.cxx b/app/manager.cxx
-index 735a2e4..0710dbd 100644
+index 735a2e4..1556bf1 100644
 --- a/app/manager.cxx
 +++ b/app/manager.cxx
 @@ -26,7 +26,7 @@ std::string injectDataSet_ = "asimovData_1"; // To be moved to workspace editing
@@ -11,6 +11,41 @@ index 735a2e4..0710dbd 100644
  std::string mcName_ = "ModelConfig";	     // To be moved to XML file
  
  double rMax_ = -999;		// To be moved to XML file
+@@ -47,6 +47,7 @@ struct option longopts[] = {
+   { "ConfigXml", required_argument, NULL, 'x'},
+   { "CombinedFile", required_argument, NULL, 'f'},
+   { "SplittedFile", required_argument, NULL, 'p'},
++  { "dataset", required_argument, NULL, 'd'},
+   { "minimizerAlgo", required_argument, NULL, 'm'},
+   { "minimizerStrategy", required_argument, NULL, 's'},
+   { "minimizerTolerance", required_argument, NULL, 't'},
+@@ -66,6 +67,7 @@ void printHelp(TString exe){
+   cout<<" -x [ --ConfigXml ] arg             Input XML configure file"<<endl;
+   cout<<" -f [ --CombinedFile ] arg          Input workspace file"<<endl;
+   cout<<" -p [ --SplittedFile ] arg          Output workspace file"<<endl;
++  cout<<" -d [ --dataset ] arg               Dataset name"<<endl;  
+   cout<<" -v [ --verbose ] arg               Printing out debug info or not (default no)"<<endl;
+   cout<<" -i [ --indices ] arg               Category indices to be included in the split file"<<endl;
+   cout<<" -m [ --minimizerAlgo ] arg         Minimizer algorithm (default Minuit2)"<<endl;
+@@ -88,7 +90,7 @@ int main( int argc, char** argv )
+   RooMsgService::instance().setGlobalKillBelow(RooFit::ERROR);
+ 
+   int oc;
+-  while ((oc=getopt_long(argc, argv, ":w:x:f:p:i:v:m:s:t:n:c:r:h", longopts, NULL)) != -1){
++  while ((oc=getopt_long(argc, argv, ":w:x:f:p:d:i:v:m:s:t:n:c:r:h", longopts, NULL)) != -1){
+     switch (oc) {
+     case 'w':
+       what_ = optarg;
+@@ -102,6 +104,9 @@ int main( int argc, char** argv )
+     case 'p':
+       splittedFile_ = optarg;
+       break;
++    case 'd':
++      dataName_ = optarg;
++      break;
+     case 'i':
+       indice_ = optarg;
+       break;
 diff --git a/src/combiner.cxx b/src/combiner.cxx
 index 691e7a1..b0dcd86 100644
 --- a/src/combiner.cxx
@@ -41,7 +76,7 @@ index 691e7a1..b0dcd86 100644
  	      TString type = Form( "%s_%s_%s", m_catName.c_str(), indivCat->getLabel(), channelName.c_str() );
  	      m_cat->setLabel( type, true ); // print error
 diff --git a/src/decorator.cxx b/src/decorator.cxx
-index ce1e686..bbac871 100644
+index ce1e686..8050b0d 100644
 --- a/src/decorator.cxx
 +++ b/src/decorator.cxx
 @@ -76,8 +76,13 @@ decorator::decorator(std::string combinedFile, std::string splittedFile, std::st
@@ -60,7 +95,21 @@ index ce1e686..bbac871 100644
    }
  
    m_dataList = m_data->split( *m_cat, true );
-@@ -234,8 +239,8 @@ void decorator::hist2dataset()
+@@ -127,6 +132,13 @@ void decorator::decorate()
+     }
+   }
+   else{
++      if ((std::string) m_data->GetName() != "combData"){
++          RooDataSet* buffer_data = (RooDataSet*)(m_comb->data("combData"));
++          if (buffer_data){
++              buffer_data->SetName("combData_old");
++              std::cout<<"Found dataset with name combData, renamed to combData_old to avoid conflicts"<<std::endl;
++          }
++      }
+     std::cout<<"Dataset: old name "<<m_data->GetName()<<", new name combData"<<std::endl;
+     m_data->SetName("combData");
+   }
+@@ -234,8 +246,8 @@ void decorator::hist2dataset()
    for ( int ich= 0; ich < numChannels; ich++ ) {
      m_cat->setBin(ich);
      TString channelname=m_cat->getLabel();
@@ -71,7 +120,7 @@ index ce1e686..bbac871 100644
      RooRealVar *obsi=(RooRealVar*)pdfi->getObservables(datai)->first();
      x[ich]=m_comb->var(obsi->GetName());
      w[ich]=new RooRealVar(Form("wt_%d",ich),Form("wt_%d",ich),1);
-@@ -279,8 +284,9 @@ void decorator::printSummary(bool verbose)
+@@ -279,8 +291,9 @@ void decorator::printSummary(bool verbose)
    std::cout << "\tThere are " << numChannels << " sub channels:" << std::endl;
    for ( int i= 0; i < numChannels; i++ ) {
      m_cat->setBin(i);

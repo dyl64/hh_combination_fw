@@ -1,7 +1,7 @@
 *.pyc
 test/
 src/.depend_cpp
-bin/
+submodules/*/bin
 lib/
 limits/
 scripts_development/
@@ -25,3 +25,4 @@ results/
 external/
 condor/*cc
 condor/log/*
+notebooks/

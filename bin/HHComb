@@ -1,0 +1,16 @@
+#!/usr/bin/env python
+
+import os
+import click
+
+from process_channels import process_channels
+from combine_ws import combine_ws
+
+@click.group()
+def cli():
+    pass
+
+if __name__ == "__main__":
+    cli.add_command(process_channels)
+    cli.add_command(combine_ws)
+    cli()   

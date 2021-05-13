@@ -1968,7 +1968,9 @@ scalings_releases = {
                                 'WWWW'     : WWWW_scalings['v00'],
                               },
                     }
- 
+
+xsec_hh_SM = 31.05 / 1000.0
+
 def get_scaling(release, channel, type, mass, doScaling=True):
     """Get the scaling factor for a specific release, channel, type and mass."""
     if doScaling:

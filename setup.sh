@@ -12,7 +12,7 @@ export hh_combination_fw_path="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" >/dev
 cd submodules/workspaceCombiner
 setupATLAS
 #lsetup "views LCG_97_ATLAS_1 x86_64-centos7-gcc8-opt"
-lsetup "views LCG_98 x86_64-centos7-gcc8-opt"
+lsetup "views LCG_98python3 x86_64-centos7-gcc8-opt"
 
 # More memory
 ulimit -S -s unlimited
@@ -65,3 +65,5 @@ export WORKSPACECOMBINER_PATH
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROOSTATPATH/lib
 ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${hh_combination_fw_path}/submodules/RooStatTools/inc/:${hh_combination_fw_path}/submodules/RooFitExtensions
 export ROOT_INCLUDE_PATH
+
+export PATH=${hh_combination_fw_path}/bin:$PATH
