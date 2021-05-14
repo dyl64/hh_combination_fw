@@ -1,68 +1,69 @@
 # Di-Higgs combination framework
-The framework is largely refactored to abandon `root 6.04.16-HiggsComb-x86_64-slc6-gcc49-opt` version resctricted by an old `workspaceCombiner`.
-Other submodules are also removed but could be recovered easily from gitlab repo.
-Some unused files are also cleaned up.
-Current structure is:
+This is the framework for di-Higgs combination.
+The latest workspaces to use are documented in [HHcomb Twiki](https://twiki.cern.ch/twiki/bin/view/AtlasProtected/DiHiggsCombination).
+
+Current relevant folders are:
 
     |-- scripts
     |-- python_modules
     |-- README.md
     |-- setup.sh
+    |-- compile.sh
     |-- doc
     |-- submodules
         |-- RooFitExtensions
         |-- RooStatTools
         |-- workspaceCombiner
+        |-- hh_plot
 
+Caveats:
+- The submodules `DiagnosticTools` will be replaced by something else soon.
+- Currently stuck at some commit on workspaceCombiner:development branch. Need to update `RooStatTools` to catch the changes.
+- Only nonres is currently working. Need some work on spin0.
 # How to run (on lxplus)
 ### Check out the packages
 ```
 git clone --recursive ssh://git@gitlab.cern.ch:7999/atlas-physics/HDBS/DiHiggs/combination/hh_combination_fw.git
 ```
-It doesn't work for the submodules not a master branch.
-You should check `ls submodules/*` and manually check out the missing ones.
-Since we currently use the `development` branch for `workspaceCombiner`, `submodules/workspaceCombiner` may be empty. So run the first block of code below.
-(For merge-requrst checks:) If you are validate MR, mostly likely `RooStatTools` is updated. So run the second block below and don't forget to checkout the branch of `hh_combination_fw` to validate as well.
-```
-cd submodules/; rm -fr workspaceCombiner
-git clone ssh://git@gitlab.cern.ch:7999/atlas_higgs_combination/software/workspaceCombiner.git
-cd workspaceCombiner
-git branch development --track remotes/origin/development
-git checkout development
-cd ../../
-
-cd submodules/; rm -fr RooStatTools
-git clone ssh://git@gitlab.cern.ch:7999/atlas-physics/HDBS/DiHiggs/combination/RooStatTools.git
-cd RooStatTools
-git branch {your-branch} --track remotes/origin/{your-branch}
-git checkout {your-branch}
-cd ../../; git checkout {your-branch}
-```
+Just check if you miss any submodules (sometimes it happens silently!).
 ### Patch `workspaceCombiner`
-The `development` branch (need double check for the real branch you are using) changed the default of `wsName_` in `app/manager.cxx` which will accidentally enter the if-condition block in [src/decorator.cxx](https://gitlab.cern.ch/atlas_higgs_combination/software/workspaceCombiner/-/blob/master/src/decorator.cxx#L28-43) with a wrong name for our workspaces.
-Apply the patch to reset the default to empty.
+The dataset name is not customisable in `workspaceCombiner` and the [TList indexing bug](https://indico.cern.ch/event/1025636/contributions/4311962/attachments/2222485/3763797/HHcomb20210408.pdf) needs a fix.
+Apply the patch:
 ```
 cd submodules/workspaceCombiner
-git apply ../../workspaceCombiner.patch
+git apply --whitespace=nowarn ../../workspaceCombiner.patch
 ```
-### For the first time
+### For the first time (need a compilation)
 ```
 source compile.sh
 source setup.sh
-python scripts/pipeline/processChannels.py
+HHComb process_channels -i <input> -c <channel> -r nonres -o <output> --config configs/regularization_v1.yaml
 ...
-python scripts/combination/auto/combine_ws.py
+HHComb combine_ws -i <output> -c bbbb,bbtautau,bbyy,WWWW -s nocorr
 ...
+
 ```
+You need to make sure the workspace can be found in `<input>/<channel>/nonres`.
 
 ### For the future time
 ```
 source setup.sh
-python scripts/pipeline/processChannels.py
+HHComb process_channels -i <input> -c <channel> -r nonres -o <output> --config configs/regularization_v1.yaml
 ...
-python scripts/combination/auto/combine_ws.py
+HHComb combine_ws -i <output> -c bbbb,bbtautau,bbyy,WWWW -s nocorr
 ...
 ```
+
+### Plotting
+Generate plot for non-resonant:
+```
+cd submodules/hh_plot
+root -l -q -b 'MakeLimitPlots_nonres_paper.cxx("<output>", "")'
+```
+# Check results on gitlab CI
+The non-resonant jobs are tested with CI/CD until the plotting.
+You can check the [.gitlab-CI.yml](.gitlab-CI.yml) file for the same commands and go to the RunPlot job of the CI pipeline and find the final plot way down through clicking the `Browser` botton.
+
 
 </p>
 </details>
