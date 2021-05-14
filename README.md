@@ -37,7 +37,7 @@ git apply --whitespace=nowarn ../../workspaceCombiner.patch
 ```
 source compile.sh
 source setup.sh
-HHComb process_channels -i <input> -c <channel> -r nonres -o <output> --config configs/regularization_v1.yaml
+HHComb process_channels -i <input> -c <channel> -r nonres -o <output> --config configs/regularization_v2.yaml
 ...
 HHComb combine_ws -i <output> -c bbbb,bbtautau,bbyy,WWWW -s nocorr
 ...
@@ -48,7 +48,7 @@ You need to make sure the workspace can be found in `<input>/<channel>/nonres`.
 ### For the future time
 ```
 source setup.sh
-HHComb process_channels -i <input> -c <channel> -r nonres -o <output> --config configs/regularization_v1.yaml
+HHComb process_channels -i <input> -c <channel> -r nonres -o <output> --config configs/regularization_v2.yaml
 ...
 HHComb combine_ws -i <output> -c bbbb,bbtautau,bbyy,WWWW -s nocorr
 ...

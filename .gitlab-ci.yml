@@ -54,7 +54,7 @@ RunPipeline_bbyy:
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
     #- python scripts/pipeline/processChannels.py $input_dir $output_dir signal=nonres channel=$channel job_batch_start=0 job_batch_stop=1
-    - HHComb process_channels -i $input_dir/$version -r nonres -c $channel -o $output_dir --config configs/regularization_v1.yaml
+    - HHComb process_channels -i $input_dir/$version -r nonres -c $channel -o $output_dir --config configs/regularization_v2.yaml
   artifacts:
     paths:
       - $output_dir
@@ -83,7 +83,7 @@ RunPipeline_bbbb:
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
     #- python scripts/pipeline/processChannels.py $input_dir $output_dir signal=nonres channel=$channel job_batch_start=0 job_batch_stop=1
-    - HHComb process_channels -i $input_dir/$version -r nonres -c $channel -o $output_dir --config configs/regularization_v1.yaml
+    - HHComb process_channels -i $input_dir/$version -r nonres -c $channel -o $output_dir --config configs/regularization_v2.yaml
   artifacts:
     paths:
       - $output_dir
@@ -112,7 +112,7 @@ RunPipeline_bbtautau:
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
     #- python scripts/pipeline/processChannels.py $input_dir $output_dir signal=nonres channel=$channel job_batch_start=0 job_batch_stop=1
-    - HHComb process_channels -i $input_dir/$version -r nonres -c $channel -o $output_dir --config configs/regularization_v1.yaml
+    - HHComb process_channels -i $input_dir/$version -r nonres -c $channel -o $output_dir --config configs/regularization_v2.yaml
   artifacts:
     paths:
       - $output_dir
@@ -141,7 +141,7 @@ RunPipeline_multilep:
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
     #- python scripts/pipeline/processChannels.py $input_dir $output_dir signal=nonres channel=$channel job_batch_start=0 job_batch_stop=1
-    - HHComb process_channels -i $input_dir/$version -r nonres -c $channel -o $output_dir --config configs/regularization_v1.yaml
+    - HHComb process_channels -i $input_dir/$version -r nonres -c $channel -o $output_dir --config configs/regularization_v2.yaml
   artifacts:
     paths:
       - $output_dir
