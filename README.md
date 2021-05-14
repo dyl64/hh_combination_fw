@@ -62,7 +62,7 @@ root -l -q -b 'MakeLimitPlots_nonres_paper.cxx("<output>", "")'
 ```
 # Check results on gitlab CI
 The non-resonant jobs are tested with CI/CD until the plotting.
-You can check the [.gitlab-CI.yml](.gitlab-CI.yml) file for the same commands and go to the RunPlot job of the CI pipeline and find the final plot way down through clicking the `Browser` botton.
+You can check the [.gitlab-CI.yml](.gitlab-ci.yml) file for the same commands and go to the RunPlot job of the CI pipeline and find the final plot way down through clicking the `Browser` botton.
 
 
 </p>
