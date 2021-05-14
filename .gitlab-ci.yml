@@ -186,7 +186,7 @@ RunPlot:
   stage: plotting
   variables:
     GIT_SSL_NO_VERIFY: "true"
-    output_dir: submodules/hh_plot/limit_plots
+    output_dir: limit_plots
   script:
     - set +e
     - shopt -s expand_aliases
@@ -195,6 +195,7 @@ RunPlot:
     - cd submodules/hh_plot
     - source setup.sh || echo ignore setupATLAS return code
     - root -l -q -b 'MakeLimitPlots_nonres_paper.cxx("../../output/", "")'
+    - mv $output_dir ../../
   artifacts:
     paths:
       - $output_dir
