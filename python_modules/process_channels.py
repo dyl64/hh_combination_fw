@@ -35,7 +35,7 @@ def process_channels(input_path, resonant_type, channels, outdir, do_better_band
         
     channels = channels.split(',')
     for channel in channels:
-        workspace_dir = os.path.join(input_path, resonant_type, channel)
+        workspace_dir = os.path.join(input_path, channel, resonant_type)
         old_poi = None if config is None else config['poi'][channel]
         new_poi = DEFAULT_NEW_POI if config is None else config['poi']['combination']
         if blind:
