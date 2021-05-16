@@ -26,3 +26,4 @@ external/
 condor/*cc
 condor/log/*
 notebooks/
+output/

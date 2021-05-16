@@ -18,13 +18,8 @@ hhCompile:
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - base_path=$(pwd)
     - cd submodules/workspaceCombiner; git status
-    - git branch development --track remotes/origin/development
-    - git checkout 0db0e09c
-    - git apply ../../workspaceCombiner.patch
-    - head -n 30 app/manager.cxx
-    - cd $base_path
-    - cd submodules/RooFitExtensions; git status
-    - git checkout 7af33678
+    - git apply --whitespace=nowarn ../../workspaceCombiner.patch
+    - git status
     - cd $base_path
     - source compile.sh
     - source setup.sh
@@ -58,7 +53,8 @@ RunPipeline_bbyy:
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
-    - python scripts/pipeline/processChannels.py $input_dir $output_dir signal=nonres channel=$channel job_batch_start=0 job_batch_stop=1
+    #- python scripts/pipeline/processChannels.py $input_dir $output_dir signal=nonres channel=$channel job_batch_start=0 job_batch_stop=1
+    - HHComb process_channels -i $input_dir/$version -r nonres -c $channel -o $output_dir --config configs/regularization_nonres_v2.yaml
   artifacts:
     paths:
       - $output_dir
@@ -86,7 +82,8 @@ RunPipeline_bbbb:
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
-    - python scripts/pipeline/processChannels.py $input_dir $output_dir signal=nonres channel=$channel job_batch_start=0 job_batch_stop=1
+    #- python scripts/pipeline/processChannels.py $input_dir $output_dir signal=nonres channel=$channel job_batch_start=0 job_batch_stop=1
+    - HHComb process_channels -i $input_dir/$version -r nonres -c $channel -o $output_dir --config configs/regularization_nonres_v2.yaml
   artifacts:
     paths:
       - $output_dir
@@ -114,7 +111,8 @@ RunPipeline_bbtautau:
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
-    - python scripts/pipeline/processChannels.py $input_dir $output_dir signal=nonres channel=$channel job_batch_start=0 job_batch_stop=1
+    #- python scripts/pipeline/processChannels.py $input_dir $output_dir signal=nonres channel=$channel job_batch_start=0 job_batch_stop=1
+    - HHComb process_channels -i $input_dir/$version -r nonres -c $channel -o $output_dir --config configs/regularization_nonres_v2.yaml
   artifacts:
     paths:
       - $output_dir
@@ -142,7 +140,8 @@ RunPipeline_multilep:
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
-    - python scripts/pipeline/processChannels.py $input_dir $output_dir signal=nonres channel=$channel job_batch_start=0 job_batch_stop=1
+    #- python scripts/pipeline/processChannels.py $input_dir $output_dir signal=nonres channel=$channel job_batch_start=0 job_batch_stop=1
+    - HHComb process_channels -i $input_dir/$version -r nonres -c $channel -o $output_dir --config configs/regularization_nonres_v2.yaml
   artifacts:
     paths:
       - $output_dir
@@ -159,7 +158,8 @@ RunCombineBig3:
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
-    - python scripts/combination/auto/combine_ws.py gitlabci nonrespt=0 comblist=A-bbbb_bbtautau_bbyy
+    #- python scripts/combination/auto/combine_ws.py gitlabci nonrespt=0 comblist=A-bbbb_bbtautau_bbyy
+    - HHComb combine_ws -i $output_dir -c bbbb,bbtautau,bbyy -s nocorr
   artifacts:
     paths:
       - $output_dir
@@ -176,7 +176,8 @@ RunCombineAll:
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
-    - python scripts/combination/auto/combine_ws.py gitlabci nonrespt=0 comblist=A-bbbb_bbtautau_bbyy_WWWW
+    #- python scripts/combination/auto/combine_ws.py gitlabci nonrespt=0 comblist=A-bbbb_bbtautau_bbyy_WWWW
+    - HHComb combine_ws -i $output_dir -c bbbb,bbtautau,bbyy,WWWW -s nocorr
   artifacts:
     paths:
       - $output_dir
@@ -185,17 +186,16 @@ RunPlot:
   stage: plotting
   variables:
     GIT_SSL_NO_VERIFY: "true"
-    input_dir: output
-    output_dir: submodules/hh_plot/limit_plots
+    output_dir: limit_plots
   script:
     - set +e
     - shopt -s expand_aliases
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
-    - mv $input_dir ../
     - cd submodules/hh_plot
     - source setup.sh || echo ignore setupATLAS return code
-    - root -l -q -b MakeLimitPlots_nonres_paper.cxx
+    - root -l -q -b 'MakeLimitPlots_nonres_paper.cxx("../../output/", "")'
+    - mv $output_dir ../../
   artifacts:
     paths:
       - $output_dir
