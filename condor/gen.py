@@ -4,7 +4,7 @@ total = 23
 step = 1
 channel = 'bbbb'
 job = 'spin0'
-process = 'pipeline'
+process = 'process_channels'
 for i in range(0, total, step):
     print('Arguments = {0} {1} {2} {3} {4}'.format(process, job, channel, i, i+step))
     print('Queue 1')
@@ -12,7 +12,7 @@ for i in range(0, total, step):
 
 process = 'combine'
 job = 'lambdapt'
-batch_tag = '20210213'
+batch_tag = '../../input/20210213'
 low, hi = -10, 10
 step = 0.2
 for i in np.arange(hi, low, -step):
