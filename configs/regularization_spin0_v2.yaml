@@ -1,6 +1,6 @@
 dataset:
   bbbb:
-    blind: asimovData
+    blind: obsData
     unblind: obsData
   bbtautau:
     blind: obsData
