@@ -1,0 +1,273 @@
+
+[1mRooFit v3.60 -- Developed by Wouter Verkerke and David Kirkby[0m 
+                Copyright (C) 2000-2013 NIKHEF, University of California & Stanford University
+                All rights reserved, please read http://roofit.sourceforge.net/license.txt
+
+Warning in <TClassTable::Add>: class RooNovosibirsk_nancy already in TClassTable
+Warning in <TClassTable::Add>: class ExpGausExpPDF already in TClassTable
+Warning in <TClassTable::Add>: class HggTwoSidedCBPdf already in TClassTable
+You called: 
+/afs/cern.ch/work/c/chlcheng/Repository/hh_combination_fw/submodules/RooStatTools/./bin/makeAsimovData output/rescaled/spin0/bbbb/1600.root output/rescaled/spin0/bbbb/1600_with_Asimov_POI_0_NP_nom.root combWS ModelConfig combData false 0.0 asimovData_POI_0_NP_nom xsec_br 
+#--- Running makeAsimovData ---
+# - Settings: 
+  - input_ws:           output/rescaled/spin0/bbbb/1600.root
+  - output_ws:          output/rescaled/spin0/bbbb/1600_with_Asimov_POI_0_NP_nom.root
+  - workspacename:      combWS
+  - modelConfigName:    ModelConfig
+  - dataName:           combData
+  - doConditional:      0 (false)
+  - mu:                 0
+  - asimovData_name:    asimovData_POI_0_NP_nom
+  - poiName:            xsec_br
+Executing makeAsimovData().
+inside makeAsimovData().
+- doConditional: 0
+Pairing nui: Lumi, with glob: nominalLumi, from constraint: lumiConstraint
+Pairing nui: alpha_Boosted_JET_CombMass_Baseline, with glob: nom_alpha_Boosted_JET_CombMass_Baseline, from constraint: alpha_Boosted_JET_CombMass_BaselineConstraint
+Pairing nui: alpha_Boosted_JET_CombMass_Modelling, with glob: nom_alpha_Boosted_JET_CombMass_Modelling, from constraint: alpha_Boosted_JET_CombMass_ModellingConstraint
+Pairing nui: alpha_Boosted_JET_CombMass_TotalStat, with glob: nom_alpha_Boosted_JET_CombMass_TotalStat, from constraint: alpha_Boosted_JET_CombMass_TotalStatConstraint
+Pairing nui: alpha_Boosted_JET_CombMass_Tracking1, with glob: nom_alpha_Boosted_JET_CombMass_Tracking1, from constraint: alpha_Boosted_JET_CombMass_Tracking1Constraint
+Pairing nui: alpha_Boosted_JET_CombMass_Tracking2, with glob: nom_alpha_Boosted_JET_CombMass_Tracking2, from constraint: alpha_Boosted_JET_CombMass_Tracking2Constraint
+Pairing nui: alpha_Boosted_JET_CombMass_Tracking3, with glob: nom_alpha_Boosted_JET_CombMass_Tracking3, from constraint: alpha_Boosted_JET_CombMass_Tracking3Constraint
+Pairing nui: alpha_Boosted_JET_EffectiveNP_R10_Detector1, with glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Detector1, from constraint: alpha_Boosted_JET_EffectiveNP_R10_Detector1Constraint
+Pairing nui: alpha_Boosted_JET_EffectiveNP_R10_Detector2, with glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Detector2, from constraint: alpha_Boosted_JET_EffectiveNP_R10_Detector2Constraint
+Pairing nui: alpha_Boosted_JET_EffectiveNP_R10_Mixed1, with glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Mixed1, from constraint: alpha_Boosted_JET_EffectiveNP_R10_Mixed1Constraint
+Pairing nui: alpha_Boosted_JET_EffectiveNP_R10_Mixed2, with glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Mixed2, from constraint: alpha_Boosted_JET_EffectiveNP_R10_Mixed2Constraint
+Pairing nui: alpha_Boosted_JET_EffectiveNP_R10_Mixed3, with glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Mixed3, from constraint: alpha_Boosted_JET_EffectiveNP_R10_Mixed3Constraint
+Pairing nui: alpha_Boosted_JET_EffectiveNP_R10_Mixed4, with glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Mixed4, from constraint: alpha_Boosted_JET_EffectiveNP_R10_Mixed4Constraint
+Pairing nui: alpha_Boosted_JET_EffectiveNP_R10_Modelling1, with glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Modelling1, from constraint: alpha_Boosted_JET_EffectiveNP_R10_Modelling1Constraint
+Pairing nui: alpha_Boosted_JET_EffectiveNP_R10_Modelling2, with glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Modelling2, from constraint: alpha_Boosted_JET_EffectiveNP_R10_Modelling2Constraint
+Pairing nui: alpha_Boosted_JET_EffectiveNP_R10_Modelling3, with glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Modelling3, from constraint: alpha_Boosted_JET_EffectiveNP_R10_Modelling3Constraint
+Pairing nui: alpha_Boosted_JET_EffectiveNP_R10_Modelling4, with glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Modelling4, from constraint: alpha_Boosted_JET_EffectiveNP_R10_Modelling4Constraint
+Pairing nui: alpha_Boosted_JET_EffectiveNP_R10_Statistical1, with glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Statistical1, from constraint: alpha_Boosted_JET_EffectiveNP_R10_Statistical1Constraint
+Pairing nui: alpha_Boosted_JET_EffectiveNP_R10_Statistical2, with glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Statistical2, from constraint: alpha_Boosted_JET_EffectiveNP_R10_Statistical2Constraint
+Pairing nui: alpha_Boosted_JET_EffectiveNP_R10_Statistical3, with glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Statistical3, from constraint: alpha_Boosted_JET_EffectiveNP_R10_Statistical3Constraint
+Pairing nui: alpha_Boosted_JET_EffectiveNP_R10_Statistical4, with glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Statistical4, from constraint: alpha_Boosted_JET_EffectiveNP_R10_Statistical4Constraint
+Pairing nui: alpha_Boosted_JET_EffectiveNP_R10_Statistical5, with glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Statistical5, from constraint: alpha_Boosted_JET_EffectiveNP_R10_Statistical5Constraint
+Pairing nui: alpha_Boosted_JET_EffectiveNP_R10_Statistical6, with glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Statistical6, from constraint: alpha_Boosted_JET_EffectiveNP_R10_Statistical6Constraint
+Pairing nui: alpha_Boosted_JET_EtaIntercalibration_Modelling, with glob: nom_alpha_Boosted_JET_EtaIntercalibration_Modelling, from constraint: alpha_Boosted_JET_EtaIntercalibration_ModellingConstraint
+Pairing nui: alpha_Boosted_JET_EtaIntercalibration_NonClosure_2018data, with glob: nom_alpha_Boosted_JET_EtaIntercalibration_NonClosure_2018data, from constraint: alpha_Boosted_JET_EtaIntercalibration_NonClosure_2018dataConstraint
+Pairing nui: alpha_Boosted_JET_EtaIntercalibration_R10_TotalStat, with glob: nom_alpha_Boosted_JET_EtaIntercalibration_R10_TotalStat, from constraint: alpha_Boosted_JET_EtaIntercalibration_R10_TotalStatConstraint
+Pairing nui: alpha_Boosted_JET_Flavor_Composition, with glob: nom_alpha_Boosted_JET_Flavor_Composition, from constraint: alpha_Boosted_JET_Flavor_CompositionConstraint
+Pairing nui: alpha_Boosted_JET_Flavor_Response, with glob: nom_alpha_Boosted_JET_Flavor_Response, from constraint: alpha_Boosted_JET_Flavor_ResponseConstraint
+Pairing nui: alpha_Boosted_JET_LargeR_TopologyUncertainty_V, with glob: nom_alpha_Boosted_JET_LargeR_TopologyUncertainty_V, from constraint: alpha_Boosted_JET_LargeR_TopologyUncertainty_VConstraint
+Pairing nui: alpha_Boosted_JET_LargeR_TopologyUncertainty_top, with glob: nom_alpha_Boosted_JET_LargeR_TopologyUncertainty_top, from constraint: alpha_Boosted_JET_LargeR_TopologyUncertainty_topConstraint
+Pairing nui: alpha_Boosted_JET_MassRes_Hbb_comb, with glob: nom_alpha_Boosted_JET_MassRes_Hbb_comb, from constraint: alpha_Boosted_JET_MassRes_Hbb_combConstraint
+Pairing nui: alpha_Boosted_JET_SingleParticle_HighPt, with glob: nom_alpha_Boosted_JET_SingleParticle_HighPt, from constraint: alpha_Boosted_JET_SingleParticle_HighPtConstraint
+Pairing nui: alpha_Boosted_ExtrapUncert_b2b, with glob: nom_alpha_Boosted_ExtrapUncert_b2b, from constraint: alpha_Boosted_ExtrapUncert_b2bConstraint
+Pairing nui: alpha_Boosted_CRegVariationUncert_b2b, with glob: nom_alpha_Boosted_CRegVariationUncert_b2b, from constraint: alpha_Boosted_CRegVariationUncert_b2bConstraint
+Pairing nui: alpha_Boosted_JET_MassRes_Top_comb, with glob: nom_alpha_Boosted_JET_MassRes_Top_comb, from constraint: alpha_Boosted_JET_MassRes_Top_combConstraint
+Pairing nui: alpha_Boosted_qcdSmoothingNP1_b2b, with glob: nom_alpha_Boosted_qcdSmoothingNP1_b2b, from constraint: alpha_Boosted_qcdSmoothingNP1_b2bConstraint
+Pairing nui: alpha_Boosted_qcdSmoothingNP2_b2b, with glob: nom_alpha_Boosted_qcdSmoothingNP2_b2b, from constraint: alpha_Boosted_qcdSmoothingNP2_b2bConstraint
+Pairing nui: alpha_Boosted_qcdSmoothingNP3_b2b, with glob: nom_alpha_Boosted_qcdSmoothingNP3_b2b, from constraint: alpha_Boosted_qcdSmoothingNP3_b2bConstraint
+Pairing nui: alpha_Boosted_SmoothingFcn_b2b, with glob: nom_alpha_Boosted_SmoothingFcn_b2b, from constraint: alpha_Boosted_SmoothingFcn_b2bConstraint
+Pairing nui: alpha_Boosted_SmoothingRange_b2b, with glob: nom_alpha_Boosted_SmoothingRange_b2b, from constraint: alpha_Boosted_SmoothingRange_b2bConstraint
+Pairing nui: alpha_Boosted_QCDShape_b2b, with glob: nom_alpha_Boosted_QCDShape_b2b, from constraint: alpha_Boosted_QCDShape_b2bConstraint
+Pairing nui: alpha_Boosted_BkgStat1_b2b, with glob: nom_alpha_Boosted_BkgStat1_b2b, from constraint: alpha_Boosted_BkgStat1_b2bConstraint
+Pairing nui: alpha_Boosted_BkgStat2_b2b, with glob: nom_alpha_Boosted_BkgStat2_b2b, from constraint: alpha_Boosted_BkgStat2_b2bConstraint
+Pairing nui: alpha_Boosted_TTBAR_ME, with glob: nom_alpha_Boosted_TTBAR_ME, from constraint: alpha_Boosted_TTBAR_MEConstraint
+Pairing nui: alpha_Boosted_TTBAR_PS, with glob: nom_alpha_Boosted_TTBAR_PS, from constraint: alpha_Boosted_TTBAR_PSConstraint
+Pairing nui: alpha_Boosted_TTBAR_hdamp, with glob: nom_alpha_Boosted_TTBAR_hdamp, from constraint: alpha_Boosted_TTBAR_hdampConstraint
+Pairing nui: alpha_Boosted_TTBAR_muF, with glob: nom_alpha_Boosted_TTBAR_muF, from constraint: alpha_Boosted_TTBAR_muFConstraint
+Pairing nui: alpha_Boosted_TTBAR_muR, with glob: nom_alpha_Boosted_TTBAR_muR, from constraint: alpha_Boosted_TTBAR_muRConstraint
+Pairing nui: alpha_Boosted_TTBAR_FSR, with glob: nom_alpha_Boosted_TTBAR_FSR, from constraint: alpha_Boosted_TTBAR_FSRConstraint
+Pairing nui: alpha_Boosted_ttbarSmoothingNP1_b2b, with glob: nom_alpha_Boosted_ttbarSmoothingNP1_b2b, from constraint: alpha_Boosted_ttbarSmoothingNP1_b2bConstraint
+Pairing nui: alpha_Boosted_ttbarSmoothingNP2_b2b, with glob: nom_alpha_Boosted_ttbarSmoothingNP2_b2b, from constraint: alpha_Boosted_ttbarSmoothingNP2_b2bConstraint
+Pairing nui: alpha_Boosted_ttbarSmoothingNP3_b2b, with glob: nom_alpha_Boosted_ttbarSmoothingNP3_b2b, from constraint: alpha_Boosted_ttbarSmoothingNP3_b2bConstraint
+Pairing nui: alpha_Boosted_ExtrapUncert_b3b, with glob: nom_alpha_Boosted_ExtrapUncert_b3b, from constraint: alpha_Boosted_ExtrapUncert_b3bConstraint
+Pairing nui: alpha_Boosted_CRegVariationUncert_b3b, with glob: nom_alpha_Boosted_CRegVariationUncert_b3b, from constraint: alpha_Boosted_CRegVariationUncert_b3bConstraint
+Pairing nui: alpha_Boosted_qcdSmoothingNP1_b3b, with glob: nom_alpha_Boosted_qcdSmoothingNP1_b3b, from constraint: alpha_Boosted_qcdSmoothingNP1_b3bConstraint
+Pairing nui: alpha_Boosted_qcdSmoothingNP2_b3b, with glob: nom_alpha_Boosted_qcdSmoothingNP2_b3b, from constraint: alpha_Boosted_qcdSmoothingNP2_b3bConstraint
+Pairing nui: alpha_Boosted_qcdSmoothingNP3_b3b, with glob: nom_alpha_Boosted_qcdSmoothingNP3_b3b, from constraint: alpha_Boosted_qcdSmoothingNP3_b3bConstraint
+Pairing nui: alpha_Boosted_SmoothingFcn_b3b, with glob: nom_alpha_Boosted_SmoothingFcn_b3b, from constraint: alpha_Boosted_SmoothingFcn_b3bConstraint
+Pairing nui: alpha_Boosted_SmoothingRange_b3b, with glob: nom_alpha_Boosted_SmoothingRange_b3b, from constraint: alpha_Boosted_SmoothingRange_b3bConstraint
+Pairing nui: alpha_Boosted_BkgStat1_b3b, with glob: nom_alpha_Boosted_BkgStat1_b3b, from constraint: alpha_Boosted_BkgStat1_b3bConstraint
+Pairing nui: alpha_Boosted_BkgStat2_b3b, with glob: nom_alpha_Boosted_BkgStat2_b3b, from constraint: alpha_Boosted_BkgStat2_b3bConstraint
+Pairing nui: alpha_Boosted_ttbarSmoothingNP1_b3b, with glob: nom_alpha_Boosted_ttbarSmoothingNP1_b3b, from constraint: alpha_Boosted_ttbarSmoothingNP1_b3bConstraint
+Pairing nui: alpha_Boosted_ttbarSmoothingNP2_b3b, with glob: nom_alpha_Boosted_ttbarSmoothingNP2_b3b, from constraint: alpha_Boosted_ttbarSmoothingNP2_b3bConstraint
+Pairing nui: alpha_Boosted_ttbarSmoothingNP3_b3b, with glob: nom_alpha_Boosted_ttbarSmoothingNP3_b3b, from constraint: alpha_Boosted_ttbarSmoothingNP3_b3bConstraint
+Pairing nui: alpha_Boosted_ExtrapUncert_b4b, with glob: nom_alpha_Boosted_ExtrapUncert_b4b, from constraint: alpha_Boosted_ExtrapUncert_b4bConstraint
+Pairing nui: alpha_Boosted_CRegVariationUncert_b4b, with glob: nom_alpha_Boosted_CRegVariationUncert_b4b, from constraint: alpha_Boosted_CRegVariationUncert_b4bConstraint
+Pairing nui: alpha_Boosted_qcdSmoothingNP1_b4b, with glob: nom_alpha_Boosted_qcdSmoothingNP1_b4b, from constraint: alpha_Boosted_qcdSmoothingNP1_b4bConstraint
+Pairing nui: alpha_Boosted_qcdSmoothingNP2_b4b, with glob: nom_alpha_Boosted_qcdSmoothingNP2_b4b, from constraint: alpha_Boosted_qcdSmoothingNP2_b4bConstraint
+Pairing nui: alpha_Boosted_qcdSmoothingNP3_b4b, with glob: nom_alpha_Boosted_qcdSmoothingNP3_b4b, from constraint: alpha_Boosted_qcdSmoothingNP3_b4bConstraint
+Pairing nui: alpha_Boosted_SmoothingFcn_b4b, with glob: nom_alpha_Boosted_SmoothingFcn_b4b, from constraint: alpha_Boosted_SmoothingFcn_b4bConstraint
+Pairing nui: alpha_Boosted_SmoothingRange_b4b, with glob: nom_alpha_Boosted_SmoothingRange_b4b, from constraint: alpha_Boosted_SmoothingRange_b4bConstraint
+Pairing nui: alpha_Boosted_BkgStat1_b4b, with glob: nom_alpha_Boosted_BkgStat1_b4b, from constraint: alpha_Boosted_BkgStat1_b4bConstraint
+Pairing nui: alpha_Boosted_ttbarSmoothingNP1_b4b, with glob: nom_alpha_Boosted_ttbarSmoothingNP1_b4b, from constraint: alpha_Boosted_ttbarSmoothingNP1_b4bConstraint
+Pairing nui: alpha_Boosted_ttbarSmoothingNP2_b4b, with glob: nom_alpha_Boosted_ttbarSmoothingNP2_b4b, from constraint: alpha_Boosted_ttbarSmoothingNP2_b4bConstraint
+Pairing nui: alpha_Boosted_ttbarSmoothingNP3_b4b, with glob: nom_alpha_Boosted_ttbarSmoothingNP3_b4b, from constraint: alpha_Boosted_ttbarSmoothingNP3_b4bConstraint
+nui: 0x5317920, glob: 0x5318510
+Setting glob: nominalLumi, which had previous val: 1, to conditional val: 1
+nui: 0x5480330, glob: 0x6562a90
+Setting glob: nom_alpha_Boosted_JET_CombMass_Baseline, which had previous val: 0, to conditional val: 0
+nui: 0x531c0e0, glob: 0x6560c90
+Setting glob: nom_alpha_Boosted_JET_CombMass_Modelling, which had previous val: 0, to conditional val: 0
+nui: 0x55e91e0, glob: 0x55ea470
+Setting glob: nom_alpha_Boosted_JET_CombMass_TotalStat, which had previous val: 0, to conditional val: 0
+nui: 0x55ecea0, glob: 0x6479aa0
+Setting glob: nom_alpha_Boosted_JET_CombMass_Tracking1, which had previous val: 0, to conditional val: 0
+nui: 0x5891fa0, glob: 0x5893230
+Setting glob: nom_alpha_Boosted_JET_CombMass_Tracking2, which had previous val: 0, to conditional val: 0
+nui: 0x59e4500, glob: 0x59e5790
+Setting glob: nom_alpha_Boosted_JET_CombMass_Tracking3, which had previous val: 0, to conditional val: 0
+nui: 0x5c4de10, glob: 0x5c4f0c0
+Setting glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Detector1, which had previous val: 0, to conditional val: 0
+nui: 0x5d98b20, glob: 0x5d99dd0
+Setting glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Detector2, which had previous val: 0, to conditional val: 0
+nui: 0x5d9b8a0, glob: 0x5d9ca50
+Setting glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Mixed1, which had previous val: 0, to conditional val: 0
+nui: 0x5d9e4c0, glob: 0x5d9f670
+Setting glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Mixed2, which had previous val: 0, to conditional val: 0
+nui: 0x5da10e0, glob: 0x5da2290
+Setting glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Mixed3, which had previous val: 0, to conditional val: 0
+nui: 0x57dd5e0, glob: 0x57de7b0
+Setting glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Mixed4, which had previous val: 0, to conditional val: 0
+nui: 0x57e01f0, glob: 0x57e13c0
+Setting glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Modelling1, which had previous val: 0, to conditional val: 0
+nui: 0x57e2e50, glob: 0x57e4020
+Setting glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Modelling2, which had previous val: 0, to conditional val: 0
+nui: 0x57e5ab0, glob: 0x57e6c80
+Setting glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Modelling3, which had previous val: 0, to conditional val: 0
+nui: 0x57e8710, glob: 0x57e98e0
+Setting glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Modelling4, which had previous val: 0, to conditional val: 0
+nui: 0x57eb370, glob: 0x57ec540
+Setting glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Statistical1, which had previous val: 0, to conditional val: 0
+nui: 0x57edff0, glob: 0x57ef1c0
+Setting glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Statistical2, which had previous val: 0, to conditional val: 0
+nui: 0x57f0c70, glob: 0x57f1e40
+Setting glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Statistical3, which had previous val: 0, to conditional val: 0
+nui: 0x57f38f0, glob: 0x57f4ac0
+Setting glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Statistical4, which had previous val: 0, to conditional val: 0
+nui: 0x57f6570, glob: 0x57f7740
+Setting glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Statistical5, which had previous val: 0, to conditional val: 0
+nui: 0x5869a30, glob: 0x57fbe90
+Setting glob: nom_alpha_Boosted_JET_EffectiveNP_R10_Statistical6, which had previous val: 0, to conditional val: 0
+nui: 0x57fd7a0, glob: 0x57fe970
+Setting glob: nom_alpha_Boosted_JET_EtaIntercalibration_Modelling, which had previous val: 0, to conditional val: 0
+nui: 0x58003f0, glob: 0x5801640
+Setting glob: nom_alpha_Boosted_JET_EtaIntercalibration_NonClosure_2018data, which had previous val: 0, to conditional val: 0
+nui: 0x5803180, glob: 0x58043b0
+Setting glob: nom_alpha_Boosted_JET_EtaIntercalibration_R10_TotalStat, which had previous val: 0, to conditional val: 0
+nui: 0x5805e60, glob: 0x5807010
+Setting glob: nom_alpha_Boosted_JET_Flavor_Composition, which had previous val: 0, to conditional val: 0
+nui: 0x58089c0, glob: 0x5809b70
+Setting glob: nom_alpha_Boosted_JET_Flavor_Response, which had previous val: 0, to conditional val: 0
+nui: 0x580b540, glob: 0x580c710
+Setting glob: nom_alpha_Boosted_JET_LargeR_TopologyUncertainty_V, which had previous val: 0, to conditional val: 0
+nui: 0x580e1f0, glob: 0x580f420
+Setting glob: nom_alpha_Boosted_JET_LargeR_TopologyUncertainty_top, which had previous val: 0, to conditional val: 0
+nui: 0x63f63e0, glob: 0x63f7640
+Setting glob: nom_alpha_Boosted_JET_MassRes_Hbb_comb, which had previous val: 0, to conditional val: 0
+nui: 0x5813990, glob: 0x5814b60
+Setting glob: nom_alpha_Boosted_JET_SingleParticle_HighPt, which had previous val: 0, to conditional val: 0
+nui: 0x651b760, glob: 0x651c990
+Setting glob: nom_alpha_Boosted_ExtrapUncert_b2b, which had previous val: 0, to conditional val: 0
+nui: 0x65188e0, glob: 0x6519b30
+Setting glob: nom_alpha_Boosted_CRegVariationUncert_b2b, which had previous val: 0, to conditional val: 0
+nui: 0x5810eb0, glob: 0x5812040
+Setting glob: nom_alpha_Boosted_JET_MassRes_Top_comb, which had previous val: 0, to conditional val: 0
+nui: 0x6546ad0, glob: 0x6547c40
+Setting glob: nom_alpha_Boosted_qcdSmoothingNP1_b2b, which had previous val: 0, to conditional val: 0
+nui: 0x6549550, glob: 0x654a6c0
+Setting glob: nom_alpha_Boosted_qcdSmoothingNP2_b2b, which had previous val: 0, to conditional val: 0
+nui: 0x654bfd0, glob: 0x654d140
+Setting glob: nom_alpha_Boosted_qcdSmoothingNP3_b2b, which had previous val: 0, to conditional val: 0
+nui: 0x650c8d0, glob: 0x650da20
+Setting glob: nom_alpha_Boosted_SmoothingFcn_b2b, which had previous val: 0, to conditional val: 0
+nui: 0x650f310, glob: 0x6510480
+Setting glob: nom_alpha_Boosted_SmoothingRange_b2b, which had previous val: 0, to conditional val: 0
+nui: 0x654ea50, glob: 0x654fba0
+Setting glob: nom_alpha_Boosted_QCDShape_b2b, which had previous val: 0, to conditional val: 0
+nui: 0x6511d90, glob: 0x6512ee0
+Setting glob: nom_alpha_Boosted_BkgStat1_b2b, which had previous val: 0, to conditional val: 0
+nui: 0x6514770, glob: 0x65158c0
+Setting glob: nom_alpha_Boosted_BkgStat2_b2b, which had previous val: 0, to conditional val: 0
+nui: 0x5826440, glob: 0x58275b0
+Setting glob: nom_alpha_Boosted_TTBAR_ME, which had previous val: 0, to conditional val: 0
+nui: 0x5828e50, glob: 0x5829fe0
+Setting glob: nom_alpha_Boosted_TTBAR_PS, which had previous val: 0, to conditional val: 0
+nui: 0x582b880, glob: 0x582ca10
+Setting glob: nom_alpha_Boosted_TTBAR_hdamp, which had previous val: 0, to conditional val: 0
+nui: 0x582e300, glob: 0x582f470
+Setting glob: nom_alpha_Boosted_TTBAR_muF, which had previous val: 0, to conditional val: 0
+nui: 0x5830d10, glob: 0x5831ea0
+Setting glob: nom_alpha_Boosted_TTBAR_muR, which had previous val: 0, to conditional val: 0
+nui: 0x5833740, glob: 0x58348d0
+Setting glob: nom_alpha_Boosted_TTBAR_FSR, which had previous val: 0, to conditional val: 0
+nui: 0x65048c0, glob: 0x6505a30
+Setting glob: nom_alpha_Boosted_ttbarSmoothingNP1_b2b, which had previous val: 0, to conditional val: 0
+nui: 0x6507370, glob: 0x65084e0
+Setting glob: nom_alpha_Boosted_ttbarSmoothingNP2_b2b, which had previous val: 0, to conditional val: 0
+nui: 0x6509e20, glob: 0x650af90
+Setting glob: nom_alpha_Boosted_ttbarSmoothingNP3_b2b, which had previous val: 0, to conditional val: 0
+nui: 0x641f340, glob: 0x6420570
+Setting glob: nom_alpha_Boosted_ExtrapUncert_b3b, which had previous val: 0, to conditional val: 0
+nui: 0x641c4c0, glob: 0x641d710
+Setting glob: nom_alpha_Boosted_CRegVariationUncert_b3b, which had previous val: 0, to conditional val: 0
+nui: 0x644b9a0, glob: 0x644cb10
+Setting glob: nom_alpha_Boosted_qcdSmoothingNP1_b3b, which had previous val: 0, to conditional val: 0
+nui: 0x644e420, glob: 0x644f590
+Setting glob: nom_alpha_Boosted_qcdSmoothingNP2_b3b, which had previous val: 0, to conditional val: 0
+nui: 0x6450ea0, glob: 0x6452010
+Setting glob: nom_alpha_Boosted_qcdSmoothingNP3_b3b, which had previous val: 0, to conditional val: 0
+nui: 0x64105c0, glob: 0x6411710
+Setting glob: nom_alpha_Boosted_SmoothingFcn_b3b, which had previous val: 0, to conditional val: 0
+nui: 0x6413000, glob: 0x6414170
+Setting glob: nom_alpha_Boosted_SmoothingRange_b3b, which had previous val: 0, to conditional val: 0
+nui: 0x6415a80, glob: 0x6416bd0
+Setting glob: nom_alpha_Boosted_BkgStat1_b3b, which had previous val: 0, to conditional val: 0
+nui: 0x6418460, glob: 0x64195b0
+Setting glob: nom_alpha_Boosted_BkgStat2_b3b, which had previous val: 0, to conditional val: 0
+nui: 0x64085b0, glob: 0x6409720
+Setting glob: nom_alpha_Boosted_ttbarSmoothingNP1_b3b, which had previous val: 0, to conditional val: 0
+nui: 0x640b020, glob: 0x640c1d0
+Setting glob: nom_alpha_Boosted_ttbarSmoothingNP2_b3b, which had previous val: 0, to conditional val: 0
+nui: 0x640db10, glob: 0x640ec80
+Setting glob: nom_alpha_Boosted_ttbarSmoothingNP3_b3b, which had previous val: 0, to conditional val: 0
+nui: 0x5ef23d0, glob: 0x5ef3650
+Setting glob: nom_alpha_Boosted_ExtrapUncert_b4b, which had previous val: 0, to conditional val: 0
+nui: 0x5eef500, glob: 0x5ef0750
+Setting glob: nom_alpha_Boosted_CRegVariationUncert_b4b, which had previous val: 0, to conditional val: 0
+nui: 0x62f23a0, glob: 0x62f3510
+Setting glob: nom_alpha_Boosted_qcdSmoothingNP1_b4b, which had previous val: 0, to conditional val: 0
+nui: 0x62f4df0, glob: 0x62f5f60
+Setting glob: nom_alpha_Boosted_qcdSmoothingNP2_b4b, which had previous val: 0, to conditional val: 0
+nui: 0x62f7870, glob: 0x62f89e0
+Setting glob: nom_alpha_Boosted_qcdSmoothingNP3_b4b, which had previous val: 0, to conditional val: 0
+nui: 0x581e5a0, glob: 0x581f6f0
+Setting glob: nom_alpha_Boosted_SmoothingFcn_b4b, which had previous val: 0, to conditional val: 0
+nui: 0x5820fe0, glob: 0x5822150
+Setting glob: nom_alpha_Boosted_SmoothingRange_b4b, which had previous val: 0, to conditional val: 0
+nui: 0x5823a60, glob: 0x5824bb0
+Setting glob: nom_alpha_Boosted_BkgStat1_b4b, which had previous val: 0, to conditional val: 0
+nui: 0x5816590, glob: 0x5817700
+Setting glob: nom_alpha_Boosted_ttbarSmoothingNP1_b4b, which had previous val: 0, to conditional val: 0
+nui: 0x5819040, glob: 0x581a1b0
+Setting glob: nom_alpha_Boosted_ttbarSmoothingNP2_b4b, which had previous val: 0, to conditional val: 0
+nui: 0x581baf0, glob: 0x581cc60
+Setting glob: nom_alpha_Boosted_ttbarSmoothingNP3_b4b, which had previous val: 0, to conditional val: 0
+Saving conditional snapshots
+Making asimov
+adding obs
+adding weight
+weightVar: 0x65ad450
+defining set
+ check expectedData by category
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(b2b_hh_model_Int[obs_x_b2b_hh]) using numeric integrator RooBinIntegrator to calculate Int(obs_x_b2b_hh)
+RooRealVar::obs_x_b2b_hh = 5150  L(800 - 5200) B(44) 
+pdf: model_b2b_hh
+expected events 9250.55
+-----
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(b3b_hh_model_Int[obs_x_b3b_hh]) using numeric integrator RooBinIntegrator to calculate Int(obs_x_b3b_hh)
+RooRealVar::obs_x_b3b_hh = 5150  L(800 - 5200) B(44) 
+pdf: model_b3b_hh
+expected events 1647.44
+-----
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(b4b_hh_model_Int[obs_x_b4b_hh]) using numeric integrator RooBinIntegrator to calculate Int(obs_x_b4b_hh)
+RooRealVar::obs_x_b4b_hh = 5150  L(800 - 5200) B(44) 
+pdf: model_b4b_hh
+expected events 81.9881
+-----
+Import 2
+[#1] INFO:ObjectHandling -- RooWorkspace::import(combWS) importing dataset asimovData_POI_0_NP_nom

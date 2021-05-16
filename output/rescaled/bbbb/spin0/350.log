@@ -1,0 +1,13 @@
+
+[1mRooFit v3.60 -- Developed by Wouter Verkerke and David Kirkby[0m 
+                Copyright (C) 2000-2013 NIKHEF, University of California & Stanford University
+                All rights reserved, please read http://roofit.sourceforge.net/license.txt
+
+	Item 0 (normal), expr::mu_old('@0/1.0',xsec_br[0.0,-1.0,20.0])
+	old: mu
+	new: mu_old
+
+List of POIs in the new parameterization: xsec_br, 
+
+Written to file: output/rescaled/bbbb/spin0/350.root
+Done in 0.02 min (cpu), 0.03 min (real)

@@ -1,0 +1,28 @@
+
+[1mRooFit v3.60 -- Developed by Wouter Verkerke and David Kirkby[0m 
+                Copyright (C) 2000-2013 NIKHEF, University of California & Stanford University
+                All rights reserved, please read http://roofit.sourceforge.net/license.txt
+
+******************* Decorating *******************
+Renaming workspace...
+Workspace: old name combined, new name combWS
+ModelConfig: old name ModelConfig, new name ModelConfig
+Dataset: old name obsData, new name combData
+[#0] ERROR:ObjectHandling -- RooWorkspace::loadSnapshot(combWS) no snapshot with name nominalGlobs is available
+		!!!!!!WARNING: global observable nominalLumi has non-zero value 1
+[#0] ERROR:ObjectHandling -- RooWorkspace::loadSnapshot(combWS) no snapshot with name nominalNuis is available
+**************************************************
+	~~~~~~~~Begin Summary~~~~~~~~
+	There are 3 sub channels:
+		Index: 0, Pdf: model_b2b_hh, Data: b2b_hh, SumEntries: 9250.55
+		Index: 1, Pdf: model_b3b_hh, Data: b3b_hh, SumEntries: 1647.44
+		Index: 2, Pdf: model_b4b_hh, Data: b4b_hh, SumEntries: 81.9881
+	 ########### POI ########### 	
+  1) 0x6985510 RooRealVar:: mu = 1  L(-10000 - 10000)  "mu"
+	 ########### Dataset ########### 	
+RooDataSet::asimovData[obs_x_b2b_hh,obs_x_b3b_hh,obs_x_b4b_hh,weightVar,channelCat,weight:binWeightAsimov] = 132 entries (17148.5 weighted)
+RooDataSet::combData[channelCat,obs_x_b2b_hh,obs_x_b3b_hh,obs_x_b4b_hh,weight:weightVar] = 132 entries (10980 weighted)
+	~~~~~~~~~End Summary~~~~~~~~~
+[#0] ERROR:ObjectHandling -- RooWorkspace::loadSnapshot(combWS) no snapshot with name ucmles is available
+File output/regularised/spin0/bbbb/1600.root has been saved.
+Done in 0.03 min (cpu), 0.04 min (real)
