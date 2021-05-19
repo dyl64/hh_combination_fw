@@ -39,7 +39,7 @@ source compile.sh
 source setup.sh
 HHComb process_channels -i <input> -c <channel> -r nonres -o <output> --config configs/regularization_nonres_v2.yaml
 ...
-HHComb combine_ws -i <output> -c bbbb,bbtautau,bbyy,WWWW -s nocorr
+HHComb combine_ws -i <output> -c bbbb,bbtautau,bbyy,WWWW
 ...
 
 ```
@@ -50,7 +50,7 @@ You need to make sure the workspace can be found in `<input>/<channel>/nonres`.
 source setup.sh
 HHComb process_channels -i <input> -c <channel> -r nonres -o <output> --config configs/regularization_v2.yaml
 ...
-HHComb combine_ws -i <output> -c bbbb,bbtautau,bbyy,WWWW -s nocorr
+HHComb combine_ws -i <output> -c bbbb,bbtautau,bbyy,WWWW
 ...
 ```
 
