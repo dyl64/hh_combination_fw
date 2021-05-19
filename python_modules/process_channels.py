@@ -14,7 +14,8 @@ DEFAULT_COMB_DATASET = 'combData'
 
 @click.command(name='process_channels')
 @click.option('-i', '--input_path', required=True, help='path to the input workspaces')
-@click.option('-r', '--resonant_type', default='nonres', help='resonant or non-resonant analysis')
+@click.option('-r', '--resonant_type', required=True, type=click.Choice(['nonres', 'spin0'], case_sensitive=False), 
+              help='resonant or non-resonant analysis')
 @click.option('-c', '--channels', default='bbbb,bbtautau,bbyy', help='analysis channels (separated by commas)')
 @click.option('-o', '--outdir', default="./output", help='output directory')
 @click.option('--better_bands/--no-better-bands', 'do_better_bands', default=True, help='do better limit bands')

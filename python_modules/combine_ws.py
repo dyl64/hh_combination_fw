@@ -12,7 +12,8 @@ DEFAULT_DATASET = 'combData'
 
 @click.command(name='combine_ws')
 @click.option('-i', '--input_path', required=True, help='path to the processed workspaces')
-@click.option('-r', '--resonant_type', default='nonres', help='resonant or non-resonant analysis')
+@click.option('-r', '--resonant_type', required=True, type=click.Choice(['nonres', 'spin0'], case_sensitive=False), 
+              help='resonant or non-resonant analysis')
 @click.option('-c', '--channels', default='bbbb,bbtautau,bbyy', help='channels combine')
 @click.option('-s', '--scheme', 'correlation_scheme', default=None, help='path to the json file containing the correlation scheme')
 @click.option('-t', '--tag', 'tag_pattern', default='A-{channels}-{scheme}', help='pattern for the output name tag')
