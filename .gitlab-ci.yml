@@ -177,7 +177,7 @@ RunCombineAll:
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
     #- python scripts/combination/auto/combine_ws.py gitlabci nonrespt=0 comblist=A-bbbb_bbtautau_bbyy_WWWW
-    - HHComb combine_ws -i $output_dir -c bbbb,bbtautau,bbyy,WWW
+    - HHComb combine_ws -i $output_dir -c bbbb,bbtautau,bbyy,WWWW
   artifacts:
     paths:
       - $output_dir
