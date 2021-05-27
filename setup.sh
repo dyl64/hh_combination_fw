@@ -67,3 +67,8 @@ ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${hh_combination_fw_path}/submodules/RooSta
 export ROOT_INCLUDE_PATH
 
 export PATH=${hh_combination_fw_path}/bin:$PATH
+
+
+# setup quickstats
+export PATH=${hh_combination_fw_path}/submodules/quickstats/bin:$PATH
+export PYTHONPATH=${hh_combination_fw_path}/submodules/quickstats:$PYTHONPATH
