@@ -7,7 +7,6 @@ dataset:
     unblind: obsData
   bbyy:
     blind: combData
-    unblind: combData
   WWWW:
     blind: asimovData
   combination:
@@ -16,6 +15,6 @@ dataset:
 poi:
   bbbb: mu
   bbtautau: SigXsecOverSM
-  bbyy: mu_XS_HH
+  bbyy: XS_HH_res
   WWWW: SigXsecOverSM
   combination: xsec_br

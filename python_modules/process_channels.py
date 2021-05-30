@@ -20,7 +20,7 @@ DEFAULT_COMB_DATASET = 'combData'
 @click.option('-o', '--outdir', default="./output", help='output directory')
 @click.option('--better_bands/--no-better-bands', 'do_better_bands', default=True, help='do better limit bands')
 @click.option('--cl', default="0.95", help='confidence level')
-@click.option('--scaling_release', default="r02", help='scaling release')
+@click.option('--scaling_release', default="r03", help='scaling release')
 @click.option('--blind/--unblind', default=True, help='blind/unblind analysis')
 @click.option('-n', 'n_proc', type=int, default=16, help='number of concurrent processes')
 @click.option('-m', '--mass', 'mass_expr', default=None, help='mass points to run, wild card is accepted, default=None (all mass points)')
