@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/MR/hh_combination_fw/
+cd /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw
 export HH_COMBINATION_FW_MODE="skip_exist";
 
 ## setupATLAS
@@ -15,12 +15,12 @@ job=$1
 echo $job
 if [[ $job == "process_channels" ]]; then
     input=$2
-    sigtype=$3
-    channel=$4
+    channel=$3
+    sigtype=$4
     output=$5
     regversion=$6
     mass=$7
-    command="HHComb $job -i $input -r $sigtype -c $channel -o $output --config configs/regularization_${sigtype}_${regversion}.yaml --mass ${mass}"
+    command="HHComb $job -i $input -c $channel -r $sigtype -o $output --config configs/regularization_${sigtype}_${regversion}.yaml --mass ${mass} --unblind"
 elif [[ $job == "combine_ws" ]]; then
     input=$2
     sigtype=$3
