@@ -23,3 +23,6 @@
 	url = ../DiagnosticTools.git
 	branch = master
 	update = merge
+[submodule "submodules/quickstats"]
+	path = submodules/quickstats
+	url = ../../../../../clcheng/quickstats.git
