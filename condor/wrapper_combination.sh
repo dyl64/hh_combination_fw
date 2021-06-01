@@ -5,7 +5,7 @@ cd /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw
 export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
 source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh
 source setup.sh
-export HH_COMBINATION_FW_MODE="skip_exist";
+#export HH_COMBINATION_FW_MODE="skip_exist";
 
 job=$1
 
