@@ -15,7 +15,7 @@ OnExitRemove         = TRUE
 +JobFlavour = "tomorrow"
 +JobType="analysis"
 +AccountingGroup ="group_u_ATLASWISC.all"
-RequestCpus = 1
+RequestCpus = 2
 Request_memory = 500 MB
 Request_disk   = 500 MB
 
@@ -23,71 +23,129 @@ Request_disk   = 500 MB
 ## spin0 process ##
 #####################
 
-Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  251
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  251
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  260
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  280
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  300
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  400
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  500
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  600
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  700
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  800
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  900
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  1000
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  1100
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  1200
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  1300
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  1400
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  1500
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  1600
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  1800
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  2000
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  2500
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  3000
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  4000
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  5000
+#Queue 1
+#
+#Arguments = process_channels ../input/20210531 bbtautau spin0 ../output/v140invfb_20210531_obs v3  251,260,280,300
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbtautau spin0 ../output/v140invfb_20210531_obs v3  325,350,400,450
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbtautau spin0 ../output/v140invfb_20210531_obs v3  500,550,600,700
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbtautau spin0 ../output/v140invfb_20210531_obs v3  800,900,1000,1100
+#Queue 1
+#
+#Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs v3  251,260,270,280
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs v3  290,300,325,350
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs v3  375,400,425,450
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs v3  475,500,550,600
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs v3  700,800,900,1000
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs v3  312.5,337.5
+#Queue 1
+
+Arguments = combine_ws ../output/v140invfb_20210531_obs spin0 bbbb,bbtautau,bbyy 251
 Queue 1
-Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  260
+Arguments = combine_ws ../output/v140invfb_20210531_obs spin0 bbbb,bbtautau,bbyy 260
 Queue 1
-Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  280
+Arguments = combine_ws ../output/v140invfb_20210531_obs spin0 bbbb,bbtautau,bbyy 280
 Queue 1
-Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  300
+Arguments = combine_ws ../output/v140invfb_20210531_obs spin0 bbbb,bbtautau,bbyy 300
 Queue 1
-Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  400
+Arguments = combine_ws ../output/v140invfb_20210531_obs spin0 bbbb,bbtautau,bbyy 400
 Queue 1
-Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  500
+Arguments = combine_ws ../output/v140invfb_20210531_obs spin0 bbbb,bbtautau,bbyy 500
 Queue 1
-Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  600
+Arguments = combine_ws ../output/v140invfb_20210531_obs spin0 bbbb,bbtautau,bbyy 600
 Queue 1
-Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  700
+Arguments = combine_ws ../output/v140invfb_20210531_obs spin0 bbbb,bbtautau,bbyy 700
 Queue 1
-Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  800
+Arguments = combine_ws ../output/v140invfb_20210531_obs spin0 bbbb,bbtautau,bbyy 800
 Queue 1
-Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  900
-Queue 1
-Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  1000
-Queue 1
-Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  1100
-Queue 1
-Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  1200
-Queue 1
-Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  1300
-Queue 1
-Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  1400
-Queue 1
-Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  1500
-Queue 1
-Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  1600
-Queue 1
-Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  1800
-Queue 1
-Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  2000
-Queue 1
-Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  2500
-Queue 1
-Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  3000
-Queue 1
-Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  4000
-Queue 1
-Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  5000
+Arguments = combine_ws ../output/v140invfb_20210531_obs spin0 bbbb,bbtautau,bbyy 900
 Queue 1
 
-Arguments = process_channels ../input/20210531 bbtautau spin0 ../output/v140invfb_20210531_obs v3  251,260,280,300
+HHComb combine_ws -i ../output/v140invfb_20210531_obs2 -r spin0 -c bbbb,bbtautau --unblind -m 251
 Queue 1
-Arguments = process_channels ../input/20210531 bbtautau spin0 ../output/v140invfb_20210531_obs v3  325,350,400,450
+HHComb combine_ws -i ../output/v140invfb_20210531_obs2 -r spin0 -c bbbb,bbtautau --unblind -m 260
 Queue 1
-Arguments = process_channels ../input/20210531 bbtautau spin0 ../output/v140invfb_20210531_obs v3  500,550,600,700
+HHComb combine_ws -i ../output/v140invfb_20210531_obs2 -r spin0 -c bbbb,bbtautau --unblind -m 280
 Queue 1
-Arguments = process_channels ../input/20210531 bbtautau spin0 ../output/v140invfb_20210531_obs v3  800,900,1000,1100
+HHComb combine_ws -i ../output/v140invfb_20210531_obs2 -r spin0 -c bbbb,bbtautau --unblind -m 300
+Queue 1
+HHComb combine_ws -i ../output/v140invfb_20210531_obs2 -r spin0 -c bbbb,bbtautau --unblind -m 400
+Queue 1
+HHComb combine_ws -i ../output/v140invfb_20210531_obs2 -r spin0 -c bbbb,bbtautau --unblind -m 500
+Queue 1
+HHComb combine_ws -i ../output/v140invfb_20210531_obs2 -r spin0 -c bbbb,bbtautau --unblind -m 600
+Queue 1
+HHComb combine_ws -i ../output/v140invfb_20210531_obs2 -r spin0 -c bbbb,bbtautau --unblind -m 700
+Queue 1
+HHComb combine_ws -i ../output/v140invfb_20210531_obs2 -r spin0 -c bbbb,bbtautau --unblind -m 800
+Queue 1
+HHComb combine_ws -i ../output/v140invfb_20210531_obs2 -r spin0 -c bbbb,bbtautau --unblind -m 900
+Queue 1
+HHComb combine_ws -i ../output/v140invfb_20210531_obs2 -r spin0 -c bbbb,bbtautau --unblind -m 1600
 Queue 1
 
-Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs v3  251,260,270,280
+HHComb combine_ws -i ../output/v140invfb_20210531_obs2 -r spin0 -c bbbb --unblind -m 1800
 Queue 1
-Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs v3  290,300,325,350
+HHComb combine_ws -i ../output/v140invfb_20210531_obs2 -r spin0 -c bbbb --unblind -m 1800
 Queue 1
-Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs v3  375,400,425,450
+HHComb combine_ws -i ../output/v140invfb_20210531_obs2 -r spin0 -c bbbb --unblind -m 2500
 Queue 1
-Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs v3  475,500,550,600
+HHComb combine_ws -i ../output/v140invfb_20210531_obs2 -r spin0 -c bbbb --unblind -m 3000
 Queue 1
-Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs v3  700,800,900,1000
+HHComb combine_ws -i ../output/v140invfb_20210531_obs2 -r spin0 -c bbbb --unblind -m 4000
 Queue 1
-Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs v3  312.5,337.5
+HHComb combine_ws -i ../output/v140invfb_20210531_obs2 -r spin0 -c bbbb --unblind -m 5000
 Queue 1
+
