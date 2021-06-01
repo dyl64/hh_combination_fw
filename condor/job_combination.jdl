@@ -6,12 +6,13 @@ Executable      = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_co
 GetEnv          = True
 Error           = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor/log/$(ClusterId).$(ProcId).err
 Log             = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor/log/$(ClusterId).$(ProcId).log
+Output          = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor/log/$(ClusterId).$(ProcId).out
 stream_output   = False
 stream_error    = False
 Requirements = ((Arch == "X86_64") && (regexp("CentOS7",OpSysAndVer)))
 WhenToTransferOutput = ON_EXIT_OR_EVICT
 OnExitRemove         = TRUE
-+JobFlavour = "workday"
++JobFlavour = "tomorrow"
 +JobType="analysis"
 +AccountingGroup ="group_u_ATLASWISC.all"
 RequestCpus = 1
@@ -88,5 +89,5 @@ Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20
 Queue 1
 Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs v3  700,800,900,1000
 Queue 1
-Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs v3  3125,3375
+Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs v3  312.5,337.5
 Queue 1

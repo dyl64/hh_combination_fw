@@ -3,11 +3,8 @@
 cd /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw
 export HH_COMBINATION_FW_MODE="skip_exist";
 
-## setupATLAS
-#export ALRB_localConfigDir="/etc/hepix/sh/GROUP/zp/alrb";
-#export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase;
-#echo source $ATLAS_LOCAL_ROOT_BASE/user/atlasLocalSetup.sh;
-#source $ATLAS_LOCAL_ROOT_BASE/user/atlasLocalSetup.sh;
+export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
+source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh
 source setup.sh
 
 job=$1
@@ -35,5 +32,5 @@ fi
 
 
 echo $command
-#$command
+$command
 unset command job
