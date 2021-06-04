@@ -27,3 +27,4 @@ condor/*cc
 condor/log/*
 notebooks/
 output/
+**/*.pdf

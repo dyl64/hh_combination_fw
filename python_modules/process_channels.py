@@ -48,6 +48,5 @@ def process_channels(input_path, resonant_type, channels, outdir, do_better_band
         pipeline = wsc.TaskPipelineWS(workspace_dir, outdir, resonant_type, channel, scaling_release,
                                       old_poi, new_poi, old_dataname, new_dataname, do_better_bands,
                                       cl, blind, mass_expr, param)
+
         pipeline.run_pipeline()
-
-

@@ -31,7 +31,7 @@ def combine_ws(input_path, resonant_type, channels, correlation_scheme,
     else:
         config = None
         
-    channels = channels.split(',')
+    channels = sorted(channels.split(','), key=lambda x: (x.casefold(), x.swapcase()))
     poi_name = DEFAULT_POI if config is None else config['poi']['combination']
     if blind:
         data_name = DEFAULT_DATASET if config is None else config['dataset']['combination']['blind']
