@@ -23,143 +23,145 @@ Request_disk   = 500 MB
 ## spin0 process ##
 #####################
 
-#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  251
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs1 v3  251
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  260
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs1 v3  260
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  280
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs1 v3  280
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  300
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs1 v3  300
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  400
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs1 v3  400
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  500
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs1 v3  500
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  600
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs1 v3  600
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  700
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs1 v3  700
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  800
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs1 v3  800
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  900
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs1 v3  900
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  1000
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs1 v3  1000
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  1100
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs1 v3  1100
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  1200
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs1 v3  1200
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  1300
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs1 v3  1300
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  1400
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs1 v3  1400
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  1500
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs1 v3  1500
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  1600
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs1 v3  1600
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  1800
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs1 v3  1800
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  2000
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs1 v3  2000
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  2500
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs1 v3  2500
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  3000
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs1 v3  3000
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  4000
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs1 v3  4000
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs v3  5000
-#Queue 1
-#
-#Arguments = process_channels ../input/20210531 bbtautau spin0 ../output/v140invfb_20210531_obs v3  251,260,280,300
-#Queue 1
-#Arguments = process_channels ../input/20210531 bbtautau spin0 ../output/v140invfb_20210531_obs v3  325,350,400,450
-#Queue 1
-#Arguments = process_channels ../input/20210531 bbtautau spin0 ../output/v140invfb_20210531_obs v3  500,550,600,700
-#Queue 1
-#Arguments = process_channels ../input/20210531 bbtautau spin0 ../output/v140invfb_20210531_obs v3  800,900,1000,1100
+#Arguments = process_channels ../input/20210531 bbbb spin0 ../output/v140invfb_20210531_obs1 v3  5000
 #Queue 1
 #
-#Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs v3  251,260,270,280
+#Arguments = process_channels ../input/20210531 bbtautau spin0 ../output/v140invfb_20210531_obs1 v3  251,260,280,300
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs v3  290,300,325,350
+#Arguments = process_channels ../input/20210531 bbtautau spin0 ../output/v140invfb_20210531_obs1 v3  325,350,400,450
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs v3  375,400,425,450
+#Arguments = process_channels ../input/20210531 bbtautau spin0 ../output/v140invfb_20210531_obs1 v3  500,550,600,700
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs v3  475,500,550,600
+#Arguments = process_channels ../input/20210531 bbtautau spin0 ../output/v140invfb_20210531_obs1 v3  800,900,1000,1100
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs v3  700,800,900,1000
+#Arguments = process_channels ../input/20210531 bbtautau spin0 ../output/v140invfb_20210531_obs1 v3  1200,1400,1600
 #Queue 1
-#Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs v3  312.5,337.5
+#
+#Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs1 v3  251,260,270,280
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs1 v3  290,300,325,350
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs1 v3  375,400,425,450
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs1 v3  475,500,550,600
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs1 v3  700,800,900,1000
+#Queue 1
+#Arguments = process_channels ../input/20210531 bbyy spin0 ../output/v140invfb_20210531_obs1 v3  312.5,337.5
 #Queue 1
 
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau,bbyy 251
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau,bbyy 251
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau,bbyy 260
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau,bbyy 280
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau,bbyy 300
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau,bbyy 400
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau,bbyy 500
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau,bbyy 600
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau,bbyy 700
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau,bbyy 800
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau,bbyy 900
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau,bbyy 1000
+#Queue 1
+#
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau 251
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau 260
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau 280
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau 300
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau 400
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau 500
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau 600
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau 700
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau 800
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau 900
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau 1000
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau 1100
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau 1200
+#Queue 1
+Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau 1400
 Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau,bbyy 260
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau,bbyy 280
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau,bbyy 300
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau,bbyy 400
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau,bbyy 500
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau,bbyy 600
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau,bbyy 700
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau,bbyy 800
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau,bbyy 900
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau,bbyy 1000
-Queue 1
-
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau 251
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau 260
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau 280
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau 300
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau 400
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau 500
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau 600
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau 700
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau 800
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau 900
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau 1000
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau 1100
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau 1200
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau 1400
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb,bbtautau 1600
-Queue 1
-
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb 1300
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb 1500
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb 1800
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb 2000
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb 2500
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb 3000
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb 4000
-Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb 5000
-Queue 1
-
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau 1600
+#Queue 1
+#
+#Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb 1300
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb 1500
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb 1800
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb 2000
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb 2500
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb 3000
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb 4000
+#Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb 5000
+#Queue 1
+#
