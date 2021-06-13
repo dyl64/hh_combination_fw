@@ -28,10 +28,11 @@ DEFAULT_COMB_DATASET = 'combData'
                                              ', e.g. klambda=-10_10_0.2,cvv=1')
 @click.option('--new_method/--old_method', default=False, help='use quickstats for asymptotic cls limit')
 @click.option('--config', 'config_file', default=None, help='configuration file for regularization')
+@click.option('--minimizer_options', default=None, help='configuration file for minimizer options')
 @click.option('--verbose/--silent', default=False, help='show debug messages in stdout')
 def process_channels(input_path, resonant_type, channels, outdir, do_better_bands, cl, 
                      scaling_release, blind, n_proc, mass_expr, param, new_method, config_file,
-                     verbose):
+                     minimizer_options, verbose):
     
     if config_file is not None:
         config = yaml.safe_load(open(config_file))
@@ -52,6 +53,6 @@ def process_channels(input_path, resonant_type, channels, outdir, do_better_band
         pipeline = wsc.TaskPipelineWS(workspace_dir, outdir, resonant_type, channel, scaling_release,
                                       old_poi, new_poi, old_dataname, new_dataname, do_better_bands,
                                       cl, blind, mass_expr, param, new_method=new_method,
-                                      verbose=verbose)
+                                      verbose=verbose, minimizer_options=minimizer_options)
 
         pipeline.run_pipeline()
