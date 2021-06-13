@@ -18,7 +18,7 @@ import matplotlib.font_manager
 rcParams['axes.linewidth'] = 1.5
 rcParams['font.sans-serif'] = "Arial"
 rcParams['font.family'] = "sans-serif"
-rcParams['text.latex.preamble'] = [r'\usepackage{amsmath}']
+rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
 
 
 def polish_ax(args, ax, fontsize):
@@ -108,7 +108,7 @@ def rescale(df, columns, SM_HH_xsec = 31.05 / 1000):
 
 def plot_spin0(args):
     args.resonant_type = 'spin0'
-    ind_list = sorted(args.ind_list)
+    ind_list = sorted(args.dat_list)
     com_list = args.com_list
 
 
@@ -200,7 +200,6 @@ def plot_spin0(args):
     ax.fill_between(com_df_new['parameter'], com_df_new[columns[2]], com_df_new[columns[3]], facecolor = 'lime', label = r'$\mathrm{Expected \pm 1 \sigma}$')
 
     ax.set_yscale('log')
-    # ax.yaxis.set_major_formatter(ticker.LogFormatter())
 
     # Set log scale
     if args.logx:
@@ -374,7 +373,6 @@ if __name__ == '__main__':
     spin0.add_argument('--dat_list', nargs='+', type=str, default=['../data-files/spin0-bbtautau.dat', '../data-files/spin0-bbyy.dat', '../data-files/spin0-bbbb.dat'], required=False, help='')
     spin0.add_argument('--com_list', nargs='+', type=str, default=['../data-files/spin0-combined-A-bbbb_bbtautau-nocorr.dat', '../data-files/spin0-combined-A-bbtautau_bbyy-nocorr.dat', '../data-files/spin0-combined-A-bbbb_bbtautau_bbyy-nocorr.dat'], required=False, help='')
     spin0.add_argument('--logx', action='store_true', default=False, required=False, help='')
-    spin0.add_argument('--norm', type=float, default=31.05, required=False, help='')
     spin0.add_argument('--unblind', action='store_true', default=False, required=False, help='')
 
 
