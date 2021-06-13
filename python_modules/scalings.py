@@ -2006,6 +2006,31 @@ bbWW_scalings = {
                             }
                           },
                   }
+####################
+### --- bbll --- ###
+####################
+
+bbll_scalings = {
+                   'v00':{
+                             'nonres' :
+                             {
+                                  '0' : 31.05/1000
+                             },
+                        },
+                   }
+
+####################
+### --- bbVV --- ###
+####################
+
+bbVV_scalings = {
+                   'v00':{
+                             'nonres' :
+                             {
+                                  '0' : 31.05/1000
+                             },
+                        },
+                   }
 
 ####################
 ### --- WWWW --- ###
@@ -2081,6 +2106,8 @@ scalings_releases = {
                                 'bbbb'     : bbbb_scalings['v03'],
                                 'bbtautau' : bbtautau_scalings['v03'], 
                                 'bbyy'     : bbyy_scalings['v02'],
+                                'bbll'     : bbll_scalings['v00'],
+                                'bbVV'     : bbVV_scalings['v00'],
                                 'WWWW'     : WWWW_scalings['v00'],
                               },                              
                     }

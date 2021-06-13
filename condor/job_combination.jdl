@@ -143,8 +143,8 @@ Request_disk   = 500 MB
 #Queue 1
 #Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau 1200
 #Queue 1
-Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau 1400
-Queue 1
+#Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau 1400
+#Queue 1
 #Arguments = combine_ws ../output/v140invfb_20210531_obs1 spin0 bbbb,bbtautau 1600
 #Queue 1
 #
@@ -165,3 +165,11 @@ Queue 1
 #Arguments = combine_ws ../output/v140invfb_20210531_obs2 spin0 bbbb 5000
 #Queue 1
 #
+Arguments = combine_ws ../output/v140invfb_20210531_obs spin0 bbyy,bbtautau 325
+Queue 1
+Arguments = combine_ws ../output/v140invfb_20210531_obs spin0 bbyy,bbtautau 350
+Queue 1
+Arguments = combine_ws ../output/v140invfb_20210531_obs spin0 bbyy,bbtautau 450
+Queue 1
+Arguments = combine_ws ../output/v140invfb_20210531_obs spin0 bbyy,bbtautau 550
+Queue 1
