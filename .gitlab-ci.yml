@@ -37,7 +37,7 @@ RunPipeline_bbyy:
     output_dir: output
     input_dir: input
     channel: bbyy
-    version: 20210309
+    version: 20210531
   before_script:
     - set +e
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
@@ -66,7 +66,7 @@ RunPipeline_bbbb:
     output_dir: output
     input_dir: input
     channel: bbbb
-    version: 20210309
+    version: 20210531
   before_script:
     - set +e
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
@@ -95,7 +95,7 @@ RunPipeline_bbtautau:
     output_dir: output
     input_dir: input
     channel: bbtautau
-    version: 20210309
+    version: 20210531
   before_script:
     - set +e
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
@@ -124,7 +124,7 @@ RunPipeline_multilep:
     output_dir: output
     input_dir: input
     channel: WWWW
-    version: 20210309
+    version: 20210531
   before_script:
     - set +e
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
