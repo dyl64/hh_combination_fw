@@ -36,7 +36,7 @@ NonresProcess:
     GIT_SSL_NO_VERIFY: "true"
     output_dir: output
     input_dir: input
-    channel: bbbb,bbyy,bbyy,bbll,bbVV,WWWW
+    channel: bbbb,bbyy,bbtautau,bbll,bbVV,WWWW
     version: 20210531
   before_script:
     - set +e
