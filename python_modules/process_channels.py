@@ -26,9 +26,13 @@ DEFAULT_COMB_DATASET = 'combData'
 @click.option('-m', '--mass', 'mass_expr', default=None, help='mass points to run, wild card is accepted, default=None (all mass points)')
 @click.option('-p', '--param',  default=None, help='perform limit scan on parameterized workspace on a certain parameter(s)'
                                              ', e.g. klambda=-10_10_0.2,cvv=1')
+@click.option('--new_method/--old_method', default=False, help='use quickstats for asymptotic cls limit')
 @click.option('--config', 'config_file', default=None, help='configuration file for regularization')
-def process_channels(input_path, resonant_type, channels, outdir, do_better_bands, 
-                     cl, scaling_release, blind, n_proc, mass_expr, param, config_file):
+@click.option('--verbose/--silent', default=False, help='show debug messages in stdout')
+def process_channels(input_path, resonant_type, channels, outdir, do_better_bands, cl, 
+                     scaling_release, blind, n_proc, mass_expr, param, new_method, config_file,
+                     verbose):
+    
     if config_file is not None:
         config = yaml.safe_load(open(config_file))
     else:
@@ -47,6 +51,7 @@ def process_channels(input_path, resonant_type, channels, outdir, do_better_band
             new_dataname = DEFAULT_COMB_DATASET if config is None else config['dataset']['combination']['unblind']            
         pipeline = wsc.TaskPipelineWS(workspace_dir, outdir, resonant_type, channel, scaling_release,
                                       old_poi, new_poi, old_dataname, new_dataname, do_better_bands,
-                                      cl, blind, mass_expr, param)
+                                      cl, blind, mass_expr, param, new_method=new_method,
+                                      verbose=verbose)
 
         pipeline.run_pipeline()
