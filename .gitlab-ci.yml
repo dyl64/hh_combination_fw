@@ -54,7 +54,8 @@ RunPipeline_bbyy:
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
     #- python scripts/pipeline/processChannels.py $input_dir $output_dir signal=nonres channel=$channel job_batch_start=0 job_batch_stop=1
-    - HHComb process_channels -i $input_dir/$version -r nonres -c $channel -o $output_dir --config configs/regularization_nonres_v2.yaml
+    #- HHComb process_channels -i $input_dir/$version -r nonres -c $channel -o $output_dir --config configs/regularization_nonres_v2.yaml
+    - HHComb process_channels --new_method -i $input_dir/$version -r nonres -c $channel -o $output_dir --config configs/regularization_nonres_v2.yaml
   artifacts:
     paths:
       - $output_dir
@@ -83,7 +84,8 @@ RunPipeline_bbbb:
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
     #- python scripts/pipeline/processChannels.py $input_dir $output_dir signal=nonres channel=$channel job_batch_start=0 job_batch_stop=1
-    - HHComb process_channels -i $input_dir/$version -r nonres -c $channel -o $output_dir --config configs/regularization_nonres_v2.yaml
+    #- HHComb process_channels -i $input_dir/$version -r nonres -c $channel -o $output_dir --config configs/regularization_nonres_v2.yaml
+    - HHComb process_channels --new_method -i $input_dir/$version -r nonres -c $channel -o $output_dir --config configs/regularization_nonres_v2.yaml
   artifacts:
     paths:
       - $output_dir
@@ -112,7 +114,8 @@ RunPipeline_bbtautau:
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
     #- python scripts/pipeline/processChannels.py $input_dir $output_dir signal=nonres channel=$channel job_batch_start=0 job_batch_stop=1
-    - HHComb process_channels -i $input_dir/$version -r nonres -c $channel -o $output_dir --config configs/regularization_nonres_v2.yaml
+    #- HHComb process_channels -i $input_dir/$version -r nonres -c $channel -o $output_dir --config configs/regularization_nonres_v2.yaml
+    - HHComb process_channels --new_method -i $input_dir/$version -r nonres -c $channel -o $output_dir --config configs/regularization_nonres_v2.yaml
   artifacts:
     paths:
       - $output_dir
@@ -141,7 +144,8 @@ RunPipeline_multilep:
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
     #- python scripts/pipeline/processChannels.py $input_dir $output_dir signal=nonres channel=$channel job_batch_start=0 job_batch_stop=1
-    - HHComb process_channels -i $input_dir/$version -r nonres -c $channel -o $output_dir --config configs/regularization_nonres_v2.yaml
+    #- HHComb process_channels -i $input_dir/$version -r nonres -c $channel -o $output_dir --config configs/regularization_nonres_v2.yaml
+    - HHComb process_channels --new_method -i $input_dir/$version -r nonres -c $channel -o $output_dir --config configs/regularization_nonres_v2.yaml
   artifacts:
     paths:
       - $output_dir
@@ -159,7 +163,8 @@ RunCombineBig3:
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
     #- python scripts/combination/auto/combine_ws.py gitlabci nonrespt=0 comblist=A-bbbb_bbtautau_bbyy
-    - HHComb combine_ws -i $output_dir -c bbbb,bbtautau,bbyy -r nonres
+    #- HHComb combine_ws -i $output_dir -c bbbb,bbtautau,bbyy -r nonres
+    - HHComb combine_ws --new_method -i $output_dir -c bbbb,bbtautau,bbyy -r nonres
   artifacts:
     paths:
       - $output_dir
@@ -177,7 +182,8 @@ RunCombineAll:
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
     #- python scripts/combination/auto/combine_ws.py gitlabci nonrespt=0 comblist=A-bbbb_bbtautau_bbyy_WWWW
-    - HHComb combine_ws -i $output_dir -c bbbb,bbtautau,bbyy,WWWW -r nonres
+    #- HHComb combine_ws -i $output_dir -c bbbb,bbtautau,bbyy,WWWW -r nonres
+    - HHComb combine_ws --new_method -i $output_dir -c bbbb,bbtautau,bbyy,WWWW -r nonres
   artifacts:
     paths:
       - $output_dir
