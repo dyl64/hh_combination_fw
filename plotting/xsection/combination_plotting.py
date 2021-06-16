@@ -14,12 +14,10 @@ import pdb
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from matplotlib import rcParams
-import matplotlib.font_manager
 rcParams['axes.linewidth'] = 1.5
 rcParams['font.sans-serif'] = "Arial"
 rcParams['font.family'] = "sans-serif"
 rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
-
 
 def polish_ax(args, ax, fontsize):
     # Set frequency of ticks
