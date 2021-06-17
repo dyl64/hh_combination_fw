@@ -19,6 +19,8 @@ rcParams['font.sans-serif'] = "Arial"
 rcParams['font.family'] = "sans-serif"
 rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
 
+columns = ['xsec_m2s_NP_profiled', 'xsec_m1s_NP_profiled', 'xsec_p1s_NP_profiled', 'xsec_p2s_NP_profiled', 'xsec_exp_NP_profiled', 'xsec_obs_NP_profiled'] # don't change order
+
 def polish_ax(args, ax, fontsize):
     # Set frequency of ticks
     ax.tick_params(direction='out', length=6, width=1.5, colors='k', which='major')
@@ -83,32 +85,33 @@ def drawATLASlabel(fig, ax, internal=True, reg_text=None, xmin=0.05, ymax=0.85,
 
 
 def save_plot(args):
-    # pdb.set_trace()
     input_folder = (args.dat_list[0]).split('limits')
     out_path = input_folder[0] + 'figures' if len(input_folder) > 1 else 'figures'
     if not path.exists(f'{out_path}'):
         print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mCreating new folder\033[0m'.rjust(40, ' '), out_path)
         makedirs(f'{out_path}')
 
-    file_name = f'{out_path}/upperlimit_xsec_{args.resonant_type}.pdf'
+    new_method = 'json' if args.dat_list[0].endswith('json') else 'dat'
+    file_name = f'{out_path}/upperlimit_xsec_{args.resonant_type}_{new_method}.pdf'
     plt.savefig(file_name)
     print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mSave file\033[0m'.rjust(40, ' '), file_name)
 
 
-def rescale(df, columns, SM_HH_xsec = 31.05 / 1000):
+def rescale(df, columns, SM_HH_xsec = 31.05 / 1000, absolute=False):
     for c in columns:
         df[c] = df[c] / SM_HH_xsec
-    df['xsec_m2s_NP_profiled'] = df['xsec_exp_NP_profiled'] - df['xsec_m2s_NP_profiled']
-    df['xsec_m1s_NP_profiled'] = df['xsec_exp_NP_profiled'] - df['xsec_m1s_NP_profiled']
-    df['xsec_p2s_NP_profiled'] = df['xsec_exp_NP_profiled'] + df['xsec_p2s_NP_profiled']
-    df['xsec_p1s_NP_profiled'] = df['xsec_exp_NP_profiled'] + df['xsec_p1s_NP_profiled']
+    if not absolute:
+        df['xsec_m2s_NP_profiled'] = df['xsec_exp_NP_profiled'] - df['xsec_m2s_NP_profiled']
+        df['xsec_m1s_NP_profiled'] = df['xsec_exp_NP_profiled'] - df['xsec_m1s_NP_profiled']
+        df['xsec_p2s_NP_profiled'] = df['xsec_exp_NP_profiled'] + df['xsec_p2s_NP_profiled']
+        df['xsec_p1s_NP_profiled'] = df['xsec_exp_NP_profiled'] + df['xsec_p1s_NP_profiled']
     return df
 
 def plot_spin0(args):
     args.resonant_type = 'spin0'
     ind_list = sorted(args.dat_list)
     com_list = args.com_list
-
+    new_method = True if args.dat_list[0].endswith('json') else False
 
     scenario_map = {
         f'{args.resonant_type}-bbbb.dat': (r'$\mathrm{b\bar{b}b\bar{b}}$', 'b'),
@@ -124,23 +127,61 @@ def plot_spin0(args):
         f'{args.resonant_type}-combined-A-bbbb_bbtautau_bbyy_WWWW-nocorr.dat': (r'Top 3 + Multilepton', 'black'),
         f'{args.resonant_type}-combined-A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr.dat': (r'Top 4 + Multilepton', 'black'),
         f'{args.resonant_type}-combined-A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-nocorr.dat': ('All 6 combined', 'black'),
+
+        f'bbbb': (r'$\mathrm{b\bar{b}b\bar{b}}$', 'b'),
+        f'bbtautau': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$', 'purple'),
+        f'bbyy': (r'$\mathrm{b\bar{b}\gamma\gamma}$', 'r'),
+        f'bbll': (r'$\mathrm{b\bar{b}ll}$', 'darkcryan'),
+        f'bbVV': (r'$\mathrm{b\bar{b}VV}$', 'darkorange'),
+        f'WWWW': (r'$\mathrm{Multilepton}$', 'orangered'),
+        f'combined-A-bbtautau_bbyy-nocorr': (r'$b\bar{b}\tau^{+}\tau^{-} + b\bar{b}\gamma\gamma$', 'black'),
+        f'combined-A-bbbb_bbtautau_bbyy-nocorr': ('Top 3 combined', 'black'),
+        f'combined-A-bbbb_bbll_bbtautau_bbyy-nocorr': (r'Top 3 + $b\bar{b}ll$', 'black'),
+        f'combined-A-bbbb_bbtautau_bbVV_bbyy-nocorr': (r'Top 3 + $b\bar{b}VV$', 'black'),
+        f'combined-A-bbbb_bbtautau_bbyy_WWWW-nocorr': (r'Top 3 + Multilepton', 'black'),
+        f'combined-A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr': (r'Top 4 + Multilepton', 'black'),
+        f'combined-A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-nocorr': ('All 6 combined', 'black'),
     }
-    columns = ['xsec_m2s_NP_profiled', 'xsec_p2s_NP_profiled', 'xsec_m1s_NP_profiled', 'xsec_p1s_NP_profiled', 'xsec_exp_NP_profiled', 'xsec_obs_NP_profiled']
 
     ind_dfs = []
     ind_files = []
-    for dat in ind_list:
-        ind_files.append(dat.split('/')[-1])
-        ind_dfs.append(pd.read_table(dat, sep=' '))
-        ind_dfs[-1] = rescale(ind_dfs[-1], columns, 1).sort_values(by = 'parameter', ascending = True)
-
     com_dfs = []
-    for dat in com_list + ind_list:
-        file_name = dat.split('/')[-1]
-        com_dfs.append(pd.read_table(dat, sep=' '))
-        com_dfs[-1] = rescale(com_dfs[-1], columns, 1).sort_values(by = 'parameter', ascending = True)
-        com_dfs[-1]['filename'] = file_name
-        com_dfs[-1]['channels'] = file_name.split('.')[-2].split('-')[-2].replace('_', ', ') if 'bb' in file_name.split('.')[-2].split('-')[-2] else file_name.split('.')[-2].split('-')[-1].replace('_', ', ')
+
+    if new_method:
+        dfs = []
+        for dat in ind_list:
+            with open(dat) as f:
+                dfs.append(pd.DataFrame([json.load(f)]))
+            file_name = path.basename(path.dirname(dat))
+            dfs[-1]['parameter'] = float(path.basename(dat).split('.json')[0])
+            dfs[-1]['channel'] = file_name
+            dfs[-1] = dfs[-1].rename(columns={'-2': 'xsec_m2s_NP_profiled', '2': 'xsec_p2s_NP_profiled', '-1': 'xsec_m1s_NP_profiled', '1': 'xsec_p1s_NP_profiled', '0': 'xsec_exp_NP_profiled', 'obs': 'xsec_obs_NP_profiled'}).drop(columns=['inj'])
+        
+        dfs = pd.concat(dfs)
+        ind_dfs = [group.sort_values(by = 'parameter', ascending = True) for _, group in dfs.groupby('channel')]
+        ind_files = [i.iloc[0]['channel'] for i in ind_dfs]
+
+        for dat in com_list + ind_list:
+            with open(dat) as f:
+                com_dfs.append(pd.DataFrame([json.load(f)]))
+            file_name = path.basename(path.dirname(dat))
+            com_dfs[-1]['parameter'] = float(path.basename(dat).split('.json')[0])
+            com_dfs[-1]['filename'] = file_name
+            com_dfs[-1]['channels'] = file_name.split('-')[-2].replace('_', ', ') if 'A-' in file_name else file_name
+            com_dfs[-1] = com_dfs[-1].rename(columns={'-2': 'xsec_m2s_NP_profiled', '2': 'xsec_p2s_NP_profiled', '-1': 'xsec_m1s_NP_profiled', '1': 'xsec_p1s_NP_profiled', '0': 'xsec_exp_NP_profiled', 'obs': 'xsec_obs_NP_profiled'}).drop(columns=['inj'])
+
+    else:
+        for dat in ind_list:
+            ind_files.append(dat.split('/')[-1])
+            ind_dfs.append(pd.read_table(dat, sep=' '))
+            ind_dfs[-1] = rescale(ind_dfs[-1], columns, 1).sort_values(by = 'parameter', ascending = True)
+
+        for dat in com_list + ind_list:
+            file_name = path.basename(dat)
+            com_dfs.append(pd.read_table(dat, sep=' '))
+            com_dfs[-1] = rescale(com_dfs[-1], columns, 1).sort_values(by = 'parameter', ascending = True)
+            com_dfs[-1]['filename'] = file_name
+            com_dfs[-1]['channels'] = file_name.split('.')[-2].split('-')[-2].replace('_', ', ') if 'bb' in file_name.split('.')[-2].split('-')[-2] else file_name.split('.')[-2].split('-')[-1].replace('_', ', ')
 
     com_df_all = pd.concat(com_dfs)
     com_df_new = pd.DataFrame(columns=com_df_all.columns)
@@ -160,6 +201,7 @@ def plot_spin0(args):
             combine_result[identifier] = row['filename']
             com_df_new.loc[com_df_new['parameter'] == identifier, :] = row.values
 
+    com_df_new['parameter'] = pd.to_numeric(com_df_new['parameter'])
     com_df_new = com_df_new.sort_values(by = 'parameter')
     print(com_df_new[columns[-2:] + ['parameter', 'filename', 'channels']])
 
@@ -194,8 +236,8 @@ def plot_spin0(args):
     # Plot bands
     ax.plot( 'parameter', 'xsec_exp_NP_profiled', data=com_df_new, color='k', linestyle='dashed', linewidth=2, zorder = 1.5, alpha=0.8, label = 'Expected')
     ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=com_df_new, color='k', linestyle='solid', linewidth=2, zorder = 1.5, alpha=0.8, label = 'Observed')
-    ax.fill_between(com_df_new['parameter'], com_df_new[columns[0]], com_df_new[columns[1]], facecolor = 'yellow', label = r'$\mathrm{Expected \pm 2 \sigma}$')
-    ax.fill_between(com_df_new['parameter'], com_df_new[columns[2]], com_df_new[columns[3]], facecolor = 'lime', label = r'$\mathrm{Expected \pm 1 \sigma}$')
+    ax.fill_between(com_df_new['parameter'], com_df_new[columns[0]], com_df_new[columns[3]], facecolor = 'yellow', label = r'$\mathrm{Expected \pm 2 \sigma}$')
+    ax.fill_between(com_df_new['parameter'], com_df_new[columns[1]], com_df_new[columns[2]], facecolor = 'lime', label = r'$\mathrm{Expected \pm 1 \sigma}$')
 
     ax.set_yscale('log')
 
@@ -230,6 +272,7 @@ def plot_spin0(args):
 def plot_nonres(args):
     args.resonant_type = 'nonres'
     dat_list = args.dat_list
+    new_method = True if dat_list[0].endswith('json') else False
 
     scenario_map = {
         f'{args.resonant_type}-bbbb.dat': (r'$\mathrm{b\bar{b}b\bar{b}}$', 1),
@@ -245,22 +288,48 @@ def plot_nonres(args):
         f'{args.resonant_type}-combined-A-bbbb_bbtautau_bbyy_WWWW-nocorr.dat': ('Top 3 + Multilepton', 15),
         f'{args.resonant_type}-combined-A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr.dat': ('Top 4 + Multilepton', 16),
         f'{args.resonant_type}-combined-A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-nocorr.dat': ('All 6 combined', 21),
+        
+        f'bbbb': (r'$\mathrm{b\bar{b}b\bar{b}}$', 1),
+        f'bbtautau': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$', 2),
+        f'bbyy': (r'$\mathrm{b\bar{b}\gamma\gamma}$', 3),
+        f'bbll': (r'$\mathrm{b\bar{b}ll}$', 4),
+        f'bbVV': (r'$\mathrm{b\bar{b}VV}$', 5),
+        f'WWWW': (r'$\mathrm{Multilepton}$', 6),
+        f'combined-A-bbtautau_bbyy-nocorr': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-} + b\bar{b}\gamma\gamma}$', 11),
+        f'combined-A-bbbb_bbtautau_bbyy-nocorr': ('Top 3 combined', 12),
+        f'combined-A-bbbb_bbll_bbtautau_bbyy-nocorr': (r'\mathrm{Top 3 + $b\bar{b}ll}$', 13),
+        f'combined-A-bbbb_bbtautau_bbVV_bbyy-nocorr': (r'\mathrm{Top 3 + $b\bar{b}VV}$', 14),
+        f'combined-A-bbbb_bbtautau_bbyy_WWWW-nocorr': ('Top 3 + Multilepton', 15),
+        f'combined-A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr': ('Top 4 + Multilepton', 16),
+        f'combined-A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-nocorr': ('All 6 combined', 21),
+
     }
-    columns = ['xsec_m2s_NP_profiled', 'xsec_p2s_NP_profiled', 'xsec_m1s_NP_profiled', 'xsec_p1s_NP_profiled', 'xsec_exp_NP_profiled', 'xsec_obs_NP_profiled']
 
     dfs = []
-    for dat in dat_list:
-        file_name = dat.split('/')[-1]
-        dfs.append(pd.read_table(dat, sep=' '))
-        dfs[-1]['order'] = scenario_map[file_name][1]
-        if args.resonant_type == 'nonres':
+    if new_method:
+        for dat in dat_list:
+            with open(dat) as f:
+                dfs.append(pd.DataFrame([json.load(f)]))
+
+            file_name = path.basename(path.dirname(dat))
+            dfs[-1]['order'] = scenario_map[file_name][1]
+            dfs[-1].set_index([[file_name] * dfs[-1].shape[0]], inplace=True)
+
+        df = pd.concat(dfs)
+        df = df.rename(columns={'-2': 'xsec_m2s_NP_profiled', '2': 'xsec_p2s_NP_profiled', '-1': 'xsec_m1s_NP_profiled', '1': 'xsec_p1s_NP_profiled', '0': 'xsec_exp_NP_profiled', 'obs': 'xsec_obs_NP_profiled'}).drop(columns=['inj'])
+
+    else:
+        for dat in dat_list:
+            file_name = dat.split('/')[-1]
+            dfs.append(pd.read_table(dat, sep=' '))
+            dfs[-1]['order'] = scenario_map[file_name][1]
             # set file name as index
             dfs[-1].set_index([[file_name] * dfs[-1].shape[0]], inplace=True)
 
-    df = pd.concat(dfs)
-    df = rescale(df, columns, args.norm / 1000).sort_values(by = 'order', ascending = False)
+        df = pd.concat(dfs)
 
-    print(df[columns + ['parameter']])
+    df = rescale(df, columns, args.norm / 1000, absolute=new_method).sort_values(by = 'order', ascending = False)
+    print(df[columns])
 
     fig, ax = plt.subplots(1, 1, figsize=(9, 8))
 
@@ -277,8 +346,8 @@ def plot_nonres(args):
             ax.text(700, y+0.5, f'{obs:.2f}', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
         exp = row[columns[4]]
         ax.vlines(exp, y, y+1, colors = 'k', linestyles = 'dotted', zorder = 1.1, label = 'Expected' if y==0 else '')
-        ax.fill_betweenx([y,y+1], row[columns[0]], row[columns[1]], facecolor = 'yellow', label = r'$\mathrm{Expected \pm 2 \sigma}$' if y==0 else '')
-        ax.fill_betweenx([y,y+1], row[columns[2]], row[columns[3]], facecolor = 'lime', label = r'$\mathrm{Expected \pm 1 \sigma}$' if y==0 else '')
+        ax.fill_betweenx([y,y+1], row[columns[0]], row[columns[3]], facecolor = 'yellow', label = r'$\mathrm{Expected \pm 2 \sigma}$' if y==0 else '')
+        ax.fill_betweenx([y,y+1], row[columns[1]], row[columns[2]], facecolor = 'lime', label = r'$\mathrm{Expected \pm 1 \sigma}$' if y==0 else '')
         # Plot text
         ax.text(200, y+0.5, f'{exp:.2f}', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
 

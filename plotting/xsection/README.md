@@ -20,9 +20,12 @@ source /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/anaconda3/set
 - Non-resonant
 ```
 python plotting/xsection/combination_plotting.py nonres --logx -l ../output/v140invfb_20210531_obs/limits/data-files/nonres-bb*dat
+python plotting/xsection/combination_plotting.py nonres --logx -l ../output/v140invfb_20210531_obs/limits/root-files/nonres/*/0.json
 ```
 
 - Spin-0
 ```
 python plotting/xsection/combination_plotting.py spin0 --logx --dat_list ../output/v140invfb_20210531_obs/limits/data-files/spin0-bb* --com_list ../output/v140invfb_20210531_obs/limits/data-files/spin0-combined-A-bb*dat
+
+python plotting/xsection/combination_plotting.py spin0 --logx --dat_list ../output/v140invfb_20210531_obs/limits/root-files/spin0/bbbb/*[0-9].json --com_list ../output/v140invfb_20210531_obs/limits/root-files/spin0/combined/A-bbbb_bbtautau-nocorr/*[0-9].json
 ```
