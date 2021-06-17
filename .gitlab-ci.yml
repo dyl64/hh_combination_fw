@@ -263,8 +263,8 @@ NonresPlot:
     - cd plotting/xsection
     - source setup.sh || echo ignore setupATLAS return code
     - python combination_plotting.py nonres --logx -l ../../output/limits/data-files/nonres-*.dat
-    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/data-files/nonres-*.dat
-    - python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/data-files/spin0-bb*.dat --com_list $input_dir/limits/data-files/spin0-combined-*.dat
+    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/root-files/nonres/*/0.json
+    - python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json
     - mv $input_dir/$output_dir .
   artifacts:
     paths:

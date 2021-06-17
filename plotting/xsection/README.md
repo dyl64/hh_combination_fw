@@ -27,5 +27,5 @@ python plotting/xsection/combination_plotting.py nonres --logx -l ../output/v140
 ```
 python plotting/xsection/combination_plotting.py spin0 --logx --dat_list ../output/v140invfb_20210531_obs/limits/data-files/spin0-bb* --com_list ../output/v140invfb_20210531_obs/limits/data-files/spin0-combined-A-bb*dat
 
-python plotting/xsection/combination_plotting.py spin0 --logx --dat_list ../output/v140invfb_20210531_obs/limits/root-files/spin0/bbbb/*[0-9].json --com_list ../output/v140invfb_20210531_obs/limits/root-files/spin0/combined/A-bbbb_bbtautau-nocorr/*[0-9].json
+python plotting/xsection/combination_plotting.py spin0 --logx --dat_list ../output/v140invfb_20210531_obs/limits/root-files/spin0/bb*/*[0-9].json --com_list ../output/v140invfb_20210531_obs/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json
 ```
