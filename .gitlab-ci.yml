@@ -54,10 +54,6 @@ NonresProcess_blind:
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - echo $input_dir/$version
     - ls $input_dir/$version
-    - echo $input_dir/$version/$channel
-    - ls $input_dir/$version/$channel
-    - echo $input_dir/$version/$channel/nonres
-    - ls $input_dir/$version/$channel/nonres
     - source setup.sh || echo ignore setupATLAS return code
     - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --config configs/regularization_nonres_v3.yaml
   artifacts:
@@ -88,10 +84,6 @@ NonresProcess_unblind:
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - echo $input_dir/$version
     - ls $input_dir/$version
-    - echo $input_dir/$version/$channel
-    - ls $input_dir/$version/$channel
-    - echo $input_dir/$version/$channel/nonres
-    - ls $input_dir/$version/$channel/nonres
     - source setup.sh || echo ignore setupATLAS return code
     - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --config configs/regularization_nonres_v3.yaml --unblind
   artifacts:
