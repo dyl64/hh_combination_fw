@@ -243,6 +243,7 @@ Spin0Combine2chan2:
 
 Spin0Combine3chan:
   stage: combine
+  needs:
     - job: Spin0Process_bbbb
     - job: Spin0Process_bbtautau
     - job: Spin0Process_bbyy
