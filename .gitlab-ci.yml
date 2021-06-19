@@ -294,7 +294,8 @@ NonresPlot:
   stage: plotting
   needs:
     - job: hhCompile
-    - job: NonresCombine
+    - job: NonresCombine1
+    - job: NonresCombine2
   variables:
     GIT_SSL_NO_VERIFY: "true"
     input_dir: output
