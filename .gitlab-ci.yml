@@ -49,7 +49,6 @@ hhCompile:
     - mkdir -p $input_dir/$version
     - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/input/$version/* $input_dir/$version/
     - ls $input_dir/$version/*/nonres/0.root
-  script:
     - shopt -s expand_aliases
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
@@ -76,145 +75,141 @@ NRPro_unblind:
     channel: bbyy,bbtautau
     version: 20210531
 
-.Sp0Process:
-  extends: .process_channel
-  before_script:
-    - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/input/$version/$channel $input_dir/$version/$channel
-    - ls $input_dir/$version/*/nonres/251.root
-  script:
-    - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r spin0 -o $output_dir --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_spin0_v3.yaml --unblind
-
-Sp0Pro_bbbb:
-  extends: .Sp0Process
-  variables:
-    channel: bbbb
-    version: 20210531
-
-Sp0Pro_bbtautau:
-  extends: .Sp0Process
-  variables:
-    channel: bbtautau
-    version: 20210531
-
-Sp0Pro_bbyy:
-  extends: .Sp0Process
-  variables:
-    channel: bbyy
-    version: 20210531
-
-
-.NRCombine_ws:
-  stage: combine
-  needs:
-    - job: hhCompile
-    - job: NRPro_blind
-    - job: NRPro_unblind
-  variables:
-    GIT_SSL_NO_VERIFY: "true"
-    output_dir: output
-  before_script:
-    - set +e
-  script:
-    - shopt -s expand_aliases
-    - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
-    - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
-    - source setup.sh || echo ignore setupATLAS return code
-    - HHComb combine_ws --new_method -i $output_dir -c bbbb,bbtautau,bbyy -r nonres
-    #- HHComb combine_ws --new_method -i $output_dir -c bbbb,bbtautau,bbyy,bbll,bbVV,WWWW -r nonres
-  artifacts:
-    paths:
-      - $output_dir
-
-NonresCombine1:
-  extends: .NRCombine_ws
-  script:
-    - HHComb combine_ws --new_method -i $output_dir -c bbbb,bbtautau,bbyy -r nonres
-
-NonresCombine2:
-  extends: .NRCombine_ws
-  script:
-    - HHComb combine_ws --new_method -i $output_dir -c bbbb,bbtautau,bbyy,bbll,bbVV,WWWW -r nonres
-
-.Sp0Combine_ws:
-  stage: combine
-  variables:
-    GIT_SSL_NO_VERIFY: "true"
-    output_dir: output
-  before_script:
-    - set +e
-  script:
-    - shopt -s expand_aliases
-    - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
-    - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
-    - source setup.sh || echo ignore setupATLAS return code
-    - HHComb combine_ws --new_method -i $output_dir -r spin0 -c $channels --unblind -m $masspoints
-  artifacts:
-    paths:
-      - $output_dir
-
-Sp0Com2chan1:
-  extends: .Sp0Combine_ws
-  needs:
-    - job: Sp0Pro_bbyy
-    - job: Sp0Pro_bbtautau
-  variables:
-    channels: bbyy,bbtautau
-    masspoints: "325,350,450,550"
-
-Sp0Com2chan2:
-  extends: .Sp0Combine_ws
-  needs:
-    - job: Sp0Pro_bbbb
-    - job: Sp0Pro_bbtautau
-  variables:
-    channels: bbbb,bbtautau
-    masspoints: "251,260,280,300,400,500,600,700,800,900,1000,1100,1200,1400,1600"
-
-Sp0Com3chan:
-  extends: .Sp0Combine_ws
-  needs:
-    - job: Sp0Pro_bbbb
-    - job: Sp0Pro_bbtautau
-    - job: Sp0Pro_bbyy
-  variables:
-    channels: bbbb,bbtautau,bbyy
-    masspoints: "251,260,280,300,400,500,600,700,800,900,1000"
-
-.plot:
-  stage: plotting
-  variables:
-    GIT_SSL_NO_VERIFY: "true"
-    input_dir: output
-    output_dir: figures
-  script:
-    - set +e
-    - shopt -s expand_aliases
-    - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
-    - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
-    - cd plotting/xsection
-    - source setup.sh || echo ignore setupATLAS return code
-  artifacts:
-    paths:
-      - $output_dir
-  #when: manual
-
-NRPlot:
-  extends: .plot
-  stage: plotting
-  needs:
-    - job: NonresCombine1
-    - job: NonresCombine2
-  script:
-    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/root-files/nonres/*/0.json
-    - mv $input_dir/$output_dir .
-
-Spin0Plot:
-  extends: .plot
-  stage: plotting
-  needs:
-    - job: Sp0Com2chan1
-    - job: Sp0Com2chan2
-    - job: Sp0Com3chan
-  script:
-    - python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json
-    - mv $input_dir/$output_dir .
+#.Sp0Process:
+#  extends: .process_channel
+#  before_script:
+#    - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/input/$version/$channel $input_dir/$version/$channel
+#    - ls $input_dir/$version/*/nonres/251.root
+#  script:
+#    - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r spin0 -o $output_dir --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_spin0_v3.yaml --unblind
+#
+#Sp0Pro_bbbb:
+#  extends: .Sp0Process
+#  variables:
+#    channel: bbbb
+#    version: 20210531
+#
+#Sp0Pro_bbtautau:
+#  extends: .Sp0Process
+#  variables:
+#    channel: bbtautau
+#    version: 20210531
+#
+#Sp0Pro_bbyy:
+#  extends: .Sp0Process
+#  variables:
+#    channel: bbyy
+#    version: 20210531
+#
+#
+#.NRCombine_ws:
+#  stage: combine
+#  needs:
+#    - job: hhCompile
+#    - job: NRPro_blind
+#    - job: NRPro_unblind
+#  variables:
+#    GIT_SSL_NO_VERIFY: "true"
+#    output_dir: output
+#  before_script:
+#    - set +e
+#    - shopt -s expand_aliases
+#    - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
+#    - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
+#    - source setup.sh || echo ignore setupATLAS return code
+#  artifacts:
+#    paths:
+#      - $output_dir
+#
+#NonresCombine1:
+#  extends: .NRCombine_ws
+#  script:
+#    - HHComb combine_ws --new_method -i $output_dir -c bbbb,bbtautau,bbyy -r nonres
+#
+#NonresCombine2:
+#  extends: .NRCombine_ws
+#  script:
+#    - HHComb combine_ws --new_method -i $output_dir -c bbbb,bbtautau,bbyy,bbll,bbVV,WWWW -r nonres
+#
+#.Sp0Combine_ws:
+#  stage: combine
+#  variables:
+#    GIT_SSL_NO_VERIFY: "true"
+#    output_dir: output
+#  before_script:
+#    - set +e
+#    - shopt -s expand_aliases
+#    - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
+#    - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
+#    - source setup.sh || echo ignore setupATLAS return code
+#    - HHComb combine_ws --new_method -i $output_dir -r spin0 -c $channels --unblind -m $masspoints
+#  artifacts:
+#    paths:
+#      - $output_dir
+#
+#Sp0Com2chan1:
+#  extends: .Sp0Combine_ws
+#  needs:
+#    - job: Sp0Pro_bbyy
+#    - job: Sp0Pro_bbtautau
+#  variables:
+#    channels: bbyy,bbtautau
+#    masspoints: "325,350,450,550"
+#
+#Sp0Com2chan2:
+#  extends: .Sp0Combine_ws
+#  needs:
+#    - job: Sp0Pro_bbbb
+#    - job: Sp0Pro_bbtautau
+#  variables:
+#    channels: bbbb,bbtautau
+#    masspoints: "251,260,280,300,400,500,600,700,800,900,1000,1100,1200,1400,1600"
+#
+#Sp0Com3chan:
+#  extends: .Sp0Combine_ws
+#  needs:
+#    - job: Sp0Pro_bbbb
+#    - job: Sp0Pro_bbtautau
+#    - job: Sp0Pro_bbyy
+#  variables:
+#    channels: bbbb,bbtautau,bbyy
+#    masspoints: "251,260,280,300,400,500,600,700,800,900,1000"
+#
+#.plot:
+#  stage: plotting
+#  variables:
+#    GIT_SSL_NO_VERIFY: "true"
+#    input_dir: output
+#    output_dir: figures
+#  script:
+#    - set +e
+#    - shopt -s expand_aliases
+#    - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
+#    - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
+#    - cd plotting/xsection
+#    - source setup.sh || echo ignore setupATLAS return code
+#  artifacts:
+#    paths:
+#      - $output_dir
+#  #when: manual
+#
+#NRPlot:
+#  extends: .plot
+#  stage: plotting
+#  needs:
+#    - job: NonresCombine1
+#    - job: NonresCombine2
+#  script:
+#    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/root-files/nonres/*/0.json
+#    - mv $input_dir/$output_dir .
+#
+#Spin0Plot:
+#  extends: .plot
+#  stage: plotting
+#  needs:
+#    - job: Sp0Com2chan1
+#    - job: Sp0Com2chan2
+#    - job: Sp0Com3chan
+#  script:
+#    - python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json
+#    - mv $input_dir/$output_dir .
