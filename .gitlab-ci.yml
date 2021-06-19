@@ -140,6 +140,7 @@ NR_all_com:
 Sp0_yy_tt_com:
   extends: .Sp0Combine_ws
   needs:
+    - job: hhCompile
     - job: Sp0_yy_pro
     - job: Sp0_tt_pro
   variables:
@@ -149,6 +150,7 @@ Sp0_yy_tt_com:
 Sp0_bb_tt_com:
   extends: .Sp0Combine_ws
   needs:
+    - job: hhCompile
     - job: Sp0_bb_pro
     - job: Sp0_tt_pro
   variables:
@@ -158,6 +160,7 @@ Sp0_bb_tt_com:
 Sp0_bb_tt_yy_com:
   extends: .Sp0Combine_ws
   needs:
+    - job: hhCompile
     - job: Sp0_bb_pro
     - job: Sp0_tt_pro
     - job: Sp0_yy_pro
