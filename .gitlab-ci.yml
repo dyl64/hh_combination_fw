@@ -48,16 +48,13 @@ NonresProcess_blind:
     - echo $SERVICE_PASS | kinit -f $CERN_USER || echo something
     - mkdir -p $input_dir/$version
     - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/input/$version/* $input_dir/$version/
+    - ls $input_dir/$version/*/nonres/0.root
   script:
     - shopt -s expand_aliases
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - echo $input_dir/$version
-    - ls $input_dir/$version/*
-    - ls $input_dir/$version/*/*
-    - ls $input_dir/$version/*/*/*
     - source setup.sh || echo ignore setupATLAS return code
-    - echo HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_nonres_v3.yaml
     - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_nonres_v3.yaml
   artifacts:
     paths:
@@ -81,12 +78,11 @@ NonresProcess_unblind:
     - echo $SERVICE_PASS | kinit -f $CERN_USER || echo something
     - mkdir -p $input_dir/$version
     - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/input/$version/* $input_dir/$version/
+    - ls $input_dir/$version/*/nonres/0.root
   script:
     - shopt -s expand_aliases
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
-    - echo $input_dir/$version
-    - ls $input_dir/$version
     - source setup.sh || echo ignore setupATLAS return code
     - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_nonres_v3.yaml --unblind
   artifacts:
@@ -111,6 +107,7 @@ Spin0Process_bbbb:
     - echo $SERVICE_PASS | kinit -f $CERN_USER || echo something
     - mkdir -p $input_dir/$version
     - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/input/$version/$channel $input_dir/$version/$channel
+    - ls $input_dir/$version/*/nonres/0.root
   script:
     - shopt -s expand_aliases
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
@@ -139,6 +136,7 @@ Spin0Process_bbyy:
     - echo $SERVICE_PASS | kinit -f $CERN_USER || echo something
     - mkdir -p $input_dir/$version
     - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/input/$version/$channel $input_dir/$version/$channel
+    - ls $input_dir/$version/*/spin0/251.root
   script:
     - shopt -s expand_aliases
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
@@ -167,6 +165,7 @@ Spin0Process_bbtautau:
     - echo $SERVICE_PASS | kinit -f $CERN_USER || echo something
     - mkdir -p $input_dir/$version
     - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/input/$version/$channel $input_dir/$version/$channel
+    - ls $input_dir/$version/*/spin0/251.root
   script:
     - shopt -s expand_aliases
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
@@ -254,6 +253,11 @@ Spin0Combine3chan:
 
 NonresPlot:
   stage: plotting
+  needs:
+    - job: NonresProcess_blind
+      artifacts: true
+    - job: NonresProcess_unblind
+      artifacts: true
   variables:
     GIT_SSL_NO_VERIFY: "true"
     input_dir: output
@@ -267,6 +271,35 @@ NonresPlot:
     - source setup.sh || echo ignore setupATLAS return code
     - python combination_plotting.py nonres --logx -l ../../output/limits/data-files/nonres-*.dat
     - python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/root-files/nonres/*/0.json
+    #- python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json
+    - mv $input_dir/$output_dir .
+  artifacts:
+    paths:
+      - $output_dir
+  #when: manual
+
+Spin0Plot:
+  stage: plotting
+  needs:
+    - job: Spin0Process_bbbb
+      artifacts: true
+    - job: Spin0Process_bbyy
+      artifacts: true
+    - job: Spin0Process_bbtautau
+      artifacts: true
+  variables:
+    GIT_SSL_NO_VERIFY: "true"
+    input_dir: output
+    output_dir: figures
+  script:
+    - set +e
+    - shopt -s expand_aliases
+    - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
+    - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
+    - cd plotting/xsection
+    - source setup.sh || echo ignore setupATLAS return code
+    - python combination_plotting.py nonres --logx -l ../../output/limits/data-files/nonres-*.dat
+    #- python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/root-files/nonres/*/0.json
     - python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json
     - mv $input_dir/$output_dir .
   artifacts:
