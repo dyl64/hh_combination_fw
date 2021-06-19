@@ -46,16 +46,16 @@ cd submodules/RooStatTools
 make clean && make
 cd ${hh_combination_fw_path}
 
-printf "${GREEN}\n
-==============================================
-| Compiling 4/5) submodules/DiagnosticTools ...
-==============================================${NC}\n"
-cd submodules/DiagnosticTools
-if [ -d "submodules/DiagnosticTools/build" ] ; then
-    rm -r submodules/DiagnosticTools/build
-fi
-mkdir -p build; cd build; cmake ../; make -j4
-cd ${hh_combination_fw_path}
+#printf "${GREEN}\n
+#==============================================
+#| Compiling 4/5) submodules/DiagnosticTools ...
+#==============================================${NC}\n"
+#cd submodules/DiagnosticTools
+#if [ -d "submodules/DiagnosticTools/build" ] ; then
+#    rm -r submodules/DiagnosticTools/build
+#fi
+#mkdir -p build; cd build; cmake ../; make -j4
+#cd ${hh_combination_fw_path}
 
 
 printf "${GREEN}\n
