@@ -55,6 +55,7 @@ NonresProcess_blind:
     - echo $input_dir/$version
     - ls $input_dir/$version/*
     - ls $input_dir/$version/*/*
+    - ls $input_dir/$version/*/*/*
     - source setup.sh || echo ignore setupATLAS return code
     - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_nonres_v3.yaml
   artifacts:
