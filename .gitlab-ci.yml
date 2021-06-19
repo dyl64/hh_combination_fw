@@ -179,6 +179,7 @@ Spin0Process_bbtautau:
 NonresCombine:
   stage: combine
   needs:
+    - job: hhCompile
     - job: NonresProcess_blind
     - job: NonresProcess_unblind
   variables:
@@ -200,6 +201,7 @@ NonresCombine:
 Spin0Combine2chan1:
   stage: combine
   needs:
+    - job: hhCompile
     - job: Spin0Process_bbyy
     - job: Spin0Process_bbtautau
   variables:
@@ -222,6 +224,7 @@ Spin0Combine2chan1:
 Spin0Combine2chan2:
   stage: combine
   needs:
+    - job: hhCompile
     - job: Spin0Process_bbbb
     - job: Spin0Process_bbtautau
   variables:
@@ -244,6 +247,7 @@ Spin0Combine2chan2:
 Spin0Combine3chan:
   stage: combine
   needs:
+    - job: hhCompile
     - job: Spin0Process_bbbb
     - job: Spin0Process_bbtautau
     - job: Spin0Process_bbyy
@@ -267,6 +271,7 @@ Spin0Combine3chan:
 NonresPlot:
   stage: plotting
   needs:
+    - job: hhCompile
     - job: NonresCombine
   variables:
     GIT_SSL_NO_VERIFY: "true"
@@ -291,6 +296,7 @@ NonresPlot:
 Spin0Plot:
   stage: plotting
   needs:
+    - job: hhCompile
     - job: Spin0Combine2chan1
     - job: Spin0Combine2chan2
     - job: Spin0Combine3chan
