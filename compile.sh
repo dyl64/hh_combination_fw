@@ -38,14 +38,14 @@ mkdir -p build && cd build && rm -fr * && cmake .. && make -j8 && cd ..
 cd ${hh_combination_fw_path}
 
 
-printf "${GREEN}\n
-==============================================
-| Compiling 3/5) submodules/RooStatTools  ...
-==============================================${NC}\n"
-cd submodules/RooStatTools
-make clean && make
-cd ${hh_combination_fw_path}
-
+#printf "${GREEN}\n
+#==============================================
+#| Compiling 3/5) submodules/RooStatTools  ...
+#==============================================${NC}\n"
+#cd submodules/RooStatTools
+#make clean && make
+#cd ${hh_combination_fw_path}
+#
 #printf "${GREEN}\n
 #==============================================
 #| Compiling 4/5) submodules/DiagnosticTools ...
