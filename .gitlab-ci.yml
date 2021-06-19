@@ -178,6 +178,9 @@ Spin0Process_bbtautau:
 
 NonresCombine:
   stage: combine
+  needs:
+    - job: NonresProcess_blind
+    - job: NonresProcess_unblind
   variables:
     GIT_SSL_NO_VERIFY: "true"
     output_dir: output
@@ -196,6 +199,9 @@ NonresCombine:
 
 Spin0Combine2chan1:
   stage: combine
+  needs:
+    - job: Spin0Process_bbyy
+    - job: Spin0Process_bbtautau
   variables:
     GIT_SSL_NO_VERIFY: "true"
     output_dir: output
@@ -215,6 +221,9 @@ Spin0Combine2chan1:
 
 Spin0Combine2chan2:
   stage: combine
+  needs:
+    - job: Spin0Process_bbbb
+    - job: Spin0Process_bbtautau
   variables:
     GIT_SSL_NO_VERIFY: "true"
     output_dir: output
@@ -234,6 +243,9 @@ Spin0Combine2chan2:
 
 Spin0Combine3chan:
   stage: combine
+    - job: Spin0Process_bbbb
+    - job: Spin0Process_bbtautau
+    - job: Spin0Process_bbyy
   variables:
     GIT_SSL_NO_VERIFY: "true"
     output_dir: output
@@ -254,10 +266,7 @@ Spin0Combine3chan:
 NonresPlot:
   stage: plotting
   needs:
-    - job: NonresProcess_blind
-      artifacts: true
-    - job: NonresProcess_unblind
-      artifacts: true
+    - job: NonresCombine
   variables:
     GIT_SSL_NO_VERIFY: "true"
     input_dir: output
@@ -281,12 +290,9 @@ NonresPlot:
 Spin0Plot:
   stage: plotting
   needs:
-    - job: Spin0Process_bbbb
-      artifacts: true
-    - job: Spin0Process_bbyy
-      artifacts: true
-    - job: Spin0Process_bbtautau
-      artifacts: true
+    - job: Spin0Combine2chan1
+    - job: Spin0Combine2chan2
+    - job: Spin0Combine3chan
   variables:
     GIT_SSL_NO_VERIFY: "true"
     input_dir: output
