@@ -32,6 +32,8 @@ hhCompile:
 
 .process_channel:
   stage: process
+  needs:
+    - job: hhCompile
   variables:
     GIT_SSL_NO_VERIFY: "true"
     output_dir: output
@@ -45,6 +47,8 @@ hhCompile:
     - echo -e "Host *\n\tGSSAPIDelegateCredentials yes\n\tGSSAPITrustDNS yes\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - echo $SERVICE_PASS | kinit -f $CERN_USER || echo something
     - mkdir -p $input_dir/$version
+    - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/input/$version/* $input_dir/$version/
+    - ls $input_dir/$version/*/nonres/0.root
   script:
     - shopt -s expand_aliases
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
@@ -57,9 +61,6 @@ hhCompile:
 
 .NRProcess:
   extends: .process_channel
-  before_script:
-    - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/input/$version/* $input_dir/$version/
-    - ls $input_dir/$version/*/nonres/0.root
   script:
     - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_nonres_v3.yaml
 
@@ -154,7 +155,6 @@ NonresCombine2:
 Sp0Com2chan1:
   extends: .Sp0Combine_ws
   needs:
-    - job: hhCompile
     - job: Sp0Pro_bbyy
     - job: Sp0Pro_bbtautau
   variables:
@@ -164,7 +164,6 @@ Sp0Com2chan1:
 Sp0Com2chan2:
   extends: .Sp0Combine_ws
   needs:
-    - job: hhCompile
     - job: Sp0Pro_bbbb
     - job: Sp0Pro_bbtautau
   variables:
@@ -174,7 +173,6 @@ Sp0Com2chan2:
 Sp0Com3chan:
   extends: .Sp0Combine_ws
   needs:
-    - job: hhCompile
     - job: Sp0Pro_bbbb
     - job: Sp0Pro_bbtautau
     - job: Sp0Pro_bbyy
@@ -204,7 +202,6 @@ NRPlot:
   extends: .plot
   stage: plotting
   needs:
-    - job: hhCompile
     - job: NonresCombine1
     - job: NonresCombine2
   script:
@@ -215,7 +212,6 @@ Spin0Plot:
   extends: .plot
   stage: plotting
   needs:
-    - job: hhCompile
     - job: Sp0Com2chan1
     - job: Sp0Com2chan2
     - job: Sp0Com3chan
