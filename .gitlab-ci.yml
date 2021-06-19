@@ -63,13 +63,13 @@ hhCompile:
   script:
     - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_nonres_v3.yaml
 
-NRPro_blind:
+NR_blind_pro:
   extends: .NRProcess
   variables:
     channel: bbbb,bbll,bbVV,WWWW
     version: 20210531
 
-NRPro_unblind:
+NR_unblind_pro:
   extends: .NRProcess
   variables:
     channel: bbyy,bbtautau
@@ -80,19 +80,19 @@ NRPro_unblind:
   script:
     - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r spin0 -o $output_dir --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_spin0_v3.yaml --unblind
 
-Sp0Pro_bbbb:
+Sp0_bb_pro:
   extends: .Sp0Process
   variables:
     channel: bbbb
     version: 20210531
 
-Sp0Pro_bbtautau:
+Sp0_tt_pro:
   extends: .Sp0Process
   variables:
     channel: bbtautau
     version: 20210531
 
-Sp0Pro_bbyy:
+Sp0_yy_pro:
   extends: .Sp0Process
   variables:
     channel: bbyy
@@ -117,17 +117,17 @@ Sp0Pro_bbyy:
   extends: .combine_ws
   needs:
     - job: hhCompile
-    - job: NRPro_blind
-    - job: NRPro_unblind
+    - job: NR_blind_pro
+    - job: NR_unblind_pro
   script:
     - HHComb combine_ws --new_method -i $output_dir -c $channels -r nonres
 
-NonresCombine1:
+NR_bb_tt_yy_com:
   extends: .NRCombine_ws
   variables:
     channels: bbbb,bbtautau,bbyy
 
-NonresCombine2:
+NR_all_com:
   extends: .NRCombine_ws
   variables:
     channels: bbbb,bbtautau,bbyy,bbll,bbVV,WWWW
@@ -137,30 +137,30 @@ NonresCombine2:
   script:
     - HHComb combine_ws --new_method -i $output_dir -r spin0 -c $channels --unblind -m $masspoints
 
-Sp0Com2chan1:
+Sp0_yy_tt_com:
   extends: .Sp0Combine_ws
   needs:
-    - job: Sp0Pro_bbyy
-    - job: Sp0Pro_bbtautau
+    - job: Sp0_yy_pro
+    - job: Sp0_tt_pro
   variables:
     channels: bbyy,bbtautau
     masspoints: "325,350,450,550"
 
-Sp0Com2chan2:
+Sp0_bb_tt_com:
   extends: .Sp0Combine_ws
   needs:
-    - job: Sp0Pro_bbbb
-    - job: Sp0Pro_bbtautau
+    - job: Sp0_bb_pro
+    - job: Sp0_tt_pro
   variables:
     channels: bbbb,bbtautau
     masspoints: "251,260,280,300,400,500,600,700,800,900,1000,1100,1200,1400,1600"
 
-Sp0Com3chan:
+Sp0_bb_tt_yy_com:
   extends: .Sp0Combine_ws
   needs:
-    - job: Sp0Pro_bbbb
-    - job: Sp0Pro_bbtautau
-    - job: Sp0Pro_bbyy
+    - job: Sp0_bb_pro
+    - job: Sp0_tt_pro
+    - job: Sp0_yy_pro
   variables:
     channels: bbbb,bbtautau,bbyy
     masspoints: "251,260,280,300,400,500,600,700,800,900,1000"
@@ -187,16 +187,16 @@ Sp0Com3chan:
 NRPlot:
   extends: .plot
   needs:
-    - job: NonresCombine1
-    - job: NonresCombine2
+    - job: NR_bb_tt_yy_com
+    - job: NR_all_com
   script:
     - python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/root-files/nonres/*/0.json
 
 Spin0Plot:
   extends: .plot
   needs:
-    - job: Sp0Com2chan1
-    - job: Sp0Com2chan2
-    - job: Sp0Com3chan
+    - job: Sp0_yy_tt_com
+    - job: Sp0_bb_tt_com
+    - job: Sp0_bb_tt_yy_com
   script:
     - python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json
