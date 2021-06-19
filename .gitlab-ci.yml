@@ -30,7 +30,7 @@ hhCompile:
       - scripts
       - setup.sh
 
-#NonresProcess_blind:
+#NRPro_blind:
 #  stage: process
 #  variables:
 #    GIT_SSL_NO_VERIFY: "true"
@@ -60,7 +60,7 @@ hhCompile:
 #    paths:
 #      - $output_dir
 #
-#NonresProcess_unblind:
+#NRPro_unblind:
 #  stage: process
 #  variables:
 #    GIT_SSL_NO_VERIFY: "true"
@@ -89,7 +89,7 @@ hhCompile:
 #    paths:
 #      - $output_dir
 #
-#Spin0Process_bbbb:
+#Sp0Pro_bbbb:
 #  stage: process
 #  variables:
 #    GIT_SSL_NO_VERIFY: "true"
@@ -118,7 +118,7 @@ hhCompile:
 #    paths:
 #      - $output_dir
 
-Spin0Process_bbyy:
+Sp0Pro_bbyy:
   stage: process
   variables:
     GIT_SSL_NO_VERIFY: "true"
@@ -147,31 +147,57 @@ Spin0Process_bbyy:
     paths:
       - $output_dir
 
-Spin0Process_bbtautau:
-  stage: process
+#Sp0Pro_bbtautau:
+#  stage: process
+#  variables:
+#    GIT_SSL_NO_VERIFY: "true"
+#    output_dir: output
+#    input_dir: input
+#    channel: bbtautau
+#    version: 20210531
+#  before_script:
+#    - set +e
+#    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+#    - eval "$(ssh-agent -s)"
+#    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+#    - echo "lxplus.cern.ch, ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBPZvfRF+9L7TR3FRPyLFdcsXSZ6RQYJHfOjzzWB94sX0gP34Cgij9p4ukL900sVVvw3LPM5OxxFSNIXGztFYu4o=" > ~/.ssh/known_hosts
+#    - echo -e "Host *\n\tGSSAPIDelegateCredentials yes\n\tGSSAPITrustDNS yes\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+#    - echo $SERVICE_PASS | kinit -f $CERN_USER || echo something
+#    - mkdir -p $input_dir/$version
+#    - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/input/$version/$channel $input_dir/$version/$channel
+#    - ls $input_dir/$version/*/spin0/251.root
+#  script:
+#    - shopt -s expand_aliases
+#    - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
+#    - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
+#    - source setup.sh || echo ignore setupATLAS return code
+#    - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r spin0 -o $output_dir --config configs/regularization_spin0_v3.yaml --unblind
+#  artifacts:
+#    paths:
+#      - $output_dir
+
+Sp0Com2chan1:
+  stage: combine
+  needs:
+    - job: hhCompile
+    - job: Sp0Pro_bbyy
   variables:
     GIT_SSL_NO_VERIFY: "true"
     output_dir: output
-    input_dir: input
-    channel: bbtautau
-    version: 20210531
+    channels: bbtautau
+    masspoints: 325,350,450,550
   before_script:
     - set +e
-    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
-    - eval "$(ssh-agent -s)"
-    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-    - echo "lxplus.cern.ch, ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBPZvfRF+9L7TR3FRPyLFdcsXSZ6RQYJHfOjzzWB94sX0gP34Cgij9p4ukL900sVVvw3LPM5OxxFSNIXGztFYu4o=" > ~/.ssh/known_hosts
-    - echo -e "Host *\n\tGSSAPIDelegateCredentials yes\n\tGSSAPITrustDNS yes\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    - echo $SERVICE_PASS | kinit -f $CERN_USER || echo something
-    - mkdir -p $input_dir/$version
-    - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/input/$version/$channel $input_dir/$version/$channel
-    - ls $input_dir/$version/*/spin0/251.root
   script:
     - shopt -s expand_aliases
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
-    - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r spin0 -o $output_dir --config configs/regularization_spin0_v3.yaml --unblind
+    - ls $output_dir
+    - ls $output_dir/*
+    - ls $output_dir/*/*
+    - ls $output_dir/*/*/*
+    - HHComb combine_ws --new_method -i $output_dir -r spin0 -c $channels --unblind -m $masspoints
   artifacts:
     paths:
       - $output_dir
@@ -180,8 +206,8 @@ Spin0Process_bbtautau:
 #  stage: combine
 #  needs:
 #    - job: hhCompile
-#    - job: NonresProcess_blind
-#    - job: NonresProcess_unblind
+#    - job: NRPro_blind
+#    - job: NRPro_unblind
 #  variables:
 #    GIT_SSL_NO_VERIFY: "true"
 #    output_dir: output
@@ -202,8 +228,8 @@ Spin0Process_bbtautau:
 #  stage: combine
 #  needs:
 #    - job: hhCompile
-#    - job: NonresProcess_blind
-#    - job: NonresProcess_unblind
+#    - job: NRPro_blind
+#    - job: NRPro_unblind
 #  variables:
 #    GIT_SSL_NO_VERIFY: "true"
 #    output_dir: output
@@ -219,40 +245,40 @@ Spin0Process_bbtautau:
 #  artifacts:
 #    paths:
 #      - $output_dir
-
-Spin0Combine2chan1:
-  stage: combine
-  needs:
-    - job: hhCompile
-    - job: Spin0Process_bbyy
-    - job: Spin0Process_bbtautau
-  variables:
-    GIT_SSL_NO_VERIFY: "true"
-    output_dir: output
-    channels: bbyy,bbtautau
-    masspoints: 325,350,450,550
-  before_script:
-    - set +e
-  script:
-    - shopt -s expand_aliases
-    - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
-    - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
-    - source setup.sh || echo ignore setupATLAS return code
-    - ls $output_dir
-    - ls $output_dir/*
-    - ls $output_dir/*/*
-    - ls $output_dir/*/*/*
-    - HHComb combine_ws --new_method -i $output_dir -r spin0 -c $channels --unblind -m $masspoints
-  artifacts:
-    paths:
-      - $output_dir
-
-#Spin0Combine2chan2:
+#
+#Sp0Com2chan1:
 #  stage: combine
 #  needs:
 #    - job: hhCompile
-#    - job: Spin0Process_bbbb
-#    - job: Spin0Process_bbtautau
+#    - job: Sp0Pro_bbyy
+#    - job: Sp0Pro_bbtautau
+#  variables:
+#    GIT_SSL_NO_VERIFY: "true"
+#    output_dir: output
+#    channels: bbyy,bbtautau
+#    masspoints: 325,350,450,550
+#  before_script:
+#    - set +e
+#  script:
+#    - shopt -s expand_aliases
+#    - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
+#    - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
+#    - source setup.sh || echo ignore setupATLAS return code
+#    - ls $output_dir
+#    - ls $output_dir/*
+#    - ls $output_dir/*/*
+#    - ls $output_dir/*/*/*
+#    - HHComb combine_ws --new_method -i $output_dir -r spin0 -c $channels --unblind -m $masspoints
+#  artifacts:
+#    paths:
+#      - $output_dir
+#
+#Sp0Com2chan2:
+#  stage: combine
+#  needs:
+#    - job: hhCompile
+#    - job: Sp0Pro_bbbb
+#    - job: Sp0Pro_bbtautau
 #  variables:
 #    GIT_SSL_NO_VERIFY: "true"
 #    output_dir: output
@@ -270,13 +296,13 @@ Spin0Combine2chan1:
 #    paths:
 #      - $output_dir
 #
-#Spin0Combine3chan:
+#Sp0Com3chan:
 #  stage: combine
 #  needs:
 #    - job: hhCompile
-#    - job: Spin0Process_bbbb
-#    - job: Spin0Process_bbtautau
-#    - job: Spin0Process_bbyy
+#    - job: Sp0Pro_bbbb
+#    - job: Sp0Pro_bbtautau
+#    - job: Sp0Pro_bbyy
 #  variables:
 #    GIT_SSL_NO_VERIFY: "true"
 #    output_dir: output
@@ -323,9 +349,9 @@ Spin0Combine2chan1:
 #  stage: plotting
 #  needs:
 #    - job: hhCompile
-#    - job: Spin0Combine2chan1
-#    - job: Spin0Combine2chan2
-#    - job: Spin0Combine3chan
+#    - job: Sp0Com2chan1
+#    - job: Sp0Com2chan2
+#    - job: Sp0Com3chan
 #  variables:
 #    GIT_SSL_NO_VERIFY: "true"
 #    input_dir: output
