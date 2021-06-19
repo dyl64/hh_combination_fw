@@ -134,13 +134,13 @@ def plot_spin0(args):
         f'bbll': (r'$\mathrm{b\bar{b}ll}$', 'darkcryan'),
         f'bbVV': (r'$\mathrm{b\bar{b}VV}$', 'darkorange'),
         f'WWWW': (r'$\mathrm{Multilepton}$', 'orangered'),
-        f'combined-A-bbtautau_bbyy-nocorr': (r'$b\bar{b}\tau^{+}\tau^{-} + b\bar{b}\gamma\gamma$', 'black'),
-        f'combined-A-bbbb_bbtautau_bbyy-nocorr': ('Top 3 combined', 'black'),
-        f'combined-A-bbbb_bbll_bbtautau_bbyy-nocorr': (r'Top 3 + $b\bar{b}ll$', 'black'),
-        f'combined-A-bbbb_bbtautau_bbVV_bbyy-nocorr': (r'Top 3 + $b\bar{b}VV$', 'black'),
-        f'combined-A-bbbb_bbtautau_bbyy_WWWW-nocorr': (r'Top 3 + Multilepton', 'black'),
-        f'combined-A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr': (r'Top 4 + Multilepton', 'black'),
-        f'combined-A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-nocorr': ('All 6 combined', 'black'),
+        f'A-bbtautau_bbyy-nocorr': (r'$b\bar{b}\tau^{+}\tau^{-} + b\bar{b}\gamma\gamma$', 'black'),
+        f'A-bbbb_bbtautau_bbyy-nocorr': ('Top 3 combined', 'black'),
+        f'A-bbbb_bbll_bbtautau_bbyy-nocorr': (r'Top 3 + $b\bar{b}ll$', 'black'),
+        f'A-bbbb_bbtautau_bbVV_bbyy-nocorr': (r'Top 3 + $b\bar{b}VV$', 'black'),
+        f'A-bbbb_bbtautau_bbyy_WWWW-nocorr': (r'Top 3 + Multilepton', 'black'),
+        f'A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr': (r'Top 4 + Multilepton', 'black'),
+        f'A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-nocorr': ('All 6 combined', 'black'),
     }
 
     ind_dfs = []
@@ -295,13 +295,13 @@ def plot_nonres(args):
         f'bbll': (r'$\mathrm{b\bar{b}ll}$', 4),
         f'bbVV': (r'$\mathrm{b\bar{b}VV}$', 5),
         f'WWWW': (r'$\mathrm{Multilepton}$', 6),
-        f'combined-A-bbtautau_bbyy-nocorr': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-} + b\bar{b}\gamma\gamma}$', 11),
-        f'combined-A-bbbb_bbtautau_bbyy-nocorr': ('Top 3 combined', 12),
-        f'combined-A-bbbb_bbll_bbtautau_bbyy-nocorr': (r'\mathrm{Top 3 + $b\bar{b}ll}$', 13),
-        f'combined-A-bbbb_bbtautau_bbVV_bbyy-nocorr': (r'\mathrm{Top 3 + $b\bar{b}VV}$', 14),
-        f'combined-A-bbbb_bbtautau_bbyy_WWWW-nocorr': ('Top 3 + Multilepton', 15),
-        f'combined-A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr': ('Top 4 + Multilepton', 16),
-        f'combined-A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-nocorr': ('All 6 combined', 21),
+        f'A-bbtautau_bbyy-nocorr': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-} + b\bar{b}\gamma\gamma}$', 11),
+        f'A-bbbb_bbtautau_bbyy-nocorr': ('Top 3 combined', 12),
+        f'A-bbbb_bbll_bbtautau_bbyy-nocorr': (r'\mathrm{Top 3 + $b\bar{b}ll}$', 13),
+        f'A-bbbb_bbtautau_bbVV_bbyy-nocorr': (r'\mathrm{Top 3 + $b\bar{b}VV}$', 14),
+        f'A-bbbb_bbtautau_bbyy_WWWW-nocorr': ('Top 3 + Multilepton', 15),
+        f'A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr': ('Top 4 + Multilepton', 16),
+        f'A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-nocorr': ('All 6 combined', 21),
 
     }
 
