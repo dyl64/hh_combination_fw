@@ -235,7 +235,8 @@ def plot_spin0(args):
     # Plot combined
     # Plot bands
     ax.plot( 'parameter', 'xsec_exp_NP_profiled', data=com_df_new, color='k', linestyle='dashed', linewidth=2, zorder = 1.5, alpha=0.8, label = 'Expected')
-    ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=com_df_new, color='k', linestyle='solid', linewidth=2, zorder = 1.5, alpha=0.8, label = 'Observed')
+    if args.unblind:
+        ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=com_df_new, color='k', linestyle='solid', linewidth=2, zorder = 1.5, alpha=0.8, label = 'Observed')
     ax.fill_between(com_df_new['parameter'], com_df_new[columns[0]], com_df_new[columns[3]], facecolor = 'yellow', label = r'$\mathrm{Expected \pm 2 \sigma}$')
     ax.fill_between(com_df_new['parameter'], com_df_new[columns[1]], com_df_new[columns[2]], facecolor = 'lime', label = r'$\mathrm{Expected \pm 1 \sigma}$')
 
@@ -351,7 +352,8 @@ def plot_nonres(args):
         # Plot text
         ax.text(200, y+0.5, f'{exp:.2f}', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
 
-    ax.text(700, y+1.5, 'Obs.', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
+    if args.unblind:
+        ax.text(700, y+1.5, 'Obs.', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
     ax.text(200, y+1.5, 'Exp.', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
 
     textlable = ''

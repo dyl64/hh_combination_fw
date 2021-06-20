@@ -37,7 +37,6 @@ hhCompile:
     - job: hhCompile
   variables:
     GIT_SSL_NO_VERIFY: "true"
-    output_dir: output
     input_dir: input
   before_script:
     - set +e
@@ -61,20 +60,24 @@ hhCompile:
 
 .NRProcess:
   extends: .process_channel
+  variables:
+    output_dir: output
   script:
-    - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_nonres_v3.yaml
+    - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_nonres_v3.yaml $other_options
 
 NR_blind_pro:
   extends: .NRProcess
   variables:
     channel: bbbb,bbll,bbVV,WWWW
     version: 20210531
+    other_options: ""
 
 NR_unblind_pro:
   extends: .NRProcess
   variables:
     channel: bbyy,bbtautau
     version: 20210531
+    other_options: "--unblind"
 
 #.Sp0Process:
 #  extends: .process_channel
@@ -99,7 +102,7 @@ NR_unblind_pro:
 #    channel: bbyy
 #    version: 20210531
 
-.combine_ws:
+.combine_workspace:
   stage: combine
   variables:
     GIT_SSL_NO_VERIFY: "true"
@@ -115,28 +118,36 @@ NR_unblind_pro:
       - $output_dir
 
 .NRCombine_ws:
-  extends: .combine_ws
+  extends: .combine_workspace
   needs:
     - job: hhCompile
     - job: NR_blind_pro
     - job: NR_unblind_pro
   script:
-    - HHComb combine_ws --new_method -i $output_dir -c $channels -r nonres
+    - HHComb combine_ws --new_method -i $output_dir -c $channels -r nonres --minimizer_options configs/minimizer_options_robust.json $other_options
+
+NR_unblind_com:
+  extends: .NRCombine_ws
+  variables:
+    channels: bbtautau,bbyy
+    other_options: "--unblind"
 
 NR_bb_tt_yy_com:
   extends: .NRCombine_ws
   variables:
     channels: bbbb,bbtautau,bbyy
+    other_options: ""
 
 NR_all_com:
   extends: .NRCombine_ws
   variables:
     channels: bbbb,bbtautau,bbyy,bbll,bbVV,WWWW
+    other_options: ""
 
 #.Sp0Combine_ws:
-#  extends: .combine_ws
+#  extends: .combine_workspace
 #  script:
-#    - HHComb combine_ws --new_method -i $output_dir -r spin0 -c $channels --unblind -m $masspoints
+#    - HHComb combine_ws --new_method -i $output_dir -r spin0 -c $channels  --minimizer_options configs/minimizer_options_robust.json -m $masspoints $other_options
 #
 #Sp0_yy_tt_com:
 #  extends: .Sp0Combine_ws
@@ -147,6 +158,7 @@ NR_all_com:
 #  variables:
 #    channels: bbyy,bbtautau
 #    masspoints: "325,350,450,550"
+#    other_options: "--unblind"
 #
 #Sp0_bb_tt_com:
 #  extends: .Sp0Combine_ws
@@ -157,6 +169,7 @@ NR_all_com:
 #  variables:
 #    channels: bbbb,bbtautau
 #    masspoints: "251,260,280,300,400,500,600,700,800,900,1000,1100,1200,1400,1600"
+#    other_options: "--unblind"
 #
 #Sp0_bb_tt_yy_com:
 #  extends: .Sp0Combine_ws
@@ -168,6 +181,7 @@ NR_all_com:
 #  variables:
 #    channels: bbbb,bbtautau,bbyy
 #    masspoints: "251,260,280,300,400,500,600,700,800,900,1000"
+#    other_options: "--unblind"
 
 .plot:
   stage: plotting
@@ -195,7 +209,7 @@ NRPlot:
     - job: NR_bb_tt_yy_com
     - job: NR_all_com
   script:
-    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/root-files/nonres/*/0.json $input_dir/limits/root-files/nonres/combined/A-*/0.json
+    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/root-files/nonres/*/0.json $input_dir/limits/root-files/nonres/combined/A-*/0.json --unblind
 
 #Spin0Plot:
 #  extends: .plot
@@ -204,7 +218,7 @@ NRPlot:
 #    - job: Sp0_bb_tt_com
 #    - job: Sp0_bb_tt_yy_com
 #  script:
-#    - python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json
+#    - python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json --unblind
 
 Artifacts:
   stage: download
@@ -214,7 +228,6 @@ Artifacts:
   script:
     - ls
     - ls *
-    - tree .
   artifacts:
     paths:
       - $output_dir
