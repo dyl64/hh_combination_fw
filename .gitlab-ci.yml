@@ -58,12 +58,30 @@ hhCompile:
     paths:
       - $output_dir
 
+.combine_workspace:
+  stage: combine
+  variables:
+    GIT_SSL_NO_VERIFY: "true"
+    input_dir: output
+  before_script:
+    - set +e
+    - shopt -s expand_aliases - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
+    - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
+    - source setup.sh || echo ignore setupATLAS return code
+  artifacts:
+    paths:
+      - $input_dir
+
+###################################
+## Non-resonant Process channels ##
+###################################
 .NRProcess:
   extends: .process_channel
   variables:
     output_dir: output
+    mini_option: minimizer_options_robust.json
   script:
-    - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_nonres_v3.yaml $other_options
+    - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_nonres_v3.yaml $other_options
 
 NR_blind_pro:
   extends: .NRProcess
@@ -79,8 +97,23 @@ NR_unblind_pro:
     version: 20210531
     other_options: "--unblind"
 
+NR_all_pro_stat:
+  extends: .NRProcess
+  variables:
+    output_dir: output_stat
+    mini_option: minimizer_options_robust_stat.json
+    channel: bbbb,bbyy,bbtautau,bbll,bbVV,WWWW
+    version: 20210531
+    other_options: ""
+
+###################################
+## Spin 0 Process channels       ##
+###################################
 #.Sp0Process:
 #  extends: .process_channel
+#  variables:
+#    output_dir: output
+#    mini_option: minimizer_options_robust.json
 #  script:
 #    - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r spin0 -o $output_dir --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_spin0_v3.yaml --unblind
 #
@@ -101,30 +134,28 @@ NR_unblind_pro:
 #  variables:
 #    channel: bbyy
 #    version: 20210531
+#
+#Sp0_all_pro_stat:
+#  extends: .Sp0Process
+#  variables:
+#    output_dir: output_stat
+#    mini_option: minimizer_options_robust_stat.json
+#    channel: bbbb,bbtautau,bbyy
+#    version: 20210531
 
-.combine_workspace:
-  stage: combine
-  variables:
-    GIT_SSL_NO_VERIFY: "true"
-    output_dir: output
-  before_script:
-    - set +e
-    - shopt -s expand_aliases
-    - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
-    - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
-    - source setup.sh || echo ignore setupATLAS return code
-  artifacts:
-    paths:
-      - $output_dir
-
+###################################
+## None-resonant combination     ##
+###################################
 .NRCombine_ws:
   extends: .combine_workspace
+  variables:
+    mini_option: minimizer_options_robust_stat.json
   needs:
     - job: hhCompile
     - job: NR_blind_pro
     - job: NR_unblind_pro
   script:
-    - HHComb combine_ws --new_method -i $output_dir -c $channels -r nonres --minimizer_options configs/minimizer_options_robust.json $other_options
+    - HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options
 
 NR_unblind_com:
   extends: .NRCombine_ws
@@ -144,10 +175,23 @@ NR_all_com:
     channels: bbbb,bbtautau,bbyy,bbll,bbVV,WWWW
     other_options: ""
 
+NR_all_com_stat:
+  extends: .NRCombine_ws
+  variables:
+    input_dir: output_stat
+    mini_option: minimizer_options_robust_stat.json
+    channels: bbbb,bbtautau,bbyy,bbll,bbVV,WWWW
+    other_options: ""
+
+###################################
+## Spin 0 combination            ##
+###################################
 #.Sp0Combine_ws:
 #  extends: .combine_workspace
+#  variables:
+#    mini_option: minimizer_options_robust_stat.json
 #  script:
-#    - HHComb combine_ws --new_method -i $output_dir -r spin0 -c $channels  --minimizer_options configs/minimizer_options_robust.json -m $masspoints $other_options
+#    - HHComb combine_ws --new_method -i $input_dir -r spin0 -c $channels  --minimizer_options configs/$mini_option -m $masspoints $other_options
 #
 #Sp0_yy_tt_com:
 #  extends: .Sp0Combine_ws
@@ -183,6 +227,9 @@ NR_all_com:
 #    masspoints: "251,260,280,300,400,500,600,700,800,900,1000"
 #    other_options: "--unblind"
 
+###################################
+## Spin 0 combination            ##
+###################################
 .plot:
   stage: plotting
   variables:
@@ -195,13 +242,9 @@ NR_all_com:
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
-#  after_script:
-#    - mv $input_dir/$output_dir .
   artifacts:
     paths:
-#      - $output_dir
-      - $input_dir
-  #when: manual
+      - $input_dir/$output_dir
 
 NRPlot:
   extends: .plot
@@ -220,14 +263,18 @@ NRPlot:
 #  script:
 #    - python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json --unblind
 
+#####################################
+## Intermediate output to download ##
+#####################################
 Artifacts:
   stage: download
   variables:
     GIT_SSL_NO_VERIFY: "true"
     output_dir: output
+    output_stat_dir: output_stat
   script:
     - ls
-    - ls *
   artifacts:
     paths:
       - $output_dir
+      - $output_stat_dir
