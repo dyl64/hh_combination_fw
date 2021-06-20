@@ -209,7 +209,12 @@ NRPlot:
 Artifacts:
   stage: download
   variables:
+    GIT_SSL_NO_VERIFY: "true"
     output_dir: output
+  script:
+    - ls
+    - ls *
+    - tree .
   artifacts:
     paths:
       - $output_dir
