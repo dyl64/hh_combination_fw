@@ -209,7 +209,7 @@ Sp0_yy_tt_com:
     masspoints: "325,350,450,550"
     other_options: "--unblind"
 
-Sp0_bb_tt_com:
+Sp0_bb_tt_com_part1:
   extends: .Sp0Combine_ws
   needs:
     - job: hhCompile
@@ -217,7 +217,18 @@ Sp0_bb_tt_com:
     - job: Sp0_tt_pro
   variables:
     channels: bbbb,bbtautau
-    masspoints: "251,260,280,300,400,500,600,700,800,900,1000,1100,1200,1400,1600"
+    masspoints: "800,900,1000,1100,1200,1400,1600"
+    other_options: "--unblind"
+
+Sp0_bb_tt_com_part2:
+  extends: .Sp0Combine_ws
+  needs:
+    - job: hhCompile
+    - job: Sp0_bb_pro
+    - job: Sp0_tt_pro
+  variables:
+    channels: bbbb,bbtautau
+    masspoints: "251,260,280,300,400,500,600,700"
     other_options: "--unblind"
 
 Sp0_bb_tt_yy_com_part1:
@@ -275,7 +286,8 @@ Spin0Plot:
   extends: .plot
   needs:
     - job: Sp0_yy_tt_com
-    - job: Sp0_bb_tt_com
+    - job: Sp0_bb_tt_com_part1
+    - job: Sp0_bb_tt_com_part2
     - job: Sp0_bb_tt_yy_com_part1
     - job: Sp0_bb_tt_yy_com_part2
   script:
