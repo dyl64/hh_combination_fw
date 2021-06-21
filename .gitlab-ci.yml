@@ -220,7 +220,7 @@ Sp0_bb_tt_com:
     masspoints: "251,260,280,300,400,500,600,700,800,900,1000,1100,1200,1400,1600"
     other_options: "--unblind"
 
-Sp0_bb_tt_yy_com:
+Sp0_bb_tt_yy_com_part1:
   extends: .Sp0Combine_ws
   needs:
     - job: hhCompile
@@ -229,7 +229,19 @@ Sp0_bb_tt_yy_com:
     - job: Sp0_yy_pro
   variables:
     channels: bbbb,bbtautau,bbyy
-    masspoints: "251,260,280,300,400,500,600,700,800,900,1000"
+    masspoints: "251,260,280,300,400"
+    other_options: "--unblind"
+
+Sp0_bb_tt_yy_com_part2:
+  extends: .Sp0Combine_ws
+  needs:
+    - job: hhCompile
+    - job: Sp0_bb_pro
+    - job: Sp0_tt_pro
+    - job: Sp0_yy_pro
+  variables:
+    channels: bbbb,bbtautau,bbyy
+    masspoints: "500,600,700,800,900,1000"
     other_options: "--unblind"
 
 ###################################
@@ -264,7 +276,8 @@ Spin0Plot:
   needs:
     - job: Sp0_yy_tt_com
     - job: Sp0_bb_tt_com
-    - job: Sp0_bb_tt_yy_com
+    - job: Sp0_bb_tt_yy_com_part1
+    - job: Sp0_bb_tt_yy_com_part2
   script:
     - python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json --unblind
 
