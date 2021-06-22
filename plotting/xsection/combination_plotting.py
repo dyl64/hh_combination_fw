@@ -92,7 +92,7 @@ def save_plot(args):
         makedirs(f'{out_path}')
 
     new_method = 'json' if args.dat_list[0].endswith('json') else 'dat'
-    file_name = f'{out_path}/upperlimit_xsec_{args.resonant_type}_{new_method}.pdf'
+    file_name = f'{out_path}/upperlimit_xsec_{args.resonant_type}_{new_method}_{"obs" if args.unblind else "exp"}.pdf'
     plt.savefig(file_name)
     print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mSave file\033[0m'.rjust(40, ' '), file_name)
 
