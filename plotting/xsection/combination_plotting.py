@@ -302,7 +302,10 @@ def plot_nonres(args):
         f'A-bbbb_bbtautau_bbVV_bbyy-nocorr': ('Top 3 + '+r'$\mathrm{b\bar{b}VV}$', 14),
         f'A-bbbb_bbtautau_bbyy_WWWW-nocorr': ('Top 3 + Multilepton', 15),
         f'A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr': ('Top 4 + Multilepton', 16),
-        f'A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-nocorr': ('All 6 combined', 21),
+        f'A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-nocorr': ('All 6 combined', 31),
+        f'A-bbbb_bbtautau_bbVV_bbyy_WWWW-nocorr': ('N - '+r'$\mathrm{b\bar{b}ll}$', 21),
+        f'A-bbbb_bbll_bbtautau_bbyy_WWWW-nocorr': ('N - '+r'$\mathrm{b\bar{b}VV}$', 22),
+        f'A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr': ('N - '+r'Multilepton', 23),
 
     }
 
