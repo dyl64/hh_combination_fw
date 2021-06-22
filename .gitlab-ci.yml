@@ -87,13 +87,15 @@ hhCompile:
 NR_blind_pro:
   extends: .NRProcess
   variables:
-    channel: bbbb,bbll,bbVV,WWWW
+    input_dir: output_blind
+    channel: bbbb,bbyy,bbtautau,bbll,bbVV,WWWW
     version: 20210531
     other_options: ""
 
 NR_unblind_pro:
   extends: .NRProcess
   variables:
+    input_dir: output_unblind
     channel: bbyy,bbtautau
     version: 20210531
     other_options: "--unblind"
@@ -162,18 +164,21 @@ Sp0_yy_pro:
 NR_unblind_com:
   extends: .NRCombine_ws
   variables:
+    input_dir: output_unblind
     channels: bbtautau,bbyy
     other_options: "--unblind"
 
 NR_bb_tt_yy_com:
   extends: .NRCombine_ws
   variables:
+    input_dir: output_blind
     channels: bbbb,bbtautau,bbyy
     other_options: ""
 
 NR_all_com:
   extends: .NRCombine_ws
   variables:
+    input_dir: output_blind
     channels: bbbb,bbtautau,bbyy,bbll,bbVV,WWWW
     other_options: ""
 
@@ -324,11 +329,13 @@ Artifacts:
   stage: download
   variables:
     GIT_SSL_NO_VERIFY: "true"
-    output_dir: output
+    output_blind_dir: output_blind
+    output_unblind_dir: output_unblind
     output_stat_dir: output_stat
   script:
     - ls
   artifacts:
     paths:
-      - $output_dir
+      - $output_blind_dir
+      - $output_unblind_dir
       - $output_stat_dir
