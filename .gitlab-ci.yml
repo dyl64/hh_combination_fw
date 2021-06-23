@@ -153,7 +153,7 @@ NR_all_pro_stat:
 .NRCombine_ws:
   extends: .combine_workspace
   variables:
-    mini_option: minimizer_options_robust_stat.json
+    mini_option: minimizer_options_robust.json
   needs:
     - job: hhCompile
     - job: NR_blind_pro
@@ -332,8 +332,14 @@ NR_all_com_stat:
 NRPlot:
   extends: .plot
   needs:
+    - job: NR_unblind_com
     - job: NR_bb_tt_yy_com
     - job: NR_all_com
+    - job: NR_tt_yy_com
+    - job: NR_N-ll_com
+    - job: NR_N-VV_com
+    - job: NR_N-WW_com
+    - job: NR_all_com_stat
   variables:
     input_unblind_dir: output_unblind
     input_blind_dir: output_blind
