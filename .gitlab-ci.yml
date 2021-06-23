@@ -109,44 +109,44 @@ NR_all_pro_stat:
     version: 20210531
     other_options: ""
 
-####################################
-### Spin 0 Process channels       ##
-####################################
-#.Sp0Process:
-#  extends: .process_channel
-#  variables:
-#    output_dir: output
-#    mini_option: minimizer_options_robust.json
-#  script:
-#    - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r spin0 -o $output_dir --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_spin0_v3.yaml --unblind
-#
-#Sp0_bb_pro:
+###################################
+## Spin 0 Process channels       ##
+###################################
+.Sp0Process:
+  extends: .process_channel
+  variables:
+    output_dir: output
+    mini_option: minimizer_options_robust.json
+  script:
+    - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r spin0 -o $output_dir --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_spin0_v3.yaml --unblind
+
+Sp0_bb_pro:
+  extends: .Sp0Process
+  variables:
+    channel: bbbb
+    version: 20210531
+
+Sp0_tt_pro:
+  extends: .Sp0Process
+  variables:
+    channel: bbtautau
+    version: 20210531
+
+Sp0_yy_pro:
+  extends: .Sp0Process
+  variables:
+    channel: bbyy
+    version: 20210531
+
+# I don't think stat only is interesing for spin 0
+#Sp0_all_pro_stat:
 #  extends: .Sp0Process
 #  variables:
-#    channel: bbbb
+#    output_dir: output_stat
+#    mini_option: minimizer_options_robust_stat.json
+#    channel: bbbb,bbtautau,bbyy
 #    version: 20210531
-#
-#Sp0_tt_pro:
-#  extends: .Sp0Process
-#  variables:
-#    channel: bbtautau
-#    version: 20210531
-#
-#Sp0_yy_pro:
-#  extends: .Sp0Process
-#  variables:
-#    channel: bbyy
-#    version: 20210531
-#
-## I don't think stat only is interesing for spin 0
-##Sp0_all_pro_stat:
-##  extends: .Sp0Process
-##  variables:
-##    output_dir: output_stat
-##    mini_option: minimizer_options_robust_stat.json
-##    channel: bbbb,bbtautau,bbyy
-##    version: 20210531
-#
+
 ###################################
 ## None-resonant combination     ##
 ###################################
@@ -221,95 +221,95 @@ NR_all_com_stat:
     channels: bbbb,bbtautau,bbyy,bbll,bbVV,WWWW
     other_options: ""
 
-####################################
-### Spin 0 combination            ##
-####################################
-#.Sp0Combine_ws:
-#  extends: .combine_workspace
-#  variables:
-#    mini_option: minimizer_options_robust.json
-#  script:
-#    - HHComb combine_ws --new_method -i $input_dir -r spin0 -c $channels  --minimizer_options configs/$mini_option -m $masspoints $other_options
-#
-#Sp0_yy_tt_com:
-#  extends: .Sp0Combine_ws
-#  needs:
-#    - job: hhCompile
-#    - job: Sp0_yy_pro
-#    - job: Sp0_tt_pro
-#  variables:
-#    channels: bbyy,bbtautau
-#    masspoints: "325,350,450,550"
-#    other_options: "--unblind"
-#
-#Sp0_bb_tt_com_part1:
-#  extends: .Sp0Combine_ws
-#  needs:
-#    - job: hhCompile
-#    - job: Sp0_bb_pro
-#    - job: Sp0_tt_pro
-#  variables:
-#    channels: bbbb,bbtautau
-#    masspoints: "251,260,280,300,400,500,600,700,800"
-#    other_options: "--unblind"
-#
-#Sp0_bb_tt_com_part2:
-#  extends: .Sp0Combine_ws
-#  needs:
-#    - job: hhCompile
-#    - job: Sp0_bb_pro
-#    - job: Sp0_tt_pro
-#  variables:
-#    channels: bbbb,bbtautau
-#    masspoints: "900,1000"
-#    other_options: "--unblind"
-#
-#Sp0_bb_tt_com_part3:
-#  extends: .Sp0Combine_ws
-#  needs:
-#    - job: hhCompile
-#    - job: Sp0_bb_pro
-#    - job: Sp0_tt_pro
-#  variables:
-#    channels: bbbb,bbtautau
-#    masspoints: "1100,1200"
-#    other_options: "--unblind"
-#
-#Sp0_bb_tt_com_part4:
-#  extends: .Sp0Combine_ws
-#  needs:
-#    - job: hhCompile
-#    - job: Sp0_bb_pro
-#    - job: Sp0_tt_pro
-#  variables:
-#    channels: bbbb,bbtautau
-#    masspoints: "1400,1600"
-#    other_options: "--unblind"
-#
-#Sp0_bb_tt_yy_com_part1:
-#  extends: .Sp0Combine_ws
-#  needs:
-#    - job: hhCompile
-#    - job: Sp0_bb_pro
-#    - job: Sp0_tt_pro
-#    - job: Sp0_yy_pro
-#  variables:
-#    channels: bbbb,bbtautau,bbyy
-#    masspoints: "251,260,280,300,400"
-#    other_options: "--unblind"
-#
-#Sp0_bb_tt_yy_com_part2:
-#  extends: .Sp0Combine_ws
-#  needs:
-#    - job: hhCompile
-#    - job: Sp0_bb_pro
-#    - job: Sp0_tt_pro
-#    - job: Sp0_yy_pro
-#  variables:
-#    channels: bbbb,bbtautau,bbyy
-#    masspoints: "500,600,700,800,900,1000"
-#    other_options: "--unblind"
-#
+###################################
+## Spin 0 combination            ##
+###################################
+.Sp0Combine_ws:
+  extends: .combine_workspace
+  variables:
+    mini_option: minimizer_options_robust.json
+  script:
+    - HHComb combine_ws --new_method -i $input_dir -r spin0 -c $channels  --minimizer_options configs/$mini_option -m $masspoints $other_options
+
+Sp0_yy_tt_com:
+  extends: .Sp0Combine_ws
+  needs:
+    - job: hhCompile
+    - job: Sp0_yy_pro
+    - job: Sp0_tt_pro
+  variables:
+    channels: bbyy,bbtautau
+    masspoints: "325,350,450,550"
+    other_options: "--unblind"
+
+Sp0_bb_tt_com_part1:
+  extends: .Sp0Combine_ws
+  needs:
+    - job: hhCompile
+    - job: Sp0_bb_pro
+    - job: Sp0_tt_pro
+  variables:
+    channels: bbbb,bbtautau
+    masspoints: "251,260,280,300,400,500,600,700,800"
+    other_options: "--unblind"
+
+Sp0_bb_tt_com_part2:
+  extends: .Sp0Combine_ws
+  needs:
+    - job: hhCompile
+    - job: Sp0_bb_pro
+    - job: Sp0_tt_pro
+  variables:
+    channels: bbbb,bbtautau
+    masspoints: "900,1000"
+    other_options: "--unblind"
+
+Sp0_bb_tt_com_part3:
+  extends: .Sp0Combine_ws
+  needs:
+    - job: hhCompile
+    - job: Sp0_bb_pro
+    - job: Sp0_tt_pro
+  variables:
+    channels: bbbb,bbtautau
+    masspoints: "1100,1200"
+    other_options: "--unblind"
+
+Sp0_bb_tt_com_part4:
+  extends: .Sp0Combine_ws
+  needs:
+    - job: hhCompile
+    - job: Sp0_bb_pro
+    - job: Sp0_tt_pro
+  variables:
+    channels: bbbb,bbtautau
+    masspoints: "1400,1600"
+    other_options: "--unblind"
+
+Sp0_bb_tt_yy_com_part1:
+  extends: .Sp0Combine_ws
+  needs:
+    - job: hhCompile
+    - job: Sp0_bb_pro
+    - job: Sp0_tt_pro
+    - job: Sp0_yy_pro
+  variables:
+    channels: bbbb,bbtautau,bbyy
+    masspoints: "251,260,280,300,400"
+    other_options: "--unblind"
+
+Sp0_bb_tt_yy_com_part2:
+  extends: .Sp0Combine_ws
+  needs:
+    - job: hhCompile
+    - job: Sp0_bb_pro
+    - job: Sp0_tt_pro
+    - job: Sp0_yy_pro
+  variables:
+    channels: bbbb,bbtautau,bbyy
+    masspoints: "500,600,700,800,900,1000"
+    other_options: "--unblind"
+
 ###################################
 ## Plotting                      ##
 ###################################
@@ -351,18 +351,18 @@ NRPlot:
       - $input_unblind_dir/$output_dir
       - $input_blind_dir/$output_dir
 
-#Spin0Plot:
-#  extends: .plot
-#  needs:
-#    - job: Sp0_yy_tt_com
-#    - job: Sp0_bb_tt_com_part1
-#    - job: Sp0_bb_tt_com_part2
-#    - job: Sp0_bb_tt_com_part3
-#    - job: Sp0_bb_tt_com_part4
-#    - job: Sp0_bb_tt_yy_com_part1
-#    - job: Sp0_bb_tt_yy_com_part2
-#  script:
-#    - python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json --unblind
+Spin0Plot:
+  extends: .plot
+  needs:
+    - job: Sp0_yy_tt_com
+    - job: Sp0_bb_tt_com_part1
+    - job: Sp0_bb_tt_com_part2
+    - job: Sp0_bb_tt_com_part3
+    - job: Sp0_bb_tt_com_part4
+    - job: Sp0_bb_tt_yy_com_part1
+    - job: Sp0_bb_tt_yy_com_part2
+  script:
+    - python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json --unblind
 
 #####################################
 ## Intermediate output to download ##
