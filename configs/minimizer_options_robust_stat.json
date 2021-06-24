@@ -1,0 +1,11 @@
+{
+    "optimize": 2,
+    "strategy": 1,
+    "eps": 1.0,
+    "binned_likelihood": true,
+    "print_level": -1,
+    "timer": false,
+    "num_cpu": 1,
+    "offset": true,
+    "fix_param": "ATLAS_E*=0,ATLAS_F*=0,ATLAS_H*=0,ATLAS_J*=0,ATLAS_L*=0,ATLAS_P*=0,ATLAS_l*=0, alpha_*=0,THEO*=0,SPURIOUS*=0"
+}
