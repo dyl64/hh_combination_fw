@@ -15,9 +15,9 @@ import parameter_space as ps
 from parameter_space import parameter_point as param_pt
 import correlation_scheme as cs
 
-import sge_scheduler as sge
-import lsf_scheduler as lsf
-import condor_scheduler as condor
+#import sge_scheduler as sge
+#import lsf_scheduler as lsf
+#import condor_scheduler as condor
 
 
 mass_pts = {
@@ -262,7 +262,7 @@ class model_scan_manager:
         mass_label = get_search_particle_mass_key(self.model)
         nLines = 0
     
-        with open(self.scan_points_path, 'rb') as in_file:
+        with open(self.scan_points_path, 'rt') as in_file:
             reader = csv.DictReader(in_file, delimiter=' ')
             header = reader.fieldnames
             print(header)
@@ -326,7 +326,7 @@ class model_scan_manager:
                     writer = csv.DictWriter(out, delimiter=' ', fieldnames=header)
                     writer.writeheader()
                     for i in range(nLinesPerPart):
-                        writer.writerow(reader.next())
+                        writer.writerow(next(reader))
 
 
     def write_process_pts_list(self):
@@ -354,8 +354,7 @@ class model_scan_manager:
             else:
                 machines = None
 
-            sge.submit_job(self.job_task_path, task_args=task_args, log_dir=self.job_log_dir, job_name=job_id, resources=resources,
-                            machines=machines)
+            #sge.submit_job(self.job_task_path, task_args=task_args, log_dir=self.job_log_dir, job_name=job_id, resources=resources, machines=machines)
 
     def submit_jobs_lsf(self):
         """Submits jobs using the LSF job scheduler (bsub)."""
@@ -376,8 +375,7 @@ class model_scan_manager:
             else:
                 machines = None
 
-            lsf.submit_job(self.job_task_path, task_args=task_args, log_dir=self.job_log_dir, job_name=job_id, resources=resources,
-                            machines=machines)
+            #lsf.submit_job(self.job_task_path, task_args=task_args, log_dir=self.job_log_dir, job_name=job_id, resources=resources,machines=machines)
 
     def submit_jobs_condor(self):
         """Submits jobs using condor."""
@@ -390,7 +388,7 @@ class model_scan_manager:
             job_dir = options['job_dir']
             print("- Submitting {}..".format(job_id))
             
-            condor.submit_job(self.job_task_path, task_args=task_args, job_name=job_id, log_dir=self.job_log_dir)
+            #condor.submit_job(self.job_task_path, task_args=task_args, job_name=job_id, log_dir=self.job_log_dir)
 
 
     def pool_results(self):
@@ -681,8 +679,10 @@ class scan_job:
                                                rescale_cfg_file_path,
                                                input_workspace_path,
                                                rescaled_workspace_path,
-                                               new_poiname,
-                                               scaling,
+                                               oldpoi_name='xsec_br',
+                                               newpoi_name='xsec_br_model_rescaled',
+                                               scaling=str(scaling),
+                                               pois_to_keep='xsec_br_model_rescaled',
                                                oldpoi_equivalent_name='mu_SM_normalized')
 
                 wsc.run_edit_workspace(rescale_cfg_file_path, rescale_logfile_path)
@@ -907,4 +907,4 @@ def resubmit_failed_jobs(previous_job_manager_config_path, new_job_manager_confi
     if batch == 'condor':
         model_scan_mgr.submit_jobs_condor()
     else:
-        print "The requested batch system does not exist: " + batch
+        print ("The requested batch system does not exist: " + batch)
