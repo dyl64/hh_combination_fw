@@ -2,7 +2,7 @@
 
 ####################
 # - SPECIFY THE `hh_combination_fw path` (MODIFY THIS TO YOUR LOCAL SETUP!)
-export hh_combination_fw path="/afs/cern.ch/work/y/yuhao/public/hh_combination_fw/"
+export hh_combination_fw_path="/afs/cern.ch/work/y/yuhao/public/DiHiggs/hh_combination_fw/"
 
 to_be_locked()
 {
@@ -24,7 +24,7 @@ job()
 	cd ${hh_combination_fw_path}
 	
 	echo "Running ${hh_combination_fw_path}/scans/job_script/scan_job.py ${CONFIG_FILE}"
-	${hh_combination_fw_path}/scans/job_script/scan_job.py ${CONFIG_FILE}
+	python ${hh_combination_fw_path}/scans/job_script/scan_job.py ${CONFIG_FILE}
 	
 	exit 0
 }
