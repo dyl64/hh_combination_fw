@@ -10,7 +10,7 @@ import uproot
 import pandas as pd
 import numpy as np
 import json
-import pdb
+from pdb import set_trace
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from matplotlib import rcParams
@@ -20,6 +20,41 @@ rcParams['font.family'] = "sans-serif"
 rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
 
 columns = ['xsec_m2s_NP_profiled', 'xsec_m1s_NP_profiled', 'xsec_p1s_NP_profiled', 'xsec_p2s_NP_profiled', 'xsec_exp_NP_profiled', 'xsec_obs_NP_profiled'] # don't change order
+
+scenario_map = {
+    # f'{args.command}-bbbb.dat': (r'$\mathrm{b\bar{b}b\bar{b}}$', 1),
+    # f'{args.command}-bbtautau.dat': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$', 2),
+    # f'{args.command}-bbyy.dat': (r'$\mathrm{b\bar{b}\gamma\gamma}$', 3),
+    # f'{args.command}-bbll.dat': (r'$\mathrm{b\bar{b}ll}$', 4),
+    # f'{args.command}-bbVV.dat': (r'$\mathrm{b\bar{b}VV}$', 5),
+    # f'{args.command}-WWWW.dat': (r'$\mathrm{Multilepton}$', 6),
+    # f'{args.command}-combined-A-bbtautau_bbyy-nocorr.dat': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-} + b\bar{b}\gamma\gamma}$', 11),
+    # f'{args.command}-combined-A-bbbb_bbtautau_bbyy-nocorr.dat': ('Top 3 combined', 12),
+    # f'{args.command}-combined-A-bbbb_bbll_bbtautau_bbyy-nocorr.dat': ('Top 3 + '+r'$\mathrm{b\bar{b}ll}$', 13),
+    # f'{args.command}-combined-A-bbbb_bbtautau_bbVV_bbyy-nocorr.dat': ('Top 3 + '+r'$\mathrm{b\bar{b}VV}$', 14),
+    # f'{args.command}-combined-A-bbbb_bbtautau_bbyy_WWWW-nocorr.dat': ('Top 3 + Multilepton', 15),
+    # f'{args.command}-combined-A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr.dat': ('Top 4 + Multilepton', 16),
+    # f'{args.command}-combined-A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-nocorr.dat': ('All 6 combined', 21),
+    
+    f'bbbb': (r'$\mathrm{b\bar{b}b\bar{b}}$', 1, 'b'),
+    f'bbtautau': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$', 2, 'purple'),
+    f'bbyy': (r'$\mathrm{b\bar{b}\gamma\gamma}$', 3, 'r'),
+    f'bbll': (r'$\mathrm{b\bar{b}ll}$', 4, 'darkcryan'),
+    f'bbVV': (r'$\mathrm{b\bar{b}VV}$', 5, 'darkorange'),
+    f'WWWW': (r'$\mathrm{Multilepton}$', 6, 'orangered'),
+    f'A-bbtautau_bbyy-nocorr': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-} + b\bar{b}\gamma\gamma}$', 11, 'black'),
+    f'A-bbbb_bbtautau_bbyy-nocorr': ('Top 3 combined', 12, 'black'),
+    f'A-bbbb_bbll_bbtautau_bbyy-nocorr': ('Top 3 + '+r'$\mathrm{b\bar{b}ll}$', 13, 'black'),
+    f'A-bbbb_bbtautau_bbVV_bbyy-nocorr': ('Top 3 + '+r'$\mathrm{b\bar{b}VV}$', 14, 'black'),
+    f'A-bbbb_bbtautau_bbyy_WWWW-nocorr': ('Top 3 + Multilepton', 15, 'black'),
+    f'A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr': ('Top 4 + Multilepton', 16, 'black'),
+    f'A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-nocorr': ('All 6 combined', 31, 'black'),
+    f'A-bbbb_bbtautau_bbVV_bbyy_WWWW-nocorr': ('N - '+r'$\mathrm{b\bar{b}ll}$', 21, 'black'),
+    f'A-bbbb_bbll_bbtautau_bbyy_WWWW-nocorr': ('N - '+r'$\mathrm{b\bar{b}VV}$', 22, 'black'),
+    f'A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr': ('N - '+r'Multilepton', 23, 'black'),
+
+}
+
 
 def polish_ax(args, ax, fontsize):
     # Set frequency of ticks
@@ -85,14 +120,15 @@ def drawATLASlabel(fig, ax, internal=True, reg_text=None, xmin=0.05, ymax=0.85,
 
 
 def save_plot(args):
-    input_folder = (args.dat_list[0]).split('limits')
-    out_path = input_folder[0] + 'figures' if len(input_folder) > 1 else 'figures'
+    input_folder = (args.dat_list[0]).split('limits') if args.dat_list else (args.csv_list[0]).split('figures')
+    out_path = input_folder[0] + 'figures' if len(input_folder) > 1 else path.dirname(input_folder[0])
+    set_trace()
     if not path.exists(f'{out_path}'):
         print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mCreating new folder\033[0m'.rjust(40, ' '), out_path)
         makedirs(f'{out_path}')
 
-    new_method = 'json' if args.dat_list[0].endswith('json') else 'dat'
-    file_name = f'{out_path}/upperlimit_xsec_{args.resonant_type}_{new_method}_{"obs" if args.unblind else "exp"}.pdf'
+    new_method = 'csv' if args.csv_list else 'json' if args.dat_list and args.dat_list[0].endswith('json') else 'dat'
+    file_name = f'{out_path}/upperlimit_xsec_{args.command}_{new_method}_{"obs" if args.unblind else "exp"}.pdf'
     plt.savefig(file_name)
     print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mSave file\033[0m'.rjust(40, ' '), file_name)
 
@@ -108,40 +144,9 @@ def rescale(df, columns, SM_HH_xsec = 31.05 / 1000, absolute=False):
     return df
 
 def plot_spin0(args):
-    args.resonant_type = 'spin0'
     ind_list = sorted(args.dat_list)
     com_list = args.com_list
     new_method = True if args.dat_list[0].endswith('json') else False
-
-    scenario_map = {
-        f'{args.resonant_type}-bbbb.dat': (r'$\mathrm{b\bar{b}b\bar{b}}$', 'b'),
-        f'{args.resonant_type}-bbtautau.dat': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$', 'purple'),
-        f'{args.resonant_type}-bbyy.dat': (r'$\mathrm{b\bar{b}\gamma\gamma}$', 'r'),
-        f'{args.resonant_type}-bbll.dat': (r'$\mathrm{b\bar{b}ll}$', 'darkcryan'),
-        f'{args.resonant_type}-bbVV.dat': (r'$\mathrm{b\bar{b}VV}$', 'darkorange'),
-        f'{args.resonant_type}-WWWW.dat': (r'$\mathrm{Multilepton}$', 'orangered'),
-        f'{args.resonant_type}-combined-A-bbtautau_bbyy-nocorr.dat': (r'$b\bar{b}\tau^{+}\tau^{-} + b\bar{b}\gamma\gamma$', 'black'),
-        f'{args.resonant_type}-combined-A-bbbb_bbtautau_bbyy-nocorr.dat': ('Top 3 combined', 'black'),
-        f'{args.resonant_type}-combined-A-bbbb_bbll_bbtautau_bbyy-nocorr.dat': ('Top 3' + r'$\mathrm{b\bar{b}ll}$', 'black'),
-        f'{args.resonant_type}-combined-A-bbbb_bbtautau_bbVV_bbyy-nocorr.dat': ('Top 3' + r'$\mathrm{b\bar{b}VV}$', 'black'),
-        f'{args.resonant_type}-combined-A-bbbb_bbtautau_bbyy_WWWW-nocorr.dat': ('Top 3 + Multilepton', 'black'),
-        f'{args.resonant_type}-combined-A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr.dat': (r'Top 4 + Multilepton', 'black'),
-        f'{args.resonant_type}-combined-A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-nocorr.dat': ('All 6 combined', 'black'),
-
-        f'bbbb': (r'$\mathrm{b\bar{b}b\bar{b}}$', 'b'),
-        f'bbtautau': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$', 'purple'),
-        f'bbyy': (r'$\mathrm{b\bar{b}\gamma\gamma}$', 'r'),
-        f'bbll': (r'$\mathrm{b\bar{b}ll}$', 'darkcryan'),
-        f'bbVV': (r'$\mathrm{b\bar{b}VV}$', 'darkorange'),
-        f'WWWW': (r'$\mathrm{Multilepton}$', 'orangered'),
-        f'A-bbtautau_bbyy-nocorr': (r'$b\bar{b}\tau^{+}\tau^{-} + b\bar{b}\gamma\gamma$', 'black'),
-        f'A-bbbb_bbtautau_bbyy-nocorr': ('Top 3 combined', 'black'),
-        f'A-bbbb_bbll_bbtautau_bbyy-nocorr': ('Top 3 + $b\bar{b}ll$', 'black'),
-        f'A-bbbb_bbtautau_bbVV_bbyy-nocorr': ('Top 3 + $b\bar{b}VV$', 'black'),
-        f'A-bbbb_bbtautau_bbyy_WWWW-nocorr': ('Top 3 + Multilepton', 'black'),
-        f'A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr': (r'Top 4 + Multilepton', 'black'),
-        f'A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-nocorr': ('All 6 combined', 'black'),
-    }
 
     ind_dfs = []
     ind_files = []
@@ -159,7 +164,6 @@ def plot_spin0(args):
         
         dfs = pd.concat(dfs)
         ind_dfs = [group.sort_values(by = 'parameter', ascending = True) for _, group in dfs.groupby('channel')]
-        ind_files = [i.iloc[0]['channel'] for i in ind_dfs]
 
         for dat in com_list + ind_list:
             with open(dat) as f:
@@ -205,6 +209,19 @@ def plot_spin0(args):
     com_df_new = com_df_new.sort_values(by = 'parameter')
     print(com_df_new[columns[-2:] + ['parameter', 'filename', 'channels']])
 
+    input_folder = (args.dat_list[0]).split('limits') if args.dat_list else (args.csv_list[0]).split('limits')
+    out_path = input_folder[0] + 'figures' if len(input_folder) > 1 else 'figures'
+    com_df_new.to_csv(f'{out_path}/upperlimit_xsec_{args.command}_{"json" if new_method else "dat"}_{"obs" if args.unblind else "exp"}_combined.csv', index=False)
+
+    for df in ind_dfs:
+        file_name = df.iloc[0]['channel']
+        df.to_csv(f'{out_path}/upperlimit_xsec_{args.command}_{"json" if new_method else "dat"}_{"obs" if args.unblind else "exp"}_{file_name}.csv', index=False)
+
+    plot_spin0_from_df(args, com_df_new, ind_dfs)
+
+
+
+def plot_spin0_from_df(args, com_df_new, ind_dfs):
 
     fontsize = 18
     textlable = 'Spin-0'
@@ -216,9 +233,11 @@ def plot_spin0(args):
     ax.set_xlim([230, 6000])
 
     # Plot individual
-    for df, file_name in zip(ind_dfs, ind_files):
-        ax.plot( 'parameter', 'xsec_exp_NP_profiled', data=df, color=scenario_map[file_name][1], linestyle='dashed', linewidth=2, zorder = 1.1, alpha=0.8, label = scenario_map[file_name][0] + ' (Exp.)')
-        ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=df, color=scenario_map[file_name][1], linestyle='solid',  linewidth=2, zorder = 1.1, alpha=0.8, label = scenario_map[file_name][0] + ' (Remove.)')
+    for df in ind_dfs:
+        assert(len(df['channel'].unique()) == 1)
+        file_name = df.iloc[0]['channel']
+        ax.plot( 'parameter', 'xsec_exp_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='dashed', linewidth=2, zorder = 1.1, alpha=0.8, label = scenario_map[file_name][0] + ' (Exp.)')
+        ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='solid',  linewidth=2, zorder = 1.1, alpha=0.8, label = scenario_map[file_name][0] + ' (Remove.)')
         maxmass = max(df['parameter'])
 
         # Draw a vertical dash line to show where the channel stops
@@ -293,43 +312,9 @@ def plot_spin0(args):
 
 
 def plot_nonres(args):
-    args.resonant_type = 'nonres'
+    args.command = 'nonres'
     dat_list = args.dat_list
     new_method = True if dat_list[0].endswith('json') else False
-
-    scenario_map = {
-        f'{args.resonant_type}-bbbb.dat': (r'$\mathrm{b\bar{b}b\bar{b}}$', 1),
-        f'{args.resonant_type}-bbtautau.dat': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$', 2),
-        f'{args.resonant_type}-bbyy.dat': (r'$\mathrm{b\bar{b}\gamma\gamma}$', 3),
-        f'{args.resonant_type}-bbll.dat': (r'$\mathrm{b\bar{b}ll}$', 4),
-        f'{args.resonant_type}-bbVV.dat': (r'$\mathrm{b\bar{b}VV}$', 5),
-        f'{args.resonant_type}-WWWW.dat': (r'$\mathrm{Multilepton}$', 6),
-        f'{args.resonant_type}-combined-A-bbtautau_bbyy-nocorr.dat': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-} + b\bar{b}\gamma\gamma}$', 11),
-        f'{args.resonant_type}-combined-A-bbbb_bbtautau_bbyy-nocorr.dat': ('Top 3 combined', 12),
-        f'{args.resonant_type}-combined-A-bbbb_bbll_bbtautau_bbyy-nocorr.dat': ('Top 3 + '+r'$\mathrm{b\bar{b}ll}$', 13),
-        f'{args.resonant_type}-combined-A-bbbb_bbtautau_bbVV_bbyy-nocorr.dat': ('Top 3 + '+r'$\mathrm{b\bar{b}VV}$', 14),
-        f'{args.resonant_type}-combined-A-bbbb_bbtautau_bbyy_WWWW-nocorr.dat': ('Top 3 + Multilepton', 15),
-        f'{args.resonant_type}-combined-A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr.dat': ('Top 4 + Multilepton', 16),
-        f'{args.resonant_type}-combined-A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-nocorr.dat': ('All 6 combined', 21),
-        
-        f'bbbb': (r'$\mathrm{b\bar{b}b\bar{b}}$', 1),
-        f'bbtautau': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$', 2),
-        f'bbyy': (r'$\mathrm{b\bar{b}\gamma\gamma}$', 3),
-        f'bbll': (r'$\mathrm{b\bar{b}ll}$', 4),
-        f'bbVV': (r'$\mathrm{b\bar{b}VV}$', 5),
-        f'WWWW': (r'$\mathrm{Multilepton}$', 6),
-        f'A-bbtautau_bbyy-nocorr': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-} + b\bar{b}\gamma\gamma}$', 11),
-        f'A-bbbb_bbtautau_bbyy-nocorr': ('Top 3 combined', 12),
-        f'A-bbbb_bbll_bbtautau_bbyy-nocorr': ('Top 3 + '+r'$\mathrm{b\bar{b}ll}$', 13),
-        f'A-bbbb_bbtautau_bbVV_bbyy-nocorr': ('Top 3 + '+r'$\mathrm{b\bar{b}VV}$', 14),
-        f'A-bbbb_bbtautau_bbyy_WWWW-nocorr': ('Top 3 + Multilepton', 15),
-        f'A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr': ('Top 4 + Multilepton', 16),
-        f'A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-nocorr': ('All 6 combined', 31),
-        f'A-bbbb_bbtautau_bbVV_bbyy_WWWW-nocorr': ('N - '+r'$\mathrm{b\bar{b}ll}$', 21),
-        f'A-bbbb_bbll_bbtautau_bbyy_WWWW-nocorr': ('N - '+r'$\mathrm{b\bar{b}VV}$', 22),
-        f'A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr': ('N - '+r'Multilepton', 23),
-
-    }
 
     dfs = []
     if new_method:
@@ -420,15 +405,15 @@ def plot_nonres(args):
 
 def plot_common(args, fig, ax, textlable, fontsize, legendsize):
     # ATLAS cosmetics
-    if args.resonant_type == 'nonres':
+    if args.command == 'nonres':
         drawATLASlabel(fig, ax, internal=True, reg_text=textlable, xmin=0.05, ymax=0.9, fontsize_title=20, fontsize_label=fontsize-1, line_spacing=1.2)
-    elif args.resonant_type == 'spin0':
+    elif args.command == 'spin0':
         drawATLASlabel(fig, ax, internal=True, reg_text=textlable, xmin=0.2, ymax=0.9, fontsize_title=20, fontsize_label=fontsize-1, line_spacing=1)
 
     # Legend
-    if args.resonant_type == 'nonres':
+    if args.command == 'nonres':
         plt.legend(bbox_to_anchor=(1., 1), ncol=1, framealpha=0., prop={'size': legendsize})
-    elif args.resonant_type == 'spin0':
+    elif args.command == 'spin0':
         new_handlers, new_labels = [], []
         current_handles, current_labels = plt.gca().get_legend_handles_labels()
 
@@ -446,7 +431,19 @@ def main(args):
     if args.command == 'nonres':
         plot_nonres(args)
     elif args.command == 'spin0':
-        plot_spin0(args)
+        if args.csv_list:
+            ind_dfs = []
+            for csv in args.csv_list:
+                if csv.endswith('combined.csv'):
+                    com_df_new = pd.read_csv(csv)
+                else:
+                    ind_dfs.append(pd.read_csv(csv))
+
+            # com_df_new = 
+            plot_spin0_from_df(args, com_df_new, ind_dfs)
+            pass
+        else:
+            plot_spin0(args)
 
 
 if __name__ == '__main__':
@@ -464,11 +461,14 @@ if __name__ == '__main__':
 
     spin0 = subcommands.add_parser('spin0', help='Plot spin0.')
     spin0.add_argument('spin0', nargs='*')
-    spin0.add_argument('--dat_list', nargs='+', type=str, default=['../data-files/spin0-bbtautau.dat', '../data-files/spin0-bbyy.dat', '../data-files/spin0-bbbb.dat'], required=False, help='')
+    inputs = spin0.add_mutually_exclusive_group(required=True)
+    inputs.add_argument('--csv_list', nargs='+', type=str, default=None, required=False, help='')
+    inputs.add_argument('--dat_list', nargs='+', type=str, default=None, required=False, help='')
     spin0.add_argument('--com_list', nargs='+', type=str, default=['../data-files/spin0-combined-A-bbbb_bbtautau-nocorr.dat', '../data-files/spin0-combined-A-bbtautau_bbyy-nocorr.dat', '../data-files/spin0-combined-A-bbbb_bbtautau_bbyy-nocorr.dat'], required=False, help='')
     spin0.add_argument('--logx', action='store_true', default=False, required=False, help='')
     spin0.add_argument('--unblind', action='store_true', default=False, required=False, help='')
     spin0.add_argument('--debug', action='store_true', default=False, required=False, help='')
+
 
 
     args = parser.parse_args()
