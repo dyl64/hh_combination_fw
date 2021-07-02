@@ -469,9 +469,5 @@ if __name__ == '__main__':
     spin0.add_argument('--unblind', action='store_true', default=False, required=False, help='')
     spin0.add_argument('--debug', action='store_true', default=False, required=False, help='')
 
-
-
-
-
     args = parser.parse_args()
     main(args)
