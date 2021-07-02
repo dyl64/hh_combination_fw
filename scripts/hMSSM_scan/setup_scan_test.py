@@ -12,13 +12,12 @@ hh_combination_fw_path = os.environ['hh_combination_fw_path']
 model = 'hMSSM'
 
 scan_run_name = 'hMSSM_test'
-original_workspaces_dir = '/afs/cern.ch/work/y/yuhao/public/hh_combination_fw/output/rescaled/spin0/'
+original_workspaces_dir = '/afs/cern.ch/work/y/yuhao/public/DiHiggs/hh_combination_fw/output/rescaled/spin0/'
 scan_run_dir = os.path.join(hh_combination_fw_path, './scans/scan_runs', scan_run_name)
 job_task_path = os.path.join(hh_combination_fw_path, './scans/job_script/task_with_lock.sh')
 
-scan_points_path = os.path.join(hh_combination_fw_path, './hMSSM/hMSSM_scan_point_test.dat')
+scan_points_path = os.path.join(hh_combination_fw_path, './scripts/hMSSM_scan/hMSSM_scan_point_test.dat')
 
-machines = "SL6@heppc300.ph.qmul.ac.uk,SL6@heppc301.ph.qmul.ac.uk,SL6@heppc302.ph.qmul.ac.uk,SL6@heppc303.ph.qmul.ac.uk,SL6@heppc400.ph.qmul.ac.uk,SL6@heppc401.ph.qmul.ac.uk,SL6@heppc402.ph.qmul.ac.uk,SL6@heppc403.ph.qmul.ac.uk,SL6@heppc404.ph.qmul.ac.uk,SL6@heppc405.ph.qmul.ac.uk,SL6@heppc406.ph.qmul.ac.uk,SL6@heppc407.ph.qmul.ac.uk,SL6@heppc500.ph.qmul.ac.uk,SL6@heppc501.ph.qmul.ac.uk,SL6@heppc502.ph.qmul.ac.uk,SL6@heppc503.ph.qmul.ac.uk,SL6@heppc504.ph.qmul.ac.uk"
 
 # job_options = {'resources': 'h_rss=12G,h_vmem=12G'}
 resources = 'h_rss=15G,h_vmem=15G'
@@ -31,7 +30,7 @@ model_scan_mgr = ms.model_scan_manager(
                                       channels = ['bbbb','bbtautau'],
                                       scan_points_path = scan_points_path,
                                       original_workspaces_dir = original_workspaces_dir,
-                                      nJobs = 1,
+                                      nJobs = 5,
                                       job_options={},
                                       job_task_path = job_task_path,
                                       correlation_scheme_version = 'nocorr',

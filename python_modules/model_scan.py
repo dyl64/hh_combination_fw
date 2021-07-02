@@ -17,7 +17,7 @@ import correlation_scheme as cs
 
 #import sge_scheduler as sge
 #import lsf_scheduler as lsf
-#import condor_scheduler as condor
+import condor_scheduler as condor
 
 
 mass_pts = {
@@ -388,7 +388,7 @@ class model_scan_manager:
             job_dir = options['job_dir']
             print("- Submitting {}..".format(job_id))
             
-            #condor.submit_job(self.job_task_path, task_args=task_args, job_name=job_id, log_dir=self.job_log_dir)
+            condor.submit_job(self.job_task_path, task_args=task_args, job_name=job_id, log_dir=self.job_log_dir)
 
 
     def pool_results(self):

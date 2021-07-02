@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # - Source your job definition (MODIFY THIS TO YOUR LOCAL SETUP!)
-source ${hh_combination_fw_path}/scans/job_script/job_model_scan.sh 
+source /afs/cern.ch/work/y/yuhao/public/DiHiggs/hh_combination_fw/scans/job_script/job_model_scan.sh 
 
 # - Lock options
 
@@ -25,7 +25,7 @@ trytolock()
    #         upon exiting.
    # - 2, b) if it fails it returns 2 and exits the function
    DUMMY=$HOSTNAME-$$
-	ln -s ${DUMMY} ${LOCKFILE} 2>/dev/null || return 2
+	ln -s ${LOCKFILE} ${DUMMY} 2>/dev/null || return 2
 	trap removelock EXIT
 }
 

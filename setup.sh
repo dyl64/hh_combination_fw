@@ -10,7 +10,9 @@ export hh_combination_fw_path="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" >/dev
 # Setup workspaceCombiner
 # Copied from workspaceCombiner/setup.sh (Rui Zhang)
 cd submodules/workspaceCombiner
-setupATLAS
+export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase # use your path
+source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh
+#setupATLAS
 #lsetup "views LCG_97_ATLAS_1 x86_64-centos7-gcc8-opt"
 lsetup "views LCG_98python3 x86_64-centos7-gcc8-opt"
 
