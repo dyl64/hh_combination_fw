@@ -373,31 +373,35 @@ def plot_nonres(args):
 
 def plot_nonres_from_df(args, df):
     fig, ax = plt.subplots(1, 1, figsize=(9, 8))
+    df = df.sort_values(by = 'order', ascending = False)
 
-    ax.set_ylim([0, df.shape[0]*2])
+    ax.set_ylim([0, df.shape[0]*1.8])
     ax.set_xlim([1, 1000 if args.logx else 30])
     fontsize = 18
 
     # Plot bands
     exp_text_x, obs_text_x, ref_text_x = 200, 500, 700
-    y_shift = 0.25 if 'ref' in df else 0.5
+    y_shift = 0.65 if 'ref' in df else 0.5
 
     for y, (index, row) in enumerate(df.iterrows()):
         if args.unblind:
             obs = row[columns[5]]
             ax.vlines(obs, y, y+1, colors = 'k', linestyles = 'solid', zorder = 1.1, label = 'Observed' if y==0 else '')
-            ax.scatter(obs, y+y_shift, s=50, c='k', marker='o', zorder = 1.1)
-            ax.text(obs_text_x, y+0.5, f'{obs:.2f}', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
+            ax.scatter(obs, y+0.5, s=50, c='k', marker='o', zorder = 1.1)
+            obs_str = f'{obs:.2f}' if index not in ['bbWW'] else f'{obs:.0f}'
+            print(index, obs_str, 'y=', y)
+            ax.text(obs_text_x, y+y_shift, obs_str, horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
         exp = row[columns[4]]
         ax.vlines(exp, y, y+1, colors = 'k', linestyles = 'dotted', zorder = 1.1, label = 'Expected' if y==0 else '')
         ax.fill_betweenx([y,y+1], row[columns[0]], row[columns[3]], facecolor = 'hh:darkyellow', label = r'$\mathrm{Expected \pm 2 \sigma}$' if y==0 else '')
         ax.fill_betweenx([y,y+1], row[columns[1]], row[columns[2]], facecolor = 'hh:medturquoise', label = r'$\mathrm{Expected \pm 1 \sigma}$' if y==0 else '')
         # Plot text
-        ax.text(exp_text_x, y+y_shift, f'{exp:.2f}', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
+        exp_str = f'{exp:.2f}' if index not in ['bbWW'] else f'{exp:.0f}'
+        ax.text(exp_text_x, y+y_shift, exp_str, horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
 
         if 'ref' in df:
             ref = row['ref']
-            ax.text(ref_text_x, y+y_shift, ref, horizontalalignment='left', verticalalignment='center', fontsize=fontsize)
+            ax.text(exp_text_x*0.75, y+1-y_shift, ref, horizontalalignment='left', verticalalignment='center', fontsize=fontsize-8)
 
     if args.unblind:
         ax.text(obs_text_x, (y + 1)*1.1, 'Obs.', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
