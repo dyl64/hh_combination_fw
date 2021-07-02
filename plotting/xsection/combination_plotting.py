@@ -58,8 +58,8 @@ scenario_map = {
 
 def polish_ax(args, ax, fontsize):
     # Set frequency of ticks
-    ax.tick_params(direction='out', length=6, width=1.5, colors='k', which='major')
-    ax.tick_params(direction='out', length=4, width=1, colors='k', which='minor')
+    ax.tick_params(direction='out', length=10, width=1.5, colors='k', which='major')
+    ax.tick_params(direction='out', length=6, width=1, colors='k', which='minor')
 
     # Add space between ticklabel and axis
     ax.tick_params(axis='x', which='major', pad=10)
@@ -107,7 +107,7 @@ def drawATLASlabel(fig, ax, internal=True, reg_text=None, xmin=0.05, ymax=0.85,
             verticalalignment='bottom', horizontalalignment='left',
             fontsize=fontsize_title, c=c)
 
-    lumi_label = '$\\sqrt{s} = $13 TeV, %s fb$^{-1}$' % (r'126$-$139')
+    lumi_label = '$\\sqrt{s} = $13 TeV, %s fb$^{-1}$' % (r'27.5$-$139')
 
 
     full_label = lumi_label + '\n'+ reg_text
@@ -120,14 +120,13 @@ def drawATLASlabel(fig, ax, internal=True, reg_text=None, xmin=0.05, ymax=0.85,
 
 
 def save_plot(args):
-    input_folder = (args.dat_list[0]).split('limits') if args.dat_list else (args.csv_list[0]).split('figures')
+    input_folder = (args.dat_list[0]).split('limits') if args.dat_list else (args.csv_list[0]).split('figures') if args.csv_list else (args.summary_json).split('figures') if args.summary_json else None
     out_path = input_folder[0] + 'figures' if len(input_folder) > 1 else path.dirname(input_folder[0])
-    set_trace()
     if not path.exists(f'{out_path}'):
         print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mCreating new folder\033[0m'.rjust(40, ' '), out_path)
         makedirs(f'{out_path}')
 
-    new_method = 'csv' if args.csv_list else 'json' if args.dat_list and args.dat_list[0].endswith('json') else 'dat'
+    new_method = 'csv' if args.csv_list or args.summary_json else 'json' if args.dat_list and args.dat_list[0].endswith('json') else 'dat'
     file_name = f'{out_path}/upperlimit_xsec_{args.command}_{new_method}_{"obs" if args.unblind else "exp"}.pdf'
     plt.savefig(file_name)
     print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mSave file\033[0m'.rjust(40, ' '), file_name)
@@ -217,11 +216,13 @@ def plot_spin0(args):
         file_name = df.iloc[0]['channel']
         df.to_csv(f'{out_path}/upperlimit_xsec_{args.command}_{"json" if new_method else "dat"}_{"obs" if args.unblind else "exp"}_{file_name}.csv', index=False)
 
-    plot_spin0_from_df(args, com_df_new, ind_dfs)
+    plot_spin0_from_df(args, ind_dfs+[com_df_new])
 
 
 
-def plot_spin0_from_df(args, com_df_new, ind_dfs):
+def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
+    com_df_new = ind_dfs.pop(-1)
+    com_reference = references.pop(-1)
 
     fontsize = 18
     textlable = 'Spin-0'
@@ -232,54 +233,65 @@ def plot_spin0_from_df(args, com_df_new, ind_dfs):
     ax.set_ylim([0.0005, 40])
     ax.set_xlim([230, 6000])
 
-    # Plot individual
-    for df in ind_dfs:
-        assert(len(df['channel'].unique()) == 1)
-        file_name = df.iloc[0]['channel']
-        ax.plot( 'parameter', 'xsec_exp_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='dashed', linewidth=2, zorder = 1.1, alpha=0.8, label = scenario_map[file_name][0] + ' (Exp.)')
-        ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='solid',  linewidth=2, zorder = 1.1, alpha=0.8, label = scenario_map[file_name][0] + ' (Remove.)')
-        maxmass = max(df['parameter'])
+    def plot_individual():
+        # Plot individual
+        for df in ind_dfs:
+            assert(len(df['channel'].unique()) == 1)
+            file_name = df.iloc[0]['channel']
+            reference = references.pop(0)
+            ax.plot( 'parameter', 'xsec_exp_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='dashed', linewidth=2, zorder = 1.1, alpha=0.8, label = scenario_map[file_name][0] + ' (Remove.) ' + reference)
+            ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='solid',  linewidth=2, zorder = 1.1, alpha=0.8, label = scenario_map[file_name][0] + ' ' + reference)
+            maxmass = max(df['parameter'])
 
-        # Draw a vertical dash line to show where the channel stops
-        if maxmass < 6000:
-            def get_fraction(v):
-                a, b = ax.get_ylim()
-                a, b, v = np.log(a), np.log(b), np.log(v)
-                return (v-a) / (b-a)
-            ax.axvline(x=maxmass, ymin=0, ymax=get_fraction(df[df['parameter'] == maxmass][['xsec_exp_NP_profiled', 'xsec_obs_NP_profiled']].values.max()), color=scenario_map[file_name][1], ls = '--', lw=0.5, zorder = 1)
+            # Draw a vertical dash line to show where the channel stops
+            if not reversed and maxmass < 6000:
+                def get_fraction(v):
+                    a, b = ax.get_ylim()
+                    a, b, v = np.log(a), np.log(b), np.log(v)
+                    return (v-a) / (b-a)
+                ax.axvline(x=maxmass, ymin=0, ymax=get_fraction(df[df['parameter'] == maxmass][['xsec_exp_NP_profiled', 'xsec_obs_NP_profiled']].values.max()), color=scenario_map[file_name][2], ls = '--', lw=0.5, zorder = 1)
+            if args.debug:
+                print(df)
+                for x,y in zip(df['parameter'].tolist(), df['xsec_obs_NP_profiled'].tolist()):
+                    if x not in [1100]: continue
+                    ax.axhline(y=y)
+                    label = "{:.2f} %".format(y*100)
+                    plt.annotate(label, # this is the text
+                            (x,y), # these are the coordinates to position the label
+                            textcoords="offset points", # how to position the text
+                            xytext=(0,10), # distance from text to points (x,y)
+                            ha='center')
+
+        print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mPlotted individual channels\033[0m'.rjust(40, ' '), len(ind_dfs))
+
+
+    def plot_combined():
+        # Plot combined
+        # Plot bands
+        ax.plot( 'parameter', 'xsec_exp_NP_profiled', data=com_df_new, color='k', linestyle='dashed', linewidth=2, zorder = 1.5, alpha=0.8, label = 'Expected ' + com_reference)
+        if args.unblind:
+            ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=com_df_new, color='k', linestyle='solid', linewidth=2, zorder = 1.5, alpha=0.8, label = 'Combined ' + com_reference)
+        if not args.no_error:
+            ax.fill_between(com_df_new['parameter'], com_df_new[columns[0]], com_df_new[columns[3]], facecolor = 'yellow', label = r'$\mathrm{Expected \pm 2 \sigma}$')
+            ax.fill_between(com_df_new['parameter'], com_df_new[columns[1]], com_df_new[columns[2]], facecolor = 'lime', label = r'$\mathrm{Expected \pm 1 \sigma}$')
+
         if args.debug:
-            print(df)
-            for x,y in zip(df['parameter'].tolist(), df['xsec_obs_NP_profiled'].tolist()):
-                if x not in [1100]: continue
-                ax.axhline(y=y)
+            for x,y in zip(com_df_new['parameter'].tolist(), com_df_new['xsec_obs_NP_profiled'].tolist()):
+                # if x not in [1100]: continue
+                # ax.axhline(y=y)
                 label = "{:.2f} %".format(y*100)
                 plt.annotate(label, # this is the text
-                         (x,y), # these are the coordinates to position the label
-                         textcoords="offset points", # how to position the text
-                         xytext=(0,10), # distance from text to points (x,y)
-                         ha='center') 
+                        (x,y), # these are the coordinates to position the label
+                        textcoords="offset points", # how to position the text
+                        xytext=(0,10), # distance from text to points (x,y)
+                        ha='center')
 
-    print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mPlotted individual channels\033[0m'.rjust(40, ' '), len(ind_dfs))
-
-
-    # Plot combined
-    # Plot bands
-    ax.plot( 'parameter', 'xsec_exp_NP_profiled', data=com_df_new, color='k', linestyle='dashed', linewidth=2, zorder = 1.5, alpha=0.8, label = 'Expected')
-    if args.unblind:
-        ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=com_df_new, color='k', linestyle='solid', linewidth=2, zorder = 1.5, alpha=0.8, label = 'Observed')
-    ax.fill_between(com_df_new['parameter'], com_df_new[columns[0]], com_df_new[columns[3]], facecolor = 'yellow', label = r'$\mathrm{Expected \pm 2 \sigma}$')
-    ax.fill_between(com_df_new['parameter'], com_df_new[columns[1]], com_df_new[columns[2]], facecolor = 'lime', label = r'$\mathrm{Expected \pm 1 \sigma}$')
-
-    if args.debug:
-        for x,y in zip(com_df_new['parameter'].tolist(), com_df_new['xsec_obs_NP_profiled'].tolist()):
-            if x not in [1100]: continue
-            ax.axhline(y=y)
-            label = "{:.2f} %".format(y*100)
-            plt.annotate(label, # this is the text
-                     (x,y), # these are the coordinates to position the label
-                     textcoords="offset points", # how to position the text
-                     xytext=(0,10), # distance from text to points (x,y)
-                     ha='center') 
+    if reversed:
+        plot_combined()
+        plot_individual()
+    else:
+        plot_individual()
+        plot_combined()
 
     ax.set_yscale('log')
 
@@ -307,7 +319,7 @@ def plot_spin0_from_df(args, com_df_new, ind_dfs):
     ax.set_xlabel(xlabel, horizontalalignment='right', x=1.0, fontsize=fontsize)
 
 
-    plot_common(args, fig, ax, textlable, fontsize, fontsize-3)
+    plot_common(args, fig, ax, textlable, fontsize, fontsize-5 if args.summary_json else fontsize-3)
     save_plot(args)
 
 
@@ -357,8 +369,9 @@ def plot_nonres(args):
             ax.text(700, y+0.5, f'{obs:.2f}', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
         exp = row[columns[4]]
         ax.vlines(exp, y, y+1, colors = 'k', linestyles = 'dotted', zorder = 1.1, label = 'Expected' if y==0 else '')
-        ax.fill_betweenx([y,y+1], row[columns[0]], row[columns[3]], facecolor = 'yellow', label = r'$\mathrm{Expected \pm 2 \sigma}$' if y==0 else '')
-        ax.fill_betweenx([y,y+1], row[columns[1]], row[columns[2]], facecolor = 'lime', label = r'$\mathrm{Expected \pm 1 \sigma}$' if y==0 else '')
+        if not args.no_error:
+            ax.fill_betweenx([y,y+1], row[columns[0]], row[columns[3]], facecolor = 'yellow', label = r'$\mathrm{Expected \pm 2 \sigma}$' if y==0 else '')
+            ax.fill_betweenx([y,y+1], row[columns[1]], row[columns[2]], facecolor = 'lime', label = r'$\mathrm{Expected \pm 1 \sigma}$' if y==0 else '')
         # Plot text
         ax.text(200, y+0.5, f'{exp:.2f}', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
 
@@ -408,7 +421,7 @@ def plot_common(args, fig, ax, textlable, fontsize, legendsize):
     if args.command == 'nonres':
         drawATLASlabel(fig, ax, internal=True, reg_text=textlable, xmin=0.05, ymax=0.9, fontsize_title=20, fontsize_label=fontsize-1, line_spacing=1.2)
     elif args.command == 'spin0':
-        drawATLASlabel(fig, ax, internal=True, reg_text=textlable, xmin=0.2, ymax=0.9, fontsize_title=20, fontsize_label=fontsize-1, line_spacing=1)
+        drawATLASlabel(fig, ax, internal=True, reg_text=textlable, xmin=0.15, ymax=0.9, fontsize_title=20, fontsize_label=fontsize-1, line_spacing=1)
 
     # Legend
     if args.command == 'nonres':
@@ -436,12 +449,27 @@ def main(args):
             for csv in args.csv_list:
                 if csv.endswith('combined.csv'):
                     com_df_new = pd.read_csv(csv)
+                    if args.relative:
+                        com_df_new = rescale(com_df_new, columns, SM_HH_xsec = 1, absolute=False)
                 else:
                     ind_dfs.append(pd.read_csv(csv))
-
-            # com_df_new = 
-            plot_spin0_from_df(args, com_df_new, ind_dfs)
-            pass
+            plot_spin0_from_df(args, ind_dfs + [com_df_new])
+        elif args.summary_json:
+            with open(args.summary_json) as f:
+                summary_spec = json.load(f)
+                ind_dfs = []
+                references = []
+                for k, v in summary_spec.items():
+                    csv = v[0]
+                    if csv.endswith('combined.csv'):
+                        references.append(v[1])
+                        com_df_new = pd.read_csv(csv)
+                        if args.relative:
+                            com_df_new = rescale(com_df_new, columns, SM_HH_xsec = 1, absolute=False)
+                    else:
+                        references.append(v[1])
+                        ind_dfs.append(pd.read_csv(csv))
+                plot_spin0_from_df(args, ind_dfs + [com_df_new], reversed = True, references=references)
         else:
             plot_spin0(args)
 
@@ -464,10 +492,13 @@ if __name__ == '__main__':
     inputs = spin0.add_mutually_exclusive_group(required=True)
     inputs.add_argument('--csv_list', nargs='+', type=str, default=None, required=False, help='')
     inputs.add_argument('--dat_list', nargs='+', type=str, default=None, required=False, help='')
+    inputs.add_argument('--summary_json', type=str, default=None, required=False, help='')
     spin0.add_argument('--com_list', nargs='+', type=str, default=['../data-files/spin0-combined-A-bbbb_bbtautau-nocorr.dat', '../data-files/spin0-combined-A-bbtautau_bbyy-nocorr.dat', '../data-files/spin0-combined-A-bbbb_bbtautau_bbyy-nocorr.dat'], required=False, help='')
     spin0.add_argument('--logx', action='store_true', default=False, required=False, help='')
     spin0.add_argument('--unblind', action='store_true', default=False, required=False, help='')
     spin0.add_argument('--debug', action='store_true', default=False, required=False, help='')
+    spin0.add_argument('--relative', action='store_true', default=False, required=False, help='')
+    spin0.add_argument('--no-error', action='store_true', default=False, required=False, help='')
 
     args = parser.parse_args()
     main(args)
