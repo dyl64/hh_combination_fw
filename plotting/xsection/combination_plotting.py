@@ -228,6 +228,17 @@ def plot_spin0(args):
                 a, b, v = np.log(a), np.log(b), np.log(v)
                 return (v-a) / (b-a)
             ax.axvline(x=maxmass, ymin=0, ymax=get_fraction(df[df['parameter'] == maxmass][['xsec_exp_NP_profiled', 'xsec_obs_NP_profiled']].values.max()), color=scenario_map[file_name][1], ls = '--', lw=0.5, zorder = 1)
+        if args.debug:
+            print(df)
+            for x,y in zip(df['parameter'].tolist(), df['xsec_obs_NP_profiled'].tolist()):
+                if x not in [1100]: continue
+                ax.axhline(y=y)
+                label = "{:.2f} %".format(y*100)
+                plt.annotate(label, # this is the text
+                         (x,y), # these are the coordinates to position the label
+                         textcoords="offset points", # how to position the text
+                         xytext=(0,10), # distance from text to points (x,y)
+                         ha='center') 
 
     print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mPlotted individual channels\033[0m'.rjust(40, ' '), len(ind_dfs))
 
@@ -239,6 +250,17 @@ def plot_spin0(args):
         ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=com_df_new, color='k', linestyle='solid', linewidth=2, zorder = 1.5, alpha=0.8, label = 'Observed')
     ax.fill_between(com_df_new['parameter'], com_df_new[columns[0]], com_df_new[columns[3]], facecolor = 'yellow', label = r'$\mathrm{Expected \pm 2 \sigma}$')
     ax.fill_between(com_df_new['parameter'], com_df_new[columns[1]], com_df_new[columns[2]], facecolor = 'lime', label = r'$\mathrm{Expected \pm 1 \sigma}$')
+
+    if args.debug:
+        for x,y in zip(com_df_new['parameter'].tolist(), com_df_new['xsec_obs_NP_profiled'].tolist()):
+            if x not in [1100]: continue
+            ax.axhline(y=y)
+            label = "{:.2f} %".format(y*100)
+            plt.annotate(label, # this is the text
+                     (x,y), # these are the coordinates to position the label
+                     textcoords="offset points", # how to position the text
+                     xytext=(0,10), # distance from text to points (x,y)
+                     ha='center') 
 
     ax.set_yscale('log')
 
@@ -446,6 +468,7 @@ if __name__ == '__main__':
     spin0.add_argument('--com_list', nargs='+', type=str, default=['../data-files/spin0-combined-A-bbbb_bbtautau-nocorr.dat', '../data-files/spin0-combined-A-bbtautau_bbyy-nocorr.dat', '../data-files/spin0-combined-A-bbbb_bbtautau_bbyy-nocorr.dat'], required=False, help='')
     spin0.add_argument('--logx', action='store_true', default=False, required=False, help='')
     spin0.add_argument('--unblind', action='store_true', default=False, required=False, help='')
+    spin0.add_argument('--debug', action='store_true', default=False, required=False, help='')
 
 
     args = parser.parse_args()

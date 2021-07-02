@@ -117,6 +117,7 @@ NR_all_pro_stat:
   variables:
     output_dir: output
     mini_option: minimizer_options_robust.json
+  allow_failure: true
   script:
     - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r spin0 -o $output_dir --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_spin0_v3.yaml --unblind
 
@@ -228,6 +229,7 @@ NR_all_com_stat:
   extends: .combine_workspace
   variables:
     mini_option: minimizer_options_robust.json
+  allow_failure: true
   script:
     - HHComb combine_ws --new_method -i $input_dir -r spin0 -c $channels  --minimizer_options configs/$mini_option -m $masspoints $other_options
 
@@ -371,6 +373,7 @@ Artifacts:
   stage: download
   variables:
     GIT_SSL_NO_VERIFY: "true"
+    output: output
     output_blind_dir: output_blind
     output_unblind_dir: output_unblind
     output_stat_dir: output_stat
@@ -378,6 +381,7 @@ Artifacts:
     - ls
   artifacts:
     paths:
+      - $output
       - $output_blind_dir
       - $output_unblind_dir
       - $output_stat_dir
