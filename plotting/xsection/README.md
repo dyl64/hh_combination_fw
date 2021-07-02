@@ -29,3 +29,21 @@ python plotting/xsection/combination_plotting.py spin0 --logx --dat_list ../outp
 
 python plotting/xsection/combination_plotting.py spin0 --logx --dat_list ../output/v140invfb_20210531_obs/limits/root-files/spin0/bb*/*[0-9].json --com_list ../output/v140invfb_20210531_obs/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json
 ```
+
+## Plot summary plot for EPS 2021
+Relevant results are stored in `plotting/xsection/summary_plot_2021/*.csv`.
+They are collected by hand from hepdata.
+No frequent update is expected.
+- Spin-0
+```
+python plotting/xsection/combination_plotting.py spin0  --logx  --dat_list ../v140invfb_20210613_obs/limits/root-files/spin0/bbbb/*[0-9].json --com_list ../v140invfb_20210613_obs/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json --unblind
+
+python plotting/xsection/combination_plotting.py spin0  --logx  --unblind --summary_json plotting/xsection/summary_plot_2021/summary.json --relative --no-error
+```
+
+- Non-resonant
+```
+python plotting/xsection/combination_plotting.py nonres --logx -l ../v140invfb_20210613_obs/limits/root-files/nonres/*/*/0.json ../v140invfb_20210613_obs/limits/root-files/nonres/*/0.json
+
+python plotting/xsection/combination_plotting.py nonres --logx --csv plotting/xsection/summary_plot_2021/upperlimit_xsec_nonres_json_obs.csv --unblind
+```

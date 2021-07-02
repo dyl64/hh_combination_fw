@@ -13,6 +13,7 @@ import json
 from pdb import set_trace
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+from color import *
 from matplotlib import rcParams
 rcParams['axes.linewidth'] = 1.5
 rcParams['font.sans-serif'] = "Arial"
@@ -36,22 +37,24 @@ scenario_map = {
     # f'{args.command}-combined-A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr.dat': ('Top 4 + Multilepton', 16),
     # f'{args.command}-combined-A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-nocorr.dat': ('All 6 combined', 21),
     
-    f'bbbb': (r'$\mathrm{b\bar{b}b\bar{b}}$', 1, 'b'),
-    f'bbtautau': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$', 2, 'purple'),
-    f'bbyy': (r'$\mathrm{b\bar{b}\gamma\gamma}$', 3, 'r'),
-    f'bbll': (r'$\mathrm{b\bar{b}ll}$', 4, 'darkcryan'),
-    f'bbVV': (r'$\mathrm{b\bar{b}VV}$', 5, 'darkorange'),
-    f'WWWW': (r'$\mathrm{Multilepton}$', 6, 'orangered'),
-    f'A-bbtautau_bbyy-nocorr': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-} + b\bar{b}\gamma\gamma}$', 11, 'black'),
-    f'A-bbbb_bbtautau_bbyy-nocorr': ('Top 3 combined', 12, 'black'),
-    f'A-bbbb_bbll_bbtautau_bbyy-nocorr': ('Top 3 + '+r'$\mathrm{b\bar{b}ll}$', 13, 'black'),
-    f'A-bbbb_bbtautau_bbVV_bbyy-nocorr': ('Top 3 + '+r'$\mathrm{b\bar{b}VV}$', 14, 'black'),
-    f'A-bbbb_bbtautau_bbyy_WWWW-nocorr': ('Top 3 + Multilepton', 15, 'black'),
-    f'A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr': ('Top 4 + Multilepton', 16, 'black'),
-    f'A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-nocorr': ('All 6 combined', 31, 'black'),
-    f'A-bbbb_bbtautau_bbVV_bbyy_WWWW-nocorr': ('N - '+r'$\mathrm{b\bar{b}ll}$', 21, 'black'),
-    f'A-bbbb_bbll_bbtautau_bbyy_WWWW-nocorr': ('N - '+r'$\mathrm{b\bar{b}VV}$', 22, 'black'),
-    f'A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr': ('N - '+r'Multilepton', 23, 'black'),
+    f'combined': ('Combined', 1, 'black'),
+    f'bbbb': (r'$\mathrm{b\bar{b}b\bar{b}}$', 11, 'b'),
+    f'bbtautau': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$', 12, 'purple'),
+    f'bbyy': (r'$\mathrm{b\bar{b}\gamma\gamma}$', 13, 'r'),
+    f'bbll': (r'$\mathrm{b\bar{b}ll}$', 14, 'darkcryan'),
+    f'bbVV': (r'$\mathrm{b\bar{b}VV}$', 15, 'darkorange'),
+    f'WWWW': (r'$\mathrm{Multilepton}$', 16, 'orangered'),
+    f'bbWW': (r'$\mathrm{b\bar{b}WW}$', 17, 'orangered'),
+    f'A-bbtautau_bbyy-nocorr': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-} + b\bar{b}\gamma\gamma}$', 21, 'black'),
+    f'A-bbbb_bbtautau_bbyy-nocorr': ('Top 3 combined', 22, 'black'),
+    f'A-bbbb_bbll_bbtautau_bbyy-nocorr': ('Top 3 + '+r'$\mathrm{b\bar{b}ll}$', 23, 'black'),
+    f'A-bbbb_bbtautau_bbVV_bbyy-nocorr': ('Top 3 + '+r'$\mathrm{b\bar{b}VV}$', 24, 'black'),
+    f'A-bbbb_bbtautau_bbyy_WWWW-nocorr': ('Top 3 + Multilepton', 25, 'black'),
+    f'A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr': ('Top 4 + Multilepton', 26, 'black'),
+    f'A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-nocorr': ('All 6 combined', 41, 'black'),
+    f'A-bbbb_bbtautau_bbVV_bbyy_WWWW-nocorr': ('N - '+r'$\mathrm{b\bar{b}ll}$', 31, 'black'),
+    f'A-bbbb_bbll_bbtautau_bbyy_WWWW-nocorr': ('N - '+r'$\mathrm{b\bar{b}VV}$', 32, 'black'),
+    f'A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr': ('N - '+r'Multilepton', 33, 'black'),
 
 }
 
@@ -120,8 +123,7 @@ def drawATLASlabel(fig, ax, internal=True, reg_text=None, xmin=0.05, ymax=0.85,
 
 
 def save_plot(args):
-    input_folder = (args.dat_list[0]).split('limits') if args.dat_list else (args.csv_list[0]).split('figures') if args.csv_list else (args.summary_json).split('figures') if args.summary_json else None
-    out_path = input_folder[0] + 'figures' if len(input_folder) > 1 else path.dirname(input_folder[0])
+    out_path = get_output_folder(args)
     if not path.exists(f'{out_path}'):
         print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mCreating new folder\033[0m'.rjust(40, ' '), out_path)
         makedirs(f'{out_path}')
@@ -130,6 +132,18 @@ def save_plot(args):
     file_name = f'{out_path}/upperlimit_xsec_{args.command}_{new_method}_{"obs" if args.unblind else "exp"}.pdf'
     plt.savefig(file_name)
     print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mSave file\033[0m'.rjust(40, ' '), file_name)
+
+
+def get_output_folder(args):
+    if args.dat_list:
+        input_folder = (args.dat_list[0]).split('limits')
+    elif args.csv_list:
+        input_folder = (args.csv_list[0]).split('figures') if type(args.csv_list) == list else (args.csv_list).split('figures')
+    elif args.summary_json:
+        input_folder = (args.summary_json).split('figures')
+
+    out_path = input_folder[0] + 'figures' if len(input_folder) > 1 else path.dirname(input_folder[0])
+    return out_path
 
 
 def rescale(df, columns, SM_HH_xsec = 31.05 / 1000, absolute=False):
@@ -222,7 +236,7 @@ def plot_spin0(args):
 
 def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
     com_df_new = ind_dfs.pop(-1)
-    com_reference = references.pop(-1)
+    com_reference = references.pop(-1) if references else ''
 
     fontsize = 18
     textlable = 'Spin-0'
@@ -238,7 +252,7 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
         for df in ind_dfs:
             assert(len(df['channel'].unique()) == 1)
             file_name = df.iloc[0]['channel']
-            reference = references.pop(0)
+            reference = references.pop(0) if references else ''
             ax.plot( 'parameter', 'xsec_exp_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='dashed', linewidth=2, zorder = 1.1, alpha=0.8, label = scenario_map[file_name][0] + ' (Remove.) ' + reference)
             ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='solid',  linewidth=2, zorder = 1.1, alpha=0.8, label = scenario_map[file_name][0] + ' ' + reference)
             maxmass = max(df['parameter'])
@@ -272,8 +286,8 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
         if args.unblind:
             ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=com_df_new, color='k', linestyle='solid', linewidth=2, zorder = 1.5, alpha=0.8, label = 'Combined ' + com_reference)
         if not args.no_error:
-            ax.fill_between(com_df_new['parameter'], com_df_new[columns[0]], com_df_new[columns[3]], facecolor = 'yellow', label = r'$\mathrm{Expected \pm 2 \sigma}$')
-            ax.fill_between(com_df_new['parameter'], com_df_new[columns[1]], com_df_new[columns[2]], facecolor = 'lime', label = r'$\mathrm{Expected \pm 1 \sigma}$')
+            ax.fill_between(com_df_new['parameter'], com_df_new[columns[0]], com_df_new[columns[3]], facecolor = 'hh:darkyellow', label = r'$\mathrm{Expected \pm 2 \sigma}$')
+            ax.fill_between(com_df_new['parameter'], com_df_new[columns[1]], com_df_new[columns[2]], facecolor = 'hh:medturquoise', label = r'$\mathrm{Expected \pm 1 \sigma}$')
 
         if args.debug:
             for x,y in zip(com_df_new['parameter'].tolist(), com_df_new['xsec_obs_NP_profiled'].tolist()):
@@ -322,7 +336,6 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
     plot_common(args, fig, ax, textlable, fontsize, fontsize-5 if args.summary_json else fontsize-3)
     save_plot(args)
 
-
 def plot_nonres(args):
     args.command = 'nonres'
     dat_list = args.dat_list
@@ -352,32 +365,43 @@ def plot_nonres(args):
         df = pd.concat(dfs)
 
     df = rescale(df, columns, args.norm / 1000, absolute=new_method).sort_values(by = 'order', ascending = False)
+    plot_nonres_from_df(args, df)
+
+    out_path = get_output_folder(args)
+    df.to_csv(f'{out_path}/upperlimit_xsec_{args.command}_{"json" if new_method else "dat"}_{"obs" if args.unblind else "exp"}.csv')
     print(df[columns])
 
+def plot_nonres_from_df(args, df):
     fig, ax = plt.subplots(1, 1, figsize=(9, 8))
 
-    ax.set_ylim([0, df.shape[0]*1.5])
+    ax.set_ylim([0, df.shape[0]*2])
     ax.set_xlim([1, 1000 if args.logx else 30])
     fontsize = 18
 
     # Plot bands
+    exp_text_x, obs_text_x, ref_text_x = 200, 500, 700
+    y_shift = 0.25 if 'ref' in df else 0.5
+
     for y, (index, row) in enumerate(df.iterrows()):
         if args.unblind:
             obs = row[columns[5]]
             ax.vlines(obs, y, y+1, colors = 'k', linestyles = 'solid', zorder = 1.1, label = 'Observed' if y==0 else '')
-            ax.scatter(obs, y+0.5, s=50, c='k', marker='o', zorder = 1.1)
-            ax.text(700, y+0.5, f'{obs:.2f}', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
+            ax.scatter(obs, y+y_shift, s=50, c='k', marker='o', zorder = 1.1)
+            ax.text(obs_text_x, y+0.5, f'{obs:.2f}', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
         exp = row[columns[4]]
         ax.vlines(exp, y, y+1, colors = 'k', linestyles = 'dotted', zorder = 1.1, label = 'Expected' if y==0 else '')
-        if not args.no_error:
-            ax.fill_betweenx([y,y+1], row[columns[0]], row[columns[3]], facecolor = 'yellow', label = r'$\mathrm{Expected \pm 2 \sigma}$' if y==0 else '')
-            ax.fill_betweenx([y,y+1], row[columns[1]], row[columns[2]], facecolor = 'lime', label = r'$\mathrm{Expected \pm 1 \sigma}$' if y==0 else '')
+        ax.fill_betweenx([y,y+1], row[columns[0]], row[columns[3]], facecolor = 'hh:darkyellow', label = r'$\mathrm{Expected \pm 2 \sigma}$' if y==0 else '')
+        ax.fill_betweenx([y,y+1], row[columns[1]], row[columns[2]], facecolor = 'hh:medturquoise', label = r'$\mathrm{Expected \pm 1 \sigma}$' if y==0 else '')
         # Plot text
-        ax.text(200, y+0.5, f'{exp:.2f}', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
+        ax.text(exp_text_x, y+y_shift, f'{exp:.2f}', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
+
+        if 'ref' in df:
+            ref = row['ref']
+            ax.text(ref_text_x, y+y_shift, ref, horizontalalignment='left', verticalalignment='center', fontsize=fontsize)
 
     if args.unblind:
-        ax.text(700, y+1.5, 'Obs.', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
-    ax.text(200, y+1.5, 'Exp.', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
+        ax.text(obs_text_x, (y + 1)*1.1, 'Obs.', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
+    ax.text(exp_text_x, (y + 1)*1.1, 'Exp.', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
 
     textlable = ''
 
@@ -442,7 +466,11 @@ def plot_common(args, fig, ax, textlable, fontsize, legendsize):
 
 def main(args):
     if args.command == 'nonres':
-        plot_nonres(args)
+        if args.csv_list:
+            df = pd.read_csv(args.csv_list, index_col=0)
+            plot_nonres_from_df(args, df)
+        else:
+            plot_nonres(args)
     elif args.command == 'spin0':
         if args.csv_list:
             ind_dfs = []
@@ -482,7 +510,10 @@ if __name__ == '__main__':
 
     nonres = subcommands.add_parser('nonres', help='Plot nonres.')
     nonres.add_argument('nonres', nargs='*')
-    nonres.add_argument('-l', '--dat_list', nargs='+', type=str, default=['../data-files/nonres-bbtautau.dat', '../data-files/nonres-bbyy.dat', '../data-files/nonres-bbbb.dat', '../data-files/nonres-bbll.dat', '../data-files/nonres-bbVV.dat', '../data-files/nonres-WWWW.dat', '../data-files/nonres-combined-A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-nocorr.dat', '../data-files/nonres-combined-A-bbbb_bbtautau_bbyy-nocorr.dat'], required=False, help='')
+    inputs = nonres.add_mutually_exclusive_group(required=True)
+    inputs.add_argument('-l', '--dat_list', nargs='+', type=str, default=None, required=False, help='')
+    inputs.add_argument('--csv_list', type=str, default=None, required=False, help='')
+    inputs.add_argument('--summary_json', type=str, default=None, required=False, help='')
     nonres.add_argument('--logx', action='store_true', default=False, required=False, help='')
     nonres.add_argument('--norm', type=float, default=31.05, required=False, help='')
     nonres.add_argument('--unblind', action='store_true', default=False, required=False, help='')
