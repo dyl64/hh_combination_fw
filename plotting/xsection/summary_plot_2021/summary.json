@@ -1,0 +1,6 @@
+{
+"bbbb": ["plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_bbbb.csv", "126$-$139 fb$^{-1}$\n[Eur. Phys. J. C 80 (2200) 1165]"],
+"bbtautau": ["plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_bbtautau.csv", "139 fb$^{-1}$\n[Eur. Phys. J. C 80 (2201) 1165]"],
+"bbyy": ["plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_bbyy.csv", "139 fb$^{-1}$\n[Eur. Phys. J. C 80 (2202) 1165]"],
+"combined": ["plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_combined.csv", "27.5$-$36.1 fb$^{-1}$\n[Eur. Phys. J. C 80 (2203) 1165]"]
+}
