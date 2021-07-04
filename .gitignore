@@ -18,7 +18,8 @@ backup/
 workspaceCombiner/cfg/rescale/
 diagnostics/
 dev/
-scans/
+scans/*
+!scans/job_script
 setup_local.sh
 results/
 *.so
