@@ -62,6 +62,16 @@ scenario_map = {
     f'A-bbbb_bbtautau_bbVV_bbyy_WWWW-nocorr': ('N - '+r'$\mathrm{b\bar{b}ll}$', 31, 'black'),
     f'A-bbbb_bbll_bbtautau_bbyy_WWWW-nocorr': ('N - '+r'$\mathrm{b\bar{b}VV}$', 32, 'black'),
     f'A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr': ('N - '+r'Multilepton', 33, 'black'),
+    f'A-bbtautau_bbyy-fullcorr': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-} + b\bar{b}\gamma\gamma}$', 21, 'black'),
+    f'A-bbbb_bbtautau_bbyy-fullcorr': ('Top 3 combined', 22, 'black'),
+    f'A-bbbb_bbll_bbtautau_bbyy-fullcorr': ('Top 3 + '+r'$\mathrm{b\bar{b}ll}$', 23, 'black'),
+    f'A-bbbb_bbtautau_bbVV_bbyy-fullcorr': ('Top 3 + '+r'$\mathrm{b\bar{b}VV}$', 24, 'black'),
+    f'A-bbbb_bbtautau_bbyy_WWWW-fullcorr': ('Top 3 + Multilepton', 25, 'black'),
+    f'A-bbbb_bbll_bbtautau_bbVV_bbyy-fullcorr': ('Top 4 + Multilepton', 26, 'black'),
+    f'A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-fullcorr': ('All 6 combined', 41, 'black'),
+    f'A-bbbb_bbtautau_bbVV_bbyy_WWWW-fullcorr': ('N - '+r'$\mathrm{b\bar{b}ll}$', 31, 'black'),
+    f'A-bbbb_bbll_bbtautau_bbyy_WWWW-fullcorr': ('N - '+r'$\mathrm{b\bar{b}VV}$', 32, 'black'),
+    f'A-bbbb_bbll_bbtautau_bbVV_bbyy-fullcorr': ('N - '+r'Multilepton', 33, 'black'),
 
 }
 
@@ -135,8 +145,9 @@ def save_plot(args):
         print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mCreating new folder\033[0m'.rjust(40, ' '), out_path)
         makedirs(f'{out_path}')
 
+    fullcorr = sum([1 for i in args.dat_list if 'fullcorr' in i])
     new_method = 'csv' if args.csv_list or args.summary_json else 'json' if args.dat_list and args.dat_list[0].endswith('json') else 'dat'
-    file_name = f'{out_path}/upperlimit_xsec_{args.command}_{new_method}_{"obs" if args.unblind else "exp"}.pdf'
+    file_name = f'{out_path}/upperlimit_xsec_{args.command}_{new_method}_{"obs" if args.unblind else "exp"}_{"fullcorr" if fullcorr else "nocorr"}.pdf'
     plt.savefig(file_name)
     print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mSave file\033[0m'.rjust(40, ' '), file_name)
 
@@ -259,10 +270,6 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
         for ind_df in ind_dfs:
             reference = references.pop(0) if references else ''
             for file_name, df in ind_df.groupby('channel'):
-                print('zhangr file_name', file_name, 'reference', reference)
-                # set_trace()
-                # assert(len(df['channel'].unique()) == 1)
-                # file_name = df.iloc[0]['channel']
                 ax.plot( 'parameter', 'xsec_exp_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='dashed', linewidth=2, zorder = 1.1, alpha=0.8, label = '' if args.unblind else scenario_map[file_name][0] + ' ' + reference)
                 ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='solid',  linewidth=2, zorder = 1.1, alpha=0.8, label = scenario_map[file_name][0] + ' ' + reference)
                 maxmass = max(df['parameter'])

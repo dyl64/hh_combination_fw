@@ -54,7 +54,7 @@ HHComb combine_ws --new_method -i <output> -c bbbb,bbtautau,bbyy,WWWW,bbll,bbVV
 ```
 
 ### Plotting
-Generate plot for non-resonant and spin0:
+Plot for non-resonant and spin0:
 ```
 python plotting/xsection/combination_plotting.py nonres  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json --unblind
 
@@ -63,7 +63,7 @@ python plotting/xsection/combination_plotting.py nonres  --logx --dat_list $inpu
 ```
 ## Check and download results from gitlab CI
 The whole workflow is running on gitlab CI.
-Go to `CI/CD > Pipelines` and click on any of the recent `passed` task, then you will see the following dispaly:
+Go to `CI/CD > Pipelines` and click on any of the recent `passed` task, then you will see the following display:
 ![alt text](.CI.jpg "Title")
 
 To check the final result, click on the `Plotting` jobs and click on the `Browser` botton on the right.
