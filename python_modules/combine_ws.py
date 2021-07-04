@@ -27,9 +27,10 @@ DEFAULT_DATASET = 'combData'
 @click.option('--config', 'config_file', default=None, help='configuration file for regularization')
 @click.option('--minimizer_options', default=None, help='configuration file for minimizer options')
 @click.option('--verbose/--silent', default=False, help='show debug messages in stdout')
+@click.option('--parallel', type=int, default=-1, help='number of parallelized workers')
 def combine_ws(input_path, resonant_type, channels, correlation_scheme, tag_pattern, 
                do_better_bands, cl, blind, mass_expr, param, new_method, config_file, 
-               minimizer_options, verbose):
+               minimizer_options, verbose, parallel):
     if config_file is not None:
         config = yaml.safe_load(open(config_file))
     else:
@@ -43,7 +44,7 @@ def combine_ws(input_path, resonant_type, channels, correlation_scheme, tag_patt
         data_name = DEFAULT_DATASET if config is None else config['dataset']['combination']['unblind']
     pipeline = wsc.TaskCombination(input_path, resonant_type, channels, poi_name, data_name, correlation_scheme,
                                    tag_pattern, do_better_bands, cl, blind, mass_expr, param, new_method=new_method,
-                                   verbose=verbose, minimizer_options=minimizer_options)
+                                   verbose=verbose, minimizer_options=minimizer_options, parallel=parallel)
     pipeline.run_pipeline()
 
     
