@@ -20,7 +20,7 @@ rcParams['font.sans-serif'] = "Arial"
 rcParams['font.family'] = "sans-serif"
 rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
 
-columns = ['xsec_m2s_NP_profiled', 'xsec_m1s_NP_profiled', 'xsec_p1s_NP_profiled', 'xsec_p2s_NP_profiled', 'xsec_exp_NP_profiled', 'xsec_obs_NP_profiled'] # don't change order
+columns = ['xsec_m2s_NP_profiled', 'xsec_m1s_NP_profiled', 'xsec_p1s_NP_profiled', 'xsec_p2s_NP_profiled', 'xsec_exp_NP_profiled', 'xsec_obs_NP_profiled', 'stat'] # don't change order
 
 scenario_map = {
     # f'{args.command}-bbbb.dat': (r'$\mathrm{b\bar{b}b\bar{b}}$', 1),
@@ -370,6 +370,10 @@ def plot_nonres(args):
 
         df = pd.concat(dfs)
         df = df.rename(columns={'-2': 'xsec_m2s_NP_profiled', '2': 'xsec_p2s_NP_profiled', '-1': 'xsec_m1s_NP_profiled', '1': 'xsec_p1s_NP_profiled', '0': 'xsec_exp_NP_profiled', 'obs': 'xsec_obs_NP_profiled'}).drop(columns=['inj'])
+        for stat in args.stat_list:
+            file_name = path.basename(path.dirname(stat))
+            with open(dat) as f:
+                df.at[file_name, 'stat'] = json.load(f)['0']
 
     else:
         for dat in dat_list:
@@ -397,9 +401,13 @@ def plot_nonres_from_df(args, df):
     fontsize = 18
 
     # Plot bands
-    exp_text_x, obs_text_x, ref_text_x = 200, 500, 700
+    if args.summary_json:
+        obs_text_x, exp_text_x, stat_text_x, ref_text_x = 200, 500, 700, 700
+    else:
+        obs_text_x, exp_text_x, stat_text_x, ref_text_x = 70, 200, 700, 700
     y_shift = 0.65 if 'ref' in df else 0.5
 
+    df = df.fillna('')
     for y, (index, row) in enumerate(df.iterrows()):
         if args.unblind:
             obs = row[columns[5]]
@@ -418,10 +426,16 @@ def plot_nonres_from_df(args, df):
         if 'ref' in df:
             ref = row['ref']
             ax.text(exp_text_x*1.2, y+1-y_shift, ref, horizontalalignment='center', verticalalignment='center', fontsize=fontsize-8)
+        if 'stat' in df:
+            stat_str = row['stat']
+            stat_str = f'{stat_str:.2}'
+            ax.text(stat_text_x, y+1-y_shift, stat_str, horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
 
     if args.unblind:
         ax.text(obs_text_x, (y + 1)*1.1, 'Obs.', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
     ax.text(exp_text_x, (y + 1)*1.1, 'Exp.', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
+    if 'stat' in df:
+        ax.text(stat_text_x*1.2, (y + 1)*1.1, 'Exp. stat', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
 
     textlable = ''
 
@@ -547,6 +561,7 @@ if __name__ == '__main__':
     inputs.add_argument('-l', '--dat_list', nargs='+', type=str, default=None, required=False, help='')
     inputs.add_argument('--csv_list', type=str, default=None, required=False, help='')
     inputs.add_argument('--summary_json', type=str, default=None, required=False, help='')
+    nonres.add_argument('-s', '--stat_list', nargs='+', type=str, default=None, required=False, help='')
     nonres.add_argument('--logx', action='store_true', default=False, required=False, help='')
     nonres.add_argument('--norm', type=float, default=31.05, required=False, help='')
     nonres.add_argument('--unblind', action='store_true', default=False, required=False, help='')
