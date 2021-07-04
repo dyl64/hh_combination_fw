@@ -38,13 +38,20 @@ scenario_map = {
     # f'{args.command}-combined-A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-nocorr.dat': ('All 6 combined', 21),
     
     f'combined': ('Combined', 1, 'black'),
+    f'combined36': (r'Combined' + '\n' + r'27.5$-$36.1 fb$^{-1}$', 1, 'black'),
     f'bbbb': (r'$\mathrm{b\bar{b}b\bar{b}}$', 11, 'b'),
-    f'bbtautau': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$', 12, 'purple'),
+    f'bbtautau': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$', 12, '#9A0EEA'),
+    f'bbtautau139': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$'+'\n' + r'139 fb$^{-1}$', 12, '#9A0EEA'),
+    f'bbtautau_resolved': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (resolved)', 12, 'hh:medturquoise'),
+    f'bbtautau_boosted': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (boosted)', 12, '#9A0EEA'),
+    f'bbtautau_boosted2': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (Remove)', 12, '#9A0EEA'),
     f'bbyy': (r'$\mathrm{b\bar{b}\gamma\gamma}$', 13, 'r'),
+    f'bbyy139': (r'$\mathrm{b\bar{b}\gamma\gamma}$'+'\n' + r'139 fb$^{-1}$', 13, 'r'),
     f'bbll': (r'$\mathrm{b\bar{b}ll}$', 14, 'darkcryan'),
     f'bbVV': (r'$\mathrm{b\bar{b}VV}$', 15, 'darkorange'),
     f'WWWW': (r'$\mathrm{Multilepton}$', 16, 'orangered'),
     f'bbWW': (r'$\mathrm{b\bar{b}WW}$', 17, 'orangered'),
+    f'bbWW2l': (r'$\mathrm{b\bar{b}WW (2l)}$'+'\n' + r'139 fb$^{-1}$', 17, 'orangered'),
     f'A-bbtautau_bbyy-nocorr': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-} + b\bar{b}\gamma\gamma}$', 21, 'black'),
     f'A-bbbb_bbtautau_bbyy-nocorr': ('Top 3 combined', 22, 'black'),
     f'A-bbbb_bbll_bbtautau_bbyy-nocorr': ('Top 3 + '+r'$\mathrm{b\bar{b}ll}$', 23, 'black'),
@@ -245,36 +252,39 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
 
     # Set axis ranges
     ax.set_ylim([0.0005, 40])
-    ax.set_xlim([230, 6000])
+    ax.set_xlim([230, 7000])
 
     def plot_individual():
         # Plot individual
-        for df in ind_dfs:
-            assert(len(df['channel'].unique()) == 1)
-            file_name = df.iloc[0]['channel']
+        for ind_df in ind_dfs:
             reference = references.pop(0) if references else ''
-            ax.plot( 'parameter', 'xsec_exp_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='dashed', linewidth=2, zorder = 1.1, alpha=0.8, label = scenario_map[file_name][0] + ' (Remove.) ' + reference)
-            ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='solid',  linewidth=2, zorder = 1.1, alpha=0.8, label = scenario_map[file_name][0] + ' ' + reference)
-            maxmass = max(df['parameter'])
+            for file_name, df in ind_df.groupby('channel'):
+                print('zhangr file_name', file_name, 'reference', reference)
+                # set_trace()
+                # assert(len(df['channel'].unique()) == 1)
+                # file_name = df.iloc[0]['channel']
+                ax.plot( 'parameter', 'xsec_exp_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='dashed', linewidth=2, zorder = 1.1, alpha=0.8, label = '' if args.unblind else scenario_map[file_name][0] + ' ' + reference)
+                ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='solid',  linewidth=2, zorder = 1.1, alpha=0.8, label = scenario_map[file_name][0] + ' ' + reference)
+                maxmass = max(df['parameter'])
 
-            # Draw a vertical dash line to show where the channel stops
-            if not reversed and maxmass < 6000:
-                def get_fraction(v):
-                    a, b = ax.get_ylim()
-                    a, b, v = np.log(a), np.log(b), np.log(v)
-                    return (v-a) / (b-a)
-                ax.axvline(x=maxmass, ymin=0, ymax=get_fraction(df[df['parameter'] == maxmass][['xsec_exp_NP_profiled', 'xsec_obs_NP_profiled']].values.max()), color=scenario_map[file_name][2], ls = '--', lw=0.5, zorder = 1)
-            if args.debug:
-                print(df)
-                for x,y in zip(df['parameter'].tolist(), df['xsec_obs_NP_profiled'].tolist()):
-                    if x not in [1100]: continue
-                    ax.axhline(y=y)
-                    label = "{:.2f} %".format(y*100)
-                    plt.annotate(label, # this is the text
-                            (x,y), # these are the coordinates to position the label
-                            textcoords="offset points", # how to position the text
-                            xytext=(0,10), # distance from text to points (x,y)
-                            ha='center')
+                # Draw a vertical dash line to show where the channel stops
+                if not reversed and maxmass < 6000:
+                    def get_fraction(v):
+                        a, b = ax.get_ylim()
+                        a, b, v = np.log(a), np.log(b), np.log(v)
+                        return (v-a) / (b-a)
+                    ax.axvline(x=maxmass, ymin=0, ymax=get_fraction(df[df['parameter'] == maxmass][['xsec_exp_NP_profiled', 'xsec_obs_NP_profiled']].values.max()), color=scenario_map[file_name][2], ls = '--', lw=0.5, zorder = 1)
+                if args.debug:
+                    print(df)
+                    for x,y in zip(df['parameter'].tolist(), df['xsec_obs_NP_profiled'].tolist()):
+                        if x not in [1100]: continue
+                        ax.axhline(y=y)
+                        label = "{:.2f} %".format(y*100)
+                        plt.annotate(label, # this is the text
+                                (x,y), # these are the coordinates to position the label
+                                textcoords="offset points", # how to position the text
+                                xytext=(0,10), # distance from text to points (x,y)
+                                ha='center')
 
         print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mPlotted individual channels\033[0m'.rjust(40, ' '), len(ind_dfs))
 
@@ -282,9 +292,9 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
     def plot_combined():
         # Plot combined
         # Plot bands
-        ax.plot( 'parameter', 'xsec_exp_NP_profiled', data=com_df_new, color='k', linestyle='dashed', linewidth=2, zorder = 1.5, alpha=0.8, label = 'Expected ' + com_reference)
+        line, = ax.plot( 'parameter', 'xsec_exp_NP_profiled', data=com_df_new, color='k', linestyle='dashed', linewidth=2, zorder = 1.5, alpha=0.8, label = '' if args.unblind else 'Combined')
         if args.unblind:
-            ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=com_df_new, color='k', linestyle='solid', linewidth=2, zorder = 1.5, alpha=0.8, label = 'Combined ' + com_reference)
+            line, = ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=com_df_new, color='k', linestyle='solid', linewidth=2, zorder = 1.5, alpha=0.8, label = 'Combined ' + com_reference)
         if not args.no_error:
             ax.fill_between(com_df_new['parameter'], com_df_new[columns[0]], com_df_new[columns[3]], facecolor = 'hh:darkyellow', label = r'$\mathrm{Expected \pm 2 \sigma}$')
             ax.fill_between(com_df_new['parameter'], com_df_new[columns[1]], com_df_new[columns[2]], facecolor = 'hh:medturquoise', label = r'$\mathrm{Expected \pm 1 \sigma}$')
@@ -388,20 +398,19 @@ def plot_nonres_from_df(args, df):
             obs = row[columns[5]]
             ax.vlines(obs, y, y+1, colors = 'k', linestyles = 'solid', zorder = 1.1, label = 'Observed' if y==0 else '')
             ax.scatter(obs, y+0.5, s=50, c='k', marker='o', zorder = 1.1)
-            obs_str = f'{obs:.2f}' if index not in ['bbWW'] else f'{obs:.0f}'
-            print(index, obs_str, 'y=', y)
+            obs_str = f'{obs:.2f}' if index not in ['combined36', 'bbWW2l'] else f'{obs:g}'
             ax.text(obs_text_x, y+y_shift, obs_str, horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
         exp = row[columns[4]]
         ax.vlines(exp, y, y+1, colors = 'k', linestyles = 'dotted', zorder = 1.1, label = 'Expected' if y==0 else '')
         ax.fill_betweenx([y,y+1], row[columns[0]], row[columns[3]], facecolor = 'hh:darkyellow', label = r'$\mathrm{Expected \pm 2 \sigma}$' if y==0 else '')
         ax.fill_betweenx([y,y+1], row[columns[1]], row[columns[2]], facecolor = 'hh:medturquoise', label = r'$\mathrm{Expected \pm 1 \sigma}$' if y==0 else '')
         # Plot text
-        exp_str = f'{exp:.2f}' if index not in ['bbWW'] else f'{exp:.0f}'
+        exp_str = f'{exp:.2f}' if index not in ['combined36', 'bbWW2l'] else f'{exp:g}'
         ax.text(exp_text_x, y+y_shift, exp_str, horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
 
         if 'ref' in df:
             ref = row['ref']
-            ax.text(exp_text_x*0.75, y+1-y_shift, ref, horizontalalignment='left', verticalalignment='center', fontsize=fontsize-8)
+            ax.text(exp_text_x*1.2, y+1-y_shift, ref, horizontalalignment='center', verticalalignment='center', fontsize=fontsize-8)
 
     if args.unblind:
         ax.text(obs_text_x, (y + 1)*1.1, 'Obs.', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
@@ -449,7 +458,7 @@ def plot_common(args, fig, ax, textlable, fontsize, legendsize):
     if args.command == 'nonres':
         drawATLASlabel(fig, ax, internal=True, reg_text=textlable, xmin=0.05, ymax=0.9, fontsize_title=20, fontsize_label=fontsize-1, line_spacing=1.2)
     elif args.command == 'spin0':
-        drawATLASlabel(fig, ax, internal=True, reg_text=textlable, xmin=0.15, ymax=0.9, fontsize_title=20, fontsize_label=fontsize-1, line_spacing=1)
+        drawATLASlabel(fig, ax, internal=True, reg_text=textlable, xmin=0.13, ymax=0.9, fontsize_title=20, fontsize_label=fontsize-1, line_spacing=1)
 
     # Legend
     if args.command == 'nonres':
@@ -457,12 +466,20 @@ def plot_common(args, fig, ax, textlable, fontsize, legendsize):
     elif args.command == 'spin0':
         new_handlers, new_labels = [], []
         current_handles, current_labels = plt.gca().get_legend_handles_labels()
+        
+        if args.unblind:
+            import matplotlib.lines as mlines
+            obs_line = mlines.Line2D([], [], color='k', ls = '-', label='Observed')
+            exp_line = mlines.Line2D([], [], color='k', ls = '--', label='Expected')
+            style_legend = plt.legend(handles=[obs_line, exp_line], bbox_to_anchor=(0.45, 0.13), ncol=2, framealpha=0., prop={'size': legendsize})
+            # Add the legend manually to the current Axes.
+            plt.gca().add_artist(style_legend)
 
         for handler, label in zip(current_handles, current_labels):
             if 'Remove' not in label:
                 new_handlers.append(handler)
                 new_labels.append(label)
-        plt.legend(new_handlers, new_labels, bbox_to_anchor=(1., 1), ncol=1, framealpha=0., prop={'size': legendsize})
+        plt.legend(new_handlers, new_labels, bbox_to_anchor=(0.53, 0.43), ncol=1, framealpha=0., prop={'size': legendsize})
 
     plt.tight_layout()
     plt.plot()
@@ -492,15 +509,20 @@ def main(args):
                 ind_dfs = []
                 references = []
                 for k, v in summary_spec.items():
-                    csv = v[0]
-                    if csv.endswith('combined.csv'):
-                        references.append(v[1])
-                        com_df_new = pd.read_csv(csv)
+                    if v[0].endswith('combined.csv'):
+                        references.append(v[-1])
+                        com_df_new = []
+                        for csv in v[:-1]:
+                            com_df_new.append(pd.read_csv(csv))
+                        com_df_new = pd.concat(com_df_new)
                         if args.relative:
                             com_df_new = rescale(com_df_new, columns, SM_HH_xsec = 1, absolute=False)
                     else:
-                        references.append(v[1])
-                        ind_dfs.append(pd.read_csv(csv))
+                        references.append(v[-1])
+                        ind_df = []
+                        for csv in v[:-1]:
+                            ind_df.append(pd.read_csv(csv))
+                        ind_dfs.append(pd.concat(ind_df))
                 plot_spin0_from_df(args, ind_dfs + [com_df_new], reversed = True, references=references)
         else:
             plot_spin0(args)
