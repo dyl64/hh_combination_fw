@@ -314,7 +314,7 @@ Sp0_bb_tt_yy_com_part1:
     masspoints: "251,260,280,300,400"
     other_options: "--unblind"
 
-Sp0_cor_bb_tt_yy_com_part2:
+Sp0_bb_tt_yy_com_part2:
   extends: .Sp0Combine_ws
   needs:
     - job: hhCompile
