@@ -482,6 +482,44 @@ bbbb_scalings = {
         },
     },
 
+# - v04: For the fourth preliminary workspaces privately get from mattermost, maybe replaced by official draft 2 ws
+    'v04' : {
+        'nonres' :
+        {
+            '0' : 31.05/1000.
+        },
+        'nonres_statOnly' :
+        {
+            '0' : 31.05/1000.
+        },
+        'spin0' : 
+        {
+            '251' : 1.0/(1000 * 0.3392),        
+            '260' : 1.0/(1000 * 0.3392),
+            '280' : 1.0/(1000 * 0.3392),
+            '300' : 1.0/(1000 * 0.3392),
+            '350' : 1.0/(1000 * 0.3392),
+            '400' : 1.0/(1000 * 0.3392),
+            '500' : 1.0/(1000 * 0.3392),
+            '600' : 1.0/(1000 * 0.3392),
+            '700' : 1.0/(1000 * 0.3392),
+            '800' : 1.0/(1000 * 0.3392),
+            '900' : 1.0/(1000 * 0.3392),
+            '1000' : 1.0/(1000 * 0.3392),
+            '1100' : 1.0/(1000 * 0.3392),
+            '1200' : 1.0/(1000 * 0.3392),
+            '1300' : 1.0/(1000 * 0.3392),
+            '1400' : 1.0/(1000 * 0.3392),
+            '1500' : 1.0/(1000 * 0.3392),
+            '1600' : 1.0/(1000 * 0.3392),
+            '1800' : 1.0/(1000 * 0.3392),
+            '2000' : 1.0/(1000 * 0.3392),
+            '2500' : 1.0/(1000 * 0.3392),
+            '3000' : 1.0/(1000 * 0.3392),
+            '4000' : 1.0/(1000 * 0.3392),
+            '5000' : 1.0/(1000 * 0.3392),
+        },
+    },
 }
 ########################
 ### --- bbtautau --- ###
@@ -2079,40 +2117,46 @@ WWWW_scalings = {
 ################################
 
 scalings_releases = {
-                      't00' : {
-                                'bbbb'     : bbbb_scalings['v00'],
-                                'bbtautau' : bbtautau_scalings['v00'], 
-                              },
-                      'r00' : {
-                                'bbbb'     : bbbb_scalings['v00'],
-                                'bbtautau' : bbtautau_scalings['v00'], 
-                                'bbyy'     : bbyy_scalings['v00'],
-                                'WWyy'     : WWyy_scalings['v00'],
-                                'bbWW'     : bbWW_scalings['v00'],
-                                'WWWW'     : WWWW_scalings['v00'],
-                              },
-                      'r01' : {
-                                'bbbb'     : bbbb_scalings['v01'],
-                                'bbtautau' : bbtautau_scalings['v01'], 
-                                'bbyy'     : bbyy_scalings['v01'],
-                              },
-                      'r02' : {
-                                'bbbb'     : bbbb_scalings['v02'],
-                                'bbtautau' : bbtautau_scalings['v02'], 
-                                'bbyy'     : bbyy_scalings['v01'],
-                                'WWWW'     : WWWW_scalings['v00'],
-                              },
-                      'r03' : {
-                                'bbbb'     : bbbb_scalings['v03'],
-                                'bbtautau' : bbtautau_scalings['v03'], 
-                                'bbyy'     : bbyy_scalings['v02'],
-                                'bbll'     : bbll_scalings['v00'],
-                                'bbVV'     : bbVV_scalings['v00'],
-                                'WWWW'     : WWWW_scalings['v00'],
-                              },                              
+    't00' : {
+        'bbbb'     : bbbb_scalings['v00'],
+        'bbtautau' : bbtautau_scalings['v00'], 
+        },
+    'r00' : {
+            'bbbb'     : bbbb_scalings['v00'],
+            'bbtautau' : bbtautau_scalings['v00'], 
+            'bbyy'     : bbyy_scalings['v00'],
+            'WWyy'     : WWyy_scalings['v00'],
+            'bbWW'     : bbWW_scalings['v00'],
+            'WWWW'     : WWWW_scalings['v00'],
+            },
+    'r01' : {
+            'bbbb'     : bbbb_scalings['v01'],
+            'bbtautau' : bbtautau_scalings['v01'], 
+            'bbyy'     : bbyy_scalings['v01'],
+            },
+    'r02' : {
+            'bbbb'     : bbbb_scalings['v02'],
+            'bbtautau' : bbtautau_scalings['v02'], 
+            'bbyy'     : bbyy_scalings['v01'],
+            'WWWW'     : WWWW_scalings['v00'],
+            },
+    'r03' : {
+            'bbbb'     : bbbb_scalings['v03'],
+            'bbtautau' : bbtautau_scalings['v03'], 
+            'bbyy'     : bbyy_scalings['v02'],
+            'bbll'     : bbll_scalings['v00'],
+            'bbVV'     : bbVV_scalings['v00'],
+            'WWWW'     : WWWW_scalings['v00'],
+            },
+    'r04' : {
+            'bbbb'     : bbbb_scalings['v04'],
+            'bbtautau' : bbtautau_scalings['v03'], 
+            'bbyy'     : bbyy_scalings['v02'],
+            'bbll'     : bbll_scalings['v00'],
+            'bbVV'     : bbVV_scalings['v00'],
+            'WWWW'     : WWWW_scalings['v00'],
+            },
                     }
-
-xsec_hh_SM = 31.05 / 1000.0
 
 def get_scaling(release, channel, type, mass, doScaling=True):
     """Get the scaling factor for a specific release, channel, type and mass."""
