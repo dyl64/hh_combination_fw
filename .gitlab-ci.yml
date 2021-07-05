@@ -128,14 +128,14 @@ Sp0_bb_pro:
   extends: .Sp0Process
   variables:
     channel: bbbb
-    other_options: "-m 251 260 280 300 350 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500"
+    other_options: "-m 251,260,280,300,350,400,500,600,700,800,900,1000,1100,1200,1300,1400,1500"
 
 Sp0_bb_pro2:
   extends: .Sp0Process
   variables:
     config: regularization_spin0_boosted4b_v3.yaml
     channel: bbbb
-    other_options: "-m 1600 1800 2000 2500 3000 4000 5000"
+    other_options: "-m 1600,1800,2000,2500,3000,4000,5000"
 
 Sp0_tt_pro:
   extends: .Sp0Process
