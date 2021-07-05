@@ -371,10 +371,11 @@ def plot_nonres(args):
 
         df = pd.concat(dfs)
         df = df.rename(columns={'-2': 'xsec_m2s_NP_profiled', '2': 'xsec_p2s_NP_profiled', '-1': 'xsec_m1s_NP_profiled', '1': 'xsec_p1s_NP_profiled', '0': 'xsec_exp_NP_profiled', 'obs': 'xsec_obs_NP_profiled'}).drop(columns=['inj'])
-        for stat in args.stat_list:
-            file_name = path.basename(path.dirname(stat))
-            with open(dat) as f:
-                df.at[file_name, 'stat'] = json.load(f)['0']
+        if args.stat_list:
+            for stat in args.stat_list:
+                file_name = path.basename(path.dirname(stat))
+                with open(dat) as f:
+                    df.at[file_name, 'stat'] = json.load(f)['0']
 
     else:
         for dat in dat_list:

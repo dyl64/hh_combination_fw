@@ -70,6 +70,14 @@ To check the final result, click on the `Plotting` jobs and click on the `Browse
 
 You can download the whole output from the `Download` botton.
 
+## Run pulls and impact
+
+Perform ranking with:
+```
+quickstats run_pulls --poi xsec_br -i <workspace_file> --parallel -1 --exclude gamma_*,nbkg_* -o <output_directory>
+```
+
+
 ## Some useful tips
 ### Run limit on a workspace
 ```
