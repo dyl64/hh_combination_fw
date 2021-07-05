@@ -83,6 +83,7 @@ hhCompile:
     mini_option: minimizer_options_robust.json
     version: 20210705
   script:
+    - echo HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_nonres_v3.yaml $other_options
     - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_nonres_v3.yaml $other_options
 
 NR_blind_pro:
@@ -120,6 +121,7 @@ NR_all_pro_stat:
     other_options: ""
   allow_failure: true
   script:
+    - echo HHComb process_channels --new_method -i $input_dir/$version -c $channel -r spin0 -o $output_dir --minimizer_options configs/$mini_option --config configs/$config --unblind $other_options
     - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r spin0 -o $output_dir --minimizer_options configs/$mini_option --config configs/$config --unblind $other_options
 
 Sp0_bb_pro:
@@ -165,6 +167,7 @@ Sp0_yy_pro:
     - job: NR_blind_pro
     - job: NR_unblind_pro
   script:
+    - echo HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options
     - HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options
 
 NR_unblind_com:
@@ -250,6 +253,7 @@ NR_cor_tt_yy_com:
     mini_option: minimizer_options_robust.json
   allow_failure: true
   script:
+    - echo HHComb combine_ws --new_method -i $input_dir -r spin0 -c $channels  --minimizer_options configs/$mini_option -m $masspoints $other_options
     - HHComb combine_ws --new_method -i $input_dir -r spin0 -c $channels  --minimizer_options configs/$mini_option -m $masspoints $other_options
 
 Sp0_yy_tt_com:
@@ -449,6 +453,10 @@ NRPlot:
     input_blind_dir: output_blind
     input_stat_dir: output_stat
   script:
+    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*nocorr/0.json --unblind
+    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_blind_dir/limits/root-files/nonres/*/0.json $input_blind_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json --stat_list $input_stat_dir/limits/root-files/nonres/*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json
+    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*fullcorr/0.json --unblind
+    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_blind_dir/limits/root-files/nonres/*/0.json $input_blind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json
     - python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*nocorr/0.json --unblind
     - python plotting/xsection/combination_plotting.py nonres --logx -l $input_blind_dir/limits/root-files/nonres/*/0.json $input_blind_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json --stat_list $input_stat_dir/limits/root-files/nonres/*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json
     - python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*fullcorr/0.json --unblind
@@ -476,6 +484,8 @@ Spin0Plot:
     - job: Sp0_cor_bb_tt_yy_com_part1
     - job: Sp0_cor_bb_tt_yy_com_part2
   script:
+    - echo python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json --unblind
+    - echo python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-fullcorr/*[0-9].json --unblind
     - python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json --unblind
     - python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-fullcorr/*[0-9].json --unblind
 
