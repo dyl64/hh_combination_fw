@@ -145,7 +145,7 @@ def save_plot(args):
         print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mCreating new folder\033[0m'.rjust(40, ' '), out_path)
         makedirs(f'{out_path}')
 
-    fullcorr = sum([1 for i in args.dat_list if 'fullcorr' in i])
+    fullcorr = sum([1 for i in args.dat_list if 'fullcorr' in i]) if args.dat_list else 0
     new_method = 'csv' if args.csv_list or args.summary_json else 'json' if args.dat_list and args.dat_list[0].endswith('json') else 'dat'
     file_name = f'{out_path}/upperlimit_xsec_{args.command}_{new_method}_{"obs" if args.unblind else "exp"}_{"fullcorr" if fullcorr else "nocorr"}.pdf'
     plt.savefig(file_name)
@@ -166,6 +166,7 @@ def get_output_folder(args):
 
 def rescale(df, columns, SM_HH_xsec = 31.05 / 1000, absolute=False):
     for c in columns:
+        if c not in df: continue
         df[c] = df[c] / SM_HH_xsec
     if not absolute:
         df['xsec_m2s_NP_profiled'] = df['xsec_exp_NP_profiled'] - df['xsec_m2s_NP_profiled']
@@ -209,12 +210,12 @@ def plot_spin0(args):
         for dat in ind_list:
             ind_files.append(dat.split('/')[-1])
             ind_dfs.append(pd.read_table(dat, sep=' '))
-            ind_dfs[-1] = rescale(ind_dfs[-1], columns, 1).sort_values(by = 'parameter', ascending = True)
+            ind_dfs[-1] = rescale(ind_dfs[-1], columns, 0.001).sort_values(by = 'parameter', ascending = True)
 
         for dat in com_list + ind_list:
             file_name = path.basename(dat)
             com_dfs.append(pd.read_table(dat, sep=' '))
-            com_dfs[-1] = rescale(com_dfs[-1], columns, 1).sort_values(by = 'parameter', ascending = True)
+            com_dfs[-1] = rescale(com_dfs[-1], columns, 0.001).sort_values(by = 'parameter', ascending = True)
             com_dfs[-1]['filename'] = file_name
             com_dfs[-1]['channels'] = file_name.split('.')[-2].split('-')[-2].replace('_', ', ') if 'bb' in file_name.split('.')[-2].split('-')[-2] else file_name.split('.')[-2].split('-')[-1].replace('_', ', ')
 
@@ -262,7 +263,7 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
     fig, ax = plt.subplots(1, 1, figsize=(9, 6))
 
     # Set axis ranges
-    ax.set_ylim([0.0005, 40])
+    ax.set_ylim([0.5, 40000])
     ax.set_xlim([230, 7000])
 
     def plot_individual():
@@ -342,7 +343,7 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
     polish_ax(args, ax, fontsize)
 
     # y-axis title
-    ylabel = r'$\sigma$ ($\mathrm{pp} \rightarrow \mathrm{X} \rightarrow \mathrm{HH}$) [pb]'
+    ylabel = r'$\sigma$ ($\mathrm{pp} \rightarrow \mathrm{X} \rightarrow \mathrm{HH}$) [fb]'
     ax.set_ylabel(ylabel, horizontalalignment='left', x=1.0, fontsize=fontsize)
 
     # x-axis title
@@ -520,7 +521,7 @@ def main(args):
                 if csv.endswith('combined.csv'):
                     com_df_new = pd.read_csv(csv)
                     if args.relative:
-                        com_df_new = rescale(com_df_new, columns, SM_HH_xsec = 1, absolute=False)
+                        com_df_new = rescale(com_df_new, columns, SM_HH_xsec = 0.001, absolute=False)
                 else:
                     ind_dfs.append(pd.read_csv(csv))
             plot_spin0_from_df(args, ind_dfs + [com_df_new])
@@ -537,12 +538,12 @@ def main(args):
                             com_df_new.append(pd.read_csv(csv))
                         com_df_new = pd.concat(com_df_new)
                         if args.relative:
-                            com_df_new = rescale(com_df_new, columns, SM_HH_xsec = 1, absolute=False)
+                            com_df_new = rescale(com_df_new, columns, SM_HH_xsec = 0.001, absolute=False)
                     else:
                         references.append(v[-1])
                         ind_df = []
                         for csv in v[:-1]:
-                            ind_df.append(pd.read_csv(csv))
+                            ind_df.append(rescale(pd.read_csv(csv), columns, SM_HH_xsec = 0.001, absolute=False))
                         ind_dfs.append(pd.concat(ind_df))
                 plot_spin0_from_df(args, ind_dfs + [com_df_new], reversed = True, references=references)
         else:
