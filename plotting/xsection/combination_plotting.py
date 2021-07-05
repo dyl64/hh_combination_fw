@@ -402,7 +402,7 @@ def plot_nonres_from_df(args, df):
     fontsize = 18
 
     # Plot bands
-    if args.summary_json:
+    if args.summary_json or args.csv_list:
         obs_text_x, exp_text_x, stat_text_x, ref_text_x = 200, 500, 700, 700
     else:
         obs_text_x, exp_text_x, stat_text_x, ref_text_x = 70, 200, 700, 700
@@ -426,7 +426,7 @@ def plot_nonres_from_df(args, df):
 
         if 'ref' in df:
             ref = row['ref']
-            ax.text(exp_text_x*1.2, y+1-y_shift, ref, horizontalalignment='center', verticalalignment='center', fontsize=fontsize-8)
+            ax.text(obs_text_x*1.2, y+1-y_shift, ref, horizontalalignment='center', verticalalignment='center', fontsize=fontsize-8)
         if 'stat' in df:
             stat_str = row['stat']
             stat_str = f'{stat_str:.2}'
