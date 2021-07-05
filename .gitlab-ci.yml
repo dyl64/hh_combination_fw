@@ -115,15 +115,25 @@ NR_all_pro_stat:
   variables:
     output_dir: output
     mini_option: minimizer_options_robust.json
+    config: regularization_spin0_v3.yaml
     version: 20210705
+    other_options: ""
   allow_failure: true
   script:
-    - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r spin0 -o $output_dir --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_spin0_v3.yaml --unblind
+    - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r spin0 -o $output_dir --minimizer_options configs/$mini_option --config configs/$config --unblind $other_options
 
 Sp0_bb_pro:
   extends: .Sp0Process
   variables:
     channel: bbbb
+    other_options: "-m 251 260 280 300 350 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500"
+
+Sp0_bb_pro2:
+  extends: .Sp0Process
+  variables:
+    config: regularization_spin0_boosted4b_v3.yaml
+    channel: bbbb
+    other_options: "-m 1600 1800 2000 2500 3000 4000 5000"
 
 Sp0_tt_pro:
   extends: .Sp0Process
@@ -250,7 +260,7 @@ Sp0_yy_tt_com:
     - job: Sp0_tt_pro
   variables:
     channels: bbyy,bbtautau
-    masspoints: "325,350,450,550"
+    masspoints: "325,450,550"
     other_options: "--unblind"
 
 Sp0_bb_tt_com_part1:
@@ -261,7 +271,7 @@ Sp0_bb_tt_com_part1:
     - job: Sp0_tt_pro
   variables:
     channels: bbbb,bbtautau
-    masspoints: "251,260,280,300,400,500,600,700,800"
+    masspoints: "251,260,280,300,350,400,500,600,700,800"
     other_options: "--unblind"
 
 Sp0_bb_tt_com_part2:
@@ -291,6 +301,7 @@ Sp0_bb_tt_com_part4:
   needs:
     - job: hhCompile
     - job: Sp0_bb_pro
+    - job: Sp0_bb_pro2
     - job: Sp0_tt_pro
   variables:
     channels: bbbb,bbtautau
@@ -306,7 +317,7 @@ Sp0_bb_tt_yy_com_part1:
     - job: Sp0_yy_pro
   variables:
     channels: bbbb,bbtautau,bbyy
-    masspoints: "251,260,280,300,400"
+    masspoints: "251,260,280,300,350,400"
     other_options: "--unblind"
 
 Sp0_bb_tt_yy_com_part2:
@@ -331,7 +342,7 @@ Sp0_cor_yy_tt_com:
   variables:
     channels: bbyy,bbtautau
     masspoints: "325,350,450,550"
-    other_options: "--unblind --scheme configs/np_map_spin0_v1.json"
+    other_options: "--unblind --scheme configs/np_map_spin0_v2.json"
 
 Sp0_cor_bb_tt_com_part1:
   extends: .Sp0Combine_ws
@@ -341,8 +352,8 @@ Sp0_cor_bb_tt_com_part1:
     - job: Sp0_tt_pro
   variables:
     channels: bbbb,bbtautau
-    masspoints: "251,260,280,300,400,500,600,700,800"
-    other_options: "--unblind --scheme configs/np_map_spin0_v1.json"
+    masspoints: "251,260,280,300,350,400,500,600,700,800"
+    other_options: "--unblind --scheme configs/np_map_spin0_v2.json"
 
 Sp0_cor_bb_tt_com_part2:
   extends: .Sp0Combine_ws
@@ -353,7 +364,7 @@ Sp0_cor_bb_tt_com_part2:
   variables:
     channels: bbbb,bbtautau
     masspoints: "900,1000"
-    other_options: "--unblind --scheme configs/np_map_spin0_v1.json"
+    other_options: "--unblind --scheme configs/np_map_spin0_v2.json"
 
 Sp0_cor_bb_tt_com_part3:
   extends: .Sp0Combine_ws
@@ -364,7 +375,7 @@ Sp0_cor_bb_tt_com_part3:
   variables:
     channels: bbbb,bbtautau
     masspoints: "1100,1200"
-    other_options: "--unblind --scheme configs/np_map_spin0_v1.json"
+    other_options: "--unblind --scheme configs/np_map_spin0_v2.json"
 
 Sp0_cor_bb_tt_com_part4:
   extends: .Sp0Combine_ws
@@ -375,7 +386,7 @@ Sp0_cor_bb_tt_com_part4:
   variables:
     channels: bbbb,bbtautau
     masspoints: "1400,1600"
-    other_options: "--unblind --scheme configs/np_map_spin0_v1.json"
+    other_options: "--unblind --scheme configs/np_map_spin0_v2.json"
 
 Sp0_cor_bb_tt_yy_com_part1:
   extends: .Sp0Combine_ws
@@ -386,8 +397,8 @@ Sp0_cor_bb_tt_yy_com_part1:
     - job: Sp0_yy_pro
   variables:
     channels: bbbb,bbtautau,bbyy
-    masspoints: "251,260,280,300,400"
-    other_options: "--unblind --scheme configs/np_map_spin0_v1.json"
+    masspoints: "251,260,280,300,350,400"
+    other_options: "--unblind --scheme configs/np_map_spin0_v2.json"
 
 Sp0_cor_bb_tt_yy_com_part2:
   extends: .Sp0Combine_ws
@@ -399,7 +410,7 @@ Sp0_cor_bb_tt_yy_com_part2:
   variables:
     channels: bbbb,bbtautau,bbyy
     masspoints: "500,600,700,800,900,1000"
-    other_options: "--unblind --scheme configs/np_map_spin0_v1.json"
+    other_options: "--unblind --scheme configs/np_map_spin0_v2.json"
 
 ###################################
 ## Plotting                      ##
@@ -439,7 +450,7 @@ NRPlot:
     input_stat_dir: output_stat
   script:
     - python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*nocorr/0.json --unblind
-    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_blind_dir/limits/root-files/nonres/*/0.json $input_blind_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json --stat_list $input_dir/limits/root-files/nonres/*/0.json $input_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json
+    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_blind_dir/limits/root-files/nonres/*/0.json $input_blind_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json --stat_list $input_stat_dir/limits/root-files/nonres/*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json
     - python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*fullcorr/0.json --unblind
     - python plotting/xsection/combination_plotting.py nonres --logx -l $input_blind_dir/limits/root-files/nonres/*/0.json $input_blind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json
   artifacts:
