@@ -210,6 +210,17 @@ NR_N-WW_com:
     channels: bbbb,bbtautau,bbyy,bbll,bbVV
     other_options: ""
 
+NR_tt_yy_com_stat:
+  extends: .NRCombine_ws
+  needs:
+    - job: hhCompile
+    - job: NR_all_pro_stat
+  variables:
+    input_dir: output_stat
+    mini_option: minimizer_options_robust_stat.json
+    channels: bbtautau,bbyy
+    other_options: ""
+
 NR_all_com_stat:
   extends: .NRCombine_ws
   needs:

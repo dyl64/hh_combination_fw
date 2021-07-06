@@ -374,7 +374,8 @@ def plot_nonres(args):
         if args.stat_list:
             for stat in args.stat_list:
                 file_name = path.basename(path.dirname(stat))
-                with open(dat) as f:
+                if file_name not in df.index: continue
+                with open(stat) as f:
                     df.at[file_name, 'stat'] = json.load(f)['0']
 
     else:
@@ -392,7 +393,7 @@ def plot_nonres(args):
 
     out_path = get_output_folder(args)
     df.to_csv(f'{out_path}/upperlimit_xsec_{args.command}_{"json" if new_method else "dat"}_{"obs" if args.unblind else "exp"}.csv')
-    print(df[columns])
+    print(df[columns[:]])
 
 def plot_nonres_from_df(args, df):
     fig, ax = plt.subplots(1, 1, figsize=(9, 8))
@@ -430,7 +431,8 @@ def plot_nonres_from_df(args, df):
             ax.text(obs_text_x*1.2, y+1-y_shift, ref, horizontalalignment='center', verticalalignment='center', fontsize=fontsize-8)
         if 'stat' in df:
             stat_str = row['stat']
-            stat_str = f'{stat_str:.2}'
+            if isinstance(stat_str , (int, float)):
+                stat_str = f'{stat_str:.2f}'
             ax.text(stat_text_x, y+1-y_shift, stat_str, horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
 
     if args.unblind:
