@@ -41,7 +41,7 @@ scenario_map = {
     f'combined36': (r'Combined' + '\n' + r'27.5$-$36.1 fb$^{-1}$', 1, 'black'),
     f'bbbb': (r'$\mathrm{b\bar{b}b\bar{b}}$', 11, 'b'),
     f'bbtautau': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$', 12, '#9A0EEA'),
-    f'bbtautau139': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$'+'\n' + r'139 fb$^{-1}$', 12, '#9A0EEA'),
+    f'bbtautau139': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$'+'\n' + r'139 fb$^{-1}$', 12, '#medturquoise'),
     f'bbtautau_resolved': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (resolved)', 12, 'hh:medturquoise'),
     f'bbtautau_boosted': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (boosted)', 12, '#9A0EEA'),
     f'bbtautau_boosted2': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (Remove)', 12, '#9A0EEA'),
@@ -89,7 +89,7 @@ def polish_ax(args, ax, fontsize):
 
 
 # With help from https://github.com/rateixei/PyATLASstyle/blob/master/PyATLASstyle.py
-def drawATLASlabel(fig, ax, internal=True, reg_text=None, xmin=0.05, ymax=0.85,
+def drawATLASlabel(fig, ax, lumi = r'27.5$-$139', internal=True, reg_text=None, xmin=0.05, ymax=0.85,
                    fontsize_title=23, fontsize_label=14, line_spacing=1.2):
     '''
     Draws ATLAS label + other descriptive text
@@ -127,7 +127,7 @@ def drawATLASlabel(fig, ax, internal=True, reg_text=None, xmin=0.05, ymax=0.85,
             verticalalignment='bottom', horizontalalignment='left',
             fontsize=fontsize_title, c=c)
 
-    lumi_label = '$\\sqrt{s} = $13 TeV, %s fb$^{-1}$' % (r'27.5$-$139')
+    lumi_label = '$\\sqrt{s} = $13 TeV, %s fb$^{-1}$' % (lumi)
 
 
     full_label = lumi_label + '\n'+ reg_text
@@ -145,7 +145,8 @@ def save_plot(args):
         print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mCreating new folder\033[0m'.rjust(40, ' '), out_path)
         makedirs(f'{out_path}')
 
-    fullcorr = sum([1 for i in args.dat_list if 'fullcorr' in i]) if args.dat_list else 0
+    set_trace()
+    fullcorr = sum([1 for i in args.dat_list + args.com_list if 'fullcorr' in i]) if args.dat_list else 0
     new_method = 'csv' if args.csv_list or args.summary_json else 'json' if args.dat_list and args.dat_list[0].endswith('json') else 'dat'
     file_name = f'{out_path}/upperlimit_xsec_{args.command}_{new_method}_{"obs" if args.unblind else "exp"}_{"fullcorr" if fullcorr else "nocorr"}.pdf'
     plt.savefig(file_name)
@@ -239,7 +240,8 @@ def plot_spin0(args):
 
     com_df_new['parameter'] = pd.to_numeric(com_df_new['parameter'])
     com_df_new = com_df_new.sort_values(by = 'parameter')
-    print(com_df_new[columns[-2:] + ['parameter', 'filename', 'channels']])
+    com_df_new = rescale(com_df_new, columns, SM_HH_xsec = 0.001, absolute=True)
+    print(com_df_new[columns[-3:-1] + ['parameter', 'filename', 'channels']])
 
     input_folder = (args.dat_list[0]).split('limits') if args.dat_list else (args.csv_list[0]).split('limits')
     out_path = input_folder[0] + 'figures' if len(input_folder) > 1 else 'figures'
@@ -248,7 +250,8 @@ def plot_spin0(args):
     for df in ind_dfs:
         file_name = df.iloc[0]['channel']
         df.to_csv(f'{out_path}/upperlimit_xsec_{args.command}_{"json" if new_method else "dat"}_{"obs" if args.unblind else "exp"}_{file_name}.csv', index=False)
-
+        df = rescale(df, columns, SM_HH_xsec = 0.001, absolute=True)
+        
     plot_spin0_from_df(args, ind_dfs+[com_df_new])
 
 
@@ -374,9 +377,13 @@ def plot_nonres(args):
         if args.stat_list:
             for stat in args.stat_list:
                 file_name = path.basename(path.dirname(stat))
-                if file_name not in df.index: continue
-                with open(stat) as f:
-                    df.at[file_name, 'stat'] = json.load(f)['0']
+                if file_name in df.index:
+                    with open(stat) as f:
+                        df.at[file_name, 'stat'] = json.load(f)['0']
+                if file_name.replace('nocorr', 'fullcorr') in df.index:
+                    file_name = file_name.replace('nocorr', 'fullcorr') 
+                    with open(stat) as f:
+                        df.at[file_name, 'stat'] = json.load(f)['0']
 
     else:
         for dat in dat_list:
@@ -393,7 +400,10 @@ def plot_nonres(args):
 
     out_path = get_output_folder(args)
     df.to_csv(f'{out_path}/upperlimit_xsec_{args.command}_{"json" if new_method else "dat"}_{"obs" if args.unblind else "exp"}.csv')
-    print(df[columns[:]])
+    if 'stat' in df:
+        print(df[columns])
+    else:
+        print(df[columns[:-1]])
 
 def plot_nonres_from_df(args, df):
     fig, ax = plt.subplots(1, 1, figsize=(9, 8))
@@ -439,7 +449,7 @@ def plot_nonres_from_df(args, df):
         ax.text(obs_text_x, (y + 1)*1.1, 'Obs.', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
     ax.text(exp_text_x, (y + 1)*1.1, 'Exp.', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
     if 'stat' in df:
-        ax.text(stat_text_x*1.2, (y + 1)*1.1, 'Exp. stat', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
+        ax.text(stat_text_x*1.2, (y + 1)*1.1, 'Exp. stat.', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
 
     textlable = ''
 
@@ -481,9 +491,9 @@ def plot_nonres_from_df(args, df):
 def plot_common(args, fig, ax, textlable, fontsize, legendsize):
     # ATLAS cosmetics
     if args.command == 'nonres':
-        drawATLASlabel(fig, ax, internal=True, reg_text=textlable, xmin=0.05, ymax=0.9, fontsize_title=20, fontsize_label=fontsize-1, line_spacing=1.2)
+        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if args.summary_json else r'139', internal=True, reg_text=textlable, xmin=0.05, ymax=0.9, fontsize_title=20, fontsize_label=fontsize-1, line_spacing=1.2)
     elif args.command == 'spin0':
-        drawATLASlabel(fig, ax, internal=True, reg_text=textlable, xmin=0.13, ymax=0.9, fontsize_title=20, fontsize_label=fontsize-1, line_spacing=1)
+        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if args.summary_json else r'126$-$139', internal=True, reg_text=textlable, xmin=0.13, ymax=0.9, fontsize_title=20, fontsize_label=fontsize-1, line_spacing=1)
 
     # Legend
     if args.command == 'nonres':
@@ -496,7 +506,7 @@ def plot_common(args, fig, ax, textlable, fontsize, legendsize):
             import matplotlib.lines as mlines
             obs_line = mlines.Line2D([], [], color='k', ls = '-', label='Observed')
             exp_line = mlines.Line2D([], [], color='k', ls = '--', label='Expected')
-            style_legend = plt.legend(handles=[obs_line, exp_line], bbox_to_anchor=(0.45, 0.13), ncol=2, framealpha=0., prop={'size': legendsize})
+            style_legend = plt.legend(handles=[obs_line, exp_line], bbox_to_anchor=(0., 0.13), loc='upper left', ncol=2, framealpha=0., prop={'size': legendsize})
             # Add the legend manually to the current Axes.
             plt.gca().add_artist(style_legend)
 
@@ -504,7 +514,7 @@ def plot_common(args, fig, ax, textlable, fontsize, legendsize):
             if 'Remove' not in label:
                 new_handlers.append(handler)
                 new_labels.append(label)
-        plt.legend(new_handlers, new_labels, bbox_to_anchor=(0.53, 0.43), ncol=1, framealpha=0., prop={'size': legendsize})
+        plt.legend(new_handlers, new_labels, bbox_to_anchor=(0.99, 0.99),  loc='upper right', ncol=1, framealpha=0., prop={'size': legendsize})
 
     plt.tight_layout()
     plt.plot()
