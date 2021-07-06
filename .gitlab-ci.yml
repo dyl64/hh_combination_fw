@@ -547,3 +547,4 @@ Artifacts:
       - $output_blind_dir
       - $output_unblind_dir
       - $output_stat_dir
+  when: manual
