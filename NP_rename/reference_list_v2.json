@@ -27,10 +27,43 @@
       "ATLAS_HF_ggH",
       "ATLAS_HF_VBF",
       "ATLAS_HF_WH",
-      "xi",
       "ATLAS_KLAMBDA_REWEIGHTING_HH_ggF"
     ],
     "format": "{NAME}"
+  },
+  "4BBACKGROUND": {
+    "description": "4B Background Uncertainty",
+    "pattern": "alpha_Background",
+    "replace": {
+      "alpha_": ""
+    },
+    "format": "ATLAS_bbbb_{NAME}"
+  },
+  "4BBACKGROUND_2": {
+    "description": "4B Background Uncertainty 2",
+    "match": [
+      "alpha_TRIG_L1_Jet",
+      "alpha_SF_JET_JVT",
+      "alpha_TRIG_HLT_HT",
+      "alpha_TRIG_L1_HT",
+      "alpha_TRIG_HLT_Jet",
+      "alpha_TRIG_L1_Jet_resolved",
+      "alpha_SF_JET_JVT_resolved",
+      "alpha_TRIG_HLT_HT_resolved",
+      "alpha_TRIG_L1_HT_resolved",
+      "alpha_TRIG_HLT_Jet_resolved"
+    ],
+    "replace": {
+      "alpha_": ""
+    },
+    "format": "ATLAS_bbbb_{NAME}"
+  },
+  "CUSTOMMAP": {
+    "description": "NPs with custom mapping",
+    "map": {
+      "xi": "BKG_p0_RES",
+      "alpha_HBB_BR": "THEO_BR_Hbb"
+    }
   },
   "ELECTRON": {
     "description": "Electron Uncertainties",
@@ -239,50 +272,54 @@
   },
   "FAT_JET": {
     "description": "Fat Jet Uncertainties",
-    "pattern": "_JET_(\\w+)_R10_",
+    "pattern": ["_R10_", "_boosted$"],
     "replace": {
       "_resolved": "",
       "_boosted": ""
+    },
+    "replace": {
+      "_boosted": "",
+      "_R10": ""
     },
     "source": {
       "ENERGY_SCALE": {
         "description": "Fat Jet Energy Scale",
         "names": [
-          "ATLAS_JET_Flavor_R10_Composition",
-          "ATLAS_JET_Flavor_R10_Response",
-          "ATLAS_JET_EtaIntercalibration_R10_Modelling",
-          "ATLAS_JET_EtaIntercalibration_R10_TotalStat",
-          "ATLAS_JET_EtaIntercalibration_R10_NonClosure_highE",
-          "ATLAS_JET_EtaIntercalibration_R10_NonClosure_negEta",
-          "ATLAS_JET_EtaIntercalibration_R10_NonClosure_posEta",
-          "ATLAS_JET_EtaIntercalibration_R10_NonClosure_2018data",
-          "ATLAS_JET_EffectiveNP_R10_Detector1",
-          "ATLAS_JET_EffectiveNP_R10_Detector2",
-          "ATLAS_JET_EffectiveNP_R10_Mixed1",
-          "ATLAS_JET_EffectiveNP_R10_Mixed2",
-          "ATLAS_JET_EffectiveNP_R10_Mixed3",
-          "ATLAS_JET_EffectiveNP_R10_Mixed4",
-          "ATLAS_JET_EffectiveNP_R10_Modelling1",
-          "ATLAS_JET_EffectiveNP_R10_Modelling2",
-          "ATLAS_JET_EffectiveNP_R10_Modelling3",
-          "ATLAS_JET_EffectiveNP_R10_Modelling4",
-          "ATLAS_JET_EffectiveNP_R10_Statistical1",
-          "ATLAS_JET_EffectiveNP_R10_Statistical2",
-          "ATLAS_JET_EffectiveNP_R10_Statistical3",
-          "ATLAS_JET_EffectiveNP_R10_Statistical4",
-          "ATLAS_JET_EffectiveNP_R10_Statistical5",
-          "ATLAS_JET_EffectiveNP_R10_Statistical6",
-          "ATLAS_JET_SingleParticle_R10_HighPt",
-          "ATLAS_JET_LargeR_R10_TopologyUncertainty_V",
-          "ATLAS_JET_LargeR_R10_TopologyUncertainty_top",
-          "ATLAS_JET_MassRes_R10_Hbb_comb",
-          "ATLAS_JET_MassRes_R10_Top_comb",
-          "ATLAS_JET_CombMass_R10_TotalStat",
-          "ATLAS_JET_CombMass_R10_Tracking1",
-          "ATLAS_JET_CombMass_R10_Tracking2",
-          "ATLAS_JET_CombMass_R10_Tracking3",
-          "ATLAS_JET_CombMass_R10_Baseline",
-          "ATLAS_JET_CombMass_R10_Modelling"
+          "ATLAS_Boosted_JET_Flavor_Composition",
+          "ATLAS_Boosted_JET_Flavor_Response",
+          "ATLAS_Boosted_JET_EtaIntercalibration_Modelling",
+          "ATLAS_Boosted_JET_EtaIntercalibration_TotalStat",
+          "ATLAS_Boosted_JET_EtaIntercalibration_NonClosure_highE",
+          "ATLAS_Boosted_JET_EtaIntercalibration_NonClosure_negEta",
+          "ATLAS_Boosted_JET_EtaIntercalibration_NonClosure_posEta",
+          "ATLAS_Boosted_JET_EtaIntercalibration_NonClosure_2018data",
+          "ATLAS_Boosted_JET_EffectiveNP_Detector1",
+          "ATLAS_Boosted_JET_EffectiveNP_Detector2",
+          "ATLAS_Boosted_JET_EffectiveNP_Mixed1",
+          "ATLAS_Boosted_JET_EffectiveNP_Mixed2",
+          "ATLAS_Boosted_JET_EffectiveNP_Mixed3",
+          "ATLAS_Boosted_JET_EffectiveNP_Mixed4",
+          "ATLAS_Boosted_JET_EffectiveNP_Modelling1",
+          "ATLAS_Boosted_JET_EffectiveNP_Modelling2",
+          "ATLAS_Boosted_JET_EffectiveNP_Modelling3",
+          "ATLAS_Boosted_JET_EffectiveNP_Modelling4",
+          "ATLAS_Boosted_JET_EffectiveNP_Statistical1",
+          "ATLAS_Boosted_JET_EffectiveNP_Statistical2",
+          "ATLAS_Boosted_JET_EffectiveNP_Statistical3",
+          "ATLAS_Boosted_JET_EffectiveNP_Statistical4",
+          "ATLAS_Boosted_JET_EffectiveNP_Statistical5",
+          "ATLAS_Boosted_JET_EffectiveNP_Statistical6",
+          "ATLAS_Boosted_JET_SingleParticle_HighPt",
+          "ATLAS_Boosted_JET_LargeR_TopologyUncertainty_V",
+          "ATLAS_Boosted_JET_LargeR_TopologyUncertainty_top",
+          "ATLAS_Boosted_JET_MassRes_Hbb_comb",
+          "ATLAS_Boosted_JET_MassRes_Top_comb",
+          "ATLAS_Boosted_JET_CombMass_TotalStat",
+          "ATLAS_Boosted_JET_CombMass_Tracking1",
+          "ATLAS_Boosted_JET_CombMass_Tracking2",
+          "ATLAS_Boosted_JET_CombMass_Tracking3",
+          "ATLAS_Boosted_JET_CombMass_Baseline",
+          "ATLAS_Boosted_JET_CombMass_Modelling"
         ]
       }
     }
@@ -293,7 +330,7 @@
       "_JET_",
       "_SysJET_"
     ],
-    "exclude": ["_JET_(\\w+)_R10_", "_SF_"],
+    "exclude": ["_R10_", "_SF_", "_boosted$"],
     "replace": {
       "_resolved": "",
       "_boosted": ""
@@ -395,6 +432,7 @@
       "_FT_",
       "_SysFT_"
     ],
+    "exclude": ["_R10_", "_boosted$"],
     "names": [
       "ATLAS_FT_EFF_Eigen_B_0",
       "ATLAS_FT_EFF_Eigen_B_1",
@@ -418,6 +456,44 @@
       "ATLAS_FT_EFF_Eigen_Light_6",
       "ATLAS_FT_EFF_extrapolation",
       "ATLAS_FT_EFF_extrapolation_from_charm"
+    ]
+  },
+  "FAT_JET_FLAVOR_TAGGING": {
+    "description": "Fat Jet Flavor Tagging Ucertainties",
+    "pattern": [
+      "_FT_(.*)_boosted$",
+      "_SysFT_(.*)_boosted$",
+      "_R10_FT_",
+      "_R10_(.*)_SysFT_"
+    ],
+    "replace": {
+      "_boosted": "",
+      "_R10": "",
+      "alpha_": ""
+    },
+    "names": [
+      "ATLAS_Boosted_FT_EFF_Eigen_B_0",
+      "ATLAS_Boosted_FT_EFF_Eigen_B_1",
+      "ATLAS_Boosted_FT_EFF_Eigen_B_2",
+      "ATLAS_Boosted_FT_EFF_Eigen_B_3",
+      "ATLAS_Boosted_FT_EFF_Eigen_B_4",
+      "ATLAS_Boosted_FT_EFF_Eigen_B_5",
+      "ATLAS_Boosted_FT_EFF_Eigen_B_6",
+      "ATLAS_Boosted_FT_EFF_Eigen_B_7",
+      "ATLAS_Boosted_FT_EFF_Eigen_B_8",
+      "ATLAS_Boosted_FT_EFF_Eigen_C_0",
+      "ATLAS_Boosted_FT_EFF_Eigen_C_1",
+      "ATLAS_Boosted_FT_EFF_Eigen_C_2",
+      "ATLAS_Boosted_FT_EFF_Eigen_C_3",
+      "ATLAS_Boosted_FT_EFF_Eigen_Light_0",
+      "ATLAS_Boosted_FT_EFF_Eigen_Light_1",
+      "ATLAS_Boosted_FT_EFF_Eigen_Light_2",
+      "ATLAS_Boosted_FT_EFF_Eigen_Light_3",
+      "ATLAS_Boosted_FT_EFF_Eigen_Light_4",
+      "ATLAS_Boosted_FT_EFF_Eigen_Light_5",
+      "ATLAS_Boosted_FT_EFF_Eigen_Light_6",
+      "ATLAS_Boosted_FT_EFF_extrapolation",
+      "ATLAS_Boosted_FT_EFF_extrapolation_from_charm"
     ]
   },
   "MET": {
@@ -460,6 +536,10 @@
   "TTBAR": {
     "description": "TTBar Uncertainties",
     "pattern": "_TTBAR_",
+    "exclude": "_boosted$",
+    "replace": {
+      "_resolved": ""
+    },
     "names": [
       "ATLAS_TTBAR_FSR",
       "ATLAS_TTBAR_ME",
@@ -469,6 +549,22 @@
       "ATLAS_TTBAR_muR"
     ]
   },
+  "FAT_JET_TTBAR": {
+    "description": "Fat Jet TTBar Uncertainties",
+    "pattern": "_TTBAR_(.*)_boosted$",
+    "cutoff": 0.2,
+    "replace": {
+      "_boosted": ""
+    },
+    "names": [
+      "ATLAS_Boosted_TTBAR_FSR",
+      "ATLAS_Boosted_TTBAR_ME",
+      "ATLAS_Boosted_TTBAR_PS",
+      "ATLAS_Boosted_TTBAR_hdamp",
+      "ATLAS_Boosted_TTBAR_muF",
+      "ATLAS_Boosted_TTBAR_muR"
+    ]
+  },  
   "BKGNORM": {
     "description": "Data-driven Background Normalisation Uncertainties",
     "pattern": "ATLAS_norm_",
@@ -489,9 +585,7 @@
       "SysTHEO_": "",
       "SysTHEO": "",
       "THEO_": "",
-      "THEO": "",
-      "theo_": "",
-      "theo": ""
+      "theo_": ""
     },
     "format": "THEO_{NAME}"
   },
@@ -500,9 +594,14 @@
     "pattern": [
       "_b2b$",
       "_b3b$",
-      "_b4b$"
+      "_b4b$",
+      "_b2b_resolved$",
+      "_b3b_resolved$",
+      "_b4b_resolved$"      
     ],
-    "exclude": "(?i)THEO",
+    "exclude": [
+      "(?i)THEO"
+    ],
     "replace": {
       "alpha_": "",
       "MODEL_": "",
@@ -513,6 +612,23 @@
     },
     "format": "THEO_{NAME}"
   },
+  "FAT_JET_BBBB_THEO": {
+    "description": "4B Special Fat Jet Theory Uncertainties",
+    "pattern": [
+      "_b2b_boosted$",
+      "_b3b_boosted$",
+      "_b4b_boosted$"
+    ],
+    "replace": {
+      "alpha_": "",
+      "MODEL_": "",
+      "THEO_": "",
+      "THEO": "",
+      "theo_": "",
+      "theo": ""
+    },
+    "format": "THEO_Boosted_{NAME}"
+  },  
   "TTBAR_THEO": {
     "description": "TTBar Theory Uncertainties",
     "pattern": "_ttbar_",

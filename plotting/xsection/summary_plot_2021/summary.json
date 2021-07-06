@@ -1,6 +1,23 @@
 {
-"bbbb": ["plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_bbbb.csv", "126$-$139 fb$^{-1}$\n[Eur. Phys. J. C 80 (2200) 1165]"],
-"bbtautau": ["plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_bbtautau.csv", "139 fb$^{-1}$\n[Eur. Phys. J. C 80 (2201) 1165]"],
-"bbyy": ["plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_bbyy.csv", "139 fb$^{-1}$\n[Eur. Phys. J. C 80 (2202) 1165]"],
-"combined": ["plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_combined.csv", "27.5$-$36.1 fb$^{-1}$\n[Eur. Phys. J. C 80 (2203) 1165]"]
+  "bbbb": [
+    "plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_bbbb.csv",
+    "126$-$139 fb$^{-1}$\n[Place-Holder]"
+  ],
+  "bbtautau_resolved": [
+    "plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_bbtautau_resolved.csv",
+    "139 fb$^{-1}$\n[Resolved: Place-Holder]"
+  ],
+  "bbtautau_boosted": [
+    "plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_bbtautau_boosted.csv",
+    "plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_bbtautau_boosted2.csv",
+    "139 fb$^{-1}$\n[JHEP 11 (2020) 163]"
+  ],
+  "bbyy": [
+    "plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_bbyy.csv",
+    "139 fb$^{-1}$\n[ATLAS-CONF-2021-016]"
+  ],
+  "combined": [
+    "plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_combined.csv",
+    "27.5$-$36.1 fb$^{-1}$\n[Phys. Lett. B 800 (2020) 135103]"
+  ]
 }

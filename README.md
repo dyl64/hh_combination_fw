@@ -14,13 +14,12 @@ Current relevant folders are:
         |-- RooFitExtensions
         |-- RooStatTools
         |-- workspaceCombiner
-        |-- hh_plot
 
 Caveats:
 - The submodules `DiagnosticTools` will be replaced by something else soon.
+- The submodules `hh_plot` is phasing out and replaced by `plotting/`.
 - Currently stuck at some commit on workspaceCombiner:development branch. Need to update `RooStatTools` to catch the changes.
-- Only nonres is currently working. Need some work on spin0.
-# How to run (on lxplus)
+## How to run (on lxplus)
 ### Check out the packages
 ```
 git clone --recursive ssh://git@gitlab.cern.ch:7999/atlas-physics/HDBS/DiHiggs/combination/hh_combination_fw.git
@@ -37,9 +36,9 @@ git apply --whitespace=nowarn ../../workspaceCombiner.patch
 ```
 source compile.sh
 source setup.sh
-HHComb process_channels --new_method -i <input> -c <channel> -r nonres -o <output> --config configs/regularization_nonres_v2.yaml
+HHComb process_channels --new_method -i <input> -c <channel> -r nonres -o <output> --config configs/regularization_nonres_v3.yaml
 ...
-HHComb combine_ws -i <output> -c bbbb,bbtautau,bbyy,WWWW
+HHComb combine_ws --new_method -i <output> -c bbbb,bbtautau,bbyy,WWWW,bbll,bbVV
 ...
 
 ```
@@ -48,21 +47,47 @@ You need to make sure the workspace can be found in `<input>/<channel>/nonres`.
 ### For the future time
 ```
 source setup.sh
-HHComb process_channels --new_method -i <input> -c <channel> -r nonres -o <output> --config configs/regularization_v2.yaml
+HHComb process_channels --new_method -i <input> -c <channel> -r nonres -o <output> --config configs/regularization_nonres_v3.yaml
 ...
-HHComb combine_ws -i <output> -c bbbb,bbtautau,bbyy,WWWW
+HHComb combine_ws --new_method -i <output> -c bbbb,bbtautau,bbyy,WWWW,bbll,bbVV
 ...
 ```
 
 ### Plotting
-Generate plot for non-resonant:
+Plot for non-resonant and spin0:
 ```
-cd submodules/hh_plot
-root -l -q -b 'MakeLimitPlots_nonres_paper.cxx("<output>", "")'
+python plotting/xsection/combination_plotting.py nonres  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json --unblind
+
+python plotting/xsection/combination_plotting.py nonres  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json --unblind
+
 ```
-# Check results on gitlab CI
-The non-resonant jobs are tested with CI/CD until the plotting.
-You can check the [.gitlab-CI.yml](.gitlab-ci.yml) file for the same commands and go to the RunPlot job of the CI pipeline and find the final plot way down through clicking the `Browser` botton.
+## Check and download results from gitlab CI
+The whole workflow is running on gitlab CI.
+Go to `CI/CD > Pipelines` and click on any of the recent `passed` task, then you will see the following display:
+![alt text](.CI.jpg "Title")
+
+To check the final result, click on the `Plotting` jobs and click on the `Browser` botton on the right.
+
+You can download the whole output from the `Download` botton.
+
+## Run pulls and impact
+
+Perform ranking with:
+```
+quickstats run_pulls --poi xsec_br -i <workspace_file> --parallel -1 --exclude gamma_*,nbkg_* -o <output_directory>
+```
+
+
+## Some useful tips
+### Run limit on a workspace
+```
+quickstats cls_limit -i <input_root_file> --poi xsec_br --print_level 1 --strategy 1
+```
+
+### Inspect workspaces
+```
+quickstats inspect_ws pois -i <input_root_file>
+```
 
 
 </p>
