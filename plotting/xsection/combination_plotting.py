@@ -138,6 +138,13 @@ def drawATLASlabel(fig, ax, lumi = r'27.5$-$139', internal=True, reg_text=None, 
             verticalalignment='bottom', horizontalalignment='left',
             fontsize=fontsize_label, c=c)
 
+def corr_or_not(args):
+    fullcorr = 0
+    if args.dat_list:
+        fullcorr += sum([1 for i in args.dat_list if 'fullcorr' in i])
+    if 'com_list' in args:
+        fullcorr += sum([1 for i in args.com_list if 'fullcorr' in i])
+    return fullcorr
 
 def save_plot(args):
     out_path = get_output_folder(args)
@@ -145,8 +152,7 @@ def save_plot(args):
         print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mCreating new folder\033[0m'.rjust(40, ' '), out_path)
         makedirs(f'{out_path}')
 
-    set_trace()
-    fullcorr = sum([1 for i in args.dat_list + args.com_list if 'fullcorr' in i]) if args.dat_list else 0
+    fullcorr = corr_or_not(args)
     new_method = 'csv' if args.csv_list or args.summary_json else 'json' if args.dat_list and args.dat_list[0].endswith('json') else 'dat'
     file_name = f'{out_path}/upperlimit_xsec_{args.command}_{new_method}_{"obs" if args.unblind else "exp"}_{"fullcorr" if fullcorr else "nocorr"}.pdf'
     plt.savefig(file_name)
@@ -245,11 +251,12 @@ def plot_spin0(args):
 
     input_folder = (args.dat_list[0]).split('limits') if args.dat_list else (args.csv_list[0]).split('limits')
     out_path = input_folder[0] + 'figures' if len(input_folder) > 1 else 'figures'
-    com_df_new.to_csv(f'{out_path}/upperlimit_xsec_{args.command}_{"json" if new_method else "dat"}_{"obs" if args.unblind else "exp"}_combined.csv', index=False)
+    fullcorr = corr_or_not(args)
+    com_df_new.to_csv(f'{out_path}/upperlimit_xsec_{args.command}_{"json" if new_method else "dat"}_{"obs" if args.unblind else "exp"}_{"fullcorr" if fullcorr else "nocorr"}_combined.csv', index=False)
 
     for df in ind_dfs:
         file_name = df.iloc[0]['channel']
-        df.to_csv(f'{out_path}/upperlimit_xsec_{args.command}_{"json" if new_method else "dat"}_{"obs" if args.unblind else "exp"}_{file_name}.csv', index=False)
+        df.to_csv(f'{out_path}/upperlimit_xsec_{args.command}_{"json" if new_method else "dat"}_{"obs" if args.unblind else "exp"}_{"fullcorr" if fullcorr else "nocorr"}_{file_name}.csv', index=False)
         df = rescale(df, columns, SM_HH_xsec = 0.001, absolute=True)
         
     plot_spin0_from_df(args, ind_dfs+[com_df_new])
@@ -399,7 +406,8 @@ def plot_nonres(args):
     plot_nonres_from_df(args, df)
 
     out_path = get_output_folder(args)
-    df.to_csv(f'{out_path}/upperlimit_xsec_{args.command}_{"json" if new_method else "dat"}_{"obs" if args.unblind else "exp"}.csv')
+    fullcorr = corr_or_not(args)
+    df.to_csv(f'{out_path}/upperlimit_xsec_{args.command}_{"json" if new_method else "dat"}_{"obs" if args.unblind else "exp"}_{"fullcorr" if fullcorr else "nocorr"}.csv')
     if 'stat' in df:
         print(df[columns])
     else:
