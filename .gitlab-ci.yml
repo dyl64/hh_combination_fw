@@ -134,6 +134,8 @@ NR_all_pro_stat:
   only:
     - tags
     - master
+    - CI
+  when: manual
 
 Sp0_bb_pro:
   extends: .Sp0Process
@@ -280,6 +282,8 @@ NR_cor_tt_yy_com:
   only:
     - tags
     - master
+    - CI
+  when: manual
 
 Sp0_yy_tt_com:
   extends: .Sp0Combine_ws
@@ -462,6 +466,8 @@ Sp0_cor_bb_tt_yy_com_part2:
   only:
     - tags
     - master
+    - CI
+  when: manual
 
 NRPlot:
   extends: .plot
