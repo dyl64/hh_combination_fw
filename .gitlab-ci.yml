@@ -87,6 +87,10 @@ hhCompile:
   script:
     - echo HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_nonres_v3.yaml $other_options
     - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_nonres_v3.yaml $other_options
+  only:
+    - tags
+    - master
+    - CI
 
 NR_blind_pro:
   extends: .NRProcess
@@ -94,10 +98,6 @@ NR_blind_pro:
     output_dir: output_blind
     channel: bbbb,bbyy,bbtautau,bbll,bbVV,WWWW
     other_options: ""
-  only:
-    - tags
-    - master
-    - CI
 
 NR_unblind_pro:
   extends: .NRProcess
@@ -105,6 +105,9 @@ NR_unblind_pro:
     output_dir: output_unblind
     channel: bbyy,bbtautau
     other_options: "--unblind"
+  only:
+    - branches
+    - tags
 
 NR_all_pro_stat:
   extends: .NRProcess
@@ -113,10 +116,6 @@ NR_all_pro_stat:
     mini_option: minimizer_options_robust_stat.json
     channel: bbbb,bbyy,bbtautau,bbll,bbVV,WWWW
     other_options: ""
-  only:
-    - tags
-    - master
-    - CI
 
 ###################################
 ## Spin 0 Process channels       ##
@@ -174,6 +173,10 @@ Sp0_yy_pro:
   script:
     - echo HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options
     - HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options
+  only:
+    - tags
+    - master
+    - CI
 
 NR_unblind_com:
   extends: .NRCombine_ws
@@ -182,9 +185,8 @@ NR_unblind_com:
     channels: bbtautau,bbyy
     other_options: "--unblind"
   only:
+    - branches
     - tags
-    - master
-    - CI
 
 NR_bb_tt_yy_com:
   extends: .NRCombine_ws
@@ -192,10 +194,6 @@ NR_bb_tt_yy_com:
     input_dir: output_blind
     channels: bbbb,bbtautau,bbyy
     other_options: ""
-  only:
-    - tags
-    - master
-    - CI
 
 NR_all_com:
   extends: .NRCombine_ws
@@ -203,10 +201,6 @@ NR_all_com:
     input_dir: output_blind
     channels: bbbb,bbtautau,bbyy,bbll,bbVV,WWWW
     other_options: ""
-  only:
-    - tags
-    - master
-    - CI
 
 NR_tt_yy_com:
   extends: .NRCombine_ws
@@ -214,10 +208,6 @@ NR_tt_yy_com:
     input_dir: output_blind
     channels: bbtautau,bbyy
     other_options: ""
-  only:
-    - tags
-    - master
-    - CI
 
 NR_N-ll_com:
   extends: .NRCombine_ws
@@ -225,9 +215,6 @@ NR_N-ll_com:
     input_dir: output_blind
     channels: bbbb,bbtautau,bbyy,bbVV,WWWW
     other_options: ""
-  only:
-    - tags
-    - master
 
 NR_N-VV_com:
   extends: .NRCombine_ws
@@ -235,9 +222,6 @@ NR_N-VV_com:
     input_dir: output_blind
     channels: bbbb,bbtautau,bbyy,bbll,WWWW
     other_options: ""
-  only:
-    - tags
-    - master
 
 NR_N-WW_com:
   extends: .NRCombine_ws
@@ -245,9 +229,6 @@ NR_N-WW_com:
     input_dir: output_blind
     channels: bbbb,bbtautau,bbyy,bbll,bbVV
     other_options: ""
-  only:
-    - tags
-    - master
 
 NR_tt_yy_com_stat:
   extends: .NRCombine_ws
@@ -259,10 +240,6 @@ NR_tt_yy_com_stat:
     mini_option: minimizer_options_robust_stat.json
     channels: bbtautau,bbyy
     other_options: ""
-  only:
-    - tags
-    - master
-    - CI
 
 NR_all_com_stat:
   extends: .NRCombine_ws
@@ -274,10 +251,6 @@ NR_all_com_stat:
     mini_option: minimizer_options_robust_stat.json
     channels: bbbb,bbtautau,bbyy,bbll,bbVV,WWWW
     other_options: ""
-  only:
-    - tags
-    - master
-    - CI
 
 NR_cor_unblind_com:
   extends: .NRCombine_ws
@@ -486,6 +459,9 @@ Sp0_cor_bb_tt_yy_com_part2:
   artifacts:
     paths:
       - $input_dir/$output_dir
+  only:
+    - tags
+    - master
 
 NRPlot:
   extends: .plot
@@ -540,9 +516,6 @@ Spin0Plot:
     - python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json --unblind
     - echo python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-fullcorr/*[0-9].json --unblind
     - python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-fullcorr/*[0-9].json --unblind
-  only:
-    - tags
-    - master
 
 #####################################
 ## Intermediate output to download ##
@@ -558,6 +531,10 @@ Artifacts:
   allow_failure: true
   script:
     - ls
+  only:
+    - tags
+    - master
+    - CI
   artifacts:
     paths:
       - $output
