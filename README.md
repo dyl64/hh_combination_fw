@@ -56,9 +56,9 @@ HHComb combine_ws --new_method -i <output> -c bbbb,bbtautau,bbyy,WWWW,bbll,bbVV
 ### Plotting
 Plot for non-resonant and spin0:
 ```
-python plotting/xsection/combination_plotting.py nonres  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json --unblind
+python plotting/xsection/combination_plotting.py nonres  --logx --dat_list $input_dir/limits/root-files/nonres/*/*[0-9].json $input_dir/limits/root-files/nonres/combined/A-bbtautau_bbyy-fullcorr/0.json --stat $input_dir_stat/limits/root-files/nonres/*/*[0-9].json $input_dir_stat/limits/root-files/nonres/combined/A-bb*/0.json --unblind
 
-python plotting/xsection/combination_plotting.py nonres  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json --unblind
+python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json --unblind
 
 ```
 ## Check and download results from gitlab CI
@@ -76,12 +76,15 @@ Perform ranking with:
 ```
 quickstats run_pulls --poi xsec_br -i <workspace_file> --parallel -1 --exclude gamma_*,nbkg_* -o <output_directory>
 ```
-
+Then plot ranking plot with
+```
+quickstats plot_pulls -i pulls --poi xsec_br
+```
 
 ## Some useful tips
 ### Run limit on a workspace
 ```
-quickstats cls_limit -i <input_root_file> --poi xsec_br --print_level 1 --strategy 1
+quickstats cls_limit -i <input_root_file> --poi xsec_br --print_level 1 --strategy 1 --snapshot nominalNuis
 ```
 
 ### Inspect workspaces
@@ -89,6 +92,18 @@ quickstats cls_limit -i <input_root_file> --poi xsec_br --print_level 1 --strate
 quickstats inspect_ws pois -i <input_root_file>
 ```
 
+### Generate Asimov
+No CLI tool is available at the moment, run in python / ipython:
+```
+from quickstats.components import ExtendedModel
+model = ExtendedModel("0.root")
+
+# no profiling on NP - take the stored values
+model.generate_asimov(poi_name="xsec_br", poi_value = 0)
+
+# profile NP to best fit values
+model.generate_asimov(poi_name="xsec_br", poi_value = 0, poi_profile =0, do_conditional=True)
+```
 
 </p>
 </details>
