@@ -491,7 +491,8 @@ def plot_nonres_from_df(args, df):
     xlabel = '95% ' + r'CL upper limit on $\sigma_{\mathrm{%s}}$ ($\mathrm{pp \rightarrow HH}$) normalised to $\mathrm{\sigma_{%s}^{SM}}$' % (process, process)
     ax.set_xlabel(xlabel, horizontalalignment='right', x=1.0, fontsize=fontsize)
 
-    textlable = r'$\mathrm{\sigma_{%s}^{SM}}$ = %.2f fb' % (process, args.norm)
+    fullcorr = 'nocorr' if corr_or_not(args) == 0 else 'fullcorr'
+    textlable = r'$\mathrm{\sigma_{%s}^{SM}}$ = %.2f fb, %s' % (process, args.norm, fullcorr)
 
     plot_common(args, fig, ax, textlable, fontsize, fontsize)
     save_plot(args)
@@ -596,7 +597,7 @@ if __name__ == '__main__':
     inputs.add_argument('--summary_json', type=str, default=None, required=False, help='')
     spin0.add_argument('--com_list', nargs='+', type=str, default=['../data-files/spin0-combined-A-bbbb_bbtautau-nocorr.dat', '../data-files/spin0-combined-A-bbtautau_bbyy-nocorr.dat', '../data-files/spin0-combined-A-bbbb_bbtautau_bbyy-nocorr.dat'], required=False, help='')
     spin0.add_argument('--logx', action='store_true', default=False, required=False, help='')
-    spin0.add_argument('--unblind', action='store_true', default=False, required=False, help='')
+    spin0.add_argument('--unblind', action='store_true', default=True, required=False, help='')
     spin0.add_argument('--debug', action='store_true', default=False, required=False, help='')
     spin0.add_argument('--relative', action='store_true', default=False, required=False, help='')
     spin0.add_argument('--no-error', action='store_true', default=False, required=False, help='')
