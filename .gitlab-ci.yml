@@ -151,12 +151,12 @@ Sp0_yy_pro:
     channel: bbyy
 
 # I don't think stat only is interesing for spin 0
-#Sp0_all_pro_stat:
-#  extends: .Sp0Process
-#  variables:
-#    output_dir: output_stat
-#    mini_option: minimizer_options_robust_stat.json
-#    channel: bbbb,bbtautau,bbyy
+Sp0_all_pro_stat:
+  extends: .Sp0Process
+  variables:
+    output_dir: output_stat
+    mini_option: minimizer_options_robust_stat.json
+    channel: bbbb,bbtautau,bbyy
 
 ###################################
 ## None-resonant combination     ##
