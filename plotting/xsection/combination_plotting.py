@@ -39,14 +39,14 @@ scenario_map = {
     
     f'combined': ('Combined', 1, 'black'),
     f'combined36': (r'Combined' + '\n' + r'27.5$-$36.1 fb$^{-1}$', 1, 'black'),
-    f'bbbb': (r'$b\bar{b}b\bar{b}$', 11, 'b'),
-    f'bbtautau': (r'$b\bar{b}\tau^{+}\tau^{-}$', 12, '#9A0EEA'),
-    f'bbtautau139': (r'$b\bar{b}\tau^{+}\tau^{-}$'+'\n' + r'139 fb$^{-1}$', 12, '#medturquoise'),
-    f'bbtautau_resolved': (r'$b\bar{b}\tau^{+}\tau^{-}$ (resolved)', 12, 'hh:medturquoise'),
-    f'bbtautau_boosted': (r'$b\bar{b}\tau^{+}\tau^{-}$ (boosted)', 12, '#9A0EEA'),
-    f'bbtautau_boosted2': (r'$b\bar{b}\tau^{+}\tau^{-}$ (Remove)', 12, '#9A0EEA'),
-    f'bbyy': (r'$b\bar{b}\gamma\gamma$', 13, 'r'),
-    f'bbyy139': (r'$b\bar{b}\gamma\gamma$'+'\n' + r'139 fb$^{-1}$', 13, 'r'),
+    f'bbbb': (r'$\mathrm{b\bar{b}b\bar{b}}$', 11, 'b'),
+    f'bbtautau': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$', 12, '#9A0EEA'),
+    f'bbtautau139': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$'+'\n' + r'139 fb$^{-1}$', 12, '#medturquoise'),
+    f'bbtautau_resolved': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (resolved)', 12, 'hh:medturquoise'),
+    f'bbtautau_boosted': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (boosted)', 12, '#9A0EEA'),
+    f'bbtautau_boosted2': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (Remove)', 12, '#9A0EEA'),
+    f'bbyy': (r'$\mathrm{b\bar{b}\gamma\gamma}$', 13, 'r'),
+    f'bbyy139': (r'$\mathrm{b\bar{b}\gamma\gamma}$'+'\n' + r'139 fb$^{-1}$', 13, 'r'),
     f'bbll': (r'$\mathrm{b\bar{b}ll}$', 14, 'darkcryan'),
     f'bbVV': (r'$\mathrm{b\bar{b}VV}$', 15, 'darkorange'),
     f'WWWW': (r'$\mathrm{Multilepton}$', 16, 'orangered'),
@@ -90,7 +90,7 @@ def polish_ax(args, ax, fontsize):
 
 # With help from https://github.com/rateixei/PyATLASstyle/blob/master/PyATLASstyle.py
 def drawATLASlabel(fig, ax, lumi = r'27.5$-$139', internal=True, reg_text=None, xmin=0.05, ymax=0.85,
-                   fontsize_title=23, fontsize_label=14, line_spacing=1.2):
+                   fontsize_title=30, fontsize_label=15, line_spacing=1.2):
     '''
     Draws ATLAS label + other descriptive text
 
@@ -361,7 +361,7 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
     ax.set_xlabel(xlabel, horizontalalignment='right', x=1.0, fontsize=fontsize)
 
 
-    plot_common(args, fig, ax, textlable, fontsize, fontsize-5 if args.summary_json else fontsize-3)
+    plot_common(args, fig, ax, textlable, fontsize, fontsize-4 if args.summary_json else fontsize-3)
     save_plot(args)
 
 def plot_nonres(args):
@@ -414,16 +414,16 @@ def plot_nonres(args):
         print(df[columns[:-1]])
 
 def plot_nonres_from_df(args, df):
-    fig, ax = plt.subplots(1, 1, figsize=(9, 8))
+    fig, ax = plt.subplots(1, 1, figsize=(9, 7))
     df = df.sort_values(by = 'order', ascending = False)
 
     ax.set_ylim([0, df.shape[0]*1.8])
-    ax.set_xlim([1, 1000 if args.logx else 30])
+    ax.set_xlim([1, 1500 if args.logx else 30])
     fontsize = 18
 
     # Plot bands
     if args.summary_json or args.csv_list:
-        obs_text_x, exp_text_x, stat_text_x, ref_text_x = 200, 500, 700, 700
+        obs_text_x, exp_text_x, stat_text_x, ref_text_x = 300, 900, 700, 700
     else:
         obs_text_x, exp_text_x, stat_text_x, ref_text_x = 70, 200, 700, 700
     y_shift = 0.67 if 'ref' in df else 0.5
@@ -488,9 +488,9 @@ def plot_nonres_from_df(args, df):
         process = 'ggF+VBF'
 
     # x-axis title
-    xlabel = '95% ' + r'CL upper limit on $\sigma_{\mathrm{%s}}$ ($\mathrm{pp \rightarrow HH}$) normalised to $\sigma_\mathrm{{%s}^{SM}}$' % (process, process)
+    xlabel = '95% ' + r'CL upper limit on $\sigma_{\mathrm{%s}}$ ($\mathrm{pp} \rightarrow \mathrm{HH}$) normalised to $\sigma_\mathrm{{%s}^{SM}}$' % (process, process)
     if args.summary_json or args.csv_list:
-        xlabel = '95% ' + r'CL upper limit on $\sigma$ ($\mathrm{pp \rightarrow HH}$) normalised to $\sigma_{\mathrm{SM}}$'
+        xlabel = '95% ' + r'CL upper limit on $\sigma$ ($\mathrm{pp} \rightarrow \mathrm{HH}$) normalised to $\sigma_{\mathrm{SM}}$'
     ax.set_xlabel(xlabel, horizontalalignment='right', x=1.0, fontsize=fontsize)
 
     if not (args.summary_json or args.csv_list):
@@ -503,9 +503,9 @@ def plot_nonres_from_df(args, df):
 def plot_common(args, fig, ax, textlable, fontsize, legendsize):
     # ATLAS cosmetics
     if args.command == 'nonres':
-        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if args.summary_json else r'139', internal=True, reg_text=textlable, xmin=0.05, ymax=0.9, fontsize_title=20, fontsize_label=fontsize-1, line_spacing=1.2)
+        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'139', internal=True, reg_text=textlable, xmin=0.05, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=1.2)
     elif args.command == 'spin0':
-        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if args.summary_json else r'126$-$139', internal=True, reg_text=textlable, xmin=0.13, ymax=0.9, fontsize_title=20, fontsize_label=fontsize-1, line_spacing=1)
+        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'126$-$139', internal=True, reg_text=textlable, xmin=0.13, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=1)
 
     # Legend
     if args.command == 'nonres':
