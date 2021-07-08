@@ -126,10 +126,11 @@ NR_all_pro_stat:
     mini_option: minimizer_options_robust.json
     config: regularization_spin0_v3.yaml
     version: 20210706
+    other_options: "--unblind"
   allow_failure: true
   script:
-    - echo HHComb process_channels --new_method -i $input_dir/$version -c $channel -r spin0 -o $output_dir --minimizer_options configs/$mini_option --config configs/$config --unblind $other_options
-    - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r spin0 -o $output_dir --minimizer_options configs/$mini_option --config configs/$config --unblind $other_options
+    - echo HHComb process_channels --new_method -i $input_dir/$version -c $channel -r spin0 -o $output_dir --minimizer_options configs/$mini_option --config configs/$config $other_options
+    - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r spin0 -o $output_dir --minimizer_options configs/$mini_option --config configs/$config $other_options
   only:
     - tags
     - master
@@ -157,6 +158,7 @@ Sp0_all_pro_stat:
     output_dir: output_stat
     mini_option: minimizer_options_robust_stat.json
     channel: bbbb,bbtautau,bbyy
+    other_options: ""
 
 ###################################
 ## None-resonant combination     ##
