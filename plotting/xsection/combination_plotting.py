@@ -38,13 +38,17 @@ scenario_map = {
     # f'{args.command}-combined-A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-nocorr.dat': ('All 6 combined', 21),
     
     f'combined': ('Combined', 1, 'black'),
+    f'Combined1': ('Combined', 1, 'black'),
+    f'Combined2': ('dummy', 1, 'black'),
+    f'Combined3': ('dummy', 1, 'black'),
     f'combined36': (r'Combined' + '\n' + r'27.5$-$36.1 fb$^{-1}$', 1, 'black'),
     f'bbbb': (r'$\mathrm{b\bar{b}b\bar{b}}$', 11, 'b'),
     f'bbtautau': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$', 12, '#9A0EEA'),
     f'bbtautau139': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$'+'\n' + r'139 fb$^{-1}$', 12, '#medturquoise'),
     f'bbtautau_resolved': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (resolved)', 12, 'hh:medturquoise'),
     f'bbtautau_boosted': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (boosted)', 12, '#9A0EEA'),
-    f'bbtautau_boosted2': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (Remove)', 12, '#9A0EEA'),
+    f'bbtautau_boosted2': ('dummy', 12, '#9A0EEA'),
+    f'bbtautau_boosted3': ('dummy', 12, '#9A0EEA'),
     f'bbyy': (r'$\mathrm{b\bar{b}\gamma\gamma}$', 13, 'r'),
     f'bbyy139': (r'$\mathrm{b\bar{b}\gamma\gamma}$'+'\n' + r'139 fb$^{-1}$', 13, 'r'),
     f'bbll': (r'$\mathrm{b\bar{b}ll}$', 14, 'darkcryan'),
@@ -281,8 +285,10 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
         for ind_df in ind_dfs:
             reference = references.pop(0) if references else ''
             for file_name, df in ind_df.groupby('channel'):
-                ax.plot( 'parameter', 'xsec_exp_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='dashed', linewidth=2, zorder = 1.1, alpha=0.8, label = '' if args.unblind else scenario_map[file_name][0] + ' ' + reference)
-                ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='solid',  linewidth=2, zorder = 1.1, alpha=0.8, label = scenario_map[file_name][0] + ' ' + reference)
+                label = '' if args.unblind or scenario_map[file_name][0] == 'dummy' else scenario_map[file_name][0] + ' ' + reference
+                ax.plot( 'parameter', 'xsec_exp_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='dashed', linewidth=2, zorder = 1.1, alpha=0.8, label = label)
+                label = '' if scenario_map[file_name][0] == 'dummy' else scenario_map[file_name][0] + ' ' + reference
+                ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='solid',  linewidth=2, zorder = 1.1, alpha=0.8, label = label)
                 maxmass = max(df['parameter'])
 
                 # Draw a vertical dash line to show where the channel stops
