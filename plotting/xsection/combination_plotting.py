@@ -45,11 +45,11 @@ scenario_map = {
     f'bbbb': (r'$\mathrm{b\bar{b}b\bar{b}}$', 11, 'b'),
     f'bbtautau': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$', 12, '#9A0EEA'),
     f'bbtautau139': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$'+'\n' + r'139 fb$^{-1}$', 12, 'hdbs:starcommandblue'),
-    f'bbtautau_resolved': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (resolved)', 12, 'darkcyan'),
-    f'bbtautau_boosted': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (boosted)', 12, 'olive'),
-    f'bbtautau_boosted2': ('dummy', 12, 'olive'),
-    f'bbtautau_boosted3': ('dummy', 12, 'olive'),
-    f'bbyy': (r'$\mathrm{b\bar{b}\gamma\gamma}$', 13, 'r'),
+    f'bbtautau_resolved': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (resolved)', 12, 'hh:medturquoise'),
+    f'bbtautau_boosted': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (boosted)', 12, 'hh:darkgreen'),
+    f'bbtautau_boosted2': ('dummy', 12, 'hh:darkgreen'),
+    f'bbtautau_boosted3': ('dummy', 12, 'hh:darkgreen'),
+    f'bbyy': (r'$\mathrm{b\bar{b}\gamma\gamma}$', 13, 'hh:darkpink'),
     f'bbyy139': (r'$\mathrm{b\bar{b}\gamma\gamma}$'+'\n' + r'139 fb$^{-1}$', 13, 'r'),
     f'bbll': (r'$\mathrm{b\bar{b}ll}$', 14, 'darkcryan'),
     f'bbVV': (r'$\mathrm{b\bar{b}VV}$', 15, 'darkorange'),
@@ -286,9 +286,9 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
             reference = references.pop(0) if references else ''
             for file_name, df in ind_df.groupby('channel'):
                 label = '' if args.unblind or scenario_map[file_name][0] == 'dummy' else scenario_map[file_name][0] + ' ' + reference
-                ax.plot( 'parameter', 'xsec_exp_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='dashed', linewidth=2, zorder = 1.1, alpha=0.8, label = label)
+                ax.plot( 'parameter', 'xsec_exp_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='dashed', linewidth=2, zorder = 1.1, alpha=1, label = label)
                 label = '' if scenario_map[file_name][0] == 'dummy' else scenario_map[file_name][0] + ' ' + reference
-                ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='solid',  linewidth=2, zorder = 1.1, alpha=0.8, label = label)
+                ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='solid',  linewidth=2, zorder = 1.1, alpha=1, label = label)
                 maxmass = max(df['parameter'])
 
                 # Draw a vertical dash line to show where the channel stops
@@ -316,9 +316,9 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
     def plot_combined():
         # Plot combined
         # Plot bands
-        line, = ax.plot( 'parameter', 'xsec_exp_NP_profiled', data=com_df_new, color='k', linestyle='dashed', linewidth=2, zorder = 1.5, alpha=0.8, label = '' if args.unblind else 'Combined')
+        line, = ax.plot( 'parameter', 'xsec_exp_NP_profiled', data=com_df_new, color='k', linestyle='dashed', linewidth=2, zorder = 1.5, alpha=1, label = '' if args.unblind else 'Combined')
         if args.unblind:
-            line, = ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=com_df_new, color='k', linestyle='solid', linewidth=2, zorder = 1.5, alpha=0.8, label = 'Combined ' + com_reference)
+            line, = ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=com_df_new, color='k', linestyle='solid', linewidth=2, zorder = 1.5, alpha=1, label = 'Combined ' + com_reference)
         if not args.no_error:
             ax.fill_between(com_df_new['parameter'], com_df_new[columns[0]], com_df_new[columns[3]], facecolor = 'hh:darkyellow', label = r'Expected $\pm$ 2 $\sigma$')
             ax.fill_between(com_df_new['parameter'], com_df_new[columns[1]], com_df_new[columns[2]], facecolor = 'hh:medturquoise', label = r'Expected $\pm$ 1 $\sigma$')
