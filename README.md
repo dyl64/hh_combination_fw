@@ -76,7 +76,10 @@ Perform ranking with:
 ```
 quickstats run_pulls --poi xsec_br -i <workspace_file> --parallel -1 --exclude gamma_*,nbkg_* -o <output_directory>
 ```
-
+Then plotting:
+```
+quickstats plot_pulls -i <output_directory> --poi xsec_br
+```
 
 ## Some useful tips
 ### Run limit on a workspace
