@@ -274,7 +274,7 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
     fontsize = 18
     textlable = 'Spin-0'
 
-    fig, ax = plt.subplots(1, 1, figsize=(9, 6))
+    fig, ax = plt.subplots(1, 1, figsize=(8, 7))
 
     # Set axis ranges
     if args.summary_json:
@@ -366,7 +366,7 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
 
     # y-axis title
     ylabel = r'$\sigma$ ($\mathrm{pp} \rightarrow \mathrm{X} \rightarrow \mathrm{HH}$) [fb]'
-    ax.set_ylabel(ylabel, horizontalalignment='left', x=1.0, fontsize=fontsize)
+    ax.set_ylabel(ylabel, loc='top', fontsize=fontsize)
 
     # x-axis title
     xlabel = r'$\mathrm{m}_\mathrm{X}$ [GeV]'
@@ -517,7 +517,7 @@ def plot_common(args, fig, ax, textlable, fontsize, legendsize):
     if args.command == 'nonres':
         drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'139', internal=True, reg_text=textlable, xmin=0.05, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=1.2)
     elif args.command == 'spin0':
-        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'126$-$139', internal=True, reg_text=textlable, xmin=0.1, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=1)
+        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'126$-$139', internal=True, reg_text=textlable, xmin=0.03 if args.summary_json else 0.1, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=0.8)
 
     # Legend
     if args.command == 'nonres':
