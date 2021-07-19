@@ -17,7 +17,9 @@
     "139 fb$^{-1}$\n[ATLAS-CONF-2021-016]"
   ],
   "combined": [
-    "plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_combined.csv",
+    "plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_1combined.csv",
+    "plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_2combined.csv",
+    "plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_3combined.csv",
     "27.5$-$36.1 fb$^{-1}$\n[Phys. Lett. B 800 (2020) 135103]"
   ]
 }

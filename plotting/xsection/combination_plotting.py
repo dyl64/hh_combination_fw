@@ -51,7 +51,7 @@ scenario_map = {
     f'bbVV': (r'$\mathrm{b\bar{b}VV}$', 15, 'darkorange'),
     f'WWWW': (r'$\mathrm{Multilepton}$', 16, 'orangered'),
     f'bbWW': (r'$\mathrm{b\bar{b}WW}$', 17, 'orangered'),
-    f'bbWW2l': (r'$\mathrm{b\bar{b}WW (2l)}$'+'\n' + r'139 fb$^{-1}$', 17, 'orangered'),
+    f'bbWW2l': (r'$\mathrm{b\bar{b}\ell\nu \ell\nu}$'+'\n' + r'139 fb$^{-1}$', 17, 'orangered'),
     f'A-bbtautau_bbyy-nocorr': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-} + b\bar{b}\gamma\gamma}$', 21, 'black'),
     f'A-bbbb_bbtautau_bbyy-nocorr': ('Top 3 combined', 22, 'black'),
     f'A-bbbb_bbll_bbtautau_bbyy-nocorr': ('Top 3 + '+r'$\mathrm{b\bar{b}ll}$', 23, 'black'),
@@ -90,7 +90,7 @@ def polish_ax(args, ax, fontsize):
 
 # With help from https://github.com/rateixei/PyATLASstyle/blob/master/PyATLASstyle.py
 def drawATLASlabel(fig, ax, lumi = r'27.5$-$139', internal=True, reg_text=None, xmin=0.05, ymax=0.85,
-                   fontsize_title=23, fontsize_label=14, line_spacing=1.2):
+                   fontsize_title=30, fontsize_label=15, line_spacing=1.2):
     '''
     Draws ATLAS label + other descriptive text
 
@@ -314,8 +314,8 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
         if args.unblind:
             line, = ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=com_df_new, color='k', linestyle='solid', linewidth=2, zorder = 1.5, alpha=0.8, label = 'Combined ' + com_reference)
         if not args.no_error:
-            ax.fill_between(com_df_new['parameter'], com_df_new[columns[0]], com_df_new[columns[3]], facecolor = 'hh:darkyellow', label = r'$\mathrm{Expected \pm 2 \sigma}$')
-            ax.fill_between(com_df_new['parameter'], com_df_new[columns[1]], com_df_new[columns[2]], facecolor = 'hh:medturquoise', label = r'$\mathrm{Expected \pm 1 \sigma}$')
+            ax.fill_between(com_df_new['parameter'], com_df_new[columns[0]], com_df_new[columns[3]], facecolor = 'hh:darkyellow', label = r'Expected $\pm$ 2 $\sigma$')
+            ax.fill_between(com_df_new['parameter'], com_df_new[columns[1]], com_df_new[columns[2]], facecolor = 'hh:medturquoise', label = r'Expected $\pm$ 1 $\sigma$')
 
         if args.debug:
             for x,y in zip(com_df_new['parameter'].tolist(), com_df_new['xsec_obs_NP_profiled'].tolist()):
@@ -361,7 +361,7 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
     ax.set_xlabel(xlabel, horizontalalignment='right', x=1.0, fontsize=fontsize)
 
 
-    plot_common(args, fig, ax, textlable, fontsize, fontsize-5 if args.summary_json else fontsize-3)
+    plot_common(args, fig, ax, textlable, fontsize, fontsize-4 if args.summary_json else fontsize-3)
     save_plot(args)
 
 def plot_nonres(args):
@@ -414,19 +414,19 @@ def plot_nonres(args):
         print(df[columns[:-1]])
 
 def plot_nonres_from_df(args, df):
-    fig, ax = plt.subplots(1, 1, figsize=(9, 8))
+    fig, ax = plt.subplots(1, 1, figsize=(9, 7))
     df = df.sort_values(by = 'order', ascending = False)
 
     ax.set_ylim([0, df.shape[0]*1.8])
-    ax.set_xlim([1, 1000 if args.logx else 30])
+    ax.set_xlim([1, 1500 if args.logx else 30])
     fontsize = 18
 
     # Plot bands
     if args.summary_json or args.csv_list:
-        obs_text_x, exp_text_x, stat_text_x, ref_text_x = 200, 500, 700, 700
+        obs_text_x, exp_text_x, stat_text_x, ref_text_x = 300, 900, 700, 700
     else:
         obs_text_x, exp_text_x, stat_text_x, ref_text_x = 70, 200, 700, 700
-    y_shift = 0.65 if 'ref' in df else 0.5
+    y_shift = 0.67 if 'ref' in df else 0.5
 
     df = df.fillna('')
     for y, (index, row) in enumerate(df.iterrows()):
@@ -434,18 +434,18 @@ def plot_nonres_from_df(args, df):
             obs = row[columns[5]]
             ax.vlines(obs, y, y+1, colors = 'k', linestyles = 'solid', zorder = 1.1, label = 'Observed' if y==0 else '')
             ax.scatter(obs, y+0.5, s=50, c='k', marker='o', zorder = 1.1)
-            obs_str = f'{obs:.2f}' if index not in ['combined36', 'bbWW2l'] else f'{obs:g}'
+            obs_str = f'{obs:.1f}' if index not in ['combined36', 'bbWW2l'] else f'{obs:g}'
             ax.text(obs_text_x, y+y_shift, obs_str, horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
         exp = row[columns[4]]
         ax.vlines(exp, y, y+1, colors = 'k', linestyles = 'dotted', zorder = 1.1, label = 'Expected' if y==0 else '')
-        ax.fill_betweenx([y,y+1], row[columns[0]], row[columns[3]], facecolor = 'hh:darkyellow', label = r'$\mathrm{Expected \pm 2 \sigma}$' if y==0 else '')
-        ax.fill_betweenx([y,y+1], row[columns[1]], row[columns[2]], facecolor = 'hh:medturquoise', label = r'$\mathrm{Expected \pm 1 \sigma}$' if y==0 else '')
+        ax.fill_betweenx([y,y+1], row[columns[0]], row[columns[3]], facecolor = 'hh:darkyellow', label = r'Expected $\pm$ 2 $\sigma$' if y==0 else '')
+        ax.fill_betweenx([y,y+1], row[columns[1]], row[columns[2]], facecolor = 'hh:medturquoise', label = r'Expected $\pm$ 1 $\sigma$' if y==0 else '')
         # Plot text
-        exp_str = f'{exp:.2f}' if index not in ['combined36', 'bbWW2l'] else f'{exp:g}'
+        exp_str = f'{exp:.1f}' if index not in ['combined36', 'bbWW2l'] else f'{exp:g}'
         ax.text(exp_text_x, y+y_shift, exp_str, horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
 
         if 'ref' in df:
-            ref = row['ref']
+            ref = row['ref'].replace('\\n', '\n')
             ax.text(obs_text_x*1.2, y+1-y_shift, ref, horizontalalignment='center', verticalalignment='center', fontsize=fontsize-8)
         if 'stat' in df:
             stat_str = row['stat']
@@ -488,10 +488,14 @@ def plot_nonres_from_df(args, df):
         process = 'ggF+VBF'
 
     # x-axis title
-    xlabel = '95% ' + r'CL upper limit on $\sigma_{\mathrm{%s}}$ ($\mathrm{pp \rightarrow HH}$) normalised to $\mathrm{\sigma_{%s}^{SM}}$' % (process, process)
+    xlabel = '95% ' + r'CL upper limit on $\sigma_{\mathrm{%s}}$ ($\mathrm{pp} \rightarrow \mathrm{HH}$) normalised to $\sigma_\mathrm{{%s}^{SM}}$' % (process, process)
+    if args.summary_json or args.csv_list:
+        xlabel = '95% ' + r'CL upper limit on $\sigma$ ($\mathrm{pp} \rightarrow \mathrm{HH}$) normalised to $\sigma_{\mathrm{SM}}$'
     ax.set_xlabel(xlabel, horizontalalignment='right', x=1.0, fontsize=fontsize)
 
-    textlable = r'$\mathrm{\sigma_{%s}^{SM}}$ = %.2f fb' % (process, args.norm)
+    if not (args.summary_json or args.csv_list):
+        fullcorr = 'nocorr' if corr_or_not(args) == 0 else 'fullcorr'
+        textlable = r'$\mathrm{\sigma_{%s}^{SM}}$ = %.2f fb, %s' % (process, args.norm, fullcorr)
 
     plot_common(args, fig, ax, textlable, fontsize, fontsize)
     save_plot(args)
@@ -499,9 +503,9 @@ def plot_nonres_from_df(args, df):
 def plot_common(args, fig, ax, textlable, fontsize, legendsize):
     # ATLAS cosmetics
     if args.command == 'nonres':
-        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if args.summary_json else r'139', internal=True, reg_text=textlable, xmin=0.05, ymax=0.9, fontsize_title=20, fontsize_label=fontsize-1, line_spacing=1.2)
+        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'139', internal=True, reg_text=textlable, xmin=0.05, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=1.2)
     elif args.command == 'spin0':
-        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if args.summary_json else r'126$-$139', internal=True, reg_text=textlable, xmin=0.13, ymax=0.9, fontsize_title=20, fontsize_label=fontsize-1, line_spacing=1)
+        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'126$-$139', internal=True, reg_text=textlable, xmin=0.13, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=1)
 
     # Legend
     if args.command == 'nonres':
@@ -596,7 +600,7 @@ if __name__ == '__main__':
     inputs.add_argument('--summary_json', type=str, default=None, required=False, help='')
     spin0.add_argument('--com_list', nargs='+', type=str, default=['../data-files/spin0-combined-A-bbbb_bbtautau-nocorr.dat', '../data-files/spin0-combined-A-bbtautau_bbyy-nocorr.dat', '../data-files/spin0-combined-A-bbbb_bbtautau_bbyy-nocorr.dat'], required=False, help='')
     spin0.add_argument('--logx', action='store_true', default=False, required=False, help='')
-    spin0.add_argument('--unblind', action='store_true', default=False, required=False, help='')
+    spin0.add_argument('--unblind', action='store_true', default=True, required=False, help='')
     spin0.add_argument('--debug', action='store_true', default=False, required=False, help='')
     spin0.add_argument('--relative', action='store_true', default=False, required=False, help='')
     spin0.add_argument('--no-error', action='store_true', default=False, required=False, help='')
