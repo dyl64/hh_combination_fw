@@ -9,15 +9,30 @@
   ],
   "bbtautau_boosted": [
     "plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_bbtautau_boosted.csv",
+    "139 fb$^{-1}$\n[JHEP 11 (2020) 163]"
+  ],
+  "bbtautau_boosted2": [
     "plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_bbtautau_boosted2.csv",
+    "139 fb$^{-1}$\n[JHEP 11 (2020) 163]"
+  ],
+  "bbtautau_boosted3": [
+    "plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_bbtautau_boosted3.csv",
     "139 fb$^{-1}$\n[JHEP 11 (2020) 163]"
   ],
   "bbyy": [
     "plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_bbyy.csv",
     "139 fb$^{-1}$\n[ATLAS-CONF-2021-016]"
   ],
-  "combined": [
-    "plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_combined.csv",
+  "combined1": [
+    "plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_1combined.csv",
+    "27.5$-$36.1 fb$^{-1}$\n[Phys. Lett. B 800 (2020) 135103]"
+  ],
+  "combined2": [
+    "plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_combined2.csv",
+    "27.5$-$36.1 fb$^{-1}$\n[Phys. Lett. B 800 (2020) 135103]"
+  ],
+  "combined3": [
+    "plotting/xsection/summary_plot_2021/upperlimit_xsec_spin0_json_obs_combined3.csv",
     "27.5$-$36.1 fb$^{-1}$\n[Phys. Lett. B 800 (2020) 135103]"
   ]
 }
