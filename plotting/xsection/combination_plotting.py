@@ -366,7 +366,10 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
 
     # y-axis title
     ylabel = r'$\sigma$ ($\mathrm{pp} \rightarrow \mathrm{X} \rightarrow \mathrm{HH}$) [fb]'
-    ax.set_ylabel(ylabel, loc='top', fontsize=fontsize)
+    try:
+        ax.set_ylabel(ylabel, loc='top', fontsize=fontsize)
+    except:
+        ax.set_ylabel(ylabel, horizontalalignment='right', x=1.0, fontsize=fontsize)
 
     # x-axis title
     xlabel = r'$\mathrm{m}_\mathrm{X}$ [GeV]'
