@@ -1,5 +1,5 @@
 ,xsec_exp_NP_profiled,xsec_p2s_NP_profiled,xsec_p1s_NP_profiled,xsec_m1s_NP_profiled,xsec_m2s_NP_profiled,xsec_obs_NP_profiled,order,ref
-combined36,10,19,14,7,5,6.9,1,Normalised to 33.5 fb\nPhys. Lett. B 800 (2020) 135103
-bbWW2l,29,62,43,20,14,40,2,Normalised to 31.05 fb\nPhys. Lett. B 801 (2020) 135145
-bbyy139,5.46949,12.4168,8.15344,3.94107,2.93561,4.09394,10,Normalised to 32.74 fb\nATLAS-CONF-2021-016
-bbtautau139,3.50,6.53,4.87,2.52,1.88,4.13,11,Normalised to 32.78 fb\nPlace-Holder
+combined36,10,19,14,7,5,6.9,1,Normalised to $\sigma_\mathrm{{ggF}}$\nPhys. Lett. B 800 (2020) 135103
+bbWW2l,29,62,43,20,14,40,10,Normalised to $\sigma_\mathrm{{ggF}}$\nPhys. Lett. B 801 (2020) 135145
+bbyy139,5.46949,12.4168,8.15344,3.94107,2.93561,4.09394,11,Normalised to $\sigma_\mathrm{{ggF+VBF}}$\nATLAS-CONF-2021-016
+bbtautau139,3.50,6.53,4.87,2.52,1.88,4.13,12,Normalised to $\sigma_\mathrm{{ggF+VBF}}$\nPlace-Holder

@@ -54,6 +54,7 @@ _EXTRA_COLORS = {
     "hh:offwhite": "#e9f1df",
     "hh:darkyellow": "#fdc536",
     "hh:darkgreen": "#125125",
+    "atlas:blue": "#0b80c3",
     "transparent": "#ffffff00",
 }
 

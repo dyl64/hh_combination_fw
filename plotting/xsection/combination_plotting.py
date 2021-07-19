@@ -38,20 +38,24 @@ scenario_map = {
     # f'{args.command}-combined-A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-nocorr.dat': ('All 6 combined', 21),
     
     f'combined': ('Combined', 1, 'black'),
+    f'Combined1': ('Combined', 1, 'black'),
+    f'Combined2': ('dummy', 1, 'black'),
+    f'Combined3': ('dummy', 1, 'black'),
     f'combined36': (r'Combined' + '\n' + r'27.5$-$36.1 fb$^{-1}$', 1, 'black'),
     f'bbbb': (r'$\mathrm{b\bar{b}b\bar{b}}$', 11, 'b'),
     f'bbtautau': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$', 12, '#9A0EEA'),
-    f'bbtautau139': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$'+'\n' + r'139 fb$^{-1}$', 12, '#medturquoise'),
+    f'bbtautau139': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$'+'\n' + r'139 fb$^{-1}$', 12, 'hdbs:starcommandblue'),
     f'bbtautau_resolved': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (resolved)', 12, 'hh:medturquoise'),
-    f'bbtautau_boosted': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (boosted)', 12, '#9A0EEA'),
-    f'bbtautau_boosted2': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (Remove)', 12, '#9A0EEA'),
-    f'bbyy': (r'$\mathrm{b\bar{b}\gamma\gamma}$', 13, 'r'),
+    f'bbtautau_boosted': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (boosted)', 12, 'hh:darkgreen'),
+    f'bbtautau_boosted2': ('dummy', 12, 'hh:darkgreen'),
+    f'bbtautau_boosted3': ('dummy', 12, 'hh:darkgreen'),
+    f'bbyy': (r'$\mathrm{b\bar{b}\gamma\gamma}$', 13, 'hh:darkpink'),
     f'bbyy139': (r'$\mathrm{b\bar{b}\gamma\gamma}$'+'\n' + r'139 fb$^{-1}$', 13, 'r'),
     f'bbll': (r'$\mathrm{b\bar{b}ll}$', 14, 'darkcryan'),
     f'bbVV': (r'$\mathrm{b\bar{b}VV}$', 15, 'darkorange'),
     f'WWWW': (r'$\mathrm{Multilepton}$', 16, 'orangered'),
     f'bbWW': (r'$\mathrm{b\bar{b}WW}$', 17, 'orangered'),
-    f'bbWW2l': (r'$\mathrm{b\bar{b}\ell\nu \ell\nu}$'+'\n' + r'139 fb$^{-1}$', 17, 'orangered'),
+    f'bbWW2l': (r'$\mathrm{b\bar{b}\ell^{+}\nu \ell^{-}\nu}$'+'\n' + r'139 fb$^{-1}$', 17, 'orangered'),
     f'A-bbtautau_bbyy-nocorr': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-} + b\bar{b}\gamma\gamma}$', 21, 'black'),
     f'A-bbbb_bbtautau_bbyy-nocorr': ('Top 3 combined', 22, 'black'),
     f'A-bbbb_bbll_bbtautau_bbyy-nocorr': ('Top 3 + '+r'$\mathrm{b\bar{b}ll}$', 23, 'black'),
@@ -270,19 +274,25 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
     fontsize = 18
     textlable = 'Spin-0'
 
-    fig, ax = plt.subplots(1, 1, figsize=(9, 6))
+    fig, ax = plt.subplots(1, 1, figsize=(8, 7))
 
     # Set axis ranges
-    ax.set_ylim([0.5, 40000])
-    ax.set_xlim([230, 7000])
+    if args.summary_json:
+        ax.set_ylim([0.6, 200000])
+        ax.set_xlim([230, 4000])
+    else:
+        ax.set_ylim([0.5, 40000])
+        ax.set_xlim([230, 7000])
 
     def plot_individual():
         # Plot individual
         for ind_df in ind_dfs:
             reference = references.pop(0) if references else ''
             for file_name, df in ind_df.groupby('channel'):
-                ax.plot( 'parameter', 'xsec_exp_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='dashed', linewidth=2, zorder = 1.1, alpha=0.8, label = '' if args.unblind else scenario_map[file_name][0] + ' ' + reference)
-                ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='solid',  linewidth=2, zorder = 1.1, alpha=0.8, label = scenario_map[file_name][0] + ' ' + reference)
+                label = '' if args.unblind or scenario_map[file_name][0] == 'dummy' else scenario_map[file_name][0] + ' ' + reference
+                ax.plot( 'parameter', 'xsec_exp_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='dashed', linewidth=2, zorder = 1.1, alpha=1, label = label)
+                label = '' if scenario_map[file_name][0] == 'dummy' else scenario_map[file_name][0] + ' ' + reference
+                ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=df, color=scenario_map[file_name][2], linestyle='solid',  linewidth=2, zorder = 1.1, alpha=1, label = label)
                 maxmass = max(df['parameter'])
 
                 # Draw a vertical dash line to show where the channel stops
@@ -310,9 +320,9 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
     def plot_combined():
         # Plot combined
         # Plot bands
-        line, = ax.plot( 'parameter', 'xsec_exp_NP_profiled', data=com_df_new, color='k', linestyle='dashed', linewidth=2, zorder = 1.5, alpha=0.8, label = '' if args.unblind else 'Combined')
+        line, = ax.plot( 'parameter', 'xsec_exp_NP_profiled', data=com_df_new, color='k', linestyle='dashed', linewidth=2, zorder = 1.5, alpha=1, label = '' if args.unblind else 'Combined')
         if args.unblind:
-            line, = ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=com_df_new, color='k', linestyle='solid', linewidth=2, zorder = 1.5, alpha=0.8, label = 'Combined ' + com_reference)
+            line, = ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=com_df_new, color='k', linestyle='solid', linewidth=2, zorder = 1.5, alpha=1, label = 'Combined ' + com_reference)
         if not args.no_error:
             ax.fill_between(com_df_new['parameter'], com_df_new[columns[0]], com_df_new[columns[3]], facecolor = 'hh:darkyellow', label = r'Expected $\pm$ 2 $\sigma$')
             ax.fill_between(com_df_new['parameter'], com_df_new[columns[1]], com_df_new[columns[2]], facecolor = 'hh:medturquoise', label = r'Expected $\pm$ 1 $\sigma$')
@@ -342,9 +352,11 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
         ax.set_xscale('log')
         # Set frequency
         majorticks = [200, 300, 500, 1000, 2000, 3000, 5000]
+        if args.summary_json:
+            majorticks.remove(5000)
         ax.set_xticks(majorticks)
         ax.set_xticklabels(majorticks)
-        minorticks = list(np.arange(200, 300, 20)) + list(np.arange(200, 2000, 100)) + list(np.arange(2000, 5000, 1000))
+        minorticks = list(np.arange(200, 300, 20)) + list(np.arange(200, 2000, 100)) + (list(np.arange(2000, 3000, 500)) if args.summary_json else list(np.arange(2000, 5000, 1000)))
         ax.set_xticks(minorticks, minor=True)
         ax.set_xticklabels([], minor=True)
     else:
@@ -354,14 +366,14 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
 
     # y-axis title
     ylabel = r'$\sigma$ ($\mathrm{pp} \rightarrow \mathrm{X} \rightarrow \mathrm{HH}$) [fb]'
-    ax.set_ylabel(ylabel, horizontalalignment='left', x=1.0, fontsize=fontsize)
+    ax.set_ylabel(ylabel, loc='top', fontsize=fontsize)
 
     # x-axis title
     xlabel = r'$\mathrm{m}_\mathrm{X}$ [GeV]'
     ax.set_xlabel(xlabel, horizontalalignment='right', x=1.0, fontsize=fontsize)
 
 
-    plot_common(args, fig, ax, textlable, fontsize, fontsize-4 if args.summary_json else fontsize-3)
+    plot_common(args, fig, ax, textlable, fontsize, fontsize-5 if args.summary_json else fontsize-3)
     save_plot(args)
 
 def plot_nonres(args):
@@ -505,7 +517,7 @@ def plot_common(args, fig, ax, textlable, fontsize, legendsize):
     if args.command == 'nonres':
         drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'139', internal=True, reg_text=textlable, xmin=0.05, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=1.2)
     elif args.command == 'spin0':
-        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'126$-$139', internal=True, reg_text=textlable, xmin=0.13, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=1)
+        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'126$-$139', internal=True, reg_text=textlable, xmin=0.03 if args.summary_json else 0.1, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=0.8)
 
     # Legend
     if args.command == 'nonres':
