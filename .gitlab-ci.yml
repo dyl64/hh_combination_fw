@@ -81,7 +81,7 @@ hhCompile:
   variables:
     output_dir: output
     mini_option: minimizer_options_robust.json
-    version: 20210706
+    version: 20210719
   allow_failure: true
   script:
     - echo HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_nonres_v3.yaml $other_options
@@ -125,7 +125,7 @@ NR_all_pro_stat:
     output_dir: output
     mini_option: minimizer_options_robust.json
     config: regularization_spin0_v3.yaml
-    version: 20210706
+    version: 20210719
     other_options: "--unblind"
   allow_failure: true
   script:
