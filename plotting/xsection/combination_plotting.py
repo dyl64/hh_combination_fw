@@ -127,7 +127,7 @@ def drawATLASlabel(fig, ax, lumi = r'27.5$-$139', internal=True, reg_text=None, 
                    fontsize=fontsize_title, c=c)
     box1_ext_tr = ax.transAxes.inverted().transform(box1.get_window_extent(renderer=fig.canvas.get_renderer()))
 
-    ax.text(box1_ext_tr[1][0], ymax, 'Internal', transform=ax.transAxes,
+    ax.text(box1_ext_tr[1][0], ymax, 'Preliminary' if args.p else 'Internal', transform=ax.transAxes,
             verticalalignment='bottom', horizontalalignment='left',
             fontsize=fontsize_title, c=c)
 
@@ -518,7 +518,7 @@ def plot_nonres_from_df(args, df):
 def plot_common(args, fig, ax, textlable, fontsize, legendsize):
     # ATLAS cosmetics
     if args.command == 'nonres':
-        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'139', internal=True, reg_text=textlable, xmin=0.05, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=1.2)
+        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'139', internal=True, reg_text=textlable, xmin=0.05, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=0.8)
     elif args.command == 'spin0':
         drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'126$-$139', internal=True, reg_text=textlable, xmin=0.03 if args.summary_json else 0.1, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=0.8)
 
@@ -606,6 +606,7 @@ if __name__ == '__main__':
     nonres.add_argument('--logx', action='store_true', default=False, required=False, help='')
     nonres.add_argument('--norm', type=float, default=31.05, required=False, help='')
     nonres.add_argument('--unblind', action='store_true', default=False, required=False, help='')
+    nonres.add_argument('-p', action='store_true', default=False, required=False, help='')
 
     spin0 = subcommands.add_parser('spin0', help='Plot spin0.')
     spin0.add_argument('spin0', nargs='*')
@@ -619,6 +620,7 @@ if __name__ == '__main__':
     spin0.add_argument('--debug', action='store_true', default=False, required=False, help='')
     spin0.add_argument('--relative', action='store_true', default=False, required=False, help='')
     spin0.add_argument('--no-error', action='store_true', default=False, required=False, help='')
+    spin0.add_argument('-p', action='store_true', default=False, required=False, help='')
 
     args = parser.parse_args()
     main(args)
