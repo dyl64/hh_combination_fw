@@ -81,6 +81,12 @@ Then plot ranking plot with
 quickstats plot_pulls -i pulls --poi xsec_br
 ```
 
+
+## Generate scheme files for NP correlation
+
+Refer to `[NP_rename/README.md](NP_rename/README.md)` for details.
+
+
 ## Some useful tips
 ### Run limit on a workspace
 ```
