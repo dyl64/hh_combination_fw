@@ -259,14 +259,14 @@ NR_cor_unblind_com:
   variables:
     input_dir: output_unblind
     channels: bbtautau,bbyy
-    other_options: "--unblind --scheme configs/np_map_nonres_v1.json"
+    other_options: "--unblind --scheme configs/np_map_nonres_v2.json"
 
 NR_cor_tt_yy_com:
   extends: .NRCombine_ws
   variables:
     input_dir: output_blind
     channels: bbtautau,bbyy
-    other_options: "--scheme configs/np_map_nonres_v1.json"
+    other_options: "--scheme configs/np_map_nonres_v2.json"
 
 ###################################
 ## Spin 0 combination            ##
