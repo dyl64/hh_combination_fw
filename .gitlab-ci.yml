@@ -348,7 +348,7 @@ Sp0_bb_tt_yy_com_part1:
     - job: Sp0_yy_pro
   variables:
     channels: bbbb,bbtautau,bbyy
-    masspoints: "251,260,280,300,350,400"
+    masspoints: "251,260,280,300,350,400,500"
     other_options: "--unblind"
 
 Sp0_bb_tt_yy_com_part2:
@@ -360,7 +360,7 @@ Sp0_bb_tt_yy_com_part2:
     - job: Sp0_yy_pro
   variables:
     channels: bbbb,bbtautau,bbyy
-    masspoints: "500,600,700,800,900,1000"
+    masspoints: "600,700,800,900,1000"
     other_options: "--unblind"
 
 
@@ -428,7 +428,7 @@ Sp0_cor_bb_tt_yy_com_part1:
     - job: Sp0_yy_pro
   variables:
     channels: bbbb,bbtautau,bbyy
-    masspoints: "251,260,280,300,350,400"
+    masspoints: "251,260,280,300,350,400,500"
     other_options: "--unblind --scheme configs/np_map_spin0_v3.json"
 
 Sp0_cor_bb_tt_yy_com_part2:
@@ -440,7 +440,7 @@ Sp0_cor_bb_tt_yy_com_part2:
     - job: Sp0_yy_pro
   variables:
     channels: bbbb,bbtautau,bbyy
-    masspoints: "500,600,700,800,900,1000"
+    masspoints: "600,700,800,900,1000"
     other_options: "--unblind --scheme configs/np_map_spin0_v3.json"
 
 ###################################
