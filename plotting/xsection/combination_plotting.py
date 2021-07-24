@@ -122,7 +122,7 @@ def drawATLASlabel(fig, ax, lumi = r'27.5$-$139', internal=True, reg_text=None, 
             fontsize=fontsize_title, fontweight='bold', style='italic', c=c)
     box0_ext_tr = ax.transAxes.inverted().transform(box0.get_window_extent(renderer=fig.canvas.get_renderer()))
 
-    ax.text(xmin+0.18, ymax, 'Preliminary' if args.p else 'Internal', transform=ax.transAxes,
+    ax.text(max(box0_ext_tr[1][0], 0.21), ymax, 'Preliminary' if args.p else 'Internal', transform=ax.transAxes,
             verticalalignment='bottom', horizontalalignment='left',
             fontsize=fontsize_title, c=c)
 
@@ -424,19 +424,19 @@ def plot_nonres(args):
         print(df[columns[:-1]])
 
 def plot_nonres_from_df(args, df):
-    fig, ax = plt.subplots(1, 1, figsize=(9, 7))
+    fig, ax = plt.subplots(1, 1, figsize=(10, 7))
     df = df.sort_values(by = 'order', ascending = False)
 
     ax.set_ylim([0, df.shape[0]*1.8])
-    ax.set_xlim([1, 1500 if args.logx else 30])
+    ax.set_xlim([1.9, 300 if args.logx else 30])
     fontsize = 18
 
     # Plot bands
     if args.summary_json or args.csv_list:
-        obs_text_x, exp_text_x, stat_text_x, ref_text_x = 300, 900, 700, 700
+        obs_text_x, exp_text_x, stat_text_x, ref_text_x = 110, 200, 700, 700
     else:
         obs_text_x, exp_text_x, stat_text_x, ref_text_x = 70, 200, 700, 700
-    y_shift = 0.67 if 'ref' in df else 0.5
+    y_shift = 0.73 if 'ref' in df else 0.5
 
     df = df.fillna('')
     for y, (index, row) in enumerate(df.iterrows()):
@@ -456,7 +456,7 @@ def plot_nonres_from_df(args, df):
 
         if 'ref' in df:
             ref = row['ref'].replace('\\n', '\n')
-            ax.text(obs_text_x*1.2, y+1-y_shift, ref, horizontalalignment='center', verticalalignment='center', fontsize=fontsize-8)
+            ax.text(obs_text_x*1.2, y+1.1-y_shift, ref, horizontalalignment='center', verticalalignment='center', fontsize=fontsize-8)
         if 'stat' in df:
             stat_str = row['stat']
             if isinstance(stat_str , (int, float)):
@@ -464,8 +464,8 @@ def plot_nonres_from_df(args, df):
             ax.text(stat_text_x, y+1-y_shift, stat_str, horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
 
     if args.unblind:
-        ax.text(obs_text_x, (y + 1)*1.1, 'Obs.', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
-    ax.text(exp_text_x, (y + 1)*1.1, 'Exp.', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
+        ax.text(obs_text_x*1.05, (y + 1)*1.1, 'Obs.', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
+    ax.text(exp_text_x*1.05, (y + 1)*1.1, 'Exp.', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
     if 'stat' in df:
         ax.text(stat_text_x*1.2, (y + 1)*1.1, 'Exp. stat.', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
 
@@ -482,9 +482,15 @@ def plot_nonres_from_df(args, df):
     if args.logx:
         ax.set_xscale('symlog')
         # Set frequency
-        ax.xaxis.set_major_locator(ticker.LogLocator())
-        ax.xaxis.set_major_formatter(ticker.LogFormatter())
-        ax.xaxis.set_minor_locator(ticker.LogLocator(base=10,subs=np.arange(10)))
+        if args.summary_json or args.csv_list:
+            majorticks = [2, 5, 10, 20, 50, 100, 200]
+            ax.set_xticks(majorticks)
+            ax.set_xticklabels(majorticks)
+            ax.xaxis.set_minor_locator(ticker.LogLocator(base=10,subs=np.arange(10)))
+        else:
+            ax.xaxis.set_major_locator(ticker.LogLocator())
+            ax.xaxis.set_major_formatter(ticker.LogFormatter())
+            ax.xaxis.set_minor_locator(ticker.LogLocator(base=10,subs=np.arange(10)))
     else:
         ax.xaxis.set_major_locator(ticker.AutoLocator())
         ax.xaxis.set_minor_locator(ticker.MultipleLocator(20))
@@ -515,7 +521,7 @@ def plot_common(args, fig, ax, textlable, fontsize, legendsize):
     if args.command == 'nonres':
         drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'139', internal=True, reg_text=textlable, xmin=0.05, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=0.8)
     elif args.command == 'spin0':
-        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'126$-$139', internal=True, reg_text=textlable, xmin=0.05 if args.summary_json else 0.1, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=0.8)
+        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'126$-$139', internal=True, reg_text=textlable, xmin=0.04 if args.summary_json else 0.1, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=0.8)
 
     # Legend
     if args.command == 'nonres':
@@ -528,7 +534,7 @@ def plot_common(args, fig, ax, textlable, fontsize, legendsize):
             import matplotlib.lines as mlines
             obs_line = mlines.Line2D([], [], color='k', ls = '-', label='Observed')
             exp_line = mlines.Line2D([], [], color='k', ls = '--', label='Expected')
-            style_legend = plt.legend(handles=[obs_line, exp_line], bbox_to_anchor=(0., 0.13), loc='upper left', ncol=2, framealpha=0., prop={'size': legendsize})
+            style_legend = plt.legend(handles=[obs_line, exp_line], bbox_to_anchor=(0.02, 0.15), loc='upper left', ncol=1, framealpha=0., prop={'size': legendsize})
             # Add the legend manually to the current Axes.
             plt.gca().add_artist(style_legend)
 
