@@ -4,7 +4,12 @@ This folder contains sources to generate `schemes` used in the combination step.
 Example commands to create the JSON scheme files are:
 ```
 quickstats harmonize_np -i NP_rename/input_list_nonres.json -r NP_rename/reference_list_v2.json -b <ws_input> -o configs/np_map_nonres_v1.json
+# e.g.
+quickstats harmonize_np -i NP_rename/input_list_nonres.json -r NP_rename/reference_list_v3.json -o configs/np_map_nonres_v2.json -b ../input/20210719/
+
 quickstats harmonize_np -i NP_rename/input_list_spin0.json -r NP_rename/reference_list_v2.json -b <ws_input> -o configs/np_map_spin0_v1.json
+# e.g.
+quickstats harmonize_np -i NP_rename/input_list_spin0.json -r NP_rename/reference_list_v3.json -o configs/np_map_spin0_v3.json -b ../input/20210719/
 ```
 
 The outputs are used to generate the XML card via `--scheme` option in `HHComb combine_ws`, eg
@@ -12,3 +17,15 @@ The outputs are used to generate the XML card via `--scheme` option in `HHComb c
 HHComb combine_ws --new_method -i ../output -r nonres -c bbbb,bbtautau,bbyy --scheme config/np_map_nonres_v1.json
 ```
 Default is no correlation.
+
+
+## History:
+- Current default
+    - `configs/np_map_spin0_v3.json`, generated from `NP_rename/reference_list_v3.json`
+    - `configs/np_map_nonres_v1.json`, generated from `NP_rename/reference_list_v2.json`
+
+- configs/np_map_spin0_v3.json
+    - EPS21 bbtautau final ws, draft 1 4b ws (hand editing for TFag decorrelation of 4b due to its unique loose scheme)
+
+- configs/np_map_spin0_v2.json, configs/np_map_nonres_v1.json
+    - Draft 1 bbtautau and Moriond bbyy, draft 1 4b resonant (for combination EB request 09.07.2021)
