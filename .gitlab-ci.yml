@@ -259,14 +259,14 @@ NR_cor_unblind_com:
   variables:
     input_dir: output_unblind
     channels: bbtautau,bbyy
-    other_options: "--unblind --scheme configs/np_map_nonres_v2.json"
+    other_options: "--unblind --scheme configs/np_map_nonres_v3.json"
 
 NR_cor_tt_yy_com:
   extends: .NRCombine_ws
   variables:
     input_dir: output_blind
     channels: bbtautau,bbyy
-    other_options: "--scheme configs/np_map_nonres_v2.json"
+    other_options: "--scheme configs/np_map_nonres_v3.json"
 
 ###################################
 ## Spin 0 combination            ##
@@ -293,7 +293,7 @@ Sp0_yy_tt_com:
   variables:
     channels: bbyy,bbtautau
     masspoints: "325,450,550"
-    other_options: "--unblind"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4_FTcor.json"
 
 Sp0_bb_tt_com_part1:
   extends: .Sp0Combine_ws
@@ -304,7 +304,7 @@ Sp0_bb_tt_com_part1:
   variables:
     channels: bbbb,bbtautau
     masspoints: "251,260,280,300,350,400,500,600,700,800"
-    other_options: "--unblind"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4_FTcor.json"
 
 Sp0_bb_tt_com_part2:
   extends: .Sp0Combine_ws
@@ -315,7 +315,7 @@ Sp0_bb_tt_com_part2:
   variables:
     channels: bbbb,bbtautau
     masspoints: "900,1000"
-    other_options: "--unblind"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4_FTcor.json"
 
 Sp0_bb_tt_com_part3:
   extends: .Sp0Combine_ws
@@ -326,7 +326,7 @@ Sp0_bb_tt_com_part3:
   variables:
     channels: bbbb,bbtautau
     masspoints: "1100,1200"
-    other_options: "--unblind"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4_FTcor.json"
 
 Sp0_bb_tt_com_part4:
   extends: .Sp0Combine_ws
@@ -337,7 +337,7 @@ Sp0_bb_tt_com_part4:
   variables:
     channels: bbbb,bbtautau
     masspoints: "1400,1600"
-    other_options: "--unblind"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4_FTcor.json"
 
 Sp0_bb_tt_yy_com_part1:
   extends: .Sp0Combine_ws
@@ -349,7 +349,7 @@ Sp0_bb_tt_yy_com_part1:
   variables:
     channels: bbbb,bbtautau,bbyy
     masspoints: "251,260,280,300,350,400,500"
-    other_options: "--unblind"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4_FTcor.json"
 
 Sp0_bb_tt_yy_com_part2:
   extends: .Sp0Combine_ws
@@ -361,7 +361,7 @@ Sp0_bb_tt_yy_com_part2:
   variables:
     channels: bbbb,bbtautau,bbyy
     masspoints: "600,700,800,900,1000"
-    other_options: "--unblind"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4_FTcor.json"
 
 
 Sp0_cor_yy_tt_com:
@@ -373,7 +373,7 @@ Sp0_cor_yy_tt_com:
   variables:
     channels: bbyy,bbtautau
     masspoints: "325,350,450,550"
-    other_options: "--unblind --scheme configs/np_map_spin0_v3.json"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4.json"
 
 Sp0_cor_bb_tt_com_part1:
   extends: .Sp0Combine_ws
@@ -384,7 +384,7 @@ Sp0_cor_bb_tt_com_part1:
   variables:
     channels: bbbb,bbtautau
     masspoints: "251,260,280,300,350,400,500,600,700,800"
-    other_options: "--unblind --scheme configs/np_map_spin0_v3.json"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4.json"
 
 Sp0_cor_bb_tt_com_part2:
   extends: .Sp0Combine_ws
@@ -395,7 +395,7 @@ Sp0_cor_bb_tt_com_part2:
   variables:
     channels: bbbb,bbtautau
     masspoints: "900,1000"
-    other_options: "--unblind --scheme configs/np_map_spin0_v3.json"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4.json"
 
 Sp0_cor_bb_tt_com_part3:
   extends: .Sp0Combine_ws
@@ -406,7 +406,7 @@ Sp0_cor_bb_tt_com_part3:
   variables:
     channels: bbbb,bbtautau
     masspoints: "1100,1200"
-    other_options: "--unblind --scheme configs/np_map_spin0_v3.json"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4.json"
 
 Sp0_cor_bb_tt_com_part4:
   extends: .Sp0Combine_ws
@@ -417,7 +417,7 @@ Sp0_cor_bb_tt_com_part4:
   variables:
     channels: bbbb,bbtautau
     masspoints: "1400,1600"
-    other_options: "--unblind --scheme configs/np_map_spin0_v3.json"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4.json"
 
 Sp0_cor_bb_tt_yy_com_part1:
   extends: .Sp0Combine_ws
@@ -429,7 +429,7 @@ Sp0_cor_bb_tt_yy_com_part1:
   variables:
     channels: bbbb,bbtautau,bbyy
     masspoints: "251,260,280,300,350,400,500"
-    other_options: "--unblind --scheme configs/np_map_spin0_v3.json"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4.json"
 
 Sp0_cor_bb_tt_yy_com_part2:
   extends: .Sp0Combine_ws
@@ -441,7 +441,7 @@ Sp0_cor_bb_tt_yy_com_part2:
   variables:
     channels: bbbb,bbtautau,bbyy
     masspoints: "600,700,800,900,1000"
-    other_options: "--unblind --scheme configs/np_map_spin0_v3.json"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4.json"
 
 ###################################
 ## Plotting                      ##
