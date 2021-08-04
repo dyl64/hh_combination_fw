@@ -5,6 +5,7 @@ import click
 
 from process_channels import process_channels
 from combine_ws import combine_ws
+from pvalue import pvalue
 
 @click.group()
 def cli():
@@ -13,4 +14,5 @@ def cli():
 if __name__ == "__main__":
     cli.add_command(process_channels)
     cli.add_command(combine_ws)
+    cli.add_command(pvalue)
     cli()   
