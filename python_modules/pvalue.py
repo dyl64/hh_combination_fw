@@ -9,8 +9,8 @@ from quickstats.components.likelihood import evaluate_nll
 @click.option('-d', '--dataset', required=False, default='combData', help='path to the processed workspaces')
 def pvalue(input_file, poi_name, dataset):
     poi_val = 0
-    nll_mu_free = evaluate_nll(input_file, poi_val, poi_name , unconditional=True, data=dataset)
-    nll_mu_0 = evaluate_nll(input_file, poi_val, poi_name , unconditional=False, data=dataset)
+    nll_mu_free = evaluate_nll(input_file, poi_val, poi_name, strategy = 1, unconditional=True, data=dataset)
+    nll_mu_0 = evaluate_nll(input_file, poi_val, poi_name, strategy = 1, unconditional=False, data=dataset)
     q0 = 2*(nll_mu_0 -nll_mu_free)
     
     sign = 0 if q0 == 0 else q0 / fabs(q0)

@@ -91,7 +91,7 @@ submodules/RooStatTools/bin/runSigCalc ~/work/HHcomb/FullRun2Workspaces/batches/
 
 ## Generate scheme files for NP correlation
 
-Refer to `[NP_rename/README.md](NP_rename/README.md)` for details.
+Refer to [NP_rename/README.md](NP_rename/README.md) for details.
 
 
 ## Some useful tips
