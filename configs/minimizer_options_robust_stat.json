@@ -3,7 +3,7 @@
     "strategy": 1,
     "eps": 1.0,
     "binned_likelihood": true,
-    "print_level": -1,
+    "print_level": 1,
     "timer": false,
     "num_cpu": 1,
     "offset": true,
