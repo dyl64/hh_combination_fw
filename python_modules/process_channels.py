@@ -22,7 +22,6 @@ DEFAULT_COMB_DATASET = 'combData'
 @click.option('--cl', default="0.95", help='confidence level')
 @click.option('--scaling_release', default="r04", help='scaling release')
 @click.option('--blind/--unblind', default=True, help='blind/unblind analysis')
-@click.option('-n', 'n_proc', type=int, default=16, help='number of concurrent processes')
 @click.option('-m', '--mass', 'mass_expr', default=None, help='mass points to run, wild card is accepted, default=None (all mass points)')
 @click.option('-p', '--param',  default=None, help='perform limit scan on parameterized workspace on a certain parameter(s)'
                                              ', e.g. klambda=-10_10_0.2,cvv=1')
@@ -30,9 +29,10 @@ DEFAULT_COMB_DATASET = 'combData'
 @click.option('--config', 'config_file', default=None, help='configuration file for regularization')
 @click.option('--minimizer_options', default=None, help='configuration file for minimizer options')
 @click.option('--verbose/--silent', default=False, help='show debug messages in stdout')
+@click.option('--parallel', type=int, default=-1, help='number of parallelized workers')
 def process_channels(input_path, resonant_type, channels, outdir, do_better_bands, cl, 
-                     scaling_release, blind, n_proc, mass_expr, param, new_method, config_file,
-                     minimizer_options, verbose):
+                     scaling_release, blind, mass_expr, param, new_method, config_file,
+                     minimizer_options, verbose, parallel):
     
     if config_file is not None:
         config = yaml.safe_load(open(config_file))
@@ -53,6 +53,6 @@ def process_channels(input_path, resonant_type, channels, outdir, do_better_band
         pipeline = wsc.TaskPipelineWS(workspace_dir, outdir, resonant_type, channel, scaling_release,
                                       old_poi, new_poi, old_dataname, new_dataname, do_better_bands,
                                       cl, blind, mass_expr, param, new_method=new_method,
-                                      verbose=verbose, minimizer_options=minimizer_options)
+                                      verbose=verbose, minimizer_options=minimizer_options, parallel=parallel)
 
         pipeline.run_pipeline()
