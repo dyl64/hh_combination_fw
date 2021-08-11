@@ -514,9 +514,13 @@ bbbb_scalings = {
             '1600' : 1.0/(1000 * 0.3392),
             '1800' : 1.0/(1000 * 0.3392),
             '2000' : 1.0/(1000 * 0.3392),
+            '2250' : 1.0/(1000 * 0.3392),
             '2500' : 1.0/(1000 * 0.3392),
+            '2750' : 1.0/(1000 * 0.3392),
             '3000' : 1.0/(1000 * 0.3392),
+            '3500' : 1.0/(1000 * 0.3392),
             '4000' : 1.0/(1000 * 0.3392),
+            '4500' : 1.0/(1000 * 0.3392),
             '5000' : 1.0/(1000 * 0.3392),
         },
     },
@@ -1336,6 +1340,7 @@ bbtautau_scalings = {
             '3000' : 1.0,
         },
     },
+# - v03: For the v03 workspace presented in HH combination meeting on 03/06/2021
     'v03' : {
         'nonres' :
         {
@@ -1370,6 +1375,36 @@ bbtautau_scalings = {
             '2000' : 1.0,
             '2500' : 1.0,
             '3000' : 1.0,
+        },
+    },
+# - v04: For the v03 workspace presented in HH combination meeting on 03/06/2021
+    'v04' : {
+        'nonres' :
+        {
+            '0' : 32.776
+        },
+        'spin0' : 
+        {
+            '251' : 1.0,
+            '260' : 1.0,
+            '280' : 1.0,
+            '300' : 1.0,
+            '325' : 1.0,
+            '350' : 1.0,
+            '375' : 1.0,
+            '400' : 1.0,
+            '450' : 1.0,
+            '500' : 1.0,
+            '550' : 1.0,
+            '600' : 1.0,
+            '700' : 1.0,
+            '800' : 1.0,
+            '900' : 1.0,
+            '1000' : 1.0,
+            '1100' : 1.0,
+            '1200' : 1.0,
+            '1400' : 1.0,
+            '1600' : 1.0,
         },
     }    
 }
@@ -2151,6 +2186,14 @@ scalings_releases = {
     'r04' : {
             'bbbb'     : bbbb_scalings['v04'],
             'bbtautau' : bbtautau_scalings['v03'], 
+            'bbyy'     : bbyy_scalings['v02'],
+            'bbll'     : bbll_scalings['v00'],
+            'bbVV'     : bbVV_scalings['v00'],
+            'WWWW'     : WWWW_scalings['v00'],
+            },
+    'r05' : {
+            'bbbb'     : bbbb_scalings['v04'],
+            'bbtautau' : bbtautau_scalings['v04'], 
             'bbyy'     : bbyy_scalings['v02'],
             'bbll'     : bbll_scalings['v00'],
             'bbVV'     : bbVV_scalings['v00'],

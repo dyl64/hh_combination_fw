@@ -47,7 +47,7 @@ hhCompile:
     - echo -e "Host *\n\tGSSAPIDelegateCredentials yes\n\tGSSAPITrustDNS yes\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - echo $SERVICE_PASS | kinit -f $CERN_USER || echo something
     - mkdir -p $input_dir/$version
-    - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/input/$version/* $input_dir/$version/
+    - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/FullRun2Workspaces/original/$version/* $input_dir/$version/
     - ls $input_dir/$version/*/nonres/0.root
     - shopt -s expand_aliases
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
@@ -81,7 +81,7 @@ hhCompile:
   variables:
     output_dir: output
     mini_option: minimizer_options_robust.json
-    version: 20210706
+    version: 20210723
   allow_failure: true
   script:
     - echo HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_nonres_v3.yaml $other_options
@@ -125,11 +125,12 @@ NR_all_pro_stat:
     output_dir: output
     mini_option: minimizer_options_robust.json
     config: regularization_spin0_v3.yaml
-    version: 20210706
+    version: 20210723
+    other_options: "--unblind"
   allow_failure: true
   script:
-    - echo HHComb process_channels --new_method -i $input_dir/$version -c $channel -r spin0 -o $output_dir --minimizer_options configs/$mini_option --config configs/$config --unblind $other_options
-    - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r spin0 -o $output_dir --minimizer_options configs/$mini_option --config configs/$config --unblind $other_options
+    - echo HHComb process_channels --new_method -i $input_dir/$version -c $channel -r spin0 -o $output_dir --minimizer_options configs/$mini_option --config configs/$config $other_options
+    - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r spin0 -o $output_dir --minimizer_options configs/$mini_option --config configs/$config $other_options
   only:
     - tags
     - master
@@ -150,13 +151,14 @@ Sp0_yy_pro:
   variables:
     channel: bbyy
 
-# I don't think stat only is interesing for spin 0
+## I don't think stat only is interesing for spin 0
 #Sp0_all_pro_stat:
 #  extends: .Sp0Process
 #  variables:
 #    output_dir: output_stat
 #    mini_option: minimizer_options_robust_stat.json
 #    channel: bbbb,bbtautau,bbyy
+#    other_options: ""
 
 ###################################
 ## None-resonant combination     ##
@@ -257,14 +259,14 @@ NR_cor_unblind_com:
   variables:
     input_dir: output_unblind
     channels: bbtautau,bbyy
-    other_options: "--unblind --scheme configs/np_map_nonres_v1.json"
+    other_options: "--unblind --scheme configs/np_map_nonres_v3.json"
 
 NR_cor_tt_yy_com:
   extends: .NRCombine_ws
   variables:
     input_dir: output_blind
     channels: bbtautau,bbyy
-    other_options: "--scheme configs/np_map_nonres_v1.json"
+    other_options: "--scheme configs/np_map_nonres_v3.json"
 
 ###################################
 ## Spin 0 combination            ##
@@ -291,7 +293,7 @@ Sp0_yy_tt_com:
   variables:
     channels: bbyy,bbtautau
     masspoints: "325,450,550"
-    other_options: "--unblind"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4_FTcor.json"
 
 Sp0_bb_tt_com_part1:
   extends: .Sp0Combine_ws
@@ -302,7 +304,7 @@ Sp0_bb_tt_com_part1:
   variables:
     channels: bbbb,bbtautau
     masspoints: "251,260,280,300,350,400,500,600,700,800"
-    other_options: "--unblind"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4_FTcor.json"
 
 Sp0_bb_tt_com_part2:
   extends: .Sp0Combine_ws
@@ -313,7 +315,7 @@ Sp0_bb_tt_com_part2:
   variables:
     channels: bbbb,bbtautau
     masspoints: "900,1000"
-    other_options: "--unblind"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4_FTcor.json"
 
 Sp0_bb_tt_com_part3:
   extends: .Sp0Combine_ws
@@ -324,7 +326,7 @@ Sp0_bb_tt_com_part3:
   variables:
     channels: bbbb,bbtautau
     masspoints: "1100,1200"
-    other_options: "--unblind"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4_FTcor.json"
 
 Sp0_bb_tt_com_part4:
   extends: .Sp0Combine_ws
@@ -335,7 +337,7 @@ Sp0_bb_tt_com_part4:
   variables:
     channels: bbbb,bbtautau
     masspoints: "1400,1600"
-    other_options: "--unblind"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4_FTcor.json"
 
 Sp0_bb_tt_yy_com_part1:
   extends: .Sp0Combine_ws
@@ -346,8 +348,8 @@ Sp0_bb_tt_yy_com_part1:
     - job: Sp0_yy_pro
   variables:
     channels: bbbb,bbtautau,bbyy
-    masspoints: "251,260,280,300,350,400"
-    other_options: "--unblind"
+    masspoints: "251,260,280,300,350,400,500"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4_FTcor.json"
 
 Sp0_bb_tt_yy_com_part2:
   extends: .Sp0Combine_ws
@@ -358,8 +360,8 @@ Sp0_bb_tt_yy_com_part2:
     - job: Sp0_yy_pro
   variables:
     channels: bbbb,bbtautau,bbyy
-    masspoints: "500,600,700,800,900,1000"
-    other_options: "--unblind"
+    masspoints: "600,700,800,900,1000"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4_FTcor.json"
 
 
 Sp0_cor_yy_tt_com:
@@ -371,7 +373,7 @@ Sp0_cor_yy_tt_com:
   variables:
     channels: bbyy,bbtautau
     masspoints: "325,350,450,550"
-    other_options: "--unblind --scheme configs/np_map_spin0_v2.json"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4.json"
 
 Sp0_cor_bb_tt_com_part1:
   extends: .Sp0Combine_ws
@@ -382,7 +384,7 @@ Sp0_cor_bb_tt_com_part1:
   variables:
     channels: bbbb,bbtautau
     masspoints: "251,260,280,300,350,400,500,600,700,800"
-    other_options: "--unblind --scheme configs/np_map_spin0_v2.json"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4.json"
 
 Sp0_cor_bb_tt_com_part2:
   extends: .Sp0Combine_ws
@@ -393,7 +395,7 @@ Sp0_cor_bb_tt_com_part2:
   variables:
     channels: bbbb,bbtautau
     masspoints: "900,1000"
-    other_options: "--unblind --scheme configs/np_map_spin0_v2.json"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4.json"
 
 Sp0_cor_bb_tt_com_part3:
   extends: .Sp0Combine_ws
@@ -404,7 +406,7 @@ Sp0_cor_bb_tt_com_part3:
   variables:
     channels: bbbb,bbtautau
     masspoints: "1100,1200"
-    other_options: "--unblind --scheme configs/np_map_spin0_v2.json"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4.json"
 
 Sp0_cor_bb_tt_com_part4:
   extends: .Sp0Combine_ws
@@ -415,7 +417,7 @@ Sp0_cor_bb_tt_com_part4:
   variables:
     channels: bbbb,bbtautau
     masspoints: "1400,1600"
-    other_options: "--unblind --scheme configs/np_map_spin0_v2.json"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4.json"
 
 Sp0_cor_bb_tt_yy_com_part1:
   extends: .Sp0Combine_ws
@@ -426,8 +428,8 @@ Sp0_cor_bb_tt_yy_com_part1:
     - job: Sp0_yy_pro
   variables:
     channels: bbbb,bbtautau,bbyy
-    masspoints: "251,260,280,300,350,400"
-    other_options: "--unblind --scheme configs/np_map_spin0_v2.json"
+    masspoints: "251,260,280,300,350,400,500"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4.json"
 
 Sp0_cor_bb_tt_yy_com_part2:
   extends: .Sp0Combine_ws
@@ -438,8 +440,8 @@ Sp0_cor_bb_tt_yy_com_part2:
     - job: Sp0_yy_pro
   variables:
     channels: bbbb,bbtautau,bbyy
-    masspoints: "500,600,700,800,900,1000"
-    other_options: "--unblind --scheme configs/np_map_spin0_v2.json"
+    masspoints: "600,700,800,900,1000"
+    other_options: "--unblind --scheme configs/np_map_spin0_v4.json"
 
 ###################################
 ## Plotting                      ##
