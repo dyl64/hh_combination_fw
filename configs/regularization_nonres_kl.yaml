@@ -1,0 +1,30 @@
+dataset:
+  bbbb:
+    blind: obsData
+    unblind: obsData
+  bbtautau:
+    blind: obsData
+    unblind: obsData
+  bbyy:
+    blind: combData
+    unblind: combData
+  bbll:
+    blind: obsData
+    unblind: obsData
+  bbVV:
+    blind: obsData
+    unblind: obsData
+  WWWW:
+    blind: asimovData
+    unblind: asimovData
+  combination:
+    blind: combData
+    unblind: combData
+poi:
+  bbbb: mu
+  bbtautau: mu
+  bbyy: mu_XS_HH
+  bbll: mu_SIG
+  bbVV: SigXsecOverSM
+  WWWW: SigXsecOverSM
+  combination: xsec_br
