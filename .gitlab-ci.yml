@@ -363,7 +363,7 @@ Sp0_BTY_comb_FT_part1:
     output_dir: output_FT
     channels: bbbb,bbtautau,bbyy
     masspoints: "251,260,280,300,350,400,500"
-    other_options: "--unblind --scheme configs/np_map_spin0_v5_FTdec.json"
+    other_options: "--unblind --scheme configs/np_map_spin0_v5_FTcor.json"
 
 Sp0_BTY_comb_FT_part2:
   extends: .Sp0Combine_ws
@@ -376,7 +376,7 @@ Sp0_BTY_comb_FT_part2:
     output_dir: output_FT
     channels: bbbb,bbtautau,bbyy
     masspoints: "600,700,800,900,1000"
-    other_options: "--unblind --scheme configs/np_map_spin0_v5_FTdec.json"
+    other_options: "--unblind --scheme configs/np_map_spin0_v5_FTcor.json"
 
 Sp0_TY_comb_FT_part3:
   extends: .Sp0Combine_ws
@@ -388,7 +388,7 @@ Sp0_TY_comb_FT_part3:
     output_dir: output_FT
     channels: bbyy,bbtautau
     masspoints: "325,350,450,550"
-    other_options: "--unblind --scheme configs/np_map_spin0_v5_FTdec.json"
+    other_options: "--unblind --scheme configs/np_map_spin0_v5_FTcor.json"
 
 Sp0_BT_comb_FT_part4:
   extends: .Sp0Combine_ws
@@ -400,7 +400,7 @@ Sp0_BT_comb_FT_part4:
     output_dir: output_FT
     channels: bbbb,bbtautau
     masspoints: "900,1000"
-    other_options: "--unblind --scheme configs/np_map_spin0_v5_FTdec.json"
+    other_options: "--unblind --scheme configs/np_map_spin0_v5_FTcor.json"
 
 Sp0_BT_comb_FT_part5:
   extends: .Sp0Combine_ws
@@ -412,7 +412,7 @@ Sp0_BT_comb_FT_part5:
     output_dir: output_FT
     channels: bbbb,bbtautau
     masspoints: "1100,1200"
-    other_options: "--unblind --scheme configs/np_map_spin0_v5_FTdec.json"
+    other_options: "--unblind --scheme configs/np_map_spin0_v5_FTcor.json"
 
 Sp0_BT_comb_FT_part6:
   extends: .Sp0Combine_ws
@@ -424,7 +424,7 @@ Sp0_BT_comb_FT_part6:
     output_dir: output_FT
     channels: bbbb,bbtautau
     masspoints: "1400,1600"
-    other_options: "--unblind --scheme configs/np_map_spin0_v5_FTdec.json"
+    other_options: "--unblind --scheme configs/np_map_spin0_v5_FTcor.json"
 
 
 ## Switch off bbbb+bbtautau combination (may not be used in CONF note)
