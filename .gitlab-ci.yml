@@ -162,6 +162,25 @@ Sp0_yy_pro:
   variables:
     channel: bbyy
 
+## process channel for FT is duplicated
+Sp0_bb_pro_FT:
+  extends: .Sp0Process
+  variables:
+    output_dir: output_FT
+    channel: bbbb
+
+Sp0_tt_pro_FT:
+  extends: .Sp0Process
+  variables:
+    output_dir: output_FT
+    channel: bbtautau
+
+Sp0_yy_pro_FT:
+  extends: .Sp0Process
+  variables:
+    output_dir: output_FT
+    channel: bbyy
+
 ## I don't think stat only is interesing for spin 0
 #Sp0_all_pro_stat:
 #  extends: .Sp0Process
@@ -221,7 +240,6 @@ NR_TY_comb_blind:
 NR_TY_comb_mu:
   extends: .NRCombine_ws
   variables:
-    mini_option: minimizer_options_robust.json
     input_dir: output_mu_unblind
     channels: bbtautau,bbyy
     other_options: "--unblind"
@@ -351,14 +369,14 @@ Sp0_BT_comb_part6:
     masspoints: "1400,1600"
     other_options: "--unblind --scheme configs/np_map_spin0_v5.json"
 
-# FT correlated (for checking only) all 3 channel combined
+# FT correlated (for checking only) all 3 channel combined or sometimes 2 channel combined if the 3rd one is missing
 Sp0_BTY_comb_FT_part1:
   extends: .Sp0Combine_ws
   needs:
     - job: hhCompile
-    - job: Sp0_bb_pro
-    - job: Sp0_tt_pro
-    - job: Sp0_yy_pro
+    - job: Sp0_bb_pro_FT
+    - job: Sp0_tt_pro_FT
+    - job: Sp0_yy_pro_FT
   variables:
     output_dir: output_FT
     channels: bbbb,bbtautau,bbyy
@@ -369,9 +387,9 @@ Sp0_BTY_comb_FT_part2:
   extends: .Sp0Combine_ws
   needs:
     - job: hhCompile
-    - job: Sp0_bb_pro
-    - job: Sp0_tt_pro
-    - job: Sp0_yy_pro
+    - job: Sp0_bb_pro_FT
+    - job: Sp0_tt_pro_FT
+    - job: Sp0_yy_pro_FT
   variables:
     output_dir: output_FT
     channels: bbbb,bbtautau,bbyy
@@ -382,8 +400,8 @@ Sp0_TY_comb_FT_part3:
   extends: .Sp0Combine_ws
   needs:
     - job: hhCompile
-    - job: Sp0_yy_pro
-    - job: Sp0_tt_pro
+    - job: Sp0_yy_pro_FT
+    - job: Sp0_tt_pro_FT
   variables:
     output_dir: output_FT
     channels: bbyy,bbtautau
@@ -394,8 +412,8 @@ Sp0_BT_comb_FT_part4:
   extends: .Sp0Combine_ws
   needs:
     - job: hhCompile
-    - job: Sp0_bb_pro
-    - job: Sp0_tt_pro
+    - job: Sp0_bb_pro_FT
+    - job: Sp0_tt_pro_FT
   variables:
     output_dir: output_FT
     channels: bbbb,bbtautau
@@ -406,8 +424,8 @@ Sp0_BT_comb_FT_part5:
   extends: .Sp0Combine_ws
   needs:
     - job: hhCompile
-    - job: Sp0_bb_pro
-    - job: Sp0_tt_pro
+    - job: Sp0_bb_pro_FT
+    - job: Sp0_tt_pro_FT
   variables:
     output_dir: output_FT
     channels: bbbb,bbtautau
@@ -418,8 +436,8 @@ Sp0_BT_comb_FT_part6:
   extends: .Sp0Combine_ws
   needs:
     - job: hhCompile
-    - job: Sp0_bb_pro
-    - job: Sp0_tt_pro
+    - job: Sp0_bb_pro_FT
+    - job: Sp0_tt_pro_FT
   variables:
     output_dir: output_FT
     channels: bbbb,bbtautau
@@ -478,17 +496,22 @@ NRPlot:
     - job: NR_ALL6_comb_stat
   variables:
     input_unblind_dir: output_unblind
+    input_mu_unblind_dir: output_mu_unblind
     input_blind_dir: output_blind
     input_stat_dir: output_stat
   script:
-    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*nocorr/0.json --unblind
-    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*nocorr/0.json --unblind
-    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_blind_dir/limits/root-files/nonres/*/0.json $input_blind_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json --stat_list $input_stat_dir/limits/root-files/nonres/*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json
-    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_blind_dir/limits/root-files/nonres/*/0.json $input_blind_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json --stat_list $input_stat_dir/limits/root-files/nonres/*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json
-    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*fullcorr/0.json --unblind
-    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*fullcorr/0.json --unblind
+    # Plot nonres xsec
+    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*/0.json
+    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*/0.json
+
+    # Plot nonres signal strength
+    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_mu_unblind_dir/limits/root-files/nonres/*/0.json $input_mu_unblind_dir/limits/root-files/nonres/combined/A-*/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*/0.json -mu
+    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_mu_unblind_dir/limits/root-files/nonres/*/0.json $input_mu_unblind_dir/limits/root-files/nonres/combined/A-*/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*/0.json -mu
+
+    # Plot nonres blinded
     - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_blind_dir/limits/root-files/nonres/*/0.json $input_blind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json
     - python plotting/xsection/combination_plotting.py nonres --logx -l $input_blind_dir/limits/root-files/nonres/*/0.json $input_blind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json
+
   artifacts:
     paths:
       - $input_unblind_dir/$output_dir
@@ -510,10 +533,13 @@ Spin0Plot:
     - job: Sp0_BT_comb_FT_part5
     - job: Sp0_BT_comb_FT_part6
   variables:
-    input_FT_dir: output_unblind
+    input_FT_dir: output_FT
   script:
+    # Plot FT uncorrelated
     - echo python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-fullcorr/*[0-9].json --unblind
     - python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-fullcorr/*[0-9].json --unblind
+
+    # Plot FT correlated (wrong scheme due to 4b)
     - echo python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_FT_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_FT_dir/limits/root-files/spin0/combined/A-*-fullcorr/*[0-9].json --unblind
     - python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_FT_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_FT_dir/limits/root-files/spin0/combined/A-*-fullcorr/*[0-9].json --unblind
 
