@@ -198,8 +198,10 @@ Sp0_yy_pro_FT:
     - job: NR_unblind_mu_pro
   allow_failure: true
   script:
+    - echo HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options --scheme configs/np_map_nonres_v4.json
+    - HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options --scheme configs/np_map_nonres_v4.json
     - echo HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options
-    - HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options  --scheme configs/np_map_nonres_v4.json
+    - HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options
   only:
     - tags
     - master
@@ -286,8 +288,10 @@ NR_ALL6_comb_stat:
     mini_option: minimizer_options_robust.json
   allow_failure: true
   script:
-    - echo HHComb combine_ws --new_method -i $input_dir -r spin0 -c $channels  --minimizer_options configs/$mini_option -m $masspoints $other_options
-    - HHComb combine_ws --new_method -i $input_dir -r spin0 -c $channels  --minimizer_options configs/$mini_option -m $masspoints $other_options
+    - echo HHComb combine_ws --new_method -i $input_dir -r spin0 -c $channels  --minimizer_options configs/$mini_option -m $masspoints --unblind $other_options
+    - HHComb combine_ws --new_method -i $input_dir -r spin0 -c $channels  --minimizer_options configs/$mini_option -m $masspoints --unblind $other_options
+    - echo HHComb combine_ws --new_method -i $input_dir -r spin0 -c $channels  --minimizer_options configs/$mini_option -m $masspoints --unblind
+    - HHComb combine_ws --new_method -i $input_dir -r spin0 -c $channels  --minimizer_options configs/$mini_option -m $masspoints --unblind
   only:
     - tags
     - master
@@ -304,7 +308,7 @@ Sp0_BTY_comb_part1:
   variables:
     channels: bbbb,bbtautau,bbyy
     masspoints: "251,260,280,300,350,400,500"
-    other_options: "--unblind --scheme configs/np_map_spin0_v5.json"
+    other_options: "--scheme configs/np_map_spin0_v5.json"
 
 Sp0_BTY_comb_part2:
   extends: .Sp0Combine_ws
@@ -316,7 +320,7 @@ Sp0_BTY_comb_part2:
   variables:
     channels: bbbb,bbtautau,bbyy
     masspoints: "600,700,800,900,1000"
-    other_options: "--unblind --scheme configs/np_map_spin0_v5.json"
+    other_options: "--scheme configs/np_map_spin0_v5.json"
 
 Sp0_TY_comb_part3:
   extends: .Sp0Combine_ws
@@ -327,7 +331,7 @@ Sp0_TY_comb_part3:
   variables:
     channels: bbyy,bbtautau
     masspoints: "325,350,450,550"
-    other_options: "--unblind --scheme configs/np_map_spin0_v5.json"
+    other_options: "--scheme configs/np_map_spin0_v5.json"
 
 Sp0_BT_comb_part4:
   extends: .Sp0Combine_ws
@@ -338,7 +342,7 @@ Sp0_BT_comb_part4:
   variables:
     channels: bbbb,bbtautau
     masspoints: "900,1000"
-    other_options: "--unblind --scheme configs/np_map_spin0_v5.json"
+    other_options: "--scheme configs/np_map_spin0_v5.json"
 
 Sp0_BT_comb_part5:
   extends: .Sp0Combine_ws
@@ -349,7 +353,7 @@ Sp0_BT_comb_part5:
   variables:
     channels: bbbb,bbtautau
     masspoints: "1100,1200"
-    other_options: "--unblind --scheme configs/np_map_spin0_v5.json"
+    other_options: "--scheme configs/np_map_spin0_v5.json"
 
 Sp0_BT_comb_part6:
   extends: .Sp0Combine_ws
@@ -360,7 +364,7 @@ Sp0_BT_comb_part6:
   variables:
     channels: bbbb,bbtautau
     masspoints: "1400,1600"
-    other_options: "--unblind --scheme configs/np_map_spin0_v5.json"
+    other_options: "--scheme configs/np_map_spin0_v5.json"
 
 # FT correlated (for checking only) all 3 channel combined or sometimes 2 channel combined if the 3rd one is missing
 Sp0_BTY_comb_FT_part1:
@@ -374,7 +378,7 @@ Sp0_BTY_comb_FT_part1:
     input_dir: output_FT
     channels: bbbb,bbtautau,bbyy
     masspoints: "251,260,280,300,350,400,500"
-    other_options: "--unblind --scheme configs/np_map_spin0_v5_FTcor.json"
+    other_options: "--scheme configs/np_map_spin0_v5_FTcor.json"
 
 Sp0_BTY_comb_FT_part2:
   extends: .Sp0Combine_ws
@@ -387,7 +391,7 @@ Sp0_BTY_comb_FT_part2:
     input_dir: output_FT
     channels: bbbb,bbtautau,bbyy
     masspoints: "600,700,800,900,1000"
-    other_options: "--unblind --scheme configs/np_map_spin0_v5_FTcor.json"
+    other_options: "--scheme configs/np_map_spin0_v5_FTcor.json"
 
 Sp0_TY_comb_FT_part3:
   extends: .Sp0Combine_ws
@@ -399,7 +403,7 @@ Sp0_TY_comb_FT_part3:
     input_dir: output_FT
     channels: bbyy,bbtautau
     masspoints: "325,350,450,550"
-    other_options: "--unblind --scheme configs/np_map_spin0_v5_FTcor.json"
+    other_options: "--scheme configs/np_map_spin0_v5_FTcor.json"
 
 Sp0_BT_comb_FT_part4:
   extends: .Sp0Combine_ws
@@ -411,7 +415,7 @@ Sp0_BT_comb_FT_part4:
     input_dir: output_FT
     channels: bbbb,bbtautau
     masspoints: "900,1000"
-    other_options: "--unblind --scheme configs/np_map_spin0_v5_FTcor.json"
+    other_options: "--scheme configs/np_map_spin0_v5_FTcor.json"
 
 Sp0_BT_comb_FT_part5:
   extends: .Sp0Combine_ws
@@ -423,7 +427,7 @@ Sp0_BT_comb_FT_part5:
     input_dir: output_FT
     channels: bbbb,bbtautau
     masspoints: "1100,1200"
-    other_options: "--unblind --scheme configs/np_map_spin0_v5_FTcor.json"
+    other_options: "--scheme configs/np_map_spin0_v5_FTcor.json"
 
 Sp0_BT_comb_FT_part6:
   extends: .Sp0Combine_ws
@@ -435,7 +439,7 @@ Sp0_BT_comb_FT_part6:
     input_dir: output_FT
     channels: bbbb,bbtautau
     masspoints: "1400,1600"
-    other_options: "--unblind --scheme configs/np_map_spin0_v5_FTcor.json"
+    other_options: "--scheme configs/np_map_spin0_v5_FTcor.json"
 
 
 ## Switch off bbbb+bbtautau combination (may not be used in CONF note)
@@ -448,7 +452,7 @@ Sp0_BT_comb_FT_part6:
 #  variables:
 #    channels: bbbb,bbtautau
 #    masspoints: "251,260,280,300,350,400,500,600,700,800"
-#    other_options: "--unblind --scheme configs/np_map_spin0_v5.json"
+#    other_options: "--scheme configs/np_map_spin0_v5.json"
 #
 
 ###################################
@@ -494,16 +498,22 @@ NRPlot:
     input_stat_dir: output_stat
   script:
     # Plot nonres xsec
-    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*/0.json
-    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*/0.json
+    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json
+    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json
+    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json
+    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*nocorr/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*nocorr/0.json
 
     # Plot nonres signal strength
-    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_mu_unblind_dir/limits/root-files/nonres/*/0.json $input_mu_unblind_dir/limits/root-files/nonres/combined/A-*/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*/0.json -mu
-    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_mu_unblind_dir/limits/root-files/nonres/*/0.json $input_mu_unblind_dir/limits/root-files/nonres/combined/A-*/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*/0.json -mu
+    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_mu_unblind_dir/limits/root-files/nonres/*/0.json $input_mu_unblind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json -mu
+    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_mu_unblind_dir/limits/root-files/nonres/*/0.json $input_mu_unblind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json -mu
+    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_mu_unblind_dir/limits/root-files/nonres/*/0.json $input_mu_unblind_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json -mu
+    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_mu_unblind_dir/limits/root-files/nonres/*/0.json $input_mu_unblind_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json -mu
 
     # Plot nonres blinded
     - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_blind_dir/limits/root-files/nonres/*/0.json $input_blind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json
     - python plotting/xsection/combination_plotting.py nonres --logx -l $input_blind_dir/limits/root-files/nonres/*/0.json $input_blind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json
+    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_blind_dir/limits/root-files/nonres/*/0.json $input_blind_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json
+    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_blind_dir/limits/root-files/nonres/*/0.json $input_blind_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json
 
   artifacts:
     paths:
@@ -532,6 +542,8 @@ Spin0Plot:
     # Plot FT uncorrelated
     - echo python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-fullcorr/*[0-9].json --unblind
     - python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-fullcorr/*[0-9].json --unblind
+    - echo python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json --unblind
+    - python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json --unblind
 
     # Plot FT correlated (wrong scheme due to 4b)
     - echo python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_FT_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_FT_dir/limits/root-files/spin0/combined/A-*-fullcorr/*[0-9].json --unblind
