@@ -86,10 +86,6 @@ hhCompile:
   script:
     - echo HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_nonres_v3.yaml $other_options
     - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_nonres_v3.yaml $other_options
-  only:
-    - tags
-    - master
-    - CI
 
 NR_blind_pro:
   extends: .NRProcess
@@ -104,9 +100,6 @@ NR_unblind_pro:
     output_dir: output_unblind
     channel: bbyy,bbtautau
     other_options: "--unblind"
-  only:
-    - branches
-    - tags
 
 NR_all_pro_stat:
   extends: .NRProcess
@@ -186,9 +179,6 @@ NR_unblind_com:
     input_dir: output_unblind
     channels: bbtautau,bbyy
     other_options: "--unblind"
-  only:
-    - branches
-    - tags
 
 NR_bb_tt_yy_com:
   extends: .NRCombine_ws
@@ -260,6 +250,9 @@ NR_cor_unblind_com:
     input_dir: output_unblind
     channels: bbtautau,bbyy
     other_options: "--unblind --scheme configs/np_map_nonres_v3.json"
+  only:
+    - tags
+    - branches
 
 NR_cor_tt_yy_com:
   extends: .NRCombine_ws
@@ -267,6 +260,9 @@ NR_cor_tt_yy_com:
     input_dir: output_blind
     channels: bbtautau,bbyy
     other_options: "--scheme configs/np_map_nonres_v3.json"
+  only:
+    - tags
+    - branches
 
 ###################################
 ## Spin 0 combination            ##
