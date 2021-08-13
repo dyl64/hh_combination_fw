@@ -378,7 +378,7 @@ Sp0_BTY_comb_FT_part1:
     - job: Sp0_tt_pro_FT
     - job: Sp0_yy_pro_FT
   variables:
-    output_dir: output_FT
+    input_dir: output_FT
     channels: bbbb,bbtautau,bbyy
     masspoints: "251,260,280,300,350,400,500"
     other_options: "--unblind --scheme configs/np_map_spin0_v5_FTcor.json"
@@ -391,7 +391,7 @@ Sp0_BTY_comb_FT_part2:
     - job: Sp0_tt_pro_FT
     - job: Sp0_yy_pro_FT
   variables:
-    output_dir: output_FT
+    input_dir: output_FT
     channels: bbbb,bbtautau,bbyy
     masspoints: "600,700,800,900,1000"
     other_options: "--unblind --scheme configs/np_map_spin0_v5_FTcor.json"
@@ -403,7 +403,7 @@ Sp0_TY_comb_FT_part3:
     - job: Sp0_yy_pro_FT
     - job: Sp0_tt_pro_FT
   variables:
-    output_dir: output_FT
+    input_dir: output_FT
     channels: bbyy,bbtautau
     masspoints: "325,350,450,550"
     other_options: "--unblind --scheme configs/np_map_spin0_v5_FTcor.json"
@@ -415,7 +415,7 @@ Sp0_BT_comb_FT_part4:
     - job: Sp0_bb_pro_FT
     - job: Sp0_tt_pro_FT
   variables:
-    output_dir: output_FT
+    input_dir: output_FT
     channels: bbbb,bbtautau
     masspoints: "900,1000"
     other_options: "--unblind --scheme configs/np_map_spin0_v5_FTcor.json"
@@ -427,7 +427,7 @@ Sp0_BT_comb_FT_part5:
     - job: Sp0_bb_pro_FT
     - job: Sp0_tt_pro_FT
   variables:
-    output_dir: output_FT
+    input_dir: output_FT
     channels: bbbb,bbtautau
     masspoints: "1100,1200"
     other_options: "--unblind --scheme configs/np_map_spin0_v5_FTcor.json"
@@ -439,7 +439,7 @@ Sp0_BT_comb_FT_part6:
     - job: Sp0_bb_pro_FT
     - job: Sp0_tt_pro_FT
   variables:
-    output_dir: output_FT
+    input_dir: output_FT
     channels: bbbb,bbtautau
     masspoints: "1400,1600"
     other_options: "--unblind --scheme configs/np_map_spin0_v5_FTcor.json"
