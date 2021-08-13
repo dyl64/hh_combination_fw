@@ -86,10 +86,6 @@ hhCompile:
   script:
     - echo HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_nonres_v3.yaml $other_options
     - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_nonres_v3.yaml $other_options
-  only:
-    - tags
-    - master
-    - CI
 
 NR_blind_pro:
   extends: .NRProcess
@@ -104,9 +100,6 @@ NR_unblind_pro:
     output_dir: output_unblind
     channel: bbyy,bbtautau
     other_options: "--unblind"
-  only:
-    - branches
-    - tags
 
 NR_all_pro_stat:
   extends: .NRProcess
@@ -175,10 +168,6 @@ Sp0_yy_pro:
   script:
     - echo HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options
     - HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options
-  only:
-    - tags
-    - master
-    - CI
 
 NR_unblind_com:
   extends: .NRCombine_ws
@@ -187,8 +176,9 @@ NR_unblind_com:
     channels: bbtautau,bbyy
     other_options: "--unblind"
   only:
-    - branches
     - tags
+    - master
+    - CI
 
 NR_bb_tt_yy_com:
   extends: .NRCombine_ws
@@ -463,9 +453,8 @@ Sp0_cor_bb_tt_yy_com_part2:
     paths:
       - $input_dir/$output_dir
   only:
+    - branches
     - tags
-    - master
-    - CI
 
 NRPlot:
   extends: .plot
