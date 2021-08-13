@@ -515,6 +515,7 @@ NRPlot:
   artifacts:
     paths:
       - $input_unblind_dir/$output_dir
+      - $input_mu_unblind_dir/$output_dir
       - $input_blind_dir/$output_dir
 
 Spin0Plot:
@@ -542,6 +543,11 @@ Spin0Plot:
     # Plot FT correlated (wrong scheme due to 4b)
     - echo python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_FT_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_FT_dir/limits/root-files/spin0/combined/A-*-fullcorr/*[0-9].json --unblind
     - python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_FT_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_FT_dir/limits/root-files/spin0/combined/A-*-fullcorr/*[0-9].json --unblind
+
+  artifacts:
+    paths:
+      - $input_dir/$output_dir
+      - $input_FT_dir/$output_dir
 
 #####################################
 ## Intermediate output to download ##
