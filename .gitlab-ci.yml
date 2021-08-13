@@ -453,8 +453,9 @@ Sp0_cor_bb_tt_yy_com_part2:
     paths:
       - $input_dir/$output_dir
   only:
-    - branches
     - tags
+    - master
+    - CI
 
 NRPlot:
   extends: .plot
