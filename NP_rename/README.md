@@ -5,11 +5,11 @@ Example commands to create the JSON scheme files are:
 ```
 quickstats harmonize_np -i NP_rename/input_list_nonres.json -r NP_rename/reference_list_v2.json -b <ws_input> -o configs/np_map_nonres_v1.json
 # e.g.
-quickstats harmonize_np -i NP_rename/input_list_nonres.json -r NP_rename/reference_list_v4.json -o configs/np_map_nonres_v3.json -b /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20210723/
+quickstats harmonize_np -i NP_rename/input_list_nonres.json -r NP_rename/reference_list_v5.json -o configs/np_map_nonres_v4.json -b /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20210806/
 
 quickstats harmonize_np -i NP_rename/input_list_spin0.json -r NP_rename/reference_list_v2.json -b <ws_input> -o configs/np_map_spin0_v1.json
 # e.g.
-quickstats harmonize_np -i NP_rename/input_list_spin0.json -r NP_rename/reference_list_v4.json -o configs/np_map_spin0_v4.json -b /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20210723/
+quickstats harmonize_np -i NP_rename/input_list_spin0.json -r NP_rename/reference_list_v5.json -o configs/np_map_spin0_v5.json -b /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20210806/
 ```
 
 The outputs are used to generate the XML card via `--scheme` option in `HHComb combine_ws`, eg
@@ -20,8 +20,13 @@ Default is no correlation.
 
 
 ## History:
-- Current default 
-    - `configs/np_map_spin0_v4.json`, `configs/np_map_spin0_v4_FTcor.json`, `configs/np_map_nonres_v3.json`
+- Current default (20210806)
+    - `configs/np_map_spin0_v5.json`, `configs/np_map_spin0_v5_FTcor.json`, `configs/np_map_nonres_v3.json`
+    - Correlate single Higgs uncertainties
+    - Add `"Lumi": "fix_Lumi"` for bbbb by hand
+
+
+- `configs/np_map_spin0_v4.json`, `configs/np_map_spin0_v4_FTcor.json`, `configs/np_map_nonres_v3.json` (20210723)
     - Generated from `NP_rename/reference_list_v4.json`
     - Correlate theory uncertainties
     - Included `_FTcor` version for Spin0 for study while the nominal is uncorrelated due to different NP schemes implemented in 4b.

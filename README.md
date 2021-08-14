@@ -81,10 +81,19 @@ Then plot ranking plot with
 quickstats plot_pulls -i pulls --poi xsec_br
 ```
 
+## Run p-value
+```
+# Way 1
+HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210723_CI/output/combined/spin0/A-bbbb_bbtautau-nocorr/1100.root
+## to run all *.root files in parallel:
+HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210723_CI/output/combined/spin0/A-bbbb_bbtautau-nocorr/
+# Way 2
+submodules/RooStatTools/bin/runSigCalc ~/work/HHcomb/FullRun2Workspaces/batches/v140invfb_20210723_CI/output/combined/spin0/A-bbbb_bbtautau-nocorr/1100.root  pvalue combWS ModelConfig combData |tee pvalue.log
+```
 
 ## Generate scheme files for NP correlation
 
-Refer to `[NP_rename/README.md](NP_rename/README.md)` for details.
+Refer to [NP_rename/README.md](NP_rename/README.md) for details.
 
 
 ## Some useful tips
