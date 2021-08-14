@@ -56,7 +56,7 @@ scenario_map = {
     f'WWWW': (r'$\mathrm{Multilepton}$', 16, 'orangered'),
     f'bbWW': (r'$\mathrm{b\bar{b}WW}$', 17, 'orangered'),
     f'bbWW2l': (r'$\mathrm{b\bar{b}\ell^{+}\nu \ell^{-}\nu}$'+'\n' + r'139 fb$^{-1}$', 17, 'orangered'),
-    f'A-bbtautau_bbyy-nocorr': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-} + b\bar{b}\gamma\gamma}$', 21, 'black'),
+    f'A-bbtautau_bbyy-nocorr': ('Combined', 21, 'black'),
     f'A-bbbb_bbtautau_bbyy-nocorr': ('Top 3 combined', 22, 'black'),
     f'A-bbbb_bbll_bbtautau_bbyy-nocorr': ('Top 3 + '+r'$\mathrm{b\bar{b}ll}$', 23, 'black'),
     f'A-bbbb_bbtautau_bbVV_bbyy-nocorr': ('Top 3 + '+r'$\mathrm{b\bar{b}VV}$', 24, 'black'),
@@ -455,14 +455,14 @@ def plot_nonres_from_df(args, df):
             obs = row[columns[5]]
             ax.vlines(obs, y, y+1, colors = 'k', linestyles = 'solid', zorder = 1.1, label = 'Observed' if y==0 else '')
             ax.scatter(obs, y+0.5, s=50, c='k', marker='o', zorder = 1.1)
-            obs_str = f'{obs:.1f}' if index not in ['combined36', 'bbWW2l'] else f'{obs:g}'
+            obs_str = f'{obs:.2f}' if index not in ['combined36', 'bbWW2l'] else f'{obs:g}'
             ax.text(obs_text_x, y+y_shift, obs_str, horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
         exp = row[columns[4]]
         ax.vlines(exp, y, y+1, colors = 'k', linestyles = 'dotted', zorder = 1.1, label = 'Expected' if y==0 else '')
         ax.fill_betweenx([y,y+1], row[columns[0]], row[columns[3]], facecolor = 'hh:darkyellow', label = r'Expected $\pm$ 2 $\sigma$' if y==0 else '')
         ax.fill_betweenx([y,y+1], row[columns[1]], row[columns[2]], facecolor = 'hh:medturquoise', label = r'Expected $\pm$ 1 $\sigma$' if y==0 else '')
         # Plot text
-        exp_str = f'{exp:.1f}' if index not in ['combined36', 'bbWW2l'] else f'{exp:g}'
+        exp_str = f'{exp:.2f}' if index not in ['combined36', 'bbWW2l'] else f'{exp:g}'
         ax.text(exp_text_x, y+y_shift, exp_str, horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
 
         if 'ref' in df:
@@ -471,7 +471,7 @@ def plot_nonres_from_df(args, df):
         if 'stat' in df:
             stat_str = row['stat']
             if isinstance(stat_str , (int, float)):
-                stat_str = f'{stat_str:.1f}'
+                stat_str = f'{stat_str:.2f}'
             ax.text(stat_text_x, y+1-y_shift, stat_str, horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
 
     if args.unblind:
@@ -526,8 +526,9 @@ def plot_nonres_from_df(args, df):
     ax.set_xlabel(xlabel, horizontalalignment='right', x=1.0, fontsize=fontsize)
 
     if not (args.summary_json or args.csv_list):
-        fullcorr = 'nocorr' if corr_or_not(args) == 0 else 'fullcorr'
         textlable = r'$\mathrm{\sigma_{%s}^{SM}}$ = %.2f fb' % (process, args.norm)
+        if corr_or_not(args) == 0:
+            textlable += '\nnocorr'
 
     plot_common(args, fig, ax, textlable, fontsize, fontsize)
     save_plot(args)
