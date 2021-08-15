@@ -77,8 +77,10 @@ Perform ranking with:
 quickstats run_pulls --poi xsec_br -i <workspace_file> --parallel -1 --exclude gamma_*,nbkg_* -o <output_directory>
 ```
 Then plot ranking plot with
+- `matplotlib` shipped with LCG release is not compatible with what we need. To get a newer versioin, do
+- `source /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/anaconda3/setup.sh`
 ```
-quickstats plot_pulls -i pulls --poi xsec_br
+quickstats plot_pulls --style trex --poi xsec_br -i pulls/ -o rank_plot
 ```
 
 ## Run p-value
