@@ -701,35 +701,18 @@
     },
     "format":  "{NAME}"
   },
-  "BBBB_THEO": {
-    "description": "4B Special Theory Uncertainties",
+  "FAT_JET_BBBB_THEO": {
+    "description": "4B Special Fat Jet Theory Uncertainties",
     "pattern": [
       "_b2b$",
       "_b3b$",
       "_b4b$",
-      "_b2b_resolved$",
-      "_b3b_resolved$",
-      "_b4b_resolved$"      
-    ],
-    "exclude": [
-      "(?i)THEO"
-    ],
-    "replace": {
-      "alpha_": "",
-      "MODEL_": "",
-      "THEO_": "",
-      "THEO": "",
-      "theo_": "",
-      "theo": ""
-    },
-    "format": "THEO_{NAME}"
-  },
-  "FAT_JET_BBBB_THEO": {
-    "description": "4B Special Fat Jet Theory Uncertainties",
-    "pattern": [
       "_b2b_boosted$",
       "_b3b_boosted$",
       "_b4b_boosted$"
+    ],
+    "exclude": [
+      "(?i)THEO"
     ],
     "replace": {
       "alpha_": "",
