@@ -561,7 +561,7 @@
     "SPURIOUS_SM_1": "ATLAS_bbyy_Spurious_SM_1",
     "SPURIOUS_SM_2": "ATLAS_bbyy_Spurious_SM_2",
     "THEO_ACC_PDFalphas_HH_ggF": "THEO_ACC_PDFalphas_HH_ggF",
-    "THEO_ACC_PS_HH_VBF": "THEO_ACC_PS_HH_VBF",
+    "THEO_ACC_PS_HH_VBF": "THEO_ACC_PS_VBFHH",
     "THEO_ACC_PS_HH_ggF": "THEO_ACC_PS_ggFHH",
     "THEO_ACC_PS_ZH": "THEO_ACC_PS_ZH",
     "THEO_ACC_PS_ttH": "THEO_ACC_PS_ttH",

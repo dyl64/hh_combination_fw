@@ -188,7 +188,7 @@
       "ATLAS_HF_WH":"THEO_ACC_HF_WH",
       "THEO_ACC_PDFalphas_HH_ggF": "THEO_ACC_PDFalphas_HH_ggF",
       "THEO_ACC_SCALE_HH_ggF": "THEO_ACC_SCALE_ggFHH",
-      "THEO_ACC_PS_HH_VBF": "THEO_ACC_PS_HH_VBF",
+      "THEO_ACC_PS_HH_VBF": "THEO_ACC_PS_VBFHH",
       "THEO_ACC_PS_HH_ggF": "THEO_ACC_PS_ggFHH",
       "THEO_ACC_PS_ZH": "THEO_ACC_PS_ZH",
       "THEO_ACC_PS_ttH": "THEO_ACC_PS_ttH",
