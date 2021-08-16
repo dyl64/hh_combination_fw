@@ -236,6 +236,7 @@ NR_TY_comb_mu:
   extends: .NRCombine_ws
   variables:
     input_dir: output_mu_unblind
+    mini_option: minimizer_options_robust.json
     channels: bbtautau,bbyy
     other_options: "--unblind"
 
@@ -484,6 +485,7 @@ NRPlot:
   needs:
     - job: NR_TY_comb_stat
     - job: NR_TY_comb_blind
+    - job: NR_TY_comb
     - job: NR_TY_comb_mu
     - job: NR_BTY_comb_blind
     - job: NR_ALL6_comb_blind
@@ -503,7 +505,7 @@ NRPlot:
     - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json
     - python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*nocorr/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*nocorr/0.json
 
-    # Plot nonres signal strength
+    # Plot nonres signal strength (mu)
     - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_mu_unblind_dir/limits/root-files/nonres/*/0.json $input_mu_unblind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json -mu
     - python plotting/xsection/combination_plotting.py nonres --logx -l $input_mu_unblind_dir/limits/root-files/nonres/*/0.json $input_mu_unblind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json -mu
     - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_mu_unblind_dir/limits/root-files/nonres/*/0.json $input_mu_unblind_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json -mu

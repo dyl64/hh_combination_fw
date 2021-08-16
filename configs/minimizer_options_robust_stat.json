@@ -7,5 +7,5 @@
     "timer": false,
     "num_cpu": 1,
     "offset": true,
-    "fix_param": "ATLAS_E*=0,ATLAS_F*=0,ATLAS_H*=0,ATLAS_J*=0,ATLAS_L*=0,ATLAS_P*=0,ATLAS_l*=0,alpha_*=0,THEO*=0,SPURIOUS*=0"
+    "fix_param": "ATLAS_E*=0,ATLAS_F*=0,ATLAS_H*=0,ATLAS_J*=0,ATLAS_L*=0,ATLAS_P*=0,ATLAS_l*=0,alpha_*=0,THEO*=0,SPURIOUS*=0,ATLAS_M*=0,ATLAS_T*=0,ATLAS_b*=0"
 }
