@@ -163,7 +163,7 @@
         "THEO_XS_QCD_WH": "THEO_XS_SCALE_WH",
         "THEO_XS_QCD_ZH": "THEO_XS_SCALE_qqZH",
         "THEO_XS_QCD_ttH": "THEO_XS_SCALE_ttH",
-        "THEO_XS_QCDi_ggH": "THEO_XS_SCALE_ggH",
+        "THEO_XS_QCDi_ggH": "THEO_XS_SCALE_ggFH",
         "THEO_XS_alphas_ZH": "THEO_XS_PDFalphas_qqZH",
         "THEO_XS_alphas_ttH": "THEO_XS_PDFalphas_ttH",
         "THEO_XS_alphas_res": "THEO_XS_PDFalphas_res"
@@ -209,11 +209,7 @@
 
       "alpha_Theory": "THEO_ACC_PS_ggFHH",
       "alpha_SIG_THEORY": "THEO_ACC_PS_ggFHH",
-      "alpha_THEO_ACC_PS_HH": "THEO_ACC_PS_ggFHH",
-
-      "THEO_BR_Hbb_VBFHH": "THEO_BR_Hbb_VBFHH",
-      "THEO_BR_Hbb_ggHH": "THEO_BR_Hbb_ggHH",
-      "THEO_BR_Hbb_res": "THEO_BR_Hbb_res"
+      "alpha_THEO_ACC_PS_HH": "THEO_ACC_PS_ggFHH"
     }
   },
   "Theory uncertainty (double Higgs cross sections)": {
