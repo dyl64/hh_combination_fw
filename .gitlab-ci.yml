@@ -112,6 +112,18 @@ NR_unblind_mu_pro:
     - branches
     - tags
 
+NR_unblind_xsec_pro:
+  extends: .NRProcess
+  variables:
+    output_dir: output_xsec_unblind
+    mini_option: minimizer_options_robust.json
+    version: 20210806_xsec
+    channel: bbyy,bbtautau
+    other_options: "--unblind"
+  only:
+    - branches
+    - tags
+
 NR_all_pro_stat:
   extends: .NRProcess
   variables:
@@ -120,6 +132,15 @@ NR_all_pro_stat:
     #channel: bbbb,bbyy,bbtautau,bbll,bbVV,WWWW
     channel: bbbb,bbyy,bbtautau
     other_options: ""
+
+NR_all_pro_stat_obs:
+  extends: .NRProcess
+  variables:
+    output_dir: output_stat_obs
+    mini_option: minimizer_options_robust_stat.json
+    #channel: bbbb,bbyy,bbtautau,bbll,bbVV,WWWW
+    channel: bbbb,bbyy,bbtautau
+    other_options: "--unblind"
 
 ###################################
 ## Spin 0 Process channels       ##
@@ -197,6 +218,7 @@ Sp0_yy_pro:
     #- job: NR_blind_pro
     - job: NR_unblind_pro
     - job: NR_unblind_mu_pro
+    - job: NR_unblind_xsec_pro
   allow_failure: true
   script:
     - echo HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options --scheme configs/np_map_nonres_v4.json
@@ -226,6 +248,17 @@ NR_TY_comb_stat:
     mini_option: minimizer_options_robust_stat.json
     channels: bbtautau,bbyy
 
+NR_TY_comb_stat_obs:
+  extends: .NRCombine_ws
+  needs:
+    - job: hhCompile
+    - job: NR_all_pro_stat_obs
+  variables:
+    input_dir: output_stat_obs
+    mini_option: minimizer_options_robust_stat.json
+    channels: bbtautau,bbyy
+    other_options: "--unblind"
+
 #NR_TY_comb_blind:
 #  extends: .NRCombine_ws
 #  variables:
@@ -237,6 +270,14 @@ NR_TY_comb_mu:
   extends: .NRCombine_ws
   variables:
     input_dir: output_mu_unblind
+    mini_option: minimizer_options_robust.json
+    channels: bbtautau,bbyy
+    other_options: "--unblind"
+
+NR_TY_comb_xsec:
+  extends: .NRCombine_ws
+  variables:
+    input_dir: output_xsec_unblind
     mini_option: minimizer_options_robust.json
     channels: bbtautau,bbyy
     other_options: "--unblind"
@@ -485,9 +526,11 @@ NRPlot:
   extends: .plot
   needs:
     - job: NR_TY_comb_stat
+    - job: NR_TY_comb_stat_obs
     #- job: NR_TY_comb_blind
     - job: NR_TY_comb
     - job: NR_TY_comb_mu
+    - job: NR_TY_comb_xsec
     #- job: NR_BTY_comb_blind
     #- job: NR_ALL6_comb_blind
     #- job: NR_N-ll_comb_blind
@@ -569,7 +612,9 @@ Artifacts:
     output_blind_dir: output_blind
     output_unblind_dir: output_unblind
     output_mu_unblind_dir: output_mu_unblind
+    output_xsec_unblind_dir: output_xsec_unblind
     output_stat_dir: output_stat
+    output_stat_obs_dir: output_stat_obs
   allow_failure: true
   script:
     - ls
@@ -584,4 +629,6 @@ Artifacts:
       #- $output_blind_dir
       - $output_unblind_dir
       - $output_mu_unblind_dir
+      - $output_xsec_unblind_dir
       - $output_stat_dir
+      - $output_stat_obs_dir
