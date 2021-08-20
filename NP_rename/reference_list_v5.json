@@ -163,7 +163,7 @@
         "THEO_XS_QCD_WH": "THEO_XS_SCALE_WH",
         "THEO_XS_QCD_ZH": "THEO_XS_SCALE_qqZH",
         "THEO_XS_QCD_ttH": "THEO_XS_SCALE_ttH",
-        "THEO_XS_QCDi_ggH": "THEO_XS_SCALE_ggH",
+        "THEO_XS_QCDi_ggH": "THEO_XS_SCALE_ggFH",
         "THEO_XS_alphas_ZH": "THEO_XS_PDFalphas_qqZH",
         "THEO_XS_alphas_ttH": "THEO_XS_PDFalphas_ttH",
         "THEO_XS_alphas_res": "THEO_XS_PDFalphas_res"
@@ -180,28 +180,28 @@
       "alpha_THEO_ACC_PS_ggFSMHH": "THEO_ACC_PS_ggFHH",
       "alpha_THEO_ACC_PS_VBFSMHH": "THEO_ACC_PS_VBFHH",
       "alpha_THEO_ACC_SCALE_ggFSMHH": "THEO_ACC_SCALE_ggFHH",
-      "alpha_SysTHEO_ACC_SCALE_VBFSMHH": "THEO_ACC_SCALE_VBFHH_1",
+      "alpha_SysTHEO_ACC_SCALE_VBFSMHH": "THEO_ACC_SCALE_VBFHH_shape",
       "alpha_THEO_ACC_PDFalphas_VBFSMHH": "THEO_ACC_PDFalphas_VBFHH",
-      "alpha_THEO_ACC_SCALE_VBFSMHH": "THEO_ACC_SCALE_VBFHH_2",
+      "alpha_THEO_ACC_SCALE_VBFSMHH": "THEO_ACC_SCALE_VBFHH",
       "ATLAS_HF_ggH": "THEO_ACC_HF_ggFH",
       "ATLAS_HF_VBF": "THEO_ACC_HF_VBFH",
       "ATLAS_HF_WH":"THEO_ACC_HF_WH",
-      "THEO_ACC_PDFalphas_HH_ggF": "THEO_ACC_PDFalphas_HH_ggF",
+      "THEO_ACC_PDFalphas_HH_ggF": "THEO_ACC_PDFalphas_ggFHH",
       "THEO_ACC_SCALE_HH_ggF": "THEO_ACC_SCALE_ggFHH",
-      "THEO_ACC_PS_HH_VBF": "THEO_ACC_PS_HH_VBF",
+      "THEO_ACC_PS_HH_VBF": "THEO_ACC_PS_VBFHH",
       "THEO_ACC_PS_HH_ggF": "THEO_ACC_PS_ggFHH",
       "THEO_ACC_PS_ZH": "THEO_ACC_PS_ZH",
       "THEO_ACC_PS_ttH": "THEO_ACC_PS_ttH",
       "THEO_BR_Hyy": "THEO_BR_Hyy",
-      "alpha_SysTHEO_ACC_PS_ggFHH_PNN": "THEO_ACC_PS_ggFHH_PNN",
-      "alpha_THEO_ACC_PS_ggFHH": "THEO_ACC_PS_ggFHH",
+      "alpha_SysTHEO_ACC_PS_ggFHH_PNN": "THEO_ACC_PS_sig_shape",
+      "alpha_THEO_ACC_PS_ggFHH": "THEO_ACC_PS_sig",
 
       "alpha_THEO_ACC_AF2_ggFHH": "THEO_ACC_AF2_ggFHH",
       "alpha_THEO_BR_Htautau": "THEO_BR_Htautau",
 
       "THEO_XS_Parton_Shower_VBFHH": "THEO_ACC_PS_VBFHH",
       "THEO_XS_Parton_Shower_ggHH": "THEO_ACC_PS_ggFHH",
-      "THEO_XS_Parton_Shower_res": "THEO_ACC_PS_res",
+      "THEO_XS_Parton_Shower_res": "THEO_ACC_PS_sig",
       "THEO_XS_QCD_Mtop_ggHH": "THEO_XS_SCALEMTop_ggFHH",
       "THEO_XS_alphas_ggHH": "THEO_XS_PDFalphas_ggFHH",
       "THEO_XS_QCD_VBFHH": "THEO_XS_SCALE_VBFHH",
@@ -209,11 +209,7 @@
 
       "alpha_Theory": "THEO_ACC_PS_ggFHH",
       "alpha_SIG_THEORY": "THEO_ACC_PS_ggFHH",
-      "alpha_THEO_ACC_PS_HH": "THEO_ACC_PS_ggFHH",
-
-      "THEO_BR_Hbb_VBFHH": "THEO_BR_Hbb_VBFHH",
-      "THEO_BR_Hbb_ggHH": "THEO_BR_Hbb_ggHH",
-      "THEO_BR_Hbb_res": "THEO_BR_Hbb_res"
+      "alpha_THEO_ACC_PS_HH": "THEO_ACC_PS_ggFHH"
     }
   },
   "Theory uncertainty (double Higgs cross sections)": {
@@ -705,35 +701,18 @@
     },
     "format":  "{NAME}"
   },
-  "BBBB_THEO": {
-    "description": "4B Special Theory Uncertainties",
+  "FAT_JET_BBBB_THEO": {
+    "description": "4B Special Fat Jet Theory Uncertainties",
     "pattern": [
       "_b2b$",
       "_b3b$",
       "_b4b$",
-      "_b2b_resolved$",
-      "_b3b_resolved$",
-      "_b4b_resolved$"      
-    ],
-    "exclude": [
-      "(?i)THEO"
-    ],
-    "replace": {
-      "alpha_": "",
-      "MODEL_": "",
-      "THEO_": "",
-      "THEO": "",
-      "theo_": "",
-      "theo": ""
-    },
-    "format": "THEO_{NAME}"
-  },
-  "FAT_JET_BBBB_THEO": {
-    "description": "4B Special Fat Jet Theory Uncertainties",
-    "pattern": [
       "_b2b_boosted$",
       "_b3b_boosted$",
       "_b4b_boosted$"
+    ],
+    "exclude": [
+      "(?i)THEO"
     ],
     "replace": {
       "alpha_": "",
