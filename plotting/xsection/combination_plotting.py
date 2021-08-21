@@ -234,7 +234,10 @@ def plot_spin0(args):
     com_df_all = pd.concat(com_dfs)
     com_df_new = pd.DataFrame(columns=com_df_all.columns)
 
-    exclude_masses = [375, 425, 475]
+    if args.alter:
+        exclude_masses = [375, 425, 475]
+    else:
+        exclude_masses = [312.5, 337.5, 375, 425, 475]
     combine_result = {}
     # Construct the final limit frame that takes whatever the best expected limit
     for y, (index, row) in enumerate(com_df_all.iterrows()):
@@ -652,6 +655,7 @@ if __name__ == '__main__':
     spin0.add_argument('--no-error', action='store_true', default=False, required=False, help='')
     spin0.add_argument('-p', action='store_true', default=False, required=False, help='')
     spin0.add_argument('-mu', action='store_true', default=False, required=False, help='Plot limit on signal strength instead of on cross section')
+    spin0.add_argument('-alter', action='store_true', default=False, required=False, help='Add ')
 
     args = parser.parse_args()
     main(args)

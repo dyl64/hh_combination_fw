@@ -93,6 +93,13 @@ HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/Ful
 submodules/RooStatTools/bin/runSigCalc ~/work/HHcomb/FullRun2Workspaces/batches/v140invfb_20210723_CI/output/combined/spin0/A-bbbb_bbtautau-nocorr/1100.root  pvalue combWS ModelConfig combData |tee pvalue.log
 ```
 
+## Run likelihood scan
+```
+cd v140invfb_20210821_CI/output
+mkdir likelihood_scan
+quickstats likelihood_scan --min -0.2 --max 1.0 --step 0.01 -i combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/<Mass>.root -o <Mass>
+```
+
 ## Generate scheme files for NP correlation
 
 Refer to [NP_rename/README.md](NP_rename/README.md) for details.
