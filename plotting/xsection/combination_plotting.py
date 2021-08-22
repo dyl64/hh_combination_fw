@@ -625,7 +625,7 @@ def main(args):
 if __name__ == '__main__':
     
     """Get arguments from command line."""
-    parser = ArgumentParser(description="\033[92mCreate templates and configuration files for TRExFitter.\033[0m")
+    parser = ArgumentParser(description="\033[92mPlot combined plots.\033[0m")
     subcommands = parser.add_subparsers(dest='command')
 
     nonres = subcommands.add_parser('nonres', help='Plot nonres.')
