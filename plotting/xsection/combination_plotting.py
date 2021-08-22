@@ -20,7 +20,7 @@ rcParams['font.sans-serif'] = "Arial"
 rcParams['font.family'] = "sans-serif"
 rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
 
-columns = ['xsec_m2s_NP_profiled', 'xsec_m1s_NP_profiled', 'xsec_p1s_NP_profiled', 'xsec_p2s_NP_profiled', 'xsec_exp_NP_profiled', 'xsec_obs_NP_profiled', 'stat'] # don't change order
+columns = ['xsec_m2s_NP_profiled', 'xsec_m1s_NP_profiled', 'xsec_p1s_NP_profiled', 'xsec_p2s_NP_profiled', 'xsec_exp_NP_profiled', 'xsec_obs_NP_profiled', 'exp_stat', 'obs_stat'] # don't change order
 
 scenario_map = {
     # f'{args.command}-bbbb.dat': (r'$\mathrm{b\bar{b}b\bar{b}}$', 1),
@@ -234,7 +234,10 @@ def plot_spin0(args):
     com_df_all = pd.concat(com_dfs)
     com_df_new = pd.DataFrame(columns=com_df_all.columns)
 
-    exclude_masses = [312.5, 337.5, 375, 425, 475]
+    if args.alter:
+        exclude_masses = [375, 425, 475]
+    else:
+        exclude_masses = [312.5, 337.5, 375, 425, 475]
     combine_result = {}
     # Construct the final limit frame that takes whatever the best expected limit
     for y, (index, row) in enumerate(com_df_all.iterrows()):
@@ -252,7 +255,7 @@ def plot_spin0(args):
     com_df_new['parameter'] = pd.to_numeric(com_df_new['parameter'])
     com_df_new = com_df_new.sort_values(by = 'parameter')
     com_df_new = rescale(com_df_new, columns, SM_HH_xsec = 0.001, absolute=True)
-    print(com_df_new[columns[-3:-1] + ['parameter', 'filename', 'channels']])
+    print(com_df_new[columns[-3:-2] + ['parameter', 'filename', 'channels']])
 
     input_folder = (args.dat_list[0]).split('limits') if args.dat_list else (args.csv_list[0]).split('limits')
     out_path = input_folder[0] + 'figures' if len(input_folder) > 1 else 'figures'
@@ -404,11 +407,13 @@ def plot_nonres(args):
                 file_name = path.basename(path.dirname(stat))
                 if file_name in df.index:
                     with open(stat) as f:
-                        df.at[file_name, 'stat'] = json.load(f)['0']
+                        dic = json.load(f)
+                        df.at[file_name, 'exp_stat'] = dic['0']
+                        df.at[file_name, 'obs_stat'] = dic['obs']
                 if file_name.replace('nocorr', 'fullcorr') in df.index:
                     file_name = file_name.replace('nocorr', 'fullcorr') 
                     with open(stat) as f:
-                        df.at[file_name, 'stat'] = json.load(f)['0']
+                        df.at[file_name, 'exp_stat'] = json.load(f)['0']
 
     else:
         for dat in dat_list:
@@ -426,10 +431,12 @@ def plot_nonres(args):
     out_path = get_output_folder(args)
     fullcorr = corr_or_not(args)
     df.to_csv(f'{out_path}/upperlimit_xsec_{args.command}_{"json" if new_method else "dat"}_{"obs" if args.unblind else "exp"}_{"fullcorr" if fullcorr else "nocorr"}{"_mu" if args.mu else ""}.csv')
-    if 'stat' in df:
+    if 'obs_stat' in df:
         print(df[columns])
+    elif 'exp_stat' in df:
+        print(df[columns][:-1])
     else:
-        print(df[columns[:-1]])
+        print(df[columns[:-2]])
 
 def plot_nonres_from_df(args, df):
     fig, ax = plt.subplots(1, 1, figsize=(8, 7))
@@ -439,14 +446,14 @@ def plot_nonres_from_df(args, df):
     if args.summary_json or args.csv_list:
         ax.set_xlim([1.9, 300 if args.logx else 30])
     else:
-        ax.set_xlim([1, 70 if args.logx else 30])
+        ax.set_xlim([1, 130 if args.logx else 30])
     fontsize = 18
 
     # Plot bands
     if args.summary_json or args.csv_list:
-        obs_text_x, exp_text_x, stat_text_x, ref_text_x = 110, 200, 700, 700
+        obs_text_x, exp_text_x, exp_stat_text_x, ref_text_x = 110, 200, 700, 700
     else:
-        obs_text_x, exp_text_x, stat_text_x, ref_text_x = 18, 30, 50, 40
+        obs_text_x, obs_stat_text_x, exp_text_x, exp_stat_text_x, ref_text_x = 16, 28, 50, 87.5, 40
     y_shift = 0.73 if 'ref' in df else 0.5
 
     df = df.fillna('')
@@ -461,24 +468,31 @@ def plot_nonres_from_df(args, df):
         ax.vlines(exp, y, y+1, colors = 'k', linestyles = 'dotted', zorder = 1.1, label = 'Expected' if y==0 else '')
         ax.fill_betweenx([y,y+1], row[columns[0]], row[columns[3]], facecolor = 'hh:darkyellow', label = r'Expected $\pm$ 2 $\sigma$' if y==0 else '')
         ax.fill_betweenx([y,y+1], row[columns[1]], row[columns[2]], facecolor = 'hh:medturquoise', label = r'Expected $\pm$ 1 $\sigma$' if y==0 else '')
-        # Plot text
+
+        # Plot limit text
         exp_str = f'{exp:.2f}' if index not in ['combined36', 'bbWW2l'] else f'{exp:g}'
         ax.text(exp_text_x, y+y_shift, exp_str, horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
-
         if 'ref' in df:
             ref = row['ref'].replace('\\n', '\n')
             ax.text(obs_text_x*1.2, y+1.1-y_shift, ref, horizontalalignment='center', verticalalignment='center', fontsize=fontsize-8)
-        if 'stat' in df:
-            stat_str = row['stat']
-            if isinstance(stat_str , (int, float)):
-                stat_str = f'{stat_str:.2f}'
-            ax.text(stat_text_x, y+1-y_shift, stat_str, horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
+        if 'exp_stat' in df:
+            exp_stat_str = row['exp_stat']
+            if isinstance(exp_stat_str , (int, float)):
+                exp_stat_str = f'({exp_stat_str:.2f})'
+            ax.text(exp_stat_text_x, y+1-y_shift, exp_stat_str, horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
+        if 'obs_stat' in df:
+            obs_stat_str = row['obs_stat']
+            if isinstance(obs_stat_str , (int, float)):
+                obs_stat_str = f'({obs_stat_str:.2f})'
+            ax.text(obs_stat_text_x, y+1-y_shift, obs_stat_str, horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
 
     if args.unblind:
         ax.text(obs_text_x*1.05, (y + 1)*1.1, 'Obs.', horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
+        if 'obs_stat' in df:
+            ax.text(obs_stat_text_x, (y + 1)*1.1, '(stat.)', horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
     ax.text(exp_text_x*1.05, (y + 1)*1.1, 'Exp.', horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
-    if 'stat' in df:
-        ax.text(stat_text_x, (y + 1)*1.1, 'Stat.', horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
+    if 'exp_stat' in df:
+        ax.text(exp_stat_text_x, (y + 1)*1.1, '(stat.)', horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
 
     textlable = ''
 
@@ -611,7 +625,7 @@ def main(args):
 if __name__ == '__main__':
     
     """Get arguments from command line."""
-    parser = ArgumentParser(description="\033[92mCreate templates and configuration files for TRExFitter.\033[0m")
+    parser = ArgumentParser(description="\033[92mPlot combined plots.\033[0m")
     subcommands = parser.add_subparsers(dest='command')
 
     nonres = subcommands.add_parser('nonres', help='Plot nonres.')
@@ -641,6 +655,7 @@ if __name__ == '__main__':
     spin0.add_argument('--no-error', action='store_true', default=False, required=False, help='')
     spin0.add_argument('-p', action='store_true', default=False, required=False, help='')
     spin0.add_argument('-mu', action='store_true', default=False, required=False, help='Plot limit on signal strength instead of on cross section')
+    spin0.add_argument('-alter', action='store_true', default=False, required=False, help='Add ')
 
     args = parser.parse_args()
     main(args)

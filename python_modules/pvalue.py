@@ -20,6 +20,8 @@ def pvalue(input_path, poi_name, dataset, parallel):
         input_files.append(input_path)
     else:
         input_files = glob(input_path + '/*.root')
+    if len(input_files) == 0:
+        assert(0), 'no input found'
     if parallel == -1:
         max_workers = min(multiprocessing.cpu_count(), len(input_files))
     else:
