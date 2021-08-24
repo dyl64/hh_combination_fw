@@ -1,0 +1,745 @@
+{
+  "IRRELEVANT": {
+    "description": "Irrelevant NPs",
+    "pattern": "^gamma_",
+    "display": false,
+    "format": "{NAME}"
+  },
+  "4BBACKGROUND": {
+    "description": "4B Background Uncertainty",
+    "pattern": "alpha_Background",
+    "replace": {
+      "alpha_": ""
+    },
+    "format": "ATLAS_bbbb_{NAME}"
+  },
+  "4BBACKGROUND_2": {
+    "description": "4B Background Uncertainty 2",
+    "match": [
+      "alpha_TRIG_L1_Jet",
+      "alpha_SF_JET_JVT",
+      "alpha_TRIG_HLT_HT",
+      "alpha_TRIG_L1_HT",
+      "alpha_TRIG_HLT_Jet",
+      "alpha_TRIG_L1_Jet_resolved",
+      "alpha_SF_JET_JVT_resolved",
+      "alpha_TRIG_HLT_HT_resolved",
+      "alpha_TRIG_L1_HT_resolved",
+      "alpha_TRIG_HLT_Jet_resolved"
+    ],
+    "replace": {
+      "alpha_": ""
+    },
+    "format": "ATLAS_bbbb_{NAME}"
+  },
+  "BBTAUTAUBACKGROUND": {
+    "description": "bbtautau Fake Factor Uncertainty",
+    "pattern": [
+        "alpha_SysFF",
+        "alpha_FF"
+    ],
+    "replace": {
+      "alpha_SysFF": "FF_",
+      "alpha_FF": "FF_"
+    },
+    "format": "ATLAS_bbtautau_{NAME}"
+  },
+  "BBTAUTAUBACKGROUND_2": {
+    "description": "bbtautau Tau Factor Uncertainty",
+    "pattern": "alpha_SysTF_",
+    "replace": {
+      "alpha_SysTF_": "TF_"
+    },
+    "format": "ATLAS_bbtautau_{NAME}"
+  },
+  "CUSTOMMAP": {
+    "description": "NPs with custom mapping",
+    "map": {
+      "alpha_SysSubtraction_bkg": "ATLAS_bbtautau_subtr_bkg",
+      "alpha_SysttReweighting": "ATLAS_bbtautau_TTBAR_reweight",
+
+      "xi": "BKG_p0_RES",
+      "SPURIOUS_SM_1": "ATLAS_bbyy_Spurious_SM_1",
+      "SPURIOUS_SM_2": "ATLAS_bbyy_Spurious_SM_2",
+      "SPURIOUS_BSM_1": "ATLAS_bbyy_Spurious_BSM_1",
+      "SPURIOUS_BSM_2": "ATLAS_bbyy_Spurious_BSM_2",
+      "SPURIOUS": "ATLAS_bbyy_Spurious",
+      "Spurious_Signal": "ATLAS_bbyy_Spurious",
+      "BKG_p0_SM_1": "bbyy_BKG_p0_SM_1",
+      "BKG_p0_SM_2": "bbyy_BKG_p0_SM_2",
+      "BKG_p0_BSM_1": "bbyy_BKG_p0_BSM_1",
+      "BKG_p0_BSM_2": "bbyy_BKG_p0_BSM_2",
+      "nbkg": "bbyy_nbkg",
+      "nbkg_SM_1": "bbyy_nbkg_SM_1",
+      "nbkg_SM_2": "bbyy_nbkg_SM_2",
+      "nbkg_BSM_1": "bbyy_nbkg_BSM_1",
+      "nbkg_BSM_2": "bbyy_nbkg_BSM_2",
+      "ATLAS_LHCmass": "ATLAS_LHC_MHiggs",
+      "Lumi": "fix_Lumi",
+      "THEO_Lumi_Run2": "ATLAS_LUMI_Run2"
+    }
+  },
+  "Theory uncertainty (ttbar process)": {
+    "description": "NPs with ttbar process",
+    "map": {
+        "alpha_SysTHEO_ACC_TTBAR_FSR": "THEO_ACC_FSR_ttbar",
+        "alpha_SysTHEO_ACC_TTBAR_ISR": "THEO_ACC_ISR_ttbar",
+        "alpha_SysTHEO_ACC_TTBAR_ME": "THEO_ACC_ME_ttbar",
+        "alpha_SysTHEO_ACC_TTBAR_PDFalphas": "THEO_ACC_PDFalphas_ttbar",
+        "alpha_SysTHEO_ACC_TTBAR_PS_HadHad": "THEO_ACC_PS_ttbar_HadHad",
+        "alpha_SysTHEO_ACC_TTBAR_PS_LTT": "THEO_ACC_PS_ttbar_LTT",
+        "alpha_SysTHEO_ACC_TTBAR_PS_SLT": "THEO_ACC_PS_ttbar_SLT",
+        "alpha_THEO_FSR_tt": "THEO_ACC_FSR_ttbar",
+        "alpha_THEO_ME_tt": "THEO_ACC_ME_ttbar",
+        "alpha_THEO_PS_tt": "THEO_ACC_PS_ttbar",
+        "alpha_THEO_hdamp_tt": "THEO_ACC_ISR_ttbar",
+        "alpha_THEO_muF_tt": "THEO_ACC_muF_ttbar",
+        "alpha_THEO_muR_tt": "THEO_ACC_muR_ttbar",
+        "alpha_THEO_FSR_tt_boosted": "THEO_ACC_FSR_ttbar",
+        "alpha_THEO_ME_tt_boosted": "THEO_ACC_ME_ttbar",
+        "alpha_THEO_PS_tt_boosted": "THEO_ACC_PS_ttbar",
+        "alpha_THEO_hdamp_tt_boosted": "THEO_ACC_ISR_ttbar",
+        "alpha_THEO_muF_tt_boosted": "THEO_ACC_muF_ttbar",
+        "alpha_THEO_muR_tt_boosted": "THEO_ACC_muR_ttbar"
+    }
+  },
+  "Theory uncertainty (Non Higgs process)": {
+    "description": "NPs with non-Higgs process",
+    "map": {
+      "alpha_SysTHEO_ACC_StopWt_FSR": "THEO_ACC_StopWt_FSR",
+      "alpha_SysTHEO_ACC_StopWt_ISR": "THEO_ACC_StopWt_ISR",
+      "alpha_SysTHEO_ACC_StopWt_ME": "THEO_ACC_StopWt_ME",
+      "alpha_SysTHEO_ACC_StopWt_PDF": "THEO_ACC_StopWt_PDF",
+      "alpha_SysTHEO_ACC_StopWt_PS": "THEO_ACC_StopWt_PS",
+      "alpha_SysTHEO_ACC_StopWt_TopInterference": "THEO_ACC_StopWt_TopInterference",
+      "alpha_SysTHEO_ACC_Zhf_CKKW": "THEO_ACC_Zhf_CKKW",
+      "alpha_SysTHEO_ACC_Zhf_GENERATOR": "THEO_ACC_Zhf_GENERATOR",
+      "alpha_SysTHEO_ACC_Zhf_PDFChoice": "THEO_ACC_Zhf_PDFChoice",
+      "alpha_SysTHEO_ACC_Zhf_PDFalphas": "THEO_ACC_Zhf_PDFalphas",
+      "alpha_SysTHEO_ACC_Zhf_QSF": "THEO_ACC_Zhf_QSF",
+      "alpha_SysTHEO_ACC_Zhf_SCALE": "THEO_ACC_Zhf_SCALE",
+      "alpha_THEO_ACC_Diboson": "THEO_ACC_Diboson",
+      "alpha_THEO_ACC_Stopst": "THEO_ACC_Stopst",
+      "alpha_THEO_ACC_W": "THEO_ACC_W",
+      "alpha_THEO_ACC_Zlf": "THEO_ACC_Zlf",
+      "alpha_THEO_XS_Diboson": "THEO_XS_Diboson",
+      "alpha_THEO_XS_Stop": "THEO_XS_Stop",
+      "alpha_THEO_XS_V": "THEO_XS_V"
+    }
+  },
+  "Theory uncertainty (single Higgs cross sections)": {
+    "description": "NPs with single Higgs",
+    "map": {
+        "alpha_THEO_ACC_FSR_ttH": "THEO_ACC_FSR_ttH",
+        "alpha_THEO_ACC_GEN_ttH": "THEO_ACC_GEN_ttH",
+        "alpha_THEO_ACC_HF_VBFH": "THEO_ACC_HF_VBFH",
+        "alpha_THEO_ACC_HF_WH": "THEO_ACC_HF_WH",
+        "alpha_THEO_ACC_HF_ggFH": "THEO_ACC_HF_ggFH",
+        "alpha_THEO_ACC_ISR_ttH": "THEO_ACC_ISR_ttH",
+        "alpha_THEO_ACC_PDFalphas_ZHtautau": "THEO_ACC_PDFalphas_ZHtautau",
+        "alpha_THEO_ACC_PS_ZHbb": "THEO_ACC_PS_ZHbb",
+        "alpha_THEO_ACC_PS_ZHtautau": "THEO_ACC_PS_ZH",
+        "alpha_THEO_ACC_PS_ttH": "THEO_ACC_PS_ttH",
+        "alpha_THEO_ACC_SCALE_ZHbb": "THEO_ACC_SCALE_ZHbb",
+        "alpha_THEO_ACC_SCALE_ZHtautau": "THEO_YIELD_SCALE_ZH",
+        "alpha_THEO_ACC_SCALE_ttH": "THEO_ACC_SCALE_ttH",
+        "alpha_THEO_XS_PDFalphas_VBFH": "THEO_XS_PDFalphas_VBFH",
+        "alpha_THEO_XS_PDFalphas_WH": "THEO_XS_PDFalphas_WH",
+        "alpha_THEO_XS_PDFalphas_ggFH": "THEO_XS_PDFalphas_ggFH",
+        "alpha_THEO_XS_PDFalphas_ggZH": "THEO_XS_PDFalphas_ggZH",
+        "alpha_THEO_XS_PDFalphas_qqZH": "THEO_XS_PDFalphas_qqZH",
+        "alpha_THEO_XS_PDFalphas_ttH": "THEO_XS_PDFalphas_ttH",
+        "alpha_THEO_XS_SCALE_ggFH": "THEO_XS_SCALE_ggFH",
+        "alpha_THEO_XS_SCALE_ggZH": "THEO_XS_SCALE_ggZH",
+        "alpha_THEO_XS_SCALE_ttH": "THEO_XS_SCALE_ttH",
+
+        "THEO_YIELD_PDFalphas_ZH": "THEO_XS_PDFalphas_qqZH",
+        "THEO_YIELD_PDFalphas_ttH": "THEO_XS_PDFalphas_ttH",
+        "THEO_YIELD_SCALE_ZH": "THEO_ACC_SCALE_ZH",
+        "THEO_YIELD_SCALE_ttH": "THEO_XS_SCALE_ttH",
+        "THEO_XS_MHiggs": "THEO_XS_MHiggs",
+
+        "THEO_XS_QCD_VBFH": "THEO_XS_SCALE_VBFH",
+        "THEO_XS_QCD_WH": "THEO_XS_SCALE_WH",
+        "THEO_XS_QCD_ZH": "THEO_XS_SCALE_qqZH",
+        "THEO_XS_QCD_ttH": "THEO_XS_SCALE_ttH",
+        "THEO_XS_QCDi_ggH": "THEO_XS_SCALE_ggFH",
+        "THEO_XS_alphas_ZH": "THEO_XS_PDFalphas_qqZH",
+        "THEO_XS_alphas_ttH": "THEO_XS_PDFalphas_ttH",
+        "THEO_XS_alphas_res": "THEO_XS_PDFalphas_res"
+
+    }
+  },
+  "Theory uncertainty (double Higgs modelling)": {
+    "description": "NPs with double Higgs",
+    "map": {
+      "alpha_HBB_BR": "THEO_BR_Hbb",
+      "alpha_Hbb_BR": "THEO_BR_Hbb",
+      "THEO_BR_Hbb": "THEO_BR_Hbb",
+      "alpha_THEO_BR_Hbb": "THEO_BR_Hbb",
+      "alpha_THEO_ACC_PS_ggFSMHH": "THEO_ACC_PS_ggFHH",
+      "alpha_THEO_ACC_PS_VBFSMHH": "THEO_ACC_PS_VBFHH",
+      "alpha_THEO_ACC_SCALE_ggFSMHH": "THEO_ACC_SCALE_ggFHH",
+      "alpha_SysTHEO_ACC_SCALE_VBFSMHH": "THEO_ACC_SCALE_VBFHH_shape",
+      "alpha_THEO_ACC_PDFalphas_VBFSMHH": "THEO_ACC_PDFalphas_VBFHH",
+      "alpha_THEO_ACC_SCALE_VBFSMHH": "THEO_ACC_SCALE_VBFHH",
+      "ATLAS_HF_ggH": "THEO_ACC_HF_ggFH",
+      "ATLAS_HF_VBF": "THEO_ACC_HF_VBFH",
+      "ATLAS_HF_WH":"THEO_ACC_HF_WH",
+      "THEO_ACC_PDFalphas_HH_ggF": "THEO_ACC_PDFalphas_ggFHH",
+      "THEO_ACC_SCALE_HH_ggF": "THEO_ACC_SCALE_ggFHH",
+      "THEO_ACC_PS_HH_VBF": "THEO_ACC_PS_VBFHH",
+      "THEO_ACC_PS_HH_ggF": "THEO_ACC_PS_ggFHH",
+      "THEO_ACC_PS_ZH": "THEO_ACC_PS_ZH",
+      "THEO_ACC_PS_ttH": "THEO_ACC_PS_ttH",
+      "THEO_BR_Hyy": "THEO_BR_Hyy",
+      "alpha_SysTHEO_ACC_PS_ggFHH_PNN": "THEO_ACC_PS_sig_shape",
+      "alpha_THEO_ACC_PS_ggFHH": "THEO_ACC_PS_sig",
+
+      "alpha_THEO_ACC_AF2_ggFHH": "THEO_ACC_AF2_ggFHH",
+      "alpha_THEO_BR_Htautau": "THEO_BR_Htautau",
+
+      "THEO_XS_Parton_Shower_VBFHH": "THEO_ACC_PS_VBFHH",
+      "THEO_XS_Parton_Shower_ggHH": "THEO_ACC_PS_ggFHH",
+      "THEO_XS_Parton_Shower_res": "THEO_ACC_PS_sig",
+      "THEO_XS_QCD_Mtop_ggHH": "THEO_XS_SCALEMTop_ggFHH",
+      "THEO_XS_alphas_ggHH": "THEO_XS_PDFalphas_ggFHH",
+      "THEO_XS_QCD_VBFHH": "THEO_XS_SCALE_VBFHH",
+      "THEO_XS_alphas_VBFHH": "THEO_XS_PDFalphas_VBFHH",
+
+      "alpha_Theory": "THEO_ACC_PS_ggFHH",
+      "alpha_SIG_THEORY": "THEO_ACC_PS_ggFHH",
+      "alpha_THEO_ACC_PS_HH": "THEO_ACC_PS_ggFHH"
+    }
+  },
+  "Theory uncertainty (double Higgs cross sections)": {
+    "description": "NPs with double Higgs cross section",
+    "map": {
+      "alpha_THEO_XS_SCALEMTop_ggFSMHH": "THEO_XS_fixmu_SCALEMTop_ggFHH",
+      "alpha_THEO_XS_PDFalphas_ggFSMHH": "THEO_XS_fixmu_PDFalphas_ggFHH",
+      "alpha_THEO_XS_PDFalphas_VBFSMHH": "THEO_XS_fixmu_PDFalphas_VBFHH",
+      "THEO_XS_COMBINED_HH_ggF": "THEO_XS_fixmu_SCALEMTop_ggFHH",
+      "THEO_XS_PDFalphas_HH_ggF": "THEO_XS_fixmu_PDFalphas_ggFHH",
+      "THEO_XS_PDFalphas_HH_VBF": "THEO_XS_fixmu_PDFalphas_VBFHH",
+      "THEO_XS_SCALE_HH_VBF": "THEO_XS_fixmu_SCALE_VBFHH"
+    }
+  },
+  "ELECTRON": {
+    "description": "Electron Uncertainties",
+    "pattern": [
+      "_EL_",
+      "_SysEL_"
+    ],
+    "source": {
+      "TRIGGER": {
+        "description": "Electron Trigger",
+        "names": [
+          "ATLAS_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR"
+        ]
+      },
+      "RECONSTRUCTION": {
+        "description": "Electron Reconstruction",
+        "names": [
+          "ATLAS_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR"
+        ]
+      },
+      "IDENTIFICATION": {
+        "description": "Electron Identification",
+        "names": [
+          "ATLAS_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR"
+        ]
+      },
+      "ISOLATION": {
+        "description": "Electron Isolation",
+        "names": [
+          "ATLAS_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR"
+        ]
+      }
+    }
+  },
+  "MUON": {
+    "description": "Muon Uncertainties",
+    "pattern": [
+      "_MUON_",
+      "_SysMUON_"
+    ],
+    "cutoff": 0.3,
+    "source": {
+      "TRIGGER": {
+        "description": "Muon Trigger",
+        "names": [
+          "ATLAS_MUON_EFF_TrigStatUncertainty",
+          "ATLAS_MUON_EFF_TrigSystUncertainty"
+        ]
+      },
+      "RECONSTRUCTION": {
+        "description": "Muon Reconstruction",
+        "names": [
+          "ATLAS_MUON_EFF_RECO_STAT",
+          "ATLAS_MUON_EFF_RECO_SYS",
+          "ATLAS_MUON_EFF_RECO_STAT_LOWPT",
+          "ATLAS_MUON_EFF_RECO_SYS_LOWPT"
+        ]
+      },
+      "ISOLATION": {
+        "description": "Muon Isolation",
+        "names": [
+          "ATLAS_MUON_EFF_ISO_STAT",
+          "ATLAS_MUON_EFF_ISO_SYS"
+        ]
+      },
+      "TTVA": {
+        "description": "Muon TTVA",
+        "names": [
+          "ATLAS_MUON_EFF_TTVA_STAT",
+          "ATLAS_MUON_EFF_TTVA_SYS"
+        ]
+      },
+      "MOMENTUM_CALIBRATION": {
+        "description": "Muon Momentum Calibration",
+        "names": [
+          "ATLAS_MUON_ID",
+          "ATLAS_MUON_MS",
+          "ATLAS_MUON_SCALE",
+          "ATLAS_MUON_SAGITTA_RHO",
+          "ATLAS_MUON_SAGITTA_RESBIAS"
+        ]
+      }
+    }
+  },
+  "TAU": {
+    "description": "Tau Uncertainties",
+    "pattern": [
+      "_TAUS_",
+      "_SysTAUS_"
+    ],
+    "source": {
+      "TRIGGER": {
+        "description": "Tau Trigger",
+        "names": [
+          "ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA161718",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA1718",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA2016",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA2018",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA2018AFTTS1",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATMC161718",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATMC1718",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATMC2016",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATMC2018",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATMC2018AFTTS1",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_SYST161718",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_SYST1718",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_SYST2016",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_SYST2018",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_SYST2018AFTTS1",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_SYSTMU161718",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_SYSTMU1718",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_SYSTMU2016",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_SYSTMU2018",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_SYSTMU2018AFTTS1"
+        ]
+      },
+      "RECONSTRUCTION": {
+        "description": "Tau Reconstruction",
+        "names": [
+          "ATLAS_TAUS_TRUEHADTAU_EFF_RECO_HIGHPT",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_RECO_TOTAL"
+        ]
+      },
+      "IDENTIFICATION": {
+        "description": "Tau Identification",
+        "names": [
+          "ATLAS_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2025",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2530",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT3040",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPTGE40",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2025",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2530",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT3040",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPTGE40",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_RNNID_SYST"
+        ]
+      },
+      "ENERGY_SCALE": {
+        "description": "Tau Energy Scale",
+        "names": [
+          "ATLAS_TAUS_TRUEHADTAU_SME_TES_INSITUEXP",
+          "ATLAS_TAUS_TRUEHADTAU_SME_TES_INSITUFIT",
+          "ATLAS_TAUS_TRUEHADTAU_SME_TES_MODEL_CLOSURE",
+          "ATLAS_TAUS_TRUEHADTAU_SME_TES_PHYSICSLIST"
+        ]
+      },
+      "ELECTRON_VETO": {
+        "description": "Tau Electron-Veto",
+        "names": [
+          "ATLAS_TAUS_TRUEELECTRON_EFF_ELEBDT_STAT",
+          "ATLAS_TAUS_TRUEELECTRON_EFF_ELEBDT_SYST",
+          "ATLAS_TAUS_TRUEHADTAU_EFF_ELEOLR_TOTAL"
+        ]
+      }
+    }
+  },
+  "EGAMMA": {
+    "description": "E Gamma Uncertainties",
+    "pattern": [
+      "_EG_",
+      "_SysEG_"
+    ],
+    "source": {
+      "RESOLUTION": {
+        "description": "E Gamma Resolution",
+        "names": [
+          "ATLAS_EG_RESOLUTION_ALL"
+        ]
+      },
+      "SCALE": {
+        "description": "E Gamma Scale",
+        "names": [
+          "ATLAS_EG_SCALE_ALL",
+          "ATLAS_EG_SCALE_AF2"
+        ]
+      }
+    }
+  },
+  "PHOTON": {
+    "description": "Photon Uncertainties",
+    "pattern": [
+      "_PH_",
+      "_SysPH"
+    ],
+    "source": {
+      "TRIGGER": {
+        "description": "Photon Trigger",
+        "names": [
+          "ATLAS_PH_EFF_TRIGGER"
+        ]
+      },
+      "IDENTIFICATION": {
+        "description": "Photon Identification",
+        "names": [
+          "ATLAS_PH_EFF_ID"
+        ]
+      },
+      "ISOLATION": {
+        "description": "Photon Isolation",
+        "names": [
+          "ATLAS_PH_EFF_ISO"
+        ]
+      }
+    }
+  },
+  "FAT_JET": {
+    "description": "Fat Jet Uncertainties",
+    "pattern": ["_R10_", "_boosted$"],
+    "replace": {
+      "_resolved": "",
+      "_boosted": ""
+    },
+    "replace": {
+      "_boosted": "",
+      "_R10": ""
+    },
+    "source": {
+      "ENERGY_SCALE": {
+        "description": "Fat Jet Energy Scale",
+        "names": [
+          "ATLAS_Boosted_JET_Flavor_Composition",
+          "ATLAS_Boosted_JET_Flavor_Response",
+          "ATLAS_Boosted_JET_EtaIntercalibration_Modelling",
+          "ATLAS_Boosted_JET_EtaIntercalibration_TotalStat",
+          "ATLAS_Boosted_JET_EtaIntercalibration_NonClosure_highE",
+          "ATLAS_Boosted_JET_EtaIntercalibration_NonClosure_negEta",
+          "ATLAS_Boosted_JET_EtaIntercalibration_NonClosure_posEta",
+          "ATLAS_Boosted_JET_EtaIntercalibration_NonClosure_2018data",
+          "ATLAS_Boosted_JET_EffectiveNP_Detector1",
+          "ATLAS_Boosted_JET_EffectiveNP_Detector2",
+          "ATLAS_Boosted_JET_EffectiveNP_Mixed1",
+          "ATLAS_Boosted_JET_EffectiveNP_Mixed2",
+          "ATLAS_Boosted_JET_EffectiveNP_Mixed3",
+          "ATLAS_Boosted_JET_EffectiveNP_Mixed4",
+          "ATLAS_Boosted_JET_EffectiveNP_Modelling1",
+          "ATLAS_Boosted_JET_EffectiveNP_Modelling2",
+          "ATLAS_Boosted_JET_EffectiveNP_Modelling3",
+          "ATLAS_Boosted_JET_EffectiveNP_Modelling4",
+          "ATLAS_Boosted_JET_EffectiveNP_Statistical1",
+          "ATLAS_Boosted_JET_EffectiveNP_Statistical2",
+          "ATLAS_Boosted_JET_EffectiveNP_Statistical3",
+          "ATLAS_Boosted_JET_EffectiveNP_Statistical4",
+          "ATLAS_Boosted_JET_EffectiveNP_Statistical5",
+          "ATLAS_Boosted_JET_EffectiveNP_Statistical6",
+          "ATLAS_Boosted_JET_SingleParticle_HighPt",
+          "ATLAS_Boosted_JET_LargeR_TopologyUncertainty_V",
+          "ATLAS_Boosted_JET_LargeR_TopologyUncertainty_top",
+          "ATLAS_Boosted_JET_MassRes_Hbb_comb",
+          "ATLAS_Boosted_JET_MassRes_Top_comb",
+          "ATLAS_Boosted_JET_CombMass_TotalStat",
+          "ATLAS_Boosted_JET_CombMass_Tracking1",
+          "ATLAS_Boosted_JET_CombMass_Tracking2",
+          "ATLAS_Boosted_JET_CombMass_Tracking3",
+          "ATLAS_Boosted_JET_CombMass_Baseline",
+          "ATLAS_Boosted_JET_CombMass_Modelling"
+        ]
+      }
+    }
+  },
+  "JET": {
+    "description": "Jet Uncertainties",
+    "pattern": [
+      "_JET_",
+      "_SysJET_"
+    ],
+    "exclude": ["_R10_", "_SF_", "_boosted$"],
+    "replace": {
+      "_resolved": "",
+      "_boosted": ""
+    },    
+    "source": {
+      "ENERGY_SCALE": {
+        "description": "Jet Energy Scale",
+        "names": [
+          "ATLAS_JET_EtaIntercalibration_Modelling",
+          "ATLAS_JET_EtaIntercalibration_TotalStat",
+          "ATLAS_JET_EtaIntercalibration_NonClosure_highE",
+          "ATLAS_JET_EtaIntercalibration_NonClosure_negEta",
+          "ATLAS_JET_EtaIntercalibration_NonClosure_posEta",
+          "ATLAS_JET_Pileup_OffsetMu",
+          "ATLAS_JET_Pileup_OffsetNPV",
+          "ATLAS_JET_Pileup_PtTerm",
+          "ATLAS_JET_Pileup_RhoTopology",
+          "ATLAS_JET_Flavor_Composition",
+          "ATLAS_JET_Flavor_Response",
+          "ATLAS_JET_PunchThrough_MC16",
+          "ATLAS_JET_PunchThrough_AFII",
+          "ATLAS_JET_EffectiveNP_1",
+          "ATLAS_JET_EffectiveNP_2",
+          "ATLAS_JET_EffectiveNP_3",
+          "ATLAS_JET_EffectiveNP_4",
+          "ATLAS_JET_EffectiveNP_5",
+          "ATLAS_JET_EffectiveNP_6",
+          "ATLAS_JET_EffectiveNP_7",
+          "ATLAS_JET_EffectiveNP_8restTerm",
+          "ATLAS_JET_EffectiveNP_Detector1",
+          "ATLAS_JET_EffectiveNP_Detector2",
+          "ATLAS_JET_EffectiveNP_Mixed1",
+          "ATLAS_JET_EffectiveNP_Mixed2",
+          "ATLAS_JET_EffectiveNP_Mixed3",
+          "ATLAS_JET_EffectiveNP_Modelling1",
+          "ATLAS_JET_EffectiveNP_Modelling2",
+          "ATLAS_JET_EffectiveNP_Modelling3",
+          "ATLAS_JET_EffectiveNP_Modelling4",
+          "ATLAS_JET_EffectiveNP_Statistical1",
+          "ATLAS_JET_EffectiveNP_Statistical2",
+          "ATLAS_JET_EffectiveNP_Statistical3",
+          "ATLAS_JET_EffectiveNP_Statistical4",
+          "ATLAS_JET_EffectiveNP_Statistical5",
+          "ATLAS_JET_EffectiveNP_Statistical6",
+          "ATLAS_JET_SingleParticle_HighPt",
+          "ATLAS_JET_RelativeNonClosure_MC16",
+          "ATLAS_JET_RelativeNonClosure_AFII",
+          "ATLAS_JET_BJES_Response",
+          "ATLAS_JET_EtaIntercalibration_NonClosure_2018data",
+          "ATLAS_JET_CombMass_Baseline",
+          "ATLAS_JET_CombMass_Modelling",
+          "ATLAS_JET_CombMass_TotalStat",
+          "ATLAS_JET_CombMass_Tracking1",
+          "ATLAS_JET_CombMass_Tracking2",
+          "ATLAS_JET_CombMass_Tracking3",
+          "ATLAS_JET_MassRes_Top_comb",
+          "ATLAS_JET_MassRes_Hbb_comb",
+          "ATLAS_JET_LargeR_TopologyUncertainty_V",
+          "ATLAS_JET_LargeR_TopologyUncertainty_top",
+          "ATLAS_JET_MassRes_Hbb_comb"
+        ]
+      },
+      "ENERGY_RESOLUTION": {
+        "description": "Jet Energy Resolution",
+        "names": [
+          "ATLAS_JET_JER_DataVsMC_MC16",
+          "ATLAS_JET_JER_DataVsMC_AFII",
+          "ATLAS_JET_JER_EffectiveNP_1",
+          "ATLAS_JET_JER_EffectiveNP_2",
+          "ATLAS_JET_JER_EffectiveNP_3",
+          "ATLAS_JET_JER_EffectiveNP_4",
+          "ATLAS_JET_JER_EffectiveNP_5",
+          "ATLAS_JET_JER_EffectiveNP_6",
+          "ATLAS_JET_JER_EffectiveNP_7",
+          "ATLAS_JET_JER_EffectiveNP_8",
+          "ATLAS_JET_JER_EffectiveNP_9",
+          "ATLAS_JET_JER_EffectiveNP_10",
+          "ATLAS_JET_JER_EffectiveNP_11",
+          "ATLAS_JET_JER_EffectiveNP_12restTerm"
+        ]
+      },
+      "VERTEX_TAGGING": {
+        "description": "Jet Vertex Tagging",
+        "names": [
+          "ATLAS_JET_JvtEfficiency"
+        ]
+      },
+      "FORWARD_VERTEX_TAGGING": {
+        "description": "Forward Jet Vertex Tagging",
+        "names": [
+          "ATLAS_JET_fJvtEfficiency"
+        ]
+      }
+    }
+  },
+  "FLAVOR_TAGGING": {
+    "description": "Flavor Tagging Ucertainties",
+    "pattern": [
+      "_FT_",
+      "_SysFT_"
+    ],
+    "exclude": ["_R10_", "_boosted$"],
+    "names": [
+      "ATLAS_FT_EFF_Eigen_B_0",
+      "ATLAS_FT_EFF_Eigen_B_1",
+      "ATLAS_FT_EFF_Eigen_B_2",
+      "ATLAS_FT_EFF_Eigen_B_3",
+      "ATLAS_FT_EFF_Eigen_B_4",
+      "ATLAS_FT_EFF_Eigen_B_5",
+      "ATLAS_FT_EFF_Eigen_B_6",
+      "ATLAS_FT_EFF_Eigen_B_7",
+      "ATLAS_FT_EFF_Eigen_B_8",
+      "ATLAS_FT_EFF_Eigen_C_0",
+      "ATLAS_FT_EFF_Eigen_C_1",
+      "ATLAS_FT_EFF_Eigen_C_2",
+      "ATLAS_FT_EFF_Eigen_C_3",
+      "ATLAS_FT_EFF_Eigen_Light_0",
+      "ATLAS_FT_EFF_Eigen_Light_1",
+      "ATLAS_FT_EFF_Eigen_Light_2",
+      "ATLAS_FT_EFF_Eigen_Light_3",
+      "ATLAS_FT_EFF_Eigen_Light_4",
+      "ATLAS_FT_EFF_Eigen_Light_5",
+      "ATLAS_FT_EFF_Eigen_Light_6",
+      "ATLAS_FT_EFF_extrapolation",
+      "ATLAS_FT_EFF_extrapolation_from_charm"
+    ]
+  },
+  "FAT_JET_FLAVOR_TAGGING": {
+    "description": "Fat Jet Flavor Tagging Ucertainties",
+    "pattern": [
+      "_FT_(.*)_boosted$",
+      "_SysFT_(.*)_boosted$",
+      "_R10_FT_",
+      "_R10_(.*)_SysFT_"
+    ],
+    "replace": {
+      "_boosted": "",
+      "_R10": "",
+      "alpha_": ""
+    },
+    "names": [
+      "ATLAS_Boosted_FT_EFF_Eigen_B_0",
+      "ATLAS_Boosted_FT_EFF_Eigen_B_1",
+      "ATLAS_Boosted_FT_EFF_Eigen_B_2",
+      "ATLAS_Boosted_FT_EFF_Eigen_B_3",
+      "ATLAS_Boosted_FT_EFF_Eigen_B_4",
+      "ATLAS_Boosted_FT_EFF_Eigen_B_5",
+      "ATLAS_Boosted_FT_EFF_Eigen_B_6",
+      "ATLAS_Boosted_FT_EFF_Eigen_B_7",
+      "ATLAS_Boosted_FT_EFF_Eigen_B_8",
+      "ATLAS_Boosted_FT_EFF_Eigen_C_0",
+      "ATLAS_Boosted_FT_EFF_Eigen_C_1",
+      "ATLAS_Boosted_FT_EFF_Eigen_C_2",
+      "ATLAS_Boosted_FT_EFF_Eigen_C_3",
+      "ATLAS_Boosted_FT_EFF_Eigen_Light_0",
+      "ATLAS_Boosted_FT_EFF_Eigen_Light_1",
+      "ATLAS_Boosted_FT_EFF_Eigen_Light_2",
+      "ATLAS_Boosted_FT_EFF_Eigen_Light_3",
+      "ATLAS_Boosted_FT_EFF_Eigen_Light_4",
+      "ATLAS_Boosted_FT_EFF_Eigen_Light_5",
+      "ATLAS_Boosted_FT_EFF_Eigen_Light_6",
+      "ATLAS_Boosted_FT_EFF_extrapolation",
+      "ATLAS_Boosted_FT_EFF_extrapolation_from_charm"
+    ]
+  },
+  "MET": {
+    "description": "MET Uncertainties",
+    "pattern": [
+      "_MET_",
+      "_SysMET_"
+    ],
+    "names": [
+      "ATLAS_MET_SoftTrk_ResoPara",
+      "ATLAS_MET_SoftTrk_ResoPerp",
+      "ATLAS_MET_SoftTrk_ScaleDown",
+      "ATLAS_MET_SoftTrk_ScaleUp"
+    ]
+  },
+  "LUMINOSITY": {
+    "description": "Luminosity Uncertainties",
+    "pattern": [
+      "(?i)_LUMI_",
+      "(?i)^LUMI$",
+      "(?i)_LUMI$"
+    ],
+    "exclude": "Lumi",
+    "cutoff": 0.2,
+    "names": [
+      "ATLAS_LUMI_Run2"
+    ]
+  },
+  "PILEUP": {
+    "description": "Pileup Uncertainties",
+    "cutoff": 0.2,
+    "pattern": [
+      "_PRW_",
+      "_PRW$",
+      "_SysPRW_"
+    ],
+    "names": [
+      "ATLAS_PU_PRW_DATASF"
+    ]
+  },
+  "BBTAUTAUBKGNORM": {
+    "description": "Data-driven Background Normalisation Uncertainties for bbtautau",
+    "pattern": "ATLAS_norm_",
+    "replace": {
+      "ATLAS_norm_": "NORM_bbtautau_"
+    },
+    "format":  "{NAME}"
+  },
+  "FAT_JET_BBBB_THEO": {
+    "description": "4B Special Fat Jet Theory Uncertainties",
+    "pattern": [
+      "_b2b$",
+      "_b3b$",
+      "_b4b$",
+      "_b2b_boosted$",
+      "_b3b_boosted$",
+      "_b4b_boosted$"
+    ],
+    "exclude": [
+      "(?i)THEO"
+    ],
+    "replace": {
+      "alpha_": "",
+      "MODEL_": "",
+      "THEO_": "",
+      "THEO": "",
+      "theo_": "",
+      "theo": ""
+    },
+    "format": "THEO_Boosted_{NAME}"
+  },  
+  "TTBAR_THEO": {
+    "description": "TTBar Theory Uncertainties",
+    "pattern": "_ttbar_",
+    "exclude": "(?i)THEO",
+    "replace": {
+      "alpha_": ""
+    },
+    "format": "THEO_XS_{NAME}"
+  },
+  "TTBAR_FF": {
+    "description": "TTBar Fake Scale Factor Uncertainties",
+    "pattern": "_SysTTBAR_FAKESF_",
+    "replace": {
+      "alpha_": "",
+      "SysTTBAR_FAKESF": "FF_TTBAR"
+    },
+    "format": "ATLAS_{NAME}"
+  }
+}

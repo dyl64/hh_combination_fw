@@ -20,7 +20,7 @@ rcParams['font.sans-serif'] = "Arial"
 rcParams['font.family'] = "sans-serif"
 rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
 
-columns = ['xsec_m2s_NP_profiled', 'xsec_m1s_NP_profiled', 'xsec_p1s_NP_profiled', 'xsec_p2s_NP_profiled', 'xsec_exp_NP_profiled', 'xsec_obs_NP_profiled', 'stat'] # don't change order
+columns = ['xsec_m2s_NP_profiled', 'xsec_m1s_NP_profiled', 'xsec_p1s_NP_profiled', 'xsec_p2s_NP_profiled', 'xsec_exp_NP_profiled', 'xsec_obs_NP_profiled', 'exp_stat', 'obs_stat'] # don't change order
 
 scenario_map = {
     # f'{args.command}-bbbb.dat': (r'$\mathrm{b\bar{b}b\bar{b}}$', 1),
@@ -56,7 +56,7 @@ scenario_map = {
     f'WWWW': (r'$\mathrm{Multilepton}$', 16, 'orangered'),
     f'bbWW': (r'$\mathrm{b\bar{b}WW}$', 17, 'orangered'),
     f'bbWW2l': (r'$\mathrm{b\bar{b}\ell^{+}\nu \ell^{-}\nu}$'+'\n' + r'139 fb$^{-1}$', 17, 'orangered'),
-    f'A-bbtautau_bbyy-nocorr': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-} + b\bar{b}\gamma\gamma}$', 21, 'black'),
+    f'A-bbtautau_bbyy-nocorr': ('Combined', 21, 'black'),
     f'A-bbbb_bbtautau_bbyy-nocorr': ('Top 3 combined', 22, 'black'),
     f'A-bbbb_bbll_bbtautau_bbyy-nocorr': ('Top 3 + '+r'$\mathrm{b\bar{b}ll}$', 23, 'black'),
     f'A-bbbb_bbtautau_bbVV_bbyy-nocorr': ('Top 3 + '+r'$\mathrm{b\bar{b}VV}$', 24, 'black'),
@@ -66,7 +66,8 @@ scenario_map = {
     f'A-bbbb_bbtautau_bbVV_bbyy_WWWW-nocorr': ('N - '+r'$\mathrm{b\bar{b}ll}$', 31, 'black'),
     f'A-bbbb_bbll_bbtautau_bbyy_WWWW-nocorr': ('N - '+r'$\mathrm{b\bar{b}VV}$', 32, 'black'),
     f'A-bbbb_bbll_bbtautau_bbVV_bbyy-nocorr': ('N - '+r'Multilepton', 33, 'black'),
-    f'A-bbtautau_bbyy-fullcorr': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-} + b\bar{b}\gamma\gamma}$', 21, 'black'),
+    #f'A-bbtautau_bbyy-fullcorr': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}'+'\n'+r'+ b\bar{b}\gamma\gamma}$', 21, 'black'),
+    f'A-bbtautau_bbyy-fullcorr': ('Combined', 21, 'black'),
     f'A-bbbb_bbtautau_bbyy-fullcorr': ('Top 3 combined', 22, 'black'),
     f'A-bbbb_bbll_bbtautau_bbyy-fullcorr': ('Top 3 + '+r'$\mathrm{b\bar{b}ll}$', 23, 'black'),
     f'A-bbbb_bbtautau_bbVV_bbyy-fullcorr': ('Top 3 + '+r'$\mathrm{b\bar{b}VV}$', 24, 'black'),
@@ -122,11 +123,16 @@ def drawATLASlabel(fig, ax, lumi = r'27.5$-$139', internal=True, reg_text=None, 
             fontsize=fontsize_title, fontweight='bold', style='italic', c=c)
     box0_ext_tr = ax.transAxes.inverted().transform(box0.get_window_extent(renderer=fig.canvas.get_renderer()))
 
-    ax.text(max(box0_ext_tr[1][0], 0.21), ymax, 'Preliminary' if args.p else 'Internal', transform=ax.transAxes,
+    ax.text(max(box0_ext_tr[1][0], 0.25), ymax, 'Preliminary' if args.p else 'Internal', transform=ax.transAxes,
             verticalalignment='bottom', horizontalalignment='left',
             fontsize=fontsize_title, c=c)
 
-    lumi_label = '$\\sqrt{s} = $13 TeV, %s fb$^{-1}$' % (lumi)
+    if xmin < 0.2:
+        lumi_label = '$\\sqrt{s} = $13 TeV, %s fb$^{-1}$' % (lumi)
+    else:
+        lumi_label = '$\\sqrt{s} = $13 TeV'
+        lumi_label += '\n'
+        lumi_label += '%s fb$^{-1}$' % (lumi)
 
 
     full_label = lumi_label + '\n'+ reg_text
@@ -153,7 +159,7 @@ def save_plot(args):
 
     fullcorr = corr_or_not(args)
     new_method = 'csv' if args.csv_list or args.summary_json else 'json' if args.dat_list and args.dat_list[0].endswith('json') else 'dat'
-    file_name = f'{out_path}/upperlimit_xsec_{args.command}_{new_method}_{"obs" if args.unblind else "exp"}_{"fullcorr" if fullcorr else "nocorr"}.pdf'
+    file_name = f'{out_path}/upperlimit_xsec_{args.command}_{new_method}_{"obs" if args.unblind else "exp"}_{"fullcorr" if fullcorr else "nocorr"}{"_mu" if args.mu else ""}.pdf'
     plt.savefig(file_name)
     print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mSave file\033[0m'.rjust(40, ' '), file_name)
 
@@ -228,7 +234,10 @@ def plot_spin0(args):
     com_df_all = pd.concat(com_dfs)
     com_df_new = pd.DataFrame(columns=com_df_all.columns)
 
-    exclude_masses = [312.5, 337.5, 375, 425, 475]
+    if args.alter:
+        exclude_masses = [375, 425, 475]
+    else:
+        exclude_masses = [312.5, 337.5, 375, 425, 475]
     combine_result = {}
     # Construct the final limit frame that takes whatever the best expected limit
     for y, (index, row) in enumerate(com_df_all.iterrows()):
@@ -246,7 +255,7 @@ def plot_spin0(args):
     com_df_new['parameter'] = pd.to_numeric(com_df_new['parameter'])
     com_df_new = com_df_new.sort_values(by = 'parameter')
     com_df_new = rescale(com_df_new, columns, SM_HH_xsec = 0.001, absolute=True)
-    print(com_df_new[columns[-3:-1] + ['parameter', 'filename', 'channels']])
+    print(com_df_new[columns[-3:-2] + ['parameter', 'filename', 'channels']])
 
     input_folder = (args.dat_list[0]).split('limits') if args.dat_list else (args.csv_list[0]).split('limits')
     out_path = input_folder[0] + 'figures' if len(input_folder) > 1 else 'figures'
@@ -276,8 +285,8 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
         ax.set_ylim([0.6, 200000])
         ax.set_xlim([230, 4000])
     else:
-        ax.set_ylim([0.5, 40000])
-        ax.set_xlim([230, 7000])
+        ax.set_ylim([0.5, 20000])
+        ax.set_xlim([230, 3500])
 
     def plot_individual():
         # Plot individual
@@ -296,7 +305,7 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
                         a, b = ax.get_ylim()
                         a, b, v = np.log(a), np.log(b), np.log(v)
                         return (v-a) / (b-a)
-                    ax.axvline(x=maxmass, ymin=0, ymax=get_fraction(df[df['parameter'] == maxmass][['xsec_exp_NP_profiled', 'xsec_obs_NP_profiled']].values.max()), color=scenario_map[file_name][2], ls = '--', lw=0.5, zorder = 1)
+                    #ax.axvline(x=maxmass, ymin=0, ymax=get_fraction(df[df['parameter'] == maxmass][['xsec_exp_NP_profiled', 'xsec_obs_NP_profiled']].values.max()), color=scenario_map[file_name][2], ls = '--', lw=0.5, zorder = 1)
                 if args.debug:
                     print(df)
                     for x,y in zip(df['parameter'].tolist(), df['xsec_obs_NP_profiled'].tolist()):
@@ -349,9 +358,11 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
         majorticks = [200, 300, 500, 1000, 2000, 3000, 5000]
         if args.summary_json:
             majorticks.remove(5000)
+        else:
+            majorticks.remove(5000)
         ax.set_xticks(majorticks)
         ax.set_xticklabels(majorticks)
-        minorticks = list(np.arange(200, 300, 20)) + list(np.arange(200, 2000, 100)) + (list(np.arange(2000, 3000, 500)) if args.summary_json else list(np.arange(2000, 5000, 1000)))
+        minorticks = list(np.arange(200, 300, 20)) + list(np.arange(200, 2000, 100)) + (list(np.arange(2000, 3000, 500)) if args.summary_json else list(np.arange(2000, 3000, 500)))
         ax.set_xticks(minorticks, minor=True)
         ax.set_xticklabels([], minor=True)
     else:
@@ -396,11 +407,13 @@ def plot_nonres(args):
                 file_name = path.basename(path.dirname(stat))
                 if file_name in df.index:
                     with open(stat) as f:
-                        df.at[file_name, 'stat'] = json.load(f)['0']
+                        dic = json.load(f)
+                        df.at[file_name, 'exp_stat'] = dic['0']
+                        df.at[file_name, 'obs_stat'] = dic['obs']
                 if file_name.replace('nocorr', 'fullcorr') in df.index:
                     file_name = file_name.replace('nocorr', 'fullcorr') 
                     with open(stat) as f:
-                        df.at[file_name, 'stat'] = json.load(f)['0']
+                        df.at[file_name, 'exp_stat'] = json.load(f)['0']
 
     else:
         for dat in dat_list:
@@ -417,25 +430,30 @@ def plot_nonres(args):
 
     out_path = get_output_folder(args)
     fullcorr = corr_or_not(args)
-    df.to_csv(f'{out_path}/upperlimit_xsec_{args.command}_{"json" if new_method else "dat"}_{"obs" if args.unblind else "exp"}_{"fullcorr" if fullcorr else "nocorr"}.csv')
-    if 'stat' in df:
+    df.to_csv(f'{out_path}/upperlimit_xsec_{args.command}_{"json" if new_method else "dat"}_{"obs" if args.unblind else "exp"}_{"fullcorr" if fullcorr else "nocorr"}{"_mu" if args.mu else ""}.csv')
+    if 'obs_stat' in df:
         print(df[columns])
+    elif 'exp_stat' in df:
+        print(df[columns][:-1])
     else:
-        print(df[columns[:-1]])
+        print(df[columns[:-2]])
 
 def plot_nonres_from_df(args, df):
-    fig, ax = plt.subplots(1, 1, figsize=(10, 7))
+    fig, ax = plt.subplots(1, 1, figsize=(8, 7))
     df = df.sort_values(by = 'order', ascending = False)
 
     ax.set_ylim([0, df.shape[0]*1.8])
-    ax.set_xlim([1.9, 300 if args.logx else 30])
+    if args.summary_json or args.csv_list:
+        ax.set_xlim([1.9, 300 if args.logx else 30])
+    else:
+        ax.set_xlim([1, 130 if args.logx else 30])
     fontsize = 18
 
     # Plot bands
     if args.summary_json or args.csv_list:
-        obs_text_x, exp_text_x, stat_text_x, ref_text_x = 110, 200, 700, 700
+        obs_text_x, exp_text_x, exp_stat_text_x, ref_text_x = 110, 200, 700, 700
     else:
-        obs_text_x, exp_text_x, stat_text_x, ref_text_x = 70, 200, 700, 700
+        obs_text_x, obs_stat_text_x, exp_text_x, exp_stat_text_x, ref_text_x = 16, 28, 50, 87.5, 40
     y_shift = 0.73 if 'ref' in df else 0.5
 
     df = df.fillna('')
@@ -444,30 +462,37 @@ def plot_nonres_from_df(args, df):
             obs = row[columns[5]]
             ax.vlines(obs, y, y+1, colors = 'k', linestyles = 'solid', zorder = 1.1, label = 'Observed' if y==0 else '')
             ax.scatter(obs, y+0.5, s=50, c='k', marker='o', zorder = 1.1)
-            obs_str = f'{obs:.1f}' if index not in ['combined36', 'bbWW2l'] else f'{obs:g}'
-            ax.text(obs_text_x, y+y_shift, obs_str, horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
+            obs_str = f'{obs:.2f}' if index not in ['combined36', 'bbWW2l'] else f'{obs:g}'
+            ax.text(obs_text_x, y+y_shift, obs_str, horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
         exp = row[columns[4]]
         ax.vlines(exp, y, y+1, colors = 'k', linestyles = 'dotted', zorder = 1.1, label = 'Expected' if y==0 else '')
         ax.fill_betweenx([y,y+1], row[columns[0]], row[columns[3]], facecolor = 'hh:darkyellow', label = r'Expected $\pm$ 2 $\sigma$' if y==0 else '')
         ax.fill_betweenx([y,y+1], row[columns[1]], row[columns[2]], facecolor = 'hh:medturquoise', label = r'Expected $\pm$ 1 $\sigma$' if y==0 else '')
-        # Plot text
-        exp_str = f'{exp:.1f}' if index not in ['combined36', 'bbWW2l'] else f'{exp:g}'
-        ax.text(exp_text_x, y+y_shift, exp_str, horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
 
+        # Plot limit text
+        exp_str = f'{exp:.2f}' if index not in ['combined36', 'bbWW2l'] else f'{exp:g}'
+        ax.text(exp_text_x, y+y_shift, exp_str, horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
         if 'ref' in df:
             ref = row['ref'].replace('\\n', '\n')
             ax.text(obs_text_x*1.2, y+1.1-y_shift, ref, horizontalalignment='center', verticalalignment='center', fontsize=fontsize-8)
-        if 'stat' in df:
-            stat_str = row['stat']
-            if isinstance(stat_str , (int, float)):
-                stat_str = f'{stat_str:.2f}'
-            ax.text(stat_text_x, y+1-y_shift, stat_str, horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
+        if 'exp_stat' in df:
+            exp_stat_str = row['exp_stat']
+            if isinstance(exp_stat_str , (int, float)):
+                exp_stat_str = f'({exp_stat_str:.2f})'
+            ax.text(exp_stat_text_x, y+1-y_shift, exp_stat_str, horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
+        if 'obs_stat' in df:
+            obs_stat_str = row['obs_stat']
+            if isinstance(obs_stat_str , (int, float)):
+                obs_stat_str = f'({obs_stat_str:.2f})'
+            ax.text(obs_stat_text_x, y+1-y_shift, obs_stat_str, horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
 
     if args.unblind:
-        ax.text(obs_text_x*1.05, (y + 1)*1.1, 'Obs.', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
-    ax.text(exp_text_x*1.05, (y + 1)*1.1, 'Exp.', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
-    if 'stat' in df:
-        ax.text(stat_text_x*1.2, (y + 1)*1.1, 'Exp. stat.', horizontalalignment='right', verticalalignment='center', fontsize=fontsize)
+        ax.text(obs_text_x*1.05, (y + 1)*1.1, 'Obs.', horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
+        if 'obs_stat' in df:
+            ax.text(obs_stat_text_x, (y + 1)*1.1, '(stat.)', horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
+    ax.text(exp_text_x*1.05, (y + 1)*1.1, 'Exp.', horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
+    if 'exp_stat' in df:
+        ax.text(exp_stat_text_x, (y + 1)*1.1, '(stat.)', horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
 
     textlable = ''
 
@@ -483,11 +508,14 @@ def plot_nonres_from_df(args, df):
         ax.set_xscale('symlog')
         # Set frequency
         if args.summary_json or args.csv_list:
-            majorticks = [2, 5, 10, 20, 50, 100, 200]
+            majorticks = [1, 2, 5, 10, 20, 50, 100, 200]
             ax.set_xticks(majorticks)
             ax.set_xticklabels(majorticks)
             ax.xaxis.set_minor_locator(ticker.LogLocator(base=10,subs=np.arange(10)))
         else:
+            #majorticks = [2, 5, 10, 20, 50]
+            #ax.set_xticks(majorticks)
+            #ax.set_xticklabels(majorticks)
             ax.xaxis.set_major_locator(ticker.LogLocator())
             ax.xaxis.set_major_formatter(ticker.LogFormatter())
             ax.xaxis.set_minor_locator(ticker.LogLocator(base=10,subs=np.arange(10)))
@@ -504,14 +532,17 @@ def plot_nonres_from_df(args, df):
         process = 'ggF+VBF'
 
     # x-axis title
-    xlabel = '95% ' + r'CL upper limit on $\sigma_{\mathrm{%s}}$ ($\mathrm{pp} \rightarrow \mathrm{HH}$) normalised to $\sigma_\mathrm{{%s}^{SM}}$' % (process, process)
+    xlabel = '95% ' + r'CL upper limit on $\sigma_{\mathrm{%s}}$ ($\mathrm{pp} \rightarrow \mathrm{HH}$)''\n'r'normalised to $\sigma^\mathrm{{SM}}_\mathrm{{%s}}$' % (process, process)
     if args.summary_json or args.csv_list:
         xlabel = '95% ' + r'CL upper limit on $\sigma$ ($\mathrm{pp} \rightarrow \mathrm{HH}$) normalised to $\sigma_{\mathrm{SM}}$'
+    if args.mu:
+        xlabel = '95% ' + r'CL upper limit on signal strength'
     ax.set_xlabel(xlabel, horizontalalignment='right', x=1.0, fontsize=fontsize)
 
     if not (args.summary_json or args.csv_list):
-        fullcorr = 'nocorr' if corr_or_not(args) == 0 else 'fullcorr'
-        textlable = r'$\mathrm{\sigma_{%s}^{SM}}$ = %.2f fb, %s' % (process, args.norm, fullcorr)
+        textlable = r'$\mathrm{\sigma_{%s}^{SM}}$ = %.2f fb' % (process, args.norm)
+        if corr_or_not(args) == 0:
+            textlable += '\nnocorr'
 
     plot_common(args, fig, ax, textlable, fontsize, fontsize)
     save_plot(args)
@@ -519,9 +550,9 @@ def plot_nonres_from_df(args, df):
 def plot_common(args, fig, ax, textlable, fontsize, legendsize):
     # ATLAS cosmetics
     if args.command == 'nonres':
-        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'139', internal=True, reg_text=textlable, xmin=0.05, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=0.8)
+        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'139', internal=True, reg_text=textlable, xmin=0.05, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=1.1)
     elif args.command == 'spin0':
-        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'126$-$139', internal=True, reg_text=textlable, xmin=0.04 if args.summary_json else 0.1, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=0.8)
+        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'126$-$139', internal=True, reg_text=textlable, xmin=0.04 if args.summary_json else 0.2, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=0.8)
 
     # Legend
     if args.command == 'nonres':
@@ -594,7 +625,7 @@ def main(args):
 if __name__ == '__main__':
     
     """Get arguments from command line."""
-    parser = ArgumentParser(description="\033[92mCreate templates and configuration files for TRExFitter.\033[0m")
+    parser = ArgumentParser(description="\033[92mPlot combined plots.\033[0m")
     subcommands = parser.add_subparsers(dest='command')
 
     nonres = subcommands.add_parser('nonres', help='Plot nonres.')
@@ -605,9 +636,10 @@ if __name__ == '__main__':
     inputs.add_argument('--summary_json', type=str, default=None, required=False, help='')
     nonres.add_argument('-s', '--stat_list', nargs='+', type=str, default=None, required=False, help='')
     nonres.add_argument('--logx', action='store_true', default=False, required=False, help='')
-    nonres.add_argument('--norm', type=float, default=31.05, required=False, help='')
+    nonres.add_argument('--norm', type=float, default=32.776, required=False, help='')
     nonres.add_argument('--unblind', action='store_true', default=False, required=False, help='')
     nonres.add_argument('-p', action='store_true', default=False, required=False, help='')
+    nonres.add_argument('-mu', action='store_true', default=False, required=False, help='Plot limit on signal strength instead of on cross section')
 
     spin0 = subcommands.add_parser('spin0', help='Plot spin0.')
     spin0.add_argument('spin0', nargs='*')
@@ -622,6 +654,8 @@ if __name__ == '__main__':
     spin0.add_argument('--relative', action='store_true', default=False, required=False, help='')
     spin0.add_argument('--no-error', action='store_true', default=False, required=False, help='')
     spin0.add_argument('-p', action='store_true', default=False, required=False, help='')
+    spin0.add_argument('-mu', action='store_true', default=False, required=False, help='Plot limit on signal strength instead of on cross section')
+    spin0.add_argument('-alter', action='store_true', default=False, required=False, help='Add ')
 
     args = parser.parse_args()
     main(args)

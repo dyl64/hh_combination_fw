@@ -77,14 +77,32 @@ Perform ranking with:
 quickstats run_pulls --poi xsec_br -i <workspace_file> --parallel -1 --exclude gamma_*,nbkg_* -o <output_directory>
 ```
 Then plot ranking plot with
+- `matplotlib` shipped with LCG release is not compatible with what we need. To get a newer versioin, do
+- `source /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/anaconda3/setup.sh`
 ```
-quickstats plot_pulls -i pulls --poi xsec_br
+quickstats plot_pulls --style trex --poi xsec_br -i pulls/ -o rank_plot
 ```
 
+## Run p-value
+```
+# Way 1
+HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210723_CI/output/combined/spin0/A-bbbb_bbtautau-nocorr/1100.root
+## to run all *.root files in parallel:
+HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210723_CI/output/combined/spin0/A-bbbb_bbtautau-nocorr/
+# Way 2
+submodules/RooStatTools/bin/runSigCalc ~/work/HHcomb/FullRun2Workspaces/batches/v140invfb_20210723_CI/output/combined/spin0/A-bbbb_bbtautau-nocorr/1100.root  pvalue combWS ModelConfig combData |tee pvalue.log
+```
+
+## Run likelihood scan
+```
+cd v140invfb_20210821_CI/output
+mkdir likelihood_scan
+quickstats likelihood_scan --min -0.2 --max 1.0 --step 0.01 -i combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/<Mass>.root -o <Mass>
+```
 
 ## Generate scheme files for NP correlation
 
-Refer to `[NP_rename/README.md](NP_rename/README.md)` for details.
+Refer to [NP_rename/README.md](NP_rename/README.md) for details.
 
 
 ## Some useful tips
