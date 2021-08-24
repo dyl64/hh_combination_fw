@@ -30,11 +30,16 @@ def pvalue(input_path, poi_name, dataset, parallel):
     arguments = (input_files, repeat(poi_name), repeat(dataset))
     utils.parallel_run(_pvalue, *arguments, max_workers=max_workers)
 
-def _pvalue(input_file, poi_name, dataset):
+def _pvalue(input_file, poi_name, dataset, uncap=True):
     poi_val = 0
-    nll_mu_free = evaluate_nll(input_file, poi_val, poi_name, strategy = 1, unconditional=True, data=dataset)
-    nll_mu_0 = evaluate_nll(input_file, poi_val, poi_name, strategy = 1, unconditional=False, data=dataset)
+    nll_mu_0 = evaluate_nll(input_file, poi_val, poi_name, strategy = 1, unconditional=False, data=dataset, offset=False)
+    result_free = evaluate_nll(input_file, poi_val, poi_name, strategy = 1, unconditional=True, data=dataset, offset=False, detailed_output=True)
+    nll_mu_free = result_free['nll']
+    poi_free = result_free['poi_bestfit']
     q0 = 2*(nll_mu_0 -nll_mu_free)
+
+    if uncap and poi_free < 0:
+        q0 = -q0
     
     sign = 0 if q0 == 0 else q0 / fabs(q0)
     q0 = fabs(q0)
@@ -42,12 +47,15 @@ def _pvalue(input_file, poi_name, dataset):
     significance = sign*sqrt(q0)
     pvalue = (1-erf(significance/sqrt(2)))/2;
     # Equivalent to:
+    # import ROOT
     # pvalue = 1-ROOT.Math.normal_cdf(sqrt(q0 ),1,0)
     # significance = ROOT.RooStats.PValueToSignificance(pvalue)
     
     dic = {
         'nll_mu_0': nll_mu_0,
         'nll_mu_free': nll_mu_free,
+        'q0_orig': 2*(nll_mu_0 -nll_mu_free),
+        'best_mu': poi_free,
         'q0': q0,
         'pvalue': pvalue,
         'significance': significance
