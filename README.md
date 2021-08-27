@@ -74,7 +74,7 @@ You can download the whole output from the `Download` botton.
 
 Perform ranking with:
 ```
-quickstats run_pulls --poi xsec_br -i <workspace_file> --parallel -1 --exclude gamma_*,nbkg_* -o <output_directory>
+quickstats run_pulls --batch_mode --poi xsec_br -i <workspace_file> --parallel -1 --exclude gamma_*,nbkg_* -o <output_directory>
 ```
 Then plot ranking plot with
 - `matplotlib` shipped with LCG release is not compatible with what we need. To get a newer versioin, do
@@ -108,7 +108,7 @@ Refer to [NP_rename/README.md](NP_rename/README.md) for details.
 ## Some useful tips
 ### Run limit on a workspace
 ```
-quickstats cls_limit -i <input_root_file> --poi xsec_br --print_level 1 --strategy 1 --snapshot nominalNuis
+quickstats cls_limit --batch_mode -i <input_root_file> --poi xsec_br --print_level 1 --strategy 1 --snapshot nominalNuis
 ```
 
 ### Inspect workspaces
@@ -117,16 +117,24 @@ quickstats inspect_ws pois -i <input_root_file>
 ```
 
 ### Generate Asimov
-No CLI tool is available at the moment, run in python / ipython:
+Run in python / ipython for testing:
 ```
 from quickstats.components import ExtendedModel
 model = ExtendedModel("0.root")
-
 # no profiling on NP - take the stored values
-model.generate_asimov(poi_name="xsec_br", poi_value = 0)
-
+model.generate_asimov(poi_name="xsec_br", poi_val = 0)
 # profile NP to best fit values
-model.generate_asimov(poi_name="xsec_br", poi_value = 0, poi_profile =0, do_conditional=True)
+# the asimov dataset will be generated with the profiled NP when POI taking poi_profile, and set the POI to poi_val after fit.
+model.generate_asimov(poi_name="xsec_br", poi_val = 0, poi_profile =0, do_conditional=True)
+# save Asimov
+model.workspace.writeToFile("Asimov_0.root")
+```
+CLI tool (if you check `python_modules/gen_asimov.py`, two asimov workspaces will be created:
+- POI=0, do_conditional=True: 
+- POI=1, do_conditional=False: 
+```
+HHComb gen_asimov -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output_unblind/combined/nonres/A-bbtautau_bbyy-fullcorr/0.root
+HHComb gen_asimov -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output_unblind/combined/nonres/A-bbtautau_bbyy-fullcorr/
 ```
 
 </p>
