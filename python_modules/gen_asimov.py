@@ -28,19 +28,23 @@ def gen_asimov(input_path, poi_name, dataset, parallel):
     else:
         max_workers = parallel
 
-    arguments = (input_files, repeat(poi_name), repeat(dataset))
-    utils.parallel_run(_asimov, *arguments, max_workers=max_workers)
+    if len(input_files) == 1: # disable multiprocessing for debugging
+        for input_file in input_files:
+            _asimov(input_file, dataset)
+    else:
+        arguments = (input_files, repeat(dataset))
+        utils.parallel_run(_asimov, *arguments, max_workers=max_workers)
 
-def _asimov(input_file, poi_value, dataset):
-    model = ExtendedModel(input_file, data_name=dataset)
+def _asimov(input_file, dataset):
 
     # settings for asimov ('poi_profile', 'profile', 'poi_val')
     # if profile = True, asimov dataset will be generated with the profiled NP when POI taking poi_profile, and set the POI to poi_val after fit.
     settings = [
+        [1, True],  # for ranking plot S+B asimov
         [0, True],  # for pvalue and significance calculation (bkg-only)
-        [1, False], # for ranking plot S+B asimov no profiling
         ]
     for setting in settings:
         if len(setting) == 2: setting.append(setting[0])
-        model.generate_asimov(poi_name="xsec_br", poi_val = setting[0], poi_profile = setting[2], do_conditional = setting[1])
-        model.workspace.writeToFile(path.dirname(input_file) + f'/Asimov_POI{setting[2]}_Profile{setting[1]}.' + path.basename(input_file))
+        model = ExtendedModel(input_file, data_name=dataset)
+        model.generate_asimov(poi_name="xsec_br", poi_val = setting[0], poi_profile = setting[2], do_conditional = setting[1], do_import=True)
+        model.workspace.writeToFile(path.dirname(input_file) + f'/asimov{setting[0]}.' + path.basename(input_file))

@@ -79,7 +79,7 @@ quickstats run_pulls --batch_mode --poi xsec_br -i <workspace_file> --parallel -
 ```
 Then plot ranking plot with
 - `matplotlib` shipped with LCG release is not compatible with what we need. To get a newer versioin, do
-- `source /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/anaconda3/setup.sh`
+- `export PATH=/afs/cern.ch/work/c/chlcheng/public/local/conda/miniconda/envs/ml-base/bin:$PATH`
 ```
 quickstats plot_pulls --style trex --poi xsec_br -i pulls/ -o rank_plot
 ```
@@ -87,11 +87,11 @@ quickstats plot_pulls --style trex --poi xsec_br -i pulls/ -o rank_plot
 ## Run p-value
 ```
 # Way 1
-HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210723_CI/output/combined/spin0/A-bbbb_bbtautau-nocorr/1100.root
+HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/1100.root
 ## to run all *.root files in parallel:
-HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210723_CI/output/combined/spin0/A-bbbb_bbtautau-nocorr/
+HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr
 # Way 2
-submodules/RooStatTools/bin/runSigCalc ~/work/HHcomb/FullRun2Workspaces/batches/v140invfb_20210723_CI/output/combined/spin0/A-bbbb_bbtautau-nocorr/1100.root  pvalue combWS ModelConfig combData |tee pvalue.log
+submodules/RooStatTools/bin/runSigCalc ~/work/HHcomb/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau-nocorr/1100.root  pvalue combWS ModelConfig combData |tee pvalue.log
 ```
 
 ## Run likelihood scan
@@ -118,21 +118,9 @@ quickstats inspect_ws pois -i <input_root_file>
 ```
 
 ### Generate Asimov
-Run in python / ipython for testing:
-```
-from quickstats.components import ExtendedModel
-model = ExtendedModel("0.root")
-# no profiling on NP - take the stored values
-model.generate_asimov(poi_name="xsec_br", poi_val = 0)
-# profile NP to best fit values
-# the asimov dataset will be generated with the profiled NP when POI taking poi_profile, and set the POI to poi_val after fit.
-model.generate_asimov(poi_name="xsec_br", poi_val = 0, poi_profile =0, do_conditional=True)
-# save Asimov
-model.workspace.writeToFile("Asimov_0.root")
-```
 CLI tool (if you check `python_modules/gen_asimov.py`, two asimov workspaces will be created:
-- POI=0, do_conditional=True: 
-- POI=1, do_conditional=False: 
+- POI=0, do_conditional=True:
+- POI=1, do_conditional=True:
 ```
 HHComb gen_asimov -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output_unblind/combined/nonres/A-bbtautau_bbyy-fullcorr/0.root
 HHComb gen_asimov -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output_unblind/combined/nonres/A-bbtautau_bbyy-fullcorr/

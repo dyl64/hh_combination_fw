@@ -1,14 +1,14 @@
 import os
 import json
 
-dataset = "observed_data"
+dataset = "asimov_data"
 
 np_map = {
-    "nonres": "/Users/zhangrui//Work/Code/HHcomb/hh_combination_fw/configs/np_map_nonres_v4.json",
-    "spin0": "/Users/zhangrui//Work/Code/HHcomb/hh_combination_fw/configs/np_map_spin0_v5.json"
+    "nonres": "../configs/np_map_nonres_v4.json",
+    "spin0": "../configs/np_map_spin0_v5.json"
 }
 
-CURRENT_DIR = os.getcwd()
+CURRENT_DIR = os.getcwd() + '/../../NP_ranking/'
 OUTNAME = {
     "nonres": "NP_ranking_nonres_{channel}",
     "spin0": "NP_ranking_spin0_{channel}_{mass}"}

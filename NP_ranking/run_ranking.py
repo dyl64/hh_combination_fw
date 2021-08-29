@@ -36,20 +36,21 @@ WS_BASE_PATH = {
 
 WS_SUB_PATH = {
     "nonres": {
-        "bbyy": "rescaled/nonres/bbyy/Asimov_POI1_ProfileFalse.{mass}.root",
-        "bbtautau": "rescaled/nonres/bbtautau/Asimov_POI1_ProfileFalse.{mass}.root",
-        "bbbb": "rescaled/nonres/bbbb/Asimov_POI1_ProfileFalse.{mass}.root",
-        "combined": "combined/nonres/A-bbtautau_bbyy-fullcorr/Asimov_POI1_ProfileFalse.{mass}.root"
+        "bbyy": "rescaled/nonres/bbyy/asimov1.{mass}.root",
+        "bbtautau": "rescaled/nonres/bbtautau/asimov1.{mass}.root",
+        "bbbb": "rescaled/nonres/bbbb/asimov1.{mass}.root",
+        "combined": "combined/nonres/A-bbtautau_bbyy-fullcorr/asimov1.{mass}.root"
     },
     "spin0": {
-        "bbyy": "rescaled/spin0/bbyy/Asimov_POI1_ProfileFalse.{mass}.root",
-        "bbtautau": "rescaled/spin0/bbtautau/Asimov_POI1_ProfileFalse.{mass}.root",
-        "bbbb": "rescaled/spin0/bbbb/Asimov_POI1_ProfileFalse.{mass}.root",
-        "combined": "combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/Asimov_POI1_ProfileFalse.{mass}.root"
+        "bbyy": "rescaled/spin0/bbyy/asimov1.{mass}.root",
+        "bbtautau": "rescaled/spin0/bbtautau/asimov1.{mass}.root",
+        "bbbb": "rescaled/spin0/bbbb/asimov1.{mass}.root",
+        "combined": "combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/asimov1.{mass}.root"
     }
 }
 CHANNELS = {
     "nonres": ["bbyy", "bbtautau", "combined"],
+    #"nonres": ["combined"],
     "spin0": ["bbbb", "bbtautau", "bbyy", "combined"]
 }
 MASSES = {
