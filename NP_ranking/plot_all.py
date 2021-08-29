@@ -2,7 +2,7 @@ import os
 import sys
 from pdb import set_trace
 import sys
-sys.path.append('/afs/cern.ch/work/c/chlcheng/public/local/conda/miniconda/envs/ml-base/bin')
+#sys.path.append('/afs/cern.ch/work/c/chlcheng/public/local/conda/miniconda/envs/ml-base/bin')
 
 if sys.argv[1] not in ['nonres', 'spin0']:
     print('Usage: python', sys.argv[0], 'nonres|spin0', '0|1|2')
@@ -13,7 +13,7 @@ if sys.argv[1] == 'spin0' and sys.argv[2] not in ['0', '1', '2']:
 
 dataset = "asimov_data"
 
-CURRENT_DIR = os.getcwd() + '/../../NP_ranking/'
+CURRENT_DIR = os.getcwd() + '/../../output/NP_ranking/'
 OUTNAME = {
     "nonres": "NP_ranking_nonres_{channel}",
     "spin0": "NP_ranking_spin0_{channel}_{mass}"}

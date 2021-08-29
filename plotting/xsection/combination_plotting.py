@@ -552,7 +552,7 @@ def plot_common(args, fig, ax, textlable, fontsize, legendsize):
     if args.command == 'nonres':
         drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'139', internal=True, reg_text=textlable, xmin=0.05, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=1.1)
     elif args.command == 'spin0':
-        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'126$-$139', internal=True, reg_text=textlable, xmin=0.04 if args.summary_json else 0.2, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=0.8)
+        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'126$—$139', internal=True, reg_text=textlable, xmin=0.04 if args.summary_json else 0.2, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=0.8)
 
     # Legend
     if args.command == 'nonres':
