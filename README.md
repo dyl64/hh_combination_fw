@@ -56,6 +56,7 @@ HHComb combine_ws --new_method -i <output> -c bbbb,bbtautau,bbyy,WWWW,bbll,bbVV
 ### Plotting
 Plot for non-resonant and spin0:
 ```
+# export PATH=/afs/cern.ch/work/c/chlcheng/public/local/conda/miniconda/envs/ml-base/bin:$PATH
 python plotting/xsection/combination_plotting.py nonres  --logx --dat_list $input_dir/limits/root-files/nonres/*/*[0-9].json $input_dir/limits/root-files/nonres/combined/A-bbtautau_bbyy-fullcorr/0.json --stat $input_dir_stat/limits/root-files/nonres/*/*[0-9].json $input_dir_stat/limits/root-files/nonres/combined/A-bb*/0.json --unblind
 
 python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json --unblind
@@ -74,11 +75,11 @@ You can download the whole output from the `Download` botton.
 
 Perform ranking with:
 ```
-quickstats run_pulls --poi xsec_br -i <workspace_file> --parallel -1 --exclude gamma_*,nbkg_* -o <output_directory>
+quickstats run_pulls --batch_mode --poi xsec_br -i <workspace_file> --parallel -1 --exclude gamma_*,nbkg_* -o <output_directory>
 ```
 Then plot ranking plot with
 - `matplotlib` shipped with LCG release is not compatible with what we need. To get a newer versioin, do
-- `source /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/anaconda3/setup.sh`
+- `export PATH=/afs/cern.ch/work/c/chlcheng/public/local/conda/miniconda/envs/ml-base/bin:$PATH`
 ```
 quickstats plot_pulls --style trex --poi xsec_br -i pulls/ -o rank_plot
 ```
@@ -86,11 +87,11 @@ quickstats plot_pulls --style trex --poi xsec_br -i pulls/ -o rank_plot
 ## Run p-value
 ```
 # Way 1
-HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210723_CI/output/combined/spin0/A-bbbb_bbtautau-nocorr/1100.root
+HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/1100.root
 ## to run all *.root files in parallel:
-HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210723_CI/output/combined/spin0/A-bbbb_bbtautau-nocorr/
+HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr
 # Way 2
-submodules/RooStatTools/bin/runSigCalc ~/work/HHcomb/FullRun2Workspaces/batches/v140invfb_20210723_CI/output/combined/spin0/A-bbbb_bbtautau-nocorr/1100.root  pvalue combWS ModelConfig combData |tee pvalue.log
+submodules/RooStatTools/bin/runSigCalc ~/work/HHcomb/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau-nocorr/1100.root  pvalue combWS ModelConfig combData |tee pvalue.log
 ```
 
 ## Run likelihood scan
@@ -108,7 +109,7 @@ Refer to [NP_rename/README.md](NP_rename/README.md) for details.
 ## Some useful tips
 ### Run limit on a workspace
 ```
-quickstats cls_limit -i <input_root_file> --poi xsec_br --print_level 1 --strategy 1 --snapshot nominalNuis
+quickstats cls_limit --batch_mode -i <input_root_file> --poi xsec_br --print_level 1 --strategy 1 --snapshot nominalNuis
 ```
 
 ### Inspect workspaces
@@ -117,16 +118,12 @@ quickstats inspect_ws pois -i <input_root_file>
 ```
 
 ### Generate Asimov
-No CLI tool is available at the moment, run in python / ipython:
+CLI tool (if you check `python_modules/gen_asimov.py`, two asimov workspaces will be created:
+- POI=0, do_conditional=True:
+- POI=1, do_conditional=True:
 ```
-from quickstats.components import ExtendedModel
-model = ExtendedModel("0.root")
-
-# no profiling on NP - take the stored values
-model.generate_asimov(poi_name="xsec_br", poi_value = 0)
-
-# profile NP to best fit values
-model.generate_asimov(poi_name="xsec_br", poi_value = 0, poi_profile =0, do_conditional=True)
+HHComb gen_asimov -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output_unblind/combined/nonres/A-bbtautau_bbyy-fullcorr/0.root
+HHComb gen_asimov -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output_unblind/combined/nonres/A-bbtautau_bbyy-fullcorr/
 ```
 
 </p>
