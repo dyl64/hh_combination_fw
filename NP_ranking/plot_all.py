@@ -4,6 +4,11 @@ from pdb import set_trace
 import sys
 #sys.path.append('/afs/cern.ch/work/c/chlcheng/public/local/conda/miniconda/envs/ml-base/bin')
 
+if len(sys.argv) > 1:
+    CURRENT_DIR = sys.argv[-1]
+else:
+    CURRENT_DIR = os.getcwd() + '/../../output/NP_ranking/'
+
 if sys.argv[1] not in ['nonres', 'spin0']:
     print('Usage: python', sys.argv[0], 'nonres|spin0', '0|1|2')
     exit()
@@ -11,9 +16,12 @@ if sys.argv[1] == 'spin0' and sys.argv[2] not in ['0', '1', '2']:
     print('Usage: python', sys.argv[0], 'nonres|spin0', '0|1|2')
     exit()
 
+analysis = sys.argv[1]
+total_split = 1 if analysis == 'nonres' else 3
+split = 0 if analysis == 'nonres' else int(sys.argv[2])
+
 dataset = "asimov_data"
 
-CURRENT_DIR = os.getcwd() + '/../../output/NP_ranking/'
 OUTNAME = {
     "nonres": "NP_ranking_nonres_{channel}",
     "spin0": "NP_ranking_spin0_{channel}_{mass}"}
@@ -43,7 +51,10 @@ MASSES = {
 
 for analysis in ANALYSES:
     for channel in CHANNELS[analysis]:
-        for mass in MASSES[analysis][channel]:
+        masses = MASSES[analysis][channel]
+        n_mass_per_split = len(masses)//total_split
+        mass_to_run = masses[n_mass_per_split*split:n_mass_per_split*(split+1)]
+        for mass in mass_to_run:
             print("INFO: Plotting analysis={}, channel={}, mass={}".format(analysis, channel, mass))
             if analysis == "nonres":
                 input_path = os.path.join(CURRENT_DIR, dataset, analysis, channel, "pulls")

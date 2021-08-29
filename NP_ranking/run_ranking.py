@@ -50,7 +50,6 @@ WS_SUB_PATH = {
 }
 CHANNELS = {
     "nonres": ["bbyy", "bbtautau", "combined"],
-    #"nonres": ["combined"],
     "spin0": ["bbbb", "bbtautau", "bbyy", "combined"]
 }
 MASSES = {

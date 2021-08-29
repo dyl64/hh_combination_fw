@@ -1,5 +1,15 @@
 import os
 import json
+import sys
+
+if len(sys.argv) > 1:
+    CURRENT_DIR = sys.argv[-1]
+else:
+    CURRENT_DIR = os.getcwd() + '/../../output/NP_ranking/'
+
+if sys.argv[1] not in ['nonres', 'spin0']:
+    print('Usage: python', sys.argv[0], 'nonres|spin0')
+    exit()
 
 dataset = "asimov_data"
 
@@ -8,13 +18,12 @@ np_map = {
     "spin0": "../configs/np_map_spin0_v5.json"
 }
 
-CURRENT_DIR = os.getcwd() + '/../../NP_ranking/'
 OUTNAME = {
     "nonres": "NP_ranking_nonres_{channel}",
     "spin0": "NP_ranking_spin0_{channel}_{mass}"}
 POI_NAME = "xsec_br"
 
-ANALYSES = ["nonres", "spin0"]
+ANALYSES = ["nonres", "spin0"] if len(sys.argv) == 1 else [sys.argv[1]]
 
 
 CHANNELS = {
@@ -59,7 +68,7 @@ for analysis in ANALYSES:
                     old_name = f'{input_path}/{k}.json'
                     try:
                         cmd = f'sed -i -- s/{k}/{v}/g {old_name}'
-                        #print(cmd)
-                        os.system(cmd)
+                        print(cmd)
+                        #os.system(cmd)
                     except:
                         pass
