@@ -81,6 +81,11 @@ def get_global_pvalue(input_paths, save_as=None):
                 local_sigs, N_crossings, X_crossings = up_crossing(input_paths, channel, ref_sig = ref_sig)
                 print('='*10, 'Global mass range:', x[0], '--', x[-1], 'point', mass, '='*10)
                 global_results['_'.join([channel, str(mass), str(ref_sig)])] = global_significance(local_sigs[mass], N_crossings, ref_sig = ref_sig)
+
+    for mass in [1100]:
+        for i in [0, 1, 2]:
+            print('\SI{'+str(mass)+'}{\GeV}', '&',f'{{{i}}}','&', global_results[f'combined_{mass}_{i}']['global_sig'], '&',global_results[f'combined_{mass}_{i}']['global_sig_up'], '&', global_results[f'combined_{mass}_{i}']['global_sig_dn'], r'\\')
+
     if save_as is not None:
         with open(save_as, "w") as outfile:
             json.dump(global_results, outfile, indent = 2)

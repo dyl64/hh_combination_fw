@@ -447,6 +447,8 @@ def plot_nonres_from_df(args, df):
         ax.set_xlim([1.9, 300 if args.logx else 30])
     else:
         ax.set_xlim([1, 130 if args.logx else 30])
+        if args.stat_list is None:
+            ax.set_xlim([1, 70])
     fontsize = 18
 
     # Plot bands
@@ -454,6 +456,8 @@ def plot_nonres_from_df(args, df):
         obs_text_x, exp_text_x, exp_stat_text_x, ref_text_x = 110, 200, 700, 700
     else:
         obs_text_x, obs_stat_text_x, exp_text_x, exp_stat_text_x, ref_text_x = 16, 28, 50, 87.5, 40
+        if args.stat_list is None:
+            obs_text_x, exp_text_x = 20, 40
     y_shift = 0.73 if 'ref' in df else 0.5
 
     df = df.fillna('')
