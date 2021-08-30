@@ -20,7 +20,7 @@ def gen_asimov(input_path, poi_name, dataset, parallel):
     if input_path.endswith('.root'):
         input_files.append(input_path)
     else:
-        input_files = glob(input_path + '/*[0-9].root')
+        input_files = glob(input_path + '/[0-9]*[0-9].root')
     if len(input_files) == 0:
         assert(0), 'no input found'
     if parallel == -1:

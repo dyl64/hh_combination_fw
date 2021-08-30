@@ -2,7 +2,11 @@ import os
 import sys
 from pdb import set_trace
 import sys
-#sys.path.append('/afs/cern.ch/work/c/chlcheng/public/local/conda/miniconda/envs/ml-base/bin')
+
+if 'lxplus' in os.uname()[1] or 'pcuw' in os.uname()[1]:
+    if '/afs/cern.ch/work/c/chlcheng/public/local/conda/miniconda/envs/ml-base/bin' not in sys.path:
+        sys.path.append('/afs/cern.ch/work/c/chlcheng/public/local/conda/miniconda/envs/ml-base/bin')
+    print(sys.path)
 
 if len(sys.argv) > 1:
     CURRENT_DIR = sys.argv[-1]
