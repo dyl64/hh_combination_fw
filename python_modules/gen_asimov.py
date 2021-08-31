@@ -40,7 +40,7 @@ def _asimov(input_file, dataset):
     # settings for asimov ('poi_profile', 'profile', 'poi_val')
     # if profile = True, asimov dataset will be generated with the profiled NP when POI taking poi_profile, and set the POI to poi_val after fit.
     settings = [
-        [1, True],  # for pvalue and significance calculation
+        #[1, True],  # for pvalue and significance calculation
         [1, False],  # for ranking plot S+B asimov
         ]
     for setting in settings:
