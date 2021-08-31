@@ -235,7 +235,7 @@ def plot_spin0(args):
     com_df_new = pd.DataFrame(columns=com_df_all.columns)
 
     if args.alter:
-        exclude_masses = [375, 425, 475]
+        exclude_masses = [425, 475]
     else:
         exclude_masses = [312.5, 337.5, 375, 425, 475]
     combine_result = {}
