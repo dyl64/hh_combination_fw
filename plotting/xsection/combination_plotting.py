@@ -235,7 +235,7 @@ def plot_spin0(args):
     com_df_new = pd.DataFrame(columns=com_df_all.columns)
 
     if args.alter:
-        exclude_masses = [375, 425, 475]
+        exclude_masses = [425, 475]
     else:
         exclude_masses = [312.5, 337.5, 375, 425, 475]
     combine_result = {}
@@ -447,6 +447,8 @@ def plot_nonres_from_df(args, df):
         ax.set_xlim([1.9, 300 if args.logx else 30])
     else:
         ax.set_xlim([1, 130 if args.logx else 30])
+        if args.stat_list is None:
+            ax.set_xlim([1, 70])
     fontsize = 18
 
     # Plot bands
@@ -454,6 +456,8 @@ def plot_nonres_from_df(args, df):
         obs_text_x, exp_text_x, exp_stat_text_x, ref_text_x = 110, 200, 700, 700
     else:
         obs_text_x, obs_stat_text_x, exp_text_x, exp_stat_text_x, ref_text_x = 16, 28, 50, 87.5, 40
+        if args.stat_list is None:
+            obs_text_x, exp_text_x = 20, 40
     y_shift = 0.73 if 'ref' in df else 0.5
 
     df = df.fillna('')
@@ -552,7 +556,7 @@ def plot_common(args, fig, ax, textlable, fontsize, legendsize):
     if args.command == 'nonres':
         drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'139', internal=True, reg_text=textlable, xmin=0.05, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=1.1)
     elif args.command == 'spin0':
-        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'126$-$139', internal=True, reg_text=textlable, xmin=0.04 if args.summary_json else 0.2, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=0.8)
+        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'126$—$139', internal=True, reg_text=textlable, xmin=0.04 if args.summary_json else 0.2, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=0.8)
 
     # Legend
     if args.command == 'nonres':

@@ -1,5 +1,15 @@
 import os
 import json
+import sys
+
+if len(sys.argv) > 1:
+    CURRENT_DIR = sys.argv[-1]
+else:
+    CURRENT_DIR = os.getcwd() + '/../../output/NP_ranking/'
+
+if sys.argv[1] not in ['nonres', 'spin0']:
+    print('Usage: python', sys.argv[0], 'nonres|spin0')
+    exit()
 
 dataset = "asimov_data"
 
@@ -8,13 +18,12 @@ np_map = {
     "spin0": "../configs/np_map_spin0_v5.json"
 }
 
-CURRENT_DIR = os.getcwd() + '/../../NP_ranking/'
 OUTNAME = {
     "nonres": "NP_ranking_nonres_{channel}",
     "spin0": "NP_ranking_spin0_{channel}_{mass}"}
 POI_NAME = "xsec_br"
 
-ANALYSES = ["nonres", "spin0"]
+ANALYSES = ["nonres", "spin0"] if len(sys.argv) == 1 else [sys.argv[1]]
 
 
 CHANNELS = {
@@ -29,9 +38,13 @@ MASSES = {
         "combined": ["0"],
     },
     "spin0": {
-        "bbyy":     ["251", "260", "280", "300", "350", "400", "500", "600", "700", "800", "900", "1000"],
-        "bbtautau": ["251", "260", "280", "300", "350", "400", "500", "600", "700", "800", "900", "1000"],
-        "bbbb":     ["251", "260", "280", "300", "350", "400", "500", "600", "700", "800", "900", "1000"],
+        #"bbyy":     ["251", "260", "280", "300", "350", "400", "500", "600", "700", "800", "900", "1000"],
+        #"bbtautau": ["251", "260", "280", "300", "350", "400", "500", "600", "700", "800", "900", "1000"],
+        #"bbbb":     ["251", "260", "280", "300", "350", "400", "500", "600", "700", "800", "900", "1000"],
+        #"combined": ["251", "260", "280", "300", "350", "400", "500", "600", "700", "800", "900", "1000"]
+        "bbyy":     ["300", "500", "1000"],
+        "bbtautau": ["300", "500", "1000"],
+        "bbbb":     ["300", "500", "1000"],
         "combined": ["251", "260", "280", "300", "350", "400", "500", "600", "700", "800", "900", "1000"]
     }
 }

@@ -71,6 +71,13 @@ To check the final result, click on the `Plotting` jobs and click on the `Browse
 
 You can download the whole output from the `Download` botton.
 
+## Run kappa-lambda scan
+```
+HHComb process_channels_new -i <input_ws_directory> -o <output_directory> -r nonres -c bbyy,bbtautau  --new_method --config ../configs/regularization_nonres_v3.yaml --file_fo
+
+HHComb combine_ws_new -i <output_directory> -r nonres -c bbyy,bbtautau --scheme ../configs/np_map_nonres_kl.json --unblind --config ../configs/regularization_nonres_v3.yaml -
+```
+
 ## Run pulls and impact
 
 Perform ranking with:
@@ -92,6 +99,16 @@ HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/Ful
 HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr
 # Way 2
 submodules/RooStatTools/bin/runSigCalc ~/work/HHcomb/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau-nocorr/1100.root  pvalue combWS ModelConfig combData |tee pvalue.log
+```
+To run expected p-value:
+```
+# profile NP to POI=0 or 1, then generate asimov; then set the global observable to the fitted NP values and calculate the pvalue
+HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr --expected [0|1]
+```
+
+## Quick fit
+```
+HHComb best_fit -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/0.root
 ```
 
 ## Run likelihood scan
