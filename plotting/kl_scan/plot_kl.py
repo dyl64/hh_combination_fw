@@ -260,7 +260,7 @@ def draw_all_limits(*args):
             ax.fill_between(lambdas, n * np.array(limits_df["-1"]), n * np.array(limits_df["1"]),  facecolor = '#4AD9D9', label='Combined expected limit $\pm 1\sigma$')
 
     # for the theory expected cross-section we can have a smoother function by running over more kl points
-    lambdas_th = np.linspace(-10.0,10.0,100) 
+    lambdas_th = np.linspace(-10.0,10.0,1000) 
     n_th = [xs_HH(kl) for kl in lambdas_th] # get expected cross-section at different kls
 
     # plot theory prediction 
