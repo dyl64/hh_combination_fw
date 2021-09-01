@@ -4,7 +4,7 @@ This script plots the kappa lambda scans for the HH combination. It can plot eac
 ## To run 
 
 In this directory run the following setup script:
-````
+```
 . setup.py 
 ```
 
