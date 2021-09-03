@@ -13,8 +13,8 @@ analysis = sys.argv[1]
 total_split = 1 if analysis == 'nonres' else 3
 split = 0 if analysis == 'nonres' else int(sys.argv[2])
 
+dataset = "asimov_data" if analysis == 'nonres' else "observed_data"
 
-dataset = "asimov_data"
 extra_options = {
     "exclude": "\"gamma_*,nbkg*,BKG*,xi*,ATLAS_norm*,NORM_*\"",
 #    "fix": "\"THEO_XS_fixmu_*=0, alpha_THEO_XS_PDFalphas_VBFSMHH=0,"
@@ -23,35 +23,35 @@ extra_options = {
 #           " THEO_XS_PDFalphas_HH_ggF=0, THEO_XS_SCALE_HH_VBF=0\""
 }
 
-CURRENT_DIR = os.getcwd() + '/../../NP_ranking/'
 POI_NAME = "xsec_br"
 DATASET_NAMES = {
     "observed_data": "combData",
-    "asimov_data": "asimovData_1_False"
+    "asimov_data": "asimovData_1_None"
 }
 WS_BASE_PATH = {
-    "nonres": "/eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output_mu_unblind/",
-    "spin0": "/eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/"
+    "nonres": "/eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210903_CI/output_mu_unblind/",
+    "spin0": "/eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210903_CI/output/"
 }
+
+CURRENT_DIR = 'NP_ranking'
 
 WS_SUB_PATH = {
     "nonres": {
-        "bbyy": "rescaled/nonres/bbyy/asimov1_False.{mass}.root",
-        "bbtautau": "rescaled/nonres/bbtautau/asimov1_False.{mass}.root",
-        "bbbb": "rescaled/nonres/bbbb/asimov1_False.{mass}.root",
-        "combined": "combined/nonres/A-bbtautau_bbyy-fullcorr/asimov1_False.{mass}.root"
+        "bbyy": "rescaled/nonres/bbyy/asimov1_None.{mass}.root",
+        "bbtautau": "rescaled/nonres/bbtautau/asimov1_None.{mass}.root",
+        "bbbb": "rescaled/nonres/bbbb/asimov1_None.{mass}.root",
+        "combined": "combined/nonres/A-bbtautau_bbyy-fullcorr/asimov1_None.{mass}.root"
     },
     "spin0": {
-        "bbyy": "rescaled/spin0/bbyy/asimov1_False.{mass}.root",
-        "bbtautau": "rescaled/spin0/bbtautau/asimov1_False.{mass}.root",
-        "bbbb": "rescaled/spin0/bbbb/asimov1_False.{mass}.root",
-        "combined": "combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/asimov1_False.{mass}.root"
+        "bbyy": "rescaled/spin0/bbyy/{mass}.root",
+        "bbtautau": "rescaled/spin0/bbtautau/{mass}.root",
+        "bbbb": "rescaled/spin0/bbbb/{mass}.root",
+        "combined": "combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/{mass}.root"
     }
 }
 CHANNELS = {
     "nonres": ["bbyy", "bbtautau", "combined"],
-    #"spin0": ["bbbb", "bbtautau", "bbyy", "combined"]
-    "spin0": ["combined", "bbbb", "bbtautau", "bbyy", "combined"]
+    "spin0": ["combined", "bbbb", "bbtautau", "bbyy"]
 }
 MASSES = {
     "nonres":{
@@ -77,9 +77,9 @@ for channel in CHANNELS[analysis]:
         ws_path = os.path.join(WS_BASE_PATH[analysis], WS_SUB_PATH[analysis][channel].format(mass=mass))
         data_name = DATASET_NAMES[dataset]
         if analysis == 'nonres':
-            output_path = os.path.join(CURRENT_DIR, dataset, analysis, channel, "pulls")
+            output_path = os.path.join(WS_BASE_PATH[analysis], CURRENT_DIR, dataset, analysis, channel, "pulls")
         else:
-            output_path = os.path.join(CURRENT_DIR, dataset, analysis, channel, mass, "pulls")
+            output_path = os.path.join(WS_BASE_PATH[analysis], CURRENT_DIR, dataset, analysis, channel, mass, "pulls")
         cmd = "quickstats run_pulls -i {} -d {} -x {} -o {} --parallel 10 --cache ".format(
             ws_path, data_name, POI_NAME, output_path)
         cmd += " ".join(["--{} {}".format(k,v) for k,v in extra_options.items()])

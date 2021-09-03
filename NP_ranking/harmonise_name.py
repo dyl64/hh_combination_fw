@@ -11,11 +11,9 @@ if sys.argv[1] not in ['nonres', 'spin0']:
     print('Usage: python', sys.argv[0], 'nonres|spin0')
     exit()
 
-dataset = "asimov_data"
-
 np_map = {
-    "nonres": "../configs/np_map_nonres_v4.json",
-    "spin0": "../configs/np_map_spin0_v5.json"
+    "nonres": "../configs/np_map_nonres_v5.json",
+    "spin0": "../configs/np_map_spin0_v6.json"
 }
 
 OUTNAME = {
@@ -38,10 +36,6 @@ MASSES = {
         "combined": ["0"],
     },
     "spin0": {
-        #"bbyy":     ["251", "260", "280", "300", "350", "400", "500", "600", "700", "800", "900", "1000"],
-        #"bbtautau": ["251", "260", "280", "300", "350", "400", "500", "600", "700", "800", "900", "1000"],
-        #"bbbb":     ["251", "260", "280", "300", "350", "400", "500", "600", "700", "800", "900", "1000"],
-        #"combined": ["251", "260", "280", "300", "350", "400", "500", "600", "700", "800", "900", "1000"]
         "bbyy":     ["300", "500", "1000"],
         "bbtautau": ["300", "500", "1000"],
         "bbbb":     ["300", "500", "1000"],
@@ -51,6 +45,7 @@ MASSES = {
 
 from pdb import set_trace
 for analysis in ANALYSES:
+    dataset = "asimov_data" if analysis == 'nonres' else "observed_data"
     rename_map = json.load(open(np_map[analysis], 'r'))
     for channel in CHANNELS[analysis]:
         for mass in MASSES[analysis][channel]:

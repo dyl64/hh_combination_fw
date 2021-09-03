@@ -22,17 +22,21 @@ def best_fit(input_path, poi_name, dataset, parallel):
         input_files = glob(input_path + '/*[0-9].root')
     if len(input_files) == 0:
         assert(0), 'no input found'
-    if parallel == -1:
-        max_workers = min(multiprocessing.cpu_count(), len(input_files))
+    if parallel == 0:
+        for input_file in input_files:
+            _best_fit(input_file, poi_name, dataset)
     else:
-        max_workers = parallel
+        if parallel == -1:
+            max_workers = min(multiprocessing.cpu_count(), len(input_files))
+        else:
+            max_workers = parallel
 
-    arguments = (input_files, repeat(poi_name), repeat(dataset))
-    utils.parallel_run(_best_fit, *arguments, max_workers=max_workers)
+        arguments = (input_files, repeat(poi_name), repeat(dataset))
+        utils.parallel_run(_best_fit, *arguments, max_workers=max_workers)
 
 def _best_fit(input_file, poi_name, dataset, uncap=True):
     poi_val = 0
-    result_free = evaluate_nll(input_file, poi_val, poi_name, strategy = 1, unconditional=True, data=dataset, offset=False, detailed_output=True)
+    result_free = evaluate_nll(input_file, poi_val, poi_name, strategy = 1, print_level = 1, unconditional=True, data=dataset, offset=False, detailed_output=True)
     nll_mu_free = result_free['nll']
     poi_free = result_free['poi_bestfit']
 
