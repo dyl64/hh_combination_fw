@@ -24,7 +24,7 @@ analysis = sys.argv[1]
 total_split = 1 if analysis == 'nonres' else 3
 split = 0 if analysis == 'nonres' else int(sys.argv[2])
 
-dataset = "asimov_data"
+dataset = "asimov_data" if analysis == 'nonres' else "observed_data"
 
 OUTNAME = {
     "nonres": "NP_ranking_nonres_{channel}",
@@ -35,7 +35,7 @@ ANALYSES = ["nonres", "spin0"] if len(sys.argv) == 1 else [sys.argv[1]]
 
 CHANNELS = {
     "nonres": ["bbyy", "bbtautau", "combined"],
-    "spin0": ["bbbb", "bbtautau", "bbyy", "combined"]
+    "spin0": ["combined", "bbbb", "bbtautau", "bbyy"]
 }
 MASSES = {
     "nonres":{

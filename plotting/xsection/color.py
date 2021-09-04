@@ -56,6 +56,9 @@ _EXTRA_COLORS = {
     "hh:darkgreen": "#125125",
     "atlas:blue": "#0b80c3",
     "transparent": "#ffffff00",
+    "bbyy:2sigma": "#FDC536",
+    "bbyy:1sigma": "#4AD9D9",
+    "bbyy:theory": "darkred",
 }
 
 mpl.colors.EXTRA_COLORS = _EXTRA_COLORS
