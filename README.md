@@ -91,9 +91,22 @@ Then plot ranking plot with
 quickstats plot_pulls --style trex --poi xsec_br -i pulls/ -o rank_plot
 ```
 
+## Run pulls and impact in batch
+```
+cd NP_ranking
+# if you want to generate an asimov instead of using obs (for nonres it is true due to deficit of bbyy obs)
+source get_profiled_asimov.sh
+
+# run all pulls
+python run_ranking.py nonres <input_folder>
+
+# harmonise NP names for individual channels to match the combined
+python harmonise_name.py nonres <input_folder>
+```
+
 ## Run p-value
 ```
-# Way 1
+# Way 1 (recommended)
 HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/1100.root
 ## to run all *.root files in parallel:
 HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr
@@ -108,7 +121,8 @@ HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/Ful
 
 ## Quick fit
 ```
-HHComb best_fit -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/0.root
+# useful to use -d <dataset> -s <snapshot> on profiled asimov to load globs
+HHComb best_fit -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/0.root -d <dataset> -s <snapshot>
 ```
 
 ## Run likelihood scan

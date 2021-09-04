@@ -16,7 +16,7 @@ from pdb import set_trace
 @click.option('-poi', 'poi_name', required=False, default='xsec_br', help='poi name in workspace')
 @click.option('-d', '--dataset', required=False, default='combData', help='dataset name in workspace')
 @click.option('-p', '--parallel', required=False, type=int, default=-1, help='number of parallel jobs')
-@click.option('--expected', default=None, type=click.Choice(['0', '1']), help='run expected or observed p-value')
+@click.option('--expected', default=None, type=click.Choice(['0', '1', '-1']), help='run expected or observed p-value')
 def pvalue(input_path, poi_name, dataset, parallel, expected):
     input_files = []
     if input_path.endswith('.root'):
@@ -43,11 +43,11 @@ def pvalue(input_path, poi_name, dataset, parallel, expected):
             arguments = (input_files, repeat(poi_name), repeat(dataset), repeat(int(expected)))
             utils.parallel_run(_nll_exp, *arguments, max_workers=max_workers)
 
-def _nll_exp(input_file, poi_name, dataset, poi_val, uncap=True):
+def _nll_exp(input_file, poi_name, dataset, expected, uncap=True):
     '''
         Instead of calling evaluate_nll(), run the fit manually for better control
     '''
-    def _evaluate_nll(input_file, poi_name, poi_val, unconditional=False):
+    def _evaluate_nll(input_file, poi_name, expected, unconditional=False):
         config = {
                     'filename': input_file,
                     'data_name': "combData",
@@ -67,12 +67,21 @@ def _nll_exp(input_file, poi_name, dataset, poi_val, uncap=True):
                 }
     
         obj = AnalysisObject(**config)
-        # despite the profiled value, asimov always contains 1 signal
-        asimov_data = obj.model.generate_asimov(poi_name=poi_name, poi_val=1, poi_profile=poi_val, do_conditional=True)
+        # despite the profiled value, asimov always contains 1 (?) signal
+        if expected == -1:
+            print('Generate unconditional Asimov dataset')
+            asimov_data = obj.model.generate_asimov(poi_name=poi_name, poi_val=0.0, poi_profile=1.0, 
+                    conditional_mle=False, do_import=True, globs_np_matching=True, asimov_name='dataset_temp',
+                    snapshot_names={'conditional_globs': 'customised_globs', 'conditional_nuis': 'customised_nuis'})
+        else:
+            print(f'Generate conditional POI={expected} Asimov dataset')
+            asimov_data = obj.model.generate_asimov(poi_name=poi_name, poi_val=0.0, poi_profile=expected, 
+                    conditional_mle=True, do_import=True, globs_np_matching=True, asimov_name='dataset_temp',
+                    snapshot_names={'conditional_globs': 'customised_globs', 'conditional_nuis': 'customised_nuis'})
+        obj.model.workspace.writeToFile(f'asimov_temp{expected}.root')
         # for best fit - instead of create asimov data, take the input dataset
         # asimov_data = obj.model.workspace.data(obj.model.data_name)
 
-        obj.model.workspace.loadSnapshot("conditionalGlobs_0")
         poi = obj.model.workspace.var(poi_name)
         poi_val = 0
 
@@ -85,25 +94,30 @@ def _nll_exp(input_file, poi_name, dataset, poi_val, uncap=True):
         else:
             poi.setVal(poi_val)
             poi.setConstant(1)
-        obs_nll  = obj.model.pdf.createNLL(asimov_data, *obj.minimizer.nll_command_list)
-        obj.minimizer.minimize(obs_nll, hesse=True)
+
+        obj.model.workspace.loadSnapshot("customised_nuis")
+        obj.model.workspace.loadSnapshot("customised_globs")
+
+        check_asimov = False
+        if check_asimov:
+            obs_nll  = obj.model.pdf.createNLL(asimov_data, *obj.minimizer.nll_command_list)
+            obj.minimizer.minimize(obs_nll, hesse=True, print_level=1)
+            print("check_asimov best fit mu in asimov = ", obj.model.workspace.var(poi_name).getVal(), 'NLL', obj.minimizer.fit_result.minNll())
+
         nll_mu = obj.minimizer.fit_result.minNll()
         poi_value = obj.model.workspace.var(poi_name).getVal()
         poi.setConstant(0) # free POI
 
         return nll_mu, poi_value
 
-    nll_mu_0, poi_0 = _evaluate_nll(input_file, poi_name, poi_val, unconditional = False)
+    nll_mu_0, poi_0 = _evaluate_nll(input_file, poi_name, expected, unconditional = False)
     print('nll_mu_0, poi_0', nll_mu_0, poi_0)
 
-    nll_mu_free, poi_free = _evaluate_nll(input_file, poi_name, poi_val, unconditional = True)
+    nll_mu_free, poi_free = _evaluate_nll(input_file, poi_name, expected, unconditional = True)
     print('nll_mu_free, poi_free', nll_mu_free, poi_free)
 
-    output_file = input_file[::-1].replace('.root'[::-1], f'_pvalue_exp{poi_val}.json'[::-1], 1)[::-1]
+    output_file = input_file[::-1].replace('.root'[::-1], f'_pvalue_exp{expected}.json'[::-1], 1)[::-1]
     _pvalue(nll_mu_0, nll_mu_free, poi_free, uncap, output_file=output_file)
-
-    #nll_mu_0, poi_0 = my_evaluate_nll(obj, unconditional = False)
-    #nll_mu_free, poi_free = my_evaluate_nll(obj, unconditional = True)
 
 def _nll(input_file, poi_name, dataset, uncap=True):
     poi_val = 0
@@ -146,97 +160,3 @@ def _pvalue(nll_mu_0, nll_mu_free, poi_free, uncap, output_file='pvalue.json'):
     print('Save to', output_file)
     print(dic)
 
-#def my_evaluate_nll(obj:str, unconditional=False):
-#    obj.model.workspace.loadSnapshot("conditionalGlobs_0")
-#
-#    poi = 'xsec_br'
-#    data='combData'
-#    snapshot:str=None
-#    hesse:bool=False
-#    minos:bool=True
-#    constrain:bool=True
-#    minimizer_type:str='Minuit2'
-#    minimizer_algo:str='Migrad'
-#    num_cpu:int=1
-#    binned:bool=True
-#    eps:float=1.0
-#    strategy:int=0
-#    fix_cache:bool=True
-#    fix_multi:bool=True
-#    mpsplit:int=3
-#
-#    verbose:int=0
-#    max_calls:int=-1
-#    max_iters:int=-1
-#    optimize:int=2
-#    offset:bool=False
-#    outname:str=None
-#
-#    poi_val = 0
-#    vmin, vmax = 10, 10
-#    model = obj.model #ExtendedModel(fname=input_file, ws_name=workspace, mc_name=model_config,
-#            #              data_name=data, binned_likelihood=binned, snapshot_name=snapshot, 
-#            #              fix_cache=fix_cache, fix_multi=fix_multi)
-#    if poi:
-#        poi = model.workspace.var(poi)
-#    else:
-#        poi = model.pois.first()
-#    poi_min, poi_max = poi_val-abs(vmin), poi_val+abs(vmax)
-#    poi.setRange(poi_min, poi_max)
-#    if unconditional:
-#        poi.setConstant(0)
-#        hesse = True
-#    else:
-#        poi.setVal(poi_val)
-#        poi.setConstant(1)
-#
-#    minimizer = obj.minimizer# ExtendedMinimizer("minimizer", model.pdf, model.data)
-#    # configure minimize options
-#    nll_commands = [ROOT.RooFit.NumCPU(num_cpu, mpsplit), 
-#                    ROOT.RooFit.GlobalObservables(model.global_observables), 
-#                    ROOT.RooFit.Offset(offset)]
-#
-#    if constrain:
-#        nll_commands.append(ROOT.RooFit.Constrain(model.nuisance_parameters))
-#    minimize_options = {
-#        'minimizer_type'   : minimizer_type,
-#        'minimizer_algo'   : minimizer_algo,
-#        'default_strategy' : strategy,
-#        'opt_const'        : optimize,
-#        'eps'              : eps,
-#        'max_calls'        : max_calls,
-#        'max_iters'        : max_iters,
-#        'hesse'            : hesse,
-#        'verbose'          : verbose
-#    }
-#    if minos:
-#        minimize_options['minos']     = True
-#        minimize_options['minos_set'] = ROOT.RooArgSet(poi)
-#    # perform the fit
-#    minimizer.minimize(nll_commands=nll_commands, **minimize_options)
-#    nll = minimizer.fit_result.minNll()
-#    if unconditional:
-#        print('INFO: Unconditional NLL for POI "{}": {}'.format(poi.GetName(), nll))
-#    else:
-#        print('INFO: NLL for POI "{}" at {:.2f}: {}'.format(poi.GetName(), poi_val, nll))
-#    
-#    results = {
-#        'nll': nll,
-#        'poi': poi.GetName(),
-#        'constrain': int(constrain),
-#        'poi_value': poi_val,
-#        'poi_min': poi_min,
-#        'poi_max': poi_max,
-#        'unconditional': int(unconditional)
-#    }
-#    poi_val = poi.getVal()
-#    results['poi_bestfit'] = poi_val
-#    
-#    # save results
-#    if outname is not None:
-#        with open(outname, 'w') as outfile:
-#            json.dump(results, outfile)
-#        print('INFO: Saved NLL result to {}'.format(outname))
-#        
-#    return nll, poi_val
-#
