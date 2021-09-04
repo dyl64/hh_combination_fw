@@ -13,7 +13,8 @@ analysis = sys.argv[1]
 total_split = 1 if analysis == 'nonres' else 3
 split = 0 if analysis == 'nonres' else int(sys.argv[2])
 
-dataset = "asimov_data" if analysis == 'nonres' else "observed_data"
+dataset = "cond_1_asimov_1" if analysis == 'nonres' else "observed_data"
+profiled_snapshot = 'conditionalGlobs_1.0' if analysis == 'nonres' else ''
 
 extra_options = {
     "exclude": "\"gamma_*,nbkg*,BKG*,xi*,ATLAS_norm*,NORM_*\"",
@@ -83,5 +84,7 @@ for channel in CHANNELS[analysis]:
         cmd = "quickstats run_pulls -i {} -d {} -x {} -o {} --parallel 10 --cache ".format(
             ws_path, data_name, POI_NAME, output_path)
         cmd += " ".join(["--{} {}".format(k,v) for k,v in extra_options.items()])
+        if analysis == 'nonres':
+            cmd += '-s {}'.format(profiled_snapshot)
         os.system(cmd)
         #print(cmd)
