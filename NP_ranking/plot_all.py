@@ -24,7 +24,7 @@ analysis = sys.argv[1]
 total_split = 1 if analysis == 'nonres' else 3
 split = 0 if analysis == 'nonres' else int(sys.argv[2])
 
-dataset = "asimov_data" if analysis == 'nonres' else "observed_data"
+dataset = "profiled_asimov_data" if analysis == 'nonres' else "observed_data"
 
 OUTNAME = {
     "nonres": "NP_ranking_nonres_{channel}",
@@ -73,6 +73,6 @@ for analysis in ANALYSES:
                 os.makedirs(outdir)
             outname = OUTNAME[analysis].format(channel=channel, mass=mass)
             outpath = os.path.join(outdir, outname)
-            cmd = "quickstats plot_pulls -i {} -p {} -o {}".format(input_path, POI_NAME, outpath)
+            cmd = "quickstats plot_pulls -i {} -p {} -o {} --theta_max 2".format(input_path, POI_NAME, outpath)
             os.system(cmd)
             #print(cmd)
