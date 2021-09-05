@@ -14,7 +14,7 @@ total_split = 1 if analysis == 'nonres' else 3
 split = 0 if analysis == 'nonres' else int(sys.argv[2])
 
 dataset = "profiled_asimov_data" if analysis == 'nonres' else "observed_data"
-profiled_snapshot = 'conditionalGlobs_1.0' if analysis == 'nonres' else ''
+profiled_snapshot = 'conditionalGlobs_0.032776' if analysis == 'nonres' else ''
 
 extra_options = {
     "exclude": "\"gamma_*,nbkg*,BKG*,xi*,ATLAS_norm*,NORM_*\"",
@@ -82,7 +82,7 @@ for channel in CHANNELS[analysis]:
             output_path = os.path.join(WS_BASE_PATH[analysis], CURRENT_DIR, dataset, analysis, channel, "pulls")
         else:
             output_path = os.path.join(WS_BASE_PATH[analysis], CURRENT_DIR, dataset, analysis, channel, mass, "pulls")
-        cmd = "quickstats run_pulls -i {} -d {} -x {} -o {} --parallel 10 --cache ".format(
+        cmd = "quickstats run_pulls -i {} -d {} -x {} -o {} --parallel 10 --cache --batch_mode ".format(
             ws_path, data_name, POI_NAME, output_path)
         cmd += " ".join(["--{} {}".format(k,v) for k,v in extra_options.items()])
         if analysis == 'nonres':
