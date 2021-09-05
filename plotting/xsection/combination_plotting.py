@@ -179,6 +179,9 @@ def get_output_folder(args):
 def rescale(df, columns, SM_HH_xsec = 31.05 / 1000, absolute=False):
     for c in columns:
         if c not in df: continue
+        '''
+            Results from json is (nonres) xxx fb, corresponding to mu = xxx / (SM_HH_xsec)
+        '''
         df[c] = df[c] / SM_HH_xsec
     if not absolute:
         df['xsec_m2s_NP_profiled'] = df['xsec_exp_NP_profiled'] - df['xsec_m2s_NP_profiled']

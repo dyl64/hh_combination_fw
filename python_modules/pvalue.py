@@ -9,6 +9,7 @@ import multiprocessing
 import aux_utils as utils
 from itertools import repeat
 from glob import glob
+from os import path
 from pdb import set_trace
 
 @click.command(name='pvalue')
@@ -16,8 +17,9 @@ from pdb import set_trace
 @click.option('-poi', 'poi_name', required=False, default='xsec_br', help='poi name in workspace')
 @click.option('-d', '--dataset', required=False, default='combData', help='dataset name in workspace')
 @click.option('-p', '--parallel', required=False, type=int, default=-1, help='number of parallel jobs')
-@click.option('--expected', default=None, type=click.Choice(['0', '1', '-1']), help='run expected or observed p-value')
-def pvalue(input_path, poi_name, dataset, parallel, expected):
+@click.option('-e', '--expected', default=None, type=click.Choice(['0', '1', '-1']), help='run expected or observed p-value, (will be multiplied by -n)')
+@click.option('-n', '--mu_1', required=False, type=float, default=32.776 / 1000, help='normalisation in the workspace, (will be multiplied by -e when -e != -1)')
+def pvalue(input_path, poi_name, dataset, parallel, expected, mu_1):
     input_files = []
     if input_path.endswith('.root'):
         input_files.append(input_path)
@@ -34,20 +36,20 @@ def pvalue(input_path, poi_name, dataset, parallel, expected):
         if expected is None:
             _nll(input_files[0], poi_name, dataset)
         else:
-            _nll_exp(input_files[0], poi_name, dataset, int(expected))
+            _nll_exp(input_files[0], poi_name, dataset, int(expected), mu_1)
     else:
         if expected is None:
-            arguments = (input_files, repeat(poi_name), repeat(dataset))
+            arguments = (input_files, repeat(poi_name), repeat(dataset), repeat(mu_1))
             utils.parallel_run(_nll, *arguments, max_workers=max_workers)
         else:
-            arguments = (input_files, repeat(poi_name), repeat(dataset), repeat(int(expected)))
+            arguments = (input_files, repeat(poi_name), repeat(dataset), repeat(int(expected)), repeat(mu_1))
             utils.parallel_run(_nll_exp, *arguments, max_workers=max_workers)
 
-def _nll_exp(input_file, poi_name, dataset, expected, uncap=True):
+def _nll_exp(input_file, poi_name, dataset, expected, mu_1, uncap=True):
     '''
         Instead of calling evaluate_nll(), run the fit manually for better control
     '''
-    def _evaluate_nll(input_file, poi_name, expected, unconditional=False):
+    def _evaluate_nll(input_file, poi_name, expected, unconditional=False, mu_1 = 32.776 / 1000):
         config = {
                     'filename': input_file,
                     'data_name': "combData",
@@ -70,15 +72,15 @@ def _nll_exp(input_file, poi_name, dataset, expected, uncap=True):
         # despite the profiled value, asimov always contains 1 (?) signal
         if expected == -1:
             print('Generate unconditional Asimov dataset')
-            asimov_data = obj.model.generate_asimov(poi_name=poi_name, poi_val=1.0, poi_profile=1.0,
+            asimov_data = obj.model.generate_asimov(poi_name=poi_name, poi_val=mu_1, poi_profile=mu_1,
                     conditional_mle=False, do_import=True, globs_np_matching=True, asimov_name='dataset_temp',
                     snapshot_names={'conditional_globs': 'customised_globs', 'conditional_nuis': 'customised_nuis'})
         else:
             print(f'Generate conditional POI={expected} Asimov dataset')
-            asimov_data = obj.model.generate_asimov(poi_name=poi_name, poi_val=1.0, poi_profile=expected, 
+            asimov_data = obj.model.generate_asimov(poi_name=poi_name, poi_val=expected * mu_1, poi_profile=expected * mu_1, 
                     conditional_mle=True, do_import=True, globs_np_matching=True, asimov_name='dataset_temp',
                     snapshot_names={'conditional_globs': 'customised_globs', 'conditional_nuis': 'customised_nuis'})
-        obj.model.workspace.writeToFile(f'asimov_temp{expected}.root')
+        obj.model.workspace.writeToFile(path.dirname(input_file) + f'/asimov_temp{expected}.root')
         # for best fit - instead of create asimov data, take the input dataset
         # asimov_data = obj.model.workspace.data(obj.model.data_name)
 
@@ -109,10 +111,10 @@ def _nll_exp(input_file, poi_name, dataset, expected, uncap=True):
 
         return nll_mu, poi_value
 
-    nll_mu_0, poi_0 = _evaluate_nll(input_file, poi_name, expected, unconditional = False)
+    nll_mu_0, poi_0 = _evaluate_nll(input_file, poi_name, expected, unconditional = False, mu_1=mu_1)
     print('nll_mu_0, poi_0', nll_mu_0, poi_0)
 
-    nll_mu_free, poi_free = _evaluate_nll(input_file, poi_name, expected, unconditional = True)
+    nll_mu_free, poi_free = _evaluate_nll(input_file, poi_name, expected, unconditional = True, mu_1=mu_1)
     print('nll_mu_free, poi_free', nll_mu_free, poi_free)
 
     output_file = input_file[::-1].replace('.root'[::-1], f'_pvalue_exp{expected}.json'[::-1], 1)[::-1]
