@@ -45,7 +45,7 @@ MASSES = {
 
 from pdb import set_trace
 for analysis in ANALYSES:
-    dataset = "asimov_data" if analysis == 'nonres' else "observed_data"
+    dataset = "profiled_asimov_data" if analysis == 'nonres' else "observed_data"
     rename_map = json.load(open(np_map[analysis], 'r'))
     for channel in CHANNELS[analysis]:
         for mass in MASSES[analysis][channel]:

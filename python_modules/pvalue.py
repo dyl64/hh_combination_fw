@@ -70,17 +70,21 @@ def _nll_exp(input_file, poi_name, dataset, expected, uncap=True):
         # despite the profiled value, asimov always contains 1 (?) signal
         if expected == -1:
             print('Generate unconditional Asimov dataset')
-            asimov_data = obj.model.generate_asimov(poi_name=poi_name, poi_val=0.0, poi_profile=1.0, 
+            asimov_data = obj.model.generate_asimov(poi_name=poi_name, poi_val=1.0, poi_profile=1.0,
                     conditional_mle=False, do_import=True, globs_np_matching=True, asimov_name='dataset_temp',
                     snapshot_names={'conditional_globs': 'customised_globs', 'conditional_nuis': 'customised_nuis'})
         else:
             print(f'Generate conditional POI={expected} Asimov dataset')
-            asimov_data = obj.model.generate_asimov(poi_name=poi_name, poi_val=0.0, poi_profile=expected, 
+            asimov_data = obj.model.generate_asimov(poi_name=poi_name, poi_val=1.0, poi_profile=expected, 
                     conditional_mle=True, do_import=True, globs_np_matching=True, asimov_name='dataset_temp',
                     snapshot_names={'conditional_globs': 'customised_globs', 'conditional_nuis': 'customised_nuis'})
         obj.model.workspace.writeToFile(f'asimov_temp{expected}.root')
         # for best fit - instead of create asimov data, take the input dataset
         # asimov_data = obj.model.workspace.data(obj.model.data_name)
+
+        print('Load snapshot')
+        obj.model.workspace.loadSnapshot("customised_nuis")
+        obj.model.workspace.loadSnapshot("customised_globs")
 
         poi = obj.model.workspace.var(poi_name)
         poi_val = 0
@@ -95,14 +99,9 @@ def _nll_exp(input_file, poi_name, dataset, expected, uncap=True):
             poi.setVal(poi_val)
             poi.setConstant(1)
 
-        obj.model.workspace.loadSnapshot("customised_nuis")
-        obj.model.workspace.loadSnapshot("customised_globs")
-
-        check_asimov = False
-        if check_asimov:
-            obs_nll  = obj.model.pdf.createNLL(asimov_data, *obj.minimizer.nll_command_list)
-            obj.minimizer.minimize(obs_nll, hesse=True, print_level=1)
-            print("check_asimov best fit mu in asimov = ", obj.model.workspace.var(poi_name).getVal(), 'NLL', obj.minimizer.fit_result.minNll())
+        obs_nll  = obj.model.pdf.createNLL(asimov_data, *obj.minimizer.nll_command_list)
+        obj.minimizer.minimize(obs_nll, hesse=True, print_level=1)
+        print("check_asimov best fit mu on asimov = ", obj.model.workspace.var(poi_name).getVal(), "+/-", obj.model.workspace.var(poi_name).getError(), 'NLL', obj.minimizer.fit_result.minNll())
 
         nll_mu = obj.minimizer.fit_result.minNll()
         poi_value = obj.model.workspace.var(poi_name).getVal()

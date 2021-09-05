@@ -13,7 +13,7 @@ analysis = sys.argv[1]
 total_split = 1 if analysis == 'nonres' else 3
 split = 0 if analysis == 'nonres' else int(sys.argv[2])
 
-dataset = "cond_1_asimov_1" if analysis == 'nonres' else "observed_data"
+dataset = "profiled_asimov_data" if analysis == 'nonres' else "observed_data"
 profiled_snapshot = 'conditionalGlobs_1.0' if analysis == 'nonres' else ''
 
 extra_options = {
@@ -27,7 +27,8 @@ extra_options = {
 POI_NAME = "xsec_br"
 DATASET_NAMES = {
     "observed_data": "combData",
-    "asimov_data": "asimovData_1_None"
+    "asimov_data": "asimovData_1_None",
+    "profiled_asimov_data": "cond_1_asimov_1",
 }
 WS_BASE_PATH = {
     "nonres": "/eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210903_CI/output_mu_unblind/",
@@ -38,10 +39,10 @@ CURRENT_DIR = 'NP_ranking'
 
 WS_SUB_PATH = {
     "nonres": {
-        "bbyy": "rescaled/nonres/bbyy/asimov1_None.{mass}.root",
-        "bbtautau": "rescaled/nonres/bbtautau/asimov1_None.{mass}.root",
-        "bbbb": "rescaled/nonres/bbbb/asimov1_None.{mass}.root",
-        "combined": "combined/nonres/A-bbtautau_bbyy-fullcorr/asimov1_None.{mass}.root"
+        "bbyy": "rescaled/nonres/bbyy/cond_1_asimov_1.{mass}.root",
+        "bbtautau": "rescaled/nonres/bbtautau/cond_1_asimov_1.{mass}.root",
+        "bbbb": "rescaled/nonres/bbbb/cond_1_asimov_1.{mass}.root",
+        "combined": "combined/nonres/A-bbtautau_bbyy-fullcorr/cond_1_asimov_1.{mass}.root"
     },
     "spin0": {
         "bbyy": "rescaled/spin0/bbyy/{mass}.root",
@@ -85,6 +86,6 @@ for channel in CHANNELS[analysis]:
             ws_path, data_name, POI_NAME, output_path)
         cmd += " ".join(["--{} {}".format(k,v) for k,v in extra_options.items()])
         if analysis == 'nonres':
-            cmd += '-s {}'.format(profiled_snapshot)
-        os.system(cmd)
-        #print(cmd)
+            cmd += ' -s {}'.format(profiled_snapshot)
+        #os.system(cmd)
+        print(cmd)
