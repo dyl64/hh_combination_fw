@@ -79,6 +79,7 @@ def _nll_exp(input_file, poi_name, dataset, expected, mu_1, uncap=True):
             obj.model.workspace.saveSnapshot("nominalAllVars", obj.model.workspace.allVars())
             print('Fix constrained NP')
             obj.model.fix_parameters("gamma_*=1,ATLAS_*=0,THEO_*=0,alpha_*=0,SPURIOUS_*=0")
+            obj.model.profile_parameters("ATLAS_norm_ttbar_bbtautau,ATLAS_norm_Zhf_bbtautau")
             # optional in case you wanna check that the np are indeed fixed
             np_partial_profile_df = obj.model.to_dataframe(obj.model.nuisance_parameters)
             unconstrained_np_partial_profile_df = np_partial_profile_df[np_partial_profile_df['Constant'] == False]
