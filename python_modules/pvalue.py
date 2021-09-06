@@ -17,7 +17,13 @@ from pdb import set_trace
 @click.option('-poi', 'poi_name', required=False, default='xsec_br', help='poi name in workspace')
 @click.option('-d', '--dataset', required=False, default='combData', help='dataset name in workspace')
 @click.option('-p', '--parallel', required=False, type=int, default=-1, help='number of parallel jobs')
-@click.option('-e', '--expected', default=None, type=click.Choice(['0', '1', '-1']), help='run expected or observed p-value, (will be multiplied by -n)')
+@click.option('-e', '--expected', default=None, type=click.Choice(['0', '1', '-1', '-2']), help='run expected or observed p-value \
+                                                                                            default: (None) run observed p-value, \
+                                                                                            -2: profiling unconstrained NP  with mu floating and construct an S+B asimov, \
+                                                                                            -1: profiling NPs and globs with mu floating and construct an S+B asimov, \
+                                                                                             1: profiling NPs and globs with mu fixed to 1 and construct an S+B asimov, \
+                                                                                             0: profiling NPs and globs with mu fixed to 0 and construct an S+B asimov, \
+                                                                                            (will be multiplied by -n when generating asimov)')
 @click.option('-n', '--mu_1', required=False, type=float, default=32.776 / 1000, help='normalisation in the workspace, (will be multiplied by -e when -e != -1)')
 def pvalue(input_path, poi_name, dataset, parallel, expected, mu_1):
     input_files = []
@@ -67,14 +73,21 @@ def _nll_exp(input_file, poi_name, dataset, expected, mu_1, uncap=True):
                     'eps': 1,
                     'constrain_nuis': True,
                 }
-    
+
         obj = AnalysisObject(**config)
+        if expected == -2:
+            print('Fix constrained NP')
+            #obj.model.fix_parameters("*")
+            #obj.model.profile_parameters("nbkg_*,BKG_*,ATLAS_norm_*") # seems that NP renaming doesn't affect on unconstrained NPs so new names are invalid
+            obj.model.fix_parameters("ATLAS_*=0,THEO_*=0,alpha_*=0,SPURIOUS_*=0")
+    
         # despite the profiled value, asimov always contains 1 (?) signal
-        if expected == -1:
+        if expected < 0:
             print('Generate unconditional Asimov dataset')
             asimov_data = obj.model.generate_asimov(poi_name=poi_name, poi_val=mu_1, poi_profile=mu_1,
                     conditional_mle=False, do_import=True, globs_np_matching=True, asimov_name='dataset_temp',
                     snapshot_names={'conditional_globs': 'customised_globs', 'conditional_nuis': 'customised_nuis'})
+            obj.model.profile_parameters("*")
         else:
             print(f'Generate conditional POI={expected} Asimov dataset')
             asimov_data = obj.model.generate_asimov(poi_name=poi_name, poi_val=expected * mu_1, poi_profile=expected * mu_1, 
@@ -84,9 +97,17 @@ def _nll_exp(input_file, poi_name, dataset, expected, mu_1, uncap=True):
         # for best fit - instead of create asimov data, take the input dataset
         # asimov_data = obj.model.workspace.data(obj.model.data_name)
 
-        print('Load snapshot')
-        obj.model.workspace.loadSnapshot("customised_nuis")
-        obj.model.workspace.loadSnapshot("customised_globs")
+        #if expected != -2:
+        #    print('Load snapshot')
+        #    obj.model.workspace.loadSnapshot("customised_nuis")
+        #    obj.model.workspace.loadSnapshot("customised_globs")
+
+        if expected == -2:
+            ''' free parameters '''
+            print('Free all parameters')
+            obj = None
+            obj = AnalysisObject(**config)
+            obj.model.profile_parameters("*")
 
         poi = obj.model.workspace.var(poi_name)
         poi_val = 0
@@ -102,7 +123,8 @@ def _nll_exp(input_file, poi_name, dataset, expected, mu_1, uncap=True):
             poi.setConstant(1)
 
         obs_nll  = obj.model.pdf.createNLL(asimov_data, *obj.minimizer.nll_command_list)
-        obj.minimizer.minimize(obs_nll, hesse=True, print_level=1)
+        obj.minimizer.minimize(obs_nll, hesse=True, print_level=2)
+        set_trace()
         print("check_asimov best fit mu on asimov = ", obj.model.workspace.var(poi_name).getVal(), "+/-", obj.model.workspace.var(poi_name).getError(), 'NLL', obj.minimizer.fit_result.minNll())
 
         nll_mu = obj.minimizer.fit_result.minNll()
