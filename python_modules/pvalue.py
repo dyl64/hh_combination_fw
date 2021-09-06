@@ -76,10 +76,14 @@ def _nll_exp(input_file, poi_name, dataset, expected, mu_1, uncap=True):
 
         obj = AnalysisObject(**config)
         if expected == -2:
+            obj.model.workspace.saveSnapshot("nominalAllVars", obj.model.workspace.allVars())
             print('Fix constrained NP')
-            #obj.model.fix_parameters("*")
-            #obj.model.profile_parameters("nbkg_*,BKG_*,ATLAS_norm_*") # seems that NP renaming doesn't affect on unconstrained NPs so new names are invalid
-            obj.model.fix_parameters("ATLAS_*=0,THEO_*=0,alpha_*=0,SPURIOUS_*=0")
+            obj.model.fix_parameters("gamma_*=1,ATLAS_*=0,THEO_*=0,alpha_*=0,SPURIOUS_*=0")
+            # optional in case you wanna check that the np are indeed fixed
+            np_partial_profile_df = obj.model.to_dataframe(obj.model.nuisance_parameters)
+            unconstrained_np_partial_profile_df = np_partial_profile_df[np_partial_profile_df['Constant'] == False]
+            print(unconstrained_np_partial_profile_df)
+
     
         # despite the profiled value, asimov always contains 1 (?) signal
         if expected < 0:
@@ -87,7 +91,6 @@ def _nll_exp(input_file, poi_name, dataset, expected, mu_1, uncap=True):
             asimov_data = obj.model.generate_asimov(poi_name=poi_name, poi_val=mu_1, poi_profile=mu_1,
                     conditional_mle=False, do_import=True, globs_np_matching=True, asimov_name='dataset_temp',
                     snapshot_names={'conditional_globs': 'customised_globs', 'conditional_nuis': 'customised_nuis'})
-            obj.model.profile_parameters("*")
         else:
             print(f'Generate conditional POI={expected} Asimov dataset')
             asimov_data = obj.model.generate_asimov(poi_name=poi_name, poi_val=expected * mu_1, poi_profile=expected * mu_1, 
@@ -97,17 +100,15 @@ def _nll_exp(input_file, poi_name, dataset, expected, mu_1, uncap=True):
         # for best fit - instead of create asimov data, take the input dataset
         # asimov_data = obj.model.workspace.data(obj.model.data_name)
 
-        #if expected != -2:
-        #    print('Load snapshot')
-        #    obj.model.workspace.loadSnapshot("customised_nuis")
-        #    obj.model.workspace.loadSnapshot("customised_globs")
+        if expected != -2:
+            print('Load snapshot')
+            obj.model.workspace.loadSnapshot("customised_nuis")
+            obj.model.workspace.loadSnapshot("customised_globs")
 
         if expected == -2:
             ''' free parameters '''
             print('Free all parameters')
-            obj = None
-            obj = AnalysisObject(**config)
-            obj.model.profile_parameters("*")
+            obj.model.workspace.loadSnapshot("nominalAllVars")
 
         poi = obj.model.workspace.var(poi_name)
         poi_val = 0
@@ -123,8 +124,7 @@ def _nll_exp(input_file, poi_name, dataset, expected, mu_1, uncap=True):
             poi.setConstant(1)
 
         obs_nll  = obj.model.pdf.createNLL(asimov_data, *obj.minimizer.nll_command_list)
-        obj.minimizer.minimize(obs_nll, hesse=True, print_level=2)
-        set_trace()
+        obj.minimizer.minimize(obs_nll, hesse=True, print_level=1)
         print("check_asimov best fit mu on asimov = ", obj.model.workspace.var(poi_name).getVal(), "+/-", obj.model.workspace.var(poi_name).getError(), 'NLL', obj.minimizer.fit_result.minNll())
 
         nll_mu = obj.minimizer.fit_result.minNll()
