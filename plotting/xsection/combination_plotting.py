@@ -43,7 +43,7 @@ scenario_map = {
     f'Combined3': ('dummy', 1, 'black'),
     f'combined36': (r'Combined' + '\n' + r'27.5$-$36.1 fb$^{-1}$', 1, 'black'),
     f'bbbb': (r'$\mathrm{b\bar{b}b\bar{b}}$', 11, 'b'),
-    f'bbtautau': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$', 12, '#008F00'),
+    f'bbtautau': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$', 12, '#9A0EEA'),
     f'bbtautau139': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$'+'\n' + r'139 fb$^{-1}$', 12, 'hdbs:starcommandblue'),
     f'bbtautau_resolved': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (resolved)', 12, 'hh:medturquoise'),
     f'bbtautau_boosted': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (boosted)', 12, 'hh:darkgreen'),
@@ -469,7 +469,7 @@ def plot_nonres_from_df(args, df):
             obs = row[columns[5]]
             ax.vlines(obs, y, y+1, colors = 'k', linestyles = 'solid', zorder = 1.1, label = 'Observed' if y==0 else '')
             ax.scatter(obs, y+0.5, s=50, c='k', marker='o', zorder = 1.1)
-            obs_str = f'{obs:.2f}' if index not in ['combined36', 'bbWW2l'] else f'{obs:g}'
+            obs_str = f'{obs:.1f}' if index not in ['combined36', 'bbWW2l'] else f'{obs:g}'
             ax.text(obs_text_x, y+y_shift, obs_str, horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
         exp = row[columns[4]]
         ax.vlines(exp, y, y+1, colors = 'k', linestyles = 'dotted', zorder = 1.1, label = 'Expected' if y==0 else '')
@@ -477,7 +477,7 @@ def plot_nonres_from_df(args, df):
         ax.fill_betweenx([y,y+1], row[columns[1]], row[columns[2]], facecolor = 'hh:medturquoise', label = r'Expected $\pm$ 1 $\sigma$' if y==0 else '')
 
         # Plot limit text
-        exp_str = f'{exp:.2f}' if index not in ['combined36', 'bbWW2l'] else f'{exp:g}'
+        exp_str = f'{exp:.1f}' if index not in ['combined36', 'bbWW2l'] else f'{exp:g}'
         ax.text(exp_text_x, y+y_shift, exp_str, horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
         if 'ref' in df:
             ref = row['ref'].replace('\\n', '\n')
@@ -485,12 +485,12 @@ def plot_nonres_from_df(args, df):
         if 'exp_stat' in df:
             exp_stat_str = row['exp_stat']
             if isinstance(exp_stat_str , (int, float)):
-                exp_stat_str = f'({exp_stat_str:.2f})'
+                exp_stat_str = f'({exp_stat_str:.1f})'
             ax.text(exp_stat_text_x, y+1-y_shift, exp_stat_str, horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
         if 'obs_stat' in df:
             obs_stat_str = row['obs_stat']
             if isinstance(obs_stat_str , (int, float)):
-                obs_stat_str = f'({obs_stat_str:.2f})'
+                obs_stat_str = f'({obs_stat_str:.1f})'
             ax.text(obs_stat_text_x, y+1-y_shift, obs_stat_str, horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
 
     if args.unblind:
@@ -554,6 +554,20 @@ def plot_nonres_from_df(args, df):
     plot_common(args, fig, ax, textlable, fontsize, fontsize)
     save_plot(args)
 
+def bold_edge(inputs=None):
+    import matplotlib.patches as patches
+    handles,labels = plt.gca().get_legend_handles_labels() if inputs is None else inputs
+    for i, (handle,label) in enumerate(zip(handles,labels)):
+        if r'\sigma$' in label:
+            border_leg = patches.Rectangle((0, 0), 1, 1, facecolor = 'none', edgecolor = 'black', linewidth = 1)
+            handles.insert(i, (handle, border_leg))
+            handles.pop(i+1)
+    ''' Swap 1 and 2 sigma band '''
+    handles[-1], handles[-2] = handles[-2], handles[-1]
+    labels[-1], labels[-2] = labels[-2], labels[-1]
+    return handles,labels
+
+
 def plot_common(args, fig, ax, textlable, fontsize, legendsize):
     # ATLAS cosmetics
     if args.command == 'nonres':
@@ -563,7 +577,9 @@ def plot_common(args, fig, ax, textlable, fontsize, legendsize):
 
     # Legend
     if args.command == 'nonres':
-        plt.legend(bbox_to_anchor=(1., 1), ncol=1, framealpha=0., prop={'size': legendsize})
+        handles,labels = bold_edge()
+        plt.legend(handles,labels, bbox_to_anchor=(1., 1), ncol=1, framealpha=0., prop={'size': legendsize})
+
     elif args.command == 'spin0':
         new_handlers, new_labels = [], []
         current_handles, current_labels = plt.gca().get_legend_handles_labels()
@@ -580,6 +596,7 @@ def plot_common(args, fig, ax, textlable, fontsize, legendsize):
             if 'Remove' not in label:
                 new_handlers.append(handler)
                 new_labels.append(label)
+        new_handlers, new_labels = bold_edge((new_handlers, new_labels))
         plt.legend(new_handlers, new_labels, bbox_to_anchor=(0.99, 0.99),  loc='upper right', ncol=1, framealpha=0., prop={'size': legendsize})
 
     plt.tight_layout()
