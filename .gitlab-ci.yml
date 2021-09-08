@@ -373,7 +373,7 @@ Sp0_TY_comb_part3:
     - job: Sp0_tt_pro
   variables:
     channels: bbyy,bbtautau
-    masspoints: "325,350,450,550"
+    masspoints: "325,350,375,450,550"
     other_options: "--scheme configs/np_map_spin0_v5.json"
 
 Sp0_BT_comb_part4:
@@ -445,7 +445,7 @@ Sp0_BT_comb_part6:
 #  variables:
 #    input_dir: output_FT
 #    channels: bbyy,bbtautau
-#    masspoints: "325,350,450,550"
+#    masspoints: "325,350,375,450,550"
 #    other_options: "--scheme configs/np_map_spin0_v5_FTcor.json"
 #
 #Sp0_BT_comb_FT_part4:
