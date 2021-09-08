@@ -474,7 +474,7 @@ def plot_nonres_from_df(args, df):
         exp = row[columns[4]]
         ax.vlines(exp, y, y+1, colors = 'k', linestyles = 'dotted', zorder = 1.1, label = 'Expected' if y==0 else '')
         ax.fill_betweenx([y,y+1], row[columns[0]], row[columns[3]], facecolor = 'hh:darkyellow', label = r'Expected $\pm$ 2 $\sigma$' if y==0 else '')
-        ax.fill_betweenx([y,y+1], row[columns[1]], row[columns[2]], facecolor = 'hh:medturquoise', label = r'Expected $\pm$ 1 $\sigma$' if y==0 else '')
+        ax.fill_betweenx([y,y+1], row[columns[1]], row[columns[2]], facecolor = 'hh:lightturquoise', label = r'Expected $\pm$ 1 $\sigma$' if y==0 else '')
 
         # Plot limit text
         exp_str = f'{exp:.1f}' if index not in ['combined36', 'bbWW2l'] else f'{exp:g}'
