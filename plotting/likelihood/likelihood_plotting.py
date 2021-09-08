@@ -105,7 +105,7 @@ def main(args):
     Non resonant
     """
     
-    plot_likelihood_scan(input_paths, color_maps, label_maps, threshold=5, text=text,
+    plot_likelihood_scan(input_paths, color_maps, label_maps, threshold=args.threshold, text=text,
                          xlabel=r"$\sigma_{ggF+VBF}(pp\rightarrow HH)$ [fb]",
                          save_as=f"{args.output}/{args.analysis}_{args.mass}.pdf")
 
@@ -121,6 +121,7 @@ if __name__ == '__main__':
     parser.add_argument('-b', '--bbbb', type=str, default=None, required=False, help='Filename of bbbb')
     parser.add_argument('-m', '--mass', type=int, default=0, required=False, help='Mass for spin-0')
     parser.add_argument('-o', '--output', type=str, default='.', required=False, help='Output path')
+    parser.add_argument('-t', '--threshold', type=float, default=5, required=False, help='Output path')
 
     args = parser.parse_args()
     if args.analysis == 'nonres' and args.bbbb is not None:

@@ -84,7 +84,16 @@ def get_global_pvalue(input_paths, save_as=None):
 
     for mass in [1100]:
         for i in [0, 1, 2]:
-            print('\SI{'+str(mass)+'}{\GeV}', '&',f'{{{i}}}','&', global_results[f'combined_{mass}_{i}']['global_sig'], '&',global_results[f'combined_{mass}_{i}']['global_sig_up'], '&', global_results[f'combined_{mass}_{i}']['global_sig_dn'], r'\\')
+            print('\SI{'+str(mass)+'}{\GeV}',
+            '&',f'{{{i}}}',
+            '&',global_results[f'combined_{mass}_{i}']['local_sig'],
+            '&',global_results[f'combined_{mass}_{i}']['local_p'],
+            '&',global_results[f'combined_{mass}_{i}']['n_crossings'],
+            '&', global_results[f'combined_{mass}_{i}']['global_sig'],
+            '&',global_results[f'combined_{mass}_{i}']['global_sig_up'],
+            '&', global_results[f'combined_{mass}_{i}']['global_sig_dn'],
+            '&',global_results[f'combined_{mass}_{i}']['global_p'],
+            r'\\')
 
     if save_as is not None:
         with open(save_as, "w") as outfile:

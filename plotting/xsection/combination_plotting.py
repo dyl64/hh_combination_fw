@@ -43,7 +43,7 @@ scenario_map = {
     f'Combined3': ('dummy', 1, 'black'),
     f'combined36': (r'Combined' + '\n' + r'27.5$-$36.1 fb$^{-1}$', 1, 'black'),
     f'bbbb': (r'$\mathrm{b\bar{b}b\bar{b}}$', 11, 'b'),
-    f'bbtautau': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$', 12, '#9A0EEA'),
+    f'bbtautau': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$', 12, '#008F00'),
     f'bbtautau139': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$'+'\n' + r'139 fb$^{-1}$', 12, 'hdbs:starcommandblue'),
     f'bbtautau_resolved': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (resolved)', 12, 'hh:medturquoise'),
     f'bbtautau_boosted': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (boosted)', 12, 'hh:darkgreen'),
@@ -179,6 +179,9 @@ def get_output_folder(args):
 def rescale(df, columns, SM_HH_xsec = 31.05 / 1000, absolute=False):
     for c in columns:
         if c not in df: continue
+        '''
+            Results from json is (nonres) xxx fb, corresponding to mu = xxx / (SM_HH_xsec)
+        '''
         df[c] = df[c] / SM_HH_xsec
     if not absolute:
         df['xsec_m2s_NP_profiled'] = df['xsec_exp_NP_profiled'] - df['xsec_m2s_NP_profiled']
@@ -329,7 +332,7 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
             line, = ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=com_df_new, color='k', linestyle='solid', linewidth=2, zorder = 1.5, alpha=1, label = 'Combined ' + com_reference)
         if not args.no_error:
             ax.fill_between(com_df_new['parameter'], com_df_new[columns[0]], com_df_new[columns[3]], facecolor = 'hh:darkyellow', label = r'Expected $\pm$ 2 $\sigma$')
-            ax.fill_between(com_df_new['parameter'], com_df_new[columns[1]], com_df_new[columns[2]], facecolor = 'hh:medturquoise', label = r'Expected $\pm$ 1 $\sigma$')
+            ax.fill_between(com_df_new['parameter'], com_df_new[columns[1]], com_df_new[columns[2]], facecolor = 'hh:lightturquoise', label = r'Expected $\pm$ 1 $\sigma$')
 
         if args.debug:
             for x,y in zip(com_df_new['parameter'].tolist(), com_df_new['xsec_obs_NP_profiled'].tolist()):

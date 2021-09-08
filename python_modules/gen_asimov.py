@@ -40,11 +40,9 @@ def _asimov(input_file, dataset):
     # settings for asimov ('poi_profile', 'profile', 'poi_val')
     # if profile = True, asimov dataset will be generated with the profiled NP when POI taking poi_profile, and set the POI to poi_val after fit.
     settings = [
-        #[1, True],  # for pvalue and significance calculation
-        [1, False],  # for ranking plot S+B asimov
+        [1, None],  # for ranking plot S+B asimov
         ]
     for setting in settings:
-        if len(setting) == 2: setting.append(setting[0])
         model = ExtendedModel(input_file, data_name=dataset)
-        model.generate_asimov(poi_name="xsec_br", poi_val = setting[0], poi_profile = setting[2], do_conditional = setting[1], do_import=True, object_names={'asimov': 'asimovData_{mu}_'+str(setting[1])})
+        model.generate_asimov(poi_name="xsec_br", poi_val = setting[0], poi_profile = setting[1], do_import=True, asimov_name='asimovData_'+str(setting[0])+'_'+str(setting[1]))
         model.workspace.writeToFile(path.dirname(input_file) + f'/asimov{setting[0]}_{setting[1]}.' + path.basename(input_file))
