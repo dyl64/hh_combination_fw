@@ -38,13 +38,17 @@ plt.rcParams['figure.dpi'] = 100
 
 
 
+#Now using values from LHCWHGHHHXGGBGGGXXX
+SCALE_GGF = 1.0#31.02/31.0358   #correct to xs at mH = 125.09 
+SCALE_VBF = 1.0# 1.723/(4.581-4.245+1.359)
+
 def xs_ggF(kl):
     #https://twiki.cern.ch/twiki/bin/view/LHCPhysics/LHCHWGHH?redirectedfrom=LHCPhysics.LHCHXSWGHH#Latest_recommendations_for_gluon
-    return (70.3874-50.4111*kl+11.0595*kl**2)  #XS in fb
+    return (70.3874-50.4111*kl+11.0595*kl**2) #XS in fb
 
 def xs_VBF(kl):
     #https://indico.cern.ch/event/995807/contributions/4184798/attachments/2175756/3683303/VBFXSec.pdf
-    return (4.581-4.245*kl+1.359*kl**2)
+    return (4.581-4.245*kl+1.359*kl**2) 
 
 def xs_HH(kl):
     return xs_ggF(kl) + xs_VBF(kl)
@@ -55,7 +59,7 @@ def sigma_upper_ggF(kl):
     #add the std on ggF HH due to qcd scale, PDF, and mtop in quadrature
     #return xs_ggF(kl) * math.sqrt((max(72.0744-51.7362*kl+11.3712*kl**2, 70.9286-51.5708*kl+11.4497*kl**2) * SCALE_GGF / xs_ggF(kl) - 1)**2 + 0.03**2 + 0.026**2)
     #new mtop uncertainty:
-    return xs_ggF(kl) * math.sqrt((max(76.6075 - 56.4818*kl + 12.635*kl**2, 75.4617 - 56.3164*kl + 12.7135*kl**2)  / xs_ggF(kl) - 1)**2 + 0.03**2)
+    return xs_ggF(kl) * math.sqrt((max(76.6075 - 56.4818*kl + 12.635*kl**2, 75.4617 - 56.3164*kl + 12.7135*kl**2) * SCALE_GGF / xs_ggF(kl) - 1)**2 + 0.03**2)
 
 def sigma_upper_VBF(kl):
     #from klambda = 1
@@ -72,7 +76,7 @@ def sigma_lower_ggF(kl):
     #add the std on ggF HH due to qcd scale, PDF, and mtop in quadrature
     #return xs_ggF(kl) * math.sqrt((min(66.0621-46.7458*kl+10.1673*kl**2, 66.7581-47.721*kl+10.4535*kl**2) * SCALE_GGF / xs_ggF(kl) - 1)**2 + 0.03**2 + 0.026**2)
     #new mtop uncertainty:
-    return xs_ggF(kl) * math.sqrt((min(57.6809 - 42.9905*kl + 9.58474*kl**2, 58.3769 - 43.9657*kl + 9.87094*kl**2)  / xs_ggF(kl) - 1)**2 + 0.03**2)
+    return xs_ggF(kl) * math.sqrt((min(57.6809 - 42.9905*kl + 9.58474*kl**2, 58.3769 - 43.9657*kl + 9.87094*kl**2) * SCALE_GGF / xs_ggF(kl) - 1)**2 + 0.03**2)
 
 def sigma_lower_VBF(kl):
     return xs_VBF(kl) * math.sqrt(0.0004**2 + 0.021**2)
@@ -83,7 +87,62 @@ def sigma_lower_HH(kl):
 def xs_lower_HH(kl):
     return xs_HH(kl) - sigma_lower_HH(kl)
 
- 
+#Input: json file with the following format
+#["kappa_lambda": [-2sigma, -1sigma, expected, +1sigma, +2sigma, observed]
+
+# "0": 12.034214254391598,# expected
+#   "2": 25.544788964859485,
+#   "1": 17.541475069768936,
+#   "-1": 8.671317738197763,
+#   "-2": 6.45907304342866,
+#   "obs": 7.79886154984291,
+#   "inj": 0
+
+#limits = json.load(open('2021_03_09_yybb_param_withsyst/limits.json'), object_pairs_hook=collections.OrderedDict)
+
+
+def draw_mu(limits, limit_bands, channel_name):
+    fig = plt.figure(figsize=(8, 6))
+
+    add_subplot = 0
+
+
+    gs = gridspec.GridSpec(4,1)
+    ax = fig.add_subplot(gs[:4,0])
+    
+    lambdas = list(limits.keys())
+
+    
+    ax.semilogy(lambdas, np.array(limit_bands[3]),'k',label='Observed mu (95%)')
+    ax.semilogy(lambdas, np.array(limit_bands[0]),'k--',label='Expected mu (95%)')
+
+    ax.fill_between(lambdas, np.array(limit_bands[-2]), np.array(limit_bands[2]),  facecolor = '#FDC536', label='Expected limit $\pm 2\sigma$')
+    ax.fill_between(lambdas, np.array(limit_bands[-1]), np.array(limit_bands[1]),  facecolor = '#4AD9D9', label='Expected limit $\pm 1\sigma$')
+
+    # The extra bands that I wanted to add
+    ax.semilogy(lambdas, np.ones(len(lambdas)),'k',label='mu=1')
+    
+    ax.xaxis.set_ticks(np.arange(min(lambdas), max(lambdas) + 1, 2))
+
+    ampl.set_ylabel('$\mu$ (HH) [fb]', fontsize=16)
+
+    #reorder the legend
+    handles,labels = ax.get_legend_handles_labels()
+    #handles = [handles[0], handles[1], handles[3], handles[4], (th_band, handles[2])]
+    #labels = [labels[0], labels[1], labels[3], labels[4], labels[2]]
+
+    ax.legend(handles, labels, loc='upper right', fontsize = 'small', frameon = False)
+
+
+    ampl.set_xlabel('$\kappa_\lambda$', fontsize=16)
+
+    ampl.draw_atlas_label(0.05, 0.95, ax, status = 'int', energy = '13 TeV', lumi = 139, desc = r"$HH \rightarrow$ "+channel_name)
+
+    plt.xlim([-10, 10])
+
+    #plt.savefig('kappa_lambda_scan_ratio_param_obs_v5.pdf')
+
+    plt.show()   
     
 def get_limits(glob_string,string_range,rescale_val=1.0):
     
@@ -231,7 +290,7 @@ def draw_all_limits(*args):
     ax = fig.add_subplot(gs[:4,0])
     
     # Set up color wheel
-    palette = itertools.cycle(["#531B93","#008F00"])#["tab:orange","cornflowerblue","#343844",'darkcyan','seagreen'])#["peru","cornflowerblue","#343844",'darkcyan','seagreen'])
+    palette = itertools.cycle(["hh:darkpink",'#9A0EEA'])#"#531B93","#008F00"])#["tab:orange","cornflowerblue","#343844",'darkcyan','seagreen'])#["peru","cornflowerblue","#343844",'darkcyan','seagreen'])
     
     # Plot each individual channel first 
     for my_tuple in args:
@@ -267,12 +326,14 @@ def draw_all_limits(*args):
     ax.plot(lambdas_th,n_th,'C4', color = 'darkred', label='Theory prediction')
     th_band = ax.fill_between(lambdas_th, [xs_lower_HH(kl) for kl in lambdas_th], [xs_upper_HH(kl) for kl in lambdas_th],  facecolor = '#F2385A')
       
-
+    annotation_x = 0.04
+    annotation_y = 0.09
     # get expected limits 
     intersections = get_intersections(lambdas, n*limits_df["exp"], lambdas_th, n_th)
     if intersections:
         print ('limits expected:', intersections)
-        plt.annotate(r'Expected: $\kappa_\lambda \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (0.04, 0.10), xycoords = 'axes fraction', fontsize = 15)
+        #plt.annotate(r'Expected: $\kappa_\lambda \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (0.04, 0.10), xycoords = 'axes fraction', fontsize = 15)
+        plt.annotate(r'Expected: $\kappa_\lambda \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (annotation_x,annotation_y), xycoords = 'axes fraction', fontsize = 15)
 
     #for x in intersections:
     #   ax.plot([x]*2,ylim,'blue')
@@ -280,7 +341,8 @@ def draw_all_limits(*args):
     # get observed limits 
     intersections = get_intersections(lambdas, n*limits_df["obs"], lambdas_th, n_th)
     if intersections:
-        plt.annotate(r'Observed: $\kappa_\lambda \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (0.04, 0.18), xycoords = 'axes fraction', fontsize = 15)
+        #plt.annotate(r'Observed: $\kappa_\lambda \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (0.04, 0.18), xycoords = 'axes fraction', fontsize = 15)
+        plt.annotate(r'Observed: $\kappa_\lambda \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (annotation_x,annotation_y+0.08), xycoords = 'axes fraction', fontsize = 15)
         print ('limits observed:', intersections)
 
     #for x in intersections:
@@ -290,13 +352,13 @@ def draw_all_limits(*args):
     ax.plot(1, xs_HH(1), linewidth = 0, marker = '*', markersize = 20, color = '#E9F1DF', markeredgecolor = 'black', label = 'SM prediction')
 
     # make pretty 
-    ylim = [5, 1e4] # set consistent y-axis
+    ylim = [10, 8e3] # set consistent y-axis
     ax.set_ylim(ylim)
     ax.xaxis.set_ticks(np.arange(min(lambdas), max(lambdas) + 1, 2))
     ax.set_xlim([-10,10])
     ampl.set_ylabel('$\sigma_{ggF+VBF}$ (HH) [fb]', fontsize= 20)    
     ampl.set_xlabel(r'$\kappa_\lambda$', fontsize=20)
-    ampl.draw_atlas_label(0.05, 0.95, ax, status = 'int', energy = '13 TeV', lumi = 139)
+    ampl.draw_atlas_label(0.04, 0.955, ax, status = 'int', energy = '13 TeV', lumi = 139)
 
     # border for the legend
     border_leg = patches.Rectangle((0, 0), 1, 1, facecolor = 'none', edgecolor = 'black', linewidth = 1)
@@ -308,9 +370,15 @@ def draw_all_limits(*args):
     #handles = [handles[0], handles[1], (handles[5], border_leg), (handles[4], border_leg), (th_band, handles[2], border_leg), handles[3]]
     labels = ['Observed limit (95% CL)', 'Expected limit (95% CL)', labels[0], labels[2], labels[4],  labels[9], labels[8], labels[6], labels[7]]
     #plt.legend(bbox_to_anchor=(1.15, 1), loc=2, borderaxespad=0.,frameon = False)
-    ax.legend(handles, labels, bbox_to_anchor=(1.05, 1),loc=2, fontsize = 'small', frameon = False)
+    #ax.legend(handles, labels, bbox_to_anchor=(1.05, 1),loc=2, fontsize = 'small', frameon = False)
+    #ax.legend(handles, labels, loc='upper right',fontsize = 8, frameon = False)
+    l1 = ax.legend(handles[0:2]+handles[5:], labels[0:2]+labels[5:], loc=(0.52,0.62),fontsize = 12, frameon = False)
+    l2 = ax.legend(handles[2:5], labels[2:5], loc=(0.75,0.05),fontsize = 12, frameon = False) # small legend, option 1
+    #l2 = ax.legend(handles[2:5], labels[2:5], loc=(0.25,0.62),fontsize = 12, frameon = False) # small legend, option 2
+    plt.gca().add_artist(l1)
 
     plt.savefig('all_channels_kl_scan.pdf',bbox_inches='tight')
+
 
 
 if __name__ == "__main__": 
