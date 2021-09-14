@@ -30,9 +30,10 @@ DEFAULT_DATASET = 'combData'
 @click.option('--parallel', type=int, default=-1, help='number of parallelized workers')
 @click.option('--file_format', default="<mass[F]>", help='file format')
 @click.option('--cache/--no-cache', default=True, help='cache existing results')
+@click.option('--do-limit/--skip-limit', default=True, help='whether to evaluate limits')
 def combine_ws_new(input_path, resonant_type, channels, correlation_scheme, tag_pattern, 
                do_better_bands, cl, blind, mass_expr, param, new_method, config_file, 
-               minimizer_options, verbose, parallel, file_format, cache):
+               minimizer_options, verbose, parallel, file_format, cache, do_limit):
     if config_file is not None:
         config = yaml.safe_load(open(config_file))
     else:
@@ -50,7 +51,8 @@ def combine_ws_new(input_path, resonant_type, channels, correlation_scheme, tag_
                                         minimizer_options=minimizer_options,
                                         parallel=parallel,
                                         file_format=file_format,
-                                        cache=cache)
+                                        cache=cache,
+                                        do_limit=do_limit)
     pipeline.run_pipeline()
 
     
