@@ -1058,7 +1058,7 @@
     "alpha_SysTTBAR_FAKESF_TAU25_EIGEN5": "ATLAS_FF_TTBAR_TAU25_EIGEN5",
     "alpha_SysTTBAR_FAKESF_TAU25_EIGEN7": "ATLAS_FF_TTBAR_TAU25_EIGEN7",
     "alpha_SysttReweighting": "ATLAS_bbtautau_TTBAR_reweight",
-    "alpha_THEO_ACC_AF2_ggFHH": "THEO_ACC_AF2_ggFHH",
+    "alpha_THEO_ACC_AF2_ggFHH": "THEO_ACC_AF2_ggFHH_spin0",
     "alpha_THEO_ACC_Diboson": "THEO_ACC_Diboson",
     "alpha_THEO_ACC_FSR_ttH": "THEO_ACC_FSR_ttH",
     "alpha_THEO_ACC_GEN_ttH": "THEO_ACC_GEN_ttH",
