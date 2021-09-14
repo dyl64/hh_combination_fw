@@ -221,8 +221,8 @@ Sp0_yy_pro:
     - job: NR_unblind_xsec_pro
   allow_failure: true
   script:
-    - echo HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options --scheme configs/np_map_nonres_v5.json
-    - HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options --scheme configs/np_map_nonres_v5.json
+    - echo HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options --scheme configs/np_map_nonres_v6.json
+    - HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options --scheme configs/np_map_nonres_v6.json
     #- echo HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options
     #- HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options
   only:
@@ -351,7 +351,7 @@ Sp0_BTY_comb_part1:
   variables:
     channels: bbbb,bbtautau,bbyy
     masspoints: "251,260,280,300,350,400,500"
-    other_options: "--scheme configs/np_map_spin0_v6.json"
+    other_options: "--scheme configs/np_map_spin0_v7.json"
 
 Sp0_BTY_comb_part2:
   extends: .Sp0Combine_ws
@@ -363,7 +363,7 @@ Sp0_BTY_comb_part2:
   variables:
     channels: bbbb,bbtautau,bbyy
     masspoints: "600,700,800,900,1000"
-    other_options: "--scheme configs/np_map_spin0_v6.json"
+    other_options: "--scheme configs/np_map_spin0_v7.json"
 
 Sp0_TY_comb_part3:
   extends: .Sp0Combine_ws
@@ -374,7 +374,7 @@ Sp0_TY_comb_part3:
   variables:
     channels: bbyy,bbtautau
     masspoints: "325,350,375,450,550"
-    other_options: "--scheme configs/np_map_spin0_v6.json"
+    other_options: "--scheme configs/np_map_spin0_v7.json"
 
 Sp0_BT_comb_part4:
   extends: .Sp0Combine_ws
@@ -385,7 +385,7 @@ Sp0_BT_comb_part4:
   variables:
     channels: bbbb,bbtautau
     masspoints: "900,1000"
-    other_options: "--scheme configs/np_map_spin0_v6.json"
+    other_options: "--scheme configs/np_map_spin0_v7.json"
 
 Sp0_BT_comb_part5:
   extends: .Sp0Combine_ws
@@ -396,7 +396,7 @@ Sp0_BT_comb_part5:
   variables:
     channels: bbbb,bbtautau
     masspoints: "1100,1200"
-    other_options: "--scheme configs/np_map_spin0_v6.json"
+    other_options: "--scheme configs/np_map_spin0_v7.json"
 
 Sp0_BT_comb_part6:
   extends: .Sp0Combine_ws
@@ -407,7 +407,7 @@ Sp0_BT_comb_part6:
   variables:
     channels: bbbb,bbtautau
     masspoints: "1400,1600"
-    other_options: "--scheme configs/np_map_spin0_v6.json"
+    other_options: "--scheme configs/np_map_spin0_v7.json"
 
 
 ###################################
