@@ -159,11 +159,12 @@
         "THEO_YIELD_SCALE_ttH": "THEO_XS_SCALE_ttH",
         "THEO_XS_MHiggs": "THEO_XS_MHiggs",
 
-        "THEO_XS_QCD_VBFH": "THEO_XS_SCALE_VBFH",
-        "THEO_XS_QCD_WH": "THEO_XS_SCALE_WH",
+        "THEO_XS_QCD_VBFH": "THEO_ACC_HF_VBFH",
+        "THEO_XS_QCD_WH": "THEO_ACC_HF_WH",
+        "THEO_XS_QCDi_ggH": "THEO_ACC_HF_ggFH",
+
         "THEO_XS_QCD_ZH": "THEO_XS_SCALE_qqZH",
         "THEO_XS_QCD_ttH": "THEO_XS_SCALE_ttH",
-        "THEO_XS_QCDi_ggH": "THEO_XS_SCALE_ggFH",
         "THEO_XS_alphas_ZH": "THEO_XS_PDFalphas_qqZH",
         "THEO_XS_alphas_ttH": "THEO_XS_PDFalphas_ttH",
         "THEO_XS_alphas_res": "THEO_XS_PDFalphas_spin0"
