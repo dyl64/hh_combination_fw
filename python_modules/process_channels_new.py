@@ -32,9 +32,11 @@ DEFAULT_COMB_DATASET = 'combData'
 @click.option('--parallel', type=int, default=-1, help='number of parallelized workers')
 @click.option('--file_format', default="<mass[F]>", help='file format')
 @click.option('--cache/--no-cache', default=True, help='cache existing results')
+@click.option('--do-limit/--skip-limit', default=True, help='whether to evaluate limits')
 def process_channels_new(input_path, resonant_type, channels, outdir, do_better_bands, cl, 
-                     scaling_release, blind, mass_expr, param, new_method, config_file,
-                     minimizer_options, verbose, parallel, file_format, cache):
+                         scaling_release, blind, mass_expr, param, new_method, config_file,
+                         minimizer_options, verbose, parallel, file_format, cache,
+                         do_limit):
     
     if config_file is not None:
         config = yaml.safe_load(open(config_file))
@@ -62,5 +64,6 @@ def process_channels_new(input_path, resonant_type, channels, outdir, do_better_
                                           cl, blind, mass_expr, param, new_method=new_method,
                                           verbose=verbose, minimizer_options=minimizer_options,
                                           redefine_parameters=channel_redefine_parameters, 
-                                          parallel=parallel, file_format=file_format, cache=cache)
+                                          parallel=parallel, file_format=file_format, cache=cache,
+                                          do_limit=do_limit)
         pipeline.run_pipeline()
