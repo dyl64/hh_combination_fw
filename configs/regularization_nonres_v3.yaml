@@ -28,3 +28,10 @@ poi:
   bbVV: SigXsecOverSM
   WWWW: SigXsecOverSM
   combination: xsec_br
+redefine_parameters:
+  bbyy:
+    mu_XS_H: 1.0010078490058945
+    mHNom_SM_1: 125
+    mHNom_SM_2: 125
+    mHNom_BSM_1: 125
+    mHNom_BSM_2: 125
