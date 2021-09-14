@@ -81,7 +81,7 @@ hhCompile:
   variables:
     output_dir: output
     mini_option: minimizer_options_robust_mu.json
-    version: 20210806
+    version: 20210914
   allow_failure: true
   script:
     - echo HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_nonres_v3.yaml $other_options
@@ -117,7 +117,7 @@ NR_unblind_xsec_pro:
   variables:
     output_dir: output_xsec_unblind
     mini_option: minimizer_options_robust.json
-    version: 20210806_xsec
+    version: 20210914_xsec
     channel: bbyy,bbtautau
     other_options: "--unblind"
   only:
@@ -151,7 +151,7 @@ NR_all_pro_stat_obs:
     output_dir: output
     mini_option: minimizer_options_robust_mu.json
     config: regularization_spin0_v3.yaml
-    version: 20210806
+    version: 20210914
     other_options: "--unblind"
   allow_failure: true
   script:
