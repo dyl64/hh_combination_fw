@@ -30,7 +30,12 @@ poi:
   combination: xsec_br
 redefine_parameters:
   bbyy:
-    mu_XS_H: 1.0010078490058945
+    mu_XS_VBF: 0.9992067689053411
+    mu_XS_WH: 0.997449664430
+    mu_XS_ZH: 0.9983139394356
+    mu_XS_ggH: 0.9986814217004973
+    mu_XS_tHjb: 1.0000778
+    mu_XS_ttH: 0.9988168014198382
     mHNom_SM_1: 125
     mHNom_SM_2: 125
     mHNom_BSM_1: 125
