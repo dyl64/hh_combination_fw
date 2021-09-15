@@ -45,7 +45,7 @@ def pvalue(input_path, poi_name, dataset, parallel, expected, mu_1, snapshot):
             _nll_exp(input_files[0], poi_name, dataset, int(expected), mu_1)
     else:
         if expected is None:
-            arguments = (input_files, repeat(poi_name), repeat(dataset), repeat(mu_1), repeat(snapshot))
+            arguments = (input_files, repeat(poi_name), repeat(dataset), repeat(snapshot))
             utils.parallel_run(_nll, *arguments, max_workers=max_workers)
         else:
             arguments = (input_files, repeat(poi_name), repeat(dataset), repeat(int(expected)), repeat(mu_1))

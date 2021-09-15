@@ -13,7 +13,7 @@ analysis = sys.argv[1]
 total_split = 1 if analysis == 'nonres' else 3
 split = 0 if analysis == 'nonres' else int(sys.argv[2])
 
-dataset = "profiled_asimov_data" if analysis == 'nonres' else "observed_data"
+dataset = "standard_asimov2_data" if analysis == 'nonres' else "observed_data"
 profiled_snapshot = 'conditionalGlobs_0.032776' if analysis == 'nonres' else ''
 
 extra_options = {
@@ -29,6 +29,7 @@ DATASET_NAMES = {
     "observed_data": "combData",
     "asimov_data": "asimovData_1_None",
     "profiled_asimov_data": "cond_1_asimov_1",
+    "standard_asimov2_data": "asimovData_muhat_NP_Profile",
 }
 WS_BASE_PATH = {
     "nonres": "/afs/cern.ch/user/z/zhangr/wis/HHcomb/output/v140invfb_20210915_CI/output_mu_unblind/",
@@ -39,10 +40,10 @@ CURRENT_DIR = 'NP_ranking'
 
 WS_SUB_PATH = {
     "nonres": {
-        "bbyy": "rescaled/nonres/bbyy/cond_1_asimov_1.{mass}.root",
-        "bbtautau": "rescaled/nonres/bbtautau/cond_1_asimov_1.{mass}.root",
-        "bbbb": "rescaled/nonres/bbbb/cond_1_asimov_1.{mass}.root",
-        "combined": "combined/nonres/A-bbtautau_bbyy-fullcorr/cond_1_asimov_1.{mass}.root"
+        "bbyy": "rescaled/nonres/bbyy/standard_asimov2_{mass}.root",
+        "bbtautau": "rescaled/nonres/bbtautau/standard_asimov2_{mass}.root",
+        "bbbb": "rescaled/nonres/bbbb/standard_asimov2_{mass}.root",
+        "combined": "combined/nonres/A-bbtautau_bbyy-fullcorr/standard_asimov2_{mass}.root"
     },
     "spin0": {
         "bbyy": "rescaled/spin0/bbyy/{mass}.root",
@@ -77,16 +78,17 @@ for channel in CHANNELS[analysis]:
     n_mass_per_split = len(masses)//total_split
     mass_to_run = masses[n_mass_per_split*split:n_mass_per_split*(split+1)]
     for mass in mass_to_run:
-        print("INFO: Running analysis={}, channel={}, mass={}".format(analysis, channel, mass))
+        #print("INFO: Running analysis={}, channel={}, mass={}".format(analysis, channel, mass))
         ws_path = os.path.join(WS_BASE_PATH[analysis], WS_SUB_PATH[analysis][channel].format(mass=mass))
         data_name = DATASET_NAMES[dataset]
         if analysis == 'nonres':
             output_path = os.path.join(WS_BASE_PATH[analysis], CURRENT_DIR, dataset, analysis, channel, "pulls")
         else:
             output_path = os.path.join(WS_BASE_PATH[analysis], CURRENT_DIR, dataset, analysis, channel, mass, "pulls")
-        cmd = "quickstats run_pulls -i {} -d {} -x {} -o {} --parallel 10 --cache --batch_mode ".format(
+        cmd = "quickstats run_pulls -i {} -d {} -x {} -o {} --parallel 8 --cache --batch_mode ".format(
             ws_path, data_name, POI_NAME, output_path)
         cmd += " ".join(["--{} {}".format(k,v) for k,v in extra_options.items()])
+        print(" ".join(["Arguments = run_pulls", ws_path, data_name, POI_NAME, output_path, '\nQueue 1']))
         if analysis == 'nonres':
             cmd += ' -s {}'.format(profiled_snapshot)
         os.system(cmd)
