@@ -31,8 +31,8 @@ DATASET_NAMES = {
     "profiled_asimov_data": "cond_1_asimov_1",
 }
 WS_BASE_PATH = {
-    "nonres": "/eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210903_CI/output_mu_unblind/",
-    "spin0": "/eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210903_CI/output/"
+    "nonres": "/afs/cern.ch/user/z/zhangr/wis/HHcomb/output/v140invfb_20210915_CI/output_mu_unblind/",
+    "spin0": "/afs/cern.ch/user/z/zhangr/wis/HHcomb/output/v140invfb_20210915_CI/output/"
 }
 
 CURRENT_DIR = 'NP_ranking'
@@ -48,12 +48,13 @@ WS_SUB_PATH = {
         "bbyy": "rescaled/spin0/bbyy/{mass}.root",
         "bbtautau": "rescaled/spin0/bbtautau/{mass}.root",
         "bbbb": "rescaled/spin0/bbbb/{mass}.root",
-        "combined": "combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/{mass}.root"
+        "combined": "combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/{mass}.root",
+        "combined2": "combined/spin0/A-bbbb_bbtautau-fullcorr/{mass}.root"
     }
 }
 CHANNELS = {
     "nonres": ["bbyy", "bbtautau", "combined"],
-    "spin0": ["combined", "bbbb", "bbtautau", "bbyy"]
+    "spin0": ["combined", "combined2", "bbbb", "bbtautau", "bbyy"]
 }
 MASSES = {
     "nonres":{
@@ -65,6 +66,7 @@ MASSES = {
         "bbyy":     ["300", "500", "1000"],
         "bbtautau": ["300", "500", "1000"],
         "bbbb":     ["300", "500", "1000"],
+        "combined2":     ["1100", "1200"],
         "combined": ["251", "260", "280", "300", "350", "400", "500", "600", "700", "800", "900", "1000"]
     }
 }
@@ -87,5 +89,5 @@ for channel in CHANNELS[analysis]:
         cmd += " ".join(["--{} {}".format(k,v) for k,v in extra_options.items()])
         if analysis == 'nonres':
             cmd += ' -s {}'.format(profiled_snapshot)
-        #os.system(cmd)
-        print(cmd)
+        os.system(cmd)
+        #print(cmd)
