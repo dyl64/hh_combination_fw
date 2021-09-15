@@ -146,10 +146,10 @@ def plot_local_pvalue(input_paths, color_maps=None, label_maps=None,
 def main(args):
     input = args.input + '/' + args.analysis
     input_paths = {
-        'bbbb': glob(f'{input}/bbbb/*pvalue.json'),
-        'bbtautau': glob(f'{input}/bbtautau/*pvalue.json'),
-        'bbyy': glob(f'{input}/bbyy/*pvalue.json'),
-        'combined': glob(f'{input}/combined/*pvalue.json'),
+        'bbbb': glob(f'{input}/bbbb/*pvalue*.json'),
+        'bbtautau': glob(f'{input}/bbtautau/*pvalue*.json'),
+        'bbyy': glob(f'{input}/bbyy/*pvalue*.json'),
+        'combined': glob(f'{input}/combined/*pvalue*.json'),
     }
 
     if args.analysis != 'spin0':
