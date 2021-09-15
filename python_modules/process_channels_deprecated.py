@@ -4,7 +4,7 @@ import re
 import yaml
 import click
 
-import combiner
+import workspaceCombiner as wsc
 import aux_utils as utils
 
 DEFAULT_NEW_POI = "xsec_br"
@@ -12,7 +12,7 @@ DEFAULT_BLIND_DATASET = 'asimovData'
 DEFAULT_UNBLIND_DATASET = 'obsData'
 DEFAULT_COMB_DATASET = 'combData'
 
-@click.command(name='process_channels_new')
+@click.command(name='process_channels')
 @click.option('-i', '--input_path', required=True, help='path to the input workspaces')
 @click.option('-r', '--resonant_type', required=True, type=click.Choice(['nonres', 'spin0'], case_sensitive=False), 
               help='resonant or non-resonant analysis')
@@ -30,20 +30,15 @@ DEFAULT_COMB_DATASET = 'combData'
 @click.option('--minimizer_options', default=None, help='configuration file for minimizer options')
 @click.option('--verbose/--silent', default=False, help='show debug messages in stdout')
 @click.option('--parallel', type=int, default=-1, help='number of parallelized workers')
-@click.option('--file_format', default="<mass[F]>", help='file format')
-@click.option('--cache/--no-cache', default=True, help='cache existing results')
-@click.option('--do-limit/--skip-limit', default=True, help='whether to evaluate limits')
-def process_channels_new(input_path, resonant_type, channels, outdir, do_better_bands, cl, 
-                         scaling_release, blind, mass_expr, param, new_method, config_file,
-                         minimizer_options, verbose, parallel, file_format, cache,
-                         do_limit):
+def process_channels(input_path, resonant_type, channels, outdir, do_better_bands, cl, 
+                     scaling_release, blind, mass_expr, param, new_method, config_file,
+                     minimizer_options, verbose, parallel):
     
     if config_file is not None:
         config = yaml.safe_load(open(config_file))
     else:
         config = None
-    redefine_parameters = config.get('redefine_parameters', None)
-    
+        
     channels = channels.split(',')
     for channel in channels:
         workspace_dir = os.path.join(input_path, channel, resonant_type)
@@ -54,16 +49,10 @@ def process_channels_new(input_path, resonant_type, channels, outdir, do_better_
             new_dataname = DEFAULT_COMB_DATASET if config is None else config['dataset']['combination']['blind']
         else:
             old_dataname = DEFAULT_BLIND_DATASET if config is None else config['dataset'][channel]['unblind']
-            new_dataname = DEFAULT_COMB_DATASET if config is None else config['dataset']['combination']['unblind']
-        if redefine_parameters is not None:
-            channel_redefine_parameters = redefine_parameters.get(channel, None)
-        else:
-            channel_redefine_parameters = None
-        pipeline = combiner.TaskPipelineWS(workspace_dir, outdir, resonant_type, channel, scaling_release,
-                                          old_poi, new_poi, old_dataname, new_dataname, do_better_bands,
-                                          cl, blind, mass_expr, param, new_method=new_method,
-                                          verbose=verbose, minimizer_options=minimizer_options,
-                                          redefine_parameters=channel_redefine_parameters, 
-                                          parallel=parallel, file_format=file_format, cache=cache,
-                                          do_limit=do_limit)
+            new_dataname = DEFAULT_COMB_DATASET if config is None else config['dataset']['combination']['unblind']            
+        pipeline = wsc.TaskPipelineWS(workspace_dir, outdir, resonant_type, channel, scaling_release,
+                                      old_poi, new_poi, old_dataname, new_dataname, do_better_bands,
+                                      cl, blind, mass_expr, param, new_method=new_method,
+                                      verbose=verbose, minimizer_options=minimizer_options, parallel=parallel)
+
         pipeline.run_pipeline()
