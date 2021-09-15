@@ -6,5 +6,6 @@
     "print_level": -1,
     "timer": false,
     "num_cpu": 1,
-    "offset": true
+    "offset": true,
+    "batch_mode": true
 }
