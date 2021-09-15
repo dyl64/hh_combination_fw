@@ -61,3 +61,9 @@ Arguments = run_pulls /afs/cern.ch/user/z/zhangr/wis/HHcomb/output/v140invfb_202
 Queue 1
 Arguments = run_pulls /afs/cern.ch/user/z/zhangr/wis/HHcomb/output/v140invfb_20210915_CI/output/rescaled/spin0/bbyy/1000.root combData xsec_br /afs/cern.ch/user/z/zhangr/wis/HHcomb/output/v140invfb_20210915_CI/output/NP_ranking/observed_data/spin0/bbyy/1000/pulls
 Queue 1
+Arguments = run_pulls /afs/cern.ch/user/z/zhangr/wis/HHcomb/output/v140invfb_20210915_CI/output_mu_unblind/rescaled/nonres/bbyy/standard_asimov2_0.root asimovData_muhat_NP_Profile xsec_br /afs/cern.ch/user/z/zhangr/wis/HHcomb/output/v140invfb_20210915_CI/output_mu_unblind/NP_ranking/standard_asimov2_data/nonres/bbyy/pulls
+Queue 1
+Arguments = run_pulls /afs/cern.ch/user/z/zhangr/wis/HHcomb/output/v140invfb_20210915_CI/output_mu_unblind/rescaled/nonres/bbtautau/standard_asimov2_0.root asimovData_muhat_NP_Profile xsec_br /afs/cern.ch/user/z/zhangr/wis/HHcomb/output/v140invfb_20210915_CI/output_mu_unblind/NP_ranking/standard_asimov2_data/nonres/bbtautau/pulls
+Queue 1
+Arguments = run_pulls /afs/cern.ch/user/z/zhangr/wis/HHcomb/output/v140invfb_20210915_CI/output_mu_unblind/combined/nonres/A-bbtautau_bbyy-fullcorr/standard_asimov2_0.root asimovData_muhat_NP_Profile xsec_br /afs/cern.ch/user/z/zhangr/wis/HHcomb/output/v140invfb_20210915_CI/output_mu_unblind/NP_ranking/standard_asimov2_data/nonres/combined/pulls
+Queue 1

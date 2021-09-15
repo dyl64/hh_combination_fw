@@ -85,7 +85,7 @@ for channel in CHANNELS[analysis]:
             output_path = os.path.join(WS_BASE_PATH[analysis], CURRENT_DIR, dataset, analysis, channel, "pulls")
         else:
             output_path = os.path.join(WS_BASE_PATH[analysis], CURRENT_DIR, dataset, analysis, channel, mass, "pulls")
-        cmd = "quickstats run_pulls -i {} -d {} -x {} -o {} --parallel 8 --cache --batch_mode ".format(
+        cmd = "quickstats run_pulls -i {} -d {} -x {} -o {} --parallel 6 --cache --batch_mode ".format(
             ws_path, data_name, POI_NAME, output_path)
         cmd += " ".join(["--{} {}".format(k,v) for k,v in extra_options.items()])
         print(" ".join(["Arguments = run_pulls", ws_path, data_name, POI_NAME, output_path, '\nQueue 1']))
