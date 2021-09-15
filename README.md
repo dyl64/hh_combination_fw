@@ -106,17 +106,19 @@ python harmonise_name.py nonres <input_folder>
 
 ## Run p-value
 ```
-# Way 1 (recommended)
+# 
 HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/1100.root
 ## to run all *.root files in parallel:
 HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr
-# Way 2
-submodules/RooStatTools/bin/runSigCalc ~/work/HHcomb/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau-nocorr/1100.root  pvalue combWS ModelConfig combData |tee pvalue.log
 ```
 To run expected p-value:
 ```
-# profile NP to POI=0 or 1, then generate asimov; then set the global observable to the fitted NP values and calculate the pvalue
-HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr --expected [0|1]
+## (obselete) profile NP to POI=0 or 1 or float (-1), then generate asimov; then set the global observable to the fitted NP values and calculate the pvalue
+#HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr --expected [0|1]
+
+# use type=2 to profile best-fit NPs with POI floated and generate asimov; then load the best-fit NP values to globs via `conditionalGlobs_None` and calculate p-value
+quickstats generate_standard_asimov -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210903_CI/output_mu_unblind/rescaled/nonres/bbtautau/0.root -o /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210903_CI/output_mu_unblind/rescaled/nonres/bbtautau/asimov2_0.root --poi xsec_br --poi_scale 0.032776 --asimov_types 2
+HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210903_CI/output_mu_unblind/rescaled/nonres/bbtautau/asimov2_0.root -d asimovData_muhat_NP_Profile  -s conditionalGlobs_None
 ```
 
 ## Quick fit

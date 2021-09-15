@@ -2,6 +2,8 @@ import os
 import sys
 from pdb import set_trace
 import sys
+import matplotlib
+matplotlib.use('qt4agg')
 
 if 'lxplus' in os.uname()[1] or 'pcuw' in os.uname()[1]:
     if '/afs/cern.ch/work/c/chlcheng/public/local/conda/miniconda/envs/ml-base/bin' not in sys.path:
@@ -73,6 +75,6 @@ for analysis in ANALYSES:
                 os.makedirs(outdir)
             outname = OUTNAME[analysis].format(channel=channel, mass=mass)
             outpath = os.path.join(outdir, outname)
-            cmd = "quickstats plot_pulls -i {} -p {} -o {} --theta_max 2".format(input_path, POI_NAME, outpath)
+            cmd = "quickstats plot_pulls -i {} -p {} -o {} --relative --theta_max 2".format(input_path, POI_NAME, outpath)
             os.system(cmd)
             #print(cmd)
