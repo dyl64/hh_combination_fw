@@ -1,5 +1,6 @@
 import os
 import sys
+import math
 from pdb import set_trace
 
 if sys.argv[1] not in ['nonres', 'spin0']:
@@ -14,7 +15,7 @@ total_split = 1 if analysis == 'nonres' else 3
 split = 0 if analysis == 'nonres' else int(sys.argv[2])
 
 dataset = "standard_asimov2_data" if analysis == 'nonres' else "observed_data"
-profiled_snapshot = 'conditionalGlobs_0.032776' if analysis == 'nonres' else ''
+profiled_snapshot = 'asimovData_muhat_NP_Profile' if analysis == 'nonres' else ''
 
 extra_options = {
     "exclude": "\"gamma_*,nbkg*,BKG*,xi*,ATLAS_norm*,NORM_*\"",
@@ -55,7 +56,7 @@ WS_SUB_PATH = {
 }
 CHANNELS = {
     "nonres": ["bbyy", "bbtautau", "combined"],
-    "spin0": ["combined", "combined2", "bbbb", "bbtautau", "bbyy"]
+    "spin0": ["combined", "combined2", "bbbb", "bbtautau", "bbyy"],
 }
 MASSES = {
     "nonres":{
@@ -67,7 +68,7 @@ MASSES = {
         "bbyy":     ["300", "500", "1000"],
         "bbtautau": ["300", "500", "1000"],
         "bbbb":     ["300", "500", "1000"],
-        "combined2":     ["1100", "1200"],
+        "combined2":["1100", "1200"],
         "combined": ["251", "260", "280", "300", "350", "400", "500", "600", "700", "800", "900", "1000"]
     }
 }
@@ -75,7 +76,7 @@ MASSES = {
 
 for channel in CHANNELS[analysis]:
     masses = MASSES[analysis][channel]
-    n_mass_per_split = len(masses)//total_split
+    n_mass_per_split = math.ceil(len(masses)/total_split)
     mass_to_run = masses[n_mass_per_split*split:n_mass_per_split*(split+1)]
     for mass in mass_to_run:
         #print("INFO: Running analysis={}, channel={}, mass={}".format(analysis, channel, mass))

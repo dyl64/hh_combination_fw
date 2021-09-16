@@ -26,7 +26,7 @@ ANALYSES = ["nonres", "spin0"] if len(sys.argv) == 1 else [sys.argv[1]]
 
 CHANNELS = {
     "nonres": ["bbyy", "bbtautau"],
-    "spin0": ["bbbb", "bbtautau", "bbyy"]
+    "spin0": ["bbbb", "bbtautau", "bbyy"],
 }
 MASSES = {
     "nonres":{

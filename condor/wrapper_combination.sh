@@ -11,7 +11,7 @@ input=$2
 dataset=$3
 poi=$4
 output=$5
-command="quickstats $job -i $input -d $dataset -x $poi -o $output --parallel -1 --cache --batch_mode --exclude \"gamma_*,nbkg*,BKG*,xi*,ATLAS_norm*,NORM_*\""
+command="quickstats $job -i $input -d $dataset -x $poi -o $output --parallel -1 --cache --batch_mode --exclude \"xi*,nbkg*,BKG*,ATLAS_norm*,gamma_*,NORM_*\""
 
 echo $command
 $command
