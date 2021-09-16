@@ -5,30 +5,13 @@ cd /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw
 export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
 source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh
 source setup.sh
-#export HH_COMBINATION_FW_MODE="skip_exist";
 
 job=$1
-
-echo $job
-if [[ $job == "process_channels" ]]; then
-    input=$2
-    channel=$3
-    sigtype=$4
-    output=$5
-    regversion=$6
-    mass=$7
-    command="HHComb $job -i $input -c $channel -r $sigtype -o $output --config configs/regularization_${sigtype}_${regversion}.yaml --mass ${mass} --unblind"
-elif [[ $job == "combine_ws" ]]; then
-    input=$2
-    sigtype=$3
-    channel=$4
-    mass=$5
-    scheme=$6
-    command="HHComb $job -i $input -r $sigtype -c $channel -m ${mass} --unblind"
-else
-    echo "command not found": $job
-fi
-
+input=$2
+dataset=$3
+poi=$4
+output=$5
+command="quickstats $job -i $input -d $dataset -x $poi -o $output --parallel -1 --cache --batch_mode --exclude \"gamma_*,nbkg*,BKG*,xi*,ATLAS_norm*,NORM_*\""
 
 echo $command
 $command

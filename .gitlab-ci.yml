@@ -81,7 +81,7 @@ hhCompile:
   variables:
     output_dir: output
     mini_option: minimizer_options_robust_mu.json
-    version: 20210806
+    version: 20210914
   allow_failure: true
   script:
     - echo HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_nonres_v3.yaml $other_options
@@ -94,12 +94,12 @@ hhCompile:
 #    channel: bbbb,bbyy,bbtautau,bbll,bbVV,WWWW
 #    other_options: ""
 
-NR_unblind_pro:
-  extends: .NRProcess
-  variables:
-    output_dir: output_unblind
-    channel: bbyy,bbtautau
-    other_options: "--unblind"
+#NR_unblind_pro:
+#  extends: .NRProcess
+#  variables:
+#    output_dir: output_unblind
+#    channel: bbyy,bbtautau
+#    other_options: "--unblind"
 
 NR_unblind_mu_pro:
   extends: .NRProcess
@@ -117,30 +117,30 @@ NR_unblind_xsec_pro:
   variables:
     output_dir: output_xsec_unblind
     mini_option: minimizer_options_robust.json
-    version: 20210806_xsec
+    version: 20210914_xsec
     channel: bbyy,bbtautau
     other_options: "--unblind"
   only:
     - branches
     - tags
 
-NR_all_pro_stat:
-  extends: .NRProcess
-  variables:
-    output_dir: output_stat
-    mini_option: minimizer_options_robust_stat.json
-    #channel: bbbb,bbyy,bbtautau,bbll,bbVV,WWWW
-    channel: bbbb,bbyy,bbtautau
-    other_options: ""
-
-NR_all_pro_stat_obs:
-  extends: .NRProcess
-  variables:
-    output_dir: output_stat_obs
-    mini_option: minimizer_options_robust_stat.json
-    #channel: bbbb,bbyy,bbtautau,bbll,bbVV,WWWW
-    channel: bbbb,bbyy,bbtautau
-    other_options: "--unblind"
+#NR_all_pro_stat:
+#  extends: .NRProcess
+#  variables:
+#    output_dir: output_stat
+#    mini_option: minimizer_options_robust_stat.json
+#    #channel: bbbb,bbyy,bbtautau,bbll,bbVV,WWWW
+#    channel: bbbb,bbyy,bbtautau
+#    other_options: ""
+#
+#NR_all_pro_stat_obs:
+#  extends: .NRProcess
+#  variables:
+#    output_dir: output_stat_obs
+#    mini_option: minimizer_options_robust_stat.json
+#    #channel: bbbb,bbyy,bbtautau,bbll,bbVV,WWWW
+#    channel: bbbb,bbyy,bbtautau
+#    other_options: "--unblind"
 
 ###################################
 ## Spin 0 Process channels       ##
@@ -151,7 +151,7 @@ NR_all_pro_stat_obs:
     output_dir: output
     mini_option: minimizer_options_robust_mu.json
     config: regularization_spin0_v3.yaml
-    version: 20210806
+    version: 20210914
     other_options: "--unblind"
   allow_failure: true
   script:
@@ -216,13 +216,13 @@ Sp0_yy_pro:
   needs:
     - job: hhCompile
     #- job: NR_blind_pro
-    - job: NR_unblind_pro
+    #- job: NR_unblind_pro
     - job: NR_unblind_mu_pro
     - job: NR_unblind_xsec_pro
   allow_failure: true
   script:
-    - echo HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options --scheme configs/np_map_nonres_v5.json
-    - HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options --scheme configs/np_map_nonres_v5.json
+    - echo HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options --scheme configs/np_map_nonres_v6.json
+    - HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options --scheme configs/np_map_nonres_v6.json
     #- echo HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options
     #- HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options
   only:
@@ -230,34 +230,34 @@ Sp0_yy_pro:
     - master
     - CI
 
-# For CONF: xsec limit
-NR_TY_comb:
-  extends: .NRCombine_ws
-  variables:
-    input_dir: output_unblind
-    channels: bbtautau,bbyy
-    other_options: "--unblind"
+## For CONF: xsec limit
+#NR_TY_comb:
+#  extends: .NRCombine_ws
+#  variables:
+#    input_dir: output_unblind
+#    channels: bbtautau,bbyy
+#    other_options: "--unblind"
 
-NR_TY_comb_stat:
-  extends: .NRCombine_ws
-  needs:
-    - job: hhCompile
-    - job: NR_all_pro_stat
-  variables:
-    input_dir: output_stat
-    mini_option: minimizer_options_robust_stat.json
-    channels: bbtautau,bbyy
-
-NR_TY_comb_stat_obs:
-  extends: .NRCombine_ws
-  needs:
-    - job: hhCompile
-    - job: NR_all_pro_stat_obs
-  variables:
-    input_dir: output_stat_obs
-    mini_option: minimizer_options_robust_stat.json
-    channels: bbtautau,bbyy
-    other_options: "--unblind"
+#NR_TY_comb_stat:
+#  extends: .NRCombine_ws
+#  needs:
+#    - job: hhCompile
+#    - job: NR_all_pro_stat
+#  variables:
+#    input_dir: output_stat
+#    mini_option: minimizer_options_robust_stat.json
+#    channels: bbtautau,bbyy
+#
+#NR_TY_comb_stat_obs:
+#  extends: .NRCombine_ws
+#  needs:
+#    - job: hhCompile
+#    - job: NR_all_pro_stat_obs
+#  variables:
+#    input_dir: output_stat_obs
+#    mini_option: minimizer_options_robust_stat.json
+#    channels: bbtautau,bbyy
+#    other_options: "--unblind"
 
 #NR_TY_comb_blind:
 #  extends: .NRCombine_ws
@@ -351,7 +351,7 @@ Sp0_BTY_comb_part1:
   variables:
     channels: bbbb,bbtautau,bbyy
     masspoints: "251,260,280,300,350,400,500"
-    other_options: "--scheme configs/np_map_spin0_v6.json"
+    other_options: "--scheme configs/np_map_spin0_v7.json"
 
 Sp0_BTY_comb_part2:
   extends: .Sp0Combine_ws
@@ -363,7 +363,7 @@ Sp0_BTY_comb_part2:
   variables:
     channels: bbbb,bbtautau,bbyy
     masspoints: "600,700,800,900,1000"
-    other_options: "--scheme configs/np_map_spin0_v6.json"
+    other_options: "--scheme configs/np_map_spin0_v7.json"
 
 Sp0_TY_comb_part3:
   extends: .Sp0Combine_ws
@@ -374,7 +374,7 @@ Sp0_TY_comb_part3:
   variables:
     channels: bbyy,bbtautau
     masspoints: "325,350,375,450,550"
-    other_options: "--scheme configs/np_map_spin0_v6.json"
+    other_options: "--scheme configs/np_map_spin0_v7.json"
 
 Sp0_BT_comb_part4:
   extends: .Sp0Combine_ws
@@ -385,7 +385,7 @@ Sp0_BT_comb_part4:
   variables:
     channels: bbbb,bbtautau
     masspoints: "900,1000"
-    other_options: "--scheme configs/np_map_spin0_v6.json"
+    other_options: "--scheme configs/np_map_spin0_v7.json"
 
 Sp0_BT_comb_part5:
   extends: .Sp0Combine_ws
@@ -396,7 +396,7 @@ Sp0_BT_comb_part5:
   variables:
     channels: bbbb,bbtautau
     masspoints: "1100,1200"
-    other_options: "--scheme configs/np_map_spin0_v6.json"
+    other_options: "--scheme configs/np_map_spin0_v7.json"
 
 Sp0_BT_comb_part6:
   extends: .Sp0Combine_ws
@@ -407,7 +407,7 @@ Sp0_BT_comb_part6:
   variables:
     channels: bbbb,bbtautau
     masspoints: "1400,1600"
-    other_options: "--scheme configs/np_map_spin0_v6.json"
+    other_options: "--scheme configs/np_map_spin0_v7.json"
 
 
 ###################################
@@ -437,10 +437,10 @@ Sp0_BT_comb_part6:
 NRPlot:
   extends: .plot
   needs:
-    - job: NR_TY_comb_stat
-    - job: NR_TY_comb_stat_obs
+    #- job: NR_TY_comb_stat
+    #- job: NR_TY_comb_stat_obs
     #- job: NR_TY_comb_blind
-    - job: NR_TY_comb
+    #- job: NR_TY_comb
     - job: NR_TY_comb_mu
     - job: NR_TY_comb_xsec
     #- job: NR_BTY_comb_blind

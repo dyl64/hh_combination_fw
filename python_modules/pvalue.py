@@ -16,16 +16,16 @@ from pdb import set_trace
 @click.option('-i', '--input_path', required=True, help='path or file to the processed workspaces')
 @click.option('-poi', 'poi_name', required=False, default='xsec_br', help='poi name in workspace')
 @click.option('-d', '--dataset', required=False, default='combData', help='dataset name in workspace')
+@click.option('-s', '--snapshot', required=False, default=None, help='snapshot to load before fitting')
 @click.option('-p', '--parallel', required=False, type=int, default=-1, help='number of parallel jobs')
-@click.option('-e', '--expected', default=None, type=click.Choice(['0', '1', '-1', '-2']), help='run expected or observed p-value \
+@click.option('-e', '--expected', default=None, type=click.Choice(['0', '1', '-1']), help='run expected or observed p-value \
                                                                                             default: (None) run observed p-value, \
-                                                                                            -2: profiling unconstrained NP  with mu floating and construct an S+B asimov, \
                                                                                             -1: profiling NPs and globs with mu floating and construct an S+B asimov, \
                                                                                              1: profiling NPs and globs with mu fixed to 1 and construct an S+B asimov, \
                                                                                              0: profiling NPs and globs with mu fixed to 0 and construct an S+B asimov, \
                                                                                             (will be multiplied by -n when generating asimov)')
 @click.option('-n', '--mu_1', required=False, type=float, default=32.776 / 1000, help='normalisation in the workspace, (will be multiplied by -e when -e != -1)')
-def pvalue(input_path, poi_name, dataset, parallel, expected, mu_1):
+def pvalue(input_path, poi_name, dataset, parallel, expected, mu_1, snapshot):
     input_files = []
     if input_path.endswith('.root'):
         input_files.append(input_path)
@@ -40,12 +40,12 @@ def pvalue(input_path, poi_name, dataset, parallel, expected, mu_1):
 
     if len(input_files) == 1:
         if expected is None:
-            _nll(input_files[0], poi_name, dataset)
+            _nll(input_files[0], poi_name, dataset, snapshot)
         else:
             _nll_exp(input_files[0], poi_name, dataset, int(expected), mu_1)
     else:
         if expected is None:
-            arguments = (input_files, repeat(poi_name), repeat(dataset), repeat(mu_1))
+            arguments = (input_files, repeat(poi_name), repeat(dataset), repeat(snapshot))
             utils.parallel_run(_nll, *arguments, max_workers=max_workers)
         else:
             arguments = (input_files, repeat(poi_name), repeat(dataset), repeat(int(expected)), repeat(mu_1))
@@ -75,41 +75,25 @@ def _nll_exp(input_file, poi_name, dataset, expected, mu_1, uncap=True):
                 }
 
         obj = AnalysisObject(**config)
-        if expected == -2:
-            obj.model.workspace.saveSnapshot("nominalAllVars", obj.model.workspace.allVars())
-            print('Fix constrained NP')
-            obj.model.fix_parameters("gamma_*=1,ATLAS_*=0,THEO_*=0,alpha_*=0,SPURIOUS_*=0")
-            obj.model.profile_parameters("ATLAS_norm_ttbar_bbtautau,ATLAS_norm_Zhf_bbtautau")
-            # optional in case you wanna check that the np are indeed fixed
-            np_partial_profile_df = obj.model.to_dataframe(obj.model.nuisance_parameters)
-            unconstrained_np_partial_profile_df = np_partial_profile_df[np_partial_profile_df['Constant'] == False]
-            print(unconstrained_np_partial_profile_df)
-
     
         # despite the profiled value, asimov always contains 1 (?) signal
         if expected < 0:
             print('Generate unconditional Asimov dataset')
-            asimov_data = obj.model.generate_asimov(poi_name=poi_name, poi_val=mu_1, poi_profile=mu_1,
-                    conditional_mle=False, do_import=True, globs_np_matching=True, asimov_name='dataset_temp',
+            asimov_data = obj.model.generate_asimov(poi_name=poi_name, poi_val=mu_1, poi_profile=None,
+                    do_fit=True, do_import=True, modify_globs=True, asimov_name='dataset_temp',
                     snapshot_names={'conditional_globs': 'customised_globs', 'conditional_nuis': 'customised_nuis'})
         else:
             print(f'Generate conditional POI={expected} Asimov dataset')
-            asimov_data = obj.model.generate_asimov(poi_name=poi_name, poi_val=expected * mu_1, poi_profile=expected * mu_1, 
-                    conditional_mle=True, do_import=True, globs_np_matching=True, asimov_name='dataset_temp',
+            asimov_data = obj.model.generate_asimov(poi_name=poi_name, poi_val=mu_1, poi_profile=expected * mu_1, 
+                    do_fit=True, do_import=True, modify_globs=True, asimov_name='dataset_temp',
                     snapshot_names={'conditional_globs': 'customised_globs', 'conditional_nuis': 'customised_nuis'})
         obj.model.workspace.writeToFile(path.dirname(input_file) + f'/asimov_temp{expected}.root')
         # for best fit - instead of create asimov data, take the input dataset
         # asimov_data = obj.model.workspace.data(obj.model.data_name)
 
-        if expected != -2:
-            print('Load snapshot')
-            obj.model.workspace.loadSnapshot("customised_nuis")
-            obj.model.workspace.loadSnapshot("customised_globs")
-
-        if expected == -2:
-            ''' free parameters '''
-            print('Free all parameters')
-            obj.model.workspace.loadSnapshot("nominalAllVars")
+        print('Load snapshot')
+        obj.model.workspace.loadSnapshot("customised_nuis")
+        obj.model.workspace.loadSnapshot("customised_globs")
 
         poi = obj.model.workspace.var(poi_name)
         poi_val = 0
@@ -143,15 +127,16 @@ def _nll_exp(input_file, poi_name, dataset, expected, mu_1, uncap=True):
     output_file = input_file[::-1].replace('.root'[::-1], f'_pvalue_exp{expected}.json'[::-1], 1)[::-1]
     _pvalue(nll_mu_0, nll_mu_free, poi_free, uncap, output_file=output_file)
 
-def _nll(input_file, poi_name, dataset, uncap=True):
+def _nll(input_file, poi_name, dataset, snapshot=None):
+    uncap=True
     poi_val = 0
-    nll_mu_0 = evaluate_nll(input_file, poi_val, poi_name, strategy = 1, unconditional=False, data=dataset, offset=False)
-    result_free = evaluate_nll(input_file, poi_val, poi_name, strategy = 1, unconditional=True, data=dataset, offset=False, detailed_output=True)
+    nll_mu_0 = evaluate_nll(input_file, poi_val, poi_name, strategy = 1, unconditional=False, data=dataset, offset=False, snapshot=snapshot)
+    result_free = evaluate_nll(input_file, poi_val, poi_name, strategy = 1, unconditional=True, data=dataset, offset=False, detailed_output=True, snapshot=snapshot)
     nll_mu_free = result_free['nll']
     poi_free = result_free['poi_bestfit']
 
     # Write out results next to the input file
-    output_file = input_file[::-1].replace('.root'[::-1], f'_pvalue.json'[::-1], 1)[::-1]
+    output_file = input_file[::-1].replace('.root'[::-1], f'_pvalue_{dataset}.json'[::-1], 1)[::-1]
     _pvalue(nll_mu_0, nll_mu_free, poi_free, uncap, output_file=output_file)
 
 def _pvalue(nll_mu_0, nll_mu_free, poi_free, uncap, output_file='pvalue.json'):

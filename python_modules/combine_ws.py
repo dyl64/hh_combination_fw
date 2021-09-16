@@ -4,7 +4,7 @@ import re
 import yaml
 import click
 
-import workspaceCombiner as wsc
+import combiner
 import aux_utils as utils
 
 DEFAULT_POI = "xsec_br"
@@ -28,9 +28,12 @@ DEFAULT_DATASET = 'combData'
 @click.option('--minimizer_options', default=None, help='configuration file for minimizer options')
 @click.option('--verbose/--silent', default=False, help='show debug messages in stdout')
 @click.option('--parallel', type=int, default=-1, help='number of parallelized workers')
+@click.option('--file_format', default="<mass[F]>", help='file format')
+@click.option('--cache/--no-cache', default=True, help='cache existing results')
+@click.option('--do-limit/--skip-limit', default=True, help='whether to evaluate limits')
 def combine_ws(input_path, resonant_type, channels, correlation_scheme, tag_pattern, 
                do_better_bands, cl, blind, mass_expr, param, new_method, config_file, 
-               minimizer_options, verbose, parallel):
+               minimizer_options, verbose, parallel, file_format, cache, do_limit):
     if config_file is not None:
         config = yaml.safe_load(open(config_file))
     else:
@@ -42,9 +45,14 @@ def combine_ws(input_path, resonant_type, channels, correlation_scheme, tag_patt
         data_name = DEFAULT_DATASET if config is None else config['dataset']['combination']['blind']
     else:
         data_name = DEFAULT_DATASET if config is None else config['dataset']['combination']['unblind']
-    pipeline = wsc.TaskCombination(input_path, resonant_type, channels, poi_name, data_name, correlation_scheme,
-                                   tag_pattern, do_better_bands, cl, blind, mass_expr, param, new_method=new_method,
-                                   verbose=verbose, minimizer_options=minimizer_options, parallel=parallel)
+    pipeline = combiner.TaskCombination(input_path, resonant_type, channels, poi_name, data_name, correlation_scheme,
+                                        tag_pattern, do_better_bands, cl, blind, mass_expr, param, 
+                                        new_method=new_method, verbose=verbose, 
+                                        minimizer_options=minimizer_options,
+                                        parallel=parallel,
+                                        file_format=file_format,
+                                        cache=cache,
+                                        do_limit=do_limit)
     pipeline.run_pipeline()
 
     
