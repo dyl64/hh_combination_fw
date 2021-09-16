@@ -94,12 +94,12 @@ hhCompile:
 #    channel: bbbb,bbyy,bbtautau,bbll,bbVV,WWWW
 #    other_options: ""
 
-NR_unblind_pro:
-  extends: .NRProcess
-  variables:
-    output_dir: output_unblind
-    channel: bbyy,bbtautau
-    other_options: "--unblind"
+#NR_unblind_pro:
+#  extends: .NRProcess
+#  variables:
+#    output_dir: output_unblind
+#    channel: bbyy,bbtautau
+#    other_options: "--unblind"
 
 NR_unblind_mu_pro:
   extends: .NRProcess
@@ -124,23 +124,23 @@ NR_unblind_xsec_pro:
     - branches
     - tags
 
-NR_all_pro_stat:
-  extends: .NRProcess
-  variables:
-    output_dir: output_stat
-    mini_option: minimizer_options_robust_stat.json
-    #channel: bbbb,bbyy,bbtautau,bbll,bbVV,WWWW
-    channel: bbbb,bbyy,bbtautau
-    other_options: ""
-
-NR_all_pro_stat_obs:
-  extends: .NRProcess
-  variables:
-    output_dir: output_stat_obs
-    mini_option: minimizer_options_robust_stat.json
-    #channel: bbbb,bbyy,bbtautau,bbll,bbVV,WWWW
-    channel: bbbb,bbyy,bbtautau
-    other_options: "--unblind"
+#NR_all_pro_stat:
+#  extends: .NRProcess
+#  variables:
+#    output_dir: output_stat
+#    mini_option: minimizer_options_robust_stat.json
+#    #channel: bbbb,bbyy,bbtautau,bbll,bbVV,WWWW
+#    channel: bbbb,bbyy,bbtautau
+#    other_options: ""
+#
+#NR_all_pro_stat_obs:
+#  extends: .NRProcess
+#  variables:
+#    output_dir: output_stat_obs
+#    mini_option: minimizer_options_robust_stat.json
+#    #channel: bbbb,bbyy,bbtautau,bbll,bbVV,WWWW
+#    channel: bbbb,bbyy,bbtautau
+#    other_options: "--unblind"
 
 ###################################
 ## Spin 0 Process channels       ##
@@ -216,7 +216,7 @@ Sp0_yy_pro:
   needs:
     - job: hhCompile
     #- job: NR_blind_pro
-    - job: NR_unblind_pro
+    #- job: NR_unblind_pro
     - job: NR_unblind_mu_pro
     - job: NR_unblind_xsec_pro
   allow_failure: true
@@ -230,34 +230,34 @@ Sp0_yy_pro:
     - master
     - CI
 
-# For CONF: xsec limit
-NR_TY_comb:
-  extends: .NRCombine_ws
-  variables:
-    input_dir: output_unblind
-    channels: bbtautau,bbyy
-    other_options: "--unblind"
+## For CONF: xsec limit
+#NR_TY_comb:
+#  extends: .NRCombine_ws
+#  variables:
+#    input_dir: output_unblind
+#    channels: bbtautau,bbyy
+#    other_options: "--unblind"
 
-NR_TY_comb_stat:
-  extends: .NRCombine_ws
-  needs:
-    - job: hhCompile
-    - job: NR_all_pro_stat
-  variables:
-    input_dir: output_stat
-    mini_option: minimizer_options_robust_stat.json
-    channels: bbtautau,bbyy
-
-NR_TY_comb_stat_obs:
-  extends: .NRCombine_ws
-  needs:
-    - job: hhCompile
-    - job: NR_all_pro_stat_obs
-  variables:
-    input_dir: output_stat_obs
-    mini_option: minimizer_options_robust_stat.json
-    channels: bbtautau,bbyy
-    other_options: "--unblind"
+#NR_TY_comb_stat:
+#  extends: .NRCombine_ws
+#  needs:
+#    - job: hhCompile
+#    - job: NR_all_pro_stat
+#  variables:
+#    input_dir: output_stat
+#    mini_option: minimizer_options_robust_stat.json
+#    channels: bbtautau,bbyy
+#
+#NR_TY_comb_stat_obs:
+#  extends: .NRCombine_ws
+#  needs:
+#    - job: hhCompile
+#    - job: NR_all_pro_stat_obs
+#  variables:
+#    input_dir: output_stat_obs
+#    mini_option: minimizer_options_robust_stat.json
+#    channels: bbtautau,bbyy
+#    other_options: "--unblind"
 
 #NR_TY_comb_blind:
 #  extends: .NRCombine_ws
@@ -437,10 +437,10 @@ Sp0_BT_comb_part6:
 NRPlot:
   extends: .plot
   needs:
-    - job: NR_TY_comb_stat
-    - job: NR_TY_comb_stat_obs
+    #- job: NR_TY_comb_stat
+    #- job: NR_TY_comb_stat_obs
     #- job: NR_TY_comb_blind
-    - job: NR_TY_comb
+    #- job: NR_TY_comb
     - job: NR_TY_comb_mu
     - job: NR_TY_comb_xsec
     #- job: NR_BTY_comb_blind

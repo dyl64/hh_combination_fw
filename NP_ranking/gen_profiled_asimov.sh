@@ -1,7 +1,10 @@
-for input in ../../../FullRun2Workspaces/batches/v140invfb_20210903_CI/output_mu_unblind/rescaled/nonres/bbyy/ \
-            ../../../FullRun2Workspaces/batches/v140invfb_20210903_CI/output_mu_unblind/rescaled/nonres/bbtautau/ \
-            ../../../FullRun2Workspaces/batches/v140invfb_20210903_CI/output_mu_unblind/combined/nonres/A-bbtautau_bbyy-fullcorr/ ;
+input_path=~/wis/HHcomb/output/v140invfb_20210915_CI
+for input in ${input_path}/output_mu_unblind/rescaled/nonres/bbyy/ \
+             ${input_path}/output_mu_unblind/rescaled/nonres/bbtautau/ \
+             ${input_path}/output_mu_unblind/combined/nonres/A-bbtautau_bbyy-fullcorr/ ;
 do
-    quickstats generate_asimov -i ${input}/0.root --poi xsec_br --poi_val 0.032776  --poi_profile 0.032776 --conditional_mle --globs_np_matching -o ${input}/cond_1_asimov_1.0.root --asimov_name cond_1_asimov_1
-    HHComb best_fit -i ${input}/cond_1_asimov_1.0.root -s conditionalGlobs_0.032776 -d cond_1_asimov_1
+    quickstats generate_standard_asimov -i ${input}/0.root -o ${input}/standard_asimov2_0.root --poi xsec_br --poi_scale 0.032776 --asimov_types 2
+    HHComb best_fit -i ${input}/asimov2_0.root -s asimovData_muhat_NP_Profile -d asimovData_muhat_NP_Profile
+    HHComb pvalue -i ${input}/standard_asimov2_0.root -d asimovData_muhat_NP_Profile  -s asimovData_muhat_NP_Profile
 done
+unset input_path
