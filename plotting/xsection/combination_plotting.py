@@ -440,6 +440,8 @@ def plot_nonres(args):
         print(df[columns][:-1])
     else:
         print(df[columns[:-2]])
+    print('Cross section scaled back to', args.norm)
+    print(df[['xsec_exp_NP_profiled', 'xsec_obs_NP_profiled']] * args.norm)
 
 def plot_nonres_from_df(args, df):
     fig, ax = plt.subplots(1, 1, figsize=(8, 7))

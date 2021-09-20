@@ -38,8 +38,7 @@ ANALYSES = ["nonres", "spin0"] if len(sys.argv) == 1 else [sys.argv[1]]
 
 CHANNELS = {
     "nonres": ["bbyy", "bbtautau", "combined"],
-#    "spin0": ["combined", "bbbb", "bbtautau", "bbyy"],
-    "spin0": ["combined"]
+    "spin0": ["combined", "bbbb", "bbtautau", "bbyy"],
 }
 MASSES = {
     "nonres":{
@@ -55,8 +54,7 @@ MASSES = {
         "bbyy":     ["300", "500", "1000"],
         "bbtautau": ["300", "500", "1000"],
         "bbbb":     ["300", "500", "1000"],
-        #"combined": ["251", "260", "280", "300", "350", "400", "500", "600", "700", "800", "900", "1000"],
-        "combined":["1100", "1200"],
+        "combined": ["251", "260", "280", "300", "350", "400", "500", "600", "700", "800", "900", "1000"],
     }
 }
 
