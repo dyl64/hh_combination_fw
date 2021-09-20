@@ -43,6 +43,7 @@ def process_channels(input_path, resonant_type, channels, outdir, do_better_band
     else:
         config = None
     redefine_parameters = config.get('redefine_parameters', None)
+    rescale_poi = config.get('rescale_poi', None)
     
     channels = channels.split(',')
     for channel in channels:
@@ -59,11 +60,16 @@ def process_channels(input_path, resonant_type, channels, outdir, do_better_band
             channel_redefine_parameters = redefine_parameters.get(channel, None)
         else:
             channel_redefine_parameters = None
+        if rescale_poi is not None:
+            channel_rescale_poi = rescale_poi.get(channel, None)
+        else:
+            channel_rescale_poi = None            
         pipeline = combiner.TaskPipelineWS(workspace_dir, outdir, resonant_type, channel, scaling_release,
                                           old_poi, new_poi, old_dataname, new_dataname, do_better_bands,
                                           cl, blind, mass_expr, param, new_method=new_method,
                                           verbose=verbose, minimizer_options=minimizer_options,
                                           redefine_parameters=channel_redefine_parameters, 
+                                          rescale_poi=channel_rescale_poi,
                                           parallel=parallel, file_format=file_format, cache=cache,
                                           do_limit=do_limit)
         pipeline.run_pipeline()
