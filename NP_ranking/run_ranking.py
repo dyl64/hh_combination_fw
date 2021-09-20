@@ -14,7 +14,7 @@ if sys.argv[1] in ['kl'] and sys.argv[2] not in ['0', '1', '2', '3']:
     exit()
 
 analysis = sys.argv[1]
-total_split = 1 if analysis == 'nonres' else 3 if analysis == 'spin0' else 4
+total_split = 1 if analysis == 'nonres' else 3 if analysis == 'spin0' else 6
 split = 0 if analysis == 'nonres' else int(sys.argv[2])
 
 dataset = "standard_asimov2_data" if analysis == 'nonres' else "observed_data"
