@@ -28,3 +28,7 @@ poi:
   bbVV: SigXsecOverSM
   WWWW: SigXsecOverSM
   combination: xsec_br
+rescale_poi:
+  bbyy: 0.032743
+  #(32.77/1)*(5.824/5.809)*(6.272/6.256)
+  bbtautau: 32.939
