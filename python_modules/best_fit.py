@@ -41,10 +41,14 @@ def best_fit(input_path, poi_name, dataset, parallel, snapshot, correlation):
 def _best_fit(input_file, poi_name, dataset, snapshot, correlation):
     poi_val = 0
     likelihood = Likelihood(input_file, data_name=dataset, poi_name=poi_name)
-    likelihood.evaluate(poi_val=poi_val, unconditional=True)
-    #result_free = evaluate_nll(input_file, poi_val, poi_name, strategy = 1, print_level = 1, unconditional=True, data=dataset, offset=False, detailed_output=True, snapshot=snapshot)
+    likelihood.evaluate(poi_val=poi_val, unconditional=True, snapshot_name=snapshot)
     nll_mu_free = likelihood.minNll
     poi = likelihood.poi
+
+    # analysis = AnalysisObject(input_file, data_name=dataset, poi_name=poi_name)
+    # poi = analysis.model.get_poi()
+    # analysis.minimizer.minimize()
+
     if correlation:
         threshold = 0
         df = _get_correlation(likelihood, threshold=threshold)
