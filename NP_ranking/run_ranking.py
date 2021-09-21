@@ -1,20 +1,24 @@
 import os
 import sys
+import math
 from pdb import set_trace
 
-if sys.argv[1] not in ['nonres', 'spin0']:
+if sys.argv[1] not in ['nonres', 'spin0', 'kl']:
     print('Usage: python', sys.argv[0], 'nonres|spin0', '0|1|2')
     exit()
-if sys.argv[1] == 'spin0' and sys.argv[2] not in ['0', '1', '2']:
-    print('Usage: python', sys.argv[0], 'nonres|spin0', '0|1|2')
+if sys.argv[1] in ['spin0'] and sys.argv[2] not in ['0', '1', '2']:
+    print('Usage: python', sys.argv[0], 'spin0', '0|1|2')
+    exit()
+if sys.argv[1] in ['kl'] and sys.argv[2] not in ['0', '1', '2', '3']:
+    print('Usage: python', sys.argv[0], 'kl', '0|1|2|3')
     exit()
 
 analysis = sys.argv[1]
-total_split = 1 if analysis == 'nonres' else 3
+total_split = 1 if analysis == 'nonres' else 3 if analysis == 'spin0' else 6
 split = 0 if analysis == 'nonres' else int(sys.argv[2])
 
 dataset = "standard_asimov2_data" if analysis == 'nonres' else "observed_data"
-profiled_snapshot = 'conditionalGlobs_0.032776' if analysis == 'nonres' else ''
+profiled_snapshot = 'asimovData_muhat_NP_Profile' if analysis == 'nonres' else ''
 
 extra_options = {
     "exclude": "\"gamma_*,nbkg*,BKG*,xi*,ATLAS_norm*,NORM_*\"",
@@ -33,7 +37,8 @@ DATASET_NAMES = {
 }
 WS_BASE_PATH = {
     "nonres": "/afs/cern.ch/user/z/zhangr/wis/HHcomb/output/v140invfb_20210915_CI/output_mu_unblind/",
-    "spin0": "/afs/cern.ch/user/z/zhangr/wis/HHcomb/output/v140invfb_20210915_CI/output/"
+    "spin0": "/afs/cern.ch/user/z/zhangr/wis/HHcomb/output/v140invfb_20210915_CI/output/",
+    "kl": "/afs/cern.ch/work/c/chlcheng/public/HHComb/output_klscan_16_09_2021/",
 }
 
 CURRENT_DIR = 'NP_ranking'
@@ -51,11 +56,18 @@ WS_SUB_PATH = {
         "bbbb": "rescaled/spin0/bbbb/{mass}.root",
         "combined": "combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/{mass}.root",
         "combined2": "combined/spin0/A-bbbb_bbtautau-fullcorr/{mass}.root"
-    }
+    },
+    "kl": {
+        "bbyy": "rescaled/nonres/bbyy/{mass}.root",
+        "bbtautau": "rescaled/nonres/bbtautau/{mass}.root",
+        "bbbb": "rescaled/nonres/bbbb/{mass}.root",
+        "combined": "combined/nonres/A-bbtautau_bbyy-fullcorr/{mass}.root"
+    },
 }
 CHANNELS = {
     "nonres": ["bbyy", "bbtautau", "combined"],
-    "spin0": ["combined", "combined2", "bbbb", "bbtautau", "bbyy"]
+    "spin0": ["combined", "combined2", "bbbb", "bbtautau", "bbyy"],
+    "kl": ["bbyy", "bbtautau", "combined"],
 }
 MASSES = {
     "nonres":{
@@ -67,15 +79,20 @@ MASSES = {
         "bbyy":     ["300", "500", "1000"],
         "bbtautau": ["300", "500", "1000"],
         "bbbb":     ["300", "500", "1000"],
-        "combined2":     ["1100", "1200"],
+        "combined2":["1100", "1200"],
         "combined": ["251", "260", "280", "300", "350", "400", "500", "600", "700", "800", "900", "1000"]
-    }
+    },
+    "kl": {
+        "bbyy":     ["0_kl_n5p0", "0_kl_n4p0", "0_kl_n3p0", "0_kl_n2p0", "0_kl_n1p0", "0_kl_0p0", "0_kl_1p0", "0_kl_2p0", "0_kl_3p0", "0_kl_4p0", "0_kl_5p0"],
+        "bbtautau": ["0_kl_n5p0", "0_kl_n4p0", "0_kl_n3p0", "0_kl_n2p0", "0_kl_n1p0", "0_kl_0p0", "0_kl_1p0", "0_kl_2p0", "0_kl_3p0", "0_kl_4p0", "0_kl_5p0"],
+        "combined": ["0_kl_n5p0", "0_kl_n4p0", "0_kl_n3p0", "0_kl_n2p0", "0_kl_n1p0", "0_kl_0p0", "0_kl_1p0", "0_kl_2p0", "0_kl_3p0", "0_kl_4p0", "0_kl_5p0"],
+    },
 }
 
 
 for channel in CHANNELS[analysis]:
     masses = MASSES[analysis][channel]
-    n_mass_per_split = len(masses)//total_split
+    n_mass_per_split = math.ceil(len(masses)/total_split)
     mass_to_run = masses[n_mass_per_split*split:n_mass_per_split*(split+1)]
     for mass in mass_to_run:
         #print("INFO: Running analysis={}, channel={}, mass={}".format(analysis, channel, mass))
@@ -83,9 +100,12 @@ for channel in CHANNELS[analysis]:
         data_name = DATASET_NAMES[dataset]
         if analysis == 'nonres':
             output_path = os.path.join(WS_BASE_PATH[analysis], CURRENT_DIR, dataset, analysis, channel, "pulls")
-        else:
+        elif analysis == 'spin0':
             output_path = os.path.join(WS_BASE_PATH[analysis], CURRENT_DIR, dataset, analysis, channel, mass, "pulls")
-        cmd = "quickstats run_pulls -i {} -d {} -x {} -o {} --parallel 6 --cache --batch_mode ".format(
+        else:
+            #output_path = os.path.join('/tmp/zhangr/kl/', CURRENT_DIR, dataset, analysis, channel, mass, "pulls")
+            output_path = os.path.join(CURRENT_DIR, dataset, analysis, channel, mass, "pulls")
+        cmd = "quickstats run_pulls -i {} -d {} -x {} -o {} --parallel 10 --cache --batch_mode ".format(
             ws_path, data_name, POI_NAME, output_path)
         cmd += " ".join(["--{} {}".format(k,v) for k,v in extra_options.items()])
         print(" ".join(["Arguments = run_pulls", ws_path, data_name, POI_NAME, output_path, '\nQueue 1']))

@@ -7,26 +7,30 @@ if len(sys.argv) > 1:
 else:
     CURRENT_DIR = os.getcwd() + '/../../output/NP_ranking/'
 
-if sys.argv[1] not in ['nonres', 'spin0']:
-    print('Usage: python', sys.argv[0], 'nonres|spin0')
+if sys.argv[1] not in ['nonres', 'spin0', 'kl']:
+    print('Usage: python', sys.argv[0], 'nonres|spin0|kl')
     exit()
 
 np_map = {
     "nonres": "../configs/np_map_nonres_v6.json",
-    "spin0": "../configs/np_map_spin0_v7.json"
+    "spin0": "../configs/np_map_spin0_v7.json",
+    "kl": "../configs/np_map_nonres_kl.json"
 }
 
 OUTNAME = {
     "nonres": "NP_ranking_nonres_{channel}",
-    "spin0": "NP_ranking_spin0_{channel}_{mass}"}
+    "spin0": "NP_ranking_spin0_{channel}_{mass}",
+    "kl": "NP_ranking_kl_{channel}_{mass}"
+    }
 POI_NAME = "xsec_br"
 
-ANALYSES = ["nonres", "spin0"] if len(sys.argv) == 1 else [sys.argv[1]]
+ANALYSES = ["nonres", "spin0", "kl"] if len(sys.argv) == 1 else [sys.argv[1]]
 
 
 CHANNELS = {
     "nonres": ["bbyy", "bbtautau"],
-    "spin0": ["bbbb", "bbtautau", "bbyy"]
+    "spin0": ["bbbb", "bbtautau", "bbyy"],
+    "kl": ["bbyy", "bbtautau"],
 }
 MASSES = {
     "nonres":{
@@ -41,7 +45,12 @@ MASSES = {
         "bbbb":     ["300", "500", "1000"],
         "combined": ["251", "260", "280", "300", "350", "400", "500", "600", "700", "800", "900", "1000"],
         "combined2": ["1100", "1200"],
-    }
+    },
+    "kl": {
+        "bbyy":     ["0_kl_n5p0", "0_kl_n4p0", "0_kl_n3p0", "0_kl_n2p0", "0_kl_n1p0", "0_kl_0p0", "0_kl_1p0", "0_kl_2p0", "0_kl_3p0", "0_kl_4p0", "0_kl_5p0"],
+        "bbtautau": ["0_kl_n5p0", "0_kl_n4p0", "0_kl_n3p0", "0_kl_n2p0", "0_kl_n1p0", "0_kl_0p0", "0_kl_1p0", "0_kl_2p0", "0_kl_3p0", "0_kl_4p0", "0_kl_5p0"],
+        "combined": ["0_kl_n5p0", "0_kl_n4p0", "0_kl_n3p0", "0_kl_n2p0", "0_kl_n1p0", "0_kl_0p0", "0_kl_1p0", "0_kl_2p0", "0_kl_3p0", "0_kl_4p0", "0_kl_5p0"],
+    },
 }
 
 from pdb import set_trace
