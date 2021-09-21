@@ -495,25 +495,25 @@ NRPlot:
     #- job: NR_N-WW_comb_blind
     #- job: NR_ALL6_comb_stat
   variables:
-    input_unblind_dir: output_unblind
+    input_unblind_dir: output_xsec_unblind
     input_mu_unblind_dir: output_mu_unblind
-    input_unblind_dir_mH: output_unblind_mH
+    input_unblind_dir_mH: output_xsec_unblind_mH
     input_mu_unblind_dir_mH: output_mu_unblind_mH
     input_blind_dir: output_blind
     #input_stat_dir: output_stat
   script:
     # Plot nonres xsec
-    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json
-    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json
-    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir_mH/limits/root-files/nonres/*/0.json $input_unblind_dir_mH/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json
-    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir_mH/limits/root-files/nonres/*/0.json $input_unblind_dir_mH/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json
+    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind
+    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind
+    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir_mH/limits/root-files/nonres/*/0.json $input_unblind_dir_mH/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind
+    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir_mH/limits/root-files/nonres/*/0.json $input_unblind_dir_mH/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind
 
     # Plot nonres signal strength (mu)
-    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_mu_unblind_dir/limits/root-files/nonres/*/0.json $input_mu_unblind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json -mu
-    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_mu_unblind_dir/limits/root-files/nonres/*/0.json $input_mu_unblind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json -mu
+    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_mu_unblind_dir/limits/root-files/nonres/*/0.json $input_mu_unblind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind
+    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_mu_unblind_dir/limits/root-files/nonres/*/0.json $input_mu_unblind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind
     # Plot nonres signal strength (mu_mH)
-    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_mu_unblind_dir_mH/limits/root-files/nonres/*/0.json $input_mu_unblind_dir_mH/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json -mu
-    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_mu_unblind_dir_mH/limits/root-files/nonres/*/0.json $input_mu_unblind_dir_mH/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind -s $input_stat_dir/limits/root-files/nonres/bb[ty]*/0.json $input_stat_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json -mu
+    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_mu_unblind_dir_mH/limits/root-files/nonres/*/0.json $input_mu_unblind_dir_mH/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind
+    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_mu_unblind_dir_mH/limits/root-files/nonres/*/0.json $input_mu_unblind_dir_mH/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind
 
     ## Plot nonres blinded
     #- echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_blind_dir/limits/root-files/nonres/*/0.json $input_blind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json
@@ -572,7 +572,7 @@ Artifacts:
     output: output
     #output_FT: output_FT
     #output_blind_dir: output_blind
-    output_unblind_dir: output_unblind
+    #output_unblind_dir: output_unblind
     output_mu_unblind_dir: output_mu_unblind
     output_xsec_unblind_dir: output_xsec_unblind
     output_mu_unblind_dir_mH: output_mu_unblind_mH
@@ -591,10 +591,10 @@ Artifacts:
       - $output
       #- $output_FT
       #- $output_blind_dir
-      - $output_unblind_dir
+      #- $output_unblind_dir
       - $output_mu_unblind_dir
       - $output_xsec_unblind_dir
       - $output_mu_unblind_dir_mH
       - $output_xsec_unblind_dir_mH
-      - $output_stat_dir
-      - $output_stat_obs_dir
+      #- $output_stat_dir
+      #- $output_stat_obs_dir
