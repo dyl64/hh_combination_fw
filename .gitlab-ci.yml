@@ -245,8 +245,10 @@ NR_unblind_xsec_pro_mH:
     - job: hhCompile
     #- job: NR_blind_pro
     #- job: NR_unblind_pro
-    - job: NR_unblind_mu_pro
-    - job: NR_unblind_xsec_pro
+    #- job: NR_unblind_mu_pro
+    #- job: NR_unblind_xsec_pro
+    - job: NR_unblind_mu_pro_mH
+    - job: NR_unblind_xsec_pro_mH
   allow_failure: true
   script:
     - echo HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options --scheme configs/np_map_nonres_v6.json
