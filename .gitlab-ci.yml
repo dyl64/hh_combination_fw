@@ -490,6 +490,8 @@ NRPlot:
     #- job: NR_TY_comb
     - job: NR_TY_comb_mu
     - job: NR_TY_comb_xsec
+    - job: NR_TY_comb_mu_mH
+    - job: NR_TY_comb_xsec_mH
     #- job: NR_BTY_comb_blind
     #- job: NR_ALL6_comb_blind
     #- job: NR_N-ll_comb_blind
