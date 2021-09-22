@@ -434,14 +434,18 @@ def plot_nonres(args):
     out_path = get_output_folder(args)
     fullcorr = corr_or_not(args)
     df.to_csv(f'{out_path}/upperlimit_xsec_{args.command}_{"json" if new_method else "dat"}_{"obs" if args.unblind else "exp"}_{"fullcorr" if fullcorr else "nocorr"}{"_mu" if args.mu else ""}.csv')
-    if 'obs_stat' in df:
-        print(df[columns])
-    elif 'exp_stat' in df:
-        print(df[columns][:-1])
+    if args.mu:
+        print('Get signal strength limit')
+        print((df[['xsec_exp_NP_profiled', 'xsec_obs_NP_profiled']]).to_latex())
+        #if 'obs_stat' in df:
+        #    print(df[columns].to_latex())
+        #elif 'exp_stat' in df:
+        #    print(df[columns][:-1].to_latex())
+        #else:
+        #    print(df[columns[:-2]].to_latex())
     else:
-        print(df[columns[:-2]])
-    print('Cross section scaled back to', args.norm)
-    print(df[['xsec_exp_NP_profiled', 'xsec_obs_NP_profiled']] * args.norm)
+        print('Cross section scaled back to', args.norm)
+        print((df[['xsec_exp_NP_profiled', 'xsec_obs_NP_profiled']] * args.norm).to_latex())
 
 def plot_nonres_from_df(args, df):
     fig, ax = plt.subplots(1, 1, figsize=(8, 7))
@@ -539,6 +543,10 @@ def plot_nonres_from_df(args, df):
         process = 'ggF'
     elif args.norm == 31.05 + 1.726:
         process = 'ggF+VBF'
+    elif args.norm == 31.02 + 1.723:
+        process = 'ggF+VBF'
+    else:
+        assert(False), 'Unknown norm {}'.format(args.norm)
 
     # x-axis title
     xlabel = '95% ' + r'CL upper limit on $\sigma_{\mathrm{%s}}$ ($\mathrm{pp} \rightarrow \mathrm{HH}$)''\n'r'normalised to $\sigma^\mathrm{{SM}}_\mathrm{{%s}}$' % (process, process)

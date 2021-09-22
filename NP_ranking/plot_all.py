@@ -16,11 +16,11 @@ if len(sys.argv) > 1:
 else:
     CURRENT_DIR = os.getcwd() + '/../../output/NP_ranking/'
 
-if sys.argv[1] not in ['nonres', 'spin0']:
+if sys.argv[1] not in ['nonres', 'spin0', 'kl']:
     print('Usage: python', sys.argv[0], 'nonres|spin0', '0|1|2')
     exit()
-if sys.argv[1] == 'spin0' and sys.argv[2] not in ['0', '1', '2']:
-    print('Usage: python', sys.argv[0], 'nonres|spin0', '0|1|2')
+if sys.argv[1] in ['spin0', 'kl'] and sys.argv[2] not in ['0', '1', '2']:
+    print('Usage: python', sys.argv[0], sys.argv[1], '0|1|2')
     exit()
 
 analysis = sys.argv[1]
@@ -32,6 +32,7 @@ dataset = "standard_asimov2_data" if analysis == 'nonres' else "observed_data"
 OUTNAME = {
     "nonres": "NP_ranking_nonres_{channel}",
     "spin0": "NP_ranking_spin0_{channel}_{mass}"}
+    "kl": "NP_ranking_kl_{channel}_{mass}"}
 POI_NAME = "xsec_br"
 
 ANALYSES = ["nonres", "spin0"] if len(sys.argv) == 1 else [sys.argv[1]]
@@ -39,6 +40,7 @@ ANALYSES = ["nonres", "spin0"] if len(sys.argv) == 1 else [sys.argv[1]]
 CHANNELS = {
     "nonres": ["bbyy", "bbtautau", "combined"],
     "spin0": ["combined", "bbbb", "bbtautau", "bbyy"],
+    "kl": ["bbyy", "bbtautau", "combined"],
 }
 MASSES = {
     "nonres":{
@@ -55,7 +57,12 @@ MASSES = {
         "bbtautau": ["300", "500", "1000"],
         "bbbb":     ["300", "500", "1000"],
         "combined": ["251", "260", "280", "300", "350", "400", "500", "600", "700", "800", "900", "1000"],
-    }
+    },
+    "kl": {
+        "bbyy":     ["0_kl_n5p0", "0_kl_n4p0", "0_kl_n3p0", "0_kl_n2p0", "0_kl_n1p0", "0_kl_0p0", "0_kl_1p0", "0_kl_2p0", "0_kl_3p0", "0_kl_4p0", "0_kl_5p0"],
+        "bbtautau": ["0_kl_n5p0", "0_kl_n4p0", "0_kl_n3p0", "0_kl_n2p0", "0_kl_n1p0", "0_kl_0p0", "0_kl_1p0", "0_kl_2p0", "0_kl_3p0", "0_kl_4p0", "0_kl_5p0"],
+        "combined": ["0_kl_n5p0", "0_kl_n4p0", "0_kl_n3p0", "0_kl_n2p0", "0_kl_n1p0", "0_kl_0p0", "0_kl_1p0", "0_kl_2p0", "0_kl_3p0", "0_kl_4p0", "0_kl_5p0"],
+    },
 }
 
 
