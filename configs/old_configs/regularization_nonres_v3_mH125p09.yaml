@@ -1,0 +1,34 @@
+dataset:
+  bbbb:
+    blind: obsData
+    unblind: obsData
+  bbtautau:
+    blind: obsData
+    unblind: obsData
+  bbyy:
+    blind: combData
+    unblind: combData
+  bbll:
+    blind: obsData
+    unblind: obsData
+  bbVV:
+    blind: obsData
+    unblind: obsData
+  WWWW:
+    blind: asimovData
+    unblind: asimovData
+  combination:
+    blind: combData
+    unblind: combData
+poi:
+  bbbb: mu
+  bbtautau: SigXsecOverSM
+  bbyy: mu_XS_HH
+  bbll: mu_SIG
+  bbVV: SigXsecOverSM
+  WWWW: SigXsecOverSM
+  combination: xsec_br
+rescale_poi:
+  bbyy: 0.032743
+  #(32.776/1)*(5.824/5.809)*(6.272/6.256)
+  bbtautau: 32.944677

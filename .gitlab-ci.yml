@@ -85,8 +85,8 @@ hhCompile:
     mHscale: mH125
   allow_failure: true
   script:
-    - echo HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_nonres_v3_${mHscale}.yaml $other_options
-    - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_nonres_v3_${mHscale}.yaml $other_options
+    - echo HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_nonres_v4_${mHscale}.yaml $other_options
+    - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_nonres_v4_${mHscale}.yaml $other_options
 
 #NR_blind_pro:
 #  extends: .NRProcess
