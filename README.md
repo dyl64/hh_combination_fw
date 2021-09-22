@@ -73,9 +73,9 @@ You can download the whole output from the `Download` botton.
 
 ## Run kappa-lambda scan
 ```
-HHComb process_channels_new -i <input_ws_directory> -o <output_directory> -r nonres -c bbyy,bbtautau  --new_method --config ../configs/regularization_nonres_v3.yaml --file_fo
+HHComb process_channels -i <input_ws_directory> -o <output_directory> -r nonres -c bbyy,bbtautau  --new_method --config ../configs/regularization_nonres_v3.yaml --file_fo
 
-HHComb combine_ws_new -i <output_directory> -r nonres -c bbyy,bbtautau --scheme ../configs/np_map_nonres_kl.json --unblind --config ../configs/regularization_nonres_v3.yaml -
+HHComb combine_ws -i <output_directory> -r nonres -c bbyy,bbtautau --scheme ../configs/np_map_nonres_kl.json --unblind --config ../configs/regularization_nonres_v3.yaml -
 ```
 
 ## Run pulls and impact
