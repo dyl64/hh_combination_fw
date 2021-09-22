@@ -1,0 +1,49 @@
+dataset:
+  bbbb:
+    blind: obsData
+    unblind: obsData
+  bbtautau:
+    blind: obsData
+    unblind: obsData
+  bbyy:
+    blind: combData
+    unblind: combData
+  bbll:
+    blind: obsData
+    unblind: obsData
+  bbVV:
+    blind: obsData
+    unblind: obsData
+  WWWW:
+    blind: asimovData
+    unblind: asimovData
+  combination:
+    blind: combData
+    unblind: combData
+poi:
+  bbbb: mu
+  bbtautau: SigXsecOverSM
+  bbyy: mu_XS_HH
+  bbll: mu_SIG
+  bbVV: SigXsecOverSM
+  WWWW: SigXsecOverSM
+  combination: xsec_br
+rescale_poi:
+  bbyy: 0.032743
+  bbtautau: 32.776
+redefine_parameters:
+  bbyy:
+    # these are Hbb br, XS taken by rescale_poi
+    mu_XS_HH_ggF: 0.9974244505494505
+    mu_XS_HH_VBF: 0.9974244505494505
+    # these are single H XS without br since Hyy br doesn't depend on mH
+    mu_XS_VBF: 0.9992067689053411
+    mu_XS_WH: 0.997449664430
+    mu_XS_ZH: 0.9983139394356
+    mu_XS_ggH: 0.9986814217004973
+    mu_XS_tHjb: 1.0000778
+    mu_XS_ttH: 0.9988168014198382
+    mHNom_SM_1: 125
+    mHNom_SM_2: 125
+    mHNom_BSM_1: 125
+    mHNom_BSM_2: 125

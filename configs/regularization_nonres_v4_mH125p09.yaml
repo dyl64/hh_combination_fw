@@ -1,0 +1,58 @@
+dataset:
+  bbbb:
+    blind: obsData
+    unblind: obsData
+  bbtautau:
+    blind: obsData
+    unblind: obsData
+  bbyy:
+    blind: combData
+    unblind: combData
+  bbll:
+    blind: obsData
+    unblind: obsData
+  bbVV:
+    blind: obsData
+    unblind: obsData
+  WWWW:
+    blind: asimovData
+    unblind: asimovData
+  combination:
+    blind: combData
+    unblind: combData
+poi:
+  bbbb: mu
+  bbtautau: SigXsecOverSM
+  bbyy: mu_XS_HH
+  bbll: mu_SIG
+  bbVV: SigXsecOverSM
+  WWWW: SigXsecOverSM
+  combination: xsec_br
+rescale_poi:
+  bbyy: 0.032743
+  #(32.776/1)*(5.824/5.809)*(6.272/6.256)
+  bbtautau: 32.944677
+redefine_parameters:
+  bbtautau:
+    # these are Htautau br, XS taken by rescale_poi
+    ATLAS_norm_VBFHtautau: 1.002557545
+    ATLAS_norm_ggFHtautau: 1.002557545
+    # these are single H XS Htautau br (1.002557545) or Hbb br (1.0025822)
+    # https://twiki.cern.ch/twiki/bin/view/LHCPhysics/CERNYellowReportPageAt13TeV#ppZH_Total_Cross_Section_with_ap
+    #        ZH      ggZH    qqZH
+    #125.00  0.8839  0.1227  0.7612
+    #125.09  0.8824  0.1227  0.7597
+    #ATLAS_norm_qqZHbb: 1.00197446 * 1.0025822
+    #ATLAS_norm_ggZHbb: 1. * 1.0025822
+    #ATLAS_norm_ttH: 1.0011846 * 1.0025822
+    #ATLAS_norm_WHbb: 1.0025569 * 1.0025822
+    #ATLAS_norm_qqZHtautau: 1.00197446 * 1.002557545
+    #ATLAS_norm_ggZHtautau: 1. * 1.002557545
+    #ATLAS_norm_WHtautau: 1.0025569 * 1.002557545
+    ATLAS_norm_qqZHbb: 1.0045618
+    ATLAS_norm_ggZHbb: 1.0025822
+    ATLAS_norm_ttH: 1.0037699
+    ATLAS_norm_WHbb: 1.0051457
+    ATLAS_norm_qqZHtautau: 1.0045371
+    ATLAS_norm_ggZHtautau: 1.002557545
+    ATLAS_norm_WHtautau: 1.0051210
