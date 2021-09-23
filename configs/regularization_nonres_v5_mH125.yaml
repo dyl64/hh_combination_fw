@@ -40,10 +40,10 @@ redefine_parameters:
     mu_XS_HH_ggF: 1.0035518
     mu_XS_HH_VBF: 1.0043278
     # these are single H XS without br since Hyy br doesn't depend on mH @125/@125.09
+    mu_XS_ggH: 1.0012985
     mu_XS_VBF: 1.0007939
     mu_XS_WH: 1.0025569
     mu_XS_ZH: 1.0016889
-    mu_XS_ggH: 1.0013203
     mu_XS_tHjb: 0.99992221
     mu_XS_ttH: 1.0011846
     mHNom_SM_1: 125
