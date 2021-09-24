@@ -37,9 +37,9 @@ redefine_parameters:
   bbtautau:
     # to be implemented once HH NF are ready
     #ATLAS_norm_hhttbb: (6.256/6.272)*(5.809/5.824) * 31.02/31.05 = 0.99391876
-    #ATLAS_norm_VBFhhttbb: (6.256/6.272)*(5.809/5.824) * 1.723/1.726 = 0.99315078
+    #ATLAS_norm_hhttbbVBF: (6.256/6.272)*(5.809/5.824) * 1.723/1.726 = 0.99315078
     ATLAS_norm_hhttbb: 0.99391876
-    ATLAS_norm_VBFhhttbb: 0.99315078
+    ATLAS_norm_hhttbbVBF: 0.99315078
 
     #ATLAS_norm_VBFHtautau: 1/1.0012985 * 0.99744898 = 0.99615547
     #ATLAS_norm_ggFHtautau: 1/1.0007939 * 0.99744898 = 0.99665773
