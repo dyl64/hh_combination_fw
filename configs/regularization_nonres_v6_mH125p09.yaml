@@ -30,14 +30,16 @@ poi:
   combination: xsec_br
 rescale_poi:
   bbyy: 0.032743
-  # to be changed to 32.776 once HH NF are ready
+  # changed to 32.776 (32.743) since HH NF are ready
   #(32.776/1)*(5.824/5.809)*(6.272/6.256) = 32.944677
-  bbtautau: 32.944677
+  bbtautau: 32.743
 redefine_parameters:
   bbtautau:
     # to be implemented once HH NF are ready
-    #ATLAS_norm_VBFHHtautau: (6.256/6.272)*(5.809/5.824) * 31.02/31.05 = 0.99391876
-    #ATLAS_norm_ggFHHtautau: (6.256/6.272)*(5.809/5.824) * 1.723/1.726 = 0.99315078
+    #ATLAS_norm_hhttbb: (6.256/6.272)*(5.809/5.824) * 31.02/31.05 = 0.99391876
+    #ATLAS_norm_VBFhhttbb: (6.256/6.272)*(5.809/5.824) * 1.723/1.726 = 0.99315078
+    ATLAS_norm_hhttbb: 0.99391876
+    ATLAS_norm_VBFhhttbb: 0.99315078
 
     #ATLAS_norm_VBFHtautau: 1/1.0012985 * 0.99744898 = 0.99615547
     #ATLAS_norm_ggFHtautau: 1/1.0007939 * 0.99744898 = 0.99665773
