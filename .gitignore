@@ -30,7 +30,4 @@ notebooks/
 output/
 **/*.pdf
 .__*
-/input
-/setup2.sh
-/test_commands.sh
 .ipynb_checkpoints

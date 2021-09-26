@@ -81,12 +81,12 @@ hhCompile:
   variables:
     output_dir: output
     mini_option: minimizer_options_robust_mu.json
-    version: 20210914
+    version: 20210922
     mHscale: mH125
   allow_failure: true
   script:
-    - echo HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_nonres_v4_${mHscale}.yaml $other_options
-    - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_nonres_v4_${mHscale}.yaml $other_options
+    - echo HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_nonres_v6_${mHscale}.yaml $other_options
+    - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_nonres_v6_${mHscale}.yaml $other_options
 
 #NR_blind_pro:
 #  extends: .NRProcess
@@ -119,7 +119,7 @@ NR_unblind_xsec_pro:
   variables:
     output_dir: output_xsec_unblind
     mini_option: minimizer_options_robust.json
-    version: 20210914_xsec
+    version: 20210922_xsec
     channel: bbyy,bbtautau
     other_options: "--unblind"
     mHscale: mH125
@@ -144,7 +144,7 @@ NR_unblind_xsec_pro_mH:
   variables:
     output_dir: output_xsec_unblind_mH
     mini_option: minimizer_options_robust.json
-    version: 20210914_xsec
+    version: 20210922_xsec
     channel: bbyy,bbtautau
     other_options: "--unblind"
     mHscale: mH125p09
@@ -179,7 +179,7 @@ NR_unblind_xsec_pro_mH:
     output_dir: output
     mini_option: minimizer_options_robust_mu.json
     config: regularization_spin0_v3.yaml
-    version: 20210914
+    version: 20210922
     other_options: "--unblind"
   allow_failure: true
   script:
