@@ -164,8 +164,8 @@ def main(args):
     {
         'combined': 'k',
         'bbbb': 'b',
-        'bbtautau': '#9A0EEA',
-        'bbyy': 'r',
+        'bbtautau': '#008F00', # 'bbtautau:green',
+        'bbyy': '#9A0EEA', # 'bbtautau:purple',
     }
     
     label_maps = \
