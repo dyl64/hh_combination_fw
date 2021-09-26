@@ -223,6 +223,8 @@
     "gamma_stat_resolved_4b_2018_bin_9": "gamma_stat_resolved_4b_2018_bin_9"
   },
   "bbtautau": {
+    "alpha_ATLAS_KLAMBDA_REWEIGHTING_HH_ggF": "ATLAS_KLAMBDA_REWEIGHTING_HH_ggF",
+    "alpha_ATLAS_LC_CLOSURE_VBFSMHH": "ATLAS_LC_CLOSURE_VBFSMHH",
     "ATLAS_norm_Zhf": "NORM_bbtautau_Zhf",
     "ATLAS_norm_ttbar": "NORM_bbtautau_ttbar",
     "alpha_ATLAS_LUMI_Run2": "ATLAS_LUMI_Run2",
