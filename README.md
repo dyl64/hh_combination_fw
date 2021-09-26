@@ -73,9 +73,11 @@ You can download the whole output from the `Download` botton.
 
 ## Run kappa-lambda scan
 ```
-HHComb process_channels -i <input_ws_directory> -o <output_directory> -r nonres -c bbyy,bbtautau  --new_method --config ../configs/regularization_nonres_v3.yaml --file_fo
+# HHComb process_channels -i ~/work/HHcomb/FullRun2Workspaces/original/20210922/ -o output_directory_v4 -r nonres -c bbtautau  --new_method --config configs/regularization_nonres_v6_mH125p09.yaml --file_format "<mass[F]>_kl_1p0" --unblind
 
-HHComb combine_ws -i <output_directory> -r nonres -c bbyy,bbtautau --scheme ../configs/np_map_nonres_kl.json --unblind --config ../configs/regularization_nonres_v3.yaml -
+HHComb process_channels --new_method -i <input_ws_directory> -o <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_nonres_v6_mH125.yaml --file_format "<mass[F]>_kl_<kl[P]>" --unblind
+
+HHComb combine_ws --new_method -i <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --scheme configs/np_map_nonres_kl.json --file_format "<mass[F]>_kl_<kl[P]>" --unblind
 ```
 
 ## Run pulls and impact
@@ -107,9 +109,9 @@ python harmonise_name.py nonres <input_folder>
 ## Run p-value
 ```
 # 
-HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/1100.root
+HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210924_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/1100.root
 ## to run all *.root files in parallel:
-HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr
+HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210924_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr
 ```
 To run expected p-value:
 ```
@@ -117,8 +119,8 @@ To run expected p-value:
 #HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr --expected [0|1]
 
 # use type=2 to profile best-fit NPs with POI floated and generate asimov; then load the best-fit NP values to globs via `conditionalGlobs_None` and calculate p-value
-quickstats generate_standard_asimov -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210903_CI/output_mu_unblind/rescaled/nonres/bbtautau/0.root -o /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210903_CI/output_mu_unblind/rescaled/nonres/bbtautau/asimov2_0.root --poi xsec_br --poi_scale 0.032776 --asimov_types 2
-HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210903_CI/output_mu_unblind/rescaled/nonres/bbtautau/asimov2_0.root -d asimovData_muhat_NP_Profile  -s conditionalGlobs_None
+quickstats generate_standard_asimov -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210924_CI/output_mu_unblind/rescaled/nonres/bbtautau/0.root -o /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210924_CI/output_mu_unblind/rescaled/nonres/bbtautau/asimov2_0.root --poi xsec_br --poi_scale 0.032776 --asimov_types 2
+HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210924_CI/output_mu_unblind/rescaled/nonres/bbtautau/asimov2_0.root -d asimovData_muhat_NP_Profile  -s conditionalGlobs_None
 ```
 
 ## Quick fit
