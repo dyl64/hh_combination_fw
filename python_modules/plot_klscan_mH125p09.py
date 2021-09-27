@@ -405,11 +405,5 @@ def plot_kl_scan(input_path):
                     (limits_ak_df_bbtautau,r"$b\bar{b} \tau \tau$"),
                     (limits_ak_df_combined,"Combined"))
 
-
-@click.group()
-def cli():
-    pass
-
 if __name__ == "__main__":
-    cli.add_command(plot_kl_scan)
-    cli()    
+    plot_kl_scan()   
