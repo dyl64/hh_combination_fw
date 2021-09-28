@@ -1,0 +1,23 @@
+#Agent jdl file
+Universe        = vanilla
+Notification    = Never
+initialdir      = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor
+Executable      = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor/wrapper_toys.sh
+GetEnv          = True
+Error           = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor/log/$(ClusterId).$(ProcId).err
+Log             = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor/log/$(ClusterId).$(ProcId).log
+Output          = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor/log/$(ClusterId).$(ProcId).out
+stream_output   = False
+stream_error    = False
+Requirements = ((Arch == "X86_64") && (regexp("CentOS7",OpSysAndVer)))
+WhenToTransferOutput = ON_EXIT_OR_EVICT
+OnExitRemove         = TRUE
++JobFlavour = "testmatch"
++JobType="analysis"
++AccountingGroup ="group_u_ATLASWISC.all"
+RequestCpus = 1
+Request_memory = 500 MB
+Request_disk   = 500 MB
+
+Arguments =  toy_limit /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_700_HMass_125p09.root combData 0.04104055330985253 0.18602536680765314 $(ClusterId)$(ProcId) toy_study/toy_resonant_700_HMass_125p09_seed_{seed}_batch_{batch}.root
+Queue 200
