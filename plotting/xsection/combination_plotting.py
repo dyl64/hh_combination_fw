@@ -128,9 +128,9 @@ def drawATLASlabel(fig, ax, lumi = r'27.5$-$139', internal=True, reg_text=None, 
             fontsize=fontsize_title, c=c)
 
     if xmin < 0.2:
-        lumi_label = '$\\sqrt{s} = $13 TeV, %s fb$^{-1}$' % (lumi)
+        lumi_label = '$\\sqrt{\\mathrm{s}} = $13 TeV, %s fb$^{-1}$' % (lumi)
     else:
-        lumi_label = '$\\sqrt{s} = $13 TeV'
+        lumi_label = '$\\sqrt{\\mathrm{s}} = $13 TeV'
         lumi_label += '\n'
         lumi_label += '%s fb$^{-1}$' % (lumi)
 
@@ -374,7 +374,7 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
     polish_ax(args, ax, fontsize)
 
     # y-axis title
-    ylabel = r'$\sigma$ ($\mathrm{pp} \rightarrow \mathrm{X} \rightarrow \mathrm{HH}$) [fb]'
+    ylabel = r'$\sigma$ ($\mathrm{X} \rightarrow \mathrm{HH}$) [fb]'
     try:
         ax.set_ylabel(ylabel, loc='top', fontsize=fontsize)
     except:

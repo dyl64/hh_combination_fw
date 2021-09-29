@@ -104,7 +104,7 @@ def plot_local_pvalue(input_paths, color_maps=None, label_maps=None,
                          figsize=(9, 7), 
                          text='',
                          xlabel=r"m$_X$ [GeV]",
-                         ylabel=r"Local p-value",
+                         ylabel=r"Local $p_{0}$-value",
                          save_as=None):
     plt.clf()
     fig = plt.figure(figsize=figsize)
@@ -179,7 +179,7 @@ def main(args):
     text = \
     """
     $\mathbf{ATLAS}$ Internal
-    $\sqrt{s} = $13 TeV, 126—139 fb$^{-1}$
+    $\sqrt{\mathrm{s}} = $13 TeV, 126—139 fb$^{-1}$
     """ + f"""Spin-0
     """
     
