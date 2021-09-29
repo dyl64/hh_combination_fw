@@ -103,7 +103,7 @@ def get_global_pvalue(input_paths, save_as=None):
 def plot_local_pvalue(input_paths, color_maps=None, label_maps=None,
                          figsize=(9, 7), 
                          text='',
-                         xlabel=r"m$_X$ [GeV]",
+                         xlabel=r"$\mathrm{m}_\mathrm{X}$ [GeV]",
                          ylabel=r"Local $p_{0}$-value",
                          save_as=None):
     plt.clf()
@@ -139,7 +139,7 @@ def plot_local_pvalue(input_paths, color_maps=None, label_maps=None,
     ax.tick_params(axis="x", which="minor", direction='in', top=True,length=6, width=1, labelsize=20)
     
     if save_as is not None:
-        plt.savefig(save_as)
+        plt.savefig(save_as, format='eps')
         print('Save to', save_as)
     return plt
 
@@ -184,7 +184,7 @@ def main(args):
     """
     
     plot_local_pvalue(input_paths, color_maps, label_maps, text=text,
-                         save_as=f"{args.output}/{args.analysis}_local_pvalue.pdf")
+                         save_as=f"{args.output}/{args.analysis}_local_pvalue.eps")
 
     get_global_pvalue(input_paths, save_as=f"{args.output}/{args.analysis}_global_pvalue.json")
 
