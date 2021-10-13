@@ -178,9 +178,9 @@ def main(args):
     
     text = \
     """
-    $\mathbf{ATLAS}$ Internal
+    $\mathbf{ATLAS}$ {}
     $\sqrt{\mathrm{s}} = $13 TeV, 126—139 fb$^{-1}$
-    """ + f"""Spin-0
+    """.format('Preliminary' if args.p else 'Internal') + f"""Spin-0
     """
     
     plot_local_pvalue(input_paths, color_maps, label_maps, text=text,
@@ -196,6 +196,7 @@ if __name__ == '__main__':
     parser.add_argument('-a', '--analysis', type=str, choices=['nonres_mu', 'nonres_xsec', 'nonres', 'spin0'], default=None, required=True, help='Analysis type')
     parser.add_argument('-i', '--input', type=str, default=None, required=True, help='Path to JSON')
     parser.add_argument('-o', '--output', type=str, default='.', required=False, help='Output path')
+    parser.add_argument('-p', action='store_true', default=False, required=False, help='')
 
     args = parser.parse_args()
     main(args)
