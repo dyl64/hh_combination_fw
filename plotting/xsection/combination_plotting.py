@@ -43,13 +43,13 @@ scenario_map = {
     f'Combined3': ('dummy', 1, 'black'),
     f'combined36': (r'Combined' + '\n' + r'27.5$-$36.1 fb$^{-1}$', 1, 'black'),
     f'bbbb': (r'$\mathrm{b\bar{b}b\bar{b}}$', 11, 'b'),
-    f'bbtautau': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$', 12, '#9A0EEA'),
+    f'bbtautau': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$', 12, 'bbtautau:green'),
     f'bbtautau139': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$'+'\n' + r'139 fb$^{-1}$', 12, 'hdbs:starcommandblue'),
     f'bbtautau_resolved': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (resolved)', 12, 'hh:medturquoise'),
     f'bbtautau_boosted': (r'$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$ (boosted)', 12, 'hh:darkgreen'),
     f'bbtautau_boosted2': ('dummy', 12, 'hh:darkgreen'),
     f'bbtautau_boosted3': ('dummy', 12, 'hh:darkgreen'),
-    f'bbyy': (r'$\mathrm{b\bar{b}\gamma\gamma}$', 13, 'hh:darkpink'),
+    f'bbyy': (r'$\mathrm{b\bar{b}\gamma\gamma}$', 13, 'bbtautau:purple'),
     f'bbyy139': (r'$\mathrm{b\bar{b}\gamma\gamma}$'+'\n' + r'139 fb$^{-1}$', 13, 'r'),
     f'bbll': (r'$\mathrm{b\bar{b}ll}$', 14, 'darkcryan'),
     f'bbVV': (r'$\mathrm{b\bar{b}VV}$', 15, 'darkorange'),
@@ -128,9 +128,9 @@ def drawATLASlabel(fig, ax, lumi = r'27.5$-$139', internal=True, reg_text=None, 
             fontsize=fontsize_title, c=c)
 
     if xmin < 0.2:
-        lumi_label = '$\\sqrt{s} = $13 TeV, %s fb$^{-1}$' % (lumi)
+        lumi_label = '$\\sqrt{\\mathrm{s}} = $13 TeV, %s fb$^{-1}$' % (lumi)
     else:
-        lumi_label = '$\\sqrt{s} = $13 TeV'
+        lumi_label = '$\\sqrt{\\mathrm{s}} = $13 TeV'
         lumi_label += '\n'
         lumi_label += '%s fb$^{-1}$' % (lumi)
 
@@ -160,7 +160,7 @@ def save_plot(args):
     fullcorr = corr_or_not(args)
     new_method = 'csv' if args.csv_list or args.summary_json else 'json' if args.dat_list and args.dat_list[0].endswith('json') else 'dat'
     file_name = f'{out_path}/upperlimit_xsec_{args.command}_{new_method}_{"obs" if args.unblind else "exp"}_{"fullcorr" if fullcorr else "nocorr"}{"_mu" if args.mu else ""}.pdf'
-    plt.savefig(file_name)
+    plt.savefig(file_name, format='pdf')
     print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mSave file\033[0m'.rjust(40, ' '), file_name)
 
 
@@ -374,7 +374,7 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
     polish_ax(args, ax, fontsize)
 
     # y-axis title
-    ylabel = r'$\sigma$ ($\mathrm{pp} \rightarrow \mathrm{X} \rightarrow \mathrm{HH}$) [fb]'
+    ylabel = r'$\sigma$ ($\mathrm{X} \rightarrow \mathrm{HH}$) [fb]'
     try:
         ax.set_ylabel(ylabel, loc='top', fontsize=fontsize)
     except:

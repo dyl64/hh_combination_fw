@@ -59,6 +59,8 @@ _EXTRA_COLORS = {
     "bbyy:2sigma": "#FDC536",
     "bbyy:1sigma": "#4AD9D9",
     "bbyy:theory": "darkred",
+    "bbtautau:green": "#008F00",
+    "bbtautau:purple": "#9A0EEA",
 }
 
 mpl.colors.EXTRA_COLORS = _EXTRA_COLORS

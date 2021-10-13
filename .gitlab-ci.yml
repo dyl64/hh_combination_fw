@@ -179,6 +179,7 @@ NR_unblind_xsec_pro_mH:
     output_dir: output
     mini_option: minimizer_options_robust_mu.json
     config: regularization_spin0_v3.yaml
+    #config: regularization_spin0_v3_mH125p09.yaml
     version: 20210922
     other_options: "--unblind"
   allow_failure: true

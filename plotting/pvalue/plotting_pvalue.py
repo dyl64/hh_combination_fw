@@ -103,8 +103,8 @@ def get_global_pvalue(input_paths, save_as=None):
 def plot_local_pvalue(input_paths, color_maps=None, label_maps=None,
                          figsize=(9, 7), 
                          text='',
-                         xlabel=r"m$_X$ [GeV]",
-                         ylabel=r"Local p-value",
+                         xlabel=r"$\mathrm{m}_\mathrm{X}$ [GeV]",
+                         ylabel=r"Local $p_{0}$-value",
                          save_as=None):
     plt.clf()
     fig = plt.figure(figsize=figsize)
@@ -139,7 +139,7 @@ def plot_local_pvalue(input_paths, color_maps=None, label_maps=None,
     ax.tick_params(axis="x", which="minor", direction='in', top=True,length=6, width=1, labelsize=20)
     
     if save_as is not None:
-        plt.savefig(save_as)
+        plt.savefig(save_as, format='pdf')
         print('Save to', save_as)
     return plt
 
@@ -164,8 +164,8 @@ def main(args):
     {
         'combined': 'k',
         'bbbb': 'b',
-        'bbtautau': '#9A0EEA',
-        'bbyy': 'r',
+        'bbtautau': '#008F00', # 'bbtautau:green',
+        'bbyy': '#9A0EEA', # 'bbtautau:purple',
     }
     
     label_maps = \
@@ -178,8 +178,14 @@ def main(args):
     
     text = \
     """
+    $\mathbf{ATLAS}$ Preliminary
+    $\sqrt{\mathrm{s}} = $13 TeV, 126—139 fb$^{-1}$
+    """ + f"""Spin-0
+    """ \
+    if args.p else \
+    """
     $\mathbf{ATLAS}$ Internal
-    $\sqrt{s} = $13 TeV, 126—139 fb$^{-1}$
+    $\sqrt{\mathrm{s}} = $13 TeV, 126—139 fb$^{-1}$
     """ + f"""Spin-0
     """
     
@@ -196,6 +202,7 @@ if __name__ == '__main__':
     parser.add_argument('-a', '--analysis', type=str, choices=['nonres_mu', 'nonres_xsec', 'nonres', 'spin0'], default=None, required=True, help='Analysis type')
     parser.add_argument('-i', '--input', type=str, default=None, required=True, help='Path to JSON')
     parser.add_argument('-o', '--output', type=str, default='.', required=False, help='Output path')
+    parser.add_argument('-p', action='store_true', default=False, required=False, help='')
 
     args = parser.parse_args()
     main(args)
