@@ -139,7 +139,7 @@ def plot_local_pvalue(input_paths, color_maps=None, label_maps=None,
     ax.tick_params(axis="x", which="minor", direction='in', top=True,length=6, width=1, labelsize=20)
     
     if save_as is not None:
-        plt.savefig(save_as, format='eps')
+        plt.savefig(save_as, format='pdf')
         print('Save to', save_as)
     return plt
 
@@ -178,13 +178,19 @@ def main(args):
     
     text = \
     """
-    $\mathbf{ATLAS}$ {}
+    $\mathbf{ATLAS}$ Preliminary
     $\sqrt{\mathrm{s}} = $13 TeV, 126—139 fb$^{-1}$
-    """.format('Preliminary' if args.p else 'Internal') + f"""Spin-0
+    """ + f"""Spin-0
+    """ \
+    if args.p else \
+    """
+    $\mathbf{ATLAS}$ Internal
+    $\sqrt{\mathrm{s}} = $13 TeV, 126—139 fb$^{-1}$
+    """ + f"""Spin-0
     """
     
     plot_local_pvalue(input_paths, color_maps, label_maps, text=text,
-                         save_as=f"{args.output}/{args.analysis}_local_pvalue.eps")
+                         save_as=f"{args.output}/{args.analysis}_local_pvalue.pdf")
 
     get_global_pvalue(input_paths, save_as=f"{args.output}/{args.analysis}_global_pvalue.json")
 
