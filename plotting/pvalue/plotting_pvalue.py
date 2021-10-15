@@ -100,9 +100,58 @@ def get_global_pvalue(input_paths, save_as=None):
             json.dump(global_results, outfile, indent = 2)
         print('Save to', save_as)
 
+# With help from https://github.com/rateixei/PyATLASstyle/blob/master/PyATLASstyle.py
+def drawATLASlabel(fig, ax, lumi = r'27.5$-$139', internal=True, reg_text=None, xmin=0.05, ymax=0.85,
+                   fontsize_title=30, fontsize_label=15, line_spacing=1.2):
+    '''
+    Draws ATLAS label + other descriptive text
+
+    Parameters
+    ----------
+    yr : str
+        Year to use for lumi label (all is an option)
+    internal : bool
+        Whether to put internal label - doesn't work yet, to be fixed!
+    xmin : float
+        Min x location of ATLAS text
+    ymax : float
+        Max y location of ATLAS text
+    fontsize_title : int
+        ATLAS title font size
+    fontsize_label : int
+        Label text font size
+    line_spacing : float
+        Spacing between title and label text
+    '''
+    c = 'k'
+
+    box0 = ax.text(xmin, ymax, 'ATLAS', transform=ax.transAxes,
+            verticalalignment='bottom', horizontalalignment='left',
+            fontsize=fontsize_title, fontweight='bold', style='italic', c=c)
+    box0_ext_tr = ax.transAxes.inverted().transform(box0.get_window_extent(renderer=fig.canvas.get_renderer()))
+
+    ax.text(max(box0_ext_tr[1][0], 0.23), ymax, 'Preliminary' if args.p else 'Internal', transform=ax.transAxes,
+            verticalalignment='bottom', horizontalalignment='left',
+            fontsize=fontsize_title, c=c)
+
+    if xmin < 0.2:
+        lumi_label = '$\\sqrt{\\mathrm{s}} = $13 TeV, %s fb$^{-1}$' % (lumi)
+    else:
+        lumi_label = '$\\sqrt{\\mathrm{s}} = $13 TeV'
+        lumi_label += '\n'
+        lumi_label += '%s fb$^{-1}$' % (lumi)
+
+
+    full_label = lumi_label + '\n'+ reg_text
+
+    label_ypos = ymax-(box0_ext_tr[1][1]-box0_ext_tr[0][1])*(len(full_label.split("\n"))*line_spacing)
+    ax.text(xmin, label_ypos, full_label,
+            transform=ax.transAxes,
+            verticalalignment='bottom', horizontalalignment='left',
+            fontsize=fontsize_label, c=c)
+
 def plot_local_pvalue(input_paths, color_maps=None, label_maps=None,
                          figsize=(9, 7), 
-                         text='',
                          xlabel=r"$\mathrm{m}_\mathrm{X}$ [GeV]",
                          ylabel=r"Local $p_{0}$-value",
                          save_as=None):
@@ -119,8 +168,13 @@ def plot_local_pvalue(input_paths, color_maps=None, label_maps=None,
         x, y = get_masses_and_pvalues(input_paths[channel])
         color = color_maps[channel]
         label = label_maps[channel]
-        ax.plot(x, y, marker='o', color=color, label=label, linewidth=2, markersize = 6 if channel == 'combined' else 4, alpha=0.8)
-    ax.text(0.05, 0.01, text, ha='left', va='bottom', transform=ax.transAxes, fontsize=20)
+        ax.plot(x, y, marker='o', color=color, label=label, linewidth=3 if channel == 'combined' else 2, markersize = 6 if channel == 'combined' else 4, alpha=0.8)
+
+
+    textlable = 'Spin-0'
+
+    drawATLASlabel(fig, ax, lumi = r'126 '+u'\u2212'+' 139', internal=(False if args.p else True), reg_text=textlable, xmin=0.05, ymax=0.25, fontsize_title=24, fontsize_label=20, line_spacing=1.1)
+
     plt.xlabel(xlabel, fontsize=20, loc='right')
     plt.ylabel(ylabel, fontsize=20, loc='top')
     plt.xscale('log')
@@ -176,21 +230,8 @@ def main(args):
         'combined': 'Combined',
     }
     
-    text = \
-    """
-    $\mathbf{ATLAS}$ Preliminary
-    $\sqrt{\mathrm{s}} = $13 TeV, 126—139 fb$^{-1}$
-    """ + f"""Spin-0
-    """ \
-    if args.p else \
-    """
-    $\mathbf{ATLAS}$ Internal
-    $\sqrt{\mathrm{s}} = $13 TeV, 126—139 fb$^{-1}$
-    """ + f"""Spin-0
-    """
-    
-    plot_local_pvalue(input_paths, color_maps, label_maps, text=text,
-                         save_as=f"{args.output}/{args.analysis}_local_pvalue.pdf")
+    plot_local_pvalue(input_paths, color_maps, label_maps, 
+                         save_as=f"{args.output}/{args.analysis}_local_pvalue{'_p' if args.p else ''}.pdf")
 
     get_global_pvalue(input_paths, save_as=f"{args.output}/{args.analysis}_global_pvalue.json")
 
