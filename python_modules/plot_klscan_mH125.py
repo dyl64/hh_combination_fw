@@ -34,7 +34,7 @@ import itertools
 
 import click
 
-ampl.use_atlas_style()
+ampl.use_atlas_style(usetex=True)
 
 plt.rcParams['figure.dpi'] = 100
 
@@ -194,7 +194,7 @@ def get_intersections(lambdas, n_exp, lambdas_th, n_th):
     intersections = [lambdas_th[x] - (lambdas_th[x+1] - lambdas_th[x])/(limitm1[x+1] - limitm1[x]) * limitm1[x] for x in idx]
     return intersections
     
-def draw_limits(limits_df, channel_name,log=False):
+def draw_limits(limits_df, channel_name,log=True):
     # Set up figure
     fig = plt.figure(figsize=(8, 6))
     gs = gridspec.GridSpec(4,1)
@@ -265,7 +265,7 @@ def draw_limits(limits_df, channel_name,log=False):
     ax.set_xlim([-10,10])
     ampl.set_ylabel('$\sigma_{ggF+VBF}$ (HH) [fb]', fontsize= 20)    
     ampl.set_xlabel(r'$\kappa_\lambda$', fontsize=20)
-    ampl.draw_atlas_label(0.05, 0.95, ax, status = 'int', energy = '13 TeV', lumi = 139, desc = r"$HH \rightarrow$ "+channel_name)
+    ampl.draw_atlas_label(0.05, 0.95, ax, status = 'prelim', energy = '13 TeV', lumi = 139, desc = r"$HH \rightarrow$ "+channel_name)
 
     # border for the legend
     border_leg = patches.Rectangle((0, 0), 1, 1, facecolor = 'none', edgecolor = 'black', linewidth = 1)
@@ -288,8 +288,8 @@ def draw_all_limits(*args):
     ax = fig.add_subplot(gs[:4,0])
     
     # Set up color wheel
-    palette = itertools.cycle(["hh:darkpink",'#9A0EEA'])#"#531B93","#008F00"])#["tab:orange","cornflowerblue","#343844",'darkcyan','seagreen'])#["peru","cornflowerblue","#343844",'darkcyan','seagreen'])
-    
+    palette = itertools.cycle(["#9A0EEA",'#008F00'])#"#531B93","#008F00"])#["tab:orange","cornflowerblue","#343844",'darkcyan','seagreen'])#["peru","cornflowerblue","#343844",'darkcyan','seagreen'])
+    #"hh:darkpink",'#9A0EEA'
     # Plot each individual channel first 
     for my_tuple in args:
         
@@ -313,8 +313,8 @@ def draw_all_limits(*args):
     
         # plot 1 & 2 sigma bands 
         if channel_label == "Combined":
-            ax.fill_between(lambdas, n * np.array(limits_df["-2"]), n * np.array(limits_df["2"]),  facecolor = '#FDC536', label='Combined expected limit $\pm 2\sigma$')
-            ax.fill_between(lambdas, n * np.array(limits_df["-1"]), n * np.array(limits_df["1"]),  facecolor = '#4AD9D9', label='Combined expected limit $\pm 1\sigma$')
+            ax.fill_between(lambdas, n * np.array(limits_df["-2"]), n * np.array(limits_df["2"]),  facecolor = '#FDC536', label='Combined exp. limit $\pm 2\sigma$')
+            ax.fill_between(lambdas, n * np.array(limits_df["-1"]), n * np.array(limits_df["1"]),  facecolor = '#4AD9D9', label='Combined exp. limit $\pm 1\sigma$')
 
     # for the theory expected cross-section we can have a smoother function by running over more kl points
     lambdas_th = np.linspace(-10.0,10.0,1000) 
@@ -356,7 +356,7 @@ def draw_all_limits(*args):
     ax.set_xlim([-10,10])
     ampl.set_ylabel('$\sigma_{ggF+VBF}$ (HH) [fb]', fontsize= 20)    
     ampl.set_xlabel(r'$\kappa_\lambda$', fontsize=20)
-    ampl.draw_atlas_label(0.04, 0.955, ax, status = 'int', energy = '13 TeV', lumi = 139)
+    ampl.draw_atlas_label(0.04, 0.955, ax, status = 'prelim', energy = '13 TeV', lumi = 139)
 
     # border for the legend
     border_leg = patches.Rectangle((0, 0), 1, 1, facecolor = 'none', edgecolor = 'black', linewidth = 1)
@@ -376,6 +376,7 @@ def draw_all_limits(*args):
     plt.gca().add_artist(l1)
 
     plt.savefig('all_channels_kl_scan_mH125.pdf',bbox_inches='tight')
+    plt.savefig('all_channels_kl_scan_mH125.eps',bbox_inches='tight')
 
 
 @click.command()
@@ -385,25 +386,28 @@ def plot_kl_scan(input_path):
     bbyy_path = os.path.join(input_path, "limits", "root-files", "nonres", "bbyy", "*[!y].json")
     limits_ak_df_bbyy = get_limits(bbyy_path, slice(2,-5),rescale_val=1.0/32.776*1000);
     draw_limits(limits_ak_df_bbyy,r"$b\bar{b} \gamma \gamma$")
-    plt.savefig('bbyy_kl_scan_mH125.pdf')
+    plt.savefig('bbyy_kl_scan_mH125.pdf',bbox_inches='tight')
+    plt.savefig('bbyy_kl_scan_mH125.eps',bbox_inches='tight')
     #draw_limits(limits_ak_df_bbyy,r"$b\bar{b} \gamma \gamma$",log=False)
 
     print("bbtautau")
     bbtautau_path = os.path.join(input_path, "limits", "root-files", "nonres", "bbtautau", "*[!y].json")
     limits_ak_df_bbtautau = get_limits(bbtautau_path,slice(2,-5),rescale_val=1.0/32.776*1000);
-    draw_limits(limits_ak_df_bbtautau,r"$b\bar{b} \tau \tau$")
-    plt.savefig('bbtautau_kl_scan_mH125.pdf')
+    draw_limits(limits_ak_df_bbtautau,r"$b\bar{b} \tau^+ \tau^-$")
+    plt.savefig('bbtautau_kl_scan_mH125.pdf',bbox_inches='tight')
+    plt.savefig('bbtautau_kl_scan_mH125.eps',bbox_inches='tight')
     #draw_limits(limits_ak_df_bbtautau,r"$b\bar{b} \tau \tau$",log=False)
 
     print("Combined")
     combined_path = os.path.join(input_path, "limits", "root-files", "nonres", "combined", "A-bbtautau_bbyy-fullcorr", "*[!y].json")
     limits_ak_df_combined = get_limits(combined_path,slice(2,-5),rescale_val=1.0/32.776*1000);
-    draw_limits(limits_ak_df_combined,r"$b\bar{b} \gamma \gamma + b\bar{b} \tau \tau$")
+    draw_limits(limits_ak_df_combined,r"$b\bar{b} \gamma \gamma + b\bar{b} \tau^+ \tau^-$")
     #draw_limits(limits_ak_df_combined,r"$b\bar{b} \gamma \gamma + b\bar{b} \tau \tau$",log=False)
-    plt.savefig('combined_kl_scan_mH125.pdf')
+    plt.savefig('combined_kl_scan_mH125.pdf',bbox_inches='tight')
+    plt.savefig('combined_kl_scan_mH125.eps',bbox_inches='tight')
 
     draw_all_limits((limits_ak_df_bbyy,r"$b\bar{b} \gamma \gamma$"),
-                    (limits_ak_df_bbtautau,r"$b\bar{b} \tau \tau$"),
+                    (limits_ak_df_bbtautau,r"$b\bar{b} \tau^+ \tau^-$"),
                     (limits_ak_df_combined,"Combined"))
 
 

@@ -287,7 +287,7 @@ def draw_all_limits(*args):
     ax = fig.add_subplot(gs[:4,0])
     
     # Set up color wheel
-    palette = itertools.cycle(["hh:darkpink",'#9A0EEA'])#"#531B93","#008F00"])#["tab:orange","cornflowerblue","#343844",'darkcyan','seagreen'])#["peru","cornflowerblue","#343844",'darkcyan','seagreen'])
+    palette = itertools.cycle(["#9A0EEA",'#008F00'])#"#531B93","#008F00"])#["tab:orange","cornflowerblue","#343844",'darkcyan','seagreen'])#["peru","cornflowerblue","#343844",'darkcyan','seagreen'])
     
     # Plot each individual channel first 
     for my_tuple in args:
@@ -375,6 +375,7 @@ def draw_all_limits(*args):
     plt.gca().add_artist(l1)
 
     plt.savefig('all_channels_kl_scan_mH125p09.pdf',bbox_inches='tight')
+    plt.savefig('all_channels_kl_scan_mH125p09.eps',bbox_inches='tight')
 
 
 @click.command()
@@ -384,25 +385,28 @@ def plot_kl_scan(input_path):
     bbyy_path = os.path.join(input_path, "limits", "root-files", "nonres", "bbyy", "*[!y].json")
     limits_ak_df_bbyy = get_limits(bbyy_path, slice(2,-5),rescale_val=1.0/32.743*1000);
     draw_limits(limits_ak_df_bbyy,r"$b\bar{b} \gamma \gamma$")
-    plt.savefig('bbyy_kl_scan_mH125p09.pdf')
+    plt.savefig('bbyy_kl_scan_mH125p09.pdf',bbox_inches='tight')
+    plt.savefig('bbyy_kl_scan_mH125p09.eps',bbox_inches='tight')
     #draw_limits(limits_ak_df_bbyy,r"$b\bar{b} \gamma \gamma$",log=False)
 
     print("bbtautau")
     bbtautau_path = os.path.join(input_path, "limits", "root-files", "nonres", "bbtautau", "*[!y].json")
     limits_ak_df_bbtautau = get_limits(bbtautau_path,slice(2,-5),rescale_val=1.0/32.743*1000);
-    draw_limits(limits_ak_df_bbtautau,r"$b\bar{b} \tau \tau$")
-    plt.savefig('bbtautau_kl_scan_mH125p09.pdf')
+    draw_limits(limits_ak_df_bbtautau,r"$b\bar{b} \tau^+ \tau^-$")
+    plt.savefig('bbtautau_kl_scan_mH125p09.pdf',bbox_inches='tight')
+    plt.savefig('bbtautau_kl_scan_mH125p09.eps',bbox_inches='tight')
     #draw_limits(limits_ak_df_bbtautau,r"$b\bar{b} \tau \tau$",log=False)
 
     print("Combined")
     combined_path = os.path.join(input_path, "limits", "root-files", "nonres", "combined", "A-bbtautau_bbyy-fullcorr", "*[!y].json")
     limits_ak_df_combined = get_limits(combined_path,slice(2,-5),rescale_val=1.0/32.743*1000);
-    draw_limits(limits_ak_df_combined,r"$b\bar{b} \gamma \gamma + b\bar{b} \tau \tau$")
+    draw_limits(limits_ak_df_combined,r"$b\bar{b} \gamma \gamma + b\bar{b} \tau^+ \tau^-$")
     #draw_limits(limits_ak_df_combined,r"$b\bar{b} \gamma \gamma + b\bar{b} \tau \tau$",log=False)
-    plt.savefig('combined_kl_scan_mH125p09.pdf')
+    plt.savefig('combined_kl_scan_mH125p09.pdf',bbox_inches='tight')
+    plt.savefig('combined_kl_scan_mH125p09.eps',bbox_inches='tight')
 
     draw_all_limits((limits_ak_df_bbyy,r"$b\bar{b} \gamma \gamma$"),
-                    (limits_ak_df_bbtautau,r"$b\bar{b} \tau \tau$"),
+                    (limits_ak_df_bbtautau,r"$b\bar{b} \tau^+ \tau^-$"),
                     (limits_ak_df_combined,"Combined"))
 
 if __name__ == "__main__":
