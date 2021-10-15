@@ -14,14 +14,16 @@ from pdb import set_trace
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from color import *
-import atlas_mpl_style as ampl
 from matplotlib import rcParams
-import atlas_mpl_style as ampl
-ampl.use_atlas_style()
-rcParams['axes.linewidth'] = 1.5
-#rcParams['font.sans-serif'] = "Helvetica"
-#rcParams['font.family'] = "sans-serif"
-#rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
+import socket
+if 'zhangrui' in socket.gethostname():
+    rcParams['axes.linewidth'] = 1.5
+    rcParams['font.sans-serif'] = "Arial"
+    rcParams['font.family'] = "sans-serif"
+    rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
+else:
+    import atlas_mpl_style as ampl
+    ampl.use_atlas_style()
 
 columns = ['xsec_m2s_NP_profiled', 'xsec_m1s_NP_profiled', 'xsec_p1s_NP_profiled', 'xsec_p2s_NP_profiled', 'xsec_exp_NP_profiled', 'xsec_obs_NP_profiled', 'exp_stat', 'obs_stat'] # don't change order
 
