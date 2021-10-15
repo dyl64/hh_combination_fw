@@ -313,8 +313,8 @@ def draw_all_limits(*args):
     
         # plot 1 & 2 sigma bands 
         if channel_label == "Combined":
-            ax.fill_between(lambdas, n * np.array(limits_df["-2"]), n * np.array(limits_df["2"]),  facecolor = '#FDC536', label='Combined exp. limit $\pm 2\sigma$')
-            ax.fill_between(lambdas, n * np.array(limits_df["-1"]), n * np.array(limits_df["1"]),  facecolor = '#4AD9D9', label='Combined exp. limit $\pm 1\sigma$')
+            ax.fill_between(lambdas, n * np.array(limits_df["-2"]), n * np.array(limits_df["2"]),  facecolor = '#FDC536', label='Comb. exp. limit $\pm 2\sigma$')
+            ax.fill_between(lambdas, n * np.array(limits_df["-1"]), n * np.array(limits_df["1"]),  facecolor = '#4AD9D9', label='Comb. exp. limit $\pm 1\sigma$')
 
     # for the theory expected cross-section we can have a smoother function by running over more kl points
     lambdas_th = np.linspace(-10.0,10.0,1000) 
@@ -370,8 +370,8 @@ def draw_all_limits(*args):
     #plt.legend(bbox_to_anchor=(1.15, 1), loc=2, borderaxespad=0.,frameon = False)
     #ax.legend(handles, labels, bbox_to_anchor=(1.05, 1),loc=2, fontsize = 'small', frameon = False)
     #ax.legend(handles, labels, loc='upper right',fontsize = 8, frameon = False)
-    l1 = ax.legend(handles[0:2]+handles[5:], labels[0:2]+labels[5:], loc=(0.52,0.62),fontsize = 12, frameon = False)
-    l2 = ax.legend(handles[2:5], labels[2:5], loc=(0.75,0.05),fontsize = 12, frameon = False) # small legend, option 1
+    l1 = ax.legend(handles[0:2]+handles[5:], labels[0:2]+labels[5:], loc=(0.52,0.62),fontsize = 13, frameon = False)
+    l2 = ax.legend(handles[2:5], labels[2:5], loc=(0.75,0.05),fontsize = 13, frameon = False) # small legend, option 1
     #l2 = ax.legend(handles[2:5], labels[2:5], loc=(0.25,0.62),fontsize = 12, frameon = False) # small legend, option 2
     plt.gca().add_artist(l1)
 

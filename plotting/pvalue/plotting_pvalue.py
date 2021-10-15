@@ -14,9 +14,9 @@ from argparse import ArgumentParser
 from glob import glob
 from matplotlib import rcParams
 rcParams['axes.linewidth'] = 1.5
-rcParams['font.sans-serif'] = "Arial"
-rcParams['font.family'] = "sans-serif"
-rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
+#rcParams['font.sans-serif'] = "Arial"
+#rcParams['font.family'] = "sans-serif"
+#rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
 
 def get_masses_and_pvalues(files, value='pvalue'):
     data = {}
