@@ -34,7 +34,7 @@ import itertools
 
 import click
 
-ampl.use_atlas_style(usetex=True)
+ampl.use_atlas_style()
 
 plt.rcParams['figure.dpi'] = 100
 
