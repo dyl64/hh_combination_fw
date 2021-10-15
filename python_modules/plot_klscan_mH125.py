@@ -2,6 +2,7 @@
 # who modified from https://gitlab.cern.ch/hartman/dihiggs4b/blob/master/PFlow-Topo/Limit-Comparisons.ipynb by Nicole Hartman
 # requires python3 to use atlas_mpl_style
 
+from pdb import set_trace
 
 """
 
@@ -376,7 +377,6 @@ def draw_all_limits(status, *args):
     plt.gca().add_artist(l1)
 
     plt.savefig('all_channels_kl_scan_mH125.pdf',bbox_inches='tight')
-    plt.savefig('all_channels_kl_scan_mH125.eps',bbox_inches='tight')
 
 
 @click.command()
@@ -400,7 +400,6 @@ def plot_kl_scan(input_path, status):
     limits_ak_df_combined = get_limits(combined_path,slice(2,-5),rescale_val=1.0/32.776*1000);
     draw_limits(limits_ak_df_combined,r"$\mathrm{b\bar{b}\gamma\gamma + b\bar{b}\tau^{+}\tau^{-}}$", status=status)
     plt.savefig('combined_kl_scan_mH125.pdf',bbox_inches='tight')
-    plt.savefig('combined_kl_scan_mH125.eps',bbox_inches='tight')
 
     draw_all_limits(status,
                     (limits_ak_df_bbyy,r"$\mathrm{b\bar{b}\gamma\gamma}$"),
