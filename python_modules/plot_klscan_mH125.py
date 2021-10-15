@@ -136,7 +136,7 @@ def draw_mu(limits, limit_bands, channel_name):
     ax.legend(handles, labels, loc='upper right', fontsize = 'small', frameon = False)
 
 
-    ampl.set_xlabel('$\kappa_\lambda$', fontsize=16)
+    ampl.set_xlabel('$\mathrm{\kappa_\lambda}$', fontsize=16)
 
     ampl.draw_atlas_label(0.05, 0.95, ax, status = 'int', energy = '13 TeV', lumi = 139, desc = r"$HH \rightarrow$ "+channel_name)
 
@@ -237,7 +237,7 @@ def draw_limits(limits_df, channel_name,log=False):
     intersections = get_intersections(lambdas, n*limits_df["exp"], lambdas_th, n_th)
     if intersections:
         print ('limits expected:', intersections)
-        plt.annotate(r'Expected: $\kappa_\lambda \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (0.04, y_annotation[0]), xycoords = 'axes fraction', fontsize = 15)
+        plt.annotate(r'Expected: $\mathrm{\kappa_\lambda} \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (0.04, y_annotation[0]), xycoords = 'axes fraction', fontsize = 15)
     
     #for x in intersections:
     #   ax.plot([x]*2,ylim,'blue')
@@ -245,7 +245,7 @@ def draw_limits(limits_df, channel_name,log=False):
     # get observed limits 
     intersections = get_intersections(lambdas, n*limits_df["obs"], lambdas_th, n_th)
     if intersections:
-        plt.annotate(r'Observed: $\kappa_\lambda \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (0.04,  y_annotation[1]), xycoords = 'axes fraction', fontsize = 15)
+        plt.annotate(r'Observed: $\mathrm{\kappa_\lambda} \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (0.04,  y_annotation[1]), xycoords = 'axes fraction', fontsize = 15)
         print ('limits observed:', intersections)
     
     #for x in intersections:
@@ -265,7 +265,7 @@ def draw_limits(limits_df, channel_name,log=False):
     ax.set_xlim([-10,10])
     ampl.set_ylabel('$\sigma_{ggF+VBF}$ (HH) [fb]', fontsize= 20)    
     ampl.set_xlabel(r'$\kappa_\lambda$', fontsize=20)
-    ampl.draw_atlas_label(0.05, 0.95, ax, status = 'int', energy = '13 TeV', lumi = 139, desc = r"$HH \rightarrow$ "+channel_name)
+    ampl.draw_atlas_label(0.05, 0.95, ax, status = 'prelim', energy = '13 TeV', lumi = 139, desc = r"$HH \rightarrow$ "+channel_name)
 
     # border for the legend
     border_leg = patches.Rectangle((0, 0), 1, 1, facecolor = 'none', edgecolor = 'black', linewidth = 1)
@@ -356,7 +356,7 @@ def draw_all_limits(*args):
     ax.set_xlim([-10,10])
     ampl.set_ylabel('$\sigma_{ggF+VBF}$ (HH) [fb]', fontsize= 20)    
     ampl.set_xlabel(r'$\kappa_\lambda$', fontsize=20)
-    ampl.draw_atlas_label(0.04, 0.955, ax, status = 'int', energy = '13 TeV', lumi = 139)
+    ampl.draw_atlas_label(0.04, 0.955, ax, status = 'prelim', energy = '13 TeV', lumi = 139)
 
     # border for the legend
     border_leg = patches.Rectangle((0, 0), 1, 1, facecolor = 'none', edgecolor = 'black', linewidth = 1)
@@ -384,26 +384,26 @@ def plot_kl_scan(input_path):
     print("bbyy")
     bbyy_path = os.path.join(input_path, "limits", "root-files", "nonres", "bbyy", "*[!y].json")
     limits_ak_df_bbyy = get_limits(bbyy_path, slice(2,-5),rescale_val=1.0/32.776*1000);
-    draw_limits(limits_ak_df_bbyy,r"$b\bar{b} \gamma \gamma$")
+    draw_limits(limits_ak_df_bbyy,r"$\mathrm{b\bar{b}\gamma\gamma}$")
     plt.savefig('bbyy_kl_scan_mH125.pdf')
     #draw_limits(limits_ak_df_bbyy,r"$b\bar{b} \gamma \gamma$",log=False)
 
     print("bbtautau")
     bbtautau_path = os.path.join(input_path, "limits", "root-files", "nonres", "bbtautau", "*[!y].json")
     limits_ak_df_bbtautau = get_limits(bbtautau_path,slice(2,-5),rescale_val=1.0/32.776*1000);
-    draw_limits(limits_ak_df_bbtautau,r"$b\bar{b} \tau \tau$")
+    draw_limits(limits_ak_df_bbtautau,r"$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$")
     plt.savefig('bbtautau_kl_scan_mH125.pdf')
     #draw_limits(limits_ak_df_bbtautau,r"$b\bar{b} \tau \tau$",log=False)
 
     print("Combined")
     combined_path = os.path.join(input_path, "limits", "root-files", "nonres", "combined", "A-bbtautau_bbyy-fullcorr", "*[!y].json")
     limits_ak_df_combined = get_limits(combined_path,slice(2,-5),rescale_val=1.0/32.776*1000);
-    draw_limits(limits_ak_df_combined,r"$b\bar{b} \gamma \gamma + b\bar{b} \tau \tau$")
+    draw_limits(limits_ak_df_combined,r"$\mathrm{b\bar{b}\gamma\gamma + b\bar{b}\tau^{+}\tau^{-}}$")
     #draw_limits(limits_ak_df_combined,r"$b\bar{b} \gamma \gamma + b\bar{b} \tau \tau$",log=False)
     plt.savefig('combined_kl_scan_mH125.pdf')
 
-    draw_all_limits((limits_ak_df_bbyy,r"$b\bar{b} \gamma \gamma$"),
-                    (limits_ak_df_bbtautau,r"$b\bar{b} \tau \tau$"),
+    draw_all_limits((limits_ak_df_bbyy,r"$\mathrm{b\bar{b}\gamma\gamma}$"),
+                    (limits_ak_df_bbtautau,r"$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$"),
                     (limits_ak_df_combined,"Combined"))
 
 

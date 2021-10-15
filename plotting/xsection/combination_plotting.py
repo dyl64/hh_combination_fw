@@ -16,10 +16,12 @@ import matplotlib.ticker as ticker
 from color import *
 import atlas_mpl_style as ampl
 from matplotlib import rcParams
+import atlas_mpl_style as ampl
+ampl.use_atlas_style()
 rcParams['axes.linewidth'] = 1.5
-rcParams['font.sans-serif'] = "Arial"
-rcParams['font.family'] = "sans-serif"
-rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
+#rcParams['font.sans-serif'] = "Helvetica"
+#rcParams['font.family'] = "sans-serif"
+#rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
 
 columns = ['xsec_m2s_NP_profiled', 'xsec_m1s_NP_profiled', 'xsec_p1s_NP_profiled', 'xsec_p2s_NP_profiled', 'xsec_exp_NP_profiled', 'xsec_obs_NP_profiled', 'exp_stat', 'obs_stat'] # don't change order
 
@@ -327,8 +329,8 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
         if args.unblind:
             line, = ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=com_df_new, color='k', linestyle='solid', linewidth=2, zorder = 1.5, alpha=1, label = 'Combined ' + com_reference)
         if not args.no_error:
-            ax.fill_between(com_df_new['parameter'], com_df_new[columns[0]], com_df_new[columns[3]], facecolor = 'hh:darkyellow', label = r'Comb. exp. limit $\pm$ 2 $\sigma$')
-            ax.fill_between(com_df_new['parameter'], com_df_new[columns[1]], com_df_new[columns[2]], facecolor = 'hh:lightturquoise', label = r'Comb. exp. limit $\pm$ 1 $\sigma$')
+            ax.fill_between(com_df_new['parameter'], com_df_new[columns[0]], com_df_new[columns[3]], facecolor = 'hh:darkyellow', label = r'Comb. exp. limit $\pm$ 2$\sigma$')
+            ax.fill_between(com_df_new['parameter'], com_df_new[columns[1]], com_df_new[columns[2]], facecolor = 'hh:lightturquoise', label = r'Comb. exp. limit $\pm$ 1$\sigma$')
 
         if args.debug:
             for x,y in zip(com_df_new['parameter'].tolist(), com_df_new['xsec_obs_NP_profiled'].tolist()):
@@ -475,8 +477,8 @@ def plot_nonres_from_df(args, df):
             ax.text(obs_text_x, y+y_shift, obs_str, horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
         exp = row[columns[4]]
         ax.vlines(exp, y, y+1, colors = 'k', linestyles = 'dotted', zorder = 1.1, label = 'Expected' if y==0 else '')
-        ax.fill_betweenx([y,y+1], row[columns[0]], row[columns[3]], facecolor = 'hh:darkyellow', label = r'Comb. exp. limit $\pm$ 2 $\sigma$' if y==0 else '')
-        ax.fill_betweenx([y,y+1], row[columns[1]], row[columns[2]], facecolor = 'hh:lightturquoise', label = r'Comb. exp. limit $\pm$ 1 $\sigma$' if y==0 else '')
+        ax.fill_betweenx([y,y+1], row[columns[0]], row[columns[3]], facecolor = 'hh:darkyellow', label = r'Comb. exp. limit $\pm$ 2$\sigma$' if y==0 else '')
+        ax.fill_betweenx([y,y+1], row[columns[1]], row[columns[2]], facecolor = 'hh:lightturquoise', label = r'Comb. exp. limit $\pm$ 1$\sigma$' if y==0 else '')
 
         # Plot limit text
         exp_str = f'{exp:.1f}' if index not in ['combined36', 'bbWW2l'] else f'{exp:g}'
@@ -609,7 +611,7 @@ def plot_common(args, fig, ax, textlable, fontsize, legendsize):
             band_labels.insert(1, 'Expected limit (95% CL)')
 
         band_handles, band_labels = bold_edge((band_handles, band_labels))
-        style_legend = plt.legend(handles=band_handles, labels=band_labels, bbox_to_anchor=(0.01, 0.26), loc='upper left', ncol=1, framealpha=0., prop={'size': legendsize+1})
+        style_legend = plt.legend(handles=band_handles, labels=band_labels, bbox_to_anchor=(0.005, 0.005), loc='lower left', ncol=1, framealpha=0., prop={'size': legendsize})
         # Add the legend manually to the current Axes.
         plt.gca().add_artist(style_legend)
 
