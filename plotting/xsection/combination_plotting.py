@@ -126,7 +126,7 @@ def drawATLASlabel(fig, ax, lumi = r'27.5$-$139', internal=True, reg_text=None, 
             fontsize=fontsize_title, fontweight='bold', style='italic', c=c)
     box0_ext_tr = ax.transAxes.inverted().transform(box0.get_window_extent(renderer=fig.canvas.get_renderer()))
 
-    ax.text(box0_ext_tr[0][0] + 0.17, ymax, 'Preliminary' if args.p else 'Internal', transform=ax.transAxes,
+    ax.text(box0_ext_tr[0][0] + 0.18, ymax, 'Preliminary' if args.p else 'Internal', transform=ax.transAxes,
             verticalalignment='bottom', horizontalalignment='left',
             fontsize=fontsize_title, c=c)
 
@@ -611,7 +611,7 @@ def plot_common(args, fig, ax, textlable, fontsize, legendsize):
             band_labels.insert(1, 'Expected limit (95% CL)')
 
         band_handles, band_labels = bold_edge((band_handles, band_labels))
-        style_legend = plt.legend(handles=band_handles, labels=band_labels, bbox_to_anchor=(0.005, 0.005), loc='lower left', ncol=1, framealpha=0., prop={'size': legendsize})
+        style_legend = plt.legend(handles=band_handles, labels=band_labels, bbox_to_anchor=(0.99, 0.8), loc='upper right', ncol=1, framealpha=0., prop={'size': legendsize})
         # Add the legend manually to the current Axes.
         plt.gca().add_artist(style_legend)
 
@@ -619,7 +619,7 @@ def plot_common(args, fig, ax, textlable, fontsize, legendsize):
             if 'Remove' not in label:
                 new_handlers.append(handler)
                 new_labels.append(label)
-        plt.legend(new_handlers, new_labels, bbox_to_anchor=(0.99, 0.99),  loc='upper right', ncol=1, framealpha=0., prop={'size': legendsize+1})
+        plt.legend(new_handlers, new_labels, bbox_to_anchor=(0.01, 0.01),  loc='lower left', ncol=1, framealpha=0., prop={'size': legendsize+1})
 
     plt.tight_layout()
     plt.plot()

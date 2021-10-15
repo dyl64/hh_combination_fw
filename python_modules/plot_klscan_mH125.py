@@ -194,7 +194,7 @@ def get_intersections(lambdas, n_exp, lambdas_th, n_th):
     intersections = [lambdas_th[x] - (lambdas_th[x+1] - lambdas_th[x])/(limitm1[x+1] - limitm1[x]) * limitm1[x] for x in idx]
     return intersections
     
-def draw_limits(limits_df, channel_name,log=True):
+def draw_limits(limits_df, channel_name,log=True, status='int'):
     # Set up figure
     fig = plt.figure(figsize=(8, 6))
     gs = gridspec.GridSpec(4,1)
@@ -265,7 +265,7 @@ def draw_limits(limits_df, channel_name,log=True):
     ax.set_xlim([-10,10])
     ampl.set_ylabel('$\sigma_{ggF+VBF}$ (HH) [fb]', fontsize= 20)    
     ampl.set_xlabel(r'$\kappa_\lambda$', fontsize=20)
-    ampl.draw_atlas_label(0.05, 0.95, ax, status = 'prelim', energy = '13 TeV', lumi = 139, desc = r"$HH \rightarrow$ "+channel_name)
+    ampl.draw_atlas_label(0.05, 0.95, ax, status = status, energy = '13 TeV', lumi = 139, desc = r"$HH \rightarrow$ "+channel_name)
 
     # border for the legend
     border_leg = patches.Rectangle((0, 0), 1, 1, facecolor = 'none', edgecolor = 'black', linewidth = 1)
@@ -279,7 +279,7 @@ def draw_limits(limits_df, channel_name,log=True):
     
     #plt.savefig('kl_scan.pdf')
     
-def draw_all_limits(*args):
+def draw_all_limits(status, *args):
     """Last input must always be the combined one """
     
     # Set up figure
@@ -356,7 +356,7 @@ def draw_all_limits(*args):
     ax.set_xlim([-10,10])
     ampl.set_ylabel('$\sigma_{ggF+VBF}$ (HH) [fb]', fontsize= 20)    
     ampl.set_xlabel(r'$\kappa_\lambda$', fontsize=20)
-    ampl.draw_atlas_label(0.04, 0.955, ax, status = 'prelim', energy = '13 TeV', lumi = 139)
+    ampl.draw_atlas_label(0.04, 0.955, ax, status = status, energy = '13 TeV', lumi = 139)
 
     # border for the legend
     border_leg = patches.Rectangle((0, 0), 1, 1, facecolor = 'none', edgecolor = 'black', linewidth = 1)
@@ -381,30 +381,29 @@ def draw_all_limits(*args):
 
 @click.command()
 @click.option('-i', '--input_path', required=True, help='path to the inputs')
-def plot_kl_scan(input_path):
+@click.option('-p', '--status', default='int')
+def plot_kl_scan(input_path, status):
     print("bbyy")
     bbyy_path = os.path.join(input_path, "limits", "root-files", "nonres", "bbyy", "*[!y].json")
     limits_ak_df_bbyy = get_limits(bbyy_path, slice(2,-5),rescale_val=1.0/32.776*1000);
-    draw_limits(limits_ak_df_bbyy,r"$\mathrm{b\bar{b}\gamma\gamma}$")
+    draw_limits(limits_ak_df_bbyy,r"$\mathrm{b\bar{b}\gamma\gamma}$", status=status)
     plt.savefig('bbyy_kl_scan_mH125.pdf',bbox_inches='tight')
-    #draw_limits(limits_ak_df_bbyy,r"$b\bar{b} \gamma \gamma$",log=False)
 
     print("bbtautau")
     bbtautau_path = os.path.join(input_path, "limits", "root-files", "nonres", "bbtautau", "*[!y].json")
     limits_ak_df_bbtautau = get_limits(bbtautau_path,slice(2,-5),rescale_val=1.0/32.776*1000);
-    draw_limits(limits_ak_df_bbtautau,r"$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$")
+    draw_limits(limits_ak_df_bbtautau,r"$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$", status=status)
     plt.savefig('bbtautau_kl_scan_mH125.pdf',bbox_inches='tight')
-    #draw_limits(limits_ak_df_bbtautau,r"$b\bar{b} \tau \tau$",log=False)
 
     print("Combined")
     combined_path = os.path.join(input_path, "limits", "root-files", "nonres", "combined", "A-bbtautau_bbyy-fullcorr", "*[!y].json")
     limits_ak_df_combined = get_limits(combined_path,slice(2,-5),rescale_val=1.0/32.776*1000);
-    draw_limits(limits_ak_df_combined,r"$\mathrm{b\bar{b}\gamma\gamma + b\bar{b}\tau^{+}\tau^{-}}$")
-    #draw_limits(limits_ak_df_combined,r"$b\bar{b} \gamma \gamma + b\bar{b} \tau \tau$",log=False)
+    draw_limits(limits_ak_df_combined,r"$\mathrm{b\bar{b}\gamma\gamma + b\bar{b}\tau^{+}\tau^{-}}$", status=status)
     plt.savefig('combined_kl_scan_mH125.pdf',bbox_inches='tight')
     plt.savefig('combined_kl_scan_mH125.eps',bbox_inches='tight')
 
-    draw_all_limits((limits_ak_df_bbyy,r"$\mathrm{b\bar{b}\gamma\gamma}$"),
+    draw_all_limits(status,
+                    (limits_ak_df_bbyy,r"$\mathrm{b\bar{b}\gamma\gamma}$"),
                     (limits_ak_df_bbtautau,r"$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$"),
                     (limits_ak_df_combined,"Combined"))
 
