@@ -84,7 +84,7 @@ plt.plot(df["kl"],accxeff_lm_loose, color = "#008F00",label="Low Mass BDT Loose"
 
 ampl.draw_atlas_label(0.04, 0.955, ax, status = 'int', energy = '13 TeV', lumi = 139, desc = r"$HH \rightarrow b\bar{b} \gamma \gamma$" )
 ampl.set_ylabel('Acceptance x Efficiency [%]', fontsize= 20)    
-ampl.set_xlabel(r'$\kappa_\lambda$', fontsize=20)
+ampl.set_xlabel(r'$\mathrm{\kappa_\lambda}$', fontsize=20)
 ax.xaxis.set_ticks(np.arange(-10, 10 + 1, 2))
 plt.xlim((-10,10))
 plt.ylim((0,10))
@@ -118,18 +118,18 @@ gs = gridspec.GridSpec(4,1)
 ax = fig.add_subplot(gs[:4,0])
 
 
-plt.plot(df["kl"],accxeff_bbyy,             color = "hh:darkpink", label=r"$b\bar{b} \gamma \gamma$ ")
-plt.plot(df["kl"],accxeff_bbtautau,        color = '#9A0EEA', label=r"$b\bar{b} \tau \tau$")
+plt.plot(df["kl"],accxeff_bbyy,             color = '#9A0EEA', label=r"$\mathrm{b\bar{b} \gamma \gamma}$ ")
+plt.plot(df["kl"],accxeff_bbtautau,        color = "#008F00", label=r"$\mathrm{b\bar{b} \tau^{+} \tau^{-}}$")
 #plt.plot(df["kl"],accxeff_bbtautau_lephad,   color = "#008F00",     label=r"$b\bar{b} \tau_{lep} \tau_{had}$ SLT+LTT")
 #plt.plot(df["kl"],accxeff_bbtautau_hadhad,   color = "hh:darkblue", label=r"$b\bar{b} \tau_{had} \tau_{had}$")
 
 ampl.set_ylabel('Acceptance x Efficiency [%]', fontsize= 20) 
-plt.ylim((0,20))
-ampl.draw_atlas_label(0.04, 0.955, ax, status = 'int', energy = '13 TeV', lumi = 139) 
+plt.ylim((0,16))
+ampl.draw_atlas_label(0.04, 0.955, ax, status = 'prelim', simulation=True, energy = '13 TeV', lumi = 139) 
 ampl.set_xlabel(r'$\kappa_\lambda$', fontsize=20)
 ax.xaxis.set_ticks(np.arange(-10, 10 + 1, 2))
 plt.xlim((-10,10))
-plt.legend(fontsize=12)
+plt.legend(fontsize=16)
 plt.savefig("all_accxeff.pdf")
 
 
@@ -138,16 +138,16 @@ gs2 = gridspec.GridSpec(4,1)
 ax2 = fig.add_subplot(gs[:4,0])
 
 # Normalized by SM efficiency                                                                   
-plt.plot(df["kl"],accxeff_bbyy/sm_accxeff_bbyy,             color = "hh:darkpink", label=r"$b\bar{b} \gamma \gamma$ ")
-plt.plot(df["kl"],accxeff_bbtautau/sm_accxeff_bbtautau,      color = '#9A0EEA', label=r"$b\bar{b} \tau \tau$")
+plt.plot(df["kl"],accxeff_bbyy/sm_accxeff_bbyy,             color = "#9A0EEA", label=r"\mathrm{$b\bar{b} \gamma \gamma$} ")
+plt.plot(df["kl"],accxeff_bbtautau/sm_accxeff_bbtautau,      color = '#008F00', label=r"\mathrm{$b\bar{b} \tau^{+} \tau^{-}}")
 #plt.plot(df["kl"],accxeff_bbtautau_lephad/sm_accxeff_bbtautau_lephad,   color = "#008F00",     label=r"$b\bar{b} \tau_{lep} \tau_{had}$ SLT+LTT")
 #plt.plot(df["kl"],accxeff_bbtautau_hadhad/sm_accxeff_bbtautau_hadhad,   color = "hh:darkblue", label=r"$b\bar{b} \tau_{had} \tau_{had}$")
 
 ampl.set_ylabel('(Acceptance x Efficiency) / \n ($\kappa_\lambda=1$ Acceptance x Efficiency)', fontsize= 20) 
-ampl.draw_atlas_label(0.04, 0.955, ax, status = 'int', energy = '13 TeV', lumi = 139) 
+ampl.draw_atlas_label(0.04, 0.955, ax, status = 'prelim',  simulation=True,  energy = '13 TeV', lumi = 139) 
 ampl.set_xlabel(r'$\kappa_\lambda$', fontsize=20)
 ax2.xaxis.set_ticks(np.arange(-10, 10 + 1, 2))
 plt.xlim((-10,10))
 
-plt.legend(fontsize=12)
+plt.legend(fontsize=16)
 plt.savefig("all_normalized_accxeff.pdf")

@@ -15,10 +15,15 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from color import *
 from matplotlib import rcParams
-rcParams['axes.linewidth'] = 1.5
-rcParams['font.sans-serif'] = "Arial"
-rcParams['font.family'] = "sans-serif"
-rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
+import socket
+if 'zhangrui' in socket.gethostname():
+    rcParams['axes.linewidth'] = 1.5
+    rcParams['font.sans-serif'] = "Arial"
+    rcParams['font.family'] = "sans-serif"
+    rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
+else:
+    import atlas_mpl_style as ampl
+    ampl.use_atlas_style()
 
 columns = ['xsec_m2s_NP_profiled', 'xsec_m1s_NP_profiled', 'xsec_p1s_NP_profiled', 'xsec_p2s_NP_profiled', 'xsec_exp_NP_profiled', 'xsec_obs_NP_profiled', 'exp_stat', 'obs_stat'] # don't change order
 
@@ -94,7 +99,7 @@ def polish_ax(args, ax, fontsize):
 
 
 # With help from https://github.com/rateixei/PyATLASstyle/blob/master/PyATLASstyle.py
-def drawATLASlabel(fig, ax, lumi = r'27.5$-$139', internal=True, reg_text=None, xmin=0.05, ymax=0.85,
+def drawATLASlabel(fig, ax, lumi = r'27.5$-$139', internal=True, reg_text=None, xmin=0.05, ymax=0.85, xmin2=0.05, 
                    fontsize_title=30, fontsize_label=15, line_spacing=1.2):
     '''
     Draws ATLAS label + other descriptive text
@@ -123,22 +128,17 @@ def drawATLASlabel(fig, ax, lumi = r'27.5$-$139', internal=True, reg_text=None, 
             fontsize=fontsize_title, fontweight='bold', style='italic', c=c)
     box0_ext_tr = ax.transAxes.inverted().transform(box0.get_window_extent(renderer=fig.canvas.get_renderer()))
 
-    ax.text(max(box0_ext_tr[1][0], 0.25), ymax, 'Preliminary' if args.p else 'Internal', transform=ax.transAxes,
+    ax.text(box0_ext_tr[0][0] + 0.18, ymax, 'Preliminary' if args.p else 'Internal', transform=ax.transAxes,
             verticalalignment='bottom', horizontalalignment='left',
             fontsize=fontsize_title, c=c)
 
-    if xmin < 0.2:
-        lumi_label = '$\\sqrt{\\mathrm{s}} = $13 TeV, %s fb$^{-1}$' % (lumi)
-    else:
-        lumi_label = '$\\sqrt{\\mathrm{s}} = $13 TeV'
-        lumi_label += '\n'
-        lumi_label += '%s fb$^{-1}$' % (lumi)
+    lumi_label = '$\\sqrt{\\mathrm{s}} = $13 TeV, %s fb$^{-1}$' % (lumi)
 
 
     full_label = lumi_label + '\n'+ reg_text
 
     label_ypos = ymax-(box0_ext_tr[1][1]-box0_ext_tr[0][1])*(len(full_label.split("\n"))*line_spacing)
-    ax.text(xmin, label_ypos, full_label,
+    ax.text(xmin2, label_ypos, full_label,
             transform=ax.transAxes,
             verticalalignment='bottom', horizontalalignment='left',
             fontsize=fontsize_label, c=c)
@@ -159,7 +159,7 @@ def save_plot(args):
 
     fullcorr = corr_or_not(args)
     new_method = 'csv' if args.csv_list or args.summary_json else 'json' if args.dat_list and args.dat_list[0].endswith('json') else 'dat'
-    file_name = f'{out_path}/upperlimit_xsec_{args.command}_{new_method}_{"obs" if args.unblind else "exp"}_{"fullcorr" if fullcorr else "nocorr"}{"_mu" if args.mu else ""}.pdf'
+    file_name = f'{out_path}/upperlimit_xsec_{args.command}_{new_method}_{"obs" if args.unblind else "exp"}_{"fullcorr" if fullcorr else "nocorr"}{"_mu" if args.mu else ""}{"_p" if args.p else ""}.pdf'
     plt.savefig(file_name, format='pdf')
     print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mSave file\033[0m'.rjust(40, ' '), file_name)
 
@@ -331,8 +331,8 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
         if args.unblind:
             line, = ax.plot( 'parameter', 'xsec_obs_NP_profiled', data=com_df_new, color='k', linestyle='solid', linewidth=2, zorder = 1.5, alpha=1, label = 'Combined ' + com_reference)
         if not args.no_error:
-            ax.fill_between(com_df_new['parameter'], com_df_new[columns[0]], com_df_new[columns[3]], facecolor = 'hh:darkyellow', label = r'Expected $\pm$ 2 $\sigma$')
-            ax.fill_between(com_df_new['parameter'], com_df_new[columns[1]], com_df_new[columns[2]], facecolor = 'hh:lightturquoise', label = r'Expected $\pm$ 1 $\sigma$')
+            ax.fill_between(com_df_new['parameter'], com_df_new[columns[0]], com_df_new[columns[3]], facecolor = 'hh:darkyellow', label = r'Comb. exp. limit $\pm$ 2$\sigma$')
+            ax.fill_between(com_df_new['parameter'], com_df_new[columns[1]], com_df_new[columns[2]], facecolor = 'hh:lightturquoise', label = r'Comb. exp. limit $\pm$ 1$\sigma$')
 
         if args.debug:
             for x,y in zip(com_df_new['parameter'].tolist(), com_df_new['xsec_obs_NP_profiled'].tolist()):
@@ -479,8 +479,8 @@ def plot_nonres_from_df(args, df):
             ax.text(obs_text_x, y+y_shift, obs_str, horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
         exp = row[columns[4]]
         ax.vlines(exp, y, y+1, colors = 'k', linestyles = 'dotted', zorder = 1.1, label = 'Expected' if y==0 else '')
-        ax.fill_betweenx([y,y+1], row[columns[0]], row[columns[3]], facecolor = 'hh:darkyellow', label = r'Expected $\pm$ 2 $\sigma$' if y==0 else '')
-        ax.fill_betweenx([y,y+1], row[columns[1]], row[columns[2]], facecolor = 'hh:lightturquoise', label = r'Expected $\pm$ 1 $\sigma$' if y==0 else '')
+        ax.fill_betweenx([y,y+1], row[columns[0]], row[columns[3]], facecolor = 'hh:darkyellow', label = r'Comb. exp. limit $\pm$ 2$\sigma$' if y==0 else '')
+        ax.fill_betweenx([y,y+1], row[columns[1]], row[columns[2]], facecolor = 'hh:lightturquoise', label = r'Comb. exp. limit $\pm$ 1$\sigma$' if y==0 else '')
 
         # Plot limit text
         exp_str = f'{exp:.1f}' if index not in ['combined36', 'bbWW2l'] else f'{exp:g}'
@@ -581,9 +581,10 @@ def bold_edge(inputs=None):
 def plot_common(args, fig, ax, textlable, fontsize, legendsize):
     # ATLAS cosmetics
     if args.command == 'nonres':
-        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'139', internal=True, reg_text=textlable, xmin=0.05, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=1.1)
+        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'139', internal=True, reg_text=textlable, xmin=0.03, ymax=0.9, xmin2=0.03, fontsize_title=22, fontsize_label=fontsize-1, line_spacing=1.1)
     elif args.command == 'spin0':
-        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'126$—$139', internal=True, reg_text=textlable, xmin=0.04 if args.summary_json else 0.2, ymax=0.9, fontsize_title=24, fontsize_label=fontsize-1, line_spacing=0.8)
+        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'126 '+u'\u2212'+' 139', internal=True, reg_text=textlable, xmin=0.04 if args.summary_json else 0.19, ymax=0.9, xmin2=0.19, fontsize_title=22, fontsize_label=fontsize+1, line_spacing=1.)
+
 
     # Legend
     if args.command == 'nonres':
@@ -594,20 +595,33 @@ def plot_common(args, fig, ax, textlable, fontsize, legendsize):
         new_handlers, new_labels = [], []
         current_handles, current_labels = plt.gca().get_legend_handles_labels()
         
+        band_handles, band_labels = [], []
+        for handler, label in zip(current_handles, current_labels):
+            if 'sigma' in label:
+                band_handles.append(handler)
+                band_labels.append(label)
+        for handler, label in zip(band_handles, band_labels):
+            current_handles.remove(handler)
+            current_labels.remove(label)
         if args.unblind:
             import matplotlib.lines as mlines
-            obs_line = mlines.Line2D([], [], color='k', ls = '-', label='Observed')
-            exp_line = mlines.Line2D([], [], color='k', ls = '--', label='Expected')
-            style_legend = plt.legend(handles=[obs_line, exp_line], bbox_to_anchor=(0.02, 0.15), loc='upper left', ncol=1, framealpha=0., prop={'size': legendsize})
-            # Add the legend manually to the current Axes.
-            plt.gca().add_artist(style_legend)
+            obs_line = mlines.Line2D([], [], color='k', ls = '-')
+            exp_line = mlines.Line2D([], [], color='k', ls = '--')
+            band_handles.insert(0, obs_line)
+            band_handles.insert(1, exp_line)
+            band_labels.insert(0, 'Observed limit (95% CL)')
+            band_labels.insert(1, 'Expected limit (95% CL)')
+
+        band_handles, band_labels = bold_edge((band_handles, band_labels))
+        style_legend = plt.legend(handles=band_handles, labels=band_labels, bbox_to_anchor=(0.99, 0.8), loc='upper right', ncol=1, framealpha=0., prop={'size': legendsize})
+        # Add the legend manually to the current Axes.
+        plt.gca().add_artist(style_legend)
 
         for handler, label in zip(current_handles, current_labels):
             if 'Remove' not in label:
                 new_handlers.append(handler)
                 new_labels.append(label)
-        new_handlers, new_labels = bold_edge((new_handlers, new_labels))
-        plt.legend(new_handlers, new_labels, bbox_to_anchor=(0.99, 0.99),  loc='upper right', ncol=1, framealpha=0., prop={'size': legendsize})
+        plt.legend(new_handlers, new_labels, bbox_to_anchor=(0.01, 0.01),  loc='lower left', ncol=1, framealpha=0., prop={'size': legendsize+1})
 
     plt.tight_layout()
     plt.plot()
