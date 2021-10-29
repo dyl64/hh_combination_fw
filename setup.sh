@@ -22,7 +22,7 @@ ulimit -S -s unlimited
 # Greet the user
 if [ $_DIRCOMB ]; then
     echo _DIRCOMB is already defined, use a clean shell
-    return 1
+    return 0
 fi
 
 # speficy the SFRAME base directory, i.e. the directory in which this file lives
