@@ -22,8 +22,11 @@ if 'zhangrui' in socket.gethostname():
     rcParams['font.family'] = "sans-serif"
     rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
 else:
-    import atlas_mpl_style as ampl
-    ampl.use_atlas_style()
+    try:
+        import atlas_mpl_style as ampl
+        ampl.use_atlas_style()
+    except:
+        pass
 
 columns = ['xsec_m2s_NP_profiled', 'xsec_m1s_NP_profiled', 'xsec_p1s_NP_profiled', 'xsec_p2s_NP_profiled', 'xsec_exp_NP_profiled', 'xsec_obs_NP_profiled', 'exp_stat', 'obs_stat'] # don't change order
 
