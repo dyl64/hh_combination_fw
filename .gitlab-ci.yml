@@ -23,7 +23,6 @@ hhCompile:
     - git status
     - cd $base_path
     - source compile.sh
-    - source setup.sh
   artifacts:
     paths:
       - submodules

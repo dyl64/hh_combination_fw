@@ -203,6 +203,7 @@ def draw_limits(limits_df, channel_name,log=True, status='int'):
     
     lambdas = limits_df["kl"]
     n = [xs_HH(kl) for kl in lambdas] # get expected cross-section at different kls
+    print(n)
     
     # multiply mu by expected cross-section and plot obs, expected limits
     if log:
@@ -387,18 +388,21 @@ def plot_kl_scan(input_path, status):
     bbyy_path = os.path.join(input_path, "limits", "root-files", "nonres", "bbyy", "*[!y].json")
     limits_ak_df_bbyy = get_limits(bbyy_path, slice(2,-5),rescale_val=1.0/32.776*1000);
     draw_limits(limits_ak_df_bbyy,r"$\mathrm{b\bar{b}\gamma\gamma}$", status=status)
+    limits_ak_df_bbyy.to_csv('bbyy_kl_scan_mH125.csv')
     plt.savefig('bbyy_kl_scan_mH125.pdf',bbox_inches='tight')
 
     print("bbtautau")
     bbtautau_path = os.path.join(input_path, "limits", "root-files", "nonres", "bbtautau", "*[!y].json")
     limits_ak_df_bbtautau = get_limits(bbtautau_path,slice(2,-5),rescale_val=1.0/32.776*1000);
     draw_limits(limits_ak_df_bbtautau,r"$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$", status=status)
+    limits_ak_df_bbtautau.to_csv('bbtautau_kl_scan_mH125.csv')
     plt.savefig('bbtautau_kl_scan_mH125.pdf',bbox_inches='tight')
 
     print("Combined")
     combined_path = os.path.join(input_path, "limits", "root-files", "nonres", "combined", "A-bbtautau_bbyy-fullcorr", "*[!y].json")
     limits_ak_df_combined = get_limits(combined_path,slice(2,-5),rescale_val=1.0/32.776*1000);
     draw_limits(limits_ak_df_combined,r"$\mathrm{b\bar{b}\gamma\gamma + b\bar{b}\tau^{+}\tau^{-}}$", status=status)
+    limits_ak_df_combined.to_csv('combined_kl_scan_mH125.csv')
     plt.savefig('combined_kl_scan_mH125.pdf',bbox_inches='tight')
 
     draw_all_limits(status,

@@ -13,8 +13,8 @@ cd submodules/workspaceCombiner
 export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase # use your path
 source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh
 #setupATLAS
-#lsetup "views LCG_97_ATLAS_1 x86_64-centos7-gcc8-opt"
 lsetup "views LCG_98python3 x86_64-centos7-gcc8-opt"
+#lsetup "views LCG_100 x86_64-centos7-gcc8-opt"
 
 # More memory
 ulimit -S -s unlimited
@@ -22,7 +22,7 @@ ulimit -S -s unlimited
 # Greet the user
 if [ $_DIRCOMB ]; then
     echo _DIRCOMB is already defined, use a clean shell
-    return 1
+    return 0
 fi
 
 # speficy the SFRAME base directory, i.e. the directory in which this file lives

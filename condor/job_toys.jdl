@@ -82,5 +82,58 @@ Request_disk   = 500 MB
 #Arguments = toy_limit /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_600_HMass_125p09.root combData   0.04351506828519575   0.2000827182857095  $(ClusterId)$(ProcId) toy_study_2/600/toy_resonant_600_HMass_125p09_seed_{seed}_batch_{batch}.root -5   6.41506
 #Queue 2000
 
-Arguments = toy_limit /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_600_HMass_125p09.root combData   0.027360368873235022  0.2790380502114797  $(ClusterId)$(ProcId) toy_study_2/600/toy_resonant_600_HMass_125p09_seed_{seed}_batch_{batch}.root -10  10.55
+#Arguments = toy_limit /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_600_HMass_125p09.root combData   0.027360368873235022  0.2790380502114797  $(ClusterId)$(ProcId) toy_study_2/600/toy_resonant_600_HMass_125p09_seed_{seed}_batch_{batch}.root -10  10.55
+#Queue 2000
+#
+#Arguments = toy_limit /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_280_HMass_125p09.root combData   0.1606074949334319    1.0851530395011246  $(ClusterId)$(ProcId) toy_study_2/280_poi0/toy_resonant_280_HMass_125p09_seed_{seed}_batch_{batch}.root 0  100
+#Queue 2000
+#
+#Arguments = toy_limit /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_280_HMass_125p09.root combData   0.1606074949334319    1.0851530395011246  $(ClusterId)$(ProcId) toy_study_2/280_poi-100/toy_resonant_280_HMass_125p09_seed_{seed}_batch_{batch}.root -100  100
+#Queue 2000
+
+#Arguments = toy_limit  /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_700_HMass_125p09.root combData    0.03283244264788203  0.23253170850956642 $(ClusterId)$(ProcId)  toy_study_2/700_poi0/toy_resonant_700_HMass_125p09_seed_{seed}_batch_{batch}.root 0 100
+#Queue 2000
+#Arguments = toy_limit  /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_251_HMass_125p09.root    combData  0.09336210380798025   0.6428753958177751  $(ClusterId)$(ProcId) toy_study_3/251_poi0/toy_resonant_251_HMass_125p09_seed_{seed}_batch_{batch}.root  0  100
+#Queue 2000
+#Arguments = toy_limit  /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_260_HMass_125p09.root    combData  0.1597545819604506    1.0542370488341106  $(ClusterId)$(ProcId) toy_study_3/260_poi0/toy_resonant_260_HMass_125p09_seed_{seed}_batch_{batch}.root  0  100
+#Queue 2000
+#Arguments = toy_limit  /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_270_HMass_125p09.root    combData  0.16807814339531713   1.1084313456057924  $(ClusterId)$(ProcId) toy_study_3/270_poi0/toy_resonant_270_HMass_125p09_seed_{seed}_batch_{batch}.root  0  100
+#Queue 2000
+#Arguments = toy_limit  /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_280_HMass_125p09.root    combData  0.1606074949334319    1.0851530395011246  $(ClusterId)$(ProcId) toy_study_3/280_poi0/toy_resonant_280_HMass_125p09_seed_{seed}_batch_{batch}.root  0  100
+#Queue 2000
+#Arguments = toy_limit  /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_290_HMass_125p09.root    combData  0.15015677951823447   1.0144445317503539  $(ClusterId)$(ProcId) toy_study_3/290_poi0/toy_resonant_290_HMass_125p09_seed_{seed}_batch_{batch}.root  0  100
+#Queue 2000
+
+#Arguments = toy_limit  /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_300_HMass_125p09.root    combData  0.16010191317059982   1.0664684389294712  $(ClusterId)$(ProcId) toy_study_3/300_poi0/toy_resonant_300_HMass_125p09_seed_{seed}_batch_{batch}.root  0  100
+#Queue 2000
+#Arguments = toy_limit  /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_3125_HMass_125p09.root   combData  0.15651183387487846   1.0437464423135632  $(ClusterId)$(ProcId) toy_study_3/3125_poi0/toy_resonant_3125_HMass_125p09_seed_{seed}_batch_{batch}.root  0  100
+#Queue 2000
+#Arguments = toy_limit  /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_325_HMass_125p09.root    combData  0.14293847321981887   0.9544415745275499  $(ClusterId)$(ProcId) toy_study_3/325_poi0/toy_resonant_325_HMass_125p09_seed_{seed}_batch_{batch}.root  0  100
+#Queue 2000
+#Arguments = toy_limit  /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_3375_HMass_125p09.root   combData  0.12579093158412216   0.850689089892322   $(ClusterId)$(ProcId) toy_study_3/3375_poi0/toy_resonant_3375_HMass_125p09_seed_{seed}_batch_{batch}.root  0  100
+#Queue 2000
+#Arguments = toy_limit  /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_350_HMass_125p09.root    combData  0.11726197432364469   0.7927566530626371  $(ClusterId)$(ProcId) toy_study_3/350_poi0/toy_resonant_350_HMass_125p09_seed_{seed}_batch_{batch}.root  0  100
+#Queue 2000
+#Arguments = toy_limit  /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_375_HMass_125p09.root    combData  0.10322017644436507   0.715038187029987   $(ClusterId)$(ProcId) toy_study_3/375_poi0/toy_resonant_375_HMass_125p09_seed_{seed}_batch_{batch}.root  0  100
+#Queue 2000
+
+#Arguments = toy_limit  /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_400_HMass_125p09.root    combData  0.08138070906372104   0.5576504925764622  $(ClusterId)$(ProcId) toy_study_3/400_poi0/toy_resonant_400_HMass_125p09_seed_{seed}_batch_{batch}.root  0  100
+#Queue 2000
+#Arguments = toy_limit  /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_425_HMass_125p09.root    combData  0.07015646608713877   0.4890056084163083  $(ClusterId)$(ProcId) toy_study_3/425_poi0/toy_resonant_425_HMass_125p09_seed_{seed}_batch_{batch}.root  0  100
+#Queue 2000
+#Arguments = toy_limit  /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_450_HMass_125p09.root    combData  0.06270635027111454   0.4413264344878112  $(ClusterId)$(ProcId) toy_study_3/450_poi0/toy_resonant_450_HMass_125p09_seed_{seed}_batch_{batch}.root  0  100
+#Queue 2000
+#Arguments = toy_limit  /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_475_HMass_125p09.root    combData  0.06199018986754904   0.4271870655835636  $(ClusterId)$(ProcId) toy_study_3/475_poi0/toy_resonant_475_HMass_125p09_seed_{seed}_batch_{batch}.root  0  100
+#Queue 2000
+#Arguments = toy_limit  /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_500_HMass_125p09.root    combData  0.0556989724307053    0.3880569574489392  $(ClusterId)$(ProcId) toy_study_3/500_poi0/toy_resonant_500_HMass_125p09_seed_{seed}_batch_{batch}.root  0  100
+#Queue 2000
+Arguments = toy_limit  /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_550_HMass_125p09.root    combData  0.04083757395060423   0.29052911419410477 $(ClusterId)$(ProcId) toy_study_3/550_poi0/toy_resonant_550_HMass_125p09_seed_{seed}_batch_{batch}.root  0  100
+Queue 2000
+Arguments = toy_limit  /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_600_HMass_125p09.root    combData  0.034812054628156605  0.25010339785713687 $(ClusterId)$(ProcId) toy_study_3/600_poi0/toy_resonant_600_HMass_125p09_seed_{seed}_batch_{batch}.root  0  100
+Queue 2000
+Arguments = toy_limit  /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_800_HMass_125p09.root    combData  0.028247105564392038  0.20281112270281598 $(ClusterId)$(ProcId) toy_study_3/800_poi0/toy_resonant_800_HMass_125p09_seed_{seed}_batch_{batch}.root  0  100
+Queue 2000
+Arguments = toy_limit  /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_900_HMass_125p09.root    combData  0.019701649158580074  0.145076315552728   $(ClusterId)$(ProcId) toy_study_3/900_poi0/toy_resonant_900_HMass_125p09_seed_{seed}_batch_{batch}.root  0  100
+Queue 2000
+Arguments = toy_limit  /afs/cern.ch/work/c/chlcheng/public/bbyy/spin0/WS-YY-resonant_1000_HMass_125p09.root   combData  0.02149791819891121   0.15623363228339432 $(ClusterId)$(ProcId) toy_study_3/1000_poi0/toy_resonant_1000_HMass_125p09_seed_{seed}_batch_{batch}.root  0  100
 Queue 2000
