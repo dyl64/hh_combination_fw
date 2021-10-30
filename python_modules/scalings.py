@@ -1406,7 +1406,14 @@ bbtautau_scalings = {
             '1400' : 1.0,
             '1600' : 1.0,
         },
-    }    
+    },
+    # - v10: For the v10 projected workspace presented in HH combination meeting on 28/10/2021
+    'v10' : {
+        'nonres' :
+        {
+            '0' : 32.776 / 1000 # changed unit wrt Run-2 input
+        },
+    },
 }
 
 
@@ -1865,7 +1872,14 @@ bbyy_scalings = {
                 '312.5' : 1.0,
                 '337.5' : 1.0,
             }
-    }    
+    },
+    # - v10: For the v10 projected workspace presented in HH combination meeting on 28/10/2021
+    'v10':{
+            'nonres' :
+            {
+                '0'  :  32.776/1000., # the input is already scaled to mH=125
+                },
+        },
 }
 
 
@@ -2198,6 +2212,10 @@ scalings_releases = {
             'bbll'     : bbll_scalings['v00'],
             'bbVV'     : bbVV_scalings['v00'],
             'WWWW'     : WWWW_scalings['v00'],
+            },
+    'r10' : {
+            'bbtautau' : bbtautau_scalings['v10'], 
+            'bbyy'     : bbyy_scalings['v10'],
             },
                     }
 

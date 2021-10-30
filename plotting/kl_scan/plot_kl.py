@@ -2,6 +2,7 @@
 # who modified from https://gitlab.cern.ch/hartman/dihiggs4b/blob/master/PFlow-Topo/Limit-Comparisons.ipynb by Nicole Hartman
 # requires python3 to use atlas_mpl_style
 
+from pdb import set_trace
 
 """
 
@@ -18,37 +19,32 @@ Input: json files with the following format
 
 json files must be named according to nXpX, e.g. kl = -0.5 -> n0p5, kl = 1.0 -> 1p5
 """
-
+from argparse import ArgumentParser
+import os
 import numpy as np
 import glob
 import math
 import matplotlib.pyplot as plt
+plt.rcParams['figure.dpi'] = 100
 import matplotlib.gridspec as gridspec
 import matplotlib.patches as patches
 import matplotlib.lines as lines
-import atlas_mpl_style as ampl
 import collections
 import json
 import pandas as pd
 import itertools
 
-ampl.use_atlas_style()
-
-plt.rcParams['figure.dpi'] = 100
-
-
-
 #Now using values from LHCWHGHHHXGGBGGGXXX
-SCALE_GGF = 1.0#31.02/31.0358   #correct to xs at mH = 125.09 
-SCALE_VBF = 1.0# 1.723/(4.581-4.245+1.359)
+SCALE_GGF = 31.05/31.0358 #31.02/31.0358   #correct to xs at mH = 125.09 
+SCALE_VBF = 1.726/(4.581-4.245+1.359) # 1.723/(4.581-4.245+1.359)
 
 def xs_ggF(kl):
     #https://twiki.cern.ch/twiki/bin/view/LHCPhysics/LHCHWGHH?redirectedfrom=LHCPhysics.LHCHXSWGHH#Latest_recommendations_for_gluon
-    return (70.3874-50.4111*kl+11.0595*kl**2) #XS in fb
+    return (70.3874-50.4111*kl+11.0595*kl**2)*SCALE_GGF #XS in fb
 
 def xs_VBF(kl):
     #https://indico.cern.ch/event/995807/contributions/4184798/attachments/2175756/3683303/VBFXSec.pdf
-    return (4.581-4.245*kl+1.359*kl**2) 
+    return (4.581-4.245*kl+1.359*kl**2)*SCALE_VBF
 
 def xs_HH(kl):
     return xs_ggF(kl) + xs_VBF(kl)
@@ -98,10 +94,7 @@ def xs_lower_HH(kl):
 #   "obs": 7.79886154984291,
 #   "inj": 0
 
-#limits = json.load(open('2021_03_09_yybb_param_withsyst/limits.json'), object_pairs_hook=collections.OrderedDict)
-
-
-def draw_mu(limits, limit_bands, channel_name):
+def draw_mu(limits, limit_bands, channel_name, use_ampl=True):
     fig = plt.figure(figsize=(8, 6))
 
     add_subplot = 0
@@ -124,26 +117,23 @@ def draw_mu(limits, limit_bands, channel_name):
     
     ax.xaxis.set_ticks(np.arange(min(lambdas), max(lambdas) + 1, 2))
 
-    ampl.set_ylabel('$\mu$ (HH) [fb]', fontsize=16)
-
     #reorder the legend
     handles,labels = ax.get_legend_handles_labels()
-    #handles = [handles[0], handles[1], handles[3], handles[4], (th_band, handles[2])]
-    #labels = [labels[0], labels[1], labels[3], labels[4], labels[2]]
 
     ax.legend(handles, labels, loc='upper right', fontsize = 'small', frameon = False)
 
-
-    ampl.set_xlabel('$\kappa_\lambda$', fontsize=16)
-
-    ampl.draw_atlas_label(0.05, 0.95, ax, status = 'int', energy = '13 TeV', lumi = 139, desc = r"$HH \rightarrow$ "+channel_name)
+    if use_ampl:
+        import atlas_mpl_style as ampl
+        ampl.use_atlas_style()
+        ax.set_ylabel('$\mu$ (HH) [fb]', fontsize=16)
+        ax.set_xlabel('$\mathrm{\kappa_\lambda}$', fontsize=16)
+        ax.draw_atlas_label(0.05, 0.95, ax, status = 'int', energy = '13 TeV', lumi = 139, desc = r"$HH \rightarrow$ "+channel_name)
+    else:
+        ax.set_ylabel('$\mu$ (HH) [fb]', fontsize=16)
+        ax.set_xlabel('$\mathrm{\kappa_\lambda}$', fontsize=16)
 
     plt.xlim([-10, 10])
 
-    #plt.savefig('kappa_lambda_scan_ratio_param_obs_v5.pdf')
-
-    plt.show()   
-    
 def get_limits(glob_string,string_range,rescale_val=1.0):
     
     lambdas = []
@@ -151,33 +141,27 @@ def get_limits(glob_string,string_range,rescale_val=1.0):
 
     # search for json files in provided string
     files = sorted(glob.glob(glob_string))
-    for file in files:
-        if "limits.json" in file:
-            files.remove(file)       
-    #print(files)
+    for ifile in files:
+        if "limits.json" in ifile:
+            files.remove(ifile)       
     
     # set up data frame 
     limits_df = pd.DataFrame(columns=["kl","-2","-1","exp","1","2","obs"])
     limits_list = []
     
-    for file in files: 
-        # parse file names to extract kl value
-        if "alkaid" in file: # alkaid's naming convention is 0_kl_9p0.json
-            kappa_string = file.split("/")[-1].split("_")[2][:-5]
-        else: # my naming convention is 0_kl_9p0.json
-            name = file.split("/")[-1]
-            kappa_string = name.split("_")[-1][string_range]
+    for ifile in files: 
+        # parse ifile names to extract kl value
+        kappa_string = ifile.split("/")[-1].split("_")[2][:-5]
         kappa_string = kappa_string.replace("n","-")
         kappa_string = kappa_string.replace("p",".")
-        #print(float(kappa_string))
         lambdas += [float(kappa_string)] 
 
         # read in json file and put in dataframe
-        with open(file) as my_json:
+        with open(ifile) as my_json:
             limit = json.load(my_json)
         limits_list.append([float(kappa_string),limit["-2"]*rescale_val,limit["-1"]*rescale_val,limit["0"]*rescale_val,limit["1"]*rescale_val,limit["2"]*rescale_val,limit["obs"]*rescale_val])
     limits_df = pd.DataFrame(limits_list,columns=["kl","-2","-1","exp","1","2","obs"])
-    limits_df.sort_values("kl",ignore_index=True,inplace=True)
+    limits_df.sort_values("kl", inplace=True)
     
     return limits_df
 
@@ -196,7 +180,7 @@ def get_intersections(lambdas, n_exp, lambdas_th, n_th):
     intersections = [lambdas_th[x] - (lambdas_th[x+1] - lambdas_th[x])/(limitm1[x+1] - limitm1[x]) * limitm1[x] for x in idx]
     return intersections
     
-def draw_limits(limits_df, channel_name,log=True):
+def draw_limits(limits_df, channel_name,log=True, status='int', use_ampl=True):
     # Set up figure
     fig = plt.figure(figsize=(8, 6))
     gs = gridspec.GridSpec(4,1)
@@ -207,17 +191,14 @@ def draw_limits(limits_df, channel_name,log=True):
     
     # multiply mu by expected cross-section and plot obs, expected limits
     if log:
-        ax.semilogy(lambdas, n * np.array(limits_df["obs"]),'k',label='Observed limit (95% CL)')
+        if args.unblind:
+            ax.semilogy(lambdas, n * np.array(limits_df["obs"]),'k',label='Observed limit (95% CL)')
         ax.semilogy(lambdas, n * np.array(limits_df["exp"]),'k--',label='Expected limit (95% CL)')
     else:
-        ax.plot(lambdas, n * np.array(limits_df["obs"]),'k',label='Observed limit (95% CL)')
+        if args.unblind:
+            ax.plot(lambdas, n * np.array(limits_df["obs"]),'k',label='Observed limit (95% CL)')
         ax.plot(lambdas, n * np.array(limits_df["exp"]),'k--',label='Expected limit (95% CL)')
         
-    
-    #for i in range(len(lambdas)):
-    #    print("kl:"+str(lambdas[i])+", obs:"+ str((n * np.array(limits_df["obs"]))[i])+", exp:"+str((n * np.array(limits_df["exp"]))[i]))
-
-
     
     # plot 1 & 2 sigma bands 
     ax.fill_between(lambdas, n * np.array(limits_df["-2"]), n * np.array(limits_df["2"]),  facecolor = '#FDC536', label='Expected limit $\pm 2\sigma$')
@@ -239,19 +220,14 @@ def draw_limits(limits_df, channel_name,log=True):
     intersections = get_intersections(lambdas, n*limits_df["exp"], lambdas_th, n_th)
     if intersections:
         print ('limits expected:', intersections)
-        plt.annotate(r'Expected: $\kappa_\lambda \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (0.04, y_annotation[0]), xycoords = 'axes fraction', fontsize = 15)
-    
-    #for x in intersections:
-    #   ax.plot([x]*2,ylim,'blue')
+        plt.annotate(r'Expected: $\mathrm{\kappa_\lambda} \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (0.04, y_annotation[0]), xycoords = 'axes fraction', fontsize = 15)
     
     # get observed limits 
-    intersections = get_intersections(lambdas, n*limits_df["obs"], lambdas_th, n_th)
-    if intersections:
-        plt.annotate(r'Observed: $\kappa_\lambda \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (0.04,  y_annotation[1]), xycoords = 'axes fraction', fontsize = 15)
-        print ('limits observed:', intersections)
-    
-    #for x in intersections:
-    #        ax.plot([x]*2,ylim,'blue')
+    if args.unblind:
+        intersections = get_intersections(lambdas, n*limits_df["obs"], lambdas_th, n_th)
+        if intersections:
+            plt.annotate(r'Observed: $\mathrm{\kappa_\lambda} \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (0.04,  y_annotation[1]), xycoords = 'axes fraction', fontsize = 15)
+            print ('limits observed:', intersections)
     
     #SM point
     ax.plot(1, xs_HH(1), linewidth = 0, marker = '*', markersize = 20, color = '#E9F1DF', markeredgecolor = 'black', label = 'SM prediction')
@@ -265,23 +241,30 @@ def draw_limits(limits_df, channel_name,log=True):
     ax.set_ylim(ylim)
     ax.xaxis.set_ticks(np.arange(min(lambdas), max(lambdas) + 1, 2))
     ax.set_xlim([-10,10])
-    ampl.set_ylabel('$\sigma_{ggF+VBF}$ (HH) [fb]', fontsize= 20)    
-    ampl.set_xlabel(r'$\kappa_\lambda$', fontsize=20)
-    ampl.draw_atlas_label(0.05, 0.95, ax, status = 'int', energy = '13 TeV', lumi = 139, desc = r"$HH \rightarrow$ "+channel_name)
+    if use_ampl:
+        import atlas_mpl_style as ampl
+        ampl.use_atlas_style()
+        ampl.set_ylabel('$\sigma_{ggF+VBF}$ (HH) [fb]', fontsize= 20)    
+        ampl.set_xlabel(r'$\kappa_\lambda$', fontsize=20)
+        ampl.draw_atlas_label(0.05, 0.95, ax, status = status, energy = '13 TeV', lumi = 139, desc = r"$HH \rightarrow$ "+channel_name)
+    else:
+        ax.set_ylabel('$\sigma_{ggF+VBF}$ (HH) [fb]', fontsize= 20)    
+        ax.set_xlabel(r'$\kappa_\lambda$', fontsize=20)
 
     # border for the legend
     border_leg = patches.Rectangle((0, 0), 1, 1, facecolor = 'none', edgecolor = 'black', linewidth = 1)
     
-    # reorder the legend
-    handles,labels = ax.get_legend_handles_labels()
-    handles[2].set_linewidth(1.0)
-    handles = [handles[0], handles[1], (handles[5], border_leg), (handles[4], border_leg), (th_band, handles[2], border_leg), handles[3]]
-    labels = [labels[0], labels[1], labels[5], labels[4], labels[2], labels[3]]
-    ax.legend(handles, labels, loc='upper right', fontsize = 'small', frameon = False)
-    
-    #plt.savefig('kl_scan.pdf')
-    
-def draw_all_limits(*args):
+    ## reorder the legend
+    #handles, labels = ax.get_legend_handles_labels()
+    #set_trace()
+    #handles[2].set_linewidth(1.0)
+    #handles = [handles[0], handles[1], (handles[5], border_leg), (handles[4], border_leg), (th_band, handles[2], border_leg), handles[3]]
+    #labels = [labels[0], labels[1], labels[5], labels[4], labels[2], labels[3]]
+    #ax.legend(handles, labels, loc='upper right', fontsize = 'small', frameon = False)
+
+    return plt
+
+def draw_all_limits(status, *channels, use_ampl=True):
     """Last input must always be the combined one """
     
     # Set up figure
@@ -290,10 +273,10 @@ def draw_all_limits(*args):
     ax = fig.add_subplot(gs[:4,0])
     
     # Set up color wheel
-    palette = itertools.cycle(["hh:darkpink",'#9A0EEA'])#"#531B93","#008F00"])#["tab:orange","cornflowerblue","#343844",'darkcyan','seagreen'])#["peru","cornflowerblue","#343844",'darkcyan','seagreen'])
-    
+    palette = itertools.cycle(["#9A0EEA",'#008F00'])
+
     # Plot each individual channel first 
-    for my_tuple in args:
+    for my_tuple in channels:
         
         limits_df = my_tuple[0]
         channel_label = my_tuple[1]
@@ -309,14 +292,15 @@ def draw_all_limits(*args):
             my_width = 2.5
         
         # multiply mu by expected cross-section and plot obs, expected limits
-        ax.semilogy(lambdas, n * np.array(limits_df["obs"]),color = my_color,linewidth=my_width,label=channel_label)
+        if args.unblind:
+            ax.semilogy(lambdas, n * np.array(limits_df["obs"]),color = my_color,linewidth=my_width,label=channel_label)
         ax.semilogy(lambdas, n * np.array(limits_df["exp"]),color = my_color,linestyle='--',linewidth=my_width,label=channel_label)
             
     
         # plot 1 & 2 sigma bands 
         if channel_label == "Combined":
-            ax.fill_between(lambdas, n * np.array(limits_df["-2"]), n * np.array(limits_df["2"]),  facecolor = '#FDC536', label='Combined expected limit $\pm 2\sigma$')
-            ax.fill_between(lambdas, n * np.array(limits_df["-1"]), n * np.array(limits_df["1"]),  facecolor = '#4AD9D9', label='Combined expected limit $\pm 1\sigma$')
+            ax.fill_between(lambdas, n * np.array(limits_df["-2"]), n * np.array(limits_df["2"]),  facecolor = '#FDC536', label='Comb. exp. limit $\pm 2\sigma$')
+            ax.fill_between(lambdas, n * np.array(limits_df["-1"]), n * np.array(limits_df["1"]),  facecolor = '#4AD9D9', label='Comb. exp. limit $\pm 1\sigma$')
 
     # for the theory expected cross-section we can have a smoother function by running over more kl points
     lambdas_th = np.linspace(-10.0,10.0,1000) 
@@ -332,75 +316,81 @@ def draw_all_limits(*args):
     intersections = get_intersections(lambdas, n*limits_df["exp"], lambdas_th, n_th)
     if intersections:
         print ('limits expected:', intersections)
-        #plt.annotate(r'Expected: $\kappa_\lambda \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (0.04, 0.10), xycoords = 'axes fraction', fontsize = 15)
         plt.annotate(r'Expected: $\kappa_\lambda \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (annotation_x,annotation_y), xycoords = 'axes fraction', fontsize = 15)
 
-    #for x in intersections:
-    #   ax.plot([x]*2,ylim,'blue')
 
     # get observed limits 
-    intersections = get_intersections(lambdas, n*limits_df["obs"], lambdas_th, n_th)
-    if intersections:
-        #plt.annotate(r'Observed: $\kappa_\lambda \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (0.04, 0.18), xycoords = 'axes fraction', fontsize = 15)
-        plt.annotate(r'Observed: $\kappa_\lambda \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (annotation_x,annotation_y+0.08), xycoords = 'axes fraction', fontsize = 15)
-        print ('limits observed:', intersections)
-
-    #for x in intersections:
-    #       ax.plot([x]*2,ylim,'blue')
+    if args.unblind:
+        intersections = get_intersections(lambdas, n*limits_df["obs"], lambdas_th, n_th)
+        if intersections:
+            plt.annotate(r'Observed: $\kappa_\lambda \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (annotation_x,annotation_y+0.08), xycoords = 'axes fraction', fontsize = 15)
 
     #SM point
     ax.plot(1, xs_HH(1), linewidth = 0, marker = '*', markersize = 20, color = '#E9F1DF', markeredgecolor = 'black', label = 'SM prediction')
 
     # make pretty 
-    ylim = [10, 8e3] # set consistent y-axis
+    ylim = [10, 2e4] # set consistent y-axis
     ax.set_ylim(ylim)
     ax.xaxis.set_ticks(np.arange(min(lambdas), max(lambdas) + 1, 2))
     ax.set_xlim([-10,10])
-    ampl.set_ylabel('$\sigma_{ggF+VBF}$ (HH) [fb]', fontsize= 20)    
-    ampl.set_xlabel(r'$\kappa_\lambda$', fontsize=20)
-    ampl.draw_atlas_label(0.04, 0.955, ax, status = 'int', energy = '13 TeV', lumi = 139)
+    if use_ampl:
+        ampl.set_ylabel('$\sigma_{ggF+VBF}$ (HH) [fb]', fontsize= 20)    
+        ampl.set_xlabel(r'$\kappa_\lambda$', fontsize=20)
+        ampl.draw_atlas_label(0.04, 0.955, ax, status = status, energy = '13 TeV', lumi = 139)
+    else:
+        ax.set_ylabel('$\sigma_{ggF+VBF}$ (HH) [fb]', fontsize= 20)    
+        ax.set_xlabel(r'$\kappa_\lambda$', fontsize=20)
 
     # border for the legend
     border_leg = patches.Rectangle((0, 0), 1, 1, facecolor = 'none', edgecolor = 'black', linewidth = 1)
 
     # reorder the legend
-    handles,labels = ax.get_legend_handles_labels()
+    #handles,labels = ax.get_legend_handles_labels()
+    #handles = [lines.Line2D([0], [0], ls='-',lw=2,c='black'),lines.Line2D([0], [0], ls='--',lw=2,c='black'),handles[0], handles[2], handles[4],  (handles[9], border_leg), (handles[8], border_leg), (th_band,handles[6], border_leg), handles[7]]
+    #labels = ['Observed limit (95% CL)', 'Expected limit (95% CL)', labels[0], labels[2], labels[4],  labels[9], labels[8], labels[6], labels[7]]
+    #l1 = ax.legend(handles[0:2]+handles[5:], labels[0:2]+labels[5:], loc=(0.52,0.62),fontsize = 13, frameon = False)
+    #l2 = ax.legend(handles[2:5], labels[2:5], loc=(0.75,0.05),fontsize = 13, frameon = False)
+    #plt.gca().add_artist(l1)
 
-    handles = [lines.Line2D([0], [0], ls='-',lw=2,c='black'),lines.Line2D([0], [0], ls='--',lw=2,c='black'),handles[0], handles[2], handles[4],  (handles[9], border_leg), (handles[8], border_leg), (th_band,handles[6], border_leg), handles[7]]
-    #handles = [handles[0], handles[1], (handles[5], border_leg), (handles[4], border_leg), (th_band, handles[2], border_leg), handles[3]]
-    labels = ['Observed limit (95% CL)', 'Expected limit (95% CL)', labels[0], labels[2], labels[4],  labels[9], labels[8], labels[6], labels[7]]
-    #plt.legend(bbox_to_anchor=(1.15, 1), loc=2, borderaxespad=0.,frameon = False)
-    #ax.legend(handles, labels, bbox_to_anchor=(1.05, 1),loc=2, fontsize = 'small', frameon = False)
-    #ax.legend(handles, labels, loc='upper right',fontsize = 8, frameon = False)
-    l1 = ax.legend(handles[0:2]+handles[5:], labels[0:2]+labels[5:], loc=(0.52,0.62),fontsize = 12, frameon = False)
-    l2 = ax.legend(handles[2:5], labels[2:5], loc=(0.75,0.05),fontsize = 12, frameon = False) # small legend, option 1
-    #l2 = ax.legend(handles[2:5], labels[2:5], loc=(0.25,0.62),fontsize = 12, frameon = False) # small legend, option 2
-    plt.gca().add_artist(l1)
+    return plt
 
-    plt.savefig('all_channels_kl_scan.pdf',bbox_inches='tight')
+def main(args):
+    out_path = f'{args.input_path}/figures'
+    bbyy_path = os.path.join(args.input_path, "limits", "nonres", "bbyy", "0_kl_*[!summary].json")
+    limits_ak_df_bbyy = get_limits(bbyy_path, slice(2,-5),rescale_val=1.0/32.776*1000);
+    limits_ak_df_bbyy.to_csv(f'{out_path}/kl_xsec_scan_bbyy.csv')
+    plt = draw_limits(limits_ak_df_bbyy,r"$\mathrm{b\bar{b}\gamma\gamma}$", status=args.status, use_ampl=not args.ci)
+    plt.savefig(f'{out_path}/kl_xsec_scan_bbyy.pdf',bbox_inches='tight')
+
+    bbtautau_path = os.path.join(args.input_path, "limits", "nonres", "bbtautau", "0_kl_*[!summary].json")
+    limits_ak_df_bbtautau = get_limits(bbtautau_path,slice(2,-5),rescale_val=1.0/32.776*1000);
+    limits_ak_df_bbtautau.to_csv(f'{out_path}/kl_xsec_scan_bbtautau.csv')
+    plt = draw_limits(limits_ak_df_bbtautau,r"$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$", status=args.status, use_ampl=not args.ci)
+    plt.savefig(f'{out_path}/kl_xsec_scan_bbtautau.pdf',bbox_inches='tight')
+
+    combined_path = os.path.join(args.input_path, "limits", "nonres", "combined", "A-bbtautau_bbyy-fullcorr", "0_kl_*[!summary].json")
+    limits_ak_df_combined = get_limits(combined_path,slice(2,-5),rescale_val=1.0/32.776*1000);
+    limits_ak_df_combined.to_csv(f'{out_path}/kl_xsec_scan_combined.csv')
+    #plt = draw_limits(limits_ak_df_combined,r"$\mathrm{b\bar{b}\gamma\gamma + b\bar{b}\tau^{+}\tau^{-}}$", status=args.status, use_ampl=not args.ci)
+    #plt.savefig(f'{out_path}/kl_xsec_scan_all.pdf',bbox_inches='tight')
+
+    plt = draw_all_limits(args.status,
+                    (limits_ak_df_bbyy,r"$\mathrm{b\bar{b}\gamma\gamma}$"),
+                    (limits_ak_df_bbtautau,r"$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$"),
+                    (limits_ak_df_combined,"Combined"),
+                    use_ampl=not args.ci)
+    plt = draw_limits(limits_ak_df_combined,r"$\mathrm{b\bar{b}\gamma\gamma + b\bar{b}\tau^{+}\tau^{-}}$", status=args.status, use_ampl=not args.ci)
+    plt.savefig(f'{out_path}/kl_xsec_scan_all.pdf',bbox_inches='tight')
 
 
-
-if __name__ == "__main__": 
+if __name__ == '__main__':
     
-    print("bbyy")
-    limits_ak_df_bbyy = get_limits("/eos/user/j/jpearkes/hh_combination_outputs/individual/alkaid_aug_27/bbyy_new/*[!y].json",slice(2,-5),rescale_val=1.0/32.776*1000);
-    draw_limits(limits_ak_df_bbyy,r"$b\bar{b} \gamma \gamma$")
-    plt.savefig('bbyy_kl_scan.pdf')
-    #draw_limits(limits_ak_df_bbyy,r"$b\bar{b} \gamma \gamma$",log=False)
+    """Get arguments from command line."""
+    parser = ArgumentParser(description="\033[92mPlot kl plots.\033[0m")
+    parser.add_argument('-ci', action='store_true', default=False, required=False, help='')
+    parser.add_argument('-p', '--status', type=str, default='int', required=False, help='')
+    parser.add_argument('-i', '--input_path', type=str, required=True, help='')
+    parser.add_argument('--unblind', action='store_true', default=False, required=False, help='')
 
-    print("bbtautau")
-    limits_ak_df_bbtautau = get_limits("/eos/user/j/jpearkes/hh_combination_outputs/individual/alkaid_aug_27/bbtautau_new/*[!y].json",slice(2,-5),rescale_val=1.0/32.776*1000);
-    draw_limits(limits_ak_df_bbtautau,r"$b\bar{b} \tau \tau$")
-    plt.savefig('bbtautau_kl_scan.pdf')
-    #draw_limits(limits_ak_df_bbtautau,r"$b\bar{b} \tau \tau$",log=False)
-
-    print("Combined")
-    limits_ak_df_combined = get_limits("/eos/user/j/jpearkes/hh_combination_outputs/individual/alkaid_aug_27/combined_new/A-bbtautau_bbyy-fullcorr/*[!y].json",slice(2,-5),rescale_val=1.0/32.776*1000);
-    draw_limits(limits_ak_df_combined,r"$b\bar{b} \gamma \gamma + b\bar{b} \tau \tau$")
-    #draw_limits(limits_ak_df_combined,r"$b\bar{b} \gamma \gamma + b\bar{b} \tau \tau$",log=False)
-    plt.savefig('combined_kl_scan.pdf')
-
-    draw_all_limits((limits_ak_df_bbyy,r"$b\bar{b} \gamma \gamma$"),
-                    (limits_ak_df_bbtautau,r"$b\bar{b} \tau \tau$"),
-                    (limits_ak_df_combined,"Combined"))
+    args = parser.parse_args()
+    main(args)

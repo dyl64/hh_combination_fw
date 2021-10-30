@@ -71,7 +71,7 @@ To check the final result, click on the `Plotting` jobs and click on the `Browse
 
 You can download the whole output from the `Download` botton.
 
-## Run kappa-lambda scan
+## Run kappa-lambda xsec scan
 ```
 # HHComb process_channels -i ~/work/HHcomb/FullRun2Workspaces/original/20210922/ -o output_directory_v4 -r nonres -c bbtautau  --new_method --config configs/regularization_nonres_v6_mH125p09.yaml --file_format "<mass[F]>_kl_1p0" --unblind
 
