@@ -113,7 +113,7 @@ KL_proj_pro_yy:
   variables:
     output_dir: output
     channel: bbyy
-    other_options: "--file_format \"<mass[F]>_kl_<kl[P]>\""
+    other_options: "--file_format <mass[F]>_kl_<kl[P]>"
   only:
     - tags
     - master
@@ -124,7 +124,7 @@ KL_proj_pro_tt:
   variables:
     output_dir: output
     channel: bbtautau
-    other_options: "--file_format \"<mass[F]>_kl_<kl[P]>\""
+    other_options: "--file_format <mass[F]>_kl_<kl[P]>\""
   only:
     - tags
     - master
@@ -178,7 +178,7 @@ KL_proj_comb:
     input_dir: output
     channels: bbtautau,bbyy
     np_option: np_map_kl_v10.json
-    other_options: "--file_format \"<mass[F]>_kl_<kl[P]>\""
+    other_options: "--file_format <mass[F]>_kl_<kl[P]>"
 
 
 ###################################
