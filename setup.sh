@@ -66,6 +66,7 @@ export WORKSPACECOMBINER_PATH
 
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROOSTATPATH/lib
 ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${hh_combination_fw_path}/submodules/RooStatTools/inc/:${hh_combination_fw_path}/submodules/RooFitExtensions
+export LD_LIBRARY_PATH
 export ROOT_INCLUDE_PATH
 
 export PATH=${hh_combination_fw_path}/bin:$PATH
@@ -74,3 +75,5 @@ export PATH=${hh_combination_fw_path}/bin:$PATH
 # setup quickstats
 export PATH=${hh_combination_fw_path}/submodules/quickstats/bin:$PATH
 export PYTHONPATH=${hh_combination_fw_path}/submodules/quickstats:$PYTHONPATH
+echo "from setup.sh"
+echo $PYTHONPATH
