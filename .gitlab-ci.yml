@@ -23,6 +23,7 @@ hhCompile:
     - git status
     - cd $base_path
     - source compile.sh
+    - source setup.sh
     - python -V
   artifacts:
     paths:
