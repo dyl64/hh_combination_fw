@@ -25,6 +25,9 @@ hhCompile:
     - source compile.sh
     - source setup.sh
     - python -V
+    - which python
+    - python -c "import combiner"
+    - echo $PYTHONPATH
   artifacts:
     paths:
       - submodules
