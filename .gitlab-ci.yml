@@ -140,6 +140,8 @@ KL_proj_pro_tt:
     mini_option: minimizer_options_robust.json
     np_option: np_map_nonres_v10.json
     other_options: ""
+  needs:
+    - job: hhCompile
   allow_failure: true
   script:
     - echo HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options --scheme configs/$np_option
@@ -153,7 +155,6 @@ KL_proj_pro_tt:
 NR_proj_comb_mu:
   extends: .NRCombine_ws
   needs:
-    - job: hhCompile
     - job: NR_proj_mu_pro
   variables:
     input_dir: output
@@ -162,7 +163,6 @@ NR_proj_comb_mu:
 NR_proj_comb_stat:
   extends: .NRCombine_ws
   needs:
-    - job: hhCompile
     - job: NR_proj_pro_stat
   variables:
     input_dir: output_stat
