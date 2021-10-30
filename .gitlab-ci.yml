@@ -58,8 +58,6 @@ hhCompile:
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - echo $input_dir/$version
     - source setup.sh || echo ignore setupATLAS return code
-    - python -c "import combiner"
-    - echo $PYTHONPATH
   artifacts:
     paths:
       - $output_dir
@@ -75,8 +73,6 @@ hhCompile:
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
-    - python -c "import combiner"
-    - echo $PYTHONPATH
   artifacts:
     paths:
       - $input_dir
@@ -148,8 +144,6 @@ KL_proj_pro_tt:
     mini_option: minimizer_options_robust.json
     np_option: np_map_nonres_v10.json
     other_options: ""
-  needs:
-    - job: hhCompile
   allow_failure: true
   script:
     - echo HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options --scheme configs/$np_option
@@ -163,6 +157,7 @@ KL_proj_pro_tt:
 NR_proj_comb_mu:
   extends: .NRCombine_ws
   needs:
+    - job: hhCompile
     - job: NR_proj_mu_pro
   variables:
     input_dir: output
@@ -171,6 +166,7 @@ NR_proj_comb_mu:
 NR_proj_comb_stat:
   extends: .NRCombine_ws
   needs:
+    - job: hhCompile
     - job: NR_proj_pro_stat
   variables:
     input_dir: output_stat
@@ -180,6 +176,7 @@ NR_proj_comb_stat:
 KL_proj_comb:
   extends: .NRCombine_ws
   needs:
+    - job: hhCompile
     - job: KL_proj_pro_yy
     - job: KL_proj_pro_tt
   variables:
@@ -196,8 +193,8 @@ KL_proj_comb:
   stage: plotting
   variables:
     GIT_SSL_NO_VERIFY: "true"
-    output_dir: figures
     input_dir: output
+    output_dir: figures
   before_script:
     - set +e
     - shopt -s expand_aliases
