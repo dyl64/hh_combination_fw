@@ -149,7 +149,7 @@ quickstats cls_limit --batch_mode -i <input_root_file> --poi xsec_br --print_lev
 
 ### Inspect workspaces
 ```
-quickstats inspect_ws pois -i <input_root_file>
+quickstats inspect_ws summary -i <input_root_file>
 ```
 
 ### Generate Asimov

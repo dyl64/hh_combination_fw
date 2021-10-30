@@ -5,8 +5,14 @@ dataset:
     blind: combData
   combination:
     blind: combData
-    unblind: combData
 poi:
   bbtautau: SigXsecOverSM
   bbyy: mu_XS_HH
   combination: xsec_br
+
+rescale_poi:
+  #rescale means poi/rescaling (same value as scalings.py)
+  #bbtautau removed 1000 factor
+  bbtautau: 0.032776
+  #rescale means poi/rescaling (same value as scalings.py)
+  bbyy: 0.032776

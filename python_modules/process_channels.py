@@ -20,7 +20,7 @@ DEFAULT_COMB_DATASET = 'combData'
 @click.option('-o', '--outdir', default="./output", help='output directory')
 @click.option('--better_bands/--no-better-bands', 'do_better_bands', default=True, help='do better limit bands')
 @click.option('--cl', default="0.95", help='confidence level')
-@click.option('--scaling_release', default="r10", help='scaling release')
+@click.option('--scaling_release', default="r999", help='scaling release (obselete, one should set the value by `rescale_poi` in config/regularization.yaml')
 @click.option('--blind/--unblind', default=True, help='blind/unblind analysis')
 @click.option('-m', '--mass', 'mass_expr', default=None, help='mass points to run, wild card is accepted, default=None (all mass points)')
 @click.option('-p', '--param',  default=None, help='perform limit scan on parameterized workspace on a certain parameter(s)'
@@ -63,7 +63,7 @@ def process_channels(input_path, resonant_type, channels, outdir, do_better_band
         if rescale_poi is not None:
             channel_rescale_poi = rescale_poi.get(channel, None)
         else:
-            channel_rescale_poi = None            
+            channel_rescale_poi = None
         pipeline = combiner.TaskPipelineWS(workspace_dir, outdir, resonant_type, channel, scaling_release,
                                           old_poi, new_poi, old_dataname, new_dataname, do_better_bands,
                                           cl, blind, mass_expr, param, new_method=new_method,

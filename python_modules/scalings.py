@@ -2217,6 +2217,7 @@ scalings_releases = {
             'bbtautau' : bbtautau_scalings['v10'], 
             'bbyy'     : bbyy_scalings['v10'],
             },
+    ## !! use config/regularize.yaml for rescaling !!
                     }
 
 def get_scaling(release, channel, type, mass, doScaling=True):

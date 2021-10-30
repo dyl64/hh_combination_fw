@@ -68,6 +68,7 @@ hhCompile:
     - shopt -s expand_aliases
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
+    - echo $PYTHONPATH
     - source setup.sh || echo ignore setupATLAS return code
   artifacts:
     paths:
