@@ -124,7 +124,7 @@ KL_proj_pro_tt:
   variables:
     output_dir: output
     channel: bbtautau
-    other_options: "--file_format <mass[F]>_kl_<kl[P]>\""
+    other_options: "--file_format <mass[F]>_kl_<kl[P]>"
   only:
     - tags
     - master
