@@ -24,10 +24,6 @@ hhCompile:
     - cd $base_path
     - source compile.sh
     - source setup.sh
-    - python -V
-    - which python
-    - python -c "import combiner"
-    - echo $PYTHONPATH
   artifacts:
     paths:
       - submodules
@@ -215,7 +211,6 @@ NRPlot:
   needs:
     - job: NR_proj_comb_mu
     - job: NR_proj_comb_stat
-    - job: KL_proj_comb
   variables:
     input_stat_dir: output_stat
   script:
