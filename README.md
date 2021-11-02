@@ -71,13 +71,20 @@ To check the final result, click on the `Plotting` jobs and click on the `Browse
 
 You can download the whole output from the `Download` botton.
 
-## Run kappa-lambda xsec scan
+## Run kappa-lambda xsec scan (individual workspaces)
 ```
 # HHComb process_channels -i ~/work/HHcomb/FullRun2Workspaces/original/20210922/ -o output_directory_v4 -r nonres -c bbtautau  --new_method --config configs/regularization_nonres_v6_mH125p09.yaml --file_format "<mass[F]>_kl_1p0" --unblind
 
 HHComb process_channels --new_method -i <input_ws_directory> -o <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_nonres_v6_mH125.yaml --file_format "<mass[F]>_kl_<kl[P]>" --unblind
 
 HHComb combine_ws --new_method -i <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --scheme configs/np_map_nonres_kl.json --file_format "<mass[F]>_kl_<kl[P]>" --unblind
+```
+
+## Run kappa-lambda xsec scan (parametrised workspaces)
+```
+HHComb process_channels --new_method -i <input_ws_directory> -r nonres  -c bbtautau,bbyy  --param klambda=<-low>_<high>_<step> --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_kl_v7.yaml -o <output_directory>
+
+HHComb combine_ws --new_method -i <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --scheme configs/np_map_nonres_kl.json --param klambda=<-low>_<high>_<step>
 ```
 
 ## Run pulls and impact
