@@ -1,11 +1,9 @@
 from math import sqrt, fabs, erf
 import click
 import json
-#from quickstats.components.likelihood import evaluate_nll
 from quickstats.components import Likelihood
 from concurrent.futures import ProcessPoolExecutor
 import multiprocessing
-import aux_utils as utils
 from itertools import repeat
 from glob import glob
 from os import path
@@ -36,6 +34,7 @@ def best_fit(input_path, poi_name, dataset, parallel, snapshot, correlation):
             max_workers = parallel
 
         arguments = (input_files, repeat(poi_name), repeat(dataset), repeat(snapshot), repeat(correlation))
+        import aux_utils as utils
         utils.parallel_run(_best_fit, *arguments, max_workers=max_workers)
 
 def _best_fit(input_file, poi_name, dataset, snapshot, correlation):
