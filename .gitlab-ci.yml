@@ -69,9 +69,10 @@ hhCompile:
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
-    - ls
+    - ls /builds/atlas-physics/HDBS/DiHiggs/combination/hh_combination_fw/submodules/quickstats/bin
     - echo $PATH
     - ls submodules/*
+    - which quickstats
   artifacts:
     paths:
       - $input_dir
@@ -249,20 +250,20 @@ WorkspaceProcess:
     mini_option: minimizer_options_robust.json
     version: 20211029_mu
     channel: bbtautau,bbyy
-    other_options: "--file_format <mass[F]>_kl_<kl[P]>"
+    other_options: "--file_format <mass[F]>_kl"
     np_option: np_map_kl_v10.json
   allow_failure: true
   script:
     - echo HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --skip-limit --no-cache $other_options
     - HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --skip-limit --no-cache $other_options
-    - echo HHComb combine_ws --new_method -i $output_dir -r nonres -c $channel --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --scheme configs/$np_option --skip-limit --no-cache $other_options
-    - HHComb combine_ws --new_method -i $output_dir -r nonres -c $channel --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --scheme configs/$np_option --skip-limit --no-cache $other_options
+    - echo HHComb combine_ws -i $output_dir -r nonres -c $channel --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --scheme configs/$np_option --skip-limit --no-cache $other_options
+    - HHComb combine_ws -i $output_dir -r nonres -c $channel --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --scheme configs/$np_option --skip-limit --no-cache $other_options
 
 
 WorkspaceLikelihood:
   extends: .combine_workspace
   needs:
-    - job: WorkspaceProcess
+    - job: hhCompile
   variables:
     output_dir: output
   allow_failure: true
