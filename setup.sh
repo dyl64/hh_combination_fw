@@ -58,15 +58,12 @@ fi
 cd ${hh_combination_fw_path}
 
 PYTHONPATH=$PYTHONPATH:${hh_combination_fw_path}/python_modules/
-#PYTHONPATH=$PYTHONPATH:${hh_combination_fw_path}/python_modules/:${hh_combination_fw_path}/submodules/RooStatTools/python_modules/
-#ROOSTATPATH=${hh_combination_fw_path}/submodules/RooStatTools
-#export ROOSTATPATH
 
 WORKSPACECOMBINER_PATH=${hh_combination_fw_path}/submodules/workspaceCombiner/
 export WORKSPACECOMBINER_PATH
 
 #LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROOSTATPATH/lib
-ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${hh_combination_fw_path}/submodules/RooStatTools/inc/:${hh_combination_fw_path}/submodules/RooFitExtensions
+ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${hh_combination_fw_path}/submodules/RooFitExtensions
 export LD_LIBRARY_PATH
 export ROOT_INCLUDE_PATH
 
