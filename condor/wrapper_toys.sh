@@ -2,7 +2,7 @@
 
 job=$1
 input=$2
-dataset=$3
+combData=$3
 scan_min=$4
 scan_max=$5
 steps=15
@@ -12,12 +12,7 @@ seed=$6
 output=$7
 poi_min=$8
 poi_max=$9
-extra1=${10}
-extra2=${11}
-extra3=${12}
-extra4=${13}
-extra5=${14}
-extra6=${15}
+extras="--tolerance=0.1 --snapshot=nominalNuis --offset"
 
 
 #export PATH=/afs/cern.ch/work/c/chlcheng/public/local/conda/miniconda/envs/ml-base/bin:$PATH
@@ -41,7 +36,7 @@ which quickstats
 quickstats compile
 pip install click --target .
 
-command="quickstats $job -i $input -d $dataset --scan_min $scan_min --scan_max $scan_max --steps $steps --n_toys $n_toys --batchsize $batchsize --seed $seed -o /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/output/$output --poi_min ${poi_min} --poi_max ${poi_max} ${extra1} ${extra2} ${extra3} ${extra4} ${extra5} ${extra6}"
+command="quickstats $job -i $input -d $combData --scan_min $scan_min --scan_max $scan_max --steps $steps --n_toys $n_toys --batchsize $batchsize --seed $seed -o /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/output/$output --poi_min ${poi_min} --poi_max ${poi_max} ${extras}"
 
 echo $command
 $command
