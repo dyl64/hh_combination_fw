@@ -71,7 +71,7 @@ hhCompile:
     - source setup.sh || echo ignore setupATLAS return code
     - ls /builds/atlas-physics/HDBS/DiHiggs/combination/hh_combination_fw/submodules/quickstats/bin
     - echo $PATH
-    - ls submodules/*
+    - ls *
     - which quickstats
   artifacts:
     paths:
@@ -264,12 +264,13 @@ WorkspaceLikelihood:
   extends: .combine_workspace
   needs:
     - job: hhCompile
+    - job: WorkspaceProcess
   variables:
     output_dir: output
   allow_failure: true
   script:
     - echo quickstats likelihood_scan --min -2 --max 10 --step 0.2 -i $output_dir/rescaled/nonres/bbtautau/0_kl.root -p klambda --outdir $output_dir/likelihood -o bbtautau
-    - quickstats likelihood_scan --min -2 --max 10 --step 0.2 -i $output_dir/rescaled/nonres/bbtautau/0_kl.root -p klambda --outdir $output_dir/likelihood -o $channel
+    - quickstats likelihood_scan --min -2 --max 10 --step 0.2 -i $output_dir/rescaled/nonres/bbtautau/0_kl.root -p klambda --outdir $output_dir/likelihood -o bbtautau
     - echo quickstats likelihood_scan --min -2 --max 10 --step 0.2 -i $output_dir/rescaled/nonres/bbyy/0_kl.root -p klambda --outdir $output_dir/likelihood -o bbyy
     - quickstats likelihood_scan --min -2 --max 10 --step 0.2 -i $output_dir/rescaled/nonres/bbyy/0_kl.root -p klambda --outdir $output_dir/likelihood -o bbyy
     - echo quickstats likelihood_scan --min -2 --max 10 --step 0.2 -i $output_dir/combined/nonres/A-bbtautau_bbyy-fullcorr/0_kl.root -p klambda --outdir $output_dir/likelihood -o combined

@@ -34,6 +34,7 @@ DEFAULT_DATASET = 'combData'
 def combine_ws(input_path, resonant_type, channels, correlation_scheme, tag_pattern, 
                do_better_bands, cl, blind, mass_expr, param, new_method, config_file, 
                minimizer_options, verbose, parallel, file_format, cache, do_limit):
+    print('zhangr debug new_method', new_method)
     if config_file is not None:
         config = yaml.safe_load(open(config_file))
     else:
