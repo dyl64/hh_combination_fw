@@ -1,5 +1,4 @@
 import sys
-from pdb import set_trace
 import os
 import re
 import yaml
@@ -58,5 +57,4 @@ def kl_likelihood(**kwargs):
     for input_file, outname in zip(input_files, outnames):
         kwargs['input_file'] = input_file
         kwargs['outname'] = outname
-        set_trace()
         scan_nll(**kwargs)
