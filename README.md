@@ -82,9 +82,19 @@ HHComb combine_ws --new_method -i <output_directory> -r nonres -c bbyy,bbtautau 
 
 ## Run kappa-lambda xsec scan (on parametrised input workspaces, with a name `0_kl.root`)
 ```
-HHComb process_channels --new_method -i <input_ws_directory> -r nonres  -c bbtautau,bbyy  --param klambda=<-low>_<high>_<step> --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_proj_v7.yaml -o <output_directory> --file_format "<mass[F]>_kl"
+HHComb process_channels -i <input_ws_directory> -c bbyy,bbtautau  -r nonres --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_kl.yaml --skip-limit --no-cache --file_format "<mass[F]>_kl" -o <output_directory>
+
+HHComb combine_ws -i <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_kl.yaml --scheme configs/np_map_kl_v10.json --file_format "<mass[F]>_kl" --skip-limit --no-cache
+
+```
+
+## Run kappa-lambda likelihood scan (on parametrised input workspaces, with a name `0_kl.root`)
+```
+HHComb process_channels -i <input_ws_directory> -c bbyy -r nonres --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_kl.yaml --skip-limit --no-cache --file_format "<mass[F]>_kl" -o <output_directory>
 
 HHComb combine_ws --new_method -i <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --scheme configs/np_map_kl_v10.json --param klambda=<-low>_<high>_<step> --file_format "<mass[F]>_kl"
+
+quickstats likelihood_scan --min -0.2 --max 1.0 --step 0.01 -i combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/<Mass>.root -o <Mass>
 ```
 
 ## Run pulls and impact

@@ -20,4 +20,4 @@ Request_memory = 500 MB
 Request_disk   = 500 MB
 
 Arguments = toy_limit /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210924_CI/output/combined/spin0/A-bbbb_bbtautau-fullcorr/1100.root  combData  0.0023611687937954273 0.021722025589580155  $(ClusterId)$(ProcId) toy_study_4/1100/toy_combined_1100_seed_{seed}_batch_{batch}.root  0  100 --tolerance=0.1 --snapshot=nominalNuis --offset
-Queue 1
+Queue 500

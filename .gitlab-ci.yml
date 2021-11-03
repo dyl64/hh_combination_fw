@@ -85,8 +85,8 @@ hhCompile:
     other_options: ""
   allow_failure: true
   script:
-    - echo HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_proj_v7.yaml $other_options
-    - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_proj_v7.yaml $other_options
+    - echo HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_proj_v10.yaml $other_options
+    - HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_proj_v10.yaml $other_options
 
 NR_proj_mu_pro:
   extends: .NRProcess
@@ -142,8 +142,8 @@ KL_proj_pro_tt:
     other_options: ""
   allow_failure: true
   script:
-    - echo HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options --scheme configs/$np_option
-    - HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options --scheme configs/$np_option
+    - echo HHComb combine_ws -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options --scheme configs/$np_option
+    - HHComb combine_ws -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options --scheme configs/$np_option
   only:
     - tags
     - master
@@ -233,6 +233,28 @@ KLPlot:
   artifacts:
     paths:
       - $input_dir/$output_dir
+
+###################################
+## kl workspace combine          ##
+###################################
+WorkspaceProcess:
+  extends: .process_channel
+  needs:
+    - job: hhCompile
+  variables:
+    output_dir: output
+    mini_option: minimizer_options_robust.json
+    version: 20211029_mu
+    channel: bbtautau,bbyy
+    other_options: "--file_format <mass[F]>_kl_<kl[P]>"
+    np_option: np_map_kl_v10.json
+  allow_failure: true
+  script:
+    - echo HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --skip-limit --no-cache
+    - HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --skip-limit --no-cache
+    - echo HHComb combine_ws --new_method -i $output_dir -r nonres -c $channel --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --scheme configs/$np_option --skip-limit --no-cache 
+    - HHComb combine_ws --new_method -i $output_dir -r nonres -c $channel --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --scheme configs/$np_option --skip-limit --no-cache 
+
 
 #####################################
 ## Intermediate output to download ##

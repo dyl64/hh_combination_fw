@@ -25,7 +25,7 @@ DEFAULT_COMB_DATASET = 'combData'
 @click.option('-m', '--mass', 'mass_expr', default=None, help='mass points to run, wild card is accepted, default=None (all mass points)')
 @click.option('-p', '--param',  default=None, help='perform limit scan on parameterized workspace on a certain parameter(s)'
                                              ', e.g. klambda=-10_10_0.2,cvv=1')
-@click.option('--new_method/--old_method', default=False, help='use quickstats for asymptotic cls limit')
+@click.option('--new_method/--old_method', default=True, help='use quickstats for asymptotic cls limit')
 @click.option('--config', 'config_file', default=None, help='configuration file for regularization')
 @click.option('--minimizer_options', default=None, help='configuration file for minimizer options')
 @click.option('--verbose/--silent', default=False, help='show debug messages in stdout')

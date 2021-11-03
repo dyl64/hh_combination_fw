@@ -8,11 +8,9 @@ dataset:
 poi:
   bbtautau: klambda
   bbyy: klambda
-  combination: xsec_br
+  combination: klambda
 
 rescale_poi:
-  #rescale means poi/rescaling (same value as scalings.py)
-  #bbtautau removed 1000 factor
+  #kl no rescaling needed
   bbtautau: 1
-  #rescale means poi/rescaling (same value as scalings.py)
   bbyy: 1
