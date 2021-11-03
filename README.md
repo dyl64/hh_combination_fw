@@ -36,9 +36,9 @@ git apply --whitespace=nowarn ../../workspaceCombiner.patch
 ```
 source compile.sh
 source setup.sh
-HHComb process_channels --new_method -i <input> -c <channel> -r nonres -o <output> --config configs/regularization_nonres_v3.yaml
+HHComb process_channels -i <input> -c <channel> -r nonres -o <output> --config configs/regularization_nonres_v3.yaml
 ...
-HHComb combine_ws --new_method -i <output> -c bbbb,bbtautau,bbyy,WWWW,bbll,bbVV
+HHComb combine_ws -i <output> -c bbbb,bbtautau,bbyy,WWWW,bbll,bbVV
 ...
 
 ```
@@ -47,9 +47,9 @@ You need to make sure the workspace can be found in `<input>/<channel>/nonres`.
 ### For the future time
 ```
 source setup.sh
-HHComb process_channels --new_method -i <input> -c <channel> -r nonres -o <output> --config configs/regularization_nonres_v3.yaml
+HHComb process_channels -i <input> -c <channel> -r nonres -o <output> --config configs/regularization_nonres_v3.yaml
 ...
-HHComb combine_ws --new_method -i <output> -c bbbb,bbtautau,bbyy,WWWW,bbll,bbVV
+HHComb combine_ws -i <output> -c bbbb,bbtautau,bbyy,WWWW,bbll,bbVV
 ...
 ```
 
@@ -73,11 +73,11 @@ You can download the whole output from the `Download` botton.
 
 ## Run kappa-lambda xsec scan (on individual input workspaces, with names `0_kl_1p0.root`, `0_kl_n1p0.root`)
 ```
-# HHComb process_channels -i ~/work/HHcomb/FullRun2Workspaces/original/20210922/ -o output_directory_v4 -r nonres -c bbtautau  --new_method --config configs/regularization_nonres_v6_mH125p09.yaml --file_format "<mass[F]>_kl_1p0" --unblind
+# HHComb process_channels -i ~/work/HHcomb/FullRun2Workspaces/original/20210922/ -o output_directory_v4 -r nonres -c bbtautau  --config configs/regularization_nonres_v6_mH125p09.yaml --file_format "<mass[F]>_kl_1p0" --unblind
 
-HHComb process_channels --new_method -i <input_ws_directory> -o <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_nonres_v6_mH125.yaml --file_format "<mass[F]>_kl_<kl[P]>" --unblind
+HHComb process_channels -i <input_ws_directory> -o <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_nonres_v6_mH125.yaml --file_format "<mass[F]>_kl_<kl[P]>" --unblind
 
-HHComb combine_ws --new_method -i <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --scheme configs/np_map_kl_v10.json --file_format "<mass[F]>_kl_<kl[P]>" --unblind
+HHComb combine_ws -i <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --scheme configs/np_map_kl_v10.json --file_format "<mass[F]>_kl_<kl[P]>" --unblind
 ```
 
 ## Run kappa-lambda xsec scan (on parametrised input workspaces, with a name `0_kl.root`)
@@ -92,7 +92,7 @@ HHComb combine_ws -i <output_directory> -r nonres -c bbyy,bbtautau --minimizer_o
 ```
 HHComb process_channels -i <input_ws_directory> -c bbyy -r nonres --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_kl.yaml --skip-limit --no-cache --file_format "<mass[F]>_kl" -o <output_directory>
 
-HHComb combine_ws --new_method -i <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --scheme configs/np_map_kl_v10.json --param klambda=<-low>_<high>_<step> --file_format "<mass[F]>_kl"
+HHComb combine_ws -i <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --scheme configs/np_map_kl_v10.json --param klambda=<-low>_<high>_<step> --file_format "<mass[F]>_kl"
 
 quickstats likelihood_scan --min -2 --max 10 --step 0.2 -i ../output/param_kl/combined/nonres/A-bbtautau_bbyy-fullcorr/0_kl.root -p klambda --outdir ../output/param_kl/likelihood
 ```

@@ -6,7 +6,7 @@ from quickstats.components import AnalysisObject
 from quickstats.components.likelihood import evaluate_nll
 from concurrent.futures import ProcessPoolExecutor
 import multiprocessing
-import aux_utils as utils
+import utils
 from itertools import repeat
 from glob import glob
 from os import path

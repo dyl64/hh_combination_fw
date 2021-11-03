@@ -5,7 +5,7 @@ import yaml
 import click
 
 import combiner
-import aux_utils as utils
+import utils
 
 DEFAULT_NEW_POI = "xsec_br"
 DEFAULT_BLIND_DATASET = 'asimovData'
@@ -25,7 +25,6 @@ DEFAULT_COMB_DATASET = 'combData'
 @click.option('-m', '--mass', 'mass_expr', default=None, help='mass points to run, wild card is accepted, default=None (all mass points)')
 @click.option('-p', '--param',  default=None, help='perform limit scan on parameterized workspace on a certain parameter(s)'
                                              ', e.g. klambda=-10_10_0.2,cvv=1')
-@click.option('--new_method/--old_method', default=True, help='use quickstats for asymptotic cls limit')
 @click.option('--config', 'config_file', default=None, help='configuration file for regularization')
 @click.option('--minimizer_options', default=None, help='configuration file for minimizer options')
 @click.option('--verbose/--silent', default=False, help='show debug messages in stdout')
@@ -34,7 +33,7 @@ DEFAULT_COMB_DATASET = 'combData'
 @click.option('--cache/--no-cache', default=True, help='cache existing results')
 @click.option('--do-limit/--skip-limit', default=True, help='whether to evaluate limits')
 def process_channels(input_path, resonant_type, channels, outdir, do_better_bands, cl, 
-                     scaling_release, blind, mass_expr, param, new_method, config_file,
+                     scaling_release, blind, mass_expr, param, config_file,
                      minimizer_options, verbose, parallel, file_format, cache,
                      do_limit):
     
@@ -66,7 +65,7 @@ def process_channels(input_path, resonant_type, channels, outdir, do_better_band
             channel_rescale_poi = None
         pipeline = combiner.TaskPipelineWS(workspace_dir, outdir, resonant_type, channel, scaling_release,
                                           old_poi, new_poi, old_dataname, new_dataname, do_better_bands,
-                                          cl, blind, mass_expr, param, new_method=new_method,
+                                          cl, blind, mass_expr, param, 
                                           verbose=verbose, minimizer_options=minimizer_options,
                                           redefine_parameters=channel_redefine_parameters, 
                                           rescale_poi=channel_rescale_poi,

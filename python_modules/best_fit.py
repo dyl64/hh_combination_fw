@@ -34,7 +34,7 @@ def best_fit(input_path, poi_name, dataset, parallel, snapshot, correlation):
             max_workers = parallel
 
         arguments = (input_files, repeat(poi_name), repeat(dataset), repeat(snapshot), repeat(correlation))
-        import aux_utils as utils
+        import utils
         utils.parallel_run(_best_fit, *arguments, max_workers=max_workers)
 
 def _best_fit(input_file, poi_name, dataset, snapshot, correlation):
