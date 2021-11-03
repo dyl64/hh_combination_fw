@@ -8,6 +8,7 @@ from combine_ws import combine_ws
 from pvalue import pvalue
 from gen_asimov import gen_asimov
 from best_fit import best_fit
+from kl_likelihood import kl_likelihood
 
 @click.group()
 def cli():
@@ -19,4 +20,5 @@ if __name__ == "__main__":
     cli.add_command(pvalue)
     cli.add_command(gen_asimov)
     cli.add_command(best_fit)
+    cli.add_command(kl_likelihood)
     cli()
