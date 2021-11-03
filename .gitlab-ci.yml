@@ -250,11 +250,26 @@ WorkspaceProcess:
     np_option: np_map_kl_v10.json
   allow_failure: true
   script:
-    - echo HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --skip-limit --no-cache
-    - HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --skip-limit --no-cache
-    - echo HHComb combine_ws --new_method -i $output_dir -r nonres -c $channel --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --scheme configs/$np_option --skip-limit --no-cache 
-    - HHComb combine_ws --new_method -i $output_dir -r nonres -c $channel --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --scheme configs/$np_option --skip-limit --no-cache 
+    - echo HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --skip-limit --no-cache $other_options
+    - HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --skip-limit --no-cache $other_options
+    - echo HHComb combine_ws --new_method -i $output_dir -r nonres -c $channel --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --scheme configs/$np_option --skip-limit --no-cache $other_options
+    - HHComb combine_ws --new_method -i $output_dir -r nonres -c $channel --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --scheme configs/$np_option --skip-limit --no-cache $other_options
 
+
+WorkspaceLikelihood:
+  extends: .combine_workspace
+  needs:
+    - job: WorkspaceProcess
+  variables:
+    output_dir: output
+  allow_failure: true
+  script:
+    - echo quickstats likelihood_scan --min -2 --max 10 --step 0.2 -i $output_dir/rescaled/nonres/bbtautau/0_kl.root -p klambda --outdir $output_dir/likelihood -o bbtautau
+    - quickstats likelihood_scan --min -2 --max 10 --step 0.2 -i $output_dir/rescaled/nonres/bbtautau/0_kl.root -p klambda --outdir $output_dir/likelihood -o $channel
+    - echo quickstats likelihood_scan --min -2 --max 10 --step 0.2 -i $output_dir/rescaled/nonres/bbyy/0_kl.root -p klambda --outdir $output_dir/likelihood -o bbyy
+    - quickstats likelihood_scan --min -2 --max 10 --step 0.2 -i $output_dir/rescaled/nonres/bbyy/0_kl.root -p klambda --outdir $output_dir/likelihood -o bbyy
+    - echo quickstats likelihood_scan --min -2 --max 10 --step 0.2 -i $output_dir/combined/nonres/A-bbtautau_bbyy-fullcorr/0_kl.root -p klambda --outdir $output_dir/likelihood -o combined
+    - quickstats likelihood_scan --min -2 --max 10 --step 0.2 -i $output_dir/combined/nonres/A-bbtautau_bbyy-fullcorr/0_kl.root -p klambda --outdir $output_dir/likelihood -o combined
 
 #####################################
 ## Intermediate output to download ##

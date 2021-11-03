@@ -94,7 +94,7 @@ HHComb process_channels -i <input_ws_directory> -c bbyy -r nonres --minimizer_op
 
 HHComb combine_ws --new_method -i <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --scheme configs/np_map_kl_v10.json --param klambda=<-low>_<high>_<step> --file_format "<mass[F]>_kl"
 
-quickstats likelihood_scan --min -0.2 --max 1.0 --step 0.01 -i combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/<Mass>.root -o <Mass>
+quickstats likelihood_scan --min -2 --max 10 --step 0.2 -i ../output/param_kl/combined/nonres/A-bbtautau_bbyy-fullcorr/0_kl.root -p klambda --outdir ../output/param_kl/likelihood
 ```
 
 ## Run pulls and impact
