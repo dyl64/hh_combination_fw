@@ -69,6 +69,9 @@ hhCompile:
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
+    - ls
+    - echo $PATH
+    - ls submodules/*
   artifacts:
     paths:
       - $input_dir
@@ -270,6 +273,10 @@ WorkspaceLikelihood:
     - quickstats likelihood_scan --min -2 --max 10 --step 0.2 -i $output_dir/rescaled/nonres/bbyy/0_kl.root -p klambda --outdir $output_dir/likelihood -o bbyy
     - echo quickstats likelihood_scan --min -2 --max 10 --step 0.2 -i $output_dir/combined/nonres/A-bbtautau_bbyy-fullcorr/0_kl.root -p klambda --outdir $output_dir/likelihood -o combined
     - quickstats likelihood_scan --min -2 --max 10 --step 0.2 -i $output_dir/combined/nonres/A-bbtautau_bbyy-fullcorr/0_kl.root -p klambda --outdir $output_dir/likelihood -o combined
+  only:
+    - tags
+    - master
+    - CI
 
 #####################################
 ## Intermediate output to download ##
