@@ -31,7 +31,7 @@ hhCompile:
       - scripts
       - setup.sh
 
-.process_channel:
+.IStep1:
   stage: process
   needs:
     - job: hhCompile
@@ -58,7 +58,7 @@ hhCompile:
     paths:
       - $output_dir
 
-.combine_workspace:
+.IStep2:
   stage: combine
   variables:
     GIT_SSL_NO_VERIFY: "true"
@@ -81,7 +81,7 @@ hhCompile:
 ## Non-resonant Process channels ##
 ###################################
 .NRProcess:
-  extends: .process_channel
+  extends: .IStep1
   variables:
     output_dir: output
     mini_option: minimizer_options_robust.json
@@ -139,7 +139,7 @@ KL_proj_pro_tt:
 ###################################
 # Default is correlated (bbtautau and bbyy)
 .NRCombine_ws:
-  extends: .combine_workspace
+  extends: .IStep2
   variables:
     mini_option: minimizer_options_robust.json
     np_option: np_map_nonres_v10.json
@@ -242,7 +242,7 @@ KLPlot:
 ## kl workspace combine          ##
 ###################################
 WorkspaceProcess:
-  extends: .process_channel
+  extends: .IStep1
   needs:
     - job: hhCompile
   variables:
@@ -261,7 +261,7 @@ WorkspaceProcess:
 
 
 WorkspaceLikelihood:
-  extends: .combine_workspace
+  extends: .IStep2
   needs:
     - job: hhCompile
     - job: WorkspaceProcess
@@ -269,14 +269,8 @@ WorkspaceLikelihood:
     output_dir: output
   allow_failure: true
   script:
-    #- echo quickstats likelihood_scan --min -2 --max 10 --step 0.2 -i $output_dir/rescaled/nonres/bbtautau/0_kl.root -p klambda --outdir $output_dir/likelihood -o bbtautau
-    #- quickstats likelihood_scan --min -2 --max 10 --step 0.2 -i $output_dir/rescaled/nonres/bbtautau/0_kl.root -p klambda --outdir $output_dir/likelihood -o bbtautau
-    #- echo quickstats likelihood_scan --min -2 --max 10 --step 0.2 -i $output_dir/rescaled/nonres/bbyy/0_kl.root -p klambda --outdir $output_dir/likelihood -o bbyy
-    #- quickstats likelihood_scan --min -2 --max 10 --step 0.2 -i $output_dir/rescaled/nonres/bbyy/0_kl.root -p klambda --outdir $output_dir/likelihood -o bbyy
-    #- echo quickstats likelihood_scan --min -2 --max 10 --step 0.2 -i $output_dir/combined/nonres/A-bbtautau_bbyy-fullcorr/0_kl.root -p klambda --outdir $output_dir/likelihood -o combined
-    #- quickstats likelihood_scan --min -2 --max 10 --step 0.2 -i $output_dir/combined/nonres/A-bbtautau_bbyy-fullcorr/0_kl.root -p klambda --outdir $output_dir/likelihood -o combined
-    - echo HHComb kl_likelihood -i ../output/param_kl/ -c bbyy,bbtautau --min -2 --max 10 --step 0.2
-    - HHComb kl_likelihood -i ../output/param_kl/ -c bbyy,bbtautau --min -2 --max 10 --step 0.2
+    - echo HHComb kl_likelihood -i $output_dir -c bbyy,bbtautau --min -2 --max 10 --step 0.2
+    - HHComb kl_likelihood -i $output_dir -c bbyy,bbtautau --min -2 --max 10 --step 0.2
   only:
     - tags
     - master
