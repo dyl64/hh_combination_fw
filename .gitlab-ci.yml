@@ -18,8 +18,8 @@ hhCompile:
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - base_path=$(pwd)
-    - cd submodules/workspaceCombiner; git status
-    - git apply --whitespace=nowarn ../../workspaceCombiner.patch
+    - cd submodules/workspaceCombiner
+    #- git apply --whitespace=nowarn ../../workspaceCombiner.patch
     - git status
     - cd $base_path
     - source compile.sh
