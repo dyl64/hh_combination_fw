@@ -12,13 +12,11 @@ Current relevant folders are:
     |-- doc
     |-- submodules
         |-- RooFitExtensions
-        |-- RooStatTools
         |-- workspaceCombiner
+        |-- quickstats
 
 Caveats:
-- The submodules `DiagnosticTools` will be replaced by something else soon.
-- The submodules `hh_plot` is phasing out and replaced by `plotting/`.
-- Currently stuck at some commit on workspaceCombiner:development branch. Need to update `RooStatTools` to catch the changes.
+- Currently stuck at some commit on workspaceCombiner:development branch.
 ## How to run (on lxplus)
 ### Check out the packages
 ```

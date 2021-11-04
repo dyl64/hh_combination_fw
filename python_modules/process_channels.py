@@ -31,11 +31,12 @@ DEFAULT_COMB_DATASET = 'combData'
 @click.option('--parallel', type=int, default=-1, help='number of parallelized workers')
 @click.option('--file_format', default="<mass[F]>", help='file format')
 @click.option('--cache/--no-cache', default=True, help='cache existing results')
+@click.option('--save_summary/--skip_summary', default=False, help='Save summary information')
 @click.option('--do-limit/--skip-limit', default=True, help='whether to evaluate limits')
 def process_channels(input_path, resonant_type, channels, outdir, do_better_bands, cl, 
                      scaling_release, blind, mass_expr, param, config_file,
                      minimizer_options, verbose, parallel, file_format, cache,
-                     do_limit):
+                     save_summary, do_limit):
     
     if config_file is not None:
         config = yaml.safe_load(open(config_file))

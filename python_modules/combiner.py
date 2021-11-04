@@ -10,7 +10,7 @@ import json
 import copy
 
 import utils
-import workspace_utils as ws_utils
+from quickstats.components import ExtendedModel
 import scalings
 import limit_setting as ls
 from xml_tool import create_combination_xml
@@ -19,8 +19,6 @@ class TaskBase:
     
     WSC_PATH  = os.environ['WORKSPACECOMBINER_PATH']
     BASIS_WS_PATTERN = '{basename}.root'
-    ASIMOV_NP_FIT_WS_PATTERN = '{basename}_with_Asimov_POI_0_NP_fit.root'
-    ASIMOV_NP_NOM_WS_PATTERN = '{basename}_with_Asimov_POI_0_NP_nom.root'
     MERGED_LIMITS_FNAME = 'limits.json'
     
     def __init__(self, *args, **kwargs):
@@ -28,7 +26,7 @@ class TaskBase:
 
     def initialize(self, resonant_type, poi_name, data_name, do_better_bands=True, CL=0.95, blind=True, 
                    mass_expr=None, param=None, verbose=False, minimizer_options=None,
-                   parallel=-1, file_format=None, cache=True, do_limit=True, **kwargs):
+                   parallel=-1, file_format=None, cache=True, save_summary=False, do_limit=True, **kwargs):
         self.resonant_type = resonant_type
         self.poi_name = poi_name
         self.data_name = data_name
@@ -44,6 +42,7 @@ class TaskBase:
         else:
             self.minimizer_options = {}
         self.cache = cache
+        self.save_summary = save_summary
         self.do_limit = do_limit
         self.setup_paths()
         self.param_points = self.get_param_points(mass_expr)
@@ -86,7 +85,7 @@ class TaskBase:
         ls.CalcLimit_new(basename, ws_path, self.rootfiles_dir, self.data_name, self.poi_name,
                          self.blind, self.do_better_bands, self.CL, self.parameterized_points,
                          self.verbose, self.minimizer_options, parallel=self.parallel,
-                         cache=self.cache)
+                         cache=self.cache, save_summary=self.save_summary)
         
     def merge_limits(self, param_points):
         signatures = utils.get_format_str_components(self.file_format)
@@ -198,7 +197,7 @@ class TaskPipelineWS(TaskBase):
                       self.rootfiles_dir, self.figure_dir])
         
     def copy_dtd(self):
-        source_path = os.path.join(self.WSC_PATH, 'dtd', 'Organization.dtd')
+        source_path = os.path.join('template', 'Organization.dtd')
         if not os.path.exists(source_path):
             raise FileNotFoundError('File {} not found'.format(source_path))
         shutil.copy2(source_path, self.rescale_cfg_file_dir)
@@ -249,13 +248,13 @@ class TaskPipelineWS(TaskBase):
 
     @staticmethod
     def guess_poi(input_ws):
-        model = ws_utils.WSModel(input_ws)
-        poi_names = model.get_poi_names()
+        model = ExtendedModel(input_ws)
+        poi_names = model.get_poi_names(input_ws)
         if len(poi_names) > 1:
             raise RuntimeError("Unable to deduce POI for the workspace {}. "
                                "Multiple POIs found: ".format(input_ws, ",".join(poi_names)))
         else:
-            return poi_names[0]                                  
+            return poi_names[0]
 
     def regularize(self, param_point):
         filename = "{}.root".format(param_point['basename'])
@@ -413,7 +412,7 @@ class TaskCombination(TaskBase):
         utils.mkdirs([self.cfg_file_dir, self.output_ws_dir, self.rootfiles_dir])
         
     def copy_dtd(self):
-        source_path = os.path.join(self.WSC_PATH, 'dtd', 'Combination.dtd')
+        source_path = os.path.join('template', 'Combination.dtd')
         if not os.path.exists(source_path):
             raise FileNotFoundError('File {} not found'.format(source_path))
         shutil.copy2(source_path, self.cfg_file_dir)
