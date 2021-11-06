@@ -81,7 +81,7 @@ hhCompile:
   variables:
     output_dir: output
     mini_option: minimizer_options_robust.json
-    version: 20211029_mu
+    version: 20211106_mu
     other_options: ""
   allow_failure: true
   script:
@@ -244,7 +244,7 @@ WorkspaceProcess:
   variables:
     output_dir: output
     mini_option: minimizer_options_robust.json
-    version: 20211029_mu
+    version: 20211106_mu
     channel: bbtautau,bbyy
     other_options: "--file_format <mass[F]>_kl"
     np_option: np_map_kl_v10.json
