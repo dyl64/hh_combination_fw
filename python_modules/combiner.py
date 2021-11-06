@@ -221,12 +221,15 @@ class TaskPipelineWS(TaskBase):
             "POINames": pois_to_keep
         }
         cfg_xml.new_root(tag="Organization", attrib=attrib)
+
+        if new_poiname != old_poiname:
+            new_poi_expr = f"expr::{oldpoi_equiv_name}('@0/{poi_scale}', {new_poiname}[0.0, -1.0, 20.0])"
+            cfg_xml.add_node(tag="Item", Name=new_poi_expr)
         
-        new_poi_expr = f"expr::{oldpoi_equiv_name}('@0/{poi_scale}', {new_poiname}[0.0, -1.0, 20.0])"
-        cfg_xml.add_node(tag="Item", Name=new_poi_expr)
-        
-        mappings = [(old_poiname, oldpoi_equiv_name)]
-        
+            mappings = [(old_poiname, oldpoi_equiv_name)]
+        else:
+            mappings = []
+
         if redefine_parameters is not None:
             for param in redefine_parameters:
                 param_val = redefine_parameters[param]

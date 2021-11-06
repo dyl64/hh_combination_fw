@@ -1,6 +1,6 @@
 dataset:
   bbtautau:
-    blind: obsData
+    blind: asimovData
   bbyy:
     blind: combData
   combination:
