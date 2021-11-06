@@ -19,7 +19,7 @@ hhCompile:
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - base_path=$(pwd)
     - cd submodules/workspaceCombiner
-    #- git apply --whitespace=nowarn ../../workspaceCombiner.patch
+    - git apply --whitespace=nowarn ../../workspaceCombiner.patch
     - git status
     - cd $base_path
     - source compile.sh

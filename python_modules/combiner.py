@@ -197,7 +197,7 @@ class TaskPipelineWS(TaskBase):
                       self.rootfiles_dir, self.figure_dir])
         
     def copy_dtd(self):
-        source_path = os.path.join('template', 'Organization.dtd')
+        source_path = os.path.join(f'{self.WSC_PATH}/dtd', 'Organization.dtd')
         if not os.path.exists(source_path):
             raise FileNotFoundError('File {} not found'.format(source_path))
         shutil.copy2(source_path, self.rescale_cfg_file_dir)
@@ -297,7 +297,7 @@ class TaskPipelineWS(TaskBase):
         else:
             poi_scale = self.rescale_poi
         
-        wsc_rescale_config_template = os.path.join('template', 'rescale.xml')
+        wsc_rescale_config_template = os.path.join(f'{self.WSC_PATH}/dtd', 'rescale.xml')
         
         old_poiname = self.old_poiname if self.old_poiname is not None else self.guess_poi(regularized_ws_path)
         
@@ -412,7 +412,7 @@ class TaskCombination(TaskBase):
         utils.mkdirs([self.cfg_file_dir, self.output_ws_dir, self.rootfiles_dir])
         
     def copy_dtd(self):
-        source_path = os.path.join('template', 'Combination.dtd')
+        source_path = os.path.join(f'{self.WSC_PATH}/dtd', 'Combination.dtd')
         if not os.path.exists(source_path):
             raise FileNotFoundError('File {} not found'.format(source_path))
         shutil.copy2(source_path, self.cfg_file_dir)
@@ -444,8 +444,7 @@ class TaskCombination(TaskBase):
         logfile_path = combined_ws_path.replace('.root', '.log')
         
         wsc_bin_path = os.path.join(self.WSC_PATH, 'bin', 'manager')
-        cmd = [wsc_bin_path, "-w", "combine", "-x", config_file_path, "-f", combined_ws_path, 
-               "-s", fit_strategy, "-t", fit_tolerance]
+        cmd = [wsc_bin_path, "-w", "combine", "-x", config_file_path, "-f", combined_ws_path, "-s", fit_strategy, "-t", fit_tolerance]
         
         if os.path.exists(combined_ws_path) and self.cache:
                 print("\033[92mSkip: combined workspace {0} exists, skip workspace creation\033[0m\033[0m".format(combined_ws_path))
