@@ -223,6 +223,9 @@
     "gamma_stat_resolved_4b_2018_bin_9": "gamma_stat_resolved_4b_2018_bin_9"
   },
   "bbtautau": {
+    "alpha_SysEG_SCALE_AF2": "ATLAS_EG_SCALE_AF2",
+    "alpha_SysMUON_SAGITTA_RHO": "ATLAS_MUON_SAGITTA_RHO",
+    "alpha_SysTTBAR_FAKESF_TAU25_EIGEN7": "ATLAS_TTBAR_FAKESF_TAU25_EIGEN7",
     "alpha_ATLAS_KLAMBDA_REWEIGHTING_HH_ggF": "ATLAS_KLAMBDA_REWEIGHTING_HH_ggF",
     "alpha_ATLAS_LC_CLOSURE_VBFSMHH": "ATLAS_LC_CLOSURE_VBFSMHH",
     "ATLAS_norm_Zhf": "NORM_bbtautau_Zhf",
