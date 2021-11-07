@@ -46,6 +46,16 @@ index 735a2e4..1556bf1 100644
      case 'i':
        indice_ = optarg;
        break;
+diff --git a/dtd/Organization.dtd b/dtd/Organization.dtd
+index 095be1c..13ab033 100644
+--- a/dtd/Organization.dtd
++++ b/dtd/Organization.dtd
+@@ -1,4 +1,4 @@
+-<!ELEMENT Organization (Item+,Map,Asimov*)>
++<!ELEMENT Organization (Item+,Map+,Asimov*)>
+ <!ATTLIST Organization
+         InFile              CDATA            #REQUIRED
+         OutFile             CDATA            #REQUIRED
 diff --git a/src/combiner.cxx b/src/combiner.cxx
 index 691e7a1..b0dcd86 100644
 --- a/src/combiner.cxx
