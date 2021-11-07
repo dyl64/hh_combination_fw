@@ -78,6 +78,20 @@ class TaskBase:
     def get_param_points(self, mass_expr=None):
         raise NotImplementedError("this method should be overridden")
     
+    #def gen_asimov(self, param_point):
+    #    filename = self.BASIS_WS_PATTERN.format(**param_point)
+    #    basis_ws_path = os.path.join(self.basis_dir, filename)
+    #    asimov_NP_nom_filename = self.ASIMOV_NP_NOM_WS_PATTERN.format(**param_point)
+    #    asimov_NP_fit_filename = self.ASIMOV_NP_FIT_WS_PATTERN.format(**param_point)
+    #    ws_with_Asimov_NP_nom_path = os.path.join(self.asimov_dir, asimov_NP_nom_filename)
+    #    ws_with_Asimov_NP_fit_path = os.path.join(self.asimov_dir, asimov_NP_fit_filename)
+    #    
+    #    # NOTE: the dataset name is changed to "combData" after the regularization step
+    #    dg.makeAsimovData(basis_ws_path, ws_with_Asimov_NP_nom_path,
+    #                      self.data_name, "false", 0.0, "asimovData_POI_0_NP_nom", self.poi_name, self.snapshot)
+    #    dg.makeAsimovData(basis_ws_path, ws_with_Asimov_NP_fit_path, 
+    #                      self.data_name, "true",  0.0, "asimovData_POI_0_NP_fit", self.poi_name, self.snapshot)
+        
     def limit_setting(self, param_point):
         
         filename = self.BASIS_WS_PATTERN.format(**param_point)
@@ -131,7 +145,8 @@ class TaskBase:
             json.dump(merged_limits, outfile, indent=2)
         
     def finalize(self, param_points):
-        self.merge_limits(param_points)
+        if self.do_limit:
+            self.merge_limits(param_points)
             
     def _run_pipeline(self, param_point):
         raise NotImplementedError("this method should be overridden")
@@ -298,7 +313,7 @@ class TaskPipelineWS(TaskBase):
         else:
             poi_scale = self.rescale_poi
         
-        wsc_rescale_config_template = os.path.join(f'{self.WSC_PATH}/dtd', 'rescale.xml')
+        wsc_rescale_config_template = os.path.join('template', 'rescale.xml')
         
         old_poiname = self.old_poiname if self.old_poiname is not None else self.guess_poi(regularized_ws_path)
         
@@ -429,7 +444,6 @@ class TaskCombination(TaskBase):
         for channel in channels:
             input_ws_paths[channel] = os.path.join(self.input_ws_dir, channel, channel_ws_expr.format(**param_point))
         combined_ws_path = os.path.join(self.output_ws_dir, self.COMB_WS_EXPR.format(**param_point))
-
         poi_name = ",".join(self.pois_to_keep)
         xml = create_combination_xml(input_ws_paths, combined_ws_path, poi_name, 
                                      rename_map=self.correlation_scheme, data_name=self.data_name)

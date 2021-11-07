@@ -22,7 +22,7 @@ Caveats:
 ```
 git clone --recursive ssh://git@gitlab.cern.ch:7999/atlas-physics/HDBS/DiHiggs/combination/hh_combination_fw.git
 ```
-Just check if you miss any submodules (sometimes it happens silently!).
+Make sure all folders in submodules are not empty.
 ### Patch `workspaceCombiner`
 The dataset name is not customisable in `workspaceCombiner` and the [TList indexing bug](https://indico.cern.ch/event/1025636/contributions/4311962/attachments/2222485/3763797/HHcomb20210408.pdf) needs a fix.
 Apply the patch:
@@ -65,11 +65,14 @@ The whole workflow is running on gitlab CI.
 Go to `CI/CD > Pipelines` and click on any of the recent `passed` task, then you will see the following display:
 ![alt text](.CI.jpg "Title")
 
-To check the final result, click on the `Plotting` jobs and click on the `Browser` botton on the right.
+To check the final result, click on the `Plotting` jobs and click on the `Browser` button on the right.
 
-You can download the whole output from the `Download` botton.
+You can download the whole output from the `Download` button.
 
 ## Run kappa-lambda xsec scan (on individual input workspaces, with names `0_kl_1p0.root`, `0_kl_n1p0.root`)
+To run xsec limit for each kl value, two input formats are supported.
+The first format is a workspace file per each kl value.
+This is useful when channels do not have parametrised single workspace.
 ```
 # HHComb process_channels -i ~/work/HHcomb/FullRun2Workspaces/original/20210922/ -o output_directory_v4 -r nonres -c bbtautau  --config configs/regularization_nonres_v6_mH125p09.yaml --file_format "<mass[F]>_kl_1p0" --unblind
 
@@ -80,6 +83,8 @@ HHComb combine_ws -i <output_directory> -r nonres -c bbyy,bbtautau --minimizer_o
 
 ## Run kappa-lambda xsec scan (on parametrised input workspaces, with a name `0_kl.root`)
 ```
+The second format is more preferred that has a single workspace with `klambda` as an additional POI.
+Following is to run the combination on this format.
 HHComb process_channels -i <input_ws_directory> -c bbyy,bbtautau  -r nonres --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_kl.yaml --skip-limit --no-cache --file_format "<mass[F]>_kl" -o <output_directory>
 
 HHComb combine_ws -i <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_kl.yaml --scheme configs/np_map_kl_v10.json --file_format "<mass[F]>_kl" --skip-limit --no-cache
