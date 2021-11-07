@@ -79,7 +79,7 @@ hhCompile:
 .NRProcess:
   extends: .IStep1
   variables:
-    output_dir: output
+    output_dir: output/NR
     mini_option: minimizer_options_robust.json
     version: 20211106_mu
     other_options: ""
@@ -91,7 +91,7 @@ hhCompile:
 NR_proj_mu_pro:
   extends: .NRProcess
   variables:
-    output_dir: output
+    output_dir: output/NR
     channel: bbyy,bbtautau
   only:
     - branches
@@ -100,7 +100,7 @@ NR_proj_mu_pro:
 NR_proj_pro_stat:
   extends: .NRProcess
   variables:
-    output_dir: output_stat
+    output_dir: output/stat
     mini_option: minimizer_options_robust_stat.json
     channel: bbyy,bbtautau
   only:
@@ -111,7 +111,7 @@ NR_proj_pro_stat:
 KL_proj_pro_yy:
   extends: .NRProcess
   variables:
-    output_dir: output
+    output_dir: output/indiv
     channel: bbyy
     other_options: "--file_format <mass[F]>_kl_<kl[P]>"
   only:
@@ -122,7 +122,7 @@ KL_proj_pro_yy:
 KL_proj_pro_tt:
   extends: .NRProcess
   variables:
-    output_dir: output
+    output_dir: output/indiv
     channel: bbtautau
     other_options: "--file_format <mass[F]>_kl_<kl[P]>"
   only:
@@ -156,7 +156,7 @@ NR_proj_comb_mu:
     - job: hhCompile
     - job: NR_proj_mu_pro
   variables:
-    input_dir: output
+    input_dir: output/NR
     channels: bbtautau,bbyy
 
 NR_proj_comb_stat:
@@ -165,7 +165,7 @@ NR_proj_comb_stat:
     - job: hhCompile
     - job: NR_proj_pro_stat
   variables:
-    input_dir: output_stat
+    input_dir: output/stat
     channels: bbtautau,bbyy
     mini_option: minimizer_options_robust_stat.json
 
@@ -177,7 +177,7 @@ KL_proj_comb:
     - job: KL_proj_pro_yy
     - job: KL_proj_pro_tt
   variables:
-    input_dir: output_indiv
+    input_dir: output/indiv
     channels: bbtautau,bbyy
     np_option: np_map_kl_v10.json
     other_options: "--file_format <mass[F]>_kl_<kl[P]>"
@@ -191,7 +191,7 @@ LHProcess:
   needs:
     - job: hhCompile
   variables:
-    output_dir: output
+    output_dir: output/param
     mini_option: minimizer_options_robust.json
     version: 20211106_mu
     channel: bbtautau,bbyy
@@ -211,7 +211,7 @@ LHScan:
     - job: hhCompile
     - job: LHProcess
   variables:
-    output_dir: output
+    output_dir: output/param
     other_options: "--min -2 --max 10 --step 0.1"
     channel: bbtautau,bbyy
   allow_failure: true
@@ -229,7 +229,7 @@ XSScan:
     - job: hhCompile
     - job: LHProcess
   variables:
-    output_dir: output
+    output_dir: output/param
     mini_option: minimizer_options_robust.json
     np_option: np_map_kl_v10.json
     other_options: "--file_format <mass[F]>_kl --param klambda=-2_6_1"
@@ -249,8 +249,6 @@ XSScan:
   stage: plotting
   variables:
     GIT_SSL_NO_VERIFY: "true"
-    input_dir: output
-    output_dir: figures
     configuration: project3000
   before_script:
     - set +e
@@ -259,9 +257,6 @@ XSScan:
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
   allow_failure: true
-  artifacts:
-    paths:
-      - $input_dir/$output_dir
   only:
     - tags
     - master
@@ -273,44 +268,48 @@ NRPlot:
     - job: NR_proj_comb_mu
     - job: NR_proj_comb_stat
   variables:
-    input_stat_dir: output_stat
+    input_stat_dir: output/stat
+    input_dir: output/NR
   script:
     # Plot nonres signal strength (mu)
     - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/nonres/*/0.json $input_dir/limits/nonres/combined/A-*-fullcorr/0.json -s $input_stat_dir/limits/nonres/bb[ty]*/0.json $input_stat_dir/limits/nonres/combined/A-*-fullcorr/0.json -mu --config ${configuration}
     - python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/nonres/*/0.json $input_dir/limits/nonres/combined/A-*-fullcorr/0.json -s $input_stat_dir/limits/nonres/bb[ty]*/0.json $input_stat_dir/limits/nonres/combined/A-*-fullcorr/0.json -mu --config ${configuration}
-
   artifacts:
     paths:
-      - $input_dir/$output_dir
+      - $input_dir/figure
 
 KLPlot:
   extends: .plot
   needs:
     - job: KL_proj_comb
   variables:
-    input_dir_indiv: output_indiv
+    input_dir_indiv: output/indiv
+    input_dir_param: output/param
   script:
     # Plot KL
-    - echo python plotting/kl_scan/plot_kl.py -i $input_dir -ci --config ${configuration}
-    - python plotting/kl_scan/plot_kl.py -i $input_dir -ci --config ${configuration}
+    - echo python plotting/kl_scan/plot_kl.py -i $input_dir_param -ci --config ${configuration}
+    - python plotting/kl_scan/plot_kl.py -i $input_dir_param -ci --config ${configuration}
     - echo python plotting/kl_scan/plot_kl.py -i $input_dir_indiv -ci --config ${configuration}
     - python plotting/kl_scan/plot_kl.py -i $input_dir_indiv -ci --config ${configuration}
   artifacts:
     paths:
-      - $input_dir/$output_dir
+      - $input_dir_param/figure
+      - $input_dir_indiv/figure
 
 LHPlot:
   extends: .plot
   needs:
     - job: LHScan
+  variables:
+    input_dir_param: output/param
   script:
     # Plot kl likelihood curve
-    - echo python plotting/likelihood/likelihood_plotting.py -a nonres -i $input_dir -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o $input_dir/$output/ --threshold 12
-    - python plotting/likelihood/likelihood_plotting.py -a nonres -i $input_dir -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o $input_dir/$output/ --threshold 12
+    - echo python plotting/likelihood/likelihood_plotting.py -a nonres -i $input_dir_param -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o $input_dir_param/$output/ --threshold 12
+    - python plotting/likelihood/likelihood_plotting.py -a nonres -i $input_dir_param -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o $input_dir_param/$output/ --threshold 12
 
   artifacts:
     paths:
-      - $input_dir/$output_dir
+      - $input_dir/figure
 
 
 #####################################
@@ -321,8 +320,6 @@ Artifacts:
   variables:
     GIT_SSL_NO_VERIFY: "true"
     output: output
-    output_stat_dir: output_stat
-    output_indiv: output_indiv
   allow_failure: true
   script:
     - ls
@@ -333,5 +330,3 @@ Artifacts:
   artifacts:
     paths:
       - $output
-      - $output_stat_dir
-      - $output_indiv
