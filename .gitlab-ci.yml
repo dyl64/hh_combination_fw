@@ -195,7 +195,7 @@ LHProcess:
     mini_option: minimizer_options_robust.json
     version: 20211106_mu
     channel: bbtautau,bbyy
-    other_options: "--file_format <mass[F]>_kl"
+    other_options: "--file_format <mass[F]>_kl --param klambda=1"
     np_option: np_map_kl_v10.json
   allow_failure: true
   script:
@@ -212,14 +212,34 @@ LHScan:
     - job: LHProcess
   variables:
     output_dir: output
+    other_options: "--min -2 --max 10 --step 0.1"
   allow_failure: true
   script:
-    - echo HHComb kl_likelihood -i $output_dir -c bbyy,bbtautau --min -2 --max 10 --step 0.1
-    - HHComb kl_likelihood -i $output_dir -c bbyy,bbtautau --min -2 --max 10 --step 0.1
+    - echo HHComb kl_likelihood -i $output_dir -c bbyy,bbtautau $other_options
+    - HHComb kl_likelihood -i $output_dir -c bbyy,bbtautau $other_options
   only:
     - tags
     - master
     - CI
+
+#XSScan:
+#  extends: .IStep2
+#  needs:
+#    - job: hhCompile
+#    - job: LHProcess
+#  variables:
+#    output_dir: output
+#    mini_option: minimizer_options_robust.json
+#    np_option: np_map_nonres_v10.json
+#    other_options: "--file_format <mass[F]>_kl_<kl[P]> --param klambda=-2_6_1"
+#  allow_failure: true
+#  script:
+#    - echo HHComb combine_ws -i $output_dir -r nonres -c bbyy,bbtautau --minimizer_options configs/${mini_option} --scheme configs/${np_option} $other_options
+#    - HHComb combine_ws -i $output_dir -r nonres -c bbyy,bbtautau --minimizer_options configs/${mini_option} --scheme configs/${np_option} $other_options
+#  only:
+#    - tags
+#    - master
+#    - CI
 
 ###################################
 ## Plotting                      ##
