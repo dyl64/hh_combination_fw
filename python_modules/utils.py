@@ -183,13 +183,19 @@ def get_paramterized_points(param_expr):
         values_expr = tokens[1]
         points[param_name] = {}
         tokens = values_expr.split('_')
-        if len(tokens) != 3:
+        # fixed value
+        if len(tokens) == 1:
+            values = [float(tokens[0])]
+            n_digit = approx_n_digit(tokens[0])
+        # scan across range
+        elif len(tokens) == 3:
+            poi_min = float(tokens[0])
+            poi_max = float(tokens[1])
+            poi_step = float(tokens[2])
+            n_digit = approx_n_digit(tokens[2])
+            values = np.arange(poi_min, poi_max+poi_step, poi_step)
+        else:
             raise ValueError('invalid expression for parameterization')
-        poi_min = float(tokens[0])
-        poi_max = float(tokens[1])
-        poi_step = float(tokens[2])
-        n_digit = approx_n_digit(tokens[2])
-        values = np.arange(poi_min, poi_max+poi_step, poi_step)
         points[param_name] = [str_encode_value(value, n_digit, False) for value in values]
     # for unordered dictionary in case of python2
     param_names = list(points.keys())

@@ -53,6 +53,9 @@ class TaskBase:
             self.parameterized_points = None
         else:
             self.parameterized_points = utils.get_paramterized_points(param)
+        self.pois_to_keep = [poi_name]
+        if param is not None:
+            self.pois_to_keep += [p.split('=')[0] for p in param.split(',')]
         self.sanity_check()
     
     def sanity_check(self):
@@ -168,9 +171,6 @@ class TaskPipelineWS(TaskBase):
         self.new_poiname = new_poiname
         self.old_dataname = old_dataname
         self.new_dataname = new_dataname
-        self.pois_to_keep = [new_poiname]
-        if param is not None:
-            self.pois_to_keep += [p.split('=')[0] for p in param.split(',')]        
         super().initialize(resonant_type, new_poiname, new_dataname, do_better_bands, CL, blind, 
                            mass_expr, param, verbose=verbose,
                            minimizer_options=minimizer_options, parallel=parallel, file_format=file_format, **kwargs)
@@ -429,7 +429,9 @@ class TaskCombination(TaskBase):
         for channel in channels:
             input_ws_paths[channel] = os.path.join(self.input_ws_dir, channel, channel_ws_expr.format(**param_point))
         combined_ws_path = os.path.join(self.output_ws_dir, self.COMB_WS_EXPR.format(**param_point))
-        xml = create_combination_xml(input_ws_paths, combined_ws_path, self.poi_name, 
+
+        poi_name = ",".join(self.pois_to_keep)
+        xml = create_combination_xml(input_ws_paths, combined_ws_path, poi_name, 
                                      rename_map=self.correlation_scheme, data_name=self.data_name)
         return xml
         
@@ -460,6 +462,8 @@ class TaskCombination(TaskBase):
     def _run_pipeline(self, param_point):
         self.create_combination_xml(param_point)
         self.create_combined_ws(param_point)
+        if (self.parameterized_points is None):
+            self.gen_asimov(param_point)
         if not self.do_limit:
             return None
         self.limit_setting(param_point)

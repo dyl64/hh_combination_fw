@@ -31,8 +31,8 @@ def kl_likelihood(**kwargs):
     outdir = f'{input_file}/likelihood/' # zhangr
 
     channels = sorted(channels.split(','), key=lambda x: (x.casefold(), x.swapcase()))
-    input_files = [f'{input_file}/rescaled/nonres/{channel}/0_kl.root' for channel in channels]
-    outnames = [f'{channel}_{poi}' for channel in channels]
+    input_files = [] #[f'{input_file}/rescaled/nonres/{channel}/0_kl.root' for channel in channels]
+    outnames = [] #[f'{channel}_{poi}' for channel in channels]
 
     # append combined
     input_files.append(f'{input_file}/combined/nonres/A-{"_".join(channels)}-{scheme}/0_kl.root')
@@ -44,11 +44,11 @@ def kl_likelihood(**kwargs):
     for input_file, outname in zip(input_files, outnames):
         # generate asimov using CLI tool
         output_file = input_file.replace(".root", ".asimov.root")
-        command = f'quickstats generate_standard_asimov -t -2 -p {poi} -d combData -i {input_file} -o {output_file} --fix {fix_param}'
+        command = f'quickstats generate_standard_asimov -t -2 -p {poi} -d combData -i {input_file} -o {output_file} --fix {fix_param} --snapshot nominalNuis'
         print(command)
         os.system(command)
 
         # scan likelihood using CLI tool
-        command = f'quickstats likelihood_scan -i {output_file} --min {scan_min} --max {scan_max} --step {scan_step} -d asimovData_1_NP_Nominal --parallel -1 --print_level -1 -p {poi} -o {outname} {other_options} --outdir {outdir} --fix {fix_param}'
+        command = f'quickstats likelihood_scan -i {output_file} --min {scan_min} --max {scan_max} --step {scan_step} -d asimovData_1_NP_Nominal --parallel -1 --print_level -1 -p {poi} -o {outname} {other_options} --outdir {outdir} --fix {fix_param} --snapshot nominalNuis'
         print(command)
         os.system(command)

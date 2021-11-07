@@ -6,11 +6,10 @@ dataset:
   combination:
     blind: combData
 poi:
-  bbtautau: klambda
-  bbyy: klambda
-  combination: klambda
-
+  bbtautau: mu
+  bbyy: mu_XS_HH
+  combination: xsec_br
 rescale_poi:
   #kl no rescaling needed
-  bbtautau: 1
   bbyy: 1
+  bbtautau: 1
