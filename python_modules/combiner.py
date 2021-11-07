@@ -476,8 +476,8 @@ class TaskCombination(TaskBase):
     def _run_pipeline(self, param_point):
         self.create_combination_xml(param_point)
         self.create_combined_ws(param_point)
-        if (self.parameterized_points is None):
-            self.gen_asimov(param_point)
+        #if (self.parameterized_points is None):
+        #    self.gen_asimov(param_point)
         if not self.do_limit:
             return None
         self.limit_setting(param_point)
