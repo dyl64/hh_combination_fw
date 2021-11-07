@@ -177,14 +177,14 @@ KL_proj_comb:
     - job: KL_proj_pro_yy
     - job: KL_proj_pro_tt
   variables:
-    input_dir: output
+    input_dir: output_indiv
     channels: bbtautau,bbyy
     np_option: np_map_kl_v10.json
     other_options: "--file_format <mass[F]>_kl_<kl[P]>"
 
 
 ###################################
-## kl workspace combine          ##
+## parametrised kl workspace     ##
 ###################################
 LHProcess:
   extends: .IStep1
@@ -213,33 +213,34 @@ LHScan:
   variables:
     output_dir: output
     other_options: "--min -2 --max 10 --step 0.1"
+    channel: bbtautau,bbyy
   allow_failure: true
   script:
-    - echo HHComb kl_likelihood -i $output_dir -c bbyy,bbtautau $other_options
-    - HHComb kl_likelihood -i $output_dir -c bbyy,bbtautau $other_options
+    - echo HHComb kl_likelihood -i $output_dir -c $channel $other_options
+    - HHComb kl_likelihood -i $output_dir -c $channel $other_options
   only:
     - tags
     - master
     - CI
 
-#XSScan:
-#  extends: .IStep2
-#  needs:
-#    - job: hhCompile
-#    - job: LHProcess
-#  variables:
-#    output_dir: output
-#    mini_option: minimizer_options_robust.json
-#    np_option: np_map_nonres_v10.json
-#    other_options: "--file_format <mass[F]>_kl_<kl[P]> --param klambda=-2_6_1"
-#  allow_failure: true
-#  script:
-#    - echo HHComb combine_ws -i $output_dir -r nonres -c bbyy,bbtautau --minimizer_options configs/${mini_option} --scheme configs/${np_option} $other_options
-#    - HHComb combine_ws -i $output_dir -r nonres -c bbyy,bbtautau --minimizer_options configs/${mini_option} --scheme configs/${np_option} $other_options
-#  only:
-#    - tags
-#    - master
-#    - CI
+XSScan:
+  extends: .IStep2
+  needs:
+    - job: hhCompile
+    - job: LHProcess
+  variables:
+    output_dir: output
+    mini_option: minimizer_options_robust.json
+    np_option: np_map_nonres_v10.json
+    other_options: "--file_format <mass[F]>_kl_<kl[P]> --param klambda=-2_6_1"
+  allow_failure: true
+  script:
+    - echo HHComb combine_ws -i $output_dir -r nonres -c bbyy,bbtautau --minimizer_options configs/${mini_option} --scheme configs/${np_option} $other_options
+    - HHComb combine_ws -i $output_dir -r nonres -c bbyy,bbtautau --minimizer_options configs/${mini_option} --scheme configs/${np_option} $other_options
+  only:
+    - tags
+    - master
+    - CI
 
 ###################################
 ## Plotting                      ##
@@ -286,10 +287,14 @@ KLPlot:
   extends: .plot
   needs:
     - job: KL_proj_comb
+  variables:
+    input_dir_indiv: output_indiv
   script:
     # Plot KL
     - echo python plotting/kl_scan/plot_kl.py -i $input_dir -ci --config ${configuration}
     - python plotting/kl_scan/plot_kl.py -i $input_dir -ci --config ${configuration}
+    - echo python plotting/kl_scan/plot_kl.py -i $input_dir_indiv -ci --config ${configuration}
+    - python plotting/kl_scan/plot_kl.py -i $input_dir_indiv -ci --config ${configuration}
   artifacts:
     paths:
       - $input_dir/$output_dir
@@ -317,6 +322,7 @@ Artifacts:
     GIT_SSL_NO_VERIFY: "true"
     output: output
     output_stat_dir: output_stat
+    output_indiv: output_indiv
   allow_failure: true
   script:
     - ls
@@ -328,3 +334,4 @@ Artifacts:
     paths:
       - $output
       - $output_stat_dir
+      - $output_indiv
