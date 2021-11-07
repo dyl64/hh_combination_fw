@@ -280,8 +280,8 @@ LHPlot:
     - job: LHScan
   script:
     # Plot kl likelihood curve
-    - echo python likelihood_plotting.py -a nonres -i $input_dir -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o $input_dir/$output/ --threshold 12
-    - python likelihood_plotting.py -a nonres -i $input_dir -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o $input_dir/$output/ --threshold 12
+    - echo python plotting/likelihood/likelihood_plotting.py -a nonres -i $input_dir -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o $input_dir/$output/ --threshold 12
+    - python plotting/likelihood/likelihood_plotting.py -a nonres -i $input_dir -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o $input_dir/$output/ --threshold 12
 
   artifacts:
     paths:
