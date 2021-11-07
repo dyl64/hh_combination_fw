@@ -746,7 +746,7 @@ if __name__ == '__main__':
     nonres.add_argument('--unblind', action='store_true', default=False, required=False, help='')
     nonres.add_argument('-p', action='store_true', default=False, required=False, help='')
     nonres.add_argument('-mu', action='store_true', default=False, required=False, help='Plot limit on signal strength instead of on cross section')
-    nonres.add_argument('--config', type=str, choices=['project3000', 'Run2conf'], required=True, help='Plot limit on signal strength instead of on cross section')
+    nonres.add_argument('--config', type=str, choices=['project3000', 'Run2conf'], required=True, help='Configurations for cosmetics')
 
     spin0 = subcommands.add_parser('spin0', help='Plot spin0.')
     spin0.add_argument('spin0', nargs='*')

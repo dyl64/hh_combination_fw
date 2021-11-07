@@ -229,6 +229,7 @@ LHScan:
     GIT_SSL_NO_VERIFY: "true"
     input_dir: output
     output_dir: figures
+    configuration: project3000
   before_script:
     - set +e
     - shopt -s expand_aliases
@@ -253,8 +254,8 @@ NRPlot:
     input_stat_dir: output_stat
   script:
     # Plot nonres signal strength (mu)
-    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/nonres/*/0.json $input_dir/limits/nonres/combined/A-*-fullcorr/0.json -s $input_stat_dir/limits/nonres/bb[ty]*/0.json $input_stat_dir/limits/nonres/combined/A-*-fullcorr/0.json -mu --config project3000
-    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/nonres/*/0.json $input_dir/limits/nonres/combined/A-*-fullcorr/0.json -s $input_stat_dir/limits/nonres/bb[ty]*/0.json $input_stat_dir/limits/nonres/combined/A-*-fullcorr/0.json -mu --config project3000
+    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/nonres/*/0.json $input_dir/limits/nonres/combined/A-*-fullcorr/0.json -s $input_stat_dir/limits/nonres/bb[ty]*/0.json $input_stat_dir/limits/nonres/combined/A-*-fullcorr/0.json -mu --config ${configuration}
+    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/nonres/*/0.json $input_dir/limits/nonres/combined/A-*-fullcorr/0.json -s $input_stat_dir/limits/nonres/bb[ty]*/0.json $input_stat_dir/limits/nonres/combined/A-*-fullcorr/0.json -mu --config ${configuration}
 
   artifacts:
     paths:
@@ -266,8 +267,8 @@ KLPlot:
     - job: KL_proj_comb
   script:
     # Plot KL
-    - echo python plotting/kl_scan/plot_kl.py -i $input_dir -ci
-    - python plotting/kl_scan/plot_kl.py -i $input_dir -ci
+    - echo python plotting/kl_scan/plot_kl.py -i $input_dir -ci --config ${configuration}
+    - python plotting/kl_scan/plot_kl.py -i $input_dir -ci --config ${configuration}
   artifacts:
     paths:
       - $input_dir/$output_dir

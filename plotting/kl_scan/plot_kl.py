@@ -34,6 +34,29 @@ import json
 import pandas as pd
 import itertools
 
+configur = {
+        'project3000': {
+            'lumi': [r'14', r'3000'],
+            'xsec': 32.74,
+            'text_digit': 2,
+            'ylim': {
+                'log': [1, 10e2],
+                'nonlog': [0, 200],
+                },
+            'xlim': [-2, 6]
+            },
+        'Run2conf': {
+            'lumi': [r'13', r'139'],
+            'xsec': 32.74,
+            'text_digit': 2,
+            'ylim': {
+                'log': [10, 10e4],
+                'nonlog': [0, 2500],
+                },
+            'xlim': [-10, 10]
+            }
+        }
+
 #Now using values from LHCWHGHHHXGGBGGGXXX
 SCALE_GGF = 31.05/31.0358 #31.02/31.0358   #correct to xs at mH = 125.09 
 SCALE_VBF = 1.726/(4.581-4.245+1.359) # 1.723/(4.581-4.245+1.359)
@@ -132,7 +155,7 @@ def draw_mu(limits, limit_bands, channel_name, use_ampl=True):
         ax.set_ylabel('$\mu$ (HH) [fb]', fontsize=16)
         ax.set_xlabel('$\mathrm{\kappa_\lambda}$', fontsize=16)
 
-    plt.xlim([-10, 10])
+    plt.xlim(configur[args.config]['xlim'])
 
 def get_limits(glob_string,string_range,rescale_val=1.0):
     
@@ -235,12 +258,12 @@ def draw_limits(limits_df, channel_name,log=True, status='int', use_ampl=True):
 
     # make pretty 
     if log:
-        ylim = [10, 10e4] # set consistent y-axis
+        ylim = configur[args.config]['ylim']['log']
     else: 
-        ylim = [0,2500]
+        ylim = configur[args.config]['ylim']['nonlog']
     ax.set_ylim(ylim)
     ax.xaxis.set_ticks(np.arange(min(lambdas), max(lambdas) + 1, 2))
-    ax.set_xlim([-10,10])
+    ax.set_xlim(configur[args.config]['xlim'])
     if use_ampl:
         import atlas_mpl_style as ampl
         ampl.use_atlas_style()
@@ -256,7 +279,6 @@ def draw_limits(limits_df, channel_name,log=True, status='int', use_ampl=True):
     
     ## reorder the legend
     #handles, labels = ax.get_legend_handles_labels()
-    #set_trace()
     #handles[2].set_linewidth(1.0)
     #handles = [handles[0], handles[1], (handles[5], border_leg), (handles[4], border_leg), (th_band, handles[2], border_leg), handles[3]]
     #labels = [labels[0], labels[1], labels[5], labels[4], labels[2], labels[3]]
@@ -329,10 +351,10 @@ def draw_all_limits(status, *channels, use_ampl=True):
     ax.plot(1, xs_HH(1), linewidth = 0, marker = '*', markersize = 20, color = '#E9F1DF', markeredgecolor = 'black', label = 'SM prediction')
 
     # make pretty 
-    ylim = [10, 2e4] # set consistent y-axis
+    ylim = configur[args.config]['ylim']['log']
     ax.set_ylim(ylim)
     ax.xaxis.set_ticks(np.arange(min(lambdas), max(lambdas) + 1, 2))
-    ax.set_xlim([-10,10])
+    ax.set_xlim(configur[args.config]['xlim'])
     if use_ampl:
         ampl.set_ylabel('$\sigma_{ggF+VBF}$ (HH) [fb]', fontsize= 20)    
         ampl.set_xlabel(r'$\kappa_\lambda$', fontsize=20)
@@ -391,6 +413,7 @@ if __name__ == '__main__':
     parser.add_argument('-p', '--status', type=str, default='int', required=False, help='')
     parser.add_argument('-i', '--input_path', type=str, required=True, help='')
     parser.add_argument('--unblind', action='store_true', default=False, required=False, help='')
+    parser.add_argument('--config', type=str, choices=['project3000', 'Run2conf'], required=True, help='Configurations for cosmetics')
 
     args = parser.parse_args()
     main(args)
