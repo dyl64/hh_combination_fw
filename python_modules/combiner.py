@@ -460,4 +460,6 @@ class TaskCombination(TaskBase):
     def _run_pipeline(self, param_point):
         self.create_combination_xml(param_point)
         self.create_combined_ws(param_point)
+        if not self.do_limit:
+            return None
         self.limit_setting(param_point)

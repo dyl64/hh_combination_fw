@@ -183,6 +183,44 @@ KL_proj_comb:
 
 
 ###################################
+## kl workspace combine          ##
+###################################
+LHProcess:
+  extends: .IStep1
+  needs:
+    - job: hhCompile
+  variables:
+    output_dir: output
+    mini_option: minimizer_options_robust.json
+    version: 20211106_mu
+    channel: bbtautau,bbyy
+    other_options: "--file_format <mass[F]>_kl"
+    np_option: np_map_kl_v10.json
+  allow_failure: true
+  script:
+    - echo HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --skip-limit --no-cache $other_options
+    - HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --skip-limit --no-cache $other_options
+    - echo HHComb combine_ws -i $output_dir -r nonres -c $channel --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --scheme configs/$np_option --skip-limit --no-cache $other_options
+    - HHComb combine_ws -i $output_dir -r nonres -c $channel --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --scheme configs/$np_option --skip-limit --no-cache $other_options
+
+
+LHScan:
+  extends: .IStep2
+  needs:
+    - job: hhCompile
+    - job: LHProcess
+  variables:
+    output_dir: output
+  allow_failure: true
+  script:
+    - echo HHComb kl_likelihood -i $output_dir -c bbyy,bbtautau --min -2 --max 10 --step 0.2
+    - HHComb kl_likelihood -i $output_dir -c bbyy,bbtautau --min -2 --max 10 --step 0.2
+  only:
+    - tags
+    - master
+    - CI
+
+###################################
 ## Plotting                      ##
 ###################################
 .plot:
@@ -234,43 +272,22 @@ KLPlot:
     paths:
       - $input_dir/$output_dir
 
-###################################
-## kl workspace combine          ##
-###################################
-WorkspaceProcess:
-  extends: .IStep1
+LHPlot:
+  extends: .plot
   needs:
-    - job: hhCompile
-  variables:
-    output_dir: output
-    mini_option: minimizer_options_robust.json
-    version: 20211106_mu
-    channel: bbtautau,bbyy
-    other_options: "--file_format <mass[F]>_kl"
-    np_option: np_map_kl_v10.json
-  allow_failure: true
+    - job: LHScan
   script:
-    - echo HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --skip-limit --no-cache $other_options
-    - HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --skip-limit --no-cache $other_options
-    - echo HHComb combine_ws -i $output_dir -r nonres -c $channel --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --scheme configs/$np_option --skip-limit --no-cache $other_options
-    - HHComb combine_ws -i $output_dir -r nonres -c $channel --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --scheme configs/$np_option --skip-limit --no-cache $other_options
+    # Plot kl likelihood curve
+    - echo python likelihood_plotting.py -a nonres -i $input_dir -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o $input_dir/$output/ --threshold 12
+    - python likelihood_plotting.py -a nonres -i $input_dir -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o $input_dir/$output/ --threshold 12
 
+    input_dir: output
+    output_dir: figures
 
-WorkspaceLikelihood:
-  extends: .IStep2
-  needs:
-    - job: hhCompile
-    - job: WorkspaceProcess
-  variables:
-    output_dir: output
-  allow_failure: true
-  script:
-    - echo HHComb kl_likelihood -i $output_dir -c bbyy,bbtautau --min -2 --max 10 --step 0.2
-    - HHComb kl_likelihood -i $output_dir -c bbyy,bbtautau --min -2 --max 10 --step 0.2
-  only:
-    - tags
-    - master
-    - CI
+  artifacts:
+    paths:
+      - $input_dir/$output_dir
+
 
 #####################################
 ## Intermediate output to download ##

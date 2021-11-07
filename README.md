@@ -92,7 +92,8 @@ HHComb process_channels -i <input_ws_directory> -c bbyy -r nonres --minimizer_op
 
 HHComb combine_ws -i <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --scheme configs/np_map_kl_v10.json --param klambda=<-low>_<high>_<step> --file_format "<mass[F]>_kl"
 
-quickstats likelihood_scan --min -2 --max 10 --step 0.2 -i ../output/param_kl/combined/nonres/A-bbtautau_bbyy-fullcorr/0_kl.root -p klambda --outdir ../output/param_kl/likelihood
+HComb kl_likelihood -i <output_directory> -c bbyy,bbtautau --min=-2 --max=10 --step=0.2 --no-cache
+python likelihood_plotting.py -a nonres -i <output_directory>/output/likelihood/ -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o <output_directory>/figure --threshold 12
 ```
 
 ## Run pulls and impact

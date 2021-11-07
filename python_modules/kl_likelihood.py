@@ -1,3 +1,4 @@
+from pdb import set_trace
 import sys
 import os
 import re
@@ -18,8 +19,8 @@ from quickstats.components.likelihood import scan_nll
               help='POI to scan. If not specified, the first POI from the workspace is used.')
 @click.option('--cache/--no-cache', default=True, show_default=True,
               help='Cache existing result')
-@click.option('-f', '--fix', 'fix_param', default="mu_*=1,xsec_br=1", show_default=True,
-              help='Parameters to fix')
+@click.option('-f', '--fix', 'fix_param', default="mu*=1,mu_*=1,xsec_br=1", show_default=True,
+              help='POI mu in bbtautau ws is floated. Note it is used in RooProduct::SigXsecOverSMVBF_modified and not regularised')
 @click.option('-i', '--input_folder', required=True, help='Path to the task.')
 @click.option('-s', '--scheme',  default='fullcorr', help='correlation scheme (only affect which combined workspace to pick)')
 @click.option('-c', '--channels',  required=True, help='individual channels to include (comma separable); combined channel always included')
@@ -27,7 +28,7 @@ def kl_likelihood(**kwargs):
     input_file, poi, channels, scheme = kwargs['input_folder'], kwargs['poi'], kwargs['channels'], kwargs['scheme']
     fix_param = kwargs['fix_param']
     scan_min, scan_max, scan_step = kwargs['scan_min'], kwargs['scan_max'], kwargs['scan_step']
-    outdir = f'{input_file}/likelihood_test/' # zhangr
+    outdir = f'{input_file}/likelihood/' # zhangr
 
     channels = sorted(channels.split(','), key=lambda x: (x.casefold(), x.swapcase()))
     input_files = [f'{input_file}/rescaled/nonres/{channel}/0_kl.root' for channel in channels]
@@ -43,7 +44,7 @@ def kl_likelihood(**kwargs):
     for input_file, outname in zip(input_files, outnames):
         # generate asimov using CLI tool
         output_file = input_file.replace(".root", ".asimov.root")
-        command = f'quickstats generate_standard_asimov -t -2 -p {poi} -d combData -i {input_file} -o {output_file}'
+        command = f'quickstats generate_standard_asimov -t -2 -p {poi} -d combData -i {input_file} -o {output_file} --fix {fix_param}'
         print(command)
         os.system(command)
 
