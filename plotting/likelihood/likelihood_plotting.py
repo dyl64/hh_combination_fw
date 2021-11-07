@@ -9,18 +9,28 @@ import numpy as np
 import matplotlib.pyplot as plt
 from argparse import ArgumentParser
 from pdb import set_trace
+from os import makedirs, path
+import pandas as pd
 
 from matplotlib.ticker import (MultipleLocator, FormatStrFormatter, AutoMinorLocator)
 
 DEFAULT_COLOR_WHEELS = ['k', 'r', 'b', 'g', 'c']
 
 def get_xy(path, threshold):
-    data = {k:v for k,v in json.load(open(path)).items() if abs(v) < threshold}
-    X = np.array(list(data.keys()), dtype=float)
-    Y = np.array(list(data.values()))
-    indices = np.argsort(X)
-    x = X[indices]
-    y = Y[indices]
+    #data = {k:v for k,v in json.load(open(path)).items() if abs(v) < threshold}
+    #X = np.array(list(data.keys()), dtype=float)
+    #Y = np.array(list(data.values()))
+    #indices = np.argsort(X)
+    #x = X[indices]
+    #y = Y[indices]
+
+    data = json.load(open(path))
+    df = pd.DataFrame(data).dropna()
+    df = df.loc[abs(df['qmu']) < threshold]
+    print(path)
+    print(df)
+    print('\n')
+    x, y = df['mu'], df['qmu']
     return x, y
 
 def plot_likelihood_scan(input_paths, color_maps=None, label_maps=None,
@@ -63,6 +73,7 @@ def plot_likelihood_scan(input_paths, color_maps=None, label_maps=None,
     ax.tick_params(axis="x", which="minor", direction='in', top=True,length=4, labelsize=15)
     
     if save_as is not None:
+        makedirs(path.dirname(save_as), exist_ok=True)
         plt.savefig(save_as)
         print('Save to', save_as)
     return plt
@@ -121,7 +132,7 @@ if __name__ == '__main__':
     parser.add_argument('-b', '--bbbb', type=str, default=None, required=False, help='Filename of bbbb')
     parser.add_argument('-m', '--mass', type=int, default=0, required=False, help='Mass for spin-0')
     parser.add_argument('-o', '--output', type=str, default='.', required=False, help='Output path')
-    parser.add_argument('-t', '--threshold', type=float, default=5, required=False, help='Output path')
+    parser.add_argument('--threshold', type=float, default=5, required=False, help='Output path')
 
     args = parser.parse_args()
     if args.analysis == 'nonres' and args.bbbb is not None:
