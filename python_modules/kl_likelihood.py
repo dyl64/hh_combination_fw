@@ -31,8 +31,8 @@ def kl_likelihood(**kwargs):
     outdir = f'{input_file}/likelihood/' # zhangr
 
     channels = sorted(channels.split(','), key=lambda x: (x.casefold(), x.swapcase()))
-    input_files = [] #[f'{input_file}/rescaled/nonres/{channel}/0_kl.root' for channel in channels]
-    outnames = [] #[f'{channel}_{poi}' for channel in channels]
+    input_files = [f'{input_file}/rescaled/nonres/{channel}/0_kl.root' for channel in channels]
+    outnames = [f'{channel}_{poi}' for channel in channels]
 
     # append combined
     input_files.append(f'{input_file}/combined/nonres/A-{"_".join(channels)}-{scheme}/0_kl.root')
