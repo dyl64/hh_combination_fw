@@ -212,7 +212,7 @@ LHScan:
     - job: LHProcess
   variables:
     output_dir: output/param
-    other_options: "--min -2 --max 10 --step 0.1"
+    other_options: "--min -2 --max 6 --step 1"
     channel: bbtautau,bbyy
   allow_failure: true
   script:
@@ -276,7 +276,7 @@ NRPlot:
     - python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/nonres/*/0.json $input_dir/limits/nonres/combined/A-*-fullcorr/0.json -s $input_stat_dir/limits/nonres/bb[ty]*/0.json $input_stat_dir/limits/nonres/combined/A-*-fullcorr/0.json -mu --config ${configuration}
   artifacts:
     paths:
-      - $input_dir/figure
+      - $input_dir/figures
 
 KLPlot:
   extends: .plot
@@ -293,8 +293,8 @@ KLPlot:
     - python plotting/kl_scan/plot_kl.py -i $input_dir_indiv -ci --config ${configuration}
   artifacts:
     paths:
-      - $input_dir_param/figure
-      - $input_dir_indiv/figure
+      - $input_dir_param/figures
+      - $input_dir_indiv/figures
 
 LHPlot:
   extends: .plot
@@ -309,7 +309,7 @@ LHPlot:
 
   artifacts:
     paths:
-      - $input_dir/figure
+      - $input_dir/figures
 
 
 #####################################
