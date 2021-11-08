@@ -283,8 +283,8 @@ KLPlot:
   needs:
     - job: KL_proj_comb
   variables:
-    input_dir_indiv: output/indiv
-    input_dir_param: output/param
+    input_dir_indiv: output/indiv/likelihood
+    input_dir_param: output/param/likelihood
   script:
     # Plot KL
     - echo python plotting/kl_scan/plot_kl.py -i $input_dir_param -ci --config ${configuration}
