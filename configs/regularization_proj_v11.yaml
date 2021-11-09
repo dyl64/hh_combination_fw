@@ -1,6 +1,6 @@
 dataset:
   bbtautau:
-    blind: obsData
+    blind: asimovData
   bbyy:
     blind: combData
   combination:
@@ -13,6 +13,6 @@ poi:
 rescale_poi:
   #rescale means poi/rescaling (same value as scalings.py)
   #bbtautau removed 1000 factor
-  bbtautau: 1
+  bbtautau: 1.000000000
   #rescale means poi/rescaling (same value as scalings.py)
-  bbyy: 1
+  bbyy: 1.000000000

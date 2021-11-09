@@ -6,19 +6,24 @@ HHComb combine_ws -i ../output/v3000invfb_20211106_Local/indiv/ -c bbyy,bbtautau
 
 
 # param
-HHComb process_channels -i ../../FullRun2Workspaces/original/20211106_mu_all/ -c bbyy,bbtautau -r nonres -o ../output/v3000invfb_20211106_Local/param/ --minimizer_options configs/minimizer.json --config configs/regularization_kl.yaml --no-cache --file_format "<mass[F]>_kl" --param klambda=1
-#HHComb process_channels -i ../../FullRun2Workspaces/original/20211106_mu_all/ -c bbyy,bbtautau -r nonres -o ../output/v3000invfb_20211106_Local/param/ --minimizer_options configs/minimizer.json --config configs/regularization_kl.yaml --no-cache --file_format "<mass[F]>_kl" --param klambda=-2_8_0.2
+## for XS
+HHComb process_channels -i ../../FullRun2Workspaces/original/20211106_mu_all/ -c bbyy,bbtautau -r nonres -o ../output/v3000invfb_20211106_Local/param/ --minimizer_options configs/minimizer.json --config configs/regularization_kl.yaml --no-cache --file_format "<mass[F]>_kl" --param klambda=-2_8_0.2
 
-# for LH
+HHComb combine_ws -i ../output/v3000invfb_20211106_Local/param/ -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_fixXSunc.json --scheme configs/np_map_kl_v10.json --file_format "<mass[F]>_kl" --param klambda=-2_8_0.2
+
+
+## for LH
 HHComb combine_ws -i ../output/v3000invfb_20211106_Local/param/ -r nonres -c bbtautau,bbyy --minimizer_options configs/minimizer.json --config configs/regularization_kl.yaml --scheme configs/np_map_kl_v10.json --skip-limit --no-cache --file_format "<mass[F]>_kl" --param klambda=1
 
-## for XS
-#HHComb combine_ws -i ../output/v3000invfb_20211106_Local/param/ -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_fixXSunc.json --scheme configs/np_map_kl_v10.json --file_format "<mass[F]>_kl" --param klambda=-2_8_0.2
 
+HHComb process_channels -i ../../FullRun2Workspaces/original/20211106_mu_all/ -c bbyy,bbtautau -r nonres -o ../output/v3000invfb_20211106_Local/param/ --minimizer_options configs/minimizer.json --config configs/regularization_kl.yaml --no-cache --file_format "<mass[F]>_kl" --param klambda=1
 
-# LH scan
 HHComb kl_likelihood -i ../output/v3000invfb_20211106_Local/param/  -c bbyy,bbtautau --min -2 --max 10 --step 0.1
 
 
 ## NR
 HHComb pvalue -i ../output/v3000invfb_20211106_CI/NR/rescaled/nonres/bbyy/0.root  -e -1
+
+# plotting
+python combine_plot.py -i ../../../output/v3000invfb_20211106_CI/NR/ -sf 1
+python plotting/likelihood/likelihood_plotting.py -a nonres -i ../output/v3000invfb_20211106_Local/param/likelihood/ -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o ../output/v3000invfb_20211106_Local/param/likelihood/ --threshold 12

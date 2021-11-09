@@ -25,7 +25,7 @@ class DataReader(object):
             'bbtautau': f'{infolder}/stat/limits/nonres/bbtautau/0.json',
         }
         self.name_addition = 'stat'
-        self.scale_factor = 1000/32.776
+        self.scale_factor = args.sf
 
         self.label_map = {
             'bbtautau': r'$\mathrm{b\bar{b}\tau^+\tau^-}$',
@@ -77,6 +77,7 @@ if __name__ == '__main__':
     parser = ArgumentParser(description="\033[92mPlot combined plots.\033[0m")
     parser.add_argument('-i', '--input_folder', default='../../../output/v3000invfb_20211106_CI/', required=False, help='input folder')
     parser.add_argument('-o', '--output_name', default='upperlimit_xsec_nonres_fullcorr_mu', required=False, help='output filename')
+    parser.add_argument('-sf', '--sf', default=1000/32.776, type=float, required=False, help='reverse of scale factor applied in regularisation.yaml')
 
     args = parser.parse_args()
     main(args)

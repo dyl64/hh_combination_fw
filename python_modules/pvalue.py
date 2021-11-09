@@ -24,7 +24,7 @@ from pdb import set_trace
                                                                                              1: profiling NPs and globs with mu fixed to 1 and construct an S+B asimov, \
                                                                                              0: profiling NPs and globs with mu fixed to 0 and construct an S+B asimov, \
                                                                                             (will be multiplied by -n when generating asimov)')
-@click.option('-n', '--mu_1', required=False, type=float, default=1, help='normalisation in the workspace, (will be multiplied by -e when -e != -1)')
+@click.option('-n', '--mu_1', required=False, type=float, default=1, help='normalisation in the workspace, eg 0.032776 in rescaled nonres ws in CONF (will be multiplied by -e when -e != -1)')
 @click.option('--syst/--stat', default=True, help='calculate stat only (default syst)')
 def pvalue(input_path, poi_name, dataset, parallel, expected, mu_1, snapshot, syst):
     input_files = []
@@ -43,20 +43,20 @@ def pvalue(input_path, poi_name, dataset, parallel, expected, mu_1, snapshot, sy
         if expected is None:
             _nll(input_files[0], poi_name, dataset, snapshot)
         else:
-            _nll_exp(input_files[0], poi_name, dataset, int(expected), mu_1, (not syst))
+            _nll_exp(input_files[0], poi_name, dataset, int(expected), mu_1, syst)
     else:
         if expected is None:
             arguments = (input_files, repeat(poi_name), repeat(dataset), repeat(snapshot))
             utils.parallel_run(_nll, *arguments, max_workers=max_workers)
         else:
-            arguments = (input_files, repeat(poi_name), repeat(dataset), repeat(int(expected)), repeat(mu_1), repeat(not syst))
+            arguments = (input_files, repeat(poi_name), repeat(dataset), repeat(int(expected)), repeat(mu_1), repeat(syst))
             utils.parallel_run(_nll_exp, *arguments, max_workers=max_workers)
 
 def _nll_exp(input_file, poi_name, dataset, expected, mu_1, uncap=True, syst=True ):
     '''
         Instead of calling evaluate_nll(), run the fit manually for better control
     '''
-    def _evaluate_nll(input_file, poi_name, expected, unconditional=False, mu_1 = 32.776 / 1000, syst=True ):
+    def _evaluate_nll(input_file, poi_name, expected, unconditional=False, mu_1 = mu_1, syst=True ):
         config = {
                     'filename': input_file,
                     'data_name': "combData",
@@ -76,6 +76,7 @@ def _nll_exp(input_file, poi_name, dataset, expected, mu_1, uncap=True, syst=Tru
                     'eps': 1,
                     'constrain_nuis': True,
                 }
+        print('Fix', config['fix_param'])
 
         obj = AnalysisObject(**config)
     
