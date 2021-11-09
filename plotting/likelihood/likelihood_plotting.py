@@ -60,9 +60,12 @@ def plot_likelihood_scan(input_paths, color_maps=None, label_maps=None,
     ax.text(0.125, 1.02, text, ha='left', va='top', transform=ax.transAxes, fontsize=20)
     plt.axhline(y=1, color='gray', linestyle='--')
     plt.axhline(y=4, color='gray', linestyle='--')
-    plt.xlabel(xlabel, fontsize=20, loc='right')
     plt.ylim(0, threshold)
-    plt.ylabel(ylabel, fontsize=20, loc='top')
+    try:
+        plt.xlabel(xlabel, fontsize=20, loc='right')
+        plt.ylabel(ylabel, fontsize=20, loc='top')
+    except:
+        pass
     plt.legend(fontsize=15, loc='upper right', bbox_to_anchor=(0.95, 0.4))
     
     ax.xaxis.set_minor_locator(AutoMinorLocator())

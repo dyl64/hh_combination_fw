@@ -43,7 +43,7 @@ def kl_likelihood(**kwargs):
 
     for input_file, outname in zip(input_files, outnames):
         # generate asimov using CLI tool
-        output_file = input_file.replace(".root", ".asimov.root")
+        output_file = input_file.replace(".root", ".SplusBasimov.root")
         command = f'quickstats generate_standard_asimov -t -2 -p {poi} -d combData -i {input_file} -o {output_file} --fix {fix_param} --snapshot nominalNuis'
         print(command)
         os.system(command)

@@ -18,3 +18,7 @@ HHComb combine_ws -i ../output/v3000invfb_20211106_Local/param/ -r nonres -c bbt
 
 # LH scan
 HHComb kl_likelihood -i ../output/v3000invfb_20211106_Local/param/  -c bbyy,bbtautau --min -2 --max 10 --step 0.1
+
+
+## NR
+HHComb pvalue -i ../output/v3000invfb_20211106_CI/NR/rescaled/nonres/bbyy/0.root  -e -1

@@ -85,8 +85,8 @@ hhCompile:
     other_options: ""
   allow_failure: true
   script:
-    - echo HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_proj_v10.yaml $other_options
-    - HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_proj_v10.yaml $other_options
+    - echo HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_proj_v11.yaml $other_options
+    - HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_proj_v11.yaml $other_options
 
 NR_proj_mu_pro:
   extends: .NRProcess

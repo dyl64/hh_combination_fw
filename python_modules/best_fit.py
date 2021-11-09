@@ -1,4 +1,4 @@
-from math import sqrt, fabs, erf
+import os
 import click
 import json
 from quickstats.components import Likelihood
@@ -16,7 +16,8 @@ from pdb import set_trace
 @click.option('-p', '--parallel', required=False, type=int, default=-1, help='number of parallel jobs')
 @click.option('-s', '--snapshot', required=False, type=str, default=None, help='snapshot to load')
 @click.option('-c', '--correlation/--no-correlation', default=False, help='retrive and draw correlation matrix')
-def best_fit(input_path, poi_name, dataset, parallel, snapshot, correlation):
+@click.option('-f', '--fix', 'fix_param', required=False, type=str, default=None, help='parameters to fix duing fit')
+def best_fit(input_path, poi_name, dataset, parallel, snapshot, correlation, fix_param):
     input_files = []
     if input_path.endswith('.root'):
         input_files.append(input_path)
@@ -26,20 +27,28 @@ def best_fit(input_path, poi_name, dataset, parallel, snapshot, correlation):
         assert(0), 'no input found'
     if parallel == 0 or len(input_files) == 1:
         for input_file in input_files:
-            _best_fit(input_file, poi_name, dataset, snapshot, correlation)
+            _best_fit(input_file, poi_name, dataset, snapshot, correlation, fix_param)
     else:
         if parallel == -1:
             max_workers = min(multiprocessing.cpu_count(), len(input_files))
         else:
             max_workers = parallel
 
-        arguments = (input_files, repeat(poi_name), repeat(dataset), repeat(snapshot), repeat(correlation))
+        arguments = (input_files, repeat(poi_name), repeat(dataset), repeat(snapshot), repeat(correlation), repeat(fix_param))
         import utils
         utils.parallel_run(_best_fit, *arguments, max_workers=max_workers)
 
-def _best_fit(input_file, poi_name, dataset, snapshot, correlation):
+def _best_fit(input_file, poi_name, dataset, snapshot, correlation, fix_param):
+    output_file = input_file.replace(".root", ".SplusBasimov.root")
+    command = f'quickstats generate_standard_asimov -t -2 -p {poi_name} -d {dataset} -i {input_file} -o {output_file} --snapshot nominalNuis'
+    if fix_param is not None:
+        command += '--fix {fix_param}'
+    print(command)
+    os.system(command)
+
+    likelihood = Likelihood(output_file, data_name="asimovData_1_NP_Nominal", poi_name=poi_name)
+
     poi_val = 0
-    likelihood = Likelihood(input_file, data_name=dataset, poi_name=poi_name)
     likelihood.evaluate(poi_val=poi_val, unconditional=True, snapshot_name=snapshot)
     nll_mu_free = likelihood.minNll
     poi = likelihood.poi

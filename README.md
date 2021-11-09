@@ -128,6 +128,8 @@ python harmonise_name.py nonres <input_folder>
 ```
 
 ## Run p-value
+*important note*
+If running on rescaled nonres workspace, require a caution on what the POI was scaled to during the rescaling step (check `regularization.yaml`, eg for Run2 CONF note, -n=0.032776 and for projection and spin0, -n=1)
 ```
 # 
 HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210924_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/1100.root
