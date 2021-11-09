@@ -17,8 +17,11 @@ def xs_ggF(kl):
 def xs_VBF(kl):
     return (4.581-4.245*kl+1.359*kl**2) 
 
-def xs_HH(kl):
-    return xs_ggF(kl) + xs_VBF(kl)
+def xs_HH(kl, s=13):
+    if s == 13:
+        return xs_ggF(kl) + xs_VBF(kl)
+    elif s == 14:
+        return (xs_ggF(kl) + xs_VBF(kl)) * 1.18
 
 class DataReader(object):
     def __init__(self, args):
@@ -76,7 +79,7 @@ class DataReader(object):
 def main(args):
     dr = DataReader(args)
     kl = dr.df_param.index.astype(float).values
-    xsec = xs_HH(kl)
+    xsec = xs_HH(kl, args.energy)
     plotter = UpperLimit2DPlot(dr.df_param, dr.df_indiv, labels=dr.labels, labels_sec=dr.labels_sec, analysis_label_options=dr.atlas_label_options, styles=dr.styles, scale_factor = xsec)
     plotter.config['primary_alpha'] = 0.7
     plotter.config['secondary_alpha'] = 0.7
@@ -96,6 +99,7 @@ if __name__ == '__main__':
     parser.add_argument('-i', '--input_folder', default='../../../output/v3000invfb_20211106_Local/', required=False, help='input folder')
     parser.add_argument('-o', '--output_name', default='compare_indv_param', required=False, help='output filename')
     parser.add_argument('-c', '--chan', default='combined', choices=['combined', 'bbyy', 'bbtautau'], required=False, help='channel to plot')
+    parser.add_argument('-s', '--energy', default=14, choices=[13, 14, 13.6], required=False, help='collision energy')
 
     args = parser.parse_args()
     main(args)
