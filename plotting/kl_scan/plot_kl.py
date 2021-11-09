@@ -3,6 +3,7 @@
 # requires python3 to use atlas_mpl_style
 
 from pdb import set_trace
+from os import makedirs, path
 
 """
 
@@ -378,6 +379,7 @@ def draw_all_limits(status, *channels, use_ampl=True):
 
 def main(args):
     out_path = f'{args.input_path}/figures'
+    makedirs(out_path, exist_ok=True)
     bbyy_path = os.path.join(args.input_path, "limits", "nonres", "bbyy", "0_kl_*[!summary].json")
     limits_ak_df_bbyy = get_limits(bbyy_path, slice(2,-5),rescale_val=1.0/32.776*1000);
     limits_ak_df_bbyy.to_csv(f'{out_path}/kl_xsec_scan_bbyy.csv')

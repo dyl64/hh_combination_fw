@@ -301,7 +301,7 @@ LHPlot:
   needs:
     - job: LHScan
   variables:
-    input_dir_param: output/param
+    input_dir_param: output/param/likelihood
   script:
     # Plot kl likelihood curve
     - echo python plotting/likelihood/likelihood_plotting.py -a nonres -i $input_dir_param -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o $input_dir_param/$output/ --threshold 12

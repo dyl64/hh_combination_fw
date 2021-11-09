@@ -3,6 +3,7 @@
 # rui.zhang@cern.ch
 
 from datetime import datetime
+from pdb import set_trace
 import json
 import pandas as pd
 from quickstats.plots import UpperLimit2DPlot
@@ -82,13 +83,10 @@ def main(args):
     plotter.config['primary_hatch'] = None
     ax = plotter.draw(ylim=[0, 160], xlabel=r'$\kappa_\lambda$', ylabel=r'$\sigma_{ggF+VBF}$ [fb]', xlim=(-3, 9), draw_observed=False)
     
-    outfolder = f"{args.input_folder}/figures/"
-    makedirs(path.dirname(outfolder), exist_ok=True)
-    plt.savefig(f"{outfolder}/{args.output_name}.pdf", bbox_inches="tight")
-    print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mSave\033[0m'.rjust(40, ' '), f"{outfolder}/{args.output_name}.pdf")
-
-    
-    plotter = UpperLimit2DPlot(..., )
+    outfile = f"{args.input_folder}/figures/{args.output_name}_{args.chan}.pdf"
+    makedirs(path.dirname(outfile), exist_ok=True)
+    plt.savefig(outfile, bbox_inches="tight")
+    print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mSave\033[0m'.rjust(40, ' '), outfile)
 
 
 if __name__ == '__main__':
