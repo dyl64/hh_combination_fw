@@ -24,8 +24,9 @@ from pdb import set_trace
                                                                                              1: profiling NPs and globs with mu fixed to 1 and construct an S+B asimov, \
                                                                                              0: profiling NPs and globs with mu fixed to 0 and construct an S+B asimov, \
                                                                                             (will be multiplied by -n when generating asimov)')
-@click.option('-n', '--mu_1', required=False, type=float, default=32.776 / 1000, help='normalisation in the workspace, (will be multiplied by -e when -e != -1)')
-def pvalue(input_path, poi_name, dataset, parallel, expected, mu_1, snapshot):
+@click.option('-n', '--mu_1', required=False, type=float, default=1, help='normalisation in the workspace, (will be multiplied by -e when -e != -1)')
+@click.option('--syst/--stat', default=True, help='calculate stat only (default syst)')
+def pvalue(input_path, poi_name, dataset, parallel, expected, mu_1, snapshot, syst):
     input_files = []
     if input_path.endswith('.root'):
         input_files.append(input_path)
@@ -42,25 +43,27 @@ def pvalue(input_path, poi_name, dataset, parallel, expected, mu_1, snapshot):
         if expected is None:
             _nll(input_files[0], poi_name, dataset, snapshot)
         else:
-            _nll_exp(input_files[0], poi_name, dataset, int(expected), mu_1)
+            _nll_exp(input_files[0], poi_name, dataset, int(expected), mu_1, (not syst))
     else:
         if expected is None:
             arguments = (input_files, repeat(poi_name), repeat(dataset), repeat(snapshot))
             utils.parallel_run(_nll, *arguments, max_workers=max_workers)
         else:
-            arguments = (input_files, repeat(poi_name), repeat(dataset), repeat(int(expected)), repeat(mu_1))
+            arguments = (input_files, repeat(poi_name), repeat(dataset), repeat(int(expected)), repeat(mu_1), repeat(not syst))
             utils.parallel_run(_nll_exp, *arguments, max_workers=max_workers)
 
-def _nll_exp(input_file, poi_name, dataset, expected, mu_1, uncap=True):
+def _nll_exp(input_file, poi_name, dataset, expected, mu_1, uncap=True, syst=True ):
     '''
         Instead of calling evaluate_nll(), run the fit manually for better control
     '''
-    def _evaluate_nll(input_file, poi_name, expected, unconditional=False, mu_1 = 32.776 / 1000):
+    def _evaluate_nll(input_file, poi_name, expected, unconditional=False, mu_1 = 32.776 / 1000, syst=True ):
         config = {
                     'filename': input_file,
                     'data_name': "combData",
                     'binned_likelihood' : True,
-                    'fix_param': None,
+                    'fix_param': None if syst else \
+                                "ATLAS_E*=0,ATLAS_F*=0,ATLAS_H*=0,ATLAS_J*=0,ATLAS_L*=0,ATLAS_P*=0,ATLAS_l*=0,alpha_*=0,THEO*=0,SPURIOUS*=0,ATLAS_M*=0,ATLAS_T*=0,ATLAS_b*=0"
+                    ,
                     'profile_param': None,
                     'ws_name': None,
                     'mc_name': None,
@@ -87,7 +90,7 @@ def _nll_exp(input_file, poi_name, dataset, expected, mu_1, uncap=True):
             asimov_data = obj.model.generate_asimov(poi_name=poi_name, poi_val=mu_1, poi_profile=expected * mu_1, 
                     do_fit=True, do_import=True, modify_globs=True, asimov_name='dataset_temp',
                     snapshot_names={'conditional_globs': 'customised_globs', 'conditional_nuis': 'customised_nuis'})
-        obj.model.workspace.writeToFile(path.dirname(input_file) + f'/asimov_temp{expected}.root')
+        #obj.model.workspace.writeToFile(path.dirname(input_file) + f'/asimov_temp{expected}.root')
         # for best fit - instead of create asimov data, take the input dataset
         # asimov_data = obj.model.workspace.data(obj.model.data_name)
 
@@ -118,10 +121,10 @@ def _nll_exp(input_file, poi_name, dataset, expected, mu_1, uncap=True):
 
         return nll_mu, poi_value
 
-    nll_mu_0, poi_0 = _evaluate_nll(input_file, poi_name, expected, unconditional = False, mu_1=mu_1)
+    nll_mu_0, poi_0 = _evaluate_nll(input_file, poi_name, expected, unconditional = False, mu_1=mu_1, syst=syst)
     print('nll_mu_0, poi_0', nll_mu_0, poi_0)
 
-    nll_mu_free, poi_free = _evaluate_nll(input_file, poi_name, expected, unconditional = True, mu_1=mu_1)
+    nll_mu_free, poi_free = _evaluate_nll(input_file, poi_name, expected, unconditional = True, mu_1=mu_1, syst=syst)
     print('nll_mu_free, poi_free', nll_mu_free, poi_free)
 
     output_file = input_file[::-1].replace('.root'[::-1], f'_pvalue_exp{expected}.json'[::-1], 1)[::-1]
@@ -130,8 +133,8 @@ def _nll_exp(input_file, poi_name, dataset, expected, mu_1, uncap=True):
 def _nll(input_file, poi_name, dataset, snapshot=None):
     uncap=True
     poi_val = 0
-    nll_mu_0 = evaluate_nll(input_file, poi_val, poi_name, strategy = 1, unconditional=False, data=dataset, offset=False, snapshot=snapshot)
-    result_free = evaluate_nll(input_file, poi_val, poi_name, strategy = 1, unconditional=True, data=dataset, offset=False, detailed_output=True, snapshot=snapshot)
+    nll_mu_0 = evaluate_nll(input_file, poi_val, poi_name=poi_name, strategy = 1, data_name=dataset, offset=False, snapshot_name=snapshot)
+    result_free = evaluate_nll(input_file, poi_val=None, poi_name=poi_name, strategy = 1, data_name=dataset, offset=False, detailed_output=True, snapshot_name=snapshot)
     nll_mu_free = result_free['nll']
     poi_free = result_free['poi_bestfit']
 

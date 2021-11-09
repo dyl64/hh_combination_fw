@@ -14,7 +14,7 @@ from pdb import set_trace
 @click.option('-poi', 'poi_name', required=False, default='xsec_br', help='poi name in workspace')
 @click.option('-d', '--dataset', required=False, default='combData', help='dataset name in workspace')
 @click.option('-p', '--parallel', required=False, type=int, default=-1, help='number of parallel jobs')
-@click.option('-s', '--snapshot', required=False, type=str, default=None, help='number of parallel jobs')
+@click.option('-s', '--snapshot', required=False, type=str, default=None, help='snapshot to load')
 @click.option('-c', '--correlation/--no-correlation', default=False, help='retrive and draw correlation matrix')
 def best_fit(input_path, poi_name, dataset, parallel, snapshot, correlation):
     input_files = []
@@ -24,7 +24,7 @@ def best_fit(input_path, poi_name, dataset, parallel, snapshot, correlation):
         input_files = glob(input_path + '/*[0-9].root')
     if len(input_files) == 0:
         assert(0), 'no input found'
-    if parallel == 0:
+    if parallel == 0 or len(input_files) == 1:
         for input_file in input_files:
             _best_fit(input_file, poi_name, dataset, snapshot, correlation)
     else:
@@ -44,10 +44,6 @@ def _best_fit(input_file, poi_name, dataset, snapshot, correlation):
     nll_mu_free = likelihood.minNll
     poi = likelihood.poi
 
-    # analysis = AnalysisObject(input_file, data_name=dataset, poi_name=poi_name)
-    # poi = analysis.model.get_poi()
-    # analysis.minimizer.minimize()
-
     if correlation:
         threshold = 0
         df = _get_correlation(likelihood, threshold=threshold)
@@ -57,6 +53,7 @@ def _best_fit(input_file, poi_name, dataset, snapshot, correlation):
 
     dic = {
         'best_mu': poi.getVal(),
+        'best_mu_err': poi.getError(),
         }
     print(dic)
 
