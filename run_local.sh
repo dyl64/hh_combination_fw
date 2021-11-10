@@ -53,7 +53,8 @@ HHComb pvalue -i ../output/v3000invfb_20211106_CI/NR/rescaled/nonres/bbyy/0.root
 
 # plotting
 python combine_plot.py -i ../../../output/v3000invfb_20211106_CI/NR/ -sf 1
-python plot_kl.py -i ../../../output/v3000invfb_20211106_Local/indiv/ --config project3000
+python plot_kl.py -i ../../../output/v3000invfb_20211106_Local/indiv/ --config project3000 --rescale 0.032776
+python plot_kl.py -i ../../../output/v3000invfb_20211106_Local/param/ --config project3000 --rescale 1
 
 
 

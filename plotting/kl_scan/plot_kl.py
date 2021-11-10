@@ -178,7 +178,7 @@ def get_limits(glob_string,string_range,rescale_val=1.0):
     
     for ifile in files: 
         # parse ifile names to extract kl value
-        kappa_string = ifile.split("/")[-1].split("_")[2][:-5]
+        kappa_string = ifile.split("/")[-1].split(".")[0].split("_")[-1]
         kappa_string = kappa_string.replace("n","-")
         kappa_string = kappa_string.replace("p",".")
         lambdas += [float(kappa_string)] 
@@ -248,7 +248,10 @@ def draw_limits(limits_df, channel_name,log=True, status='int', use_ampl=True):
     intersections = get_intersections(lambdas, n*limits_df["exp"], lambdas_th, n_th)
     if intersections:
         print ('limits expected:', intersections)
-        plt.annotate(r'Expected: $\mathrm{\kappa_\lambda} \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (0.04, y_annotation[0]), xycoords = 'axes fraction', fontsize = 15)
+        try:
+            plt.annotate(r'Expected: $\mathrm{\kappa_\lambda} \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (0.04, y_annotation[0]), xycoords = 'axes fraction', fontsize = 15)
+        except:
+            pass
     
     # get observed limits 
     if args.unblind:
@@ -344,7 +347,10 @@ def draw_all_limits(status, *channels, use_ampl=True):
     intersections = get_intersections(lambdas, n*limits_df["exp"], lambdas_th, n_th)
     if intersections:
         print ('limits expected:', intersections)
-        plt.annotate(r'Expected: $\kappa_\lambda \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (annotation_x,annotation_y), xycoords = 'axes fraction', fontsize = 15)
+        try:
+            plt.annotate(r'Expected: $\kappa_\lambda \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (annotation_x,annotation_y), xycoords = 'axes fraction', fontsize = 15)
+        except:
+            pass
 
 
     # get observed limits 
@@ -388,19 +394,19 @@ def main(args):
     out_path = f'{args.input_path}/figures'
     makedirs(out_path, exist_ok=True)
     bbyy_path = os.path.join(args.input_path, "limits", "nonres", "bbyy", "0_kl_*[!summary].json")
-    limits_ak_df_bbyy = get_limits(bbyy_path, slice(2,-5),rescale_val=1.0/32.776*1000);
+    limits_ak_df_bbyy = get_limits(bbyy_path, slice(2,-5),rescale_val=1.0/args.rescale);
     limits_ak_df_bbyy.to_csv(f'{out_path}/kl_xsec_scan_bbyy.csv')
     plt = draw_limits(limits_ak_df_bbyy,r"$\mathrm{b\bar{b}\gamma\gamma}$", status=args.status, use_ampl=not args.ci)
     plt.savefig(f'{out_path}/kl_xsec_scan_bbyy.pdf',bbox_inches='tight')
 
     bbtautau_path = os.path.join(args.input_path, "limits", "nonres", "bbtautau", "0_kl_*[!summary].json")
-    limits_ak_df_bbtautau = get_limits(bbtautau_path,slice(2,-5),rescale_val=1.0/32.776*1000);
+    limits_ak_df_bbtautau = get_limits(bbtautau_path,slice(2,-5),rescale_val=1.0/args.rescale);
     limits_ak_df_bbtautau.to_csv(f'{out_path}/kl_xsec_scan_bbtautau.csv')
     plt = draw_limits(limits_ak_df_bbtautau,r"$\mathrm{b\bar{b}\tau^{+}\tau^{-}}$", status=args.status, use_ampl=not args.ci)
     plt.savefig(f'{out_path}/kl_xsec_scan_bbtautau.pdf',bbox_inches='tight')
 
     combined_path = os.path.join(args.input_path, "limits", "nonres", "combined", "A-bbtautau_bbyy-fullcorr", "0_kl_*[!summary].json")
-    limits_ak_df_combined = get_limits(combined_path,slice(2,-5),rescale_val=1.0/32.776*1000);
+    limits_ak_df_combined = get_limits(combined_path,slice(2,-5),rescale_val=1.0/args.rescale);
     limits_ak_df_combined.to_csv(f'{out_path}/kl_xsec_scan_combined.csv')
     #plt = draw_limits(limits_ak_df_combined,r"$\mathrm{b\bar{b}\gamma\gamma + b\bar{b}\tau^{+}\tau^{-}}$", status=args.status, use_ampl=not args.ci)
     #plt.savefig(f'{out_path}/kl_xsec_scan_all.pdf',bbox_inches='tight')
@@ -424,6 +430,7 @@ if __name__ == '__main__':
     parser.add_argument('-i', '--input_path', type=str, required=True, help='')
     parser.add_argument('--unblind', action='store_true', default=False, required=False, help='')
     parser.add_argument('--config', type=str, choices=['project3000', 'Run2conf'], required=True, help='Configurations for cosmetics')
+    parser.add_argument('--rescale', type=float, default=1, choices=[1, 0.032776], help='rescaling factor applied in regularisation.yaml')
 
     args = parser.parse_args()
     main(args)

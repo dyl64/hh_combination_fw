@@ -23,21 +23,24 @@ from quickstats.components.likelihood import scan_nll
 @click.option('-s', '--scheme',  default='fullcorr', help='correlation scheme (only affect which combined workspace to pick)')
 @click.option('-c', '--channels',  required=True, help='individual channels to include (comma separable); combined channel always included')
 @click.option('--include-chan/--skip-chan', default=True, help='include or skip individual channels')
+@click.option('-o', '--output',  default='likelihood', help='output folder')
+@click.option('--kl_options',  default='', help='other likelihood_scan optioins')
 def kl_likelihood(**kwargs):
-    input_file, poi, channels, scheme = kwargs['input_folder'], kwargs['poi'], kwargs['channels'], kwargs['scheme']
+    input_file, output, poi, channels, scheme, kl_options = kwargs['input_folder'], kwargs['output'], kwargs['poi'], kwargs['channels'], kwargs['scheme'], kwargs['kl_options']
     scan_min, scan_max, scan_step = kwargs['scan_min'], kwargs['scan_max'], kwargs['scan_step']
-    outdir = f'{input_file}/likelihood/' # zhangr
+    outdir = f'{input_file}/{output}/' # zhangr
 
-    channels = sorted(channels.split(','), key=lambda x: (x.casefold(), x.swapcase()))
+    a_channels = ['bbtautau']
     if kwargs['include_chan']:
-        input_files = [f'{input_file}/rescaled/nonres/{channel}/0_kl.root' for channel in channels]
-        outnames = [f'{channel}_{poi}' for channel in channels]
+        input_files = [f'{input_file}/rescaled/nonres/{channel}/0_kl.root' for channel in a_channels]
+        outnames = [f'{channel}_{poi}' for channel in a_channels]
     else:
         input_files, outnames = [], []
 
-    # append combined
-    input_files.append(f'{input_file}/combined/nonres/A-{"_".join(channels)}-{scheme}/0_kl.root')
-    outnames.append(f'combined_{poi}')
+    ## append combined
+    #channels = sorted(channels.split(','), key=lambda x: (x.casefold(), x.swapcase()))
+    #input_files.append(f'{input_file}/combined/nonres/A-{"_".join(channels)}-{scheme}/0_kl.root')
+    #outnames.append(f'combined_{poi}')
 
     other_options = ''
     other_options += ('--cache' if kwargs['cache'] else '--no-cache')
@@ -52,6 +55,6 @@ def kl_likelihood(**kwargs):
 
         # scan likelihood using CLI tool
         fix_param = 'xsec_br=1'
-        command = f'quickstats likelihood_scan -i {output_file} --min {scan_min} --max {scan_max} --step {scan_step} -d asimovData_1_NP_Nominal --parallel -1 --print_level -1 -p {poi} -o {outname} {other_options} --outdir {outdir} --fix {fix_param}'
+        command = f'quickstats likelihood_scan -i {output_file} --min {scan_min} --max {scan_max} --step {scan_step} -d asimovData_1_NP_Nominal --parallel -1 --print_level -1 -p {poi} -o {outname} {other_options} --outdir {outdir} --fix {fix_param} {kl_options}'
         print(command)
         os.system(command)

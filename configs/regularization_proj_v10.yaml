@@ -13,6 +13,6 @@ poi:
 rescale_poi:
   #rescale means poi/rescaling (same value as scalings.py)
   #bbtautau removed 1000 factor
-  bbtautau: 0.032776
+  bbtautau: 1
   #rescale means poi/rescaling (same value as scalings.py)
-  bbyy: 0.032776
+  bbyy: 1
