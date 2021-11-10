@@ -272,8 +272,8 @@ NRPlot:
     input_dir: output/NR
   script:
     # Plot nonres signal strength (mu)
-    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/nonres/*/0.json $input_dir/limits/nonres/combined/A-*-fullcorr/0.json -s $input_stat_dir/limits/nonres/bb[ty]*/0.json $input_stat_dir/limits/nonres/combined/A-*-fullcorr/0.json -mu --config ${configuration}
-    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/nonres/*/0.json $input_dir/limits/nonres/combined/A-*-fullcorr/0.json -s $input_stat_dir/limits/nonres/bb[ty]*/0.json $input_stat_dir/limits/nonres/combined/A-*-fullcorr/0.json -mu --config ${configuration}
+    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/nonres/*/0.json $input_dir/limits/nonres/combined/A-*-fullcorr/0.json -s $input_stat_dir/limits/nonres/bb[ty]*/0.json $input_stat_dir/limits/nonres/combined/A-*-fullcorr/0.json -mu --config ${configuration} --norm 1
+    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/nonres/*/0.json $input_dir/limits/nonres/combined/A-*-fullcorr/0.json -s $input_stat_dir/limits/nonres/bb[ty]*/0.json $input_stat_dir/limits/nonres/combined/A-*-fullcorr/0.json -mu --config ${configuration} --norm 1
   artifacts:
     paths:
       - $input_dir/figures
@@ -282,9 +282,10 @@ KLPlot:
   extends: .plot
   needs:
     - job: KL_proj_comb
+    - job: XSScan
   variables:
-    input_dir_indiv: output/indiv/likelihood
-    input_dir_param: output/param/likelihood
+    input_dir_indiv: output/indiv/
+    input_dir_param: output/param/
   script:
     # Plot KL
     - echo python plotting/kl_scan/plot_kl.py -i $input_dir_param -ci --config ${configuration}
@@ -301,15 +302,15 @@ LHPlot:
   needs:
     - job: LHScan
   variables:
-    input_dir_param: output/param/likelihood
+    input_dir_param: output/param/
   script:
     # Plot kl likelihood curve
-    - echo python plotting/likelihood/likelihood_plotting.py -a nonres -i $input_dir_param -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o $input_dir_param/$output/ --threshold 12
-    - python plotting/likelihood/likelihood_plotting.py -a nonres -i $input_dir_param -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o $input_dir_param/$output/ --threshold 12
+    - echo python plotting/likelihood/likelihood_plotting.py -a nonres -i $input_dir_param/likelihood -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o $input_dir_param/figures/ --threshold 12
+    - python plotting/likelihood/likelihood_plotting.py -a nonres -i $input_dir_param/likelihood -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o $input_dir_param/figures/ --threshold 12
 
   artifacts:
     paths:
-      - $input_dir/figures
+      - $input_dir_param/figures
 
 
 #####################################
