@@ -26,4 +26,5 @@ HHComb pvalue -i ../output/v3000invfb_20211106_CI/NR/rescaled/nonres/bbyy/0.root
 
 # plotting
 python combine_plot.py -i ../../../output/v3000invfb_20211106_CI/NR/ -sf 1
+python plot_kl.py -i ../../../output/v3000invfb_20211106_Local/indiv/ --config project3000
 python plotting/likelihood/likelihood_plotting.py -a nonres -i ../output/v3000invfb_20211106_Local/param/likelihood/ -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o ../output/v3000invfb_20211106_Local/param/likelihood/ --threshold 12

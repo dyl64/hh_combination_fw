@@ -37,17 +37,17 @@ import itertools
 
 configur = {
         'project3000': {
-            'lumi': [r'14', r'3000'],
+            'lumi': [r'14', 3000],
             'xsec': 32.74,
             'text_digit': 2,
             'ylim': {
-                'log': [1, 10e2],
+                'log': [1, 1000],
                 'nonlog': [0, 200],
                 },
             'xlim': [-2, 6]
             },
         'Run2conf': {
-            'lumi': [r'13', r'139'],
+            'lumi': [r'13', 139],
             'xsec': 32.74,
             'text_digit': 2,
             'ylim': {
@@ -70,8 +70,11 @@ def xs_VBF(kl):
     #https://indico.cern.ch/event/995807/contributions/4184798/attachments/2175756/3683303/VBFXSec.pdf
     return (4.581-4.245*kl+1.359*kl**2)*SCALE_VBF
 
-def xs_HH(kl):
-    return xs_ggF(kl) + xs_VBF(kl)
+def xs_HH(kl, s=13):
+    if s == 13:
+        return xs_ggF(kl) + xs_VBF(kl)
+    elif s == 14:
+        return (xs_ggF(kl) + xs_VBF(kl)) * 1.18
 
 # When adding 2 independent Gaussians (e.g. ggF and VBF XS) we can simply add their means and add their sigmas in quadrature
 def sigma_upper_ggF(kl):
@@ -88,8 +91,8 @@ def sigma_upper_VBF(kl):
 def sigma_upper_HH(kl):
     return math.sqrt(sigma_upper_ggF(kl)**2 + sigma_upper_VBF(kl)**2)
     
-def xs_upper_HH(kl):
-    return xs_HH(kl) + sigma_upper_HH(kl)
+def xs_upper_HH(kl, s=13):
+    return xs_HH(kl, s) + sigma_upper_HH(kl)
 
 def sigma_lower_ggF(kl):
     #https://twiki.cern.ch/twiki/bin/view/LHCPhysics/LHCHWGHH?redirectedfrom=LHCPhysics.LHCHXSWGHH#Latest_recommendations_for_gluon
@@ -104,8 +107,8 @@ def sigma_lower_VBF(kl):
 def sigma_lower_HH(kl):
     return math.sqrt(sigma_lower_ggF(kl)**2 + sigma_lower_VBF(kl)**2)
     
-def xs_lower_HH(kl):
-    return xs_HH(kl) - sigma_lower_HH(kl)
+def xs_lower_HH(kl, s=13):
+    return xs_HH(kl, s) - sigma_lower_HH(kl)
 
 #Input: json file with the following format
 #["kappa_lambda": [-2sigma, -1sigma, expected, +1sigma, +2sigma, observed]
@@ -144,14 +147,14 @@ def draw_mu(limits, limit_bands, channel_name, use_ampl=True):
     #reorder the legend
     handles,labels = ax.get_legend_handles_labels()
 
-    ax.legend(handles, labels, loc='upper right', fontsize = 'small', frameon = False)
+    ax.legend(handles, labels, loc='lower right', fontsize = 'small', frameon = False)
 
     if use_ampl:
         import atlas_mpl_style as ampl
         ampl.use_atlas_style()
         ax.set_ylabel('$\mu$ (HH) [fb]', fontsize=16)
         ax.set_xlabel('$\mathrm{\kappa_\lambda}$', fontsize=16)
-        ax.draw_atlas_label(0.05, 0.95, ax, status = 'int', energy = '13 TeV', lumi = 139, desc = r"$HH \rightarrow$ "+channel_name)
+        ax.draw_atlas_label(0.05, 0.95, ax, status = 'int', energy = configur[args.config]['lumi'][0]+' TeV', lumi = configur[args.config]['lumi'][1], desc = r"$HH \rightarrow$ "+channel_name)
     else:
         ax.set_ylabel('$\mu$ (HH) [fb]', fontsize=16)
         ax.set_xlabel('$\mathrm{\kappa_\lambda}$', fontsize=16)
@@ -211,7 +214,8 @@ def draw_limits(limits_df, channel_name,log=True, status='int', use_ampl=True):
     ax = fig.add_subplot(gs[:4,0])
     
     lambdas = limits_df["kl"]
-    n = [xs_HH(kl) for kl in lambdas] # get expected cross-section at different kls
+    s = 14 if args.config == 'project3000' else 13
+    n = [xs_HH(kl, s) for kl in lambdas] # get expected cross-section at different kls
     
     # multiply mu by expected cross-section and plot obs, expected limits
     if log:
@@ -230,11 +234,11 @@ def draw_limits(limits_df, channel_name,log=True, status='int', use_ampl=True):
 
     # for the theory expected cross-section we can have a smoother function by running over more kl points
     lambdas_th = np.linspace(-10.0,10.0,1000) 
-    n_th = [xs_HH(kl) for kl in lambdas_th] # get expected cross-section at different kls
+    n_th = [xs_HH(kl, s) for kl in lambdas_th] # get expected cross-section at different kls
     
     # plot theory prediction 
     ax.plot(lambdas_th,n_th,'C4', color = 'darkred', label='Theory prediction')
-    th_band = ax.fill_between(lambdas_th, [xs_lower_HH(kl) for kl in lambdas_th], [xs_upper_HH(kl) for kl in lambdas_th],  facecolor = '#F2385A')
+    th_band = ax.fill_between(lambdas_th, [xs_lower_HH(kl, s) for kl in lambdas_th], [xs_upper_HH(kl, s) for kl in lambdas_th],  facecolor = '#F2385A')
     
     if log:
         y_annotation = (0.1,0.18)
@@ -254,7 +258,7 @@ def draw_limits(limits_df, channel_name,log=True, status='int', use_ampl=True):
             print ('limits observed:', intersections)
     
     #SM point
-    ax.plot(1, xs_HH(1), linewidth = 0, marker = '*', markersize = 20, color = '#E9F1DF', markeredgecolor = 'black', label = 'SM prediction')
+    ax.plot(1, xs_HH(1, s), linewidth = 0, marker = '*', markersize = 20, color = '#E9F1DF', markeredgecolor = 'black', label = 'SM prediction')
 
 
     # make pretty 
@@ -270,7 +274,7 @@ def draw_limits(limits_df, channel_name,log=True, status='int', use_ampl=True):
         ampl.use_atlas_style()
         ampl.set_ylabel('$\sigma_{ggF+VBF}$ (HH) [fb]', fontsize= 20)    
         ampl.set_xlabel(r'$\kappa_\lambda$', fontsize=20)
-        ampl.draw_atlas_label(0.05, 0.95, ax, status = status, energy = '13 TeV', lumi = 139, desc = r"$HH \rightarrow$ "+channel_name)
+        ampl.draw_atlas_label(0.05, 0.95, ax, status = status, energy = configur[args.config]['lumi'][0]+' TeV', lumi = configur[args.config]['lumi'][1], desc = r"$HH \rightarrow$ "+channel_name)
     else:
         ax.set_ylabel('$\sigma_{ggF+VBF}$ (HH) [fb]', fontsize= 20)    
         ax.set_xlabel(r'$\kappa_\lambda$', fontsize=20)
@@ -278,17 +282,18 @@ def draw_limits(limits_df, channel_name,log=True, status='int', use_ampl=True):
     # border for the legend
     border_leg = patches.Rectangle((0, 0), 1, 1, facecolor = 'none', edgecolor = 'black', linewidth = 1)
     
-    ## reorder the legend
-    #handles, labels = ax.get_legend_handles_labels()
-    #handles[2].set_linewidth(1.0)
+    # reorder the legend
+    handles, labels = ax.get_legend_handles_labels()
+    handles[2].set_linewidth(1.0)
     #handles = [handles[0], handles[1], (handles[5], border_leg), (handles[4], border_leg), (th_band, handles[2], border_leg), handles[3]]
     #labels = [labels[0], labels[1], labels[5], labels[4], labels[2], labels[3]]
-    #ax.legend(handles, labels, loc='upper right', fontsize = 'small', frameon = False)
+    ax.legend(handles, labels, loc='lower right', fontsize = 'small', frameon = False)
 
     return plt
 
 def draw_all_limits(status, *channels, use_ampl=True):
     """Last input must always be the combined one """
+    s = 14 if args.config == 'project3000' else 13
     
     # Set up figure
     fig = plt.figure(figsize=(8, 6))
@@ -305,7 +310,7 @@ def draw_all_limits(status, *channels, use_ampl=True):
         channel_label = my_tuple[1]
         
         lambdas = limits_df["kl"]
-        n = [xs_HH(kl) for kl in lambdas] # get expected cross-section at different kls
+        n = [xs_HH(kl, s) for kl in lambdas] # get expected cross-section at different kls
         
         if channel_label != "Combined":
             my_color = next(palette) 
@@ -327,11 +332,11 @@ def draw_all_limits(status, *channels, use_ampl=True):
 
     # for the theory expected cross-section we can have a smoother function by running over more kl points
     lambdas_th = np.linspace(-10.0,10.0,1000) 
-    n_th = [xs_HH(kl) for kl in lambdas_th] # get expected cross-section at different kls
+    n_th = [xs_HH(kl, s) for kl in lambdas_th] # get expected cross-section at different kls
 
     # plot theory prediction 
     ax.plot(lambdas_th,n_th,'C4', color = 'darkred', label='Theory prediction')
-    th_band = ax.fill_between(lambdas_th, [xs_lower_HH(kl) for kl in lambdas_th], [xs_upper_HH(kl) for kl in lambdas_th],  facecolor = '#F2385A')
+    th_band = ax.fill_between(lambdas_th, [xs_lower_HH(kl, s) for kl in lambdas_th], [xs_upper_HH(kl, s) for kl in lambdas_th],  facecolor = '#F2385A')
       
     annotation_x = 0.04
     annotation_y = 0.09
@@ -349,7 +354,7 @@ def draw_all_limits(status, *channels, use_ampl=True):
             plt.annotate(r'Observed: $\kappa_\lambda \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (annotation_x,annotation_y+0.08), xycoords = 'axes fraction', fontsize = 15)
 
     #SM point
-    ax.plot(1, xs_HH(1), linewidth = 0, marker = '*', markersize = 20, color = '#E9F1DF', markeredgecolor = 'black', label = 'SM prediction')
+    ax.plot(1, xs_HH(1, s), linewidth = 0, marker = '*', markersize = 20, color = '#E9F1DF', markeredgecolor = 'black', label = 'SM prediction')
 
     # make pretty 
     ylim = configur[args.config]['ylim']['log']
@@ -357,9 +362,10 @@ def draw_all_limits(status, *channels, use_ampl=True):
     ax.xaxis.set_ticks(np.arange(min(lambdas), max(lambdas) + 1, 2))
     ax.set_xlim(configur[args.config]['xlim'])
     if use_ampl:
+        import atlas_mpl_style as ampl
         ampl.set_ylabel('$\sigma_{ggF+VBF}$ (HH) [fb]', fontsize= 20)    
         ampl.set_xlabel(r'$\kappa_\lambda$', fontsize=20)
-        ampl.draw_atlas_label(0.04, 0.955, ax, status = status, energy = '13 TeV', lumi = 139)
+        ampl.draw_atlas_label(0.04, 0.955, ax, status = status, energy = configur[args.config]['lumi'][0]+' TeV', lumi = configur[args.config]['lumi'][1])
     else:
         ax.set_ylabel('$\sigma_{ggF+VBF}$ (HH) [fb]', fontsize= 20)    
         ax.set_xlabel(r'$\kappa_\lambda$', fontsize=20)
@@ -368,12 +374,13 @@ def draw_all_limits(status, *channels, use_ampl=True):
     border_leg = patches.Rectangle((0, 0), 1, 1, facecolor = 'none', edgecolor = 'black', linewidth = 1)
 
     # reorder the legend
-    #handles,labels = ax.get_legend_handles_labels()
+    handles,labels = ax.get_legend_handles_labels()
     #handles = [lines.Line2D([0], [0], ls='-',lw=2,c='black'),lines.Line2D([0], [0], ls='--',lw=2,c='black'),handles[0], handles[2], handles[4],  (handles[9], border_leg), (handles[8], border_leg), (th_band,handles[6], border_leg), handles[7]]
     #labels = ['Observed limit (95% CL)', 'Expected limit (95% CL)', labels[0], labels[2], labels[4],  labels[9], labels[8], labels[6], labels[7]]
     #l1 = ax.legend(handles[0:2]+handles[5:], labels[0:2]+labels[5:], loc=(0.52,0.62),fontsize = 13, frameon = False)
     #l2 = ax.legend(handles[2:5], labels[2:5], loc=(0.75,0.05),fontsize = 13, frameon = False)
     #plt.gca().add_artist(l1)
+    ax.legend(handles, labels, loc='lower right', fontsize = 'small', frameon = False)
 
     return plt
 
@@ -405,6 +412,7 @@ def main(args):
                     use_ampl=not args.ci)
     plt = draw_limits(limits_ak_df_combined,r"$\mathrm{b\bar{b}\gamma\gamma + b\bar{b}\tau^{+}\tau^{-}}$", status=args.status, use_ampl=not args.ci)
     plt.savefig(f'{out_path}/kl_xsec_scan_all.pdf',bbox_inches='tight')
+    print('Save to', out_path)
 
 
 if __name__ == '__main__':
