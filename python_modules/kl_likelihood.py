@@ -25,10 +25,10 @@ from quickstats.components.likelihood import scan_nll
 @click.option('--include-chan/--skip-chan', default=True, help='include or skip individual channels')
 @click.option('-o', '--output',  default='likelihood', help='output folder')
 @click.option('--kl_options',  default='', help='other likelihood_scan optioins')
-@click.option('--SplusB/--Bonly',  default=True, help='Test against kl=1 or kl=0')
+@click.option('--splusb/--bonly',  default=True, help='Test against kl=1 or kl=0')
 def kl_likelihood(**kwargs):
     input_file, output, poi, channels, scheme, kl_options = kwargs['input_folder'], kwargs['output'], kwargs['poi'], kwargs['channels'], kwargs['scheme'], kwargs['kl_options']
-    output = '/'.join([output, 'kl1' if SplusB else 'kl0'])
+    output = '/'.join([output, 'kl1' if kwargs['splusb'] else 'kl0'])
     channels = sorted(channels.split(','), key=lambda x: (x.casefold(), x.swapcase()))
     scan_min, scan_max, scan_step = kwargs['scan_min'], kwargs['scan_max'], kwargs['scan_step']
     outdir = f'{input_file}/{output}/'
@@ -49,7 +49,7 @@ def kl_likelihood(**kwargs):
     print(input_files)
     for input_file, outname in zip(input_files, outnames):
         # generate asimov using CLI tool
-        output_file = input_file.replace(".root", ".SplusBasimov.root")
+        output_file = input_file.replace(".root", ('.poi_1' if kwargs['splusb'] else '.poi_0') + ".root")
         fix_param = 'xsec_br=1,klambda=1'
         command = f'quickstats generate_standard_asimov -t -2 -p {poi} -d combData -i {input_file} -o {output_file} --fix {fix_param} --snapshot nominalNuis'
         print(command)

@@ -23,8 +23,7 @@ def pvalue_new(input_file, poi_name, dataset, output):
     
     # Write out results next to the input file
     output_file = input_file[::-1].replace('.root'[::-1], '_pvalue_expblind.json'[::-1], 1)[::-1]
-    set_trace()
-    _pvalue(nll, poi_free, uncap, output)
+    _pvalue(nll, poi_free, uncap, output_file)
 
 def _pvalue(delta_nll, poi_free, uncap, output_file='pvalue.json'):
     q0 = 2*delta_nll
