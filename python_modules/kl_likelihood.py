@@ -27,6 +27,7 @@ from quickstats.components.likelihood import scan_nll
 @click.option('--kl_options',  default='', help='other likelihood_scan optioins')
 def kl_likelihood(**kwargs):
     input_file, output, poi, channels, scheme, kl_options = kwargs['input_folder'], kwargs['output'], kwargs['poi'], kwargs['channels'], kwargs['scheme'], kwargs['kl_options']
+    channels = sorted(channels.split(','), key=lambda x: (x.casefold(), x.swapcase()))
     scan_min, scan_max, scan_step = kwargs['scan_min'], kwargs['scan_max'], kwargs['scan_step']
     outdir = f'{input_file}/{output}/' # zhangr
 
@@ -37,7 +38,6 @@ def kl_likelihood(**kwargs):
         input_files, outnames = [], []
 
     # append combined
-    channels = sorted(channels.split(','), key=lambda x: (x.casefold(), x.swapcase()))
     input_files.append(f'{input_file}/combined/nonres/A-{"_".join(channels)}-{scheme}/0_kl.root')
     outnames.append(f'combined_{poi}')
 
