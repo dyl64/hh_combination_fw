@@ -1,7 +1,30 @@
 import json
+from pdb import set_trace
+import click
 from math import sqrt, fabs, erf
 import quickstats
 from quickstats.components import AnalysisBase
+
+@click.command(name='pvalue_new')
+@click.option('-i', '--input_file', required=True, help='path or file to the processed workspaces')
+@click.option('-poi', 'poi_name', required=False, default='xsec_br', help='poi name in workspace')
+@click.option('-d', '--dataset', required=False, default='combData', help='dataset name in workspace')
+@click.option('-o', '--output', required=False, default=None, help='file to store asimov')
+def pvalue_new(input_file, poi_name, dataset, output):
+    uncap=True
+    
+    analysis = AnalysisBase(input_file, data_name=dataset, config={"snapshot_name":"nominalNuis"})
+    analysis.generate_standard_asimov(quickstats.AsimovType.S_NP_Nom)
+    if output:
+        analysis.model.workspace.writeToFile(output)
+    analysis.set_data("asimovData_1_NP_Nominal")
+    nll = analysis.evaluate_nll(poi_val = 0, mode=0)
+    poi_free = analysis.poi.getVal()
+    
+    # Write out results next to the input file
+    output_file = input_file[::-1].replace('.root'[::-1], '_pvalue_expblind.json'[::-1], 1)[::-1]
+    set_trace()
+    _pvalue(nll, poi_free, uncap, output)
 
 def _pvalue(delta_nll, poi_free, uncap, output_file='pvalue.json'):
     q0 = 2*delta_nll
@@ -26,34 +49,3 @@ def _pvalue(delta_nll, poi_free, uncap, output_file='pvalue.json'):
         json.dump(dic, f, indent=4)
     print('Save to', output_file)
     print(dic)
-
-
-#fname = "../../output/v3000invfb_20211106_CI/NR/regularised/nonres/bbtautau/0.root"
-#fname2 = "../../output/v3000invfb_20211106_CI/NR/rescaled/nonres/bbtautau/0.root"
-#fname = "../../output/v3000invfb_20211106_CI/NR/regularised/nonres/bbyy/0.root"
-#fname2 = "../../output/v3000invfb_20211106_CI/NR/rescaled/nonres/bbyy/0.root"
-fname = "../../output/v3000invfb_20211106_CI/NR/combined/nonres/A-bbtautau_bbyy-fullcorr/0.root"
-
-
-
-analysis = AnalysisBase(fname, data_name="combData", config={"snapshot_name":"nominalNuis"})
-analysis.generate_standard_asimov(quickstats.AsimovType.S_NP_Nom)
-analysis.model.workspace.writeToFile('temp_combined.root')
-analysis.set_data("asimovData_1_NP_Nominal")
-nll = analysis.evaluate_nll(poi_val = 0, mode=0)
-poi_free = analysis.poi.getVal()
-analysis.model.workspace.writeToFile('temp_combined.root')
-
-#analysis2 = AnalysisBase(fname2, data_name="combData", config={"snapshot_name":"nominalNuis"})
-#analysis2.generate_standard_asimov(quickstats.AsimovType.S_NP_Nom)
-#analysis2.set_data("asimovData_1_NP_Nominal")
-#nll2 = analysis2.evaluate_nll(poi_val = 0, mode=0)
-#print('regular', nll)
-#print('rescale', nll2)
-#poi_free2 = analysis2.poi.getVal()
-uncap = True
-
-# Write out results next to the input file
-_pvalue(nll, poi_free, uncap, )
-#_pvalue(nll2, poi_free2, uncap,)
-
