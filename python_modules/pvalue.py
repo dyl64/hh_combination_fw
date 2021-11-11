@@ -128,11 +128,11 @@ def _nll_exp(input_file, poi_name, dataset, blind, mu_1, expected=None, uncap=Tr
             poi.setVal(poi_val)
             poi.setConstant(1)
 
-        obs_nll  = obj.model.pdf.createNLL(asimov_data)
-        obj.minimizer.minimize(obs_nll, hesse=True, print_level=-1)
-        print("check_asimov best fit mu on asimov = ", obj.model.workspace.var(poi_name).getVal(), "+/-", obj.model.workspace.var(poi_name).getError(), 'NLL', obj.minimizer.fit_result.minNll())
+        obs_nll  = obj.model.pdf.createNLL(asimov_data, ROOT.RooFit.GlobalObservables(obj.model.global_observables), ROOT.RooFit.Offset(True))
+        obj.minimizer.minimize(obs_nll, print_level=-1)
+        print("check_asimov best fit mu on asimov = ", obj.model.workspace.var(poi_name).getVal(), "+/-", obj.model.workspace.var(poi_name).getError(), 'NLL', obj.minimizer.nll.getVal())
 
-        nll_mu = obj.minimizer.fit_result.minNll()
+        nll_mu = obj.minimizer.nll.getVal()
         poi_value = obj.model.workspace.var(poi_name).getVal()
         poi.setConstant(0) # free POI
 

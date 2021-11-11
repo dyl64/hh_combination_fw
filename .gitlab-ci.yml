@@ -272,8 +272,8 @@ NRPlot:
     input_dir: output/NR
   script:
     # Plot nonres signal strength (mu)
-    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/nonres/*/0.json $input_dir/limits/nonres/combined/A-*-fullcorr/0.json -s $input_stat_dir/limits/nonres/bb[ty]*/0.json $input_stat_dir/limits/nonres/combined/A-*-fullcorr/0.json -mu --config ${configuration} --norm 1
-    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/nonres/*/0.json $input_dir/limits/nonres/combined/A-*-fullcorr/0.json -s $input_stat_dir/limits/nonres/bb[ty]*/0.json $input_stat_dir/limits/nonres/combined/A-*-fullcorr/0.json -mu --config ${configuration} --norm 1
+    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/nonres/*/0.json $input_dir/limits/nonres/combined/A-*-fullcorr/0.json -s $input_stat_dir/limits/nonres/bb[ty]*/0.json $input_stat_dir/limits/nonres/combined/A-*-fullcorr/0.json -mu --config ${configuration} --norm 1000
+    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/nonres/*/0.json $input_dir/limits/nonres/combined/A-*-fullcorr/0.json -s $input_stat_dir/limits/nonres/bb[ty]*/0.json $input_stat_dir/limits/nonres/combined/A-*-fullcorr/0.json -mu --config ${configuration} --norm 1000
   artifacts:
     paths:
       - $input_dir/figures
