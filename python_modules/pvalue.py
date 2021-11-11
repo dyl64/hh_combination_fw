@@ -46,13 +46,13 @@ def pvalue(input_path, poi_name, dataset, parallel, blind, expected, mu_1, snaps
         if not blind and expected is None:
             _nll(input_files[0], poi_name, dataset, snapshot)
         else:
-            _nll_exp(input_files[0], poi_name, dataset, blind, mu_1, int(expected), syst)
+            _nll_exp(input_files[0], poi_name, dataset, blind, mu_1, expected, syst)
     else:
         if not blind and expected is None:
             arguments = (input_files, repeat(poi_name), repeat(dataset), repeat(snapshot))
             utils.parallel_run(_nll, *arguments, max_workers=max_workers)
         else:
-            arguments = (input_files, repeat(poi_name), repeat(dataset), repeat(blind), repeat(mu_1), repeat(int(expected)), repeat(syst))
+            arguments = (input_files, repeat(poi_name), repeat(dataset), repeat(blind), repeat(mu_1), repeat(expected), repeat(syst))
             utils.parallel_run(_nll_exp, *arguments, max_workers=max_workers)
 
 def _nll_exp(input_file, poi_name, dataset, blind, mu_1, expected=None, uncap=True, syst=True, output=None):
@@ -96,6 +96,7 @@ def _nll_exp(input_file, poi_name, dataset, blind, mu_1, expected=None, uncap=Tr
                     do_fit=False, do_import=True, modify_globs=False, asimov_name='dataset_temp', 
                     snapshot_names={'conditional_globs': 'customised_globs', 'conditional_nuis': 'customised_nuis'})
         else:
+            expected = int(expected)
             # despite the profiled value, asimov always contains 1 (?) signal
             if expected < 0:
                 print('Generate unconditional Asimov dataset')
@@ -107,7 +108,7 @@ def _nll_exp(input_file, poi_name, dataset, blind, mu_1, expected=None, uncap=Tr
                 asimov_data = obj.model.generate_asimov(poi_name=poi_name, poi_val=mu_1, poi_profile=expected * mu_1, 
                         do_fit=True, do_import=True, modify_globs=True, asimov_name='dataset_temp', asimov_snapshot='dataset_temp',
                         snapshot_names={'conditional_globs': 'customised_globs', 'conditional_nuis': 'customised_nuis'})
-        obj.model.workspace.writeToFile(path.dirname(input_file) + f'/asimov_temp{expected}.root' if output is None else output)
+        #obj.model.workspace.writeToFile(path.dirname(input_file) + f'/asimov_temp{expected}.root' if output is None else output)
         # for best fit - instead of create asimov data, take the input dataset
         # asimov_data = obj.model.workspace.data(obj.model.data_name)
 
@@ -133,6 +134,7 @@ def _nll_exp(input_file, poi_name, dataset, blind, mu_1, expected=None, uncap=Tr
         print("check_asimov best fit mu on asimov = ", obj.model.workspace.var(poi_name).getVal(), "+/-", obj.model.workspace.var(poi_name).getError(), 'NLL', obj.minimizer.nll.getVal())
 
         nll_mu = obj.minimizer.nll.getVal()
+
         poi_value = obj.model.workspace.var(poi_name).getVal()
         poi.setConstant(0) # free POI
 
@@ -144,7 +146,7 @@ def _nll_exp(input_file, poi_name, dataset, blind, mu_1, expected=None, uncap=Tr
     nll_mu_free, poi_free = _evaluate_nll(input_file, poi_name, blind, expected, unconditional = True, mu_1=mu_1, syst=syst)
     print('nll_mu_free, poi_free {:.15f}, {:.15f}'.format(nll_mu_free, poi_free))
 
-    output_file = input_file[::-1].replace('.root'[::-1], f'_pvalue_exp{expected}.json'[::-1], 1)[::-1]
+    output_file = input_file[::-1].replace('.root'[::-1], f'_pvalue_exp{"blind" if blind else "expected"}.json'[::-1], 1)[::-1]
     _pvalue(nll_mu_0, nll_mu_free, poi_free, uncap, output_file=output_file)
 
 def _nll(input_file, poi_name, dataset, snapshot=None):
