@@ -305,8 +305,8 @@ LHPlot:
     input_dir_param: output/param/
   script:
     # Plot kl likelihood curve
-    - echo python plotting/likelihood/likelihood_plotting.py -a nonres -i $input_dir_param/likelihood -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o $input_dir_param/figures/ --threshold 12
-    - python plotting/likelihood/likelihood_plotting.py -a nonres -i $input_dir_param/likelihood -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o $input_dir_param/figures/ --threshold 12
+    - echo python plotting/likelihood/likelihood_plotting.py -a nonres -i $input_dir_param/likelihood/kl1 -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o $input_dir_param/figures/ --threshold 12
+    - python plotting/likelihood/likelihood_plotting.py -a nonres -i $input_dir_param/likelihood/kl1 -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o $input_dir_param/figures/ --threshold 12
 
   artifacts:
     paths:

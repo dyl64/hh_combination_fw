@@ -598,7 +598,7 @@ def plot_nonres_from_df(args, df):
         process = 'ggF+VBF'
     elif args.norm == 31.02 + 1.723:
         process = 'ggF+VBF'
-    elif args.norm == 1:
+    elif args.norm == 1000:
         process = 'ggF+VBF'
     else:
         assert(False), 'Unknown norm {}'.format(args.norm)
