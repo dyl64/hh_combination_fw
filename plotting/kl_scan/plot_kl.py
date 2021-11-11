@@ -74,7 +74,7 @@ def xs_HH(kl, s=13):
     if s == 13:
         return xs_ggF(kl) + xs_VBF(kl)
     elif s == 14:
-        return (xs_ggF(kl) + xs_VBF(kl)) * 1.18
+        return xs_ggF(kl)*1.18 + xs_VBF(kl) * 1.19
 
 # When adding 2 independent Gaussians (e.g. ggF and VBF XS) we can simply add their means and add their sigmas in quadrature
 def sigma_upper_ggF(kl):
@@ -88,11 +88,14 @@ def sigma_upper_VBF(kl):
     #from klambda = 1
     return xs_VBF(kl) * math.sqrt(0.0003**2 + 0.021**2)
 
-def sigma_upper_HH(kl):
-    return math.sqrt(sigma_upper_ggF(kl)**2 + sigma_upper_VBF(kl)**2)
-    
+def sigma_upper_HH(kl, s=13):
+    error = math.sqrt(sigma_upper_ggF(kl)**2 + sigma_upper_VBF(kl)**2)
+    if s == 14:
+        error /= 2
+    return error
+
 def xs_upper_HH(kl, s=13):
-    return xs_HH(kl, s) + sigma_upper_HH(kl)
+    return xs_HH(kl, s) + sigma_upper_HH(kl, s)
 
 def sigma_lower_ggF(kl):
     #https://twiki.cern.ch/twiki/bin/view/LHCPhysics/LHCHWGHH?redirectedfrom=LHCPhysics.LHCHXSWGHH#Latest_recommendations_for_gluon
@@ -104,11 +107,14 @@ def sigma_lower_ggF(kl):
 def sigma_lower_VBF(kl):
     return xs_VBF(kl) * math.sqrt(0.0004**2 + 0.021**2)
 
-def sigma_lower_HH(kl):
-    return math.sqrt(sigma_lower_ggF(kl)**2 + sigma_lower_VBF(kl)**2)
+def sigma_lower_HH(kl, s):
+    error = math.sqrt(sigma_lower_ggF(kl)**2 + sigma_lower_VBF(kl)**2)
+    if s == 14:
+        error /= 2
+    return error
     
 def xs_lower_HH(kl, s=13):
-    return xs_HH(kl, s) - sigma_lower_HH(kl)
+    return xs_HH(kl, s) - sigma_lower_HH(kl, s)
 
 #Input: json file with the following format
 #["kappa_lambda": [-2sigma, -1sigma, expected, +1sigma, +2sigma, observed]
@@ -215,7 +221,7 @@ def draw_limits(limits_df, channel_name,log=True, status='int', use_ampl=True):
     
     lambdas = limits_df["kl"]
     s = 14 if args.config == 'project3000' else 13
-    n = [xs_HH(kl, s) for kl in lambdas] # get expected cross-section at different kls
+    n = np.array([xs_HH(kl, s) for kl in lambdas]) # get expected cross-section at different kls
     
     # multiply mu by expected cross-section and plot obs, expected limits
     if log:
@@ -234,7 +240,7 @@ def draw_limits(limits_df, channel_name,log=True, status='int', use_ampl=True):
 
     # for the theory expected cross-section we can have a smoother function by running over more kl points
     lambdas_th = np.linspace(-10.0,10.0,1000) 
-    n_th = [xs_HH(kl, s) for kl in lambdas_th] # get expected cross-section at different kls
+    n_th = np.array([xs_HH(kl, s) for kl in lambdas_th]) # get expected cross-section at different kls
     
     # plot theory prediction 
     ax.plot(lambdas_th,n_th,'C4', color = 'darkred', label='Theory prediction')
@@ -313,7 +319,7 @@ def draw_all_limits(status, *channels, use_ampl=True):
         channel_label = my_tuple[1]
         
         lambdas = limits_df["kl"]
-        n = [xs_HH(kl, s) for kl in lambdas] # get expected cross-section at different kls
+        n = np.array([xs_HH(kl, s) for kl in lambdas]) # get expected cross-section at different kls
         
         if channel_label != "Combined":
             my_color = next(palette) 
@@ -335,7 +341,7 @@ def draw_all_limits(status, *channels, use_ampl=True):
 
     # for the theory expected cross-section we can have a smoother function by running over more kl points
     lambdas_th = np.linspace(-10.0,10.0,1000) 
-    n_th = [xs_HH(kl, s) for kl in lambdas_th] # get expected cross-section at different kls
+    n_th = np.array([xs_HH(kl, s) for kl in lambdas_th]) # get expected cross-section at different kls
 
     # plot theory prediction 
     ax.plot(lambdas_th,n_th,'C4', color = 'darkred', label='Theory prediction')
