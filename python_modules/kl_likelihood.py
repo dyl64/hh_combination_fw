@@ -44,6 +44,7 @@ def kl_likelihood(**kwargs):
     other_options = ''
     other_options += ('--cache' if kwargs['cache'] else '--no-cache')
 
+    print(input_files)
     for input_file, outname in zip(input_files, outnames):
         # generate asimov using CLI tool
         output_file = input_file.replace(".root", ".SplusBasimov.root")
