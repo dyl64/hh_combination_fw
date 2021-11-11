@@ -30,17 +30,16 @@ def kl_likelihood(**kwargs):
     scan_min, scan_max, scan_step = kwargs['scan_min'], kwargs['scan_max'], kwargs['scan_step']
     outdir = f'{input_file}/{output}/' # zhangr
 
-    a_channels = ['bbtautau']
     if kwargs['include_chan']:
-        input_files = [f'{input_file}/rescaled/nonres/{channel}/0_kl.root' for channel in a_channels]
-        outnames = [f'{channel}_{poi}' for channel in a_channels]
+        input_files = [f'{input_file}/rescaled/nonres/{channel}/0_kl.root' for channel in channels]
+        outnames = [f'{channel}_{poi}' for channel in channels]
     else:
         input_files, outnames = [], []
 
-    ## append combined
-    #channels = sorted(channels.split(','), key=lambda x: (x.casefold(), x.swapcase()))
-    #input_files.append(f'{input_file}/combined/nonres/A-{"_".join(channels)}-{scheme}/0_kl.root')
-    #outnames.append(f'combined_{poi}')
+    # append combined
+    channels = sorted(channels.split(','), key=lambda x: (x.casefold(), x.swapcase()))
+    input_files.append(f'{input_file}/combined/nonres/A-{"_".join(channels)}-{scheme}/0_kl.root')
+    outnames.append(f'combined_{poi}')
 
     other_options = ''
     other_options += ('--cache' if kwargs['cache'] else '--no-cache')
