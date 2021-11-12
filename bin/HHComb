@@ -6,8 +6,10 @@ import click
 from process_channels import process_channels
 from combine_ws import combine_ws
 from pvalue import pvalue
+from pvalue_new import pvalue_new
 from gen_asimov import gen_asimov
 from best_fit import best_fit
+from kl_likelihood import kl_likelihood
 
 @click.group()
 def cli():
@@ -17,6 +19,8 @@ if __name__ == "__main__":
     cli.add_command(process_channels)
     cli.add_command(combine_ws)
     cli.add_command(pvalue)
+    cli.add_command(pvalue_new)
     cli.add_command(gen_asimov)
     cli.add_command(best_fit)
+    cli.add_command(kl_likelihood)
     cli()

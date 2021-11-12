@@ -5,7 +5,7 @@ import yaml
 import click
 
 import combiner
-import aux_utils as utils
+import utils
 
 DEFAULT_NEW_POI = "xsec_br"
 DEFAULT_BLIND_DATASET = 'asimovData'
@@ -20,23 +20,23 @@ DEFAULT_COMB_DATASET = 'combData'
 @click.option('-o', '--outdir', default="./output", help='output directory')
 @click.option('--better_bands/--no-better-bands', 'do_better_bands', default=True, help='do better limit bands')
 @click.option('--cl', default="0.95", help='confidence level')
-@click.option('--scaling_release', default="r05", help='scaling release')
+@click.option('--scaling_release', default="r999", help='scaling release (obselete, one should set the value by `rescale_poi` in config/regularization.yaml')
 @click.option('--blind/--unblind', default=True, help='blind/unblind analysis')
 @click.option('-m', '--mass', 'mass_expr', default=None, help='mass points to run, wild card is accepted, default=None (all mass points)')
 @click.option('-p', '--param',  default=None, help='perform limit scan on parameterized workspace on a certain parameter(s)'
                                              ', e.g. klambda=-10_10_0.2,cvv=1')
-@click.option('--new_method/--old_method', default=False, help='use quickstats for asymptotic cls limit')
 @click.option('--config', 'config_file', default=None, help='configuration file for regularization')
 @click.option('--minimizer_options', default=None, help='configuration file for minimizer options')
 @click.option('--verbose/--silent', default=False, help='show debug messages in stdout')
 @click.option('--parallel', type=int, default=-1, help='number of parallelized workers')
 @click.option('--file_format', default="<mass[F]>", help='file format')
 @click.option('--cache/--no-cache', default=True, help='cache existing results')
+@click.option('--save_summary/--skip_summary', default=False, help='Save summary information')
 @click.option('--do-limit/--skip-limit', default=True, help='whether to evaluate limits')
 def process_channels(input_path, resonant_type, channels, outdir, do_better_bands, cl, 
-                     scaling_release, blind, mass_expr, param, new_method, config_file,
+                     scaling_release, blind, mass_expr, param, config_file,
                      minimizer_options, verbose, parallel, file_format, cache,
-                     do_limit):
+                     save_summary, do_limit):
     
     if config_file is not None:
         config = yaml.safe_load(open(config_file))
@@ -63,10 +63,10 @@ def process_channels(input_path, resonant_type, channels, outdir, do_better_band
         if rescale_poi is not None:
             channel_rescale_poi = rescale_poi.get(channel, None)
         else:
-            channel_rescale_poi = None            
+            channel_rescale_poi = None
         pipeline = combiner.TaskPipelineWS(workspace_dir, outdir, resonant_type, channel, scaling_release,
                                           old_poi, new_poi, old_dataname, new_dataname, do_better_bands,
-                                          cl, blind, mass_expr, param, new_method=new_method,
+                                          cl, blind, mass_expr, param, 
                                           verbose=verbose, minimizer_options=minimizer_options,
                                           redefine_parameters=channel_redefine_parameters, 
                                           rescale_poi=channel_rescale_poi,

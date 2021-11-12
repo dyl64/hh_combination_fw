@@ -7,7 +7,7 @@ import json
 import re
 import logging
 
-import aux_utils as utils
+import utils
 import physics as phy
 import workspaceCombiner as wsc
 import LimitSetting as ls

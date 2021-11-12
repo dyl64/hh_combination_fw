@@ -1,8 +1,3 @@
-[submodule "submodules/RooStatTools"]
-	path = submodules/RooStatTools
-	url = ../RooStatTools.git
-	branch = master
-	update = merge
 [submodule "submodules/workspaceCombiner"]
 	path = submodules/workspaceCombiner
 	url = ../../../../../atlas_higgs_combination/software/workspaceCombiner.git
@@ -11,16 +6,6 @@
 [submodule "submodules/RooFitExtensions"]
 	path = submodules/RooFitExtensions
 	url = ../../../../../atlas_higgs_combination/software/RooFitExtensions.git
-	branch = master
-	update = merge
-[submodule "submodules/hh_plot"]
-	path = submodules/hh_plot
-	url = ../hh_plot.git
-	branch = master
-	update = merge
-[submodule "submodules/DiagnosticTools"]
-	path = submodules/DiagnosticTools
-	url = ../DiagnosticTools.git
 	branch = master
 	update = merge
 [submodule "submodules/quickstats"]

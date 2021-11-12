@@ -5,7 +5,6 @@ import yaml
 import click
 
 import combiner
-import aux_utils as utils
 
 DEFAULT_POI = "xsec_br"
 DEFAULT_DATASET = 'combData'
@@ -23,17 +22,17 @@ DEFAULT_DATASET = 'combData'
 @click.option('-m', '--mass',  'mass_expr', default=None, help='mass points to run, wild card is accepted, default=None (all mass points)')
 @click.option('-p', '--param',  default=None, help='perform limit scan on parameterized workspace on a certain parameter(s)'
                                              ', e.g. klambda=-10_10_0.2,cvv=1')
-@click.option('--new_method/--old_method', default=False, help='use quickstats for asymptotic cls limit')
 @click.option('--config', 'config_file', default=None, help='configuration file for regularization')
 @click.option('--minimizer_options', default=None, help='configuration file for minimizer options')
 @click.option('--verbose/--silent', default=False, help='show debug messages in stdout')
 @click.option('--parallel', type=int, default=-1, help='number of parallelized workers')
 @click.option('--file_format', default="<mass[F]>", help='file format')
 @click.option('--cache/--no-cache', default=True, help='cache existing results')
+@click.option('--save_summary/--skip_summary', default=False, help='Save summary information')
 @click.option('--do-limit/--skip-limit', default=True, help='whether to evaluate limits')
 def combine_ws(input_path, resonant_type, channels, correlation_scheme, tag_pattern, 
-               do_better_bands, cl, blind, mass_expr, param, new_method, config_file, 
-               minimizer_options, verbose, parallel, file_format, cache, do_limit):
+               do_better_bands, cl, blind, mass_expr, param, config_file, 
+               minimizer_options, verbose, parallel, file_format, cache, save_summary, do_limit):
     if config_file is not None:
         config = yaml.safe_load(open(config_file))
     else:
@@ -47,7 +46,7 @@ def combine_ws(input_path, resonant_type, channels, correlation_scheme, tag_patt
         data_name = DEFAULT_DATASET if config is None else config['dataset']['combination']['unblind']
     pipeline = combiner.TaskCombination(input_path, resonant_type, channels, poi_name, data_name, correlation_scheme,
                                         tag_pattern, do_better_bands, cl, blind, mass_expr, param, 
-                                        new_method=new_method, verbose=verbose, 
+                                        verbose=verbose, 
                                         minimizer_options=minimizer_options,
                                         parallel=parallel,
                                         file_format=file_format,

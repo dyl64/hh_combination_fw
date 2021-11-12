@@ -31,3 +31,6 @@ output/
 **/*.pdf
 .__*
 .ipynb_checkpoints
+debug/
+output
+outputs

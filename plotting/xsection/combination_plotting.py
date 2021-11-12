@@ -16,6 +16,17 @@ import matplotlib.ticker as ticker
 from color import *
 from matplotlib import rcParams
 import socket
+from matplotlib.ticker import ScalarFormatter
+
+class NumericFormatter(ScalarFormatter):
+    def __call__(self, x, pos=None):
+        tmp_format = self.format
+        if x.is_integer():
+            self.format = re.sub(r"1\.\d+f", r"1.0f", self.format)
+        result = super().__call__(x, pos)
+        self.format = tmp_format
+        return result
+
 if 'zhangrui' in socket.gethostname():
     rcParams['axes.linewidth'] = 1.5
     rcParams['font.sans-serif'] = "Arial"
@@ -29,6 +40,40 @@ else:
         pass
 
 columns = ['xsec_m2s_NP_profiled', 'xsec_m1s_NP_profiled', 'xsec_p1s_NP_profiled', 'xsec_p2s_NP_profiled', 'xsec_exp_NP_profiled', 'xsec_obs_NP_profiled', 'exp_stat', 'obs_stat'] # don't change order
+
+configur = {
+        'project3000': {
+            'lumi': [r'14', r'3000'],
+            'xsec': 32.74,
+            'text_digit': 2,
+            'include_stat': {
+                'xlim': [0.1, 6],
+                'obs_text_x': 2.5,
+                'obs_stat_text_x': 4,
+                'exp_text_x': 2.5,
+                'exp_stat_text_x': 4,
+                'ref_text_x': 10,
+                },
+            },
+        'Run2conf': {
+            'lumi': [r'13', r'139'],
+            'xsec': 32.74,
+            'text_digit': 2,
+            'include_stat': {
+                'xlim': [1, 70],
+                'obs_text_x': 16,
+                'obs_stat_text_x': 28,
+                'exp_text_x': 50,
+                'exp_stat_text_x': 87.5,
+                'ref_text_x': 40,
+            },
+            'no_stat': {
+                'xlim': [1, 70],
+                'obs_text_x': 20,
+                'exp_text_x': 40,
+                },
+            }
+        }
 
 scenario_map = {
     # f'{args.command}-bbbb.dat': (r'$\mathrm{b\bar{b}b\bar{b}}$', 1),
@@ -102,7 +147,7 @@ def polish_ax(args, ax, fontsize):
 
 
 # With help from https://github.com/rateixei/PyATLASstyle/blob/master/PyATLASstyle.py
-def drawATLASlabel(fig, ax, lumi = r'27.5$-$139', internal=True, reg_text=None, xmin=0.05, ymax=0.85, xmin2=0.05, 
+def drawATLASlabel(fig, ax, senergy, lumi = r'27.5$-$139', internal=True, reg_text=None, xmin=0.05, ymax=0.85, xmin2=0.05, 
                    fontsize_title=30, fontsize_label=15, line_spacing=1.2):
     '''
     Draws ATLAS label + other descriptive text
@@ -135,7 +180,7 @@ def drawATLASlabel(fig, ax, lumi = r'27.5$-$139', internal=True, reg_text=None, 
             verticalalignment='bottom', horizontalalignment='left',
             fontsize=fontsize_title, c=c)
 
-    lumi_label = '$\\sqrt{\\mathrm{s}} = $13 TeV, %s fb$^{-1}$' % (lumi)
+    lumi_label = '$\\sqrt{\\mathrm{s}} = $%s TeV, %s fb$^{-1}$' % (senergy, lumi)
 
 
     full_label = lumi_label + '\n'+ reg_text
@@ -161,7 +206,7 @@ def save_plot(args):
         makedirs(f'{out_path}')
 
     fullcorr = corr_or_not(args)
-    new_method = 'csv' if args.csv_list or args.summary_json else 'json' if args.dat_list and args.dat_list[0].endswith('json') else 'dat'
+    new_method = 'csv' if args.csv_list or args.summary_json else 'json'
     file_name = f'{out_path}/upperlimit_xsec_{args.command}_{new_method}_{"obs" if args.unblind else "exp"}_{"fullcorr" if fullcorr else "nocorr"}{"_mu" if args.mu else ""}{"_p" if args.p else ""}.pdf'
     plt.savefig(file_name, format='pdf')
     print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '\033[92m[INFO]\033[0m', '\033[92mSave file\033[0m'.rjust(40, ' '), file_name)
@@ -196,7 +241,7 @@ def rescale(df, columns, SM_HH_xsec = 31.05 / 1000, absolute=False):
 def plot_spin0(args):
     ind_list = sorted(args.dat_list)
     com_list = args.com_list
-    new_method = True if args.dat_list[0].endswith('json') else False
+    new_method = True 
 
     ind_dfs = []
     ind_files = []
@@ -266,11 +311,11 @@ def plot_spin0(args):
     input_folder = (args.dat_list[0]).split('limits') if args.dat_list else (args.csv_list[0]).split('limits')
     out_path = input_folder[0] + 'figures' if len(input_folder) > 1 else 'figures'
     fullcorr = corr_or_not(args)
-    com_df_new.to_csv(f'{out_path}/upperlimit_xsec_{args.command}_{"json" if new_method else "dat"}_{"obs" if args.unblind else "exp"}_{"fullcorr" if fullcorr else "nocorr"}_combined.csv', index=False)
+    com_df_new.to_csv(f'{out_path}/upperlimit_xsec_{args.command}_json_{"obs" if args.unblind else "exp"}_{"fullcorr" if fullcorr else "nocorr"}_combined.csv', index=False)
 
     for df in ind_dfs:
         file_name = df.iloc[0]['channel']
-        df.to_csv(f'{out_path}/upperlimit_xsec_{args.command}_{"json" if new_method else "dat"}_{"obs" if args.unblind else "exp"}_{"fullcorr" if fullcorr else "nocorr"}_{file_name}.csv', index=False)
+        df.to_csv(f'{out_path}/upperlimit_xsec_{args.command}_json_{"obs" if args.unblind else "exp"}_{"fullcorr" if fullcorr else "nocorr"}_{file_name}.csv', index=False)
         df = rescale(df, columns, SM_HH_xsec = 0.001, absolute=True)
         
     plot_spin0_from_df(args, ind_dfs+[com_df_new])
@@ -356,6 +401,7 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
         plot_combined()
 
     ax.set_yscale('log')
+    ax.ticklabel_format(axis='both', style='plain')
 
     # Set log scale
     if args.logx:
@@ -394,7 +440,7 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
 def plot_nonres(args):
     args.command = 'nonres'
     dat_list = args.dat_list
-    new_method = True if dat_list[0].endswith('json') else False
+    new_method = True
 
     dfs = []
     if new_method:
@@ -431,7 +477,7 @@ def plot_nonres(args):
 
         df = pd.concat(dfs)
 
-    df = rescale(df, columns, args.norm / 1000, absolute=new_method).sort_values(by = 'order', ascending = False)
+    df = rescale(df, columns, args.norm / 1000, absolute=True).sort_values(by = 'order', ascending = False)
     plot_nonres_from_df(args, df)
 
     out_path = get_output_folder(args)
@@ -455,30 +501,34 @@ def plot_nonres_from_df(args, df):
     df = df.sort_values(by = 'order', ascending = False)
 
     ax.set_ylim([0, df.shape[0]*1.8])
+    ax.ticklabel_format(axis='both', style='plain')
     if args.summary_json or args.csv_list:
         ax.set_xlim([1.9, 300 if args.logx else 30])
     else:
         ax.set_xlim([1, 130 if args.logx else 30])
-        if args.stat_list is None:
-            ax.set_xlim([1, 70])
+        conf = configur[args.config]['no_stat'] if args.stat_list is None else configur[args.config]['include_stat']
+        ax.set_xlim([conf['xlim'][0], conf['xlim'][1]])
     fontsize = 18
 
     # Plot bands
     if args.summary_json or args.csv_list:
         obs_text_x, exp_text_x, exp_stat_text_x, ref_text_x = 110, 200, 700, 700
     else:
-        obs_text_x, obs_stat_text_x, exp_text_x, exp_stat_text_x, ref_text_x = 16, 28, 50, 87.5, 40
+        conf = configur[args.config]['no_stat'] if args.stat_list is None else configur[args.config]['include_stat']
         if args.stat_list is None:
-            obs_text_x, exp_text_x = 20, 40
+            obs_text_x, exp_text_x = conf['obs_text_x'], conf['exp_text_x'],
+        else:
+            obs_text_x, obs_stat_text_x, exp_text_x, exp_stat_text_x, ref_text_x = conf['obs_text_x'], conf['obs_stat_text_x'], conf['exp_text_x'], conf['exp_stat_text_x'], conf['ref_text_x']
     y_shift = 0.73 if 'ref' in df else 0.5
 
     df = df.fillna('')
+    digit = configur[args.config]['text_digit']
     for y, (index, row) in enumerate(df.iterrows()):
         if args.unblind:
             obs = row[columns[5]]
             ax.vlines(obs, y, y+1, colors = 'k', linestyles = 'solid', zorder = 1.1, label = 'Observed' if y==0 else '')
             ax.scatter(obs, y+0.5, s=50, c='k', marker='o', zorder = 1.1)
-            obs_str = f'{obs:.1f}' if index not in ['combined36', 'bbWW2l'] else f'{obs:g}'
+            obs_str = f'{obs:.{digit}f}' if index not in ['combined36', 'bbWW2l'] else f'{obs:g}'
             ax.text(obs_text_x, y+y_shift, obs_str, horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
         exp = row[columns[4]]
         ax.vlines(exp, y, y+1, colors = 'k', linestyles = 'dotted', zorder = 1.1, label = 'Expected' if y==0 else '')
@@ -486,7 +536,7 @@ def plot_nonres_from_df(args, df):
         ax.fill_betweenx([y,y+1], row[columns[1]], row[columns[2]], facecolor = 'hh:lightturquoise', label = r'Comb. exp. limit $\pm$ 1$\sigma$' if y==0 else '')
 
         # Plot limit text
-        exp_str = f'{exp:.1f}' if index not in ['combined36', 'bbWW2l'] else f'{exp:g}'
+        exp_str = f'{exp:.{digit}f}' if index not in ['combined36', 'bbWW2l'] else f'{exp:g}'
         ax.text(exp_text_x, y+y_shift, exp_str, horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
         if 'ref' in df:
             ref = row['ref'].replace('\\n', '\n')
@@ -494,12 +544,12 @@ def plot_nonres_from_df(args, df):
         if 'exp_stat' in df:
             exp_stat_str = row['exp_stat']
             if isinstance(exp_stat_str , (int, float)):
-                exp_stat_str = f'({exp_stat_str:.1f})'
+                exp_stat_str = f'({exp_stat_str:.{digit}f})'
             ax.text(exp_stat_text_x, y+1-y_shift, exp_stat_str, horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
-        if 'obs_stat' in df:
+        if 'obs_stat' in df and args.unblind:
             obs_stat_str = row['obs_stat']
             if isinstance(obs_stat_str , (int, float)):
-                obs_stat_str = f'({obs_stat_str:.1f})'
+                obs_stat_str = f'({obs_stat_str:.{digit}f})'
             ax.text(obs_stat_text_x, y+1-y_shift, obs_stat_str, horizontalalignment='center', verticalalignment='center', fontsize=fontsize)
 
     if args.unblind:
@@ -548,6 +598,8 @@ def plot_nonres_from_df(args, df):
         process = 'ggF+VBF'
     elif args.norm == 31.02 + 1.723:
         process = 'ggF+VBF'
+    elif args.norm == 1000:
+        process = 'ggF+VBF'
     else:
         assert(False), 'Unknown norm {}'.format(args.norm)
 
@@ -563,6 +615,11 @@ def plot_nonres_from_df(args, df):
         textlable = r'$\mathrm{\sigma_{%s}^{SM}}$ = %.2f fb' % (process, args.norm)
         if corr_or_not(args) == 0:
             textlable += '\nnocorr'
+    ax.xaxis.set_major_formatter(NumericFormatter())
+
+    majorticks = [0.1, 0.5, 1, 2, 5]
+    ax.set_xticks(majorticks)
+    ax.set_xticklabels(majorticks)
 
     plot_common(args, fig, ax, textlable, fontsize, fontsize)
     save_plot(args)
@@ -584,7 +641,7 @@ def bold_edge(inputs=None):
 def plot_common(args, fig, ax, textlable, fontsize, legendsize):
     # ATLAS cosmetics
     if args.command == 'nonres':
-        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'139', internal=True, reg_text=textlable, xmin=0.03, ymax=0.9, xmin2=0.03, fontsize_title=22, fontsize_label=fontsize-1, line_spacing=1.1)
+        drawATLASlabel(fig, ax, senergy = configur['project3000']['lumi'][0], lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else configur['project3000']['lumi'][1], internal=True, reg_text=textlable, xmin=0.03, ymax=0.9, xmin2=0.03, fontsize_title=22, fontsize_label=fontsize-1, line_spacing=1.1)
     elif args.command == 'spin0':
         drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'126 '+u'\u2212'+' 139', internal=True, reg_text=textlable, xmin=0.04 if args.summary_json else 0.19, ymax=0.9, xmin2=0.19, fontsize_title=22, fontsize_label=fontsize+1, line_spacing=1.)
 
@@ -691,6 +748,7 @@ if __name__ == '__main__':
     nonres.add_argument('--unblind', action='store_true', default=False, required=False, help='')
     nonres.add_argument('-p', action='store_true', default=False, required=False, help='')
     nonres.add_argument('-mu', action='store_true', default=False, required=False, help='Plot limit on signal strength instead of on cross section')
+    nonres.add_argument('--config', type=str, choices=['project3000', 'Run2conf'], required=True, help='Configurations for cosmetics')
 
     spin0 = subcommands.add_parser('spin0', help='Plot spin0.')
     spin0.add_argument('spin0', nargs='*')

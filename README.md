@@ -12,19 +12,17 @@ Current relevant folders are:
     |-- doc
     |-- submodules
         |-- RooFitExtensions
-        |-- RooStatTools
         |-- workspaceCombiner
+        |-- quickstats
 
 Caveats:
-- The submodules `DiagnosticTools` will be replaced by something else soon.
-- The submodules `hh_plot` is phasing out and replaced by `plotting/`.
-- Currently stuck at some commit on workspaceCombiner:development branch. Need to update `RooStatTools` to catch the changes.
+- Currently stuck at some commit on workspaceCombiner:development branch.
 ## How to run (on lxplus)
 ### Check out the packages
 ```
 git clone --recursive ssh://git@gitlab.cern.ch:7999/atlas-physics/HDBS/DiHiggs/combination/hh_combination_fw.git
 ```
-Just check if you miss any submodules (sometimes it happens silently!).
+Make sure all folders in submodules are not empty.
 ### Patch `workspaceCombiner`
 The dataset name is not customisable in `workspaceCombiner` and the [TList indexing bug](https://indico.cern.ch/event/1025636/contributions/4311962/attachments/2222485/3763797/HHcomb20210408.pdf) needs a fix.
 Apply the patch:
@@ -36,9 +34,9 @@ git apply --whitespace=nowarn ../../workspaceCombiner.patch
 ```
 source compile.sh
 source setup.sh
-HHComb process_channels --new_method -i <input> -c <channel> -r nonres -o <output> --config configs/regularization_nonres_v3.yaml
+HHComb process_channels -i <input> -c <channel> -r nonres -o <output> --config configs/regularization_nonres_v3.yaml
 ...
-HHComb combine_ws --new_method -i <output> -c bbbb,bbtautau,bbyy,WWWW,bbll,bbVV
+HHComb combine_ws -i <output> -c bbbb,bbtautau,bbyy,WWWW,bbll,bbVV
 ...
 
 ```
@@ -47,9 +45,9 @@ You need to make sure the workspace can be found in `<input>/<channel>/nonres`.
 ### For the future time
 ```
 source setup.sh
-HHComb process_channels --new_method -i <input> -c <channel> -r nonres -o <output> --config configs/regularization_nonres_v3.yaml
+HHComb process_channels -i <input> -c <channel> -r nonres -o <output> --config configs/regularization_nonres_v3.yaml
 ...
-HHComb combine_ws --new_method -i <output> -c bbbb,bbtautau,bbyy,WWWW,bbll,bbVV
+HHComb combine_ws -i <output> -c bbbb,bbtautau,bbyy,WWWW,bbll,bbVV
 ...
 ```
 
@@ -67,17 +65,40 @@ The whole workflow is running on gitlab CI.
 Go to `CI/CD > Pipelines` and click on any of the recent `passed` task, then you will see the following display:
 ![alt text](.CI.jpg "Title")
 
-To check the final result, click on the `Plotting` jobs and click on the `Browser` botton on the right.
+To check the final result, click on the `Plotting` jobs and click on the `Browser` button on the right.
 
-You can download the whole output from the `Download` botton.
+You can download the whole output from the `Download` button.
 
-## Run kappa-lambda scan
+## Run kappa-lambda xsec scan (on individual input workspaces, with names `0_kl_1p0.root`, `0_kl_n1p0.root`)
+To run xsec limit for each kl value, two input formats are supported.
+The first format is a workspace file per each kl value.
+This is useful when channels do not have parametrised single workspace.
 ```
-# HHComb process_channels -i ~/work/HHcomb/FullRun2Workspaces/original/20210922/ -o output_directory_v4 -r nonres -c bbtautau  --new_method --config configs/regularization_nonres_v6_mH125p09.yaml --file_format "<mass[F]>_kl_1p0" --unblind
+# HHComb process_channels -i ~/work/HHcomb/FullRun2Workspaces/original/20210922/ -o output_directory_v4 -r nonres -c bbtautau  --config configs/regularization_nonres_v6_mH125p09.yaml --file_format "<mass[F]>_kl_1p0" --unblind
 
-HHComb process_channels --new_method -i <input_ws_directory> -o <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_nonres_v6_mH125.yaml --file_format "<mass[F]>_kl_<kl[P]>" --unblind
+HHComb process_channels -i <input_ws_directory> -o <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_nonres_v6_mH125.yaml --file_format "<mass[F]>_kl_<kl[P]>" --unblind
 
-HHComb combine_ws --new_method -i <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --scheme configs/np_map_nonres_kl.json --file_format "<mass[F]>_kl_<kl[P]>" --unblind
+HHComb combine_ws -i <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --scheme configs/np_map_kl_v10.json --file_format "<mass[F]>_kl_<kl[P]>" --unblind
+```
+
+## Run kappa-lambda xsec scan (on parametrised input workspaces, with a name `0_kl.root`)
+```
+The second format is more preferred that has a single workspace with `klambda` as an additional POI.
+Following is to run the combination on this format.
+HHComb process_channels -i <input_ws_directory> -c bbyy,bbtautau  -r nonres --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_kl.yaml --skip-limit --no-cache --file_format "<mass[F]>_kl" -o <output_directory>
+
+HHComb combine_ws -i <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_kl.yaml --scheme configs/np_map_kl_v10.json --file_format "<mass[F]>_kl" --skip-limit --no-cache
+
+```
+
+## Run kappa-lambda likelihood scan (on parametrised input workspaces, with a name `0_kl.root`)
+```
+HHComb process_channels -i <input_ws_directory> -c bbyy -r nonres --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_kl.yaml --skip-limit --no-cache --file_format "<mass[F]>_kl" -o <output_directory>
+
+HHComb combine_ws -i <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --scheme configs/np_map_kl_v10.json --param klambda=<-low>_<high>_<step> --file_format "<mass[F]>_kl"
+
+HComb kl_likelihood -i <output_directory> -c bbyy,bbtautau --min=-2 --max=10 --step=0.2 --no-cache
+python likelihood_plotting.py -a nonres -i <output_directory>/output/likelihood/ -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o <output_directory>/figure --threshold 12
 ```
 
 ## Run pulls and impact
@@ -107,13 +128,15 @@ python harmonise_name.py nonres <input_folder>
 ```
 
 ## Run p-value
+*important note*
+If running on rescaled nonres workspace, require a caution on what the POI was scaled to during the rescaling step (check `regularization.yaml`, eg for Run2 CONF note, -n=0.032776 and for projection and spin0, -n=1)
 ```
 # 
 HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210924_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/1100.root
 ## to run all *.root files in parallel:
 HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210924_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr
 ```
-To run expected p-value:
+To run expected p-value (but profiled to obs data):
 ```
 ## (obselete) profile NP to POI=0 or 1 or float (-1), then generate asimov; then set the global observable to the fitted NP values and calculate the pvalue
 #HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr --expected [0|1]
@@ -121,6 +144,10 @@ To run expected p-value:
 # use type=2 to profile best-fit NPs with POI floated and generate asimov; then load the best-fit NP values to globs via `conditionalGlobs_None` and calculate p-value
 quickstats generate_standard_asimov -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210924_CI/output_mu_unblind/rescaled/nonres/bbtautau/0.root -o /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210924_CI/output_mu_unblind/rescaled/nonres/bbtautau/asimov2_0.root --poi xsec_br --poi_scale 0.032776 --asimov_types 2
 HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210924_CI/output_mu_unblind/rescaled/nonres/bbtautau/asimov2_0.root -d asimovData_muhat_NP_Profile  -s conditionalGlobs_None
+```
+To run blinded p-value:
+```
+HHComb pvalue -i ../output/v3000invfb_20211106_CI/NR/rescaled/nonres/bbyy/0.root --blind
 ```
 
 ## Quick fit
@@ -149,7 +176,7 @@ quickstats cls_limit --batch_mode -i <input_root_file> --poi xsec_br --print_lev
 
 ### Inspect workspaces
 ```
-quickstats inspect_ws pois -i <input_root_file>
+quickstats inspect_ws -i <input_root_file>
 ```
 
 ### Generate Asimov

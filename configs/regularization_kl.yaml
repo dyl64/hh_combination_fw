@@ -1,0 +1,15 @@
+dataset:
+  bbtautau:
+    blind: asimovData
+  bbyy:
+    blind: combData
+  combination:
+    blind: combData
+poi:
+  bbtautau: mu
+  bbyy: mu_XS_HH
+  combination: xsec_br
+rescale_poi:
+  #kl no rescaling needed
+  bbyy: 1
+  bbtautau: 1
