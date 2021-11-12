@@ -18,11 +18,12 @@ hhCompile:
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - base_path=$(pwd)
-    - cd submodules/workspaceCombiner; git status
+    - cd submodules/workspaceCombiner
     - git apply --whitespace=nowarn ../../workspaceCombiner.patch
     - git status
     - cd $base_path
     - source compile.sh
+    - source setup.sh
   artifacts:
     paths:
       - submodules
@@ -30,7 +31,7 @@ hhCompile:
       - scripts
       - setup.sh
 
-.process_channel:
+.IStep1:
   stage: process
   needs:
     - job: hhCompile
@@ -57,7 +58,7 @@ hhCompile:
     paths:
       - $output_dir
 
-.combine_workspace:
+.IStep2:
   stage: combine
   variables:
     GIT_SSL_NO_VERIFY: "true"
@@ -76,386 +77,170 @@ hhCompile:
 ## Non-resonant Process channels ##
 ###################################
 .NRProcess:
-  extends: .process_channel
+  extends: .IStep1
   variables:
-    output_dir: output
-    mini_option: minimizer_options_robust_mu.json
-    version: 20210922
-    mHscale: mH125
+    output_dir: output/NR
+    mini_option: minimizer.json
+    version: 20211106_mu
+    other_options: ""
   allow_failure: true
   script:
-    - echo HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_nonres_v6_${mHscale}.yaml $other_options
-    - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_nonres_v6_${mHscale}.yaml $other_options
+    - echo HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_proj_v11.yaml $other_options
+    - HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_proj_v11.yaml $other_options
 
-#NR_blind_pro:
-#  extends: .NRProcess
-#  variables:
-#    output_dir: output_blind
-#    channel: bbbb,bbyy,bbtautau,bbll,bbVV,WWWW
-#    other_options: ""
-
-#NR_unblind_pro:
-#  extends: .NRProcess
-#  variables:
-#    output_dir: output_unblind
-#    channel: bbyy,bbtautau
-#    other_options: "--unblind"
-
-NR_unblind_mu_pro:
+NR_proj_mu_pro:
   extends: .NRProcess
   variables:
-    output_dir: output_mu_unblind
-    mini_option: minimizer_options_robust.json
+    output_dir: output/NR
     channel: bbyy,bbtautau
-    other_options: "--unblind"
-    mHscale: mH125
   only:
     - branches
     - tags
 
-NR_unblind_xsec_pro:
+NR_proj_pro_stat:
   extends: .NRProcess
   variables:
-    output_dir: output_xsec_unblind
-    mini_option: minimizer_options_robust.json
-    version: 20210922_xsec
+    output_dir: output/stat
+    mini_option: minimizer_stat.json
     channel: bbyy,bbtautau
-    other_options: "--unblind"
-    mHscale: mH125
-  only:
-    - branches
-    - tags
-
-NR_unblind_mu_pro_mH:
-  extends: .NRProcess
-  variables:
-    output_dir: output_mu_unblind_mH
-    mini_option: minimizer_options_robust.json
-    channel: bbyy,bbtautau
-    other_options: "--unblind"
-    mHscale: mH125p09
-  only:
-    - branches
-    - tags
-
-NR_unblind_xsec_pro_mH:
-  extends: .NRProcess
-  variables:
-    output_dir: output_xsec_unblind_mH
-    mini_option: minimizer_options_robust.json
-    version: 20210922_xsec
-    channel: bbyy,bbtautau
-    other_options: "--unblind"
-    mHscale: mH125p09
-  only:
-    - branches
-    - tags
-
-#NR_all_pro_stat:
-#  extends: .NRProcess
-#  variables:
-#    output_dir: output_stat
-#    mini_option: minimizer_options_robust_stat.json
-#    #channel: bbbb,bbyy,bbtautau,bbll,bbVV,WWWW
-#    channel: bbbb,bbyy,bbtautau
-#    other_options: ""
-#
-#NR_all_pro_stat_obs:
-#  extends: .NRProcess
-#  variables:
-#    output_dir: output_stat_obs
-#    mini_option: minimizer_options_robust_stat.json
-#    #channel: bbbb,bbyy,bbtautau,bbll,bbVV,WWWW
-#    channel: bbbb,bbyy,bbtautau
-#    other_options: "--unblind"
-
-###################################
-## Spin 0 Process channels       ##
-###################################
-.Sp0Process:
-  extends: .process_channel
-  variables:
-    output_dir: output
-    mini_option: minimizer_options_robust_mu.json
-    config: regularization_spin0_v3.yaml
-    #config: regularization_spin0_v3_mH125p09.yaml
-    version: 20210922
-    other_options: "--unblind"
-  allow_failure: true
-  script:
-    - echo HHComb process_channels --new_method -i $input_dir/$version -c $channel -r spin0 -o $output_dir --minimizer_options configs/$mini_option --config configs/$config $other_options
-    - HHComb process_channels --new_method -i $input_dir/$version -c $channel -r spin0 -o $output_dir --minimizer_options configs/$mini_option --config configs/$config $other_options
   only:
     - tags
     - master
     - CI
 
-Sp0_bb_pro:
-  extends: .Sp0Process
+KL_proj_pro_yy:
+  extends: .NRProcess
   variables:
-    channel: bbbb
-
-Sp0_tt_pro:
-  extends: .Sp0Process
-  variables:
-    channel: bbtautau
-
-Sp0_yy_pro:
-  extends: .Sp0Process
-  variables:
+    output_dir: output/indiv
     channel: bbyy
+    other_options: "--file_format <mass[F]>_kl_<kl[P]>"
+  only:
+    - tags
+    - master
+    - CI
 
-### process channel for FT is duplicated
-#Sp0_bb_pro_FT:
-#  extends: .Sp0Process
-#  variables:
-#    output_dir: output_FT
-#    channel: bbbb
-#
-#Sp0_tt_pro_FT:
-#  extends: .Sp0Process
-#  variables:
-#    output_dir: output_FT
-#    channel: bbtautau
-#
-#Sp0_yy_pro_FT:
-#  extends: .Sp0Process
-#  variables:
-#    output_dir: output_FT
-#    channel: bbyy
-#
-## I don't think stat only is interesing for spin 0
-#Sp0_all_pro_stat:
-#  extends: .Sp0Process
-#  variables:
-#    output_dir: output_stat
-#    mini_option: minimizer_options_robust_stat.json
-#    channel: bbbb,bbtautau,bbyy
-#    other_options: ""
+KL_proj_pro_tt:
+  extends: .NRProcess
+  variables:
+    output_dir: output/indiv
+    channel: bbtautau
+    other_options: "--file_format <mass[F]>_kl_<kl[P]>"
+  only:
+    - tags
+    - master
+    - CI
 
 ###################################
 ## None-resonant combination     ##
 ###################################
 # Default is correlated (bbtautau and bbyy)
 .NRCombine_ws:
-  extends: .combine_workspace
+  extends: .IStep2
   variables:
-    mini_option: minimizer_options_robust_mu.json
-  needs:
-    - job: hhCompile
-    #- job: NR_blind_pro
-    #- job: NR_unblind_pro
-    - job: NR_unblind_mu_pro
-    - job: NR_unblind_xsec_pro
-    - job: NR_unblind_mu_pro_mH
-    - job: NR_unblind_xsec_pro_mH
+    mini_option: minimizer.json
+    np_option: np_map_nonres_v10.json
+    other_options: ""
   allow_failure: true
   script:
-    - echo HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options --scheme configs/np_map_nonres_v6.json
-    - HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options --scheme configs/np_map_nonres_v6.json
-    #- echo HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options
-    #- HHComb combine_ws --new_method -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options
+    - echo HHComb combine_ws -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options --scheme configs/$np_option
+    - HHComb combine_ws -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options --scheme configs/$np_option
   only:
     - tags
     - master
     - CI
 
-## For CONF: xsec limit
-#NR_TY_comb:
-#  extends: .NRCombine_ws
-#  variables:
-#    input_dir: output_unblind
-#    channels: bbtautau,bbyy
-#    other_options: "--unblind"
-
-#NR_TY_comb_stat:
-#  extends: .NRCombine_ws
-#  needs:
-#    - job: hhCompile
-#    - job: NR_all_pro_stat
-#  variables:
-#    input_dir: output_stat
-#    mini_option: minimizer_options_robust_stat.json
-#    channels: bbtautau,bbyy
-#
-#NR_TY_comb_stat_obs:
-#  extends: .NRCombine_ws
-#  needs:
-#    - job: hhCompile
-#    - job: NR_all_pro_stat_obs
-#  variables:
-#    input_dir: output_stat_obs
-#    mini_option: minimizer_options_robust_stat.json
-#    channels: bbtautau,bbyy
-#    other_options: "--unblind"
-
-#NR_TY_comb_blind:
-#  extends: .NRCombine_ws
-#  variables:
-#    input_dir: output_blind
-#    channels: bbtautau,bbyy
-
-# For CONF: mu limit
-NR_TY_comb_mu:
+# For PUB: mu limit
+NR_proj_comb_mu:
   extends: .NRCombine_ws
+  needs:
+    - job: hhCompile
+    - job: NR_proj_mu_pro
   variables:
-    input_dir: output_mu_unblind
-    mini_option: minimizer_options_robust.json
+    input_dir: output/NR
     channels: bbtautau,bbyy
-    other_options: "--unblind"
 
-NR_TY_comb_xsec:
+NR_proj_comb_stat:
   extends: .NRCombine_ws
+  needs:
+    - job: hhCompile
+    - job: NR_proj_pro_stat
   variables:
-    input_dir: output_xsec_unblind
-    mini_option: minimizer_options_robust.json
+    input_dir: output/stat
     channels: bbtautau,bbyy
-    other_options: "--unblind"
+    mini_option: minimizer_stat.json
 
-# For CONF scale bbtautau to 125.09 instead
-NR_TY_comb_mu_mH:
+# For PUB: KL xsec
+KL_proj_comb:
   extends: .NRCombine_ws
+  needs:
+    - job: hhCompile
+    - job: KL_proj_pro_yy
+    - job: KL_proj_pro_tt
   variables:
-    input_dir: output_mu_unblind_mH
-    mini_option: minimizer_options_robust.json
+    input_dir: output/indiv
     channels: bbtautau,bbyy
-    other_options: "--unblind"
+    np_option: np_map_kl_v10.json
+    other_options: "--file_format <mass[F]>_kl_<kl[P]>"
 
-NR_TY_comb_xsec_mH:
-  extends: .NRCombine_ws
-  variables:
-    input_dir: output_xsec_unblind_mH
-    mini_option: minimizer_options_robust.json
-    channels: bbtautau,bbyy
-    other_options: "--unblind"
-
-## For sensitivity study
-#NR_BTY_comb_blind:
-#  extends: .NRCombine_ws
-#  variables:
-#    input_dir: output_blind
-#    channels: bbbb,bbtautau,bbyy
-#
-#NR_ALL6_comb_blind:
-#  extends: .NRCombine_ws
-#  variables:
-#    input_dir: output_blind
-#    channels: bbbb,bbtautau,bbyy,bbll,bbVV,WWWW
-#
-#NR_N-ll_comb_blind:
-#  extends: .NRCombine_ws
-#  variables:
-#    input_dir: output_blind
-#    channels: bbbb,bbtautau,bbyy,bbVV,WWWW
-#
-#NR_N-VV_comb_blind:
-#  extends: .NRCombine_ws
-#  variables:
-#    input_dir: output_blind
-#    channels: bbbb,bbtautau,bbyy,bbll,WWWW
-#
-#NR_N-WW_comb_blind:
-#  extends: .NRCombine_ws
-#  variables:
-#    input_dir: output_blind
-#    channels: bbbb,bbtautau,bbyy,bbll,bbVV
-#
-#NR_ALL6_comb_stat:
-#  extends: .NRCombine_ws
-#  needs:
-#    - job: hhCompile
-#    - job: NR_all_pro_stat
-#  variables:
-#    input_dir: output_stat
-#    channels: bbbb,bbtautau,bbyy,bbll,bbVV,WWWW
 
 ###################################
-## Spin 0 combination            ##
+## parametrised kl workspace     ##
 ###################################
-.Sp0Combine_ws:
-  extends: .combine_workspace
+LHProcess:
+  extends: .IStep1
+  needs:
+    - job: hhCompile
   variables:
-    mini_option: minimizer_options_robust.json
+    output_dir: output/param
+    mini_option: minimizer.json
+    version: 20211106_mu
+    channel: bbtautau,bbyy
+    other_options: "--file_format <mass[F]>_kl --param klambda=1"
+    np_option: np_map_kl_v10.json
   allow_failure: true
   script:
-    - echo HHComb combine_ws --new_method -i $input_dir -r spin0 -c $channels  --minimizer_options configs/$mini_option -m $masspoints --unblind $other_options
-    - HHComb combine_ws --new_method -i $input_dir -r spin0 -c $channels  --minimizer_options configs/$mini_option -m $masspoints --unblind $other_options
-    #- echo HHComb combine_ws --new_method -i $input_dir -r spin0 -c $channels  --minimizer_options configs/$mini_option -m $masspoints --unblind
-    #- HHComb combine_ws --new_method -i $input_dir -r spin0 -c $channels  --minimizer_options configs/$mini_option -m $masspoints --unblind
+    - echo HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --skip-limit --no-cache $other_options
+    - HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --skip-limit --no-cache $other_options
+    - echo HHComb combine_ws -i $output_dir -r nonres -c $channel --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --scheme configs/$np_option --skip-limit --no-cache $other_options
+    - HHComb combine_ws -i $output_dir -r nonres -c $channel --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --scheme configs/$np_option --skip-limit --no-cache $other_options
+
+
+LHScan:
+  extends: .IStep2
+  needs:
+    - job: hhCompile
+    - job: LHProcess
+  variables:
+    output_dir: output/param
+    other_options: "--min -2 --max 6 --step 1"
+    channel: bbtautau,bbyy
+  allow_failure: true
+  script:
+    - echo HHComb kl_likelihood -i $output_dir -c $channel $other_options
+    - HHComb kl_likelihood -i $output_dir -c $channel $other_options
   only:
     - tags
     - master
     - CI
 
-# FT decorrelated all 3 channel combined
-Sp0_BTY_comb_part1:
-  extends: .Sp0Combine_ws
+XSScan:
+  extends: .IStep2
   needs:
     - job: hhCompile
-    - job: Sp0_bb_pro
-    - job: Sp0_tt_pro
-    - job: Sp0_yy_pro
+    - job: LHProcess
   variables:
-    channels: bbbb,bbtautau,bbyy
-    masspoints: "251,260,280,300,350,400,500"
-    other_options: "--scheme configs/np_map_spin0_v7.json"
-
-Sp0_BTY_comb_part2:
-  extends: .Sp0Combine_ws
-  needs:
-    - job: hhCompile
-    - job: Sp0_bb_pro
-    - job: Sp0_tt_pro
-    - job: Sp0_yy_pro
-  variables:
-    channels: bbbb,bbtautau,bbyy
-    masspoints: "600,700,800,900,1000"
-    other_options: "--scheme configs/np_map_spin0_v7.json"
-
-Sp0_TY_comb_part3:
-  extends: .Sp0Combine_ws
-  needs:
-    - job: hhCompile
-    - job: Sp0_yy_pro
-    - job: Sp0_tt_pro
-  variables:
-    channels: bbyy,bbtautau
-    masspoints: "325,350,375,450,550"
-    other_options: "--scheme configs/np_map_spin0_v7.json"
-
-Sp0_BT_comb_part4:
-  extends: .Sp0Combine_ws
-  needs:
-    - job: hhCompile
-    - job: Sp0_bb_pro
-    - job: Sp0_tt_pro
-  variables:
-    channels: bbbb,bbtautau
-    masspoints: "900,1000"
-    other_options: "--scheme configs/np_map_spin0_v7.json"
-
-Sp0_BT_comb_part5:
-  extends: .Sp0Combine_ws
-  needs:
-    - job: hhCompile
-    - job: Sp0_bb_pro
-    - job: Sp0_tt_pro
-  variables:
-    channels: bbbb,bbtautau
-    masspoints: "1100,1200"
-    other_options: "--scheme configs/np_map_spin0_v7.json"
-
-Sp0_BT_comb_part6:
-  extends: .Sp0Combine_ws
-  needs:
-    - job: hhCompile
-    - job: Sp0_bb_pro
-    - job: Sp0_tt_pro
-  variables:
-    channels: bbbb,bbtautau
-    masspoints: "1400,1600"
-    other_options: "--scheme configs/np_map_spin0_v7.json"
-
+    output_dir: output/param
+    mini_option: minimizer_fixXSunc.json
+    np_option: np_map_kl_v10.json
+    other_options: "--file_format <mass[F]>_kl --param klambda=-2_6_1"
+  allow_failure: true
+  script:
+    - echo HHComb combine_ws -i $output_dir -r nonres -c bbyy,bbtautau --minimizer_options configs/${mini_option} --scheme configs/${np_option} $other_options
+    - HHComb combine_ws -i $output_dir -r nonres -c bbyy,bbtautau --minimizer_options configs/${mini_option} --scheme configs/${np_option} $other_options
+  only:
+    - tags
+    - master
+    - CI
 
 ###################################
 ## Plotting                      ##
@@ -464,8 +249,7 @@ Sp0_BT_comb_part6:
   stage: plotting
   variables:
     GIT_SSL_NO_VERIFY: "true"
-    input_dir: output
-    output_dir: figures
+    configuration: project3000
   before_script:
     - set +e
     - shopt -s expand_aliases
@@ -473,9 +257,6 @@ Sp0_BT_comb_part6:
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - source setup.sh || echo ignore setupATLAS return code
   allow_failure: true
-  artifacts:
-    paths:
-      - $input_dir/$output_dir
   only:
     - tags
     - master
@@ -484,87 +265,53 @@ Sp0_BT_comb_part6:
 NRPlot:
   extends: .plot
   needs:
-    #- job: NR_TY_comb_stat
-    #- job: NR_TY_comb_stat_obs
-    #- job: NR_TY_comb_blind
-    #- job: NR_TY_comb
-    - job: NR_TY_comb_mu
-    - job: NR_TY_comb_xsec
-    - job: NR_TY_comb_mu_mH
-    - job: NR_TY_comb_xsec_mH
-    #- job: NR_BTY_comb_blind
-    #- job: NR_ALL6_comb_blind
-    #- job: NR_N-ll_comb_blind
-    #- job: NR_N-VV_comb_blind
-    #- job: NR_N-WW_comb_blind
-    #- job: NR_ALL6_comb_stat
+    - job: NR_proj_comb_mu
+    - job: NR_proj_comb_stat
   variables:
-    input_unblind_dir: output_xsec_unblind
-    input_mu_unblind_dir: output_mu_unblind
-    input_unblind_dir_mH: output_xsec_unblind_mH
-    input_mu_unblind_dir_mH: output_mu_unblind_mH
-    input_blind_dir: output_blind
-    #input_stat_dir: output_stat
+    input_stat_dir: output/stat
+    input_dir: output/NR
   script:
-    # Plot nonres xsec
-    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind
-    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir/limits/root-files/nonres/*/0.json $input_unblind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind
-    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir_mH/limits/root-files/nonres/*/0.json $input_unblind_dir_mH/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind
-    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_unblind_dir_mH/limits/root-files/nonres/*/0.json $input_unblind_dir_mH/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind
-
     # Plot nonres signal strength (mu)
-    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_mu_unblind_dir/limits/root-files/nonres/*/0.json $input_mu_unblind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind
-    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_mu_unblind_dir/limits/root-files/nonres/*/0.json $input_mu_unblind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind
-    # Plot nonres signal strength (mu_mH)
-    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_mu_unblind_dir_mH/limits/root-files/nonres/*/0.json $input_mu_unblind_dir_mH/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind
-    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_mu_unblind_dir_mH/limits/root-files/nonres/*/0.json $input_mu_unblind_dir_mH/limits/root-files/nonres/combined/A-*-fullcorr/0.json --unblind
-
-    ## Plot nonres blinded
-    #- echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_blind_dir/limits/root-files/nonres/*/0.json $input_blind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json
-    #- python plotting/xsection/combination_plotting.py nonres --logx -l $input_blind_dir/limits/root-files/nonres/*/0.json $input_blind_dir/limits/root-files/nonres/combined/A-*-fullcorr/0.json
-    #- echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_blind_dir/limits/root-files/nonres/*/0.json $input_blind_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json
-    #- python plotting/xsection/combination_plotting.py nonres --logx -l $input_blind_dir/limits/root-files/nonres/*/0.json $input_blind_dir/limits/root-files/nonres/combined/A-*-nocorr/0.json
-
+    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/nonres/*/0.json $input_dir/limits/nonres/combined/A-*-fullcorr/0.json -s $input_stat_dir/limits/nonres/bb[ty]*/0.json $input_stat_dir/limits/nonres/combined/A-*-fullcorr/0.json -mu --config ${configuration} --norm 1000
+    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/nonres/*/0.json $input_dir/limits/nonres/combined/A-*-fullcorr/0.json -s $input_stat_dir/limits/nonres/bb[ty]*/0.json $input_stat_dir/limits/nonres/combined/A-*-fullcorr/0.json -mu --config ${configuration} --norm 1000
   artifacts:
     paths:
-      - $input_unblind_dir/$output_dir
-      - $input_mu_unblind_dir/$output_dir
-      - $input_unblind_dir_mH/$output_dir
-      - $input_mu_unblind_dir_mH/$output_dir
-      - $input_blind_dir/$output_dir
+      - $input_dir/figures
 
-Spin0Plot:
+KLPlot:
   extends: .plot
   needs:
-    - job: Sp0_BTY_comb_part1
-    - job: Sp0_BTY_comb_part2
-    - job: Sp0_TY_comb_part3
-    - job: Sp0_BT_comb_part4
-    - job: Sp0_BT_comb_part5
-    - job: Sp0_BT_comb_part6
-    #- job: Sp0_BTY_comb_FT_part1
-    #- job: Sp0_BTY_comb_FT_part2
-    #- job: Sp0_TY_comb_FT_part3
-    #- job: Sp0_BT_comb_FT_part4
-    #- job: Sp0_BT_comb_FT_part5
-    #- job: Sp0_BT_comb_FT_part6
-  #variables:
-  #  input_FT_dir: output_FT
+    - job: KL_proj_comb
+    - job: XSScan
+  variables:
+    input_dir_indiv: output/indiv/
+    input_dir_param: output/param/
   script:
-    # Plot FT uncorrelated (baseline)
-    - echo python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-fullcorr/*[0-9].json --unblind
-    - python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-fullcorr/*[0-9].json --unblind
-    #- echo python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json --unblind
-    #- python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/*[0-9].json --unblind
+    # Plot KL
+    - echo python plotting/kl_scan/plot_kl.py -i $input_dir_param -ci --config ${configuration}
+    - python plotting/kl_scan/plot_kl.py -i $input_dir_param -ci --config ${configuration}
+    - echo python plotting/kl_scan/plot_kl.py -i $input_dir_indiv -ci --config ${configuration}
+    - python plotting/kl_scan/plot_kl.py -i $input_dir_indiv -ci --config ${configuration}
+  artifacts:
+    paths:
+      - $input_dir_param/figures
+      - $input_dir_indiv/figures
 
-    ## Plot FT correlated (wrong scheme due to 4b)
-    #- echo python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_FT_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_FT_dir/limits/root-files/spin0/combined/A-*-fullcorr/*[0-9].json --unblind
-    #- python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_FT_dir/limits/root-files/spin0/bb*/*[0-9].json --com_list $input_FT_dir/limits/root-files/spin0/combined/A-*-fullcorr/*[0-9].json --unblind
+LHPlot:
+  extends: .plot
+  needs:
+    - job: LHScan
+  variables:
+    input_dir_param: output/param/
+  script:
+    # Plot kl likelihood curve
+    - echo python plotting/likelihood/likelihood_plotting.py -a nonres -i $input_dir_param/likelihood/kl1 -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o $input_dir_param/figures/ --threshold 12
+    - python plotting/likelihood/likelihood_plotting.py -a nonres -i $input_dir_param/likelihood/kl1 -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o $input_dir_param/figures/ --threshold 12
 
   artifacts:
     paths:
-      - $input_dir/$output_dir
-      #- $input_FT_dir/$output_dir
+      - $input_dir_param/figures
+
 
 #####################################
 ## Intermediate output to download ##
@@ -574,15 +321,6 @@ Artifacts:
   variables:
     GIT_SSL_NO_VERIFY: "true"
     output: output
-    #output_FT: output_FT
-    #output_blind_dir: output_blind
-    #output_unblind_dir: output_unblind
-    output_mu_unblind_dir: output_mu_unblind
-    output_xsec_unblind_dir: output_xsec_unblind
-    output_mu_unblind_dir_mH: output_mu_unblind_mH
-    output_xsec_unblind_dir_mH: output_xsec_unblind_mH
-    #output_stat_dir: output_stat
-    #output_stat_obs_dir: output_stat_obs
   allow_failure: true
   script:
     - ls
@@ -593,12 +331,3 @@ Artifacts:
   artifacts:
     paths:
       - $output
-      #- $output_FT
-      #- $output_blind_dir
-      #- $output_unblind_dir
-      - $output_mu_unblind_dir
-      - $output_xsec_unblind_dir
-      - $output_mu_unblind_dir_mH
-      - $output_xsec_unblind_dir_mH
-      #- $output_stat_dir
-      #- $output_stat_obs_dir

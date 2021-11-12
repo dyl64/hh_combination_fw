@@ -4,7 +4,7 @@ import json
 from quickstats.components import ExtendedModel
 from concurrent.futures import ProcessPoolExecutor
 import multiprocessing
-import aux_utils as utils
+import utils
 from itertools import repeat
 from glob import glob
 from os import path

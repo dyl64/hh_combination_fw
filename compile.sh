@@ -15,7 +15,7 @@ fi
 
 printf "${GREEN}\n
 ==================================================
-| Compiling 1/5) submodules/RooFitExtensions  ...
+| Compiling 1/3) submodules/RooFitExtensions  ...
 ==================================================${NC}\n"
 cd submodules/RooFitExtensions
 if [ -d "submodules/RooFitExtensions/build" ] ; then
@@ -28,7 +28,7 @@ cd ${hh_combination_fw_path}
 
 printf "${GREEN}\n
 ==================================================
-| Compiling 2/5) submodules/workspaceCombiner ...
+| Compiling 2/3) submodules/workspaceCombiner ...
 ==================================================${NC}\n"
 cd submodules/workspaceCombiner
 if [ -d "submodules/workspaceCombiner/build" ] ; then
@@ -40,27 +40,7 @@ cd ${hh_combination_fw_path}
 
 printf "${GREEN}\n
 ==============================================
-| Compiling 3/5) submodules/RooStatTools  ...
-==============================================${NC}\n"
-cd submodules/RooStatTools
-make clean && make
-cd ${hh_combination_fw_path}
-
-#printf "${GREEN}\n
-#==============================================
-#| Compiling 4/5) submodules/DiagnosticTools ...
-#==============================================${NC}\n"
-#cd submodules/DiagnosticTools
-#if [ -d "submodules/DiagnosticTools/build" ] ; then
-#    rm -r submodules/DiagnosticTools/build
-#fi
-#mkdir -p build; cd build; cmake ../; make -j4
-#cd ${hh_combination_fw_path}
-
-
-printf "${GREEN}\n
-==============================================
-| Compiling 5/5) submodules/quickstats ...
+| Compiling 3/3) submodules/quickstats ...
 ==============================================${NC}\n"
 quickstats compile
 
