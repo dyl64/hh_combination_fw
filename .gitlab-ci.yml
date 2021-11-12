@@ -170,7 +170,7 @@ NR_proj_comb_stat:
     mini_option: minimizer_stat.json
 
 # For PUB: KL xsec
-KL_proj_comb:
+indiv_XSScan:
   extends: .NRCombine_ws
   needs:
     - job: hhCompile
@@ -205,7 +205,7 @@ LHProcess:
     - HHComb combine_ws -i $output_dir -r nonres -c $channel --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --scheme configs/$np_option --skip-limit --no-cache $other_options
 
 
-LHScan:
+param_LHScan:
   extends: .IStep2
   needs:
     - job: hhCompile
@@ -223,7 +223,7 @@ LHScan:
     - master
     - CI
 
-XSScan:
+param_XSScan:
   extends: .IStep2
   needs:
     - job: hhCompile
@@ -281,8 +281,10 @@ NRPlot:
 KLPlot:
   extends: .plot
   needs:
-    - job: KL_proj_comb
-    - job: XSScan
+    - job: KL_proj_pro_yy
+    - job: KL_proj_pro_tt
+    - job: indiv_XSScan
+    - job: param_XSScan
   variables:
     input_dir_indiv: output/indiv/
     input_dir_param: output/param/
@@ -300,7 +302,7 @@ KLPlot:
 LHPlot:
   extends: .plot
   needs:
-    - job: LHScan
+    - job: param_LHScan
   variables:
     input_dir_param: output/param/
   script:
