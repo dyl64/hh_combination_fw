@@ -46,6 +46,19 @@ index 735a2e4..1556bf1 100644
      case 'i':
        indice_ = optarg;
        break;
+diff --git a/src/asimovUtils.cxx b/src/asimovUtils.cxx
+index f80c53f..ad2f063 100644
+--- a/src/asimovUtils.cxx
++++ b/src/asimovUtils.cxx
+@@ -1210,7 +1210,7 @@ void asimovUtils::makePlots( const RooAbsPdf& pdf, const RooAbsData& data, std::
+     m_comb->import(*var);
+     m_comb->import(*var0);
+     m_comb->import(*var1);
+-
++    m_comb->loadSnapshot("nominalNuis");
+     return 0;
+   }
+ 
 diff --git a/src/combiner.cxx b/src/combiner.cxx
 index 691e7a1..b0dcd86 100644
 --- a/src/combiner.cxx

@@ -218,7 +218,7 @@ class TaskPipelineWS(TaskBase):
         shutil.copy2(source_path, self.rescale_cfg_file_dir)
        
     @staticmethod
-    def create_rescale_cfg_file(template, cfg_file, input_ws, output_ws, old_poiname, new_poiname,
+    def create_rescale_cfg_file(cfg_file, input_ws, output_ws, old_poiname, new_poiname,
                                 poi_scale, pois_to_keep, oldpoi_equiv_name='mu_old', 
                                 redefine_parameters=None):
         
@@ -263,7 +263,7 @@ class TaskPipelineWS(TaskBase):
 
     @staticmethod
     def guess_poi(input_ws):
-        model = ExtendedModel(input_ws)
+        model = ExtendedModel(input_ws, data_name=None, verbosity="WARNING")
         poi_names = model.get_poi_names(input_ws)
         if len(poi_names) > 1:
             raise RuntimeError("Unable to deduce POI for the workspace {}. "
@@ -312,14 +312,12 @@ class TaskPipelineWS(TaskBase):
                                    mass, self.channel))
         else:
             poi_scale = self.rescale_poi
-        
-        wsc_rescale_config_template = os.path.join('template', 'rescale.xml')
-        
+
         old_poiname = self.old_poiname if self.old_poiname is not None else self.guess_poi(regularized_ws_path)
         
         pois_to_keep = ','.join(self.pois_to_keep)
         
-        self.create_rescale_cfg_file(wsc_rescale_config_template, rescale_cfg_file_path, regularized_ws_path,
+        self.create_rescale_cfg_file(rescale_cfg_file_path, regularized_ws_path,
                                      rescaled_ws_path, old_poiname, self.new_poiname, poi_scale, pois_to_keep,
                                      redefine_parameters=self.redefine_parameters)
 
