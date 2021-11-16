@@ -13,7 +13,7 @@ DEFAULT_UNBLIND_DATASET = 'obsData'
 DEFAULT_COMB_DATASET = 'combData'
 
 @click.command(name='process_channels')
-@click.option('-i', '--input_path', required=True, help='path to the input workspaces')
+@click.option('-i', '--input_dir', required=True, help='path to the input workspaces')
 @click.option('-r', '--resonant_type', required=True, type=click.Choice(['nonres', 'spin0'], case_sensitive=False), 
               help='resonant or non-resonant analysis')
 @click.option('-c', '--channels', default='bbbb,bbtautau,bbyy', help='analysis channels (separated by commas)')
@@ -22,20 +22,24 @@ DEFAULT_COMB_DATASET = 'combData'
 @click.option('--cl', default="0.95", help='confidence level')
 @click.option('--scaling_release', default="r999", help='scaling release (obselete, one should set the value by `rescale_poi` in config/regularization.yaml')
 @click.option('--blind/--unblind', default=True, help='blind/unblind analysis')
-@click.option('-m', '--mass', 'mass_expr', default=None, help='mass points to run, wild card is accepted, default=None (all mass points)')
-@click.option('-p', '--param',  default=None, help='perform limit scan on parameterized workspace on a certain parameter(s)'
-                                             ', e.g. klambda=-10_10_0.2,cvv=1')
+@click.option('--file_expr', default="<mass[F]>", show_default=True,
+              help='\b\nFile name expression describing the external parameterisation.\n'
+                   '\b Example: "<mass[F]>_kl_<klambda[P]>"\n'
+                   '\b Refer to documentation for more information\n')
+@click.option('--param_expr', default=None, show_default=True,
+              help='\b\nParameter name expression describing the internal parameterisation.\n'
+                   '\b Example: "klambda=-10_10_0.2,k2v=1"\n'
+                   '\b Refer to documentation for more information\n')
 @click.option('--config', 'config_file', default=None, help='configuration file for regularization')
 @click.option('--minimizer_options', default=None, help='configuration file for minimizer options')
 @click.option('--verbose/--silent', default=False, help='show debug messages in stdout')
 @click.option('--parallel', type=int, default=-1, help='number of parallelized workers')
-@click.option('--file_format', default="<mass[F]>", help='file format')
 @click.option('--cache/--no-cache', default=True, help='cache existing results')
 @click.option('--save_summary/--skip_summary', default=False, help='Save summary information')
 @click.option('--do-limit/--skip-limit', default=True, help='whether to evaluate limits')
-def process_channels(input_path, resonant_type, channels, outdir, do_better_bands, cl, 
-                     scaling_release, blind, mass_expr, param, config_file,
-                     minimizer_options, verbose, parallel, file_format, cache,
+def process_channels(input_dir, resonant_type, channels, outdir, do_better_bands, cl, 
+                     scaling_release, blind, file_expr, param_expr, config_file,
+                     minimizer_options, verbose, parallel, cache,
                      save_summary, do_limit):
     
     if config_file is not None:
@@ -47,7 +51,6 @@ def process_channels(input_path, resonant_type, channels, outdir, do_better_band
     
     channels = channels.split(',')
     for channel in channels:
-        workspace_dir = os.path.join(input_path, channel, resonant_type)
         old_poi = None if config is None else config['poi'][channel]
         new_poi = DEFAULT_NEW_POI if config is None else config['poi']['combination']
         if blind:
@@ -64,12 +67,12 @@ def process_channels(input_path, resonant_type, channels, outdir, do_better_band
             channel_rescale_poi = rescale_poi.get(channel, None)
         else:
             channel_rescale_poi = None
-        pipeline = combiner.TaskPipelineWS(workspace_dir, outdir, resonant_type, channel, scaling_release,
-                                          old_poi, new_poi, old_dataname, new_dataname, do_better_bands,
-                                          cl, blind, mass_expr, param, 
-                                          verbose=verbose, minimizer_options=minimizer_options,
-                                          redefine_parameters=channel_redefine_parameters, 
-                                          rescale_poi=channel_rescale_poi,
-                                          parallel=parallel, file_format=file_format, cache=cache,
-                                          do_limit=do_limit)
+        pipeline = combiner.TaskPipelineWS(input_dir, outdir, resonant_type, channel, scaling_release,
+                                           old_poi, new_poi, old_dataname, new_dataname, do_better_bands,
+                                           cl, blind, file_expr=file_expr, param_expr=param_expr,
+                                           verbose=verbose, minimizer_options=minimizer_options,
+                                           redefine_parameters=channel_redefine_parameters, 
+                                           rescale_poi=channel_rescale_poi,
+                                           parallel=parallel, file_format=file_format, cache=cache,
+                                           do_limit=do_limit)
         pipeline.run_pipeline()
