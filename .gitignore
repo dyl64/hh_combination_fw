@@ -32,5 +32,4 @@ output/
 .__*
 .ipynb_checkpoints
 debug/
-output
-outputs
+output*

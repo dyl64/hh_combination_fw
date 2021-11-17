@@ -11,6 +11,7 @@ import copy
 
 import utils
 from quickstats.components import ExtendedModel, ParamParser
+from quickstats.utils.common_utils import execute_multi_tasks
 from quickstats.concurrent.parameterised_asymptotic_cls import run_param_scan
 import scalings
 from xml_tool import create_combination_xml
@@ -23,16 +24,16 @@ class TaskBase:
     def __init__(self, *args, **kwargs):
         self.initialize(*args, **kwargs)
 
-    def initialize(self, resonant_type, poi_name, data_name, do_better_bands=True, CL=0.95, blind=True, 
-                   file_expr=None, param_expr=None, verbosity:str="INFO", minimizer_options=None,
+    def initialize(self, resonant_type, poi_name, data_name, file_expr=None, param_expr=None,
+                   do_better_bands=True, CL=0.95, blind=True, verbosity:str="INFO", minimizer_options=None,
                    parallel=-1, cache=True, save_summary=False, do_limit=True, **kwargs):
         
         if minimizer_options is not None:
             minimizer_options = json.load(open(minimizer_options))
         else:
             minimizer_options = {}
-            
-        config = {**minimizer_options}
+        self.minimizer_options    = minimizer_options
+        config = {**self.minimizer_options}
         config['data_name']       = data_name
         config['poi_name']        = poi_name
         config['do_blind']        = blind
@@ -44,7 +45,6 @@ class TaskBase:
         self.resonant_type = resonant_type
         self.file_expr = file_expr
         self.param_expr = param_expr
-        self.snapshot = None
         
         self.cache = cache
         self.save_summary = save_summary
@@ -55,11 +55,12 @@ class TaskBase:
         self.param_parser = ParamParser(self.file_expr, self.param_expr)
         self.int_param_points = self.param_parser.get_internal_param_points()
         self.param_points = self.get_param_points()
-        
+
         self.pois_to_keep = [poi_name]
         if len(self.int_param_points) > 0:
             param_point = self.int_param_points[0]
             self.pois_to_keep += list(param_point)
+            
         self.sanity_check()
     
     def sanity_check(self):
@@ -83,27 +84,20 @@ class TaskBase:
         raise NotImplementedError("this method should be overridden")        
         
     def limit_setting(self):
-        
-        config = {**self.minimizer_options}
-        config['data_name']       = self.data_name
-        config['poi_name']        = self.poi_name
-        config['do_blind']        = self.blind
-        config['do_better_bands'] = self.do_better_bands
-        config['CL']              = self.CL
-        config['verbosity']       = self.verbosity
+
         kwargs = {
             'dirname'     : self.basis_dir,
             'file_expr'   : self.file_expr,
             'param_expr'  : self.param_expr,
             'outdir'      : self.limit_dir,
             'outname'     : self.MERGED_LIMITS_FNAME,
-            'cache'       : self.cache
+            'cache'       : self.cache,
             'save_log'    : True,
-            'save_summary': self.save_summary
+            'save_summary': self.save_summary,
             'parallel'    : self.parallel,
-            'config'      : config
+            'config'      : self.config
         }
-        
+
         run_param_scan(**kwargs)
         
     def finalize(self):
@@ -116,22 +110,19 @@ class TaskBase:
         start = time.time()
         self.makedirs()
         self.copy_dtd()
-        for param_point in self.ext_param_points:
-            self.preprocess(param_point)
-        if self.do_limitt:
+        execute_multi_tasks(self.preprocess, self.param_points, parallel=self.parallel)
+        if self.do_limit:
             self.limit_setting()
         self.finalize()
         end = time.time()
-        print('INFO: Task finished. Total time taken: {}s'.format(end-start))
+        print('INFO: Task finished. Total time taken: {:.3f} s'.format(end-start))
         
         
 class TaskPipelineWS(TaskBase):
     
     def initialize(self, input_dir, output_dir, resonant_type, channel, scaling_release, 
-                   old_poiname, new_poiname, old_dataname, new_dataname, do_better_bands=True,
-                   CL=0.95, blind=True, file_expr=None, param_expr=None, verbose=False, 
-                   minimizer_options=None, redefine_parameters=None, rescale_poi=None,
-                   parallel=-1, **kwargs):
+                   old_poiname, new_poiname, old_dataname, new_dataname, 
+                   redefine_parameters=None, rescale_poi=None, **kwargs):
         
         self.input_dir = input_dir
         self.output_dir = output_dir
@@ -143,9 +134,7 @@ class TaskPipelineWS(TaskBase):
         self.new_poiname = new_poiname
         self.old_dataname = old_dataname
         self.new_dataname = new_dataname
-        super().initialize(resonant_type, new_poiname, new_dataname, do_better_bands, CL, blind, 
-                           mass_expr, param, verbose=verbose,
-                           minimizer_options=minimizer_options, parallel=parallel, file_format=file_format, **kwargs)
+        super().initialize(resonant_type, new_poiname, new_dataname, **kwargs)
         
     def sanity_check(self):
         super().sanity_check()
@@ -181,7 +170,7 @@ class TaskPipelineWS(TaskBase):
                                 poi_scale, pois_to_keep, oldpoi_equiv_name='mu_old', 
                                 redefine_parameters=None):
         
-        print('Creating config file: {0}, poi: {1} --> {2}, scaling: {3}'.format(
+        print('INFO: Creating config file: {0}, poi: {1} --> {2}, scaling: {3}'.format(
               cfg_file,  old_poiname, new_poiname, poi_scale))
 
         from quickstats.utils.xml_tools import TXMLTree
@@ -225,7 +214,7 @@ class TaskPipelineWS(TaskBase):
     def regularise(self, param_point):
         filename = f"{param_point['basename']}.root"
         input_ws_path = param_point['filename']
-        regularised_ws_path = os.path.join(self.regularised_dir, filename)
+        regularised_ws_path = os.path.join(self.regularised_dir, filename)       
         print("INFO: Regularising {0} --> {1}".format(input_ws_path, regularised_ws_path))
         
         wsc_bin_path = os.path.join(self.WSC_PATH, 'bin', 'manager')
@@ -248,7 +237,6 @@ class TaskPipelineWS(TaskBase):
         filename = f"{param_point['basename']}.root"
         regularised_ws_path = os.path.join(self.regularised_dir, filename)
         rescaled_ws_path = os.path.join(self.rescaled_dir, filename)
-
         if "mass" not in param_point['parameters']:
             raise ValueError(f"mass attribute not inferred from file name: {filename}")
         mass = param_point['parameters']['mass']
@@ -278,7 +266,7 @@ class TaskPipelineWS(TaskBase):
         
         cmd_rescale = [wsc_bin_path, "-w", "organize", "-x", rescale_cfg_file_path]
         print(' '.join(cmd_rescale))
-
+        
         if os.path.exists(rescaled_ws_path) and self.cache:
             print("\033[92mSkip: rescaling output {0} exists, skip rescaling\033[0m".format(rescaled_ws_path))
         else:
@@ -292,16 +280,11 @@ class TaskPipelineWS(TaskBase):
         self.rescale(param_point)
 
 class TaskCombination(TaskBase):
-
-    CHANNEL_WS_EXPR = r'{basename}.root'
-    COMB_WS_EXPR = r'{basename}.root'
-    COMB_CFG_EXPR = r'{basename}.xml'
     
     def __init__(self, *args, **kwargs):
         self.initialize(*args, **kwargs)
         # make sure the NPs are set to nominal values at the beginning
-        self.minimizer_options['snapshot_name'] = "nominalNuis"
-        self.snapshot = "nominalNuis"
+        self.config['snapshot_name'] = "nominalNuis"
     
     @property
     def channels(self):
@@ -332,26 +315,24 @@ class TaskCombination(TaskBase):
             raise ValueError('invalid format for correlation scheme')
     
     def initialize(self, input_dir, resonant_type, channels, poi_name, data_name, correlation_scheme=None,
-                   tag_pattern='A-{channels}-{scheme}', do_better_bands=True, CL=0.95, blind=True, 
-                   mass_expr=None, param=None, **kwargs):
+                   tag_pattern='A-{channels}-{scheme}', **kwargs):
         self.input_dir = input_dir
         self.channels = channels
         self.correlation_scheme = correlation_scheme
         self.scheme_tag = 'nocorr' if self.correlation_scheme is None else 'fullcorr'
         self.tag = tag_pattern.format(channels='_'.join(self.channels), scheme=self.scheme_tag)
-        super().initialize(resonant_type, poi_name, data_name, do_better_bands, CL, blind, 
-                           mass_expr, param, **kwargs)
+        super().initialize(resonant_type, poi_name, data_name, **kwargs)
         self.param_points = self.get_param_points()
         print('INFO: Registered the following param points and corresponding channels for combination')
         for param_point in self.param_points:
-            param_str = self.parser.val_encode_parameters(param_point['parameters'])
+            param_str = self.param_parser.val_encode_parameters(param_point['parameters'])
             print(f'({param_str}): {param_point["channels"]}')
         
     def get_param_points(self):
         temp = {}
         for channel in self.channels:
             dirname = os.path.join(self.input_ws_dir, channel)
-            ext_param_points = self.parser.get_external_param_points(dirname)
+            ext_param_points = self.param_parser.get_external_param_points(dirname)
             for param_point in ext_param_points:
                 basename = param_point['basename']
                 if basename not in temp:
@@ -360,7 +341,7 @@ class TaskCombination(TaskBase):
         param_points = []
         for basename in temp:
             channels = temp[basename]['channels']
-            parameters = temp[base_name]['parameters']
+            parameters = temp[basename]['parameters']
             param_point = {"basename":basename, "channels":channels, "parameters": parameters}
             param_points.append(param_point)
         return param_points
@@ -389,7 +370,7 @@ class TaskCombination(TaskBase):
         
     def get_combination_xml(self, param_point):
         channels = param_point.get("channels", None)
-        param_str = self.parser.val_encode_parameters(param_point['parameters'])
+        param_str = self.param_parser.val_encode_parameters(param_point['parameters'])
         if channels is None:
             raise ValueError(f'no channels to combine for the parameter point "{param_str}"')
         input_ws_paths = {}
@@ -407,7 +388,7 @@ class TaskCombination(TaskBase):
         xml = self.get_combination_xml(param_point)
         xml_fname = os.path.join(self.cfg_file_dir, f"{param_point['basename']}.xml")
         xml.save(xml_fname)
-        param_str = self.parser.val_encode_parameters(param_point['parameters'])
+        param_str = self.param_parser.val_encode_parameters(param_point['parameters'])
         print(f'INFO: Combination config for the point "{param_str}" saved as "{xml_fname}"')
         
     def create_combined_ws(self, param_point, fit_strategy='0', fit_tolerance='-1'):
