@@ -193,7 +193,7 @@ LHProcess:
   variables:
     output_dir: output/param
     mini_option: minimizer.json
-    version: 20211106_mu
+    version: 20211106_proj_all
     channel: bbtautau,bbyy
     other_options: "--file_format <mass[F]>_kl --param klambda=1"
     np_option: np_map_kl_v10.json
