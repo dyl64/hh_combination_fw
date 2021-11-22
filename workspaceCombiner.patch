@@ -46,6 +46,40 @@ index 735a2e4..1556bf1 100644
      case 'i':
        indice_ = optarg;
        break;
+diff --git a/inc/combiner.h b/inc/combiner.h
+index 47aa466..a12773b 100644
+--- a/inc/combiner.h
++++ b/inc/combiner.h
+@@ -41,7 +41,7 @@ struct POI {
+   double max;
+ };
+ 
+-struct Channel {
++struct ChannelInfo {
+   std::string name_;   /* name of itself */
+   double mass_;
+   std::string fileName_;
+@@ -52,7 +52,7 @@ struct Channel {
+   std::map<std::string, std::string> renameMap_;
+   std::map<std::string, std::string> pdfReMap_;
+ 
+-  void operator=(const Channel& ch)
++  void operator=(const ChannelInfo& ch)
+   {
+     name_ = ch.name_;
+     mass_ = ch.mass_;
+@@ -279,9 +279,9 @@ TString editRFVString( TString& oldString )
+ 
+ 
+ private:
+-std::vector<Channel> m_summary;
++std::vector<ChannelInfo> m_summary;
+ std::vector<POI> m_pois;
+-Channel m_outSummary;
++ChannelInfo m_outSummary;
+ 
+ std::string m_wsName;
+ std::string m_dataName;
 diff --git a/src/asimovUtils.cxx b/src/asimovUtils.cxx
 index f80c53f..ad2f063 100644
 --- a/src/asimovUtils.cxx
@@ -60,7 +94,7 @@ index f80c53f..ad2f063 100644
    }
  
 diff --git a/src/combiner.cxx b/src/combiner.cxx
-index 691e7a1..b0dcd86 100644
+index 691e7a1..2811e14 100644
 --- a/src/combiner.cxx
 +++ b/src/combiner.cxx
 @@ -690,8 +690,10 @@ void combiner::makeSimCategory()
@@ -88,6 +122,15 @@ index 691e7a1..b0dcd86 100644
  
  	      TString type = Form( "%s_%s_%s", m_catName.c_str(), indivCat->getLabel(), channelName.c_str() );
  	      m_cat->setLabel( type, true ); // print error
+@@ -1136,7 +1139,7 @@ void combiner::readChannel( TXMLNode* rootNode )
+       node = node->GetNextNode();
+     }
+ 
+-  Channel channel;
++  ChannelInfo channel;
+   channel.name_                                 = name;
+   channel.fileName_                             = fileName;
+   channel.wsName_                               = wsName;
 diff --git a/src/decorator.cxx b/src/decorator.cxx
 index ce1e686..8050b0d 100644
 --- a/src/decorator.cxx

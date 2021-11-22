@@ -47,7 +47,7 @@ hhCompile:
     - echo -e "Host *\n\tGSSAPIDelegateCredentials yes\n\tGSSAPITrustDNS yes\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - echo $SERVICE_PASS | kinit -f $CERN_USER || echo something
     - mkdir -p $input_dir/$version
-    - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/FullRun2Workspaces/original/$version/* $input_dir/$version/
+    - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/FullRun2Workspaces/original/$version/CI/* $input_dir/$version/
     - ls $input_dir/$version/*/nonres/0.root
     - shopt -s expand_aliases
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
@@ -81,7 +81,7 @@ hhCompile:
   variables:
     output_dir: output/NR
     mini_option: minimizer.json
-    version: 20211106_mu
+    version: 20211106_proj_all
     other_options: ""
   allow_failure: true
   script:
@@ -170,7 +170,7 @@ NR_proj_comb_stat:
     mini_option: minimizer_stat.json
 
 # For PUB: KL xsec
-KL_proj_comb:
+indiv_XSScan:
   extends: .NRCombine_ws
   needs:
     - job: hhCompile
@@ -193,7 +193,7 @@ LHProcess:
   variables:
     output_dir: output/param
     mini_option: minimizer.json
-    version: 20211106_mu
+    version: 20211106_proj_all
     channel: bbtautau,bbyy
     other_options: "--file_format <mass[F]>_kl --param klambda=1"
     np_option: np_map_kl_v10.json
@@ -205,7 +205,7 @@ LHProcess:
     - HHComb combine_ws -i $output_dir -r nonres -c $channel --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --scheme configs/$np_option --skip-limit --no-cache $other_options
 
 
-LHScan:
+param_LHScan:
   extends: .IStep2
   needs:
     - job: hhCompile
@@ -223,7 +223,7 @@ LHScan:
     - master
     - CI
 
-XSScan:
+param_XSScan:
   extends: .IStep2
   needs:
     - job: hhCompile
@@ -281,8 +281,10 @@ NRPlot:
 KLPlot:
   extends: .plot
   needs:
-    - job: KL_proj_comb
-    - job: XSScan
+    - job: KL_proj_pro_yy
+    - job: KL_proj_pro_tt
+    - job: indiv_XSScan
+    - job: param_XSScan
   variables:
     input_dir_indiv: output/indiv/
     input_dir_param: output/param/
@@ -300,7 +302,7 @@ KLPlot:
 LHPlot:
   extends: .plot
   needs:
-    - job: LHScan
+    - job: param_LHScan
   variables:
     input_dir_param: output/param/
   script:

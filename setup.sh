@@ -1,5 +1,4 @@
 #!/bin/bash
-# Some hacky settings in order to run RooStatTool
 # Further clean up should make them set at proper places and time (Rui Zhang)
 
 export HH_COMBINATION_FW_MODE="overwrite" #"skip_exist";
@@ -12,11 +11,20 @@ export hh_combination_fw_path="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" >/dev
 cd submodules/workspaceCombiner
 export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase # use your path
 source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh
-#setupATLAS
-#lsetup "views LCG_98python3 x86_64-centos7-gcc8-opt"
-#lsetup "views LCG_100 x86_64-centos7-gcc8-opt"
-lsetup "views LCG_101 x86_64-centos7-gcc8-opt"
-
+if [[ $1 == '98' ]] || [[ -z $1 ]]; then
+    echo 'setup LCG_98python3'
+    lsetup "views LCG_98python3 x86_64-centos7-gcc8-opt"
+elif [[ $1 == '100' ]]; then
+    echo 'setup LCG_100'
+    lsetup "views LCG_100 x86_64-centos7-gcc8-opt"
+elif [[ $1 == '101' ]]; then
+    echo 'setup LCG_101'
+    lsetup "views LCG_101 x86_64-centos7-gcc8-opt"
+else
+    echo 'Specify a relase number for LCG, default LCG_98python3'
+    echo 'source setup.sh [98|100]'
+    return
+fi
 # More memory
 ulimit -S -s unlimited
 
@@ -48,6 +56,7 @@ fi
 export PATH=${_BIN_PATH}:${PATH}
 cd ${hh_combination_fw_path}
 
+# Copy from workspaceCombiner/setup.sh done
 
 
 # Setup RooFitExtensions

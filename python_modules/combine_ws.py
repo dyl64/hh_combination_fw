@@ -51,10 +51,14 @@ DEFAULT_DATASET = 'combData'
               help='Save limit summary.')
 @click.option('--do-limit/--skip-limit', default=True, show_default=True,
               help='Whether to evaluate limits.')
+@click.option('--do-likelihood/--skip-likelihood', default=False, show_default=True,
+              help='Whether to run likelihood scan.')
+@click.option('--do-pvalue/--skip-pvalue', default=False, show_default=True,
+              help='Whether to evaluate pvalue(s).')
 def combine_ws(input_dir, resonant_type, channels, file_expr, param_expr,
                correlation_scheme, tag_pattern, do_better_bands, CL, blind,
                config_file, minimizer_options, verbosity, parallel, cache,
-               save_summary, do_limit):
+               save_summary, do_limit, do_likelihood, do_pvalue):
     
     if config_file is not None:
         config = yaml.safe_load(open(config_file))
@@ -68,13 +72,24 @@ def combine_ws(input_dir, resonant_type, channels, file_expr, param_expr,
     else:
         data_name = DEFAULT_DATASET if config is None else config['dataset']['combination']['unblind']
         
+    if config is None:
+        task_options = None
+    else:
+        task_options = {
+            "likelihood_scan": config.get('likelihood_scan', None),
+            "calculate_pvalue": config.get('calculate_pvalue', None),
+        }        
+        
     pipeline = combiner.TaskCombination(input_dir, resonant_type, channels, poi_name, data_name,
                                         correlation_scheme, tag_pattern, 
                                         file_expr=file_expr, param_expr=param_expr,
                                         do_better_bands=do_better_bands, CL=CL,
                                         blind=blind, minimizer_options=minimizer_options,
                                         verbosity=verbosity, parallel=parallel, cache=cache,
-                                        save_summary=save_summary, do_limit=do_limit)
+                                        save_summary=save_summary, do_limit=do_limit,
+                                        do_likelihood=do_likelihood,
+                                        do_pvalue=do_pvalue,
+                                        task_options=task_options)
     pipeline.run_pipeline()
 
     
