@@ -1,0 +1,18 @@
+dataset:
+  bbtautau:
+    blind: asimovData
+  bbyy:
+    blind: combData
+  combination:
+    blind: combData
+poi:
+  bbtautau: SigXsecOverSM
+  bbyy: mu_XS_HH
+  combination: xsec_br
+rescale_poi:
+  bbtautau: 1.0
+  bbyy: 1.0
+calculate_pvalue:
+  mu: 0
+  generate_asimov: -2
+  dataset: asimovData_1_NP_Nominal
