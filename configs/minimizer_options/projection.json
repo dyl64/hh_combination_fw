@@ -1,0 +1,6 @@
+{
+  "general": {
+    "strategy": 1,
+    "fix_param": "ATLAS_KLAMBDA_REWEIGHTING_HH_ggF=0,ATLAS_LC_CLOSURE_VBFSMHH=0,alpha_ATLAS_KLAMBDA_REWEIGHTING_HH_ggF=0,alpha_ATLAS_LC_CLOSURE_VBFSMHH=0"
+  }
+}
