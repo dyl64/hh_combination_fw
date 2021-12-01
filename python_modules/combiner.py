@@ -1,5 +1,5 @@
+from typing import Optional, Union, Dict, List
 import os
-from pdb import set_trace
 import sys
 import re
 import time
@@ -29,12 +29,8 @@ class TaskBase:
                    do_better_bands=True, CL=0.95, blind=True, verbosity:str="INFO", minimizer_options=None,
                    parallel=-1, cache=True, save_summary=False, do_limit=True, 
                    do_likelihood=False, do_pvalue=False, task_options=None, **kwargs):
-        if minimizer_options is not None:
-            minimizer_options = json.load(open(minimizer_options))
-        else:
-            minimizer_options = {}
-        self.minimizer_options    = minimizer_options
-        config = {**self.minimizer_options}
+        self.minimizer_options    = self.parse_minimizer_options(minimizer_options)
+        config = {}
         config['data_name']       = data_name
         config['poi_name']        = poi_name
         config['do_blind']        = blind
@@ -67,6 +63,23 @@ class TaskBase:
             
         self.sanity_check()
         
+    def parse_minimizer_options(self, config_path:Optional[str]=None):
+        minimizer_options = {
+            'general': {},
+            'limit_setting': {},
+            'likelihood_scan': {},
+            'pvalue': {}
+        }
+        if config_path is not None:
+            with open(config_path, "r") as f:
+                config = json.load(f)
+            if 'general' in config:
+                for k in minimizer_options:
+                    minimizer_options[k] = config['general']
+            for k in ['limit_setting', 'likelihood_scan', 'pvalue']:
+                if k in config:
+                    minimizer_options[k].update(config[k])
+        return minimizer_options
     
     def sanity_check(self):
         if not os.path.exists(self.WSC_PATH):
@@ -100,7 +113,7 @@ class TaskBase:
             'save_log'    : True,
             'save_summary': self.save_summary,
             'parallel'    : self.parallel,
-            'config'      : self.config
+            'config'      : {**self.minimizer_options['limit_setting'], **self.config}
         }
 
         run_param_scan(**kwargs)
@@ -117,7 +130,7 @@ class TaskBase:
             poi_name = options['poi_name']
         else:
             poi_name  = self.config['poi_name']
-        config    = self.minimizer_options
+        config    = self.minimizer_options['pvalue']
         verbosity = self.config['verbosity']
         
         if 'dataset' in options:
@@ -130,10 +143,9 @@ class TaskBase:
         
         print(f"INFO: Evaluating p-value (dataset={_data_name}, mu={round(mu, 8)}) for the workspace {filename}")
         outpath = os.path.join(self.pvalue_dir, f"result_{_data_name}_mu_{mu}.json")
-        if os.path.exists(outpath):
+        if os.path.exists(outpath) and self.cache:
             print(f"INFO: Cached p-value output from {outpath}")
             return None
-        
         log_path = os.path.splitext(outpath)[0] + ".log"
         with standard_log(log_path) as logger:
             analysis  = AnalysisBase(filename, data_name=data_name,
@@ -166,7 +178,7 @@ class TaskBase:
                 poi_name = options['poi_name']
             else:
                 poi_name  = self.config['poi_name']
-            config    = self.minimizer_options
+            config    = self.minimizer_options['likelihood_scan']
             if 'fix' in options:
                 if 'fix_param' in config:
                     config['fix_param'] = config['fix_param'] + "," + options['fix']
@@ -177,7 +189,7 @@ class TaskBase:
             print(f'INFO: Running likelihood scan on the poi "{poi_name}" for the workspace {filename}')
             outname = f"{poi_name}.json"
             outdir  = os.path.join(self.likelihood_dir, scenario)
-            if not os.path.exists(outdir):
+            if not os.path.exists(outdir) and self.cache:
                 os.makedirs(outdir, exist_ok=True)
             outpath = os.path.join(outdir, outname)
             if os.path.exists(outpath):
@@ -210,7 +222,7 @@ class TaskBase:
                     'outname': outname,
                     'outdir': outdir,
                     'data_name': data_name,
-                    'snapshot_name': self.config.get('snapshot_name', None),
+                    'snapshot_name': config.get('snapshot_name', None),
                     'parallel' : self.parallel,
                     'save_log': True
                 }
@@ -312,7 +324,7 @@ class TaskPipelineWS(TaskBase):
         }
         cfg_xml.new_root(tag="Organization", attrib=attrib)
         # need to check the default value of the poi
-        model = ExtendedModel(input_ws, data_name=None, verbosity="WARNING")
+        model = ExtendedModel(input_ws, data_name=None, verbosity="WARNING", binned_likelihood=False)
         poi   = model.workspace.var(old_poiname)
         if not poi:
             raise RuntimeError(f'the workspace "{input_ws}" does not contain the parameter "{old_poiname}"')
@@ -427,8 +439,8 @@ class TaskCombination(TaskBase):
     def __init__(self, *args, **kwargs):
         self.initialize(*args, **kwargs)
         # make sure the NPs are set to nominal values at the beginning
-        self.minimizer_options['snapshot_name'] = "nominalNuis"
-        self.config['snapshot_name'] = "nominalNuis"
+        for k in self.minimizer_options:
+            self.minimizer_options[k]['snapshot_name'] = "nominalNuis"
     
     @property
     def channels(self):
