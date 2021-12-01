@@ -38,7 +38,7 @@ DEFAULT_COMB_DATASET = 'combData'
 @click.option('--blind/--unblind', default=True, show_default=True,
               help='Perform blind or unblind analysis.')
 @click.option('--config', 'config_file', default=None, show_default=True,
-              help='configuration file for regularization')
+              help='configuration file for task options')
 @click.option('--minimizer_options', default=None, show_default=True,
               help='configuration file for minimizer options')
 @click.option('-v', '--verbosity', default='INFO', show_default=True,

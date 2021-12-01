@@ -13,12 +13,3 @@ rescale_poi:
   #kl no rescaling needed
   bbyy: 1
   bbtautau: 1
-likelihood_scan:
-  klambda_1:
-    generate_asimov: -2
-    dataset: asimovData_1_NP_Nominal
-    poi_name: klambda
-    fix: xsec_br=1
-    min : -10
-    max : 10
-    step: 0.1
