@@ -11,13 +11,13 @@ export hh_combination_fw_path="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" >/dev
 cd submodules/workspaceCombiner
 export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase # use your path
 source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh
-if [[ $1 == '98' ]] || [[ -z $1 ]]; then
+if [[ $1 == '98' ]]; then
     echo 'setup LCG_98python3'
     lsetup "views LCG_98python3 x86_64-centos7-gcc8-opt"
 elif [[ $1 == '100' ]]; then
     echo 'setup LCG_100'
     lsetup "views LCG_100 x86_64-centos7-gcc8-opt"
-elif [[ $1 == '101' ]]; then
+elif [[ $1 == '101' ]] || [[ -z $1 ]]; then
     echo 'setup LCG_101'
     lsetup "views LCG_101 x86_64-centos7-gcc8-opt"
 else
