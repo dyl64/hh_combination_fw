@@ -49,8 +49,8 @@ def _best_fit(input_file, poi_name, dataset, snapshot, correlation, fix_param):
     likelihood = Likelihood(output_file, data_name="asimovData_1_NP_Nominal", poi_name=poi_name)
 
     poi_val = 0
-    likelihood.evaluate(poi_val=poi_val, unconditional=True, snapshot_name=snapshot)
-    nll_mu_free = likelihood.minNll
+    mode = 2 # unconditional
+    likelihood.evaluate_nll(poi_val=poi_val, mode=mode, snapshot_name=snapshot)
     poi = likelihood.poi
 
     if correlation:

@@ -30,20 +30,56 @@ def get_limit_data(scenario, study):
                               combine_tag, 'limits.json')
     data['combined'] = json.load(open(limit_path))
     return data
-def get_likelihood_data(scenario, klvalue):
+def get_likelihood_data(scenario, klhypo):
     data = {}
     for channel in channels:
         limit_path = os.path.join(outdir, scenario, 'kl_parameterised', 'likelihood_scans', resonant_type, channel, 
-                                  f'klambda_{klvalue}', 'klambda.json')
+                                  f'klambda_{klhypo}', 'klambda.json')
         data[channel] = json.load(open(limit_path))
     limit_path = os.path.join(outdir, scenario, 'kl_parameterised', 'likelihood_scans', resonant_type, 'combined',
-                              combine_tag, f'klambda_{klvalue}', 'klambda.json')
+                              combine_tag, f'klambda_{klhypo}', 'klambda.json')
     data['combined'] = json.load(open(limit_path))
     return data
 def get_pvalue_data(scenario):
     data = {}
     for channel in channels:
         limit_path = os.path.join(outdir, scenario, 'SM', 'pvalues', resonant_type, channel, 
+                                  'result_asimovData_1_NP_Nominal_mu_0.json')
+        data[channel] = json.load(open(limit_path))
+    limit_path = os.path.join(outdir, scenario, 'SM', 'pvalues', resonant_type, 'combined',
+                              combine_tag, 'result_asimovData_1_NP_Nominal_mu_0.json')
+    data['combined'] = json.load(open(limit_path))
+    for channel in data:
+        data[channel] = {k:v for k,v in data[channel].items() if k in ['pvalue', 'significance', 'qmu']}
+    return data
+
+def merge_pvalue_data_kl(scenario):
+    from quickstats.components import ParamParser
+    file_expr = "<mass[F]>_kl_<klambda[P]>"
+    param_expr = 'kl=-2_8_0.2'
+    para = ParamParser(file_expr, param_expr)
+    int_param_points = para.get_internal_param_points()
+    columns = ['kl', 'pvalue', 'significance']
+    data = {}
+    for channel in channels+['combined']:
+        data[channel] = {}
+        for column in columns:
+            data[channel][column] = []
+        for point in int_param_points:
+            file_prefix = '0_'+para.str_encode_parameters(point)
+            limit_path = os.path.join(outdir, scenario, 'kl_individual', 'pvalues', resonant_type, channel, combine_tag if channel == 'combined' else '',
+                                      file_prefix+'_asimovData_1_NP_Nominal_mu_0.json')
+            result = json.load(open(limit_path))
+            data[channel]['kl'].append(point['kl'])
+            for column in columns[1:]:
+                data[channel][column].append(result[column])
+        #json.dump(data[channel][channel], f'significance_kl_{channel}.json', indent=2)
+    return data
+
+def get_pvalue_data_kl(scenario):
+    data = {}
+    for channel in channels:
+        limit_path = os.path.join(outdir, scenario, 'kl_individual', 'pvalues', resonant_type, channel, 
                                   'result_asimovData_1_NP_Nominal_mu_0.json')
         data[channel] = json.load(open(limit_path))
     limit_path = os.path.join(outdir, scenario, 'SM', 'pvalues', resonant_type, 'combined',
@@ -363,15 +399,15 @@ syst_scenario_text = {
 #plot_kl_param_vs_indiv()
 
 
-# ## 3. KL Likelihood Scan
-
+## ## 3. KL Likelihood Scan
+#
 ## ### 3.1 Data Loading
-#def data_loading_lh(klvalue):
+#def data_loading_lh(klhypo):
 #    likelihood_df  = {}
 #    likelihood_df2 = {}
 #    for scenario in syst_scenarios:
 #        likelihood_df[scenario] = {}
-#        data = get_likelihood_data(scenario, klvalue)
+#        data = get_likelihood_data(scenario, klhypo)
 #        for channel in data:
 #            df = pd.DataFrame(data[channel]).dropna()
 #            if channel not in likelihood_df2:
@@ -383,15 +419,16 @@ syst_scenario_text = {
 #likelihood_df, likelihood_df2 = {}, {}
 #likelihood_df[0], likelihood_df2[0] = data_loading_lh(0)
 #likelihood_df[1], likelihood_df2[1] = data_loading_lh(1)
-#
-## ### 3.2 Plotting
-#
-#from quickstats.plots import Likelihood1DPlot
-#from quickstats.plots.color_schemes import QUICKSTATS_PALETTES
-#color_pallete = QUICKSTATS_PALETTES['darklines']
-#
+
+
+# ### 3.2 Plotting
+
+from quickstats.plots import Likelihood1DPlot
+from quickstats.plots.color_schemes import QUICKSTATS_PALETTES
+color_pallete = QUICKSTATS_PALETTES['darklines']
+
 ## #### 3.2a Channel-based plot
-#def plot_lh_chan(klvalue):
+#def plot_lh_chan(klhypo):
 #    styles_map = {
 #        'stat_only': {"color": "#343844", "marker": "P"},
 #        'baseline':  {"color": "#F2385A", "marker": "o"},
@@ -413,17 +450,17 @@ syst_scenario_text = {
 #
 #    for channel in ['bbyy', 'bbtautau', 'combined']:
 #        channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel]}
-#        plotter = Likelihood1DPlot(likelihood_df2[klvalue][channel], label_map=syst_scenario_label_map, styles_map=styles_map, 
+#        plotter = Likelihood1DPlot(likelihood_df2[klhypo][channel], label_map=syst_scenario_label_map, styles_map=styles_map, 
 #                                   styles=styles, analysis_label_options=channel_analysis_label_options)
 #        plotter.draw(xlabel=r"$\mathrm{\kappa_{\lambda}}$", ymax=12, xmin=-2.5, xmax=8, draw_sigma_line=True)
-#        plt.savefig(f"plots/likelihood_scan_mu_{klvalue}_{channel}.pdf", bbox_inches="tight")
-#        print("Save fig", f"plots/likelihood_scan_mu_{klvalue}_{channel}.pdf")
+#        plt.savefig(f"plots/likelihood_scan_mu_{klhypo}_{channel}.pdf", bbox_inches="tight")
+#        print("Save fig", f"plots/likelihood_scan_mu_{klhypo}_{channel}.pdf")
 #
 #for i in [0, 1]:
 #    plot_lh_chan(i)
 #
 ## #### 3.2a Scenario-based plot
-#def plt_lh_scen(klvalue):
+#def plt_lh_scen(klhypo):
 #    styles_map = {
 #        'bbyy'    : {"color": "#F2385A", "marker": "P"},
 #        'bbtautau': {"color": "#FDC536", "marker": "s"},
@@ -443,17 +480,18 @@ syst_scenario_text = {
 #    }
 #    for syst_scenario in ['theo_exp_baseline']:
 #        channel_analysis_label_options = {**analysis_label_options, 'extra_text':syst_scenario_text[syst_scenario]}
-#        plotter = Likelihood1DPlot(likelihood_df[klvalue][syst_scenario], label_map=channel_label_map, styles_map=styles_map, 
+#        plotter = Likelihood1DPlot(likelihood_df[klhypo][syst_scenario], label_map=channel_label_map, styles_map=styles_map, 
 #                                   styles=styles, analysis_label_options=channel_analysis_label_options)
 #        plotter.draw(xlabel=r"$\mathrm{\kappa_{\lambda}}$", ymax=12, xmin=-2, xmax=8.5, draw_sigma_line=True)
-#        plt.savefig(f"plots/likelihood_scan_mu_{klvalue}_{syst_scenario}.pdf", bbox_inches="tight")
-#        print("Save fig", f"plots/likelihood_scan_mu_{klvalue}_{syst_scenario}.pdf")
+#        plt.savefig(f"plots/likelihood_scan_mu_{klhypo}_{syst_scenario}.pdf", bbox_inches="tight")
+#        print("Save fig", f"plots/likelihood_scan_mu_{klhypo}_{syst_scenario}.pdf")
 #
 #for i in [0, 1]:
 #    plt_lh_scen(i)
 
 
-## ## 4. P-Value
+## ## 4. P-Value & significance
+## ## 4.1. SM
 #def pvalue():
 #    pvalue_df  = {}
 #    pvalue_df2 = {}
@@ -470,3 +508,61 @@ syst_scenario_text = {
 #        print('channel', channel, 'pvalue', pvalue_df2[channel])
 #
 #pvalue()
+
+# ## 4.1. kl scan (channel based)
+
+def data_loading_sig():
+    significance_df  = {}
+    significance_df2 = {}
+    for scenario in syst_scenarios:
+        significance_df[scenario] = {}
+        data = merge_pvalue_data_kl(scenario)
+        for channel in data:
+            df = pd.DataFrame(data[channel]).dropna()
+            if channel not in significance_df2:
+                significance_df2[channel] = {}
+            significance_df[scenario][channel] = df
+            significance_df2[channel][scenario] = df
+    return significance_df, significance_df2
+
+significance_df, significance_df2 = data_loading_sig()
+
+def plot_significance_chan():
+    from quickstats.utils.common_utils import combine_dict
+    styles_map = {
+        'stat_only': {"color": "#343844", "marker": "P"},
+        'baseline':  {"color": "#F2385A", "marker": "o"},
+        'theo_only': {"color": "#FDC536", "marker": "s"},
+        'run2_syst': {"color": "#36B1BF", "marker": "d"}
+    }
+    
+    styles = {
+        'legend':{
+            'loc': (0.25, 0.45)
+        }
+    }
+    analysis_label_options = {
+        'loc': (0.25, 0.95),
+        'energy': '14 TeV',
+        'lumi': r'3000 fb$^{-1}$',
+        'fontsize': 30
+    }
+    config = {
+        'sigma_values': (3, 5),
+        'sigma_line_styles':{
+            'color': 'gray',
+            'linestyle': '--'
+        }
+    }
+
+    for channel in ['bbyy', 'bbtautau', 'combined']:
+        channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel]}
+        set_trace()
+        plotter = Likelihood1DPlot(significance_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map, 
+                                   styles=styles, analysis_label_options=channel_analysis_label_options)
+        plotter.config = combine_dict(plotter.config, config)
+        plotter.draw(xattrib='kl', yattrib='significance', xlabel=r"$\mathrm{\kappa_{\lambda}}$", ylabel="Significance $\sigma$", ymax=12, xmin=-2.5, xmax=8, draw_sigma_line=True)
+        plt.savefig(f"plots/significance_scan_{channel}.pdf", bbox_inches="tight")
+        print("Save fig", f"plots/significance_scan_{channel}.pdf")
+
+plot_significance_chan()
