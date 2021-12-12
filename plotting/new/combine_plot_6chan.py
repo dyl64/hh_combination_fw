@@ -52,8 +52,8 @@ class DataReader(object):
             'combined5WW': r'N - ML',
         }
         
-        self.analysis_label_options = {'fontsize':30, 'energy': '14 TeV', 
-                                  'lumi': '3000 fb$^{-1}$',
+        self.analysis_label_options = {'fontsize':30, 'energy': '13 TeV', 
+                                  'lumi': '139 fb$^{-1}$',
                                   'extra_text': r'$\sigma_{ggF+VBF}^{SM}=32.78$ fb'}
         
         self.labels = {

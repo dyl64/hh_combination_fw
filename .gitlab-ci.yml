@@ -89,6 +89,8 @@ hhCompile:
     - HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/minimizer_options/$mini_option  --config configs/task_options/nonres_v6_mH125.yaml  --do-limit --skip-likelihood
 
 NR_mu_pro:
+  needs:
+    - job: hhCompile
   extends: .NRProcess
   variables:
     output_dir: output/NR_blind
@@ -118,30 +120,40 @@ NR_mu_pro:
 
 # For sensitivity study
 NR_BTY_comb_blind:
+  needs:
+    - job: NR_mu_pro
   extends: .NRCombine_ws
   variables:
     input_dir: output/NR_blind
     channels: bbbb,bbtautau,bbyy
 
 NR_ALL6_comb_blind:
+  needs:
+    - job: NR_mu_pro
   extends: .NRCombine_ws
   variables:
     input_dir: output/NR_blind
     channels: bbbb,bbtautau,bbyy,bbll,bbVV,WWWW
 
 NR_N-ll_comb_blind:
+  needs:
+    - job: NR_mu_pro
   extends: .NRCombine_ws
   variables:
     input_dir: output/NR_blind
     channels: bbbb,bbtautau,bbyy,bbVV,WWWW
 
 NR_N-VV_comb_blind:
+  needs:
+    - job: NR_mu_pro
   extends: .NRCombine_ws
   variables:
     input_dir: output/NR_blind
     channels: bbbb,bbtautau,bbyy,bbll,WWWW
 
 NR_N-WW_comb_blind:
+  needs:
+    - job: NR_mu_pro
   extends: .NRCombine_ws
   variables:
     input_dir: output/NR_blind
