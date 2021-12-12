@@ -191,8 +191,8 @@ NRPlot:
     input_dir: output/NR_blind
   script:
     # Plot nonres signal strength (mu)
-    - echo python combine_plot_6chan.py -i $input_dir
-    - python combine_plot_6chan.py -i $input_dir
+    - echo python combine_plot_6chan.py -a -i $input_dir
+    - python combine_plot_6chan.py -a -i $input_dir
   artifacts:
     paths:
       - $input_dir/figures
