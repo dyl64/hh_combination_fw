@@ -15,18 +15,22 @@ class DataReader(object):
     def __init__(self, args):
         infolder = args.input_folder
         self.json_files_main = {
-            'combined': f'{infolder}/limits/nonres/combined/A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-fullcorr/0.json',
-            'combined3': f'{infolder}/limits/nonres/combined/A-bbbb_bbll_bbtautau-fullcorr/0.json',
-            'combined5ll': f'{infolder}/limits/nonres/combined//A-bbbb_bbtautau_bbVV_bbyy_WWWW-fullcorr/0.json',
-            'combined5VV': f'{infolder}/limits/nonres/combined/A-bbbb_bbll_bbtautau-fullcorr/0.json',
-            'combined5WW': f'{infolder}/limits/nonres/combined/A-bbbb_bbll_bbtautau-fullcorr/0.json',
+            'combined': f'{infolder}/limits/nonres/combined/A-bbtautau_bbyy-fullcorr/0.json',
             'bbyy': f'{infolder}/limits/nonres/bbyy/mass_0.json',
             'bbtautau': f'{infolder}/limits/nonres/bbtautau/mass_0.json',
-            'bbbb': f'{infolder}/limits/nonres/bbbb/mass_0.json',
-            'bbll': f'{infolder}/limits/nonres/bbll/mass_0.json',
-            'bbVV': f'{infolder}/limits/nonres/bbVV/mass_0.json',
-            'WWWW': f'{infolder}/limits/nonres/WWWW/mass_0.json',
         }
+        if args.all:
+            self.json_files_main.update({
+                'combined': f'{infolder}/limits/nonres/combined/A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-fullcorr/0.json',
+                'combined3': f'{infolder}/limits/nonres/combined/A-bbbb_bbll_bbtautau-fullcorr/0.json',
+                'combined5ll': f'{infolder}/limits/nonres/combined//A-bbbb_bbtautau_bbVV_bbyy_WWWW-fullcorr/0.json',
+                'combined5VV': f'{infolder}/limits/nonres/combined/A-bbbb_bbll_bbtautau-fullcorr/0.json',
+                'combined5WW': f'{infolder}/limits/nonres/combined/A-bbbb_bbll_bbtautau-fullcorr/0.json',
+                'bbbb': f'{infolder}/limits/nonres/bbbb/mass_0.json',
+                'bbll': f'{infolder}/limits/nonres/bbll/mass_0.json',
+                'bbVV': f'{infolder}/limits/nonres/bbVV/mass_0.json',
+                'WWWW': f'{infolder}/limits/nonres/WWWW/mass_0.json',
+            })
         self.json_files_addition = {
             'combined': f'{infolder}/stat/limits/nonres/combined/A-bbtautau_bbyy-fullcorr/0.json',
             'bbyy': f'{infolder}/stat/limits/nonres/bbyy/0.json',
@@ -96,6 +100,7 @@ if __name__ == '__main__':
     parser.add_argument('-o', '--output_name', default='upperlimit_xsec_nonres_fullcorr_mu', required=False, help='output filename')
     parser.add_argument('-sf', '--sf', default=1000/32.776, type=float, required=False, help='reverse of scale factor applied in regularisation.yaml')
     parser.add_argument('-stat', '--stat', action='store_true', default=False, help='Switch on stat only results')
+    parser.add_argument('-a', '--all', action='store_true', default=False, help='Run all 6 channels')
 
     args = parser.parse_args()
     main(args)
