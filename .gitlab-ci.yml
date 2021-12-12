@@ -121,6 +121,7 @@ NR_mu_pro:
 # For sensitivity study
 NR_BTY_comb_blind:
   needs:
+    - job: hhCompile
     - job: NR_mu_pro
   extends: .NRCombine_ws
   variables:
@@ -129,6 +130,7 @@ NR_BTY_comb_blind:
 
 NR_ALL6_comb_blind:
   needs:
+    - job: hhCompile
     - job: NR_mu_pro
   extends: .NRCombine_ws
   variables:
@@ -137,6 +139,7 @@ NR_ALL6_comb_blind:
 
 NR_N-ll_comb_blind:
   needs:
+    - job: hhCompile
     - job: NR_mu_pro
   extends: .NRCombine_ws
   variables:
@@ -145,6 +148,7 @@ NR_N-ll_comb_blind:
 
 NR_N-VV_comb_blind:
   needs:
+    - job: hhCompile
     - job: NR_mu_pro
   extends: .NRCombine_ws
   variables:
@@ -153,6 +157,7 @@ NR_N-VV_comb_blind:
 
 NR_N-WW_comb_blind:
   needs:
+    - job: hhCompile
     - job: NR_mu_pro
   extends: .NRCombine_ws
   variables:
@@ -182,6 +187,7 @@ NR_N-WW_comb_blind:
 NRPlot:
   extends: .plot
   needs:
+    - job: hhCompile
     - job: NR_BTY_comb_blind
     - job: NR_ALL6_comb_blind
     - job: NR_N-ll_comb_blind
