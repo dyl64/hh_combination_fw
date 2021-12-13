@@ -25,15 +25,28 @@ resonant_type = 'nonres'
 combine_tag = 'A-bbtautau_bbyy-fullcorr'
 
 
-def get_limit_data(scenario, study):
+def get_limit_data(scenario, study, lumi=None):
     data = {}
-    for channel in channels:
-        limit_path = os.path.join(outdir, scenario, study, 'limits', resonant_type, channel, 'limits.json')
+    for channel in channels + ['combined']:
+        limit_path = os.path.join(outdir.replace("lumi3000ifb", f"lumi{lumi}ifb"), scenario, study, 'limits', resonant_type, channel, combine_tag if channel == 'combined' else '', 'limits.json')
         data[channel] = json.load(open(limit_path))
-    limit_path = os.path.join(outdir, scenario, study, 'limits', resonant_type, 'combined',
-                              combine_tag, 'limits.json')
-    data['combined'] = json.load(open(limit_path))
+        if lumi:
+            data[channel]['lumi'] = [lumi]
+    if lumi:
+        data[channel]['lumi'] = [lumi]
     return data
+def merge_limit_data_lumi(scenario, study='SM'):
+    data_all = []
+    for lumi in [1000, 1500, 2000, 2500, 3000]:
+        data = get_limit_data(scenario, study, lumi)
+        data_all.append(data)
+
+    for key, value in data_all[0].items():
+        for key2, value2 in value.items():
+            for data_new in data_all[1:]:
+                value2.extend(data_new[key][key2])
+    return data_all[0]
+
 def get_likelihood_data(scenario, klhypo):
     data = {}
     for channel in channels:
@@ -119,9 +132,9 @@ channel_label_map = {
     'combined': r"Combined",
 }
 channel_text = {
-    'bbtautau': r'$\mathrm{HH\rightarrow b\bar{b}\tau^+\tau^-}$',
-    'bbyy': r'$\mathrm{HH\rightarrow b\bar{b}\gamma\gamma}$',
-    'combined': r'$\mathrm{HH\rightarrow b\bar{b}\tau^+\tau^-} + b\bar{b}\gamma\gamma$',
+    'bbtautau': r'$\mathrm{HH\rightarrow b\bar{b}\tau^+\tau^-}$'+'//Projection from Run 2 data',
+    'bbyy': r'$\mathrm{HH\rightarrow b\bar{b}\gamma\gamma}$'+'//Projection from Run 2 data',
+    'combined': r'$\mathrm{HH\rightarrow b\bar{b}\tau^+\tau^-} + b\bar{b}\gamma\gamma$'+'//Projection from Run 2 data',
 }
 syst_scenario_text = {
     'stat_only': r"Non-resonant HH, No syst. unc.",
@@ -155,7 +168,6 @@ syst_scenario_text = {
 #        sm_limit_df2[channel] = pd.DataFrame(sm_limit_df2[channel])
 #    return sm_limit_df, sm_limit_df2
 #sm_limit_df, sm_limit_df2 = data_loading()
-#
 #
 ## ### 1.2 Plotting
 #
@@ -521,7 +533,7 @@ syst_scenario_text = {
 ##        print('channel', channel, 'pvalue', pvalue_df2[channel])
 ##
 ## ## 4.1. kl scan (channel based)
-
+#
 #def data_loading_sig():
 #    significance_df  = {}
 #    significance_df2 = {}
@@ -577,14 +589,69 @@ syst_scenario_text = {
 #
 #plot_significance_chan()
 #
-# ## 4.2. lumi scan (channel based)
+## ## 4.2. lumi scan (channel based)
+#
+#def data_loading_lumi():
+#    lumi_df  = {}
+#    lumi_df2 = {}
+#    for scenario in syst_scenarios:
+#        lumi_df[scenario] = {}
+#        data = merge_pvalue_data_lumi(scenario)
+#        for channel in data:
+#            df = pd.DataFrame(data[channel]).dropna()
+#            if channel not in lumi_df2:
+#                lumi_df2[channel] = {}
+#            lumi_df[scenario][channel] = df
+#            lumi_df2[channel][scenario] = df
+#    return lumi_df, lumi_df2
+#
+#lumi_df, lumi_df2 = data_loading_lumi()
+#
+#def plot_significance_lumi():
+#    from quickstats.utils.common_utils import combine_dict
+#    styles_map = {
+#        'stat_only': {"color": "#343844", "marker": "P"},
+#        'theo_exp_baseline':  {"color": "#F2385A", "marker": "o"},
+#        'theo_only': {"color": "#FDC536", "marker": "s"},
+#        'run2_syst': {"color": "#36B1BF", "marker": "d"}
+#    }
+#    
+#    styles = {
+#        'legend':{
+#            'loc': (0.52, 0.68)
+#        }
+#    }
+#    analysis_label_options = {
+#        'loc': (0.05, 0.95),
+#        'energy': '14 TeV',
+#        'lumi': r'3000 fb$^{-1}$',
+#        'fontsize': 30
+#    }
+#    config = {
+#        'sigma_values': (),
+#        'sigma_line_styles':{
+#            'color': 'gray',
+#            'linestyle': '--'
+#        }
+#    }
+#
+#    for channel in ['bbyy', 'bbtautau', 'combined']:
+#        channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel]}
+#        plotter = Likelihood1DPlot(lumi_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map, 
+#                                   styles=styles, analysis_label_options=channel_analysis_label_options)
+#        plotter.config = combine_dict(plotter.config, config)
+#        plotter.draw(xattrib='lumi', yattrib='significance', xlabel=r"Integrated Luminosity [fb$^{-1}$]", ylabel="Significance [$\sigma$]", ymax=7, xmin=800, xmax=3200, draw_sigma_line=True)
+#        plt.savefig(f"plots/significance_lumi_{channel}.pdf", bbox_inches="tight")
+#        print("Save fig", f"plots/significance_lumi_{channel}.pdf")
+#
+#plot_significance_lumi()
 
-def data_loading_lumi():
+def data_loading_lumi2():
     lumi_df  = {}
     lumi_df2 = {}
     for scenario in syst_scenarios:
         lumi_df[scenario] = {}
-        data = merge_pvalue_data_lumi(scenario)
+        data = merge_limit_data_lumi(scenario)
         for channel in data:
             df = pd.DataFrame(data[channel]).dropna()
             if channel not in lumi_df2:
@@ -593,9 +660,9 @@ def data_loading_lumi():
             lumi_df2[channel][scenario] = df
     return lumi_df, lumi_df2
 
-lumi_df, lumi_df2 = data_loading_lumi()
+lumi2_df, lumi2_df2 = data_loading_lumi2()
 
-def plot_significance_lumi():
+def plot_limit_lumi():
     from quickstats.utils.common_utils import combine_dict
     styles_map = {
         'stat_only': {"color": "#343844", "marker": "P"},
@@ -606,7 +673,7 @@ def plot_significance_lumi():
     
     styles = {
         'legend':{
-            'loc': (0.55, 0.65)
+            'loc': (0.52, 0.68)
         }
     }
     analysis_label_options = {
@@ -625,11 +692,11 @@ def plot_significance_lumi():
 
     for channel in ['bbyy', 'bbtautau', 'combined']:
         channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel]}
-        plotter = Likelihood1DPlot(lumi_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map, 
+        plotter = Likelihood1DPlot(lumi2_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map, 
                                    styles=styles, analysis_label_options=channel_analysis_label_options)
         plotter.config = combine_dict(plotter.config, config)
-        plotter.draw(xattrib='lumi', yattrib='significance', xlabel=r"Integrated Luminosity [fb$^{-1}$]", ylabel="Significance [$\sigma$]", ymax=7, xmin=800, xmax=3200, draw_sigma_line=True)
-        plt.savefig(f"plots/significance_lumi_{channel}.pdf", bbox_inches="tight")
-        print("Save fig", f"plots/significance_lumi_{channel}.pdf")
+        plotter.draw(xattrib='lumi', yattrib='0', xlabel=r"Integrated Luminosity [fb$^{-1}$]", ylabel="95% CL Upper Limit on Signal Strength", ymax=3, xmin=800, xmax=3200, draw_sigma_line=True)
+        plt.savefig(f"plots/limit_lumi_{channel}.pdf", bbox_inches="tight")
+        print("Save fig", f"plots/limit_lumi_{channel}.pdf")
 
-plot_significance_lumi()
+plot_limit_lumi()
