@@ -107,7 +107,7 @@ NR_mu_pro:
   extends: .IStep2
   variables:
     mini_option: default.json
-    np_option: np_map_nonres_v10.json
+    np_option: nonres_v10.json
     other_options: ""
   allow_failure: true
   script:
