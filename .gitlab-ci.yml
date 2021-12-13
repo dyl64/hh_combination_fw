@@ -47,7 +47,7 @@ hhCompile:
     - echo -e "Host *\n\tGSSAPIDelegateCredentials yes\n\tGSSAPITrustDNS yes\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - echo $SERVICE_PASS | kinit -f $CERN_USER || echo something
     - mkdir -p $input_dir/$version
-    - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/FullRun2Workspaces/original/$version/CI/* $input_dir/$version/
+    - scp -r -i ~/.ssh/id_rsa ${CERN_USER}@lxplus.cern.ch:/afs/cern.ch/work/z/zhangr/HHcomb/FullRun2Workspaces/original/$version/* $input_dir/$version/
     - ls $input_dir/$version/*/nonres/0.root
     - shopt -s expand_aliases
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
@@ -80,55 +80,24 @@ hhCompile:
   extends: .IStep1
   variables:
     output_dir: output/NR
-    mini_option: minimizer.json
-    version: 20211106_proj_all
+    mini_option: default.json
+    version: 20210922
     other_options: ""
   allow_failure: true
   script:
-    - echo HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_proj_v11.yaml $other_options
-    - HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_proj_v11.yaml $other_options
+    - echo HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/minimizer_options/$mini_option  --config configs/task_options/nonres_v6_mH125.yaml  --do-limit --skip-likelihood
+    - HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/minimizer_options/$mini_option  --config configs/task_options/nonres_v6_mH125.yaml  --do-limit --skip-likelihood
 
-NR_proj_mu_pro:
+NR_mu_pro:
+  needs:
+    - job: hhCompile
   extends: .NRProcess
   variables:
-    output_dir: output/NR
-    channel: bbyy,bbtautau
+    output_dir: output/NR_blind
+    channel: bbbb,bbtautau,bbyy,bbll,bbVV,WWWW
   only:
     - branches
     - tags
-
-NR_proj_pro_stat:
-  extends: .NRProcess
-  variables:
-    output_dir: output/stat
-    mini_option: minimizer_stat.json
-    channel: bbyy,bbtautau
-  only:
-    - tags
-    - master
-    - CI
-
-KL_proj_pro_yy:
-  extends: .NRProcess
-  variables:
-    output_dir: output/indiv
-    channel: bbyy
-    other_options: "--file_format <mass[F]>_kl_<kl[P]>"
-  only:
-    - tags
-    - master
-    - CI
-
-KL_proj_pro_tt:
-  extends: .NRProcess
-  variables:
-    output_dir: output/indiv
-    channel: bbtautau
-    other_options: "--file_format <mass[F]>_kl_<kl[P]>"
-  only:
-    - tags
-    - master
-    - CI
 
 ###################################
 ## None-resonant combination     ##
@@ -137,110 +106,63 @@ KL_proj_pro_tt:
 .NRCombine_ws:
   extends: .IStep2
   variables:
-    mini_option: minimizer.json
-    np_option: np_map_nonres_v10.json
+    mini_option: default.json
+    np_option: nonres_v10.json
     other_options: ""
   allow_failure: true
   script:
-    - echo HHComb combine_ws -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options --scheme configs/$np_option
-    - HHComb combine_ws -i $input_dir -c $channels -r nonres --minimizer_options configs/$mini_option $other_options --scheme configs/$np_option
+    - echo HHComb combine_ws -i $input_dir -c $channels -r nonres --minimizer_options configs/minimizer_options/$mini_option --scheme configs/correlation_schemes/$np_option --do-limit --skip-likelihood $other_options
+    - HHComb combine_ws -i $input_dir -c $channels -r nonres --minimizer_options configs/minimizer_options/$mini_option --scheme configs/correlation_schemes/$np_option --do-limit --skip-likelihood $other_options
   only:
     - tags
     - master
     - CI
 
-# For PUB: mu limit
-NR_proj_comb_mu:
+# For sensitivity study
+NR_BTY_comb_blind:
+  needs:
+    - job: hhCompile
+    - job: NR_mu_pro
   extends: .NRCombine_ws
+  variables:
+    input_dir: output/NR_blind
+    channels: bbbb,bbtautau,bbyy
+
+NR_ALL6_comb_blind:
   needs:
     - job: hhCompile
-    - job: NR_proj_mu_pro
-  variables:
-    input_dir: output/NR
-    channels: bbtautau,bbyy
-
-NR_proj_comb_stat:
+    - job: NR_mu_pro
   extends: .NRCombine_ws
+  variables:
+    input_dir: output/NR_blind
+    channels: bbbb,bbtautau,bbyy,bbll,bbVV,WWWW
+
+NR_N-ll_comb_blind:
   needs:
     - job: hhCompile
-    - job: NR_proj_pro_stat
-  variables:
-    input_dir: output/stat
-    channels: bbtautau,bbyy
-    mini_option: minimizer_stat.json
-
-# For PUB: KL xsec
-indiv_XSScan:
+    - job: NR_mu_pro
   extends: .NRCombine_ws
+  variables:
+    input_dir: output/NR_blind
+    channels: bbbb,bbtautau,bbyy,bbVV,WWWW
+
+NR_N-VV_comb_blind:
   needs:
     - job: hhCompile
-    - job: KL_proj_pro_yy
-    - job: KL_proj_pro_tt
+    - job: NR_mu_pro
+  extends: .NRCombine_ws
   variables:
-    input_dir: output/indiv
-    channels: bbtautau,bbyy
-    np_option: np_map_kl_v10.json
-    other_options: "--file_format <mass[F]>_kl_<kl[P]>"
+    input_dir: output/NR_blind
+    channels: bbbb,bbtautau,bbyy,bbll,WWWW
 
-
-###################################
-## parametrised kl workspace     ##
-###################################
-LHProcess:
-  extends: .IStep1
+NR_N-WW_comb_blind:
   needs:
     - job: hhCompile
+    - job: NR_mu_pro
+  extends: .NRCombine_ws
   variables:
-    output_dir: output/param
-    mini_option: minimizer.json
-    version: 20211106_proj_all
-    channel: bbtautau,bbyy
-    other_options: "--file_format <mass[F]>_kl --param klambda=1"
-    np_option: np_map_kl_v10.json
-  allow_failure: true
-  script:
-    - echo HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --skip-limit --no-cache $other_options
-    - HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --skip-limit --no-cache $other_options
-    - echo HHComb combine_ws -i $output_dir -r nonres -c $channel --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --scheme configs/$np_option --skip-limit --no-cache $other_options
-    - HHComb combine_ws -i $output_dir -r nonres -c $channel --minimizer_options configs/$mini_option --config configs/regularization_kl.yaml --scheme configs/$np_option --skip-limit --no-cache $other_options
-
-
-param_LHScan:
-  extends: .IStep2
-  needs:
-    - job: hhCompile
-    - job: LHProcess
-  variables:
-    output_dir: output/param
-    other_options: "--min -2 --max 6 --step 1"
-    channel: bbtautau,bbyy
-  allow_failure: true
-  script:
-    - echo HHComb kl_likelihood -i $output_dir -c $channel $other_options
-    - HHComb kl_likelihood -i $output_dir -c $channel $other_options
-  only:
-    - tags
-    - master
-    - CI
-
-param_XSScan:
-  extends: .IStep2
-  needs:
-    - job: hhCompile
-    - job: LHProcess
-  variables:
-    output_dir: output/param
-    mini_option: minimizer_fixXSunc.json
-    np_option: np_map_kl_v10.json
-    other_options: "--file_format <mass[F]>_kl --param klambda=-2_6_1"
-  allow_failure: true
-  script:
-    - echo HHComb combine_ws -i $output_dir -r nonres -c bbyy,bbtautau --minimizer_options configs/${mini_option} --scheme configs/${np_option} $other_options
-    - HHComb combine_ws -i $output_dir -r nonres -c bbyy,bbtautau --minimizer_options configs/${mini_option} --scheme configs/${np_option} $other_options
-  only:
-    - tags
-    - master
-    - CI
+    input_dir: output/NR_blind
+    channels: bbbb,bbtautau,bbyy,bbll,bbVV
 
 ###################################
 ## Plotting                      ##
@@ -265,54 +187,21 @@ param_XSScan:
 NRPlot:
   extends: .plot
   needs:
-    - job: NR_proj_comb_mu
-    - job: NR_proj_comb_stat
+    - job: hhCompile
+    - job: NR_BTY_comb_blind
+    - job: NR_ALL6_comb_blind
+    - job: NR_N-ll_comb_blind
+    - job: NR_N-VV_comb_blind
+    - job: NR_N-WW_comb_blind
   variables:
-    input_stat_dir: output/stat
-    input_dir: output/NR
+    input_dir: output/NR_blind
   script:
     # Plot nonres signal strength (mu)
-    - echo python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/nonres/*/0.json $input_dir/limits/nonres/combined/A-*-fullcorr/0.json -s $input_stat_dir/limits/nonres/bb[ty]*/0.json $input_stat_dir/limits/nonres/combined/A-*-fullcorr/0.json -mu --config ${configuration} --norm 1000
-    - python plotting/xsection/combination_plotting.py nonres --logx -l $input_dir/limits/nonres/*/0.json $input_dir/limits/nonres/combined/A-*-fullcorr/0.json -s $input_stat_dir/limits/nonres/bb[ty]*/0.json $input_stat_dir/limits/nonres/combined/A-*-fullcorr/0.json -mu --config ${configuration} --norm 1000
+    - echo python plotting/new/combine_plot_6chan.py -a -i $input_dir
+    - python plotting/new/combine_plot_6chan.py -a -i $input_dir
   artifacts:
     paths:
       - $input_dir/figures
-
-KLPlot:
-  extends: .plot
-  needs:
-    - job: KL_proj_pro_yy
-    - job: KL_proj_pro_tt
-    - job: indiv_XSScan
-    - job: param_XSScan
-  variables:
-    input_dir_indiv: output/indiv/
-    input_dir_param: output/param/
-  script:
-    # Plot KL
-    - echo python plotting/kl_scan/plot_kl.py -i $input_dir_param -ci --config ${configuration}
-    - python plotting/kl_scan/plot_kl.py -i $input_dir_param -ci --config ${configuration}
-    - echo python plotting/kl_scan/plot_kl.py -i $input_dir_indiv -ci --config ${configuration}
-    - python plotting/kl_scan/plot_kl.py -i $input_dir_indiv -ci --config ${configuration}
-  artifacts:
-    paths:
-      - $input_dir_param/figures
-      - $input_dir_indiv/figures
-
-LHPlot:
-  extends: .plot
-  needs:
-    - job: param_LHScan
-  variables:
-    input_dir_param: output/param/
-  script:
-    # Plot kl likelihood curve
-    - echo python plotting/likelihood/likelihood_plotting.py -a nonres -i $input_dir_param/likelihood/kl1 -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o $input_dir_param/figures/ --threshold 12
-    - python plotting/likelihood/likelihood_plotting.py -a nonres -i $input_dir_param/likelihood/kl1 -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o $input_dir_param/figures/ --threshold 12
-
-  artifacts:
-    paths:
-      - $input_dir_param/figures
 
 
 #####################################

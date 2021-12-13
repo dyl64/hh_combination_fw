@@ -142,7 +142,7 @@ class TaskBase:
             mu = 0
         
         print(f"INFO: Evaluating p-value (dataset={_data_name}, mu={round(mu, 8)}) for the workspace {filename}")
-        outpath = os.path.join(self.pvalue_dir, f"result_{_data_name}_mu_{mu}.json")
+        outpath = os.path.join(self.pvalue_dir, f"{param_point['basename']}_{_data_name}_mu_{mu}.json")
         if os.path.exists(outpath) and self.cache:
             print(f"INFO: Cached p-value output from {outpath}")
             return None
