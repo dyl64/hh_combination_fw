@@ -8,7 +8,7 @@ from quickstats.plots import UpperLimit1DPlot
 from quickstats.plots import UpperLimit2DPlot
 from quickstats.plots import Likelihood1DPlot
 from quickstats.plots.color_schemes import QUICKSTATS_PALETTES
-color_pallete = QUICKSTATS_PALETTES['darklines']
+from quickstats.utils.common_utils import combine_dict
 
 from pdb import set_trace
 
@@ -43,10 +43,10 @@ channel_text = {
     'combined': r'$\mathrm{HH\rightarrow b\bar{b}\tau^+\tau^-} + b\bar{b}\gamma\gamma$'+'//Projection from Run 2 data',
 }
 syst_scenario_text = {
-    'stat_only': r"Non-resonant HH, No syst. unc.",
-    'theo_exp_baseline' : r"Non-resonant HH, Baseline",
-    'theo_only': r"Non-resonant HH, Theoretical unc. halved",
-    'run2_syst': r"Non-resonant HH, Run-2 syst. unc.",
+    'stat_only': r"Non-resonant HH" + "//No syst. unc.",
+    'theo_exp_baseline' : r"Non-resonant HH" + "//Baseline",
+    'theo_only': r"Non-resonant HH" + "//Theoretical unc. halved",
+    'run2_syst': r"Non-resonant HH" + "//Run-2 syst. unc.",
 }
 
 
@@ -176,13 +176,11 @@ def merge_limit_SM_scen():
     for channel in sm_limit_df2:
         sm_limit_df2[channel] = pd.DataFrame(sm_limit_df2[channel])
 
-    os.makedirs("json/", exist_ok=True)
+    os.makedirs("plots/csv/", exist_ok=True)
     for key, value in sm_limit_df.items():
-        with open(f"json/SM__{key}", "w") as outfile:
-            json.dumpys(value)
+        value.to_csv(f"csv/SM__{key}.csv")
     for key, value in sm_limit_df2.items():
-        with open(f"json/SM__{key}", "w") as outfile:
-            json.dumpys(value)
+        value.to_csv(f"csv/SM__{key}.csv")
     return sm_limit_df, sm_limit_df2
 
 
@@ -282,24 +280,66 @@ def get_pvalue_data_kl(scenario):
 
 
 
-### 2. SM Limit Plot
-#
-#def plotting():
-#    sm_limit_df, sm_limit_df2 = merge_limit_SM_scen()
-#
-#    set_trace()
-#    os.makedirs("plots/", exist_ok=True)
-#    for channel in ['bbyy', 'bbtautau', 'combined']:
-#        analysis_label_options = {'fontsize':30, 'energy': '14 TeV', 
-#                                  'lumi': '3000 fb$^{-1}$',
-#                                  'extra_text': channel_text[channel] + '//' + r'$\sigma_{ggF+VBF}^{SM}=32.78$ fb'}
-#        plotter = UpperLimit1DPlot(sm_limit_df2[channel], syst_scenario_label_map,
-#                                   analysis_label_options=analysis_label_options)
-#        plotter.draw(xlabel=r"95% CL upper limit on signal strength", draw_observed=False)
-#        plt.savefig(f"plots/SM_limit_{channel}.pdf", bbox_inches="tight")
-#        print('Save fig', f"plots/SM_limit_{channel}.pdf")
-#
-#plotting()
+## Global settings
+analysis_label_options_default = {
+    'energy': '14 TeV',
+    'lumi': '3000 fb$^{-1}$',
+    'fontsize': 30,
+    'loc': (0.05, 0.95),
+}
+styles_default = {
+'kl_likelihood_chan_mu1': {
+    'legend':{
+        'loc': (0.23, 0.43),
+        },
+    },
+'kl_likelihood_chan_mu0': {
+    'legend':{
+        'loc': (1.02, 0.43),
+        },
+    },
+'kl_likelihood_scen_mu1': {
+    'legend':{
+        'loc': (0.23, 0.47),
+        },
+    },
+'kl_likelihood_scen_mu0': {
+    'legend':{
+        'loc': (1.02, 0.47),
+        },
+    },
+'kl_xsec': {
+    'legend':{
+        'loc': (0.58, 0.67),
+        'fontsize': 17
+        }
+    },
+'kl_comp': {
+    'legend':{
+        'loc': (0.5, 0.67),
+        'fontsize': 15
+        }
+    },
+'lumi_scan': {
+    'legend':{
+        'loc': (0.52, 0.68),
+        'fontsize': 17
+        }
+    }
+}
+
+## 2. SM Limit Plot
+
+def plotting_SM():
+    sm_limit_df, sm_limit_df2 = merge_limit_SM_scen()
+
+    for channel in ['bbyy', 'bbtautau', 'combined']:
+        analysis_label_options_new = {'extra_text': channel_text[channel] + '//' + r'$\sigma_{ggF+VBF}^{SM}=32.78$ fb'}
+        analysis_label_options = combine_dict(analysis_label_options_default, analysis_label_options_new)
+        plotter = UpperLimit1DPlot(sm_limit_df2[channel], syst_scenario_label_map, analysis_label_options=analysis_label_options)
+        plotter.draw(xlabel=r"95% CL upper limit on signal strength", draw_observed=False)
+        plt.savefig(f"plots/SM_limit_{channel}.pdf", bbox_inches="tight")
+        print('Save fig', f"plots/SM_limit_{channel}.pdf")
 
 
 ## 3. KL Limit Scan
@@ -332,19 +372,11 @@ def data_loading_indiv():
 def plotting_kl_indiv():
     syst_scenario = 'theo_exp_baseline'
     for channel in ['bbyy', 'bbtautau', 'combined']:
-        analysis_label_options = {
-            'loc': (0.05, 0.95),
-            'energy': '14 TeV',
-            'lumi': r'3000 fb$^{-1}$',
-            'fontsize': 30,
-            'extra_text':channel_text[channel] + '//Individual workspace'    
+        analysis_label_options_new = {
+            'extra_text':channel_text[channel]
         }
-        styles = {
-            'legend':{
-                'loc': (0.58, 0.67),
-                'fontsize': 17
-            }
-        }
+        analysis_label_options = combine_dict(analysis_label_options_default, analysis_label_options_new)
+        styles = styles_default['kl_xsec']
         
         kl_individual_limit_df, kl_individual_limit_df2 = data_loading_indiv()
         klambda_values, scale_factor, klambda_theory_values, theory_xs_values, theory_xs_lower, theory_xs_upper = theory_kl_curve(kl_individual_limit_df2['bbyy']['theo_exp_baseline'])
@@ -357,7 +389,6 @@ def plotting_kl_indiv():
         plt.savefig(f"plots/kl_limit_{syst_scenario}_individual_ws_{channel}.pdf", bbox_inches="tight")
         print("Save fig", f"plots/kl_limit_{syst_scenario}_individual_ws_{channel}.pdf")
 
-plotting_kl_indiv()
 
 
 #### 3.2 Parameterised workspace limits
@@ -378,19 +409,11 @@ def data_loading_param():
 def plotting_kl_param():
     syst_scenario = 'theo_exp_baseline'
     for channel in ['bbyy', 'bbtautau', 'combined']:
-        analysis_label_options = {
-            'loc': (0.05, 0.95),
-            'energy': '14 TeV',
-            'lumi': r'3000 fb$^{-1}$',
-            'fontsize': 30,
+        analysis_label_options_new = {
             'extra_text':channel_text[channel] + '//Parameterised workspace'    
         }
-        styles = {
-            'legend':{
-                'loc': (0.58, 0.68),
-                'fontsize': 17
-            }
-        }
+        analysis_label_options = combine_dict(analysis_label_options_default, analysis_label_options_new)
+        styles = styles_default['kl_xsec']
         
         kl_param_limit_df, kl_param_limit_df2 = data_loading_param()
         klambda_values, scale_factor, klambda_theory_values, theory_xs_values, theory_xs_lower, theory_xs_upper = theory_kl_curve(kl_param_limit_df2['bbyy']['theo_exp_baseline'])
@@ -403,26 +426,17 @@ def plotting_kl_param():
         plt.savefig(f"plots/kl_limit_{syst_scenario}_parameterised_ws_{channel}.pdf", bbox_inches="tight")
         print('Save fig', f"plots/kl_limit_{syst_scenario}_parameterised_ws_{channel}.pdf")
 
-plotting_kl_param()
 
 
 #### 3.3 Parameterised vs Individual workspace plot
 def plot_kl_param_vs_indiv():
     syst_scenario = 'theo_exp_baseline'
     for channel in ['bbyy', 'bbtautau', 'combined']:
-        analysis_label_options = {
-            'loc': (0.05, 0.95),
-            'energy': '14 TeV',
-            'lumi': r'3000 fb$^{-1}$',
-            'fontsize': 30,
+        analysis_label_options_new = {
             'extra_text':channel_text[channel] + '//Indiv. WS vs Param. WS'    
         }
-        styles = {
-            'legend':{
-                'loc': (0.5, 0.68),
-                'fontsize': 15
-            }
-        }
+        analysis_label_options = combine_dict(analysis_label_options_default, analysis_label_options_new)
+        styles = styles_default['kl_comp']
         
         LABELS = {
             '2sigma': 'Expected limit $\pm 2\sigma$ [indiv. ws]',
@@ -451,8 +465,6 @@ def plot_kl_param_vs_indiv():
         plt.savefig(f"plots/kl_limit_{syst_scenario}_comparison_ws_{channel}.pdf", bbox_inches="tight")
         print("Save fig", f"plots/kl_limit_{syst_scenario}_comparison_ws_{channel}.pdf")
 
-plot_kl_param_vs_indiv()
-
 
 ## 4. KL Likelihood Scan
 ## 4.0 Get likelihood data for all scenario under kl hypothesis
@@ -474,69 +486,63 @@ likelihood_df, likelihood_df2 = {}, {}
 likelihood_df[0], likelihood_df2[0] = data_loading_lh(0)
 likelihood_df[1], likelihood_df2[1] = data_loading_lh(1)
 
+styles_map = {}
+styles_map['scenario'] = {
+    'stat_only': {"color": "#343844", "marker": "P"},
+    'theo_exp_baseline':  {"color": "#F2385A", "marker": "o"},
+    'theo_only': {"color": "#FDC536", "marker": "s"},
+    'run2_syst': {"color": "#36B1BF", "marker": "d"}
+}
+styles_map['channel'] = {
+    'bbyy'    : {"color": "#F2385A", "marker": "P"},
+    'bbtautau': {"color": "#FDC536", "marker": "s"},
+    'combined': {"color": "#36B1BF", "marker": "o"}
+}
+
 #### 4.1 Channel-based plot
 def plot_lh_chan(klhypo):
-    styles_map = {
-        'stat_only': {"color": "#343844", "marker": "P"},
-        'theo_exp_baseline':  {"color": "#F2385A", "marker": "o"},
-        'theo_only': {"color": "#FDC536", "marker": "s"},
-        'run2_syst': {"color": "#36B1BF", "marker": "d"}
-    }
     
-    styles = {
-        'legend':{
-            'loc': (0.25, 0.45)
-        }
+    analysis_label_options_new = {
+        1: {
+            'loc': (0.23, 0.95),
+        },
+        0: {
+            'loc': (1.02, 0.95),
+        },
     }
-    analysis_label_options = {
-        'loc': (0.25, 0.95),
-        'energy': '14 TeV',
-        'lumi': r'3000 fb$^{-1}$',
-        'fontsize': 30
-    }
+    analysis_label_options = combine_dict(analysis_label_options_default, analysis_label_options_new[klhypo])
+    styles = styles_default[f'kl_likelihood_chan_mu{klhypo}']
 
-    for channel in ['bbyy', 'bbtautau', 'combined']:
+    for channel in channels + ['combined']:
         channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel]}
-        plotter = Likelihood1DPlot(likelihood_df2[klhypo][channel], label_map=syst_scenario_label_map, styles_map=styles_map, styles=styles, analysis_label_options=channel_analysis_label_options)
-        plotter.draw(xlabel=r"$\mathrm{\kappa_{\lambda}}$", ymax=12, xmin=-2.5, xmax=8, draw_sigma_line=True)
+        plotter = Likelihood1DPlot(likelihood_df2[klhypo][channel], label_map=syst_scenario_label_map, styles_map=styles_map['scenario'], styles=styles, analysis_label_options=channel_analysis_label_options)
+        plotter.draw(xlabel=r"$\mathrm{\kappa_{\lambda}}$", ymax=20, xmin=-2.5, xmax=8, draw_sigma_line=True)
         plt.savefig(f"plots/likelihood_scan_mu_{klhypo}_{channel}.pdf", bbox_inches="tight")
         print("Save fig", f"plots/likelihood_scan_mu_{klhypo}_{channel}.pdf")
 
-for i in [0, 1]:
-    plot_lh_chan(i)
 
 #### 4.2 Scenario-based plot
-def plt_lh_scen(klhypo):
-    styles_map = {
-        'bbyy'    : {"color": "#F2385A", "marker": "P"},
-        'bbtautau': {"color": "#FDC536", "marker": "s"},
-        'combined': {"color": "#36B1BF", "marker": "o"}
+def plot_lh_scen(klhypo):
+    analysis_label_options_new = {
+        1: {
+            'loc': (0.23, 0.95),
+        },
+        0: {
+            'loc': (1.02, 0.95),
+        },
     }
-    
-    styles = {
-        'legend':{
-            'loc': (0.25, 0.5)
-        }
-    }
-    analysis_label_options = {
-        'loc': (0.25, 0.95),
-        'energy': '14 TeV',
-        'lumi': r'3000 fb$^{-1}$',
-        'fontsize': 30
-    }
-    for syst_scenario in ['theo_exp_baseline']:
+    analysis_label_options = combine_dict(analysis_label_options_default, analysis_label_options_new[klhypo])
+    styles = styles_default[f'kl_likelihood_scen_mu{klhypo}']
+
+    for syst_scenario in syst_scenarios:
         channel_analysis_label_options = {**analysis_label_options, 'extra_text':syst_scenario_text[syst_scenario]}
-        plotter = Likelihood1DPlot(likelihood_df[klhypo][syst_scenario], label_map=channel_label_map, styles_map=styles_map, styles=styles, analysis_label_options=channel_analysis_label_options)
-        plotter.draw(xlabel=r"$\mathrm{\kappa_{\lambda}}$", ymax=12, xmin=-2, xmax=8.5, draw_sigma_line=True)
+        plotter = Likelihood1DPlot(likelihood_df[klhypo][syst_scenario], label_map=channel_label_map, styles_map=styles_map['channel'], styles=styles, analysis_label_options=channel_analysis_label_options)
+        plotter.draw(xlabel=r"$\mathrm{\kappa_{\lambda}}$", ymax=20, xmin=-2, xmax=8.5, draw_sigma_line=True)
         plt.savefig(f"plots/likelihood_scan_mu_{klhypo}_{syst_scenario}.pdf", bbox_inches="tight")
         print("Save fig", f"plots/likelihood_scan_mu_{klhypo}_{syst_scenario}.pdf")
 
-for i in [0, 1]:
-    plt_lh_scen(i)
-
 
 ## 5. P-Value & significance
-
 ## 5.1. kl scan (channel based)
 def merge_pvalue_data_kl_scen():
     significance_df  = {}
@@ -554,25 +560,11 @@ def merge_pvalue_data_kl_scen():
 
 
 def plot_significance_chan():
-    from quickstats.utils.common_utils import combine_dict
-    styles_map = {
-        'stat_only': {"color": "#343844", "marker": "P"},
-        'theo_exp_baseline':  {"color": "#F2385A", "marker": "o"},
-        'theo_only': {"color": "#FDC536", "marker": "s"},
-        'run2_syst': {"color": "#36B1BF", "marker": "d"}
-    }
     
-    styles = {
-        'legend':{
-            'loc': (0.25, 0.45)
-        }
+    analysis_label_options_new = {
+        'loc': (0.23, 0.95),
     }
-    analysis_label_options = {
-        'loc': (0.25, 0.95),
-        'energy': '14 TeV',
-        'lumi': r'3000 fb$^{-1}$',
-        'fontsize': 30
-    }
+    analysis_label_options = combine_dict(analysis_label_options_default, analysis_label_options_new)
     config = {
         'sigma_values': (3, 5),
         'sigma_line_styles':{
@@ -580,17 +572,17 @@ def plot_significance_chan():
             'linestyle': '--'
         }
     }
+    styles = styles_default['kl_like']
 
     significance_df, significance_df2 = merge_pvalue_data_kl_scen()
-    for channel in ['bbyy', 'bbtautau', 'combined']:
+    for channel in channels + ['combined']:
         channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel]}
-        plotter = Likelihood1DPlot(significance_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map, styles=styles, analysis_label_options=channel_analysis_label_options)
+        plotter = Likelihood1DPlot(significance_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map['scenario'], styles=styles, analysis_label_options=channel_analysis_label_options)
         plotter.config = combine_dict(plotter.config, config)
         plotter.draw(xattrib='kl', yattrib='significance', xlabel=r"$\mathrm{\kappa_{\lambda}}$", ylabel="Significance [$\sigma$]", ymax=12, xmin=-2.5, xmax=8, draw_sigma_line=True)
         plt.savefig(f"plots/significance_scan_{channel}.pdf", bbox_inches="tight")
         print("Save fig", f"plots/significance_scan_{channel}.pdf")
 
-plot_significance_chan()
 
 # ## 4.2. lumi scan (channel based)
 
@@ -610,25 +602,8 @@ def merge_pvalue_SM_lumi_scen():
 
 
 def plot_significance_lumi():
-    from quickstats.utils.common_utils import combine_dict
-    styles_map = {
-        'stat_only': {"color": "#343844", "marker": "P"},
-        'theo_exp_baseline':  {"color": "#F2385A", "marker": "o"},
-        'theo_only': {"color": "#FDC536", "marker": "s"},
-        'run2_syst': {"color": "#36B1BF", "marker": "d"}
-    }
     
-    styles = {
-        'legend':{
-            'loc': (0.52, 0.68)
-        }
-    }
-    analysis_label_options = {
-        'loc': (0.05, 0.95),
-        'energy': '14 TeV',
-        'lumi': r'3000 fb$^{-1}$',
-        'fontsize': 30
-    }
+    analysis_label_options = analysis_label_options_default
     config = {
         'sigma_values': (),
         'sigma_line_styles':{
@@ -636,18 +611,18 @@ def plot_significance_lumi():
             'linestyle': '--'
         }
     }
+    styles = styles_default['lumi_scan']
 
     pvalue_lumi_df, pvalue_lumi_df2 = merge_pvalue_SM_lumi_scen()
-    for channel in ['bbyy', 'bbtautau', 'combined']:
+    for channel in channels + ['combined']:
         channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel]}
-        plotter = Likelihood1DPlot(pvalue_lumi_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map, 
+        plotter = Likelihood1DPlot(pvalue_lumi_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map['scenario'], 
                                    styles=styles, analysis_label_options=channel_analysis_label_options)
         plotter.config = combine_dict(plotter.config, config)
         plotter.draw(xattrib='lumi', yattrib='significance', xlabel=r"Integrated Luminosity [fb$^{-1}$]", ylabel="Significance [$\sigma$]", ymax=7, xmin=800, xmax=3200, draw_sigma_line=True)
         plt.savefig(f"plots/significance_lumi_{channel}.pdf", bbox_inches="tight")
         print("Save fig", f"plots/significance_lumi_{channel}.pdf")
 
-plot_significance_lumi()
 
 ## 
 def merge_limit_SM_lumi_scen():
@@ -666,25 +641,7 @@ def merge_limit_SM_lumi_scen():
 
 
 def plot_limit_lumi():
-    from quickstats.utils.common_utils import combine_dict
-    styles_map = {
-        'stat_only': {"color": "#343844", "marker": "P"},
-        'theo_exp_baseline':  {"color": "#F2385A", "marker": "o"},
-        'theo_only': {"color": "#FDC536", "marker": "s"},
-        'run2_syst': {"color": "#36B1BF", "marker": "d"}
-    }
-    
-    styles = {
-        'legend':{
-            'loc': (0.52, 0.68)
-        }
-    }
-    analysis_label_options = {
-        'loc': (0.05, 0.95),
-        'energy': '14 TeV',
-        'lumi': r'3000 fb$^{-1}$',
-        'fontsize': 30
-    }
+    analysis_label_options = analysis_label_options_default
     config = {
         'sigma_values': (),
         'sigma_line_styles':{
@@ -692,14 +649,24 @@ def plot_limit_lumi():
             'linestyle': '--'
         }
     }
+    styles = styles_default['lumi_scan']
 
     limit_lumi_df, limit_lumi_df2 = merge_limit_SM_lumi_scen()
-    for channel in ['bbyy', 'bbtautau', 'combined']:
+    for channel in channels + ['combined']:
         channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel]}
-        plotter = Likelihood1DPlot(limit_lumi_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map, styles=styles, analysis_label_options=channel_analysis_label_options)
+        plotter = Likelihood1DPlot(limit_lumi_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map['scenario'], styles=styles, analysis_label_options=channel_analysis_label_options)
         plotter.config = combine_dict(plotter.config, config)
         plotter.draw(xattrib='lumi', yattrib='0', xlabel=r"Integrated Luminosity [fb$^{-1}$]", ylabel="95% CL Upper Limit on Signal Strength", ymax=3, xmin=800, xmax=3200, draw_sigma_line=True)
         plt.savefig(f"plots/limit_lumi_{channel}.pdf", bbox_inches="tight")
         print("Save fig", f"plots/limit_lumi_{channel}.pdf")
 
-plot_limit_lumi()
+#plotting_SM()
+#plotting_kl_indiv()
+#plotting_kl_param()
+#plot_kl_param_vs_indiv()
+for i in [0, 1]:
+#    plot_lh_chan(i)
+    plot_lh_scen(i)
+#plot_significance_chan()
+#plot_significance_lumi()
+#plot_limit_lumi()
