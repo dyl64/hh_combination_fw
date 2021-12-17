@@ -17,6 +17,7 @@ from pdb import set_trace
 if "hh_combination_fw_path" not in os.environ:
     os.environ['hh_combination_fw_path'] = os.path.abspath("../../")
 outdir = "${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/"
+#outdir = "${hh_combination_fw_path}/../../FullRun2Workspaces/batches/v3000invfb_20211214_condor/projection_nonres_14TeV_3000ifb/lumi3000ifb/"
 outdir = os.path.expandvars(outdir)
 
 
@@ -176,11 +177,6 @@ def merge_limit_SM_scen():
     for channel in sm_limit_df2:
         sm_limit_df2[channel] = pd.DataFrame(sm_limit_df2[channel])
 
-    os.makedirs("plots/csv/", exist_ok=True)
-    for key, value in sm_limit_df.items():
-        value.to_csv(f"csv/SM__{key}.csv")
-    for key, value in sm_limit_df2.items():
-        value.to_csv(f"csv/SM__{key}.csv")
     return sm_limit_df, sm_limit_df2
 
 
@@ -208,10 +204,12 @@ def get_pvalue_SM(scenario, lumi):
     limit_path = os.path.join(outdir.replace("lumi3000ifb", f"lumi{lumi}ifb"), scenario, 'SM', 'pvalues', resonant_type, 'combined', combine_tag, '0_asimovData_1_NP_Nominal_mu_0.json')
     data['combined'] = json.load(open(limit_path))
     # filter columns
+    results = {}
     for channel in data:
-        data[channel] = {k:[v] for k,v in data[channel].items() if k in ['pvalue', 'significance', 'qmu']}
-        data[channel]['lumi'] = [lumi]
-    return data
+        results[channel] = {k:[v] for k,v in data[channel].items() if k in ['pvalue', 'significance', 'qmu']}
+        results[channel].update({k:[v] for k,v in data[channel]['uncond_fit'].items() if k in ['muhat', 'muhat_errlo', 'muhat_errhi']})
+        results[channel]['lumi'] = [lumi]
+    return results
 
 ## 1.6.2 Get pvalue/significance data for one scenario all lumi
 def merge_pvalue_SM_lumi(scenario):
@@ -232,7 +230,7 @@ def merge_pvalue_SM_scen():
     pvalue_df2 = {}
     for scenario in syst_scenarios:
         pvalue_df[scenario] = {}
-        data = get_pvalue_SM(scenario)
+        data = get_pvalue_SM(scenario, 3000)
         pvalue_df[scenario] = pd.DataFrame(data).transpose()
         for channel in data:
             if channel not in pvalue_df2:
@@ -240,8 +238,8 @@ def merge_pvalue_SM_scen():
             pvalue_df2[channel][scenario] = data[channel]
     for channel in data:
         pvalue_df2[channel] = pd.DataFrame(pvalue_df2[channel]).transpose()
+        set_trace()
         print('channel', channel, 'pvalue', pvalue_df2[channel])
-
 
 ## 1.6.5 Get pvalue/significance data for all individual kl for one scenario
 def merge_pvalue_kl(scenario):
@@ -308,6 +306,11 @@ styles_default = {
         'loc': (1.02, 0.47),
         },
     },
+'kl_significance': {
+    'legend':{
+        'loc': (0.27, 0.43),
+        },
+    },
 'kl_xsec': {
     'legend':{
         'loc': (0.58, 0.67),
@@ -332,6 +335,11 @@ styles_default = {
 
 def plotting_SM():
     sm_limit_df, sm_limit_df2 = merge_limit_SM_scen()
+    os.makedirs("plots/csv/", exist_ok=True)
+    for key, value in sm_limit_df.items():
+        value.to_csv(f"plots/csv/SM_limit__{key}.csv")
+    for key, value in sm_limit_df2.items():
+        value.to_csv(f"plots/csv/SM_limit__{key}.csv")
 
     for channel in ['bbyy', 'bbtautau', 'combined']:
         analysis_label_options_new = {'extra_text': channel_text[channel] + '//' + r'$\sigma_{ggF+VBF}^{SM}=32.78$ fb'}
@@ -371,6 +379,12 @@ def data_loading_indiv():
 
 def plotting_kl_indiv():
     syst_scenario = 'theo_exp_baseline'
+    kl_individual_limit_df, kl_individual_limit_df2 = data_loading_indiv()
+    os.makedirs("plots/csv/", exist_ok=True)
+    for channel, value in kl_individual_limit_df2.items():
+        for scenario, df in value.items():
+            df.to_csv(f'plots/csv/kl_limit_{scenario}_individual_ws_{channel}.csv')
+
     for channel in ['bbyy', 'bbtautau', 'combined']:
         analysis_label_options_new = {
             'extra_text':channel_text[channel]
@@ -378,7 +392,6 @@ def plotting_kl_indiv():
         analysis_label_options = combine_dict(analysis_label_options_default, analysis_label_options_new)
         styles = styles_default['kl_xsec']
         
-        kl_individual_limit_df, kl_individual_limit_df2 = data_loading_indiv()
         klambda_values, scale_factor, klambda_theory_values, theory_xs_values, theory_xs_lower, theory_xs_upper = theory_kl_curve(kl_individual_limit_df2['bbyy']['theo_exp_baseline'])
         plotter = UpperLimit2DPlot(kl_individual_limit_df2[channel][syst_scenario], scale_factor=scale_factor, styles=styles, analysis_label_options=analysis_label_options)
         plotter.add_curve(klambda_theory_values, theory_xs_values, theory_xs_lower, theory_xs_upper, label="Theory prediction")
@@ -408,6 +421,7 @@ def data_loading_param():
 
 def plotting_kl_param():
     syst_scenario = 'theo_exp_baseline'
+    kl_param_limit_df, kl_param_limit_df2 = data_loading_param()
     for channel in ['bbyy', 'bbtautau', 'combined']:
         analysis_label_options_new = {
             'extra_text':channel_text[channel] + '//Parameterised workspace'    
@@ -415,7 +429,6 @@ def plotting_kl_param():
         analysis_label_options = combine_dict(analysis_label_options_default, analysis_label_options_new)
         styles = styles_default['kl_xsec']
         
-        kl_param_limit_df, kl_param_limit_df2 = data_loading_param()
         klambda_values, scale_factor, klambda_theory_values, theory_xs_values, theory_xs_lower, theory_xs_upper = theory_kl_curve(kl_param_limit_df2['bbyy']['theo_exp_baseline'])
         plotter = UpperLimit2DPlot(kl_param_limit_df2[channel][syst_scenario], scale_factor=scale_factor, styles=styles, analysis_label_options=analysis_label_options)
         plotter.add_curve(klambda_theory_values, theory_xs_values, theory_xs_lower, theory_xs_upper, label="Theory prediction")
@@ -431,6 +444,7 @@ def plotting_kl_param():
 #### 3.3 Parameterised vs Individual workspace plot
 def plot_kl_param_vs_indiv():
     syst_scenario = 'theo_exp_baseline'
+    kl_individual_limit_df, kl_individual_limit_df2 = data_loading_indiv()
     for channel in ['bbyy', 'bbtautau', 'combined']:
         analysis_label_options_new = {
             'extra_text':channel_text[channel] + '//Indiv. WS vs Param. WS'    
@@ -452,7 +466,6 @@ def plot_kl_param_vs_indiv():
             'observed': 'Observed limit (95% CL) [param. ws]'
         }
         
-        kl_individual_limit_df, kl_individual_limit_df2 = data_loading_indiv()
         kl_param_limit_df, kl_param_limit_df2 = data_loading_param()
         klambda_values, scale_factor, klambda_theory_values, theory_xs_values, theory_xs_lower, theory_xs_upper = theory_kl_curve(kl_param_limit_df2['bbyy']['theo_exp_baseline'])
         plotter = UpperLimit2DPlot(kl_individual_limit_df2[channel][syst_scenario],
@@ -512,11 +525,16 @@ def plot_lh_chan(klhypo):
     }
     analysis_label_options = combine_dict(analysis_label_options_default, analysis_label_options_new[klhypo])
     styles = styles_default[f'kl_likelihood_chan_mu{klhypo}']
+    os.makedirs("plots/csv/", exist_ok=True)
+    for klhypo, value in likelihood_df2.items():
+        for channel, v in value.items():
+            for scenario, df in v.items():
+                df.to_csv(f"plots/csv/likelihood_scan_mu_{klhypo}_{channel}_{scenario}.csv")
 
     for channel in channels + ['combined']:
         channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel]}
         plotter = Likelihood1DPlot(likelihood_df2[klhypo][channel], label_map=syst_scenario_label_map, styles_map=styles_map['scenario'], styles=styles, analysis_label_options=channel_analysis_label_options)
-        plotter.draw(xlabel=r"$\mathrm{\kappa_{\lambda}}$", ymax=20, xmin=-2.5, xmax=8, draw_sigma_line=True)
+        plotter.draw(xlabel=r"$\mathrm{\kappa_{\lambda}}$", ymax=20, xmin=-2, xmax=8, draw_sigma_line=True)
         plt.savefig(f"plots/likelihood_scan_mu_{klhypo}_{channel}.pdf", bbox_inches="tight")
         print("Save fig", f"plots/likelihood_scan_mu_{klhypo}_{channel}.pdf")
 
@@ -537,7 +555,7 @@ def plot_lh_scen(klhypo):
     for syst_scenario in syst_scenarios:
         channel_analysis_label_options = {**analysis_label_options, 'extra_text':syst_scenario_text[syst_scenario]}
         plotter = Likelihood1DPlot(likelihood_df[klhypo][syst_scenario], label_map=channel_label_map, styles_map=styles_map['channel'], styles=styles, analysis_label_options=channel_analysis_label_options)
-        plotter.draw(xlabel=r"$\mathrm{\kappa_{\lambda}}$", ymax=20, xmin=-2, xmax=8.5, draw_sigma_line=True)
+        plotter.draw(xlabel=r"$\mathrm{\kappa_{\lambda}}$", ymax=20, xmin=-2, xmax=8, draw_sigma_line=True)
         plt.savefig(f"plots/likelihood_scan_mu_{klhypo}_{syst_scenario}.pdf", bbox_inches="tight")
         print("Save fig", f"plots/likelihood_scan_mu_{klhypo}_{syst_scenario}.pdf")
 
@@ -562,7 +580,7 @@ def merge_pvalue_data_kl_scen():
 def plot_significance_chan():
     
     analysis_label_options_new = {
-        'loc': (0.23, 0.95),
+        'loc': (0.27, 0.95),
     }
     analysis_label_options = combine_dict(analysis_label_options_default, analysis_label_options_new)
     config = {
@@ -572,14 +590,14 @@ def plot_significance_chan():
             'linestyle': '--'
         }
     }
-    styles = styles_default['kl_like']
+    styles = styles_default['kl_significance']
 
     significance_df, significance_df2 = merge_pvalue_data_kl_scen()
     for channel in channels + ['combined']:
         channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel]}
         plotter = Likelihood1DPlot(significance_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map['scenario'], styles=styles, analysis_label_options=channel_analysis_label_options)
         plotter.config = combine_dict(plotter.config, config)
-        plotter.draw(xattrib='kl', yattrib='significance', xlabel=r"$\mathrm{\kappa_{\lambda}}$", ylabel="Significance [$\sigma$]", ymax=12, xmin=-2.5, xmax=8, draw_sigma_line=True)
+        plotter.draw(xattrib='kl', yattrib='significance', xlabel=r"$\mathrm{\kappa_{\lambda}}$", ylabel="Significance [$\sigma$]", ymax=12, xmin=-2, xmax=8, draw_sigma_line=True)
         plt.savefig(f"plots/significance_scan_{channel}.pdf", bbox_inches="tight")
         print("Save fig", f"plots/significance_scan_{channel}.pdf")
 
@@ -614,6 +632,10 @@ def plot_significance_lumi():
     styles = styles_default['lumi_scan']
 
     pvalue_lumi_df, pvalue_lumi_df2 = merge_pvalue_SM_lumi_scen()
+    os.makedirs("plots/csv/", exist_ok=True)
+    for channel, value in pvalue_lumi_df2.items():
+        for scenario, df in value.items():
+            df.to_csv(f"plots/csv/significance_lumi_{channel}__{scenario}.csv")
     for channel in channels + ['combined']:
         channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel]}
         plotter = Likelihood1DPlot(pvalue_lumi_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map['scenario'], 
@@ -652,21 +674,28 @@ def plot_limit_lumi():
     styles = styles_default['lumi_scan']
 
     limit_lumi_df, limit_lumi_df2 = merge_limit_SM_lumi_scen()
+    os.makedirs("plots/csv/", exist_ok=True)
+    for channel, value in limit_lumi_df2.items():
+        for scenario, df in value.items():
+            df.to_csv(f"plots/csv/limit_limi_{channel}__{scenario}.csv")
     for channel in channels + ['combined']:
         channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel]}
+        if channel == 'bbyy':
+            channel_analysis_label_options['loc'] = (0.05, 0.30)
+            styles['legend']['loc'] = (0.52, 0.05)
         plotter = Likelihood1DPlot(limit_lumi_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map['scenario'], styles=styles, analysis_label_options=channel_analysis_label_options)
         plotter.config = combine_dict(plotter.config, config)
         plotter.draw(xattrib='lumi', yattrib='0', xlabel=r"Integrated Luminosity [fb$^{-1}$]", ylabel="95% CL Upper Limit on Signal Strength", ymax=3, xmin=800, xmax=3200, draw_sigma_line=True)
         plt.savefig(f"plots/limit_lumi_{channel}.pdf", bbox_inches="tight")
         print("Save fig", f"plots/limit_lumi_{channel}.pdf")
 
-#plotting_SM()
-#plotting_kl_indiv()
-#plotting_kl_param()
-#plot_kl_param_vs_indiv()
+plotting_SM()
+plotting_kl_indiv()
+plotting_kl_param()
+plot_kl_param_vs_indiv()
 for i in [0, 1]:
-#    plot_lh_chan(i)
+    plot_lh_chan(i)
     plot_lh_scen(i)
-#plot_significance_chan()
-#plot_significance_lumi()
-#plot_limit_lumi()
+plot_significance_chan()
+plot_significance_lumi()
+plot_limit_lumi()
