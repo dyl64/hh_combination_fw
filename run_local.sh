@@ -1,60 +1,152 @@
-# individual
-HHComb process_channels -i ../../FullRun2Workspaces/original/20211106_mu_all/ -c bbtautau -r nonres -o ../output/v3000invfb_20211106_Local/indiv --minimizer_options configs/minimizer_fixXSunc.json --config configs/regularization_proj_v10.yaml --file_format "<mass[F]>_kl_<kl[P]>"
-HHComb process_channels -i ../../FullRun2Workspaces/original/20211106_mu_all/ -c bbyy -r nonres -o ../output/v3000invfb_20211106_Local/indiv --minimizer_options configs/minimizer_fixXSunc.json --config configs/regularization_proj_v10.yaml --file_format "<mass[F]>_kl_<kl[P]>"
+# lumi = 1000, syst = stat_only
 
-HHComb combine_ws -i ../output/v3000invfb_20211106_Local/indiv/ -c bbyy,bbtautau -r nonres --minimizer_options configs/minimizer_fixXSunc.json --file_format "<mass[F]>_kl_<kl[P]>" --scheme configs/np_map_kl_v10.json
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi1000ifb/stat_only -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi1000ifb/stat_only/SM -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
 
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi1000ifb/stat_only/SM -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
 
-# param
-## for XS
-HHComb process_channels -i ../../FullRun2Workspaces/original/20211106_mu_all/ -c bbyy,bbtautau -r nonres -o ../output/v3000invfb_20211106_Local/param/ --minimizer_options configs/minimizer.json --config configs/regularization_kl.yaml --no-cache --file_format "<mass[F]>_kl" --param klambda=-2_8_0.2
+# lumi = 1000, syst = theo_exp_baseline
 
-HHComb combine_ws -i ../output/v3000invfb_20211106_Local/param/ -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_fixXSunc.json --scheme configs/np_map_kl_v10.json --file_format "<mass[F]>_kl" --param klambda=-2_8_0.2
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi1000ifb/theo_exp_baseline -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi1000ifb/theo_exp_baseline/SM -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_no_kl_unc.json --do-limit --skip-likelihood --do-pvalue
 
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi1000ifb/theo_exp_baseline/SM -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_no_kl_unc.json --do-limit --skip-likelihood --do-pvalue
 
-## for LH
-HHComb process_channels -i ../../FullRun2Workspaces/original/20211106_mu_all/ -c bbyy,bbtautau -r nonres -o ../output/v3000invfb_20211106_Local/param/ --minimizer_options configs/minimizer.json --config configs/regularization_kl.yaml --no-cache --file_format "<mass[F]>_kl" --param klambda=1 --skip-limit
+# lumi = 1000, syst = theo_only
 
-HHComb combine_ws -i ../output/v3000invfb_20211106_Local/param/ -r nonres -c bbtautau,bbyy --minimizer_options configs/minimizer.json --config configs/regularization_kl.yaml --scheme configs/np_map_kl_v10.json --skip-limit --no-cache --file_format "<mass[F]>_kl" --param klambda=1
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi1000ifb/theo_only -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi1000ifb/theo_only/SM -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --do-limit --skip-likelihood --do-pvalue
 
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi1000ifb/theo_only/SM -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --do-limit --skip-likelihood --do-pvalue
 
-HHComb kl_likelihood -i ../output/v3000invfb_20211106_Local/param/  -c bbyy,bbtautau --min -2 --max 10 --step 0.1 --no-cache
+# lumi = 1000, syst = run2_syst
 
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi1000ifb/run2_syst -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi1000ifb/run2_syst/SM -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --do-limit --skip-likelihood --do-pvalue
 
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi1000ifb/run2_syst/SM -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --do-limit --skip-likelihood --do-pvalue
 
+# lumi = 1500, syst = stat_only
 
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi1500ifb/stat_only -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi1500ifb/stat_only/SM -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
 
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi1500ifb/stat_only/SM -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
 
+# lumi = 1500, syst = theo_exp_baseline
 
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi1500ifb/theo_exp_baseline -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi1500ifb/theo_exp_baseline/SM -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_no_kl_unc.json --do-limit --skip-likelihood --do-pvalue
 
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi1500ifb/theo_exp_baseline/SM -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_no_kl_unc.json --do-limit --skip-likelihood --do-pvalue
 
-##==========
-#HHComb process_channels -i ../../FullRun2Workspaces/original/20211106_mu_all/ -r nonres -c bbyy,bbtautau -o outputs -p klambda=1 --skip-limit --file_format "<mass[F]>_kl" --config configs/regularization_kl.yaml
-#
-#HHComb combine_ws -i outputs/ -r nonres -c bbyy,bbtautau -s configs/np_map_kl_v10.json --config configs/regularization_kl.yaml --skip-limit --file_format "<mass[F]>_kl" -p klambda=1 --skip-limit
-#
-#quickstats generate_standard_asimov -t -2 -p klambda -d combData -i outputs/combined/nonres/A-bbtautau_bbyy-fullcorr/0_kl.root -o 0_kl_asimov.root --fix xsec_br=1,klambda=1 --snapshot nominalNuis
-#
-#quickstats likelihood_scan -i 0_kl_asimov.root --min -2.0 --max 2.0 --step 1.0 -d asimovData_1_NP_Nominal --parallel -1 --print_level -1 -p klambda -o combined_klambda --no-cache --outdir outputs/likelihood/ --fix xsec_br=1
-##==========
+# lumi = 1500, syst = theo_only
 
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi1500ifb/theo_only -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi1500ifb/theo_only/SM -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --do-limit --skip-likelihood --do-pvalue
 
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi1500ifb/theo_only/SM -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --do-limit --skip-likelihood --do-pvalue
 
+# lumi = 1500, syst = run2_syst
 
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi1500ifb/run2_syst -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi1500ifb/run2_syst/SM -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --do-limit --skip-likelihood --do-pvalue
 
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi1500ifb/run2_syst/SM -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --do-limit --skip-likelihood --do-pvalue
 
+# lumi = 2000, syst = stat_only
 
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi2000ifb/stat_only -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi2000ifb/stat_only/SM -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
 
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi2000ifb/stat_only/SM -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
 
+# lumi = 2000, syst = theo_exp_baseline
 
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi2000ifb/theo_exp_baseline -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi2000ifb/theo_exp_baseline/SM -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_no_kl_unc.json --do-limit --skip-likelihood --do-pvalue
 
-## NR
-HHComb pvalue -i ../output/v3000invfb_20211106_CI/NR/rescaled/nonres/bbyy/0.root  -e -1
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi2000ifb/theo_exp_baseline/SM -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_no_kl_unc.json --do-limit --skip-likelihood --do-pvalue
 
-# plotting
-python combine_plot.py -i ../../../output/v3000invfb_20211106_CI/NR/ -sf 1
-python plot_kl.py -i ../../../output/v3000invfb_20211106_Local/indiv/ --config project3000 --rescale 0.032776
-python plot_kl.py -i ../../../output/v3000invfb_20211106_Local/param/ --config project3000 --rescale 1
+# lumi = 2000, syst = theo_only
 
-python plotting/likelihood/likelihood_plotting.py -a nonres -i ../output/v3000invfb_20211106_Local/param/likelihood/ -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o ../output/v3000invfb_20211106_Local/param/figures/ --threshold 12
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi2000ifb/theo_only -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi2000ifb/theo_only/SM -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --do-limit --skip-likelihood --do-pvalue
+
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi2000ifb/theo_only/SM -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --do-limit --skip-likelihood --do-pvalue
+
+# lumi = 2000, syst = run2_syst
+
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi2000ifb/run2_syst -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi2000ifb/run2_syst/SM -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --do-limit --skip-likelihood --do-pvalue
+
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi2000ifb/run2_syst/SM -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --do-limit --skip-likelihood --do-pvalue
+
+# lumi = 2500, syst = stat_only
+
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi2500ifb/stat_only -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi2500ifb/stat_only/SM -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
+
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi2500ifb/stat_only/SM -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
+
+# lumi = 2500, syst = theo_exp_baseline
+
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi2500ifb/theo_exp_baseline -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi2500ifb/theo_exp_baseline/SM -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_no_kl_unc.json --do-limit --skip-likelihood --do-pvalue
+
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi2500ifb/theo_exp_baseline/SM -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_no_kl_unc.json --do-limit --skip-likelihood --do-pvalue
+
+# lumi = 2500, syst = theo_only
+
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi2500ifb/theo_only -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi2500ifb/theo_only/SM -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --do-limit --skip-likelihood --do-pvalue
+
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi2500ifb/theo_only/SM -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --do-limit --skip-likelihood --do-pvalue
+
+# lumi = 2500, syst = run2_syst
+
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi2500ifb/run2_syst -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi2500ifb/run2_syst/SM -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --do-limit --skip-likelihood --do-pvalue
+
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi2500ifb/run2_syst/SM -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --do-limit --skip-likelihood --do-pvalue
+
+# lumi = 3000, syst = stat_only
+
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi3000ifb/stat_only -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/stat_only/SM -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
+
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/stat_only/SM -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
+
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi3000ifb/stat_only -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/stat_only/kl_individual -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>_kl_<klambda[P]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_stat_only.json --do-limit --skip-likelihood --skip-pvalue
+
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/stat_only/kl_individual -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_kl_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>_kl_<klambda[P]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_stat_only.json --do-limit --skip-likelihood --skip-pvalue
+
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi3000ifb/stat_only -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/stat_only/kl_parameterised -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>_kl" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_kl.yaml --param_expr "klambda=-2_8_0.2" --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_stat_only.json --do-limit --do-likelihood --skip-pvalue
+
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/stat_only/kl_parameterised -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_kl_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>_kl" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_kl.yaml --param_expr "klambda=-2_8_0.2" --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_stat_only.json --do-limit --do-likelihood --skip-pvalue
+
+# lumi = 3000, syst = theo_exp_baseline
+
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi3000ifb/theo_exp_baseline -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/theo_exp_baseline/SM -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_no_kl_unc.json --do-limit --skip-likelihood --do-pvalue
+
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/theo_exp_baseline/SM -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_no_kl_unc.json --do-limit --skip-likelihood --do-pvalue
+
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi3000ifb/theo_exp_baseline -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/theo_exp_baseline/kl_individual -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>_kl_<klambda[P]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_fix_xs_uncertainty_no_kl_unc.json --do-limit --skip-likelihood --skip-pvalue
+
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/theo_exp_baseline/kl_individual -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_kl_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>_kl_<klambda[P]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_fix_xs_uncertainty_no_kl_unc.json --do-limit --skip-likelihood --skip-pvalue
+
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi3000ifb/theo_exp_baseline -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/theo_exp_baseline/kl_parameterised -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>_kl" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_kl.yaml --param_expr "klambda=-2_8_0.2" --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_fix_xs_uncertainty_no_kl_unc.json --do-limit --do-likelihood --skip-pvalue
+
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/theo_exp_baseline/kl_parameterised -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_kl_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>_kl" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_kl.yaml --param_expr "klambda=-2_8_0.2" --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_fix_xs_uncertainty_no_kl_unc.json --do-limit --do-likelihood --skip-pvalue
+
+# lumi = 3000, syst = theo_only
+
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi3000ifb/theo_only -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/theo_only/SM -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --do-limit --skip-likelihood --do-pvalue
+
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/theo_only/SM -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --do-limit --skip-likelihood --do-pvalue
+
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi3000ifb/theo_only -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/theo_only/kl_individual -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>_kl_<klambda[P]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --skip-pvalue
+
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/theo_only/kl_individual -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_kl_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>_kl_<klambda[P]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --skip-pvalue
+
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi3000ifb/theo_only -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/theo_only/kl_parameterised -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>_kl" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_kl.yaml --param_expr "klambda=-2_8_0.2" --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_fix_xs_uncertainty.json --do-limit --do-likelihood --skip-pvalue
+
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/theo_only/kl_parameterised -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_kl_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>_kl" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_kl.yaml --param_expr "klambda=-2_8_0.2" --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_fix_xs_uncertainty.json --do-limit --do-likelihood --skip-pvalue
+
+# lumi = 3000, syst = run2_syst
+
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi3000ifb/run2_syst -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/run2_syst/SM -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --do-limit --skip-likelihood --do-pvalue
+
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/run2_syst/SM -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --do-limit --skip-likelihood --do-pvalue
+
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi3000ifb/run2_syst -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/run2_syst/kl_individual -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>_kl_<klambda[P]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --skip-pvalue
+
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/run2_syst/kl_individual -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_kl_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>_kl_<klambda[P]>" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_v11.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --skip-pvalue
+
+HHComb process_channels -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20211129_proj_all/lumi3000ifb/run2_syst -o ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/run2_syst/kl_parameterised -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>_kl" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_kl.yaml --param_expr "klambda=-2_8_0.2" --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_fix_xs_uncertainty.json --do-limit --do-likelihood --skip-pvalue
+
+HHComb combine_ws -i ${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/run2_syst/kl_parameterised -s ${hh_combination_fw_path}/configs/correlation_schemes/nonres_kl_v10.json -c bbyy,bbtautau -r nonres --file_expr "<mass[F]>_kl" --config ${hh_combination_fw_path}/configs/task_options/proj_nonres_kl.yaml --param_expr "klambda=-2_8_0.2" --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection_fix_xs_uncertainty.json --do-limit --do-likelihood --skip-pvalue
 
