@@ -75,7 +75,7 @@ class TaskBase:
                 config = json.load(f)
             if 'general' in config:
                 for k in minimizer_options:
-                    minimizer_options[k] = config['general']
+                    minimizer_options[k].update(config['general'])
             for k in ['limit_setting', 'likelihood_scan', 'pvalue']:
                 if k in config:
                     minimizer_options[k].update(config[k])
@@ -192,12 +192,13 @@ class TaskBase:
             if not os.path.exists(outdir) and self.cache:
                 os.makedirs(outdir, exist_ok=True)
             outpath = os.path.join(outdir, outname)
-            if os.path.exists(outpath):
+            if os.path.exists(outpath) and self.cache:
                 print(f"INFO: Cached likelihood scan output from {outpath}")
                 return None
-            
-            log_path = os.path.splitext(outpath)[0] + ".log"        
+
+            log_path = os.path.splitext(outpath)[0] + ".log"
             with standard_log(log_path) as logger:
+                
                 analysis  = AnalysisBase(filename, data_name=data_name,
                                          poi_name=poi_name, config=config,
                                          verbosity=verbosity)
@@ -211,7 +212,6 @@ class TaskBase:
                 if 'dataset' in options:
                     data_name = options['dataset']
                     analysis.set_data(data_name)
-                
                 kwargs = {
                     'filename': filename,
                     'poi_min': float(options['min']),
