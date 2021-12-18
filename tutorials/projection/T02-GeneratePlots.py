@@ -512,6 +512,19 @@ styles_map['channel'] = {
     'combined': {"color": "#36B1BF", "marker": "o"}
 }
 
+from scipy.interpolate import interp1d
+def get_intersections2(df, level):
+    xvalues = df['mu'].to_numpy()
+    yvalues = df['qmu'].to_numpy()
+    func_theory = interp1d(xvalues, yvalues)
+    x_new = np.arange(min(xvalues), max(xvalues), 0.01)
+    y_new = func_theory(x_new)
+    
+    asign = np.sign(y_new-level)
+    signchange = ((np.roll(asign, 1) - asign) != 0).astype(int)
+    return x_new[signchange==1]
+
+
 #### 4.1 Channel-based plot
 def plot_lh_chan(klhypo):
     
@@ -526,17 +539,31 @@ def plot_lh_chan(klhypo):
     analysis_label_options = combine_dict(analysis_label_options_default, analysis_label_options_new[klhypo])
     styles = styles_default[f'kl_likelihood_chan_mu{klhypo}']
     os.makedirs("plots/csv/", exist_ok=True)
-    for klhypo, value in likelihood_df2.items():
+    for kl, value in likelihood_df2.items():
         for channel, v in value.items():
             for scenario, df in v.items():
-                df.to_csv(f"plots/csv/likelihood_scan_mu_{klhypo}_{channel}_{scenario}.csv")
+                df.to_csv(f"plots/csv/likelihood_scan_mu_{kl}_{channel}_{scenario}.csv")
 
+    intersects = {}
     for channel in channels + ['combined']:
         channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel]}
         plotter = Likelihood1DPlot(likelihood_df2[klhypo][channel], label_map=syst_scenario_label_map, styles_map=styles_map['scenario'], styles=styles, analysis_label_options=channel_analysis_label_options)
+
+        intersects[channel] = {}
+        for scenario, df in likelihood_df2[klhypo][channel].items():
+            intersects[channel][scenario] = {}
+            for level in [1, 4]:
+                intersections = get_intersections2(df, level)
+                intersects[channel][scenario][level] = intersections.tolist()
+
         plotter.draw(xlabel=r"$\mathrm{\kappa_{\lambda}}$", ymax=20, xmin=-2, xmax=8, draw_sigma_line=True)
         plt.savefig(f"plots/likelihood_scan_mu_{klhypo}_{channel}.pdf", bbox_inches="tight")
         print("Save fig", f"plots/likelihood_scan_mu_{klhypo}_{channel}.pdf")
+
+    with open(f'plots/csv/likelihood_scan_mu_{klhypo}.json', 'w'):
+        print('save', f'plots/csv/likelihood_scan_mu_{klhypo}.json')
+        json.dumps(intersects, indent=2)
+        print(json.dumps(intersects, indent=2))
 
 
 #### 4.2 Scenario-based plot
@@ -677,7 +704,7 @@ def plot_limit_lumi():
     os.makedirs("plots/csv/", exist_ok=True)
     for channel, value in limit_lumi_df2.items():
         for scenario, df in value.items():
-            df.to_csv(f"plots/csv/limit_limi_{channel}__{scenario}.csv")
+            df.to_csv(f"plots/csv/limit_lumi_{channel}__{scenario}.csv")
     for channel in channels + ['combined']:
         channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel]}
         if channel == 'bbyy':
