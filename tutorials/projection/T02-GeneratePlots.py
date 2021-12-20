@@ -507,9 +507,9 @@ styles_map['scenario'] = {
     'run2_syst': {"color": "#36B1BF", "marker": "d"}
 }
 styles_map['channel'] = {
-    'bbyy'    : {"color": "#F2385A", "marker": "P"},
-    'bbtautau': {"color": "#FDC536", "marker": "s"},
-    'combined': {"color": "#36B1BF", "marker": "o"}
+    'bbyy'    : {"color": "#9A0EEA", "marker": "v"},
+    'bbtautau': {"color": "#008F00", "marker": "^"},
+    'combined': {"color": "#000000", "marker": "o"}
 }
 
 from scipy.interpolate import interp1d
