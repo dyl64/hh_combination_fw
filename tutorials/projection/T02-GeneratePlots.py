@@ -507,9 +507,9 @@ styles_map['scenario'] = {
     'run2_syst': {"color": "#36B1BF", "marker": "d"}
 }
 styles_map['channel'] = {
-    'bbyy'    : {"color": "#F2385A", "marker": "P"},
-    'bbtautau': {"color": "#FDC536", "marker": "s"},
-    'combined': {"color": "#36B1BF", "marker": "o"}
+    'bbyy'    : {"color": "#9A0EEA", "marker": "v"},
+    'bbtautau': {"color": "#008F00", "marker": "^"},
+    'combined': {"color": "#000000", "marker": "o"}
 }
 
 from scipy.interpolate import interp1d
@@ -560,9 +560,9 @@ def plot_lh_chan(klhypo):
         plt.savefig(f"plots/likelihood_scan_mu_{klhypo}_{channel}.pdf", bbox_inches="tight")
         print("Save fig", f"plots/likelihood_scan_mu_{klhypo}_{channel}.pdf")
 
-    with open(f'plots/csv/likelihood_scan_mu_{klhypo}.json', 'w'):
+    with open(f'plots/csv/likelihood_scan_mu_{klhypo}.json', 'w') as f:
         print('save', f'plots/csv/likelihood_scan_mu_{klhypo}.json')
-        json.dumps(intersects, indent=2)
+        json.dump(intersects, f, indent=2)
         print(json.dumps(intersects, indent=2))
 
 
@@ -698,7 +698,6 @@ def plot_limit_lumi():
             'linestyle': '--'
         }
     }
-    styles = styles_default['lumi_scan']
 
     limit_lumi_df, limit_lumi_df2 = merge_limit_SM_lumi_scen()
     os.makedirs("plots/csv/", exist_ok=True)
@@ -707,6 +706,7 @@ def plot_limit_lumi():
             df.to_csv(f"plots/csv/limit_lumi_{channel}__{scenario}.csv")
     for channel in channels + ['combined']:
         channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel]}
+        styles = styles_default['lumi_scan']
         if channel == 'bbyy':
             channel_analysis_label_options['loc'] = (0.05, 0.30)
             styles['legend']['loc'] = (0.52, 0.05)
