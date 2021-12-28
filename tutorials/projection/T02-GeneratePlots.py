@@ -1,6 +1,7 @@
 import os
 import math
 import json
+import copy
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -161,7 +162,7 @@ def merge_limit_SM_lumi(scenario, study='SM'):
 def merge_limit_SM_scen():
     sm_limit_df = {}
     sm_limit_df2 = {}
-    for scenario in syst_scenarios:
+    for scenario in syst_scenarios[::-1]:
         data = get_limit_SM(scenario, 'SM')
         # flatten 1 point limit
         for k,v in data.items():
@@ -238,7 +239,6 @@ def merge_pvalue_SM_scen():
             pvalue_df2[channel][scenario] = data[channel]
     for channel in data:
         pvalue_df2[channel] = pd.DataFrame(pvalue_df2[channel]).transpose()
-        set_trace()
         print('channel', channel, 'pvalue', pvalue_df2[channel])
 
 ## 1.6.5 Get pvalue/significance data for all individual kl for one scenario
@@ -501,10 +501,10 @@ likelihood_df[1], likelihood_df2[1] = data_loading_lh(1)
 
 styles_map = {}
 styles_map['scenario'] = {
-    'stat_only': {"color": "#343844", "marker": "P"},
-    'theo_exp_baseline':  {"color": "#F2385A", "marker": "o"},
-    'theo_only': {"color": "#FDC536", "marker": "s"},
-    'run2_syst': {"color": "#36B1BF", "marker": "d"}
+    'stat_only': {"color": "#343844", "marker": "P", "linewidth": 3},
+    'theo_exp_baseline':  {"color": "#F2385A", "marker": "o", "linewidth": 3},
+    'theo_only': {"color": "#FDC536", "marker": "s", "linewidth": 3},
+    'run2_syst': {"color": "#36B1BF", "marker": "d", "linewidth": 3}
 }
 styles_map['channel'] = {
     'bbyy'    : {"color": "#9A0EEA", "marker": "v"},
@@ -690,12 +690,11 @@ def merge_limit_SM_lumi_scen():
 
 
 def plot_limit_lumi():
-    analysis_label_options = analysis_label_options_default
     config = {
         'sigma_values': (),
         'sigma_line_styles':{
             'color': 'gray',
-            'linestyle': '--'
+            'linestyle': '--',
         }
     }
 
@@ -704,9 +703,10 @@ def plot_limit_lumi():
     for channel, value in limit_lumi_df2.items():
         for scenario, df in value.items():
             df.to_csv(f"plots/csv/limit_lumi_{channel}__{scenario}.csv")
+    analysis_label_options = analysis_label_options_default
     for channel in channels + ['combined']:
         channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel]}
-        styles = styles_default['lumi_scan']
+        styles = copy.deepcopy(styles_default['lumi_scan'])
         if channel == 'bbyy':
             channel_analysis_label_options['loc'] = (0.05, 0.30)
             styles['legend']['loc'] = (0.52, 0.05)
