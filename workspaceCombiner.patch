@@ -46,8 +46,55 @@ index 735a2e4..1556bf1 100644
      case 'i':
        indice_ = optarg;
        break;
+diff --git a/inc/combiner.h b/inc/combiner.h
+index 47aa466..a12773b 100644
+--- a/inc/combiner.h
++++ b/inc/combiner.h
+@@ -41,7 +41,7 @@ struct POI {
+   double max;
+ };
+ 
+-struct Channel {
++struct ChannelInfo {
+   std::string name_;   /* name of itself */
+   double mass_;
+   std::string fileName_;
+@@ -52,7 +52,7 @@ struct Channel {
+   std::map<std::string, std::string> renameMap_;
+   std::map<std::string, std::string> pdfReMap_;
+ 
+-  void operator=(const Channel& ch)
++  void operator=(const ChannelInfo& ch)
+   {
+     name_ = ch.name_;
+     mass_ = ch.mass_;
+@@ -279,9 +279,9 @@ TString editRFVString( TString& oldString )
+ 
+ 
+ private:
+-std::vector<Channel> m_summary;
++std::vector<ChannelInfo> m_summary;
+ std::vector<POI> m_pois;
+-Channel m_outSummary;
++ChannelInfo m_outSummary;
+ 
+ std::string m_wsName;
+ std::string m_dataName;
+diff --git a/src/asimovUtils.cxx b/src/asimovUtils.cxx
+index f80c53f..ad2f063 100644
+--- a/src/asimovUtils.cxx
++++ b/src/asimovUtils.cxx
+@@ -1210,7 +1210,7 @@ void asimovUtils::makePlots( const RooAbsPdf& pdf, const RooAbsData& data, std::
+     m_comb->import(*var);
+     m_comb->import(*var0);
+     m_comb->import(*var1);
+-
++    m_comb->loadSnapshot("nominalNuis");
+     return 0;
+   }
+ 
 diff --git a/src/combiner.cxx b/src/combiner.cxx
-index 691e7a1..b0dcd86 100644
+index 691e7a1..2811e14 100644
 --- a/src/combiner.cxx
 +++ b/src/combiner.cxx
 @@ -690,8 +690,10 @@ void combiner::makeSimCategory()
@@ -75,11 +122,33 @@ index 691e7a1..b0dcd86 100644
  
  	      TString type = Form( "%s_%s_%s", m_catName.c_str(), indivCat->getLabel(), channelName.c_str() );
  	      m_cat->setLabel( type, true ); // print error
+@@ -1136,7 +1139,7 @@ void combiner::readChannel( TXMLNode* rootNode )
+       node = node->GetNextNode();
+     }
+ 
+-  Channel channel;
++  ChannelInfo channel;
+   channel.name_                                 = name;
+   channel.fileName_                             = fileName;
+   channel.wsName_                               = wsName;
 diff --git a/src/decorator.cxx b/src/decorator.cxx
-index ce1e686..8050b0d 100644
+index ce1e686..9296b82 100644
 --- a/src/decorator.cxx
 +++ b/src/decorator.cxx
-@@ -76,8 +76,13 @@ decorator::decorator(std::string combinedFile, std::string splittedFile, std::st
+@@ -59,7 +59,11 @@ decorator::decorator(std::string combinedFile, std::string splittedFile, std::st
+   m_pdf = dynamic_cast<RooSimultaneous*>(m_mc->GetPdf()); assert (m_pdf);
+   m_cat = (RooCategory*)&m_pdf->indexCat();
+   m_gobs = dynamic_cast<const RooArgSet*>(m_mc->GetGlobalObservables()); assert(m_gobs);
+-  m_nuis = const_cast<RooArgSet*>(m_mc->GetNuisanceParameters()); assert(m_nuis);
++  m_nuis = const_cast<RooArgSet*>(m_mc->GetNuisanceParameters());
++  if (!m_nuis){
++    m_mc->SetNuisanceParameters(RooArgSet());
++    m_nuis = const_cast<RooArgSet*>(m_mc->GetNuisanceParameters());
++  }
+   numChannels = m_cat->numBins(0);
+ 
+   if(!m_comb){
+@@ -76,8 +80,13 @@ decorator::decorator(std::string combinedFile, std::string splittedFile, std::st
    if(!m_data){
      std::cerr<<"Warning! Dataset "<<dataName.c_str()<<" cannot be found in the workspace."<<std::endl
  	     <<"Will try other dataset names. Press any key to continue..."<<std::endl;
@@ -95,7 +164,7 @@ index ce1e686..8050b0d 100644
    }
  
    m_dataList = m_data->split( *m_cat, true );
-@@ -127,6 +132,13 @@ void decorator::decorate()
+@@ -127,6 +136,13 @@ void decorator::decorate()
      }
    }
    else{
@@ -109,7 +178,7 @@ index ce1e686..8050b0d 100644
      std::cout<<"Dataset: old name "<<m_data->GetName()<<", new name combData"<<std::endl;
      m_data->SetName("combData");
    }
-@@ -234,8 +246,8 @@ void decorator::hist2dataset()
+@@ -234,8 +250,8 @@ void decorator::hist2dataset()
    for ( int ich= 0; ich < numChannels; ich++ ) {
      m_cat->setBin(ich);
      TString channelname=m_cat->getLabel();
@@ -120,7 +189,7 @@ index ce1e686..8050b0d 100644
      RooRealVar *obsi=(RooRealVar*)pdfi->getObservables(datai)->first();
      x[ich]=m_comb->var(obsi->GetName());
      w[ich]=new RooRealVar(Form("wt_%d",ich),Form("wt_%d",ich),1);
-@@ -279,8 +291,9 @@ void decorator::printSummary(bool verbose)
+@@ -279,8 +295,9 @@ void decorator::printSummary(bool verbose)
    std::cout << "\tThere are " << numChannels << " sub channels:" << std::endl;
    for ( int i= 0; i < numChannels; i++ ) {
      m_cat->setBin(i);
