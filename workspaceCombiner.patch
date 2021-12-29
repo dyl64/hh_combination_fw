@@ -272,15 +272,3 @@ index 14c4655..e1f57f0 100644
          hasInjection = true;
          std::cout << "\t\tFound injection from " << tmpInjectB->GetName() << std::endl;
        }
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index f8e820c..9c53b68 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -26,6 +26,7 @@ include(${ROOT_USE_FILE})
- 
- # require RooFitExtensions
- list(APPEND CMAKE_PREFIX_PATH $ENV{RooFitExtensions_DIR})
-+set(RooFitExtensions_DIR "$ENV{hh_combination_fw_path}/submodules/RooFitExtensions/build")
- find_package(RooFitExtensions REQUIRED CONFIG)
- include_directories(${RooFitExtensions_INCLUDE_DIRS})
- link_directories(${RooFitExtensions_LIBRARY_DIRS})
