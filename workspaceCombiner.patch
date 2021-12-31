@@ -1,3 +1,15 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index f8e820c..6c81d73 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -25,6 +25,7 @@ find_package( ROOT REQUIRED COMPONENTS RIO RooFitCore RooFit HistFactory RooStat
+ include(${ROOT_USE_FILE})
+ 
+ # require RooFitExtensions
++set(RooFitExtensions_DIR "$ENV{hh_combination_fw_path}/submodules/RooFitExtensions/build")
+ list(APPEND CMAKE_PREFIX_PATH $ENV{RooFitExtensions_DIR})
+ find_package(RooFitExtensions REQUIRED CONFIG)
+ include_directories(${RooFitExtensions_INCLUDE_DIRS})
 diff --git a/app/manager.cxx b/app/manager.cxx
 index 735a2e4..1556bf1 100644
 --- a/app/manager.cxx
