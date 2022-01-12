@@ -290,25 +290,50 @@ styles_default = {
     'legend':{
         'loc': (0.23, 0.43),
         },
+    'xtick':{
+        'format': 'numeric',
+        'steps': [1, 10],
+        },
+    'ytick':{
+        'steps': [1,2,4],
+        }
     },
 'kl_likelihood_chan_mu0': {
     'legend':{
         'loc': (1.02, 0.43),
         },
+    'xtick':{
+        'steps': [1],
+        },
+    'ytick':{
+        'steps': [1,2,4],
+        }
     },
 'kl_likelihood_scen_mu1': {
     'legend':{
         'loc': (0.23, 0.47),
+        },
+    'xtick':{
+        'format': 'numeric',
+        'steps': [1, 10],
         },
     },
 'kl_likelihood_scen_mu0': {
     'legend':{
         'loc': (1.02, 0.47),
         },
+    'xtick':{
+        'format': 'numeric',
+        'steps': [1, 10],
+        },
     },
 'kl_significance': {
     'legend':{
         'loc': (0.27, 0.43),
+        },
+    'xtick':{
+        'format': 'numeric',
+        'steps': [1, 10],
         },
     },
 'kl_xsec': {
@@ -342,7 +367,7 @@ def plotting_SM():
         value.to_csv(f"plots/csv/SM_limit__{key}.csv")
 
     for channel in ['bbyy', 'bbtautau', 'combined']:
-        analysis_label_options_new = {'extra_text': channel_text[channel] + '//' + r'$\sigma_{ggF+VBF}^{SM}=32.78$ fb'}
+        analysis_label_options_new = {'extra_text': channel_text[channel] + '//' + r'$\sigma_{ggF+VBF}^{SM}=38.79$ fb'}
         analysis_label_options = combine_dict(analysis_label_options_default, analysis_label_options_new)
         plotter = UpperLimit1DPlot(sm_limit_df2[channel], syst_scenario_label_map, analysis_label_options=analysis_label_options)
         plotter.draw(xlabel=r"95% CL upper limit on signal strength", draw_observed=False)
@@ -377,14 +402,21 @@ def data_loading_indiv():
     return kl_individual_limit_df, kl_individual_limit_df2
 
 
-def plotting_kl_indiv():
-    syst_scenario = 'theo_exp_baseline'
+def plotting_kl_indiv(syst_scenario):
     kl_individual_limit_df, kl_individual_limit_df2 = data_loading_indiv()
     os.makedirs("plots/csv/", exist_ok=True)
     for channel, value in kl_individual_limit_df2.items():
         for scenario, df in value.items():
             df.to_csv(f'plots/csv/kl_limit_{scenario}_individual_ws_{channel}.csv')
 
+    syst_names = {
+        'stat_only':         'No systematic uncertainties',
+        'theo_exp_baseline': 'Baseline',
+        'theo_only':         'Theory uncertainties halved',
+        'run2_syst':         'Run-2 systematic uncertainties',
+
+    }
+    line = syst_names[syst_scenario]
     for channel in ['bbyy', 'bbtautau', 'combined']:
         analysis_label_options_new = {
             'extra_text':channel_text[channel]
@@ -398,9 +430,13 @@ def plotting_kl_indiv():
         plotter.add_highlight(1, xs_HH(1, s=14), label="SM prediction")
         ax = plotter.draw(xlabel=r"$\mathrm{\kappa_{\lambda}}$", ylabel=r"$\sigma_{ggF+VBF}(HH) [fb]$", draw_observed=False, log=True, ylim=[7, 1.5e3], xlim=[-2,6])
         intersections = get_intersections(klambda_values, scale_factor*kl_individual_limit_df2[channel][syst_scenario]['0'], klambda_theory_values, theory_xs_values)
+        line += " & $[{:.1f}, {:.1f}]$".format(intersections[0], intersections[1])
         ax.annotate(r'Expected: $\kappa_\lambda \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (0.05, 0.08), xycoords = 'axes fraction', fontsize = 15)
+        ax.annotate(syst_scenario_label_map[syst_scenario]+" scenario", (0.65, 0.08), xycoords = 'axes fraction', fontsize = 15)
         plt.savefig(f"plots/kl_limit_{syst_scenario}_individual_ws_{channel}.pdf", bbox_inches="tight")
         print("Save fig", f"plots/kl_limit_{syst_scenario}_individual_ws_{channel}.pdf")
+    line += r" \\"
+    return line
 
 
 
@@ -436,6 +472,7 @@ def plotting_kl_param():
         ax = plotter.draw(xlabel=r"$\mathrm{\kappa_{\lambda}}$", ylabel=r"$\sigma_{ggF+VBF}(HH) [fb]$", draw_observed=False, log=True, ylim=[7, 1.5e3], xlim=[-2,6])
         intersections = get_intersections(klambda_values, scale_factor*kl_param_limit_df2[channel][syst_scenario]['0'], klambda_theory_values, theory_xs_values)
         ax.annotate(r'Expected: $\kappa_\lambda \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (0.05, 0.08), xycoords = 'axes fraction', fontsize = 15)
+        ax.annotate(syst_scenario_label_map[syst_scenario]+" scenario", (0.65, 0.08), xycoords = 'axes fraction', fontsize = 15)
         plt.savefig(f"plots/kl_limit_{syst_scenario}_parameterised_ws_{channel}.pdf", bbox_inches="tight")
         print('Save fig', f"plots/kl_limit_{syst_scenario}_parameterised_ws_{channel}.pdf")
 
@@ -612,6 +649,7 @@ def plot_significance_chan():
     analysis_label_options = combine_dict(analysis_label_options_default, analysis_label_options_new)
     config = {
         'sigma_values': (3, 5),
+        'sigma_names': None,
         'sigma_line_styles':{
             'color': 'gray',
             'linestyle': '--'
@@ -620,6 +658,7 @@ def plot_significance_chan():
     styles = styles_default['kl_significance']
 
     significance_df, significance_df2 = merge_pvalue_data_kl_scen()
+    set_trace()
     for channel in channels + ['combined']:
         channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel]}
         plotter = Likelihood1DPlot(significance_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map['scenario'], styles=styles, analysis_label_options=channel_analysis_label_options)
@@ -649,6 +688,7 @@ def merge_pvalue_SM_lumi_scen():
 def plot_significance_lumi():
     
     analysis_label_options = analysis_label_options_default
+    analysis_label_options['lumi'] = None
     config = {
         'sigma_values': (),
         'sigma_line_styles':{
@@ -704,6 +744,7 @@ def plot_limit_lumi():
         for scenario, df in value.items():
             df.to_csv(f"plots/csv/limit_lumi_{channel}__{scenario}.csv")
     analysis_label_options = analysis_label_options_default
+    analysis_label_options['lumi'] = None
     for channel in channels + ['combined']:
         channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel]}
         styles = copy.deepcopy(styles_default['lumi_scan'])
@@ -717,7 +758,11 @@ def plot_limit_lumi():
         print("Save fig", f"plots/limit_lumi_{channel}.pdf")
 
 plotting_SM()
-plotting_kl_indiv()
+kl_limit = []
+for syst in syst_scenarios:
+    kl_limit.append(plotting_kl_indiv(syst))
+for i in kl_limit:
+    print(i)
 plotting_kl_param()
 plot_kl_param_vs_indiv()
 for i in [0, 1]:
