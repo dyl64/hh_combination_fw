@@ -141,6 +141,11 @@ class TaskBase:
         else:
             mu = 0
         
+        if 'do_minos' in options:
+            do_minos = options['do_minos']
+        else:
+            do_minos = False
+        
         print(f"INFO: Evaluating p-value (dataset={_data_name}, mu={round(mu, 8)}) for the workspace {filename}")
         outpath = os.path.join(self.pvalue_dir, f"{param_point['basename']}_{_data_name}_mu_{mu}.json")
         if os.path.exists(outpath) and self.cache:
@@ -159,7 +164,7 @@ class TaskBase:
 
             analysis.set_data(_data_name)
 
-            fit_result = analysis.nll_fit(poi_val=mu, mode=0)
+            fit_result = analysis.nll_fit(poi_val=mu, mode=0, do_minos=do_minos)
             
             with open(outpath, "w") as f:
                 json.dump(fit_result, f, indent=4)
