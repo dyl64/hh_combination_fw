@@ -32,7 +32,7 @@ syst_scenario_label_map = {
     'stat_only': r"No syst. unc.",
     'theo_exp_baseline' : r"Baseline",
     'theo_only': r"Theoretical unc. halved",
-    'run2_syst': r"Run-2 syst. unc.",
+    'run2_syst': r"Run 2 syst. unc.",
 }
 channel_label_map = {
     'bbyy': r"$\mathrm{b\bar{b}\gamma\gamma}$",
@@ -48,7 +48,7 @@ syst_scenario_text = {
     'stat_only': r"Non-resonant HH" + "//No syst. unc.",
     'theo_exp_baseline' : r"Non-resonant HH" + "//Baseline",
     'theo_only': r"Non-resonant HH" + "//Theoretical unc. halved",
-    'run2_syst': r"Non-resonant HH" + "//Run-2 syst. unc.",
+    'run2_syst': r"Non-resonant HH" + "//Run 2 syst. unc.",
 }
 
 
@@ -413,7 +413,7 @@ def plotting_kl_indiv(syst_scenario):
         'stat_only':         'No systematic uncertainties',
         'theo_exp_baseline': 'Baseline',
         'theo_only':         'Theory uncertainties halved',
-        'run2_syst':         'Run-2 systematic uncertainties',
+        'run2_syst':         'Run 2 systematic uncertainties',
 
     }
     line = syst_names[syst_scenario]
@@ -431,8 +431,14 @@ def plotting_kl_indiv(syst_scenario):
         ax = plotter.draw(xlabel=r"$\mathrm{\kappa_{\lambda}}$", ylabel=r"$\sigma_{ggF+VBF}(HH) [fb]$", draw_observed=False, log=True, ylim=[7, 1.5e3], xlim=[-2,6])
         intersections = get_intersections(klambda_values, scale_factor*kl_individual_limit_df2[channel][syst_scenario]['0'], klambda_theory_values, theory_xs_values)
         line += " & $[{:.1f}, {:.1f}]$".format(intersections[0], intersections[1])
-        ax.annotate(r'Expected: $\kappa_\lambda \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (0.05, 0.08), xycoords = 'axes fraction', fontsize = 15)
-        ax.annotate(syst_scenario_label_map[syst_scenario]+" scenario", (0.65, 0.08), xycoords = 'axes fraction', fontsize = 15)
+        x_pos = {
+            'stat_only': 0.63,
+            'theo_exp_baseline': 0.62,
+            'theo_only': 0.05,
+            'run2_syst':0.60,
+        }
+        ax.annotate(syst_scenario_label_map[syst_scenario]+" scenario", (x_pos[syst_scenario], 0.15), xycoords = 'axes fraction', fontsize = 20)
+        ax.annotate(r'Expected: $\kappa_\lambda \in [%.1f, %.1f]$' %(intersections[0], intersections[1]), (x_pos[syst_scenario], 0.08), xycoords = 'axes fraction', fontsize = 20)
         plt.savefig(f"plots/kl_limit_{syst_scenario}_individual_ws_{channel}.pdf", bbox_inches="tight")
         print("Save fig", f"plots/kl_limit_{syst_scenario}_individual_ws_{channel}.pdf")
     line += r" \\"
