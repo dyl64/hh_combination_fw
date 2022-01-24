@@ -664,7 +664,6 @@ def plot_significance_chan():
     styles = styles_default['kl_significance']
 
     significance_df, significance_df2 = merge_pvalue_data_kl_scen()
-    set_trace()
     for channel in channels + ['combined']:
         channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel]}
         plotter = Likelihood1DPlot(significance_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map['scenario'], styles=styles, analysis_label_options=channel_analysis_label_options)
