@@ -288,7 +288,8 @@ analysis_label_options_default = {
 styles_default = {
 'kl_likelihood_chan_mu1': {
     'legend':{
-        'loc': (0.23, 0.43),
+        'loc': (0.21, 0.41),
+        'fontsize': 18,
         },
     'xtick':{
         'format': 'numeric',
@@ -300,7 +301,8 @@ styles_default = {
     },
 'kl_likelihood_chan_mu0': {
     'legend':{
-        'loc': (1.02, 0.43),
+        'loc': (1.02, 0.41),
+        'fontsize': 18,
         },
     'xtick':{
         'steps': [1],
@@ -311,7 +313,8 @@ styles_default = {
     },
 'kl_likelihood_scen_mu1': {
     'legend':{
-        'loc': (0.23, 0.47),
+        'loc': (0.23, 0.44),
+        'fontsize': 18,
         },
     'xtick':{
         'format': 'numeric',
@@ -320,7 +323,8 @@ styles_default = {
     },
 'kl_likelihood_scen_mu0': {
     'legend':{
-        'loc': (1.02, 0.47),
+        'loc': (1.02, 0.44),
+        'fontsize': 18,
         },
     'xtick':{
         'format': 'numeric',
@@ -329,7 +333,8 @@ styles_default = {
     },
 'kl_significance': {
     'legend':{
-        'loc': (0.32, 0.43),
+        'loc': (0.32, 0.41),
+        'fontsize': 18,
         },
     'xtick':{
         'format': 'numeric',
@@ -351,7 +356,7 @@ styles_default = {
 'lumi_scan': {
     'legend':{
         'loc': (0.52, 0.68),
-        'fontsize': 17
+        'fontsize': 18
         }
     }
 }
@@ -366,10 +371,18 @@ def plotting_SM():
     for key, value in sm_limit_df2.items():
         value.to_csv(f"plots/csv/SM_limit__{key}.csv")
 
+    config = {
+        'top_margin': 3.0,
+
+    }
     for channel in ['bbyy', 'bbtautau', 'combined']:
-        analysis_label_options_new = {'extra_text': channel_text[channel] + '//' + r'$\sigma_{ggF+VBF}^{SM}=38.79$ fb'}
+        analysis_label_options_new = {
+            'loc': (0.05, 0.97),
+            'extra_text': channel_text[channel] + '//Asimov data B only//' + r'$\sigma_{ggF+VBF}^{SM}=38.79$ fb',
+            }
         analysis_label_options = combine_dict(analysis_label_options_default, analysis_label_options_new)
         plotter = UpperLimit1DPlot(sm_limit_df2[channel], syst_scenario_label_map, analysis_label_options=analysis_label_options)
+        plotter.config = combine_dict(plotter.config, config)
         plotter.draw(xlabel=r"95% CL upper limit on signal strength", draw_observed=False)
         plt.savefig(f"plots/SM_limit_{channel}.pdf", bbox_inches="tight")
         print('Save fig', f"plots/SM_limit_{channel}.pdf")
@@ -419,7 +432,8 @@ def plotting_kl_indiv(syst_scenario):
     line = syst_names[syst_scenario]
     for channel in ['bbyy', 'bbtautau', 'combined']:
         analysis_label_options_new = {
-            'extra_text':channel_text[channel]
+            'loc': (0.10, 0.95),
+            'extra_text':channel_text[channel] + '//Asimov data B only//'
         }
         analysis_label_options = combine_dict(analysis_label_options_default, analysis_label_options_new)
         styles = styles_default['kl_xsec']
@@ -573,14 +587,16 @@ def plot_lh_chan(klhypo):
     
     analysis_label_options_new = {
         1: {
-            'loc': (0.23, 0.95),
+            'loc': (0.21, 0.96),
+            'fontsize': 25, # ATLAS
         },
         0: {
-            'loc': (1.02, 0.95),
+            'loc': (1.02, 0.96),
+            'fontsize': 25, # ATLAS
         },
     }
     analysis_label_options = combine_dict(analysis_label_options_default, analysis_label_options_new[klhypo])
-    styles = styles_default[f'kl_likelihood_chan_mu{klhypo}']
+    styles = styles_default[f'kl_likelihood_chan_mu{klhypo}'] # legend
     os.makedirs("plots/csv/", exist_ok=True)
     for kl, value in likelihood_df2.items():
         for channel, v in value.items():
@@ -588,8 +604,8 @@ def plot_lh_chan(klhypo):
                 df.to_csv(f"plots/csv/likelihood_scan_mu_{kl}_{channel}_{scenario}.csv")
 
     intersects = {}
-    for channel in channels + ['combined']:
-        channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel]}
+    for channel in ['combined']:
+        channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel] + '//Asimov data S(' + r"$\mathrm{\kappa_{\lambda}}$ = " + f'{klhypo}) + B'}
         plotter = Likelihood1DPlot(likelihood_df2[klhypo][channel], label_map=syst_scenario_label_map, styles_map=styles_map['scenario'], styles=styles, analysis_label_options=channel_analysis_label_options)
 
         intersects[channel] = {}
@@ -626,7 +642,7 @@ def plot_lh_scen(klhypo):
     styles = styles_default[f'kl_likelihood_scen_mu{klhypo}']
 
     for syst_scenario in syst_scenarios:
-        channel_analysis_label_options = {**analysis_label_options, 'extra_text':syst_scenario_text[syst_scenario]}
+        channel_analysis_label_options = {**analysis_label_options, 'extra_text':syst_scenario_text[syst_scenario] + '//Asimov data S(' + r"$\mathrm{\kappa_{\lambda}}$ = " + f'{klhypo}) + B'}
         plotter = Likelihood1DPlot(likelihood_df[klhypo][syst_scenario], label_map=channel_label_map, styles_map=styles_map['channel'], styles=styles, analysis_label_options=channel_analysis_label_options)
         plotter.config = combine_dict(plotter.config, config)
         plotter.draw(xlabel=r"$\mathrm{\kappa_{\lambda}}$", ymax=20, xmin=-2, xmax=8, draw_sigma_line=True)
@@ -655,8 +671,10 @@ def plot_significance_chan():
     
     analysis_label_options_new = {
         'loc': (0.32, 0.95),
+        'fontsize': 25, # text comments
     }
     analysis_label_options = combine_dict(analysis_label_options_default, analysis_label_options_new)
+    styles_map_options = combine_dict(styles_map['scenario'], {'legend': {'font': 15}})
     config = {
         'sigma_values': (3, 5),
         'sigma_names': None,
@@ -671,12 +689,12 @@ def plot_significance_chan():
             'linestyle': '--'
         }
     }
-    styles = styles_default['kl_significance']
+    styles = styles_default['kl_significance'] # legend
 
     significance_df, significance_df2 = merge_pvalue_data_kl_scen()
     for channel in channels + ['combined']:
-        channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel]}
-        plotter = Likelihood1DPlot(significance_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map['scenario'], styles=styles, analysis_label_options=channel_analysis_label_options)
+        channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel] + '//Asimov data S(' + r'$\mathrm{\kappa_{\lambda}}$'+ ') + B'}
+        plotter = Likelihood1DPlot(significance_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map_options, styles=styles, analysis_label_options=channel_analysis_label_options)
         plotter.config = combine_dict(plotter.config, config)
         plotter.draw(xattrib='kl', yattrib='significance', xlabel=r"$\mathrm{\kappa_{\lambda}}$", ylabel="Significance [$\sigma$]", ymax=12, xmin=-2, xmax=8, draw_sigma_line=True, draw_sm_line=True)
         plt.savefig(f"plots/significance_scan_{channel}.pdf", bbox_inches="tight")
@@ -719,7 +737,7 @@ def plot_significance_lumi():
         for scenario, df in value.items():
             df.to_csv(f"plots/csv/significance_lumi_{channel}__{scenario}.csv")
     for channel in channels + ['combined']:
-        channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel]}
+        channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel] + '//Asimov data S(' + r'$\mathrm{\kappa_{\lambda}}$ = 1'+ ') + B'}
         plotter = Likelihood1DPlot(pvalue_lumi_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map['scenario'], 
                                    styles=styles, analysis_label_options=channel_analysis_label_options)
         plotter.config = combine_dict(plotter.config, config)
@@ -761,10 +779,10 @@ def plot_limit_lumi():
     analysis_label_options = analysis_label_options_default
     analysis_label_options['lumi'] = None
     for channel in channels + ['combined']:
-        channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel]}
+        channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel]+'//Asimov data B only'}
         styles = copy.deepcopy(styles_default['lumi_scan'])
         if channel == 'bbyy':
-            channel_analysis_label_options['loc'] = (0.05, 0.30)
+            channel_analysis_label_options['loc'] = (0.05, 0.35)
             styles['legend']['loc'] = (0.52, 0.05)
         plotter = Likelihood1DPlot(limit_lumi_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map['scenario'], styles=styles, analysis_label_options=channel_analysis_label_options)
         plotter.config = combine_dict(plotter.config, config)
