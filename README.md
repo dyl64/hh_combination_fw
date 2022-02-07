@@ -93,9 +93,9 @@ HHComb combine_ws -i <output_directory> -r nonres -c bbyy,bbtautau --minimizer_o
 
 ## Run kappa-lambda likelihood scan (on parametrised input workspaces, with a name `0_kl.root`)
 ```
-HHComb process_channels -i <input_ws_directory> -c bbyy -r nonres --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_kl.yaml --skip-limit --no-cache --file_format "<mass[F]>_kl" -o <output_directory>
+HHComb process_channels -i <input_ws_directory> -c bbyy -r nonres --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_kl.yaml --skip-limit --no-cache --file_format "<mass[F]>_kl" --param_expr "klambda=-10_10_0.2" -o <output_directory>
 
-HHComb combine_ws -i <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --scheme configs/np_map_kl_v10.json --param klambda=<-low>_<high>_<step> --file_format "<mass[F]>_kl"
+HHComb combine_ws -i <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --scheme configs/np_map_kl_v10.json --param klambda=<-low>_<high>_<step> --file_format "<mass[F]>_kl" --param_expr "klambda=-10_10_0.2"
 
 HComb kl_likelihood -i <output_directory> -c bbyy,bbtautau --min=-2 --max=10 --step=0.2 --no-cache
 python likelihood_plotting.py -a nonres -i <output_directory>/output/likelihood/ -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o <output_directory>/figure --threshold 12

@@ -32,6 +32,10 @@ rescale_poi:
   # not 0.032743 because of extra factors in mu_XS_HH_ggF and mu_XS_HH_VBF
   bbyy: 0.032776
   bbtautau: 32.776
+  bbbb: 0.03105
+  bbll: 0.03105
+  bbVV: 0.03105
+  WWWW: 0.03105
 redefine_parameters:
   bbyy:
     # these are Hbb br, XS taken by rescale_poi
