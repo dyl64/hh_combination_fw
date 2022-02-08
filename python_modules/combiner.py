@@ -115,7 +115,6 @@ class TaskBase:
             'parallel'    : self.parallel,
             'config'      : {**self.minimizer_options['limit_setting'], **self.config}
         }
-
         run_param_scan(**kwargs)
         
     def calculate_pvalue(self, param_point):
