@@ -33,3 +33,4 @@ output/
 .ipynb_checkpoints
 debug/
 output*
+compile2.sh
