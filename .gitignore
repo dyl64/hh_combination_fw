@@ -33,4 +33,5 @@ output/
 .ipynb_checkpoints
 debug/
 output*
+**/plots/
 compile2.sh
