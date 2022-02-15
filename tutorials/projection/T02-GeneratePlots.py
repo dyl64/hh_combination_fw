@@ -281,6 +281,8 @@ def get_pvalue_data_kl(scenario):
 
 ## Global settings
 analysis_label_options_default = {
+    #'status': 'int',
+    'status': 'prelim',
     'energy': '14 TeV',
     'lumi': '3000 fb$^{-1}$',
     'fontsize': 30,
@@ -341,9 +343,13 @@ styles_default = {
         'format': 'numeric',
         'steps': [1],
         },
-    'ytick':{
+    "ytick":{
+        #'format': None,
+        'nbins': 9999,
+        'locator': 'maxn',
         'integer': True,
-        },
+        'steps':[1],
+        }
     },
 'kl_xsec': {
     'legend':{
@@ -687,8 +693,8 @@ def plot_significance_chan():
             'linestyle': '--'
         },
         'sm_values': (1,),
-        'sm_names': ('SM',),
-        'sm_pos': 0.02,
+        'sm_names': (r"SM $\mathrm{\kappa_{\lambda}} = 1$",),
+        'sm_pos': 0.78,
         'sm_line_styles':{
             'color': 'gray',
             'linestyle': 'dashdot'
@@ -702,6 +708,7 @@ def plot_significance_chan():
         plotter = Likelihood1DPlot(significance_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map_options, styles=styles, analysis_label_options=channel_analysis_label_options)
         plotter.config = combine_dict(plotter.config, config)
         plotter.draw(xattrib='kl', yattrib='significance', xlabel=r"$\mathrm{\kappa_{\lambda}}$", ylabel="Significance [$\sigma$]", ymax=12, xmin=-2, xmax=8, draw_sigma_line=True, draw_sm_line=True)
+        #plt.gca().set_yticks(ticks=[0,1,2,3,4,5,6,7,8,9,10,11,12])
         plt.savefig(f"plots/significance_scan_{channel}.pdf", bbox_inches="tight")
         print("Save fig", f"plots/significance_scan_{channel}.pdf")
 
@@ -795,17 +802,17 @@ def plot_limit_lumi():
         plt.savefig(f"plots/limit_lumi_{channel}.pdf", bbox_inches="tight")
         print("Save fig", f"plots/limit_lumi_{channel}.pdf")
 
-#plotting_SM()
-#kl_limit = []
-#for syst in syst_scenarios:
-#    kl_limit.append(plotting_kl_indiv(syst))
-#for i in kl_limit:
-#    print(i)
-#plotting_kl_param()
-#plot_kl_param_vs_indiv()
-#for i in [0, 1]:
-#    plot_lh_chan(i)
-#    plot_lh_scen(i)
+plotting_SM()
+kl_limit = []
+for syst in syst_scenarios:
+    kl_limit.append(plotting_kl_indiv(syst))
+for i in kl_limit:
+    print(i)
+plotting_kl_param()
+plot_kl_param_vs_indiv()
+for i in [0, 1]:
+    plot_lh_chan(i)
+    plot_lh_scen(i)
 plot_significance_chan()
-#plot_significance_lumi()
-#plot_limit_lumi()
+plot_significance_lumi()
+plot_limit_lumi()
