@@ -34,3 +34,4 @@ output/
 debug/
 output*
 **/plots/
+compile2.sh
