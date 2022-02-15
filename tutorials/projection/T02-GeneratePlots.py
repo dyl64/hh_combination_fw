@@ -17,8 +17,9 @@ from pdb import set_trace
 ## 1.1 Global variables related to input
 if "hh_combination_fw_path" not in os.environ:
     os.environ['hh_combination_fw_path'] = os.path.abspath("../../")
-outdir = "${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/"
-#outdir = "${hh_combination_fw_path}/../../FullRun2Workspaces/batches/v3000invfb_20211214_condor/projection_nonres_14TeV_3000ifb/lumi3000ifb/"
+#outdir = "${hh_combination_fw_path}/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/"
+#outdir = "${hh_combination_fw_path}/../../FullRun2Workspaces/batches/v3000invfb_20211214_condor/projection_nonres_14TeV_3000ifb/lumi3000ifb/output"
+outdir = "/eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v3000invfb_20211214_condor/projection_nonres_14TeV_3000ifb/output/projection_nonres_14TeV_3000ifb/lumi3000ifb/"
 outdir = os.path.expandvars(outdir)
 
 
@@ -338,7 +339,10 @@ styles_default = {
         },
     'xtick':{
         'format': 'numeric',
-        'steps': [1, 10],
+        'steps': [1],
+        },
+    'ytick':{
+        'integer': True,
         },
     },
 'kl_xsec': {
@@ -682,11 +686,12 @@ def plot_significance_chan():
             'color': 'gray',
             'linestyle': '--'
         },
-        'sm_values': (1),
-        'sm_names': None,
+        'sm_values': (1,),
+        'sm_names': ('SM',),
+        'sm_pos': 0.02,
         'sm_line_styles':{
             'color': 'gray',
-            'linestyle': '--'
+            'linestyle': 'dashdot'
         }
     }
     styles = styles_default['kl_significance'] # legend
@@ -790,17 +795,17 @@ def plot_limit_lumi():
         plt.savefig(f"plots/limit_lumi_{channel}.pdf", bbox_inches="tight")
         print("Save fig", f"plots/limit_lumi_{channel}.pdf")
 
-plotting_SM()
-kl_limit = []
-for syst in syst_scenarios:
-    kl_limit.append(plotting_kl_indiv(syst))
-for i in kl_limit:
-    print(i)
-plotting_kl_param()
-plot_kl_param_vs_indiv()
-for i in [0, 1]:
-    plot_lh_chan(i)
-    plot_lh_scen(i)
+#plotting_SM()
+#kl_limit = []
+#for syst in syst_scenarios:
+#    kl_limit.append(plotting_kl_indiv(syst))
+#for i in kl_limit:
+#    print(i)
+#plotting_kl_param()
+#plot_kl_param_vs_indiv()
+#for i in [0, 1]:
+#    plot_lh_chan(i)
+#    plot_lh_scen(i)
 plot_significance_chan()
-plot_significance_lumi()
-plot_limit_lumi()
+#plot_significance_lumi()
+#plot_limit_lumi()
