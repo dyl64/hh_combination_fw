@@ -13,7 +13,7 @@ assert(input_file.endswith(f'0_{param}.root')), f'{input_file} is not 0_{param}.
 model = ExtendedModel(input_file, data_name='combData')
 kl = model.workspace.var(var) 
 kl.setConstant(True) 
-values = np.arange(-2, 8+0.2, 0.2) if param == 'kl' else np.arange(-2, 2+0.2, 0.2)
+values = np.arange(-2, 8+0.2, 0.2) if param == 'kl' else np.arange(-1.2, 1.2+0.1, 0.1)
 for value in values:
     kl.setVal(value) 
     output = f"{path.dirname(input_file)}/0_{param}_{str_encode_value(value, n_digit=1)}.root"
