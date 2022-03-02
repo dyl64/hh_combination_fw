@@ -233,9 +233,9 @@ class TaskBase:
                 }
                 kwargs = {**config, **kwargs}
 
-                from quickstats.components.likelihood import scan_nll
-
-                scan_nll(**kwargs)
+                from quickstats.concurrent import ParameterisedLikelihood
+                runner = ParameterisedLikelihood(**kwargs)
+                runner.run()
         
     def finalize(self):
         pass
