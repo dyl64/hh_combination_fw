@@ -104,7 +104,7 @@ class TaskBase:
     def limit_setting(self):
 
         kwargs = {
-            'dirname'     : self.basis_dir,
+            'input_path'     : self.basis_dir,
             'file_expr'   : self.file_expr,
             'param_expr'  : self.param_expr,
             'outdir'      : self.limit_dir,
