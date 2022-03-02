@@ -13,7 +13,7 @@ import utils
 from quickstats.components import ExtendedModel, ParamParser, AnalysisBase
 from quickstats.concurrent.logging import standard_log
 from quickstats.utils.common_utils import execute_multi_tasks
-from quickstats.concurrent.parameterised_asymptotic_cls import run_param_scan
+from quickstats.concurrent import ParameterisedAsymptoticCLs
 import scalings
 from xml_tool import create_combination_xml
 
@@ -115,7 +115,8 @@ class TaskBase:
             'parallel'    : self.parallel,
             'config'      : {**self.minimizer_options['limit_setting'], **self.config}
         }
-        run_param_scan(**kwargs)
+        runner = ParameterisedAsymptoticCLs(**kwargs)
+        runner.run()
         
     def calculate_pvalue(self, param_point):
         if (self.task_options is None):
