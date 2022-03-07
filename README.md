@@ -111,7 +111,7 @@ Then plot ranking plot with
 - `matplotlib` shipped with LCG release is not compatible with what we need. To get a newer versioin, do
 - `export PATH=/afs/cern.ch/work/c/chlcheng/public/local/conda/miniconda/envs/ml-base/bin:$PATH`
 ```
-quickstats plot_pulls --style trex --poi xsec_br -i pulls/ -o rank_plot
+quickstats plot_pulls --poi xsec_br -i pulls/ --outdir rank_plot -o channel
 ```
 
 ## Run pulls and impact in batch
@@ -169,9 +169,14 @@ Refer to [NP_rename/README.md](NP_rename/README.md) for details.
 
 
 ## Some useful tips
+### Run best fit on a workspace
+```
+quickstats likelihood_fit -i <input_root_file> --poi xsec_br --print_level 1 --strategy 1 --snapshot nominalNuis
+```
+
 ### Run limit on a workspace
 ```
-quickstats cls_limit --batch_mode -i <input_root_file> --poi xsec_br --print_level 1 --strategy 1 --snapshot nominalNuis
+quickstats cls_limit --i <input_root_file> --poi xsec_br --print_level 1 --strategy 1 --snapshot nominalNuis
 ```
 
 ### Inspect workspaces
