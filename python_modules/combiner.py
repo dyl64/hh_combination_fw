@@ -77,8 +77,8 @@ class TaskBase:
             subtokens = token.split("=")
             if len(subtokens) != 2:
                 raise RuntimEerror(f"invalid filter/exclude expression `{expr}`")
-            param_name = subtokens[0]
-            param_conditions = subtokens[1].split(",")
+            param_name = subtokens[0].strip()
+            param_conditions = [s.strip() for s in subtokens[1].split(",")]
             conditions[param_name] = param_conditions
         return conditions
     
