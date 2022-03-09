@@ -533,8 +533,8 @@ class TaskCombination(TaskBase):
         self.scheme_tag = 'nocorr' if self.correlation_scheme is None else 'fullcorr'
         self.tag = tag_pattern.format(channels='_'.join(self.channels), scheme=self.scheme_tag)
         super().initialize(resonant_type, poi_name, data_name, **kwargs)
-        self.param_points = self.get_param_points(filter_expr=filter_expr,
-                                                  exclude_expr=exclude_expr)
+        if not self.param_points:
+            raise RuntimeError("No points to combine")
         print('INFO: Registered the following param points and corresponding channels for combination')
         for param_point in self.param_points:
             param_str = self.param_parser.val_encode_parameters(param_point['parameters'])
