@@ -10,8 +10,12 @@ dataset:
     unblind: combData
 poi:
   bbtautau: SigXsecOverSM
-  bbyy: mu_XS_HH
+  bbyy: mu_XS_HH_ggF
   combination: xsec_br
 rescale_poi:
   bbtautau: 1.0
   bbyy: 1.0
+redefine_parameters:
+  bbyy:
+    mu_XS_HH: 1.0
+

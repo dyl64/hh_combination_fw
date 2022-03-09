@@ -5,8 +5,7 @@ import re
 import yaml
 import click
 
-#from quickstats.clis.core import likelihood_scan, generate_asimov
-#from quickstats.components.likelihood import scan_nll
+from quickstats.clis.likelihood_scan import likelihood_scan
 
 @click.command(name='kl_likelihood')
 @click.option('--min', 'scan_min', type=float, required=True, 

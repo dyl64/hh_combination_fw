@@ -15,23 +15,23 @@ class DataReader(object):
     def __init__(self, args):
         infolder = args.input_folder
         self.json_files_main = {
-            'combined': f'{infolder}/limits/nonres/combined/A-bbtautau_bbyy-fullcorr/mass_0.json',
-            'bbyy': f'{infolder}/limits/nonres/bbyy/mass_0.json',
-            'bbtautau': f'{infolder}/limits/nonres/bbtautau/mass_0.json',
+            'combined': f'{infolder}/limits/nonres/combined/A-bbtautau_bbyy-fullcorr/limits.json',
+            'bbyy': f'{infolder}/limits/nonres/bbyy/limits.json',
+            'bbtautau': f'{infolder}/limits/nonres/bbtautau/limits.json',
         }
         if args.all:
             self.json_files_main = {
-                'combined': f'{infolder}/limits/nonres/combined/A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-fullcorr/mass_0.json',
-                'combined5ll': f'{infolder}/limits/nonres/combined//A-bbbb_bbtautau_bbVV_bbyy_WWWW-fullcorr/mass_0.json',
-                'combined5VV': f'{infolder}/limits/nonres/combined/A-bbbb_bbll_bbtautau_bbyy_WWWW-fullcorr/mass_0.json',
-                'combined5WW': f'{infolder}/limits/nonres/combined/A-bbbb_bbll_bbtautau_bbVV_bbyy-fullcorr/mass_0.json',
-                'bbll': f'{infolder}/limits/nonres/bbll/mass_0.json',
-                'bbVV': f'{infolder}/limits/nonres/bbVV/mass_0.json',
-                'WWWW': f'{infolder}/limits/nonres/WWWW/mass_0.json',
-                'combined3': f'{infolder}/limits/nonres/combined/A-bbbb_bbtautau_bbyy-fullcorr/mass_0.json',
-                'bbbb': f'{infolder}/limits/nonres/bbbb/mass_0.json',
-                'bbyy': f'{infolder}/limits/nonres/bbyy/mass_0.json',
-                'bbtautau': f'{infolder}/limits/nonres/bbtautau/mass_0.json',
+                'combined': f'{infolder}/limits/nonres/combined/A-bbbb_bbll_bbtautau_bbVV_bbyy_WWWW-fullcorr/limits.json',
+                'combined5ll': f'{infolder}/limits/nonres/combined//A-bbbb_bbtautau_bbVV_bbyy_WWWW-fullcorr/limits.json',
+                'combined5VV': f'{infolder}/limits/nonres/combined/A-bbbb_bbll_bbtautau_bbyy_WWWW-fullcorr/limits.json',
+                'combined5WW': f'{infolder}/limits/nonres/combined/A-bbbb_bbll_bbtautau_bbVV_bbyy-fullcorr/limits.json',
+                'bbll': f'{infolder}/limits/nonres/bbll/limits.json',
+                'bbVV': f'{infolder}/limits/nonres/bbVV/limits.json',
+                'WWWW': f'{infolder}/limits/nonres/WWWW/limits.json',
+                'combined3': f'{infolder}/limits/nonres/combined/A-bbbb_bbtautau_bbyy-fullcorr/limits.json',
+                'bbbb': f'{infolder}/limits/nonres/bbbb/limits.json',
+                'bbyy': f'{infolder}/limits/nonres/bbyy/limits.json',
+                'bbtautau': f'{infolder}/limits/nonres/bbtautau/limits.json',
             }
         self.json_files_addition = {
             'combined': f'{infolder}/stat/limits/nonres/combined/A-bbtautau_bbyy-fullcorr/0.json',
@@ -88,8 +88,15 @@ class DataReader(object):
         if self.stat:
             for chan in data_dict:
                 data_dict[chan][self.name_addition] = json.load(open(self.json_files_addition[chan]))['0']
+        data_dict = self.remove_list(data_dict)
         df = pd.DataFrame(data_dict) * self.scale_factor
         return df
+
+    def remove_list(self, data):
+        for k, v in data.items():
+            for p,v_ in v.items():
+                data[k][p] = v_[0]
+        return data
 
     
 def main(args):
