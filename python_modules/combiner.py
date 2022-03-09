@@ -11,7 +11,8 @@ import json
 import copy
 
 import utils
-from quickstats.components import ExtendedModel, ParamParser, AnalysisBase
+from quickstats.components import ExtendedModel, AnalysisBase
+from quickstats.parsers import ParamParser
 from quickstats.concurrent.logging import standard_log
 from quickstats.utils.common_utils import execute_multi_tasks
 from quickstats.concurrent import ParameterisedAsymptoticCLs
@@ -59,6 +60,8 @@ class TaskBase:
         self.int_param_points = self.param_parser.get_internal_param_points()
         self.param_points = self.get_param_points(filter_expr=filter_expr,
                                                   exclude_expr=exclude_expr)
+        self.filter_expr = filter_expr
+        self.exclude_expr = exclude_expr
 
         self.pois_to_keep = [poi_name]
         if len(self.int_param_points) > 0:
@@ -66,50 +69,6 @@ class TaskBase:
             self.pois_to_keep += list(param_point)
             
         self.sanity_check()
-    
-    @staticmethod
-    def parse_filter_expr(expr:Optional[str]=None):
-        if expr is None:
-            return {}
-        tokens = expr.split(";")
-        conditions = {}
-        for token in tokens:
-            subtokens = token.split("=")
-            if len(subtokens) != 2:
-                raise RuntimEerror(f"invalid filter/exclude expression `{expr}`")
-            param_name = subtokens[0].strip()
-            param_conditions = [s.strip() for s in subtokens[1].split(",")]
-            conditions[param_name] = param_conditions
-        return conditions
-    
-    @staticmethod
-    def select_param_point(param_point, conditions:Dict):
-        selected = {}
-        for param_name in conditions:
-            param_value = param_point[param_name]
-            if isinstance(param_value, float):
-                param_value = round(param_value, 8)
-            param_value = str(param_value)
-            param_conditions = conditions[param_name]
-            selected[param_name] = any([fnmatch.fnmatch(param_value, cond) for cond in param_conditions])
-        selected = all([v for v in selected.values()])
-        return selected
-    
-    def select_param_points(self, param_points:List,
-                            filter_expr:Optional[str]=None,
-                            exclude_expr:Optional[str]=None):
-        selected_param_points = []
-        filter_conditions = self.parse_filter_expr(filter_expr)
-        exclude_conditions = self.parse_filter_expr(exclude_expr)
-        for param_point in param_points:
-            keep = True
-            if filter_conditions:
-                keep = self.select_param_point(param_point['parameters'], filter_conditions)
-            if exclude_conditions:
-                keep &= not (self.select_param_point(param_point['parameters'], exclude_conditions))
-            if keep:
-                selected_param_points.append(param_point)
-        return selected_param_points
             
     def parse_minimizer_options(self, config_path:Optional[str]=None):
         minimizer_options = {
@@ -155,6 +114,8 @@ class TaskBase:
             'input_path'     : self.basis_dir,
             'file_expr'   : self.file_expr,
             'param_expr'  : self.param_expr,
+            'filter_expr' : self.filter_expr,
+            'exclude_expr': self.exclude_expr,
             'outdir'      : self.limit_dir,
             'outname'     : self.MERGED_LIMITS_FNAME,
             'cache'       : self.cache,
@@ -355,9 +316,10 @@ class TaskPipelineWS(TaskBase):
         shutil.copy2(source_path, self.rescale_cfg_file_dir)
         
     def get_param_points(self, filter_expr:Optional[str]=None, exclude_expr:Optional[str]=None):
-        param_points = self.param_parser.get_external_param_points(self.input_ws_dir)
-        selected_param_points = self.select_param_points(param_points, filter_expr, exclude_expr)
-        return selected_param_points
+        param_points = self.param_parser.get_external_param_points(self.input_ws_dir,
+                                                                   filter_expr=filter_expr,
+                                                                   exclude_expr=exclude_expr)
+        return param_points
        
     @staticmethod
     def create_rescale_cfg_file(cfg_file, input_ws, output_ws, old_poiname, new_poiname,
@@ -544,7 +506,7 @@ class TaskCombination(TaskBase):
         temp = {}
         for channel in self.channels:
             dirname = os.path.join(self.input_ws_dir, channel)
-            ext_param_points = self.param_parser.get_external_param_points(dirname)
+            ext_param_points = self.param_parser.get_external_param_points(dirname, filter_expr, exclude_expr)
             for param_point in ext_param_points:
                 basename = param_point['basename']
                 if basename not in temp:
@@ -556,8 +518,7 @@ class TaskCombination(TaskBase):
             parameters = temp[basename]['parameters']
             param_point = {"basename":basename, "channels":channels, "parameters": parameters}
             param_points.append(param_point)
-        selected_param_points = self.select_param_points(param_points, filter_expr, exclude_expr)
-        return selected_param_points
+        return param_points
     
     def sanity_check(self):
         super().sanity_check()
