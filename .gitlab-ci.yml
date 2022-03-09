@@ -81,7 +81,7 @@ hhCompile:
   variables:
     output_dir: output/NR
     mini_option: default.json
-    version: 20210922/CONF2021
+    version: CONF2021/20210922
     other_options: ""
   allow_failure: true
   script:
