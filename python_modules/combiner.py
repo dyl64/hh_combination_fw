@@ -4,6 +4,7 @@ import sys
 import re
 import time
 import shutil
+import fnmatch
 import subprocess
 import glob
 import json
@@ -25,10 +26,12 @@ class TaskBase:
     def __init__(self, *args, **kwargs):
         self.initialize(*args, **kwargs)
 
-    def initialize(self, resonant_type, poi_name, data_name, file_expr=None, param_expr=None,
-                   do_better_bands=True, CL=0.95, blind=True, verbosity:str="INFO", minimizer_options=None,
-                   parallel=-1, cache=True, save_summary=False, do_limit=True, 
-                   do_likelihood=False, do_pvalue=False, task_options=None, **kwargs):
+    def initialize(self, resonant_type:str, poi_name:str, data_name:str, file_expr:Optional[str]=None,
+                   param_expr:Optional[str]=None, do_better_bands:bool=True, CL:float=0.95, blind:bool=True,
+                   verbosity:str="INFO", minimizer_options:Optional[Dict]=None,
+                   parallel:int=-1, cache:bool=True, save_summary:bool=False, do_limit:bool=True, 
+                   do_likelihood:bool=False, do_pvalue:bool=False, task_options:Optional[Dict]=None,
+                   filter_expr:Optional[str]=None, exclude_expr:Optional[str]=None, **kwargs):
         self.minimizer_options    = self.parse_minimizer_options(minimizer_options)
         config = {}
         config['data_name']       = data_name
@@ -54,7 +57,8 @@ class TaskBase:
         
         self.param_parser = ParamParser(self.file_expr, self.param_expr)
         self.int_param_points = self.param_parser.get_internal_param_points()
-        self.param_points = self.get_param_points()
+        self.param_points = self.get_param_points(filter_expr=filter_expr,
+                                                  exclude_expr=exclude_expr)
 
         self.pois_to_keep = [poi_name]
         if len(self.int_param_points) > 0:
@@ -62,7 +66,51 @@ class TaskBase:
             self.pois_to_keep += list(param_point)
             
         self.sanity_check()
-        
+    
+    @staticmethod
+    def parse_filter_expr(expr:Optional[str]=None):
+        if expr is None:
+            return {}
+        tokens = expr.split(";")
+        conditions = {}
+        for token in tokens:
+            subtokens = token.split("=")
+            if len(subtokens) != 2:
+                raise RuntimEerror(f"invalid filter/exclude expression `{expr}`")
+            param_name = subtokens[0]
+            param_conditions = subtokens[1].split(",")
+            conditions[param_name] = param_conditions
+        return conditions
+    
+    @staticmethod
+    def select_param_point(param_point, conditions:Dict):
+        selected = {}
+        for param_name in conditions:
+            param_value = param_point[param_name]
+            if isinstance(param_value, float):
+                param_value = round(param_value, 8)
+            param_value = str(param_value)
+            param_conditions = conditions[param_name]
+            selected[param_name] = any([fnmatch.fnmatch(param_value, cond) for cond in param_conditions])
+        selected = all([v for v in selected.values()])
+        return selected
+    
+    def select_param_points(self, param_points:List,
+                            filter_expr:Optional[str]=None,
+                            exclude_expr:Optional[str]=None):
+        selected_param_points = []
+        filter_conditions = self.parse_filter_expr(filter_expr)
+        exclude_conditions = self.parse_filter_expr(exclude_expr)
+        for param_point in param_points:
+            keep = True
+            if filter_conditions:
+                keep = self.select_param_point(param_point['parameters'], filter_conditions)
+            if exclude_conditions:
+                keep &= not (self.select_param_point(param_point['parameters'], exclude_conditions))
+            if keep:
+                selected_param_points.append(param_point)
+        return selected_param_points
+            
     def parse_minimizer_options(self, config_path:Optional[str]=None):
         minimizer_options = {
             'general': {},
@@ -104,7 +152,7 @@ class TaskBase:
     def limit_setting(self):
 
         kwargs = {
-            'dirname'     : self.basis_dir,
+            'input_path'     : self.basis_dir,
             'file_expr'   : self.file_expr,
             'param_expr'  : self.param_expr,
             'outdir'      : self.limit_dir,
@@ -117,6 +165,7 @@ class TaskBase:
         }
         runner = ParameterisedAsymptoticCLs(**kwargs)
         runner.run()
+
         
     def calculate_pvalue(self, param_point):
         if (self.task_options is None):
@@ -305,9 +354,10 @@ class TaskPipelineWS(TaskBase):
             raise FileNotFoundError('File {} not found'.format(source_path))
         shutil.copy2(source_path, self.rescale_cfg_file_dir)
         
-    def get_param_points(self):
+    def get_param_points(self, filter_expr:Optional[str]=None, exclude_expr:Optional[str]=None):
         param_points = self.param_parser.get_external_param_points(self.input_ws_dir)
-        return param_points
+        selected_param_points = self.select_param_points(param_points, filter_expr, exclude_expr)
+        return selected_param_points
        
     @staticmethod
     def create_rescale_cfg_file(cfg_file, input_ws, output_ws, old_poiname, new_poiname,
@@ -483,13 +533,14 @@ class TaskCombination(TaskBase):
         self.scheme_tag = 'nocorr' if self.correlation_scheme is None else 'fullcorr'
         self.tag = tag_pattern.format(channels='_'.join(self.channels), scheme=self.scheme_tag)
         super().initialize(resonant_type, poi_name, data_name, **kwargs)
-        self.param_points = self.get_param_points()
+        self.param_points = self.get_param_points(filter_expr=filter_expr,
+                                                  exclude_expr=exclude_expr)
         print('INFO: Registered the following param points and corresponding channels for combination')
         for param_point in self.param_points:
             param_str = self.param_parser.val_encode_parameters(param_point['parameters'])
             print(f'({param_str}): {param_point["channels"]}')
         
-    def get_param_points(self):
+    def get_param_points(self, filter_expr:Optional[str]=None, exclude_expr:Optional[str]=None):
         temp = {}
         for channel in self.channels:
             dirname = os.path.join(self.input_ws_dir, channel)
@@ -505,7 +556,8 @@ class TaskCombination(TaskBase):
             parameters = temp[basename]['parameters']
             param_point = {"basename":basename, "channels":channels, "parameters": parameters}
             param_points.append(param_point)
-        return param_points
+        selected_param_points = self.select_param_points(param_points, filter_expr, exclude_expr)
+        return selected_param_points
     
     def sanity_check(self):
         super().sanity_check()
