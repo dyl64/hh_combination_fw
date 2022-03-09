@@ -30,6 +30,14 @@ DEFAULT_COMB_DATASET = 'combData'
               help='\b Parameter name expression describing the internal parameterisation.\n'
                    '\b Example: "klambda=-10_10_0.2,k2v=1"\n'
                    '\b Refer to documentation for more information\n')
+@click.option('-f', '--filter', 'filter_expr', default=None, show_default=True,
+              help='\b Filter parameter points by expression.\n'
+                   '\b Example: "mass=2*,350,400,450;klambda=1.*,2.*,-1.*,-2.*"\n'
+                   '\b Refer to documentation for more information\n')
+@click.option('-e', '--exclude', 'exclude_expr', default=None, show_default=True,
+              help='\b Exclude parameter points by expression.\n'
+                   '\b Example: "mass=2*,350,400,450;klambda=1.*,2.*,-1.*,-2.*"\n'
+                   '\b Refer to documentation for more information\n')
 @click.option('--scaling_release', default="r999", show_default=True,
               help='Scaling release (obselete, one should set the value by `rescale_poi` in config/regularization.yaml')
 @click.option('--better_bands/--no-better-bands', 'do_better_bands', default=True, show_default=True,
@@ -58,7 +66,8 @@ DEFAULT_COMB_DATASET = 'combData'
               help='Whether to run likelihood scan.')
 @click.option('--do-pvalue/--skip-pvalue', default=False, show_default=True,
               help='Whether to evaluate pvalue(s).')
-def process_channels(input_dir, resonant_type, channels, outdir, file_expr, param_expr,
+def process_channels(input_dir, resonant_type, channels, outdir, file_expr,
+                     param_expr, filter_expr, exclude_expr,
                      scaling_release, do_better_bands, CL, blind,
                      config_file, minimizer_options, verbosity, 
                      parallel, cache, save_summary, do_limit,
@@ -108,5 +117,7 @@ def process_channels(input_dir, resonant_type, channels, outdir, file_expr, para
                                            save_summary=save_summary, do_limit=do_limit,
                                            do_likelihood=do_likelihood,
                                            do_pvalue=do_pvalue,
-                                           task_options=task_options)
+                                           task_options=task_options,
+                                           filter_expr=filter_expr,
+                                           exclude_expr=exclude_expr)
         pipeline.run_pipeline()
