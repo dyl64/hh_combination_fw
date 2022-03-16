@@ -3,7 +3,7 @@ from math import sqrt, fabs, erf
 import click
 import json
 from quickstats.components import AnalysisObject
-from quickstats.components.likelihood import evaluate_nll
+#from quickstats.components.likelihood import evaluate_nll
 from concurrent.futures import ProcessPoolExecutor
 from quickstats.components import AsimovGenerator
 import multiprocessing

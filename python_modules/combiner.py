@@ -4,13 +4,15 @@ import sys
 import re
 import time
 import shutil
+import fnmatch
 import subprocess
 import glob
 import json
 import copy
 
 import utils
-from quickstats.components import ExtendedModel, ParamParser, AnalysisBase
+from quickstats.components import ExtendedModel, AnalysisBase
+from quickstats.parsers import ParamParser
 from quickstats.concurrent.logging import standard_log
 from quickstats.utils.common_utils import execute_multi_tasks
 from quickstats.concurrent import ParameterisedAsymptoticCLs
@@ -25,10 +27,12 @@ class TaskBase:
     def __init__(self, *args, **kwargs):
         self.initialize(*args, **kwargs)
 
-    def initialize(self, resonant_type, poi_name, data_name, file_expr=None, param_expr=None,
-                   do_better_bands=True, CL=0.95, blind=True, verbosity:str="INFO", minimizer_options=None,
-                   parallel=-1, cache=True, save_summary=False, do_limit=True, 
-                   do_likelihood=False, do_pvalue=False, task_options=None, **kwargs):
+    def initialize(self, resonant_type:str, poi_name:str, data_name:str, file_expr:Optional[str]=None,
+                   param_expr:Optional[str]=None, do_better_bands:bool=True, CL:float=0.95, blind:bool=True,
+                   verbosity:str="INFO", minimizer_options:Optional[Dict]=None,
+                   parallel:int=-1, cache:bool=True, save_summary:bool=False, do_limit:bool=True, 
+                   do_likelihood:bool=False, do_pvalue:bool=False, task_options:Optional[Dict]=None,
+                   filter_expr:Optional[str]=None, exclude_expr:Optional[str]=None, **kwargs):
         self.minimizer_options    = self.parse_minimizer_options(minimizer_options)
         config = {}
         config['data_name']       = data_name
@@ -54,7 +58,10 @@ class TaskBase:
         
         self.param_parser = ParamParser(self.file_expr, self.param_expr)
         self.int_param_points = self.param_parser.get_internal_param_points()
-        self.param_points = self.get_param_points()
+        self.param_points = self.get_param_points(filter_expr=filter_expr,
+                                                  exclude_expr=exclude_expr)
+        self.filter_expr = filter_expr
+        self.exclude_expr = exclude_expr
 
         self.pois_to_keep = [poi_name]
         if len(self.int_param_points) > 0:
@@ -62,7 +69,7 @@ class TaskBase:
             self.pois_to_keep += list(param_point)
             
         self.sanity_check()
-        
+            
     def parse_minimizer_options(self, config_path:Optional[str]=None):
         minimizer_options = {
             'general': {},
@@ -107,6 +114,8 @@ class TaskBase:
             'input_path'     : self.basis_dir,
             'file_expr'   : self.file_expr,
             'param_expr'  : self.param_expr,
+            'filter_expr' : self.filter_expr,
+            'exclude_expr': self.exclude_expr,
             'outdir'      : self.limit_dir,
             'outname'     : self.MERGED_LIMITS_FNAME,
             'cache'       : self.cache,
@@ -117,6 +126,7 @@ class TaskBase:
         }
         runner = ParameterisedAsymptoticCLs(**kwargs)
         runner.run()
+
         
     def calculate_pvalue(self, param_point):
         if (self.task_options is None):
@@ -305,8 +315,10 @@ class TaskPipelineWS(TaskBase):
             raise FileNotFoundError('File {} not found'.format(source_path))
         shutil.copy2(source_path, self.rescale_cfg_file_dir)
         
-    def get_param_points(self):
-        param_points = self.param_parser.get_external_param_points(self.input_ws_dir)
+    def get_param_points(self, filter_expr:Optional[str]=None, exclude_expr:Optional[str]=None):
+        param_points = self.param_parser.get_external_param_points(self.input_ws_dir,
+                                                                   filter_expr=filter_expr,
+                                                                   exclude_expr=exclude_expr)
         return param_points
        
     @staticmethod
@@ -483,17 +495,18 @@ class TaskCombination(TaskBase):
         self.scheme_tag = 'nocorr' if self.correlation_scheme is None else 'fullcorr'
         self.tag = tag_pattern.format(channels='_'.join(self.channels), scheme=self.scheme_tag)
         super().initialize(resonant_type, poi_name, data_name, **kwargs)
-        self.param_points = self.get_param_points()
+        if not self.param_points:
+            raise RuntimeError("No points to combine")
         print('INFO: Registered the following param points and corresponding channels for combination')
         for param_point in self.param_points:
             param_str = self.param_parser.val_encode_parameters(param_point['parameters'])
             print(f'({param_str}): {param_point["channels"]}')
         
-    def get_param_points(self):
+    def get_param_points(self, filter_expr:Optional[str]=None, exclude_expr:Optional[str]=None):
         temp = {}
         for channel in self.channels:
             dirname = os.path.join(self.input_ws_dir, channel)
-            ext_param_points = self.param_parser.get_external_param_points(dirname)
+            ext_param_points = self.param_parser.get_external_param_points(dirname, filter_expr, exclude_expr)
             for param_point in ext_param_points:
                 basename = param_point['basename']
                 if basename not in temp:
