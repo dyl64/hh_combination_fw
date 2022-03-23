@@ -111,7 +111,7 @@ class TaskBase:
     def limit_setting(self):
 
         kwargs = {
-            'input_path'     : self.basis_dir,
+            'input_path'  : self.basis_dir,
             'file_expr'   : self.file_expr,
             'param_expr'  : self.param_expr,
             'filter_expr' : self.filter_expr,
@@ -119,7 +119,7 @@ class TaskBase:
             'outdir'      : self.limit_dir,
             'outname'     : self.MERGED_LIMITS_FNAME,
             'cache'       : self.cache,
-            'save_log'    : True,
+            'save_log'    : not self.config['verbosity'] == "DEBUG",
             'save_summary': self.save_summary,
             'parallel'    : self.parallel,
             'config'      : {**self.minimizer_options['limit_setting'], **self.config}
