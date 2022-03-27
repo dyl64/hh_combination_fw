@@ -21,8 +21,8 @@ elif [[ $1 == '101' ]] || [[ -z $1 ]]; then
     echo 'setup LCG_101'
     lsetup "views LCG_101 x86_64-centos7-gcc8-opt"
 else
-    echo 'Specify a relase number for LCG, default LCG_98python3'
-    echo 'source setup.sh [98|100]'
+    echo 'Specify a relase number for LCG, default LCG_101'
+    echo 'source setup.sh [98|100|101]'
     return
 fi
 # More memory
