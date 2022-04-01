@@ -20,7 +20,12 @@ Default is no correlation.
 
 
 ## History:
-- Current default (20210903)
+- Current version (20220401) for H+HH nonres
+    - `configs/np_map_nonres_v5.json`
+    - Decorrelated ATLAS_EG_SCALE_ALL by hand
+    - `PS` HH is decorrelated
+
+- CONF note (also HL and HEFT PUB) 20210903
     - `configs/np_map_spin0_v5.json`, `configs/np_map_spin0_v5_FTcor.json`, `configs/np_map_nonres_v4.json`
     - Decorrelated ATLAS_EG_SCALE_ALL by hand
     - Decorrelated `_FTcor` 4b by hand
