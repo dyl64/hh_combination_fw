@@ -101,7 +101,14 @@ HComb kl_likelihood -i <output_directory> -c bbyy,bbtautau --min=-2 --max=10 --s
 python likelihood_plotting.py -a nonres -i <output_directory>/output/likelihood/ -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o <output_directory>/figure --threshold 12
 ```
 
-## Run pulls and impact
+## Run pulls (best fit) and plotting
+
+```
+quickstats likelihood_fit -i <workspace_file> -d combData --save_log --export_as_np_pulls
+quickstats plot_pulls -i pulls/ --sigma_bands --hide_prefit --hide_postfit --theta_max 3 --padding 4 --hide_sigma  --no_sigma_lines --no_ranking_label
+```
+
+## Run ranking and impact
 
 Perform ranking with:
 ```
@@ -114,13 +121,13 @@ Then plot ranking plot with
 quickstats plot_pulls --poi xsec_br -i pulls/ --outdir rank_plot -o channel
 ```
 
-## Run pulls and impact in batch
+## Run ranking and impact in batch
 ```
 cd NP_ranking
 # if you want to generate an asimov instead of using obs (for nonres it is true due to deficit of bbyy obs)
 source get_profiled_asimov.sh
 
-# run all pulls
+# run all ranking
 python run_ranking.py nonres <input_folder>
 
 # harmonise NP names for individual channels to match the combined
