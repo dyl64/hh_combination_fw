@@ -11,6 +11,7 @@ DEFAULT_NEW_POI = "xsec_br"
 DEFAULT_BLIND_DATASET = 'asimovData'
 DEFAULT_UNBLIND_DATASET = 'obsData'
 DEFAULT_COMB_DATASET = 'combData'
+DEFAULT_WSName = 'combWS'
 
 @click.command(name='process_channels')
 @click.option('-i', '--input_dir', required=True, 
@@ -106,8 +107,14 @@ def process_channels(input_dir, resonant_type, channels, outdir, file_expr,
                 "likelihood_scan": config.get('likelihood_scan', None),
                 "calculate_pvalue": config.get('calculate_pvalue', None),
             }
+            
+        # update for workspace
+        workspace_name = DEFAULT_WSName
+        if config is not None and 'workspace' in config and channel in config['workspace']: 
+            workspace_name = config['workspace'][channel]
+         
         pipeline = combiner.TaskPipelineWS(input_dir, outdir, resonant_type, channel, scaling_release,
-                                           old_poi, new_poi, old_dataname, new_dataname,
+                                           old_poi, new_poi, old_dataname, new_dataname, workspace_name=workspace_name,
                                            redefine_parameters=channel_redefine_parameters, 
                                            rescale_poi=channel_rescale_poi,                                           
                                            file_expr=file_expr, param_expr=param_expr,

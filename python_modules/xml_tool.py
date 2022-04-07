@@ -369,7 +369,7 @@ def create_channel_node(root_node, channel, fname, poi_name, rename_map=None,
         rename_node.add_node('Syst', OldName='channelCat', NewName='Cat_{}'.format(channel))
         if rename_map is not None:
             model = ExtendedModel(fname, verbosity="ERROR", binned_likelihood=False,
-                                  tag_as_measurement=None)
+                                  tag_as_measurement=None, data_name=data_name)
             constraints = model.pair_constraints(to_str=True)
             np_list = [i.GetName() for i in model.nuisance_parameters]
             for (pdf_name, np_name, glob_name) in constraints:   
@@ -387,7 +387,7 @@ def create_channel_node(root_node, channel, fname, poi_name, rename_map=None,
                 old_name_full = '{}( {}, {})'.format(pdf_name, np_name, glob_name)
                 rename_node.add_node('Syst', OldName=old_name_full, NewName=new_name)
     
-def create_combination_xml(input_ws, output_ws, poi_name, rename_map=None,
+def create_combination_xml(input_ws, output_ws, poi_name, rename_map=None, wd_name=None,
                            ws_name='combWS', mc_name='ModelConfig', data_name='combData',
                            ignore_missing_keys=False):
     quickstats.set_verbosity("WARNING")
@@ -398,7 +398,7 @@ def create_combination_xml(input_ws, output_ws, poi_name, rename_map=None,
     for channel in input_ws:
         channel_rename_map = rename_map.get(channel, None)
         create_channel_node(xml, channel, input_ws[channel], poi_name, rename_map=channel_rename_map,
-                            ws_name=ws_name, mc_name=mc_name, data_name=data_name,
+                            ws_name=wd_name[channel]['ws_name'], mc_name=mc_name, data_name=wd_name[channel]['data_name'],
                             ignore_missing_keys=ignore_missing_keys)
     quickstats.set_verbosity("INFO")
     return xml

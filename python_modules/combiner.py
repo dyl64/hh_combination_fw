@@ -273,7 +273,7 @@ class TaskBase:
 class TaskPipelineWS(TaskBase):
     
     def initialize(self, input_dir, output_dir, resonant_type, channel, scaling_release, 
-                   old_poiname, new_poiname, old_dataname, new_dataname, 
+                   old_poiname, new_poiname, old_dataname, new_dataname, workspace_name='combWS',
                    redefine_parameters=None, rescale_poi=None, **kwargs):
         
         self.input_dir = input_dir
@@ -286,6 +286,8 @@ class TaskPipelineWS(TaskBase):
         self.new_poiname = new_poiname
         self.old_dataname = old_dataname
         self.new_dataname = new_dataname
+        self.workspace_name = workspace_name
+        
         super().initialize(resonant_type, new_poiname, new_dataname, **kwargs)
         
     def sanity_check(self):
@@ -323,7 +325,7 @@ class TaskPipelineWS(TaskBase):
        
     @staticmethod
     def create_rescale_cfg_file(cfg_file, input_ws, output_ws, old_poiname, new_poiname,
-                                poi_scale, pois_to_keep, oldpoi_equiv_name='mu_old', 
+                                poi_scale, pois_to_keep, workspace_name='combWS', oldpoi_equiv_name='mu_old', 
                                 redefine_parameters=None):
         
         print('INFO: Creating config file: {0}, poi: {1} --> {2}, scaling: {3}'.format(
@@ -337,7 +339,8 @@ class TaskPipelineWS(TaskBase):
             "InFile": input_ws,
             "OutFile": output_ws,
             "ModelName": "dummy",
-            "POINames": pois_to_keep
+            "POINames": pois_to_keep,
+            "WorkspaceName": workspace_name,
         }
         cfg_xml.new_root(tag="Organization", attrib=attrib)
         # need to check the default value of the poi
@@ -389,10 +392,10 @@ class TaskPipelineWS(TaskBase):
         regularised_ws_path = os.path.join(self.regularised_dir, filename)       
         print("INFO: Regularising {0} --> {1}".format(input_ws_path, regularised_ws_path))
         
-        wsc_bin_path = os.path.join(self.WSC_PATH, 'bin', 'manager')
+        wsc_bin_path = os.path.join(self.WSC_PATH, 'build', 'manager')
                                     
         cmd_regularise = [wsc_bin_path, "-w", "regulate", "-f", input_ws_path, "-p", regularised_ws_path,
-                          "-d", self.old_dataname]
+                          "--dataName", self.old_dataname, "--wsName", self.workspace_name]
 
         print(' '.join(cmd_regularise))
         regularise_logfile_path = regularised_ws_path.replace('.root', '.log')
@@ -429,12 +432,12 @@ class TaskPipelineWS(TaskBase):
         pois_to_keep = ','.join(self.pois_to_keep)
         
         self.create_rescale_cfg_file(rescale_cfg_file_path, regularised_ws_path,
-                                     rescaled_ws_path, old_poiname, self.new_poiname, poi_scale, pois_to_keep,
+                                     rescaled_ws_path, old_poiname, self.new_poiname, poi_scale, pois_to_keep, workspace_name=self.workspace_name,
                                      redefine_parameters=self.redefine_parameters)
 
         rescale_logfile_path = rescaled_ws_path.replace('.root', '.log')
         
-        wsc_bin_path = os.path.join(self.WSC_PATH, 'bin', 'manager')
+        wsc_bin_path = os.path.join(self.WSC_PATH, 'build', 'manager')
         
         cmd_rescale = [wsc_bin_path, "-w", "edit", "-x", rescale_cfg_file_path]
         print(' '.join(cmd_rescale))
@@ -453,11 +456,14 @@ class TaskPipelineWS(TaskBase):
 
 class TaskCombination(TaskBase):
     
-    def __init__(self, *args, **kwargs):
+    def __init__(self,*args, **kwargs):
+        self.wd_name={} # diction for workspace and dataset name
         self.initialize(*args, **kwargs)
         # make sure the NPs are set to nominal values at the beginning
         for k in self.minimizer_options:
             self.minimizer_options[k]['snapshot_name'] = "nominalNuis"
+        
+        
     
     @property
     def channels(self):
@@ -501,6 +507,7 @@ class TaskCombination(TaskBase):
         for param_point in self.param_points:
             param_str = self.param_parser.val_encode_parameters(param_point['parameters'])
             print(f'({param_str}): {param_point["channels"]}')
+            self.get_ws_data(param_point)
         
     def get_param_points(self, filter_expr:Optional[str]=None, exclude_expr:Optional[str]=None):
         temp = {}
@@ -519,6 +526,16 @@ class TaskCombination(TaskBase):
             param_point = {"basename":basename, "channels":channels, "parameters": parameters}
             param_points.append(param_point)
         return param_points
+    
+    def get_ws_data(self, param_point):
+        channels = param_point.get("channels", None)
+        input_ws_paths = {}
+        filename = f"{param_point['basename']}.root"
+        for channel in channels:
+            input_ws_paths[channel] = os.path.join(self.input_ws_dir, channel, filename)
+            model = ExtendedModel(input_ws_paths[channel], data_name=None, verbosity="WARNING", binned_likelihood=False)
+            print(f'{channel}: {model.data_name} in {model.ws_name}')
+            self.wd_name.update({channel: {'ws_name': model.ws_name, 'data_name': model.data_name}})
     
     def sanity_check(self):
         super().sanity_check()
@@ -557,7 +574,7 @@ class TaskCombination(TaskBase):
         poi_name = ",".join(self.pois_to_keep)
         data_name = self.config['data_name']
         xml = create_combination_xml(input_ws_paths, combined_ws_path, poi_name, 
-                                     rename_map=self.correlation_scheme, data_name=data_name)
+                                     rename_map=self.correlation_scheme, data_name=data_name, wd_name=self.wd_name)
         return xml
         
     def create_combination_xml(self, param_point):
@@ -572,7 +589,7 @@ class TaskCombination(TaskBase):
         config_file_path = os.path.join(self.cfg_file_dir, f"{param_point['basename']}.xml")
         logfile_path = combined_ws_path.replace('.root', '.log')
         
-        wsc_bin_path = os.path.join(self.WSC_PATH, 'bin', 'manager')
+        wsc_bin_path = os.path.join(self.WSC_PATH, 'build', 'manager')
         cmd = [wsc_bin_path, "-w", "combine", "-x", config_file_path, "-f", combined_ws_path, "-s", fit_strategy, "-t", fit_tolerance]
         print(' '.join(cmd))
         
