@@ -391,7 +391,7 @@ class TaskPipelineWS(TaskBase):
         
         wsc_bin_path = os.path.join(self.WSC_PATH, 'bin', 'manager')
                                     
-        cmd_regularise = [wsc_bin_path, "-w", "decorate", "-f", input_ws_path, "-p", regularised_ws_path,
+        cmd_regularise = [wsc_bin_path, "-w", "regulate", "-f", input_ws_path, "-p", regularised_ws_path,
                           "-d", self.old_dataname]
 
         print(' '.join(cmd_regularise))
@@ -436,7 +436,7 @@ class TaskPipelineWS(TaskBase):
         
         wsc_bin_path = os.path.join(self.WSC_PATH, 'bin', 'manager')
         
-        cmd_rescale = [wsc_bin_path, "-w", "organize", "-x", rescale_cfg_file_path]
+        cmd_rescale = [wsc_bin_path, "-w", "edit", "-x", rescale_cfg_file_path]
         print(' '.join(cmd_rescale))
         
         if os.path.exists(rescaled_ws_path) and self.cache:
