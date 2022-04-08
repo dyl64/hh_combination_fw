@@ -355,37 +355,33 @@ def _serialize_xml(write, elem, qnames, namespaces,
 def create_channel_node(root_node, channel, fname, poi_name, rename_map=None,
                         ws_name='combWS', mc_name='ModelConfig', data_name='combData',
                         ignore_missing_keys=False):
-    channel_node = root_node.add_node('Channel', Name=channel)
-    if channel == 'combined':
-        channel_node.attrib['IsCombined'] = "true"
-        channel_node.attrib['Mass'] = "MASS"
-    channel_node.add_node('File', Name=fname)
-    channel_node.add_node('Workspace', Name=ws_name)
-    channel_node.add_node('ModelConfig', Name=mc_name)
-    channel_node.add_node('ModelData', Name=data_name)
-    channel_node.add_node('ModelPOI', Name=poi_name)
-    if channel != 'combined':
-        rename_node = channel_node.add_node('RenameMap')
-        rename_node.add_node('Syst', OldName='channelCat', NewName='Cat_{}'.format(channel))
-        if rename_map is not None:
-            model = ExtendedModel(fname, verbosity="ERROR", binned_likelihood=False,
-                                  tag_as_measurement=None, data_name=data_name)
-            constraints = model.pair_constraints(to_str=True)
-            np_list = [i.GetName() for i in model.nuisance_parameters]
-            for (pdf_name, np_name, glob_name) in constraints:   
-                if np_name not in np_list:
-                    continue
-                if (np_name not in rename_map) and (not ignore_missing_keys):
-                    raise ValueError('missing mapping for the nuisance parameter "{}" '
-                                     'in the workspace "{}"'.format(np_name, fname))
-                new_name = rename_map[np_name]
-                # new nuisance parameter name not specified
-                if new_name is None:
-                    print('WARNING: Mapping for the nuisance parameter "{}" is null. '
-                          'Skipped.'.format(np_name))
-                    continue
-                old_name_full = '{}( {}, {})'.format(pdf_name, np_name, glob_name)
-                rename_node.add_node('Syst', OldName=old_name_full, NewName=new_name)
+    channel_node = root_node.add_node('Channel', Name=channel, 
+                                      InputFile=fname,
+                                      WorkspaceName=ws_name,
+                                      ModelConfigName=mc_name,
+                                      DataName=data_name,
+                                      )
+    POI_node = channel_node.add_node('POIList', Input=poi_name)
+    rename_node = channel_node.add_node('RenameMap')
+    if rename_map is not None:
+        model = ExtendedModel(fname, verbosity="ERROR", binned_likelihood=False,
+                                tag_as_measurement=None, data_name=data_name)
+        constraints = model.pair_constraints(to_str=True)
+        np_list = [i.GetName() for i in model.nuisance_parameters]
+        for (pdf_name, np_name, glob_name) in constraints:   
+            if np_name not in np_list:
+                continue
+            if (np_name not in rename_map) and (not ignore_missing_keys):
+                raise ValueError('missing mapping for the nuisance parameter "{}" '
+                                'in the workspace "{}"'.format(np_name, fname))
+            new_name = rename_map[np_name]
+            # new nuisance parameter name not specified
+            if new_name is None:
+                print('WARNING: Mapping for the nuisance parameter "{}" is null. '
+                      'Skipped.'.format(np_name))
+                continue
+            old_name_full = '{}( {}, {})'.format(pdf_name, np_name, glob_name)
+            rename_node.add_node('Syst', OldName=old_name_full, NewName=new_name)
     
 def create_combination_xml(input_ws, output_ws, poi_name, rename_map=None, wd_name=None,
                            ws_name='combWS', mc_name='ModelConfig', data_name='combData',
@@ -393,8 +389,9 @@ def create_combination_xml(input_ws, output_ws, poi_name, rename_map=None, wd_na
     quickstats.set_verbosity("WARNING")
     rename_map = {} if rename_map is None else rename_map
     xml = TXMLTree(doctype='Combination', system='Combination.dtd')
-    xml.new_root('Combination')
-    create_channel_node(xml, 'combined', output_ws, poi_name, ws_name=ws_name, mc_name=mc_name, data_name=data_name)
+    xml.new_root('Combination', WorkspaceName=ws_name, ModelConfigName=mc_name, DataName=data_name, OutputFile=output_ws)
+    xml.add_node('POIList', Combined=poi_name)
+    xml.add_node('Asimov', Name='fit')
     for channel in input_ws:
         channel_rename_map = rename_map.get(channel, None)
         create_channel_node(xml, channel, input_ws[channel], poi_name, rename_map=channel_rename_map,
