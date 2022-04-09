@@ -390,7 +390,7 @@ def create_combination_xml(input_ws, output_ws, poi_name, rename_map=None, wd_na
     rename_map = {} if rename_map is None else rename_map
     xml = TXMLTree(doctype='Combination', system='Combination.dtd')
     xml.new_root('Combination', WorkspaceName=ws_name, ModelConfigName=mc_name, DataName=data_name, OutputFile=output_ws)
-    xml.add_node('POIList', Combined=poi_name)
+    xml.add_node('POIList', Combined=formate_poi_name(poi_name))
     xml.add_node('Asimov', Name='fit')
     for channel in input_ws:
         channel_rename_map = rename_map.get(channel, None)
@@ -399,3 +399,11 @@ def create_combination_xml(input_ws, output_ws, poi_name, rename_map=None, wd_na
                             ignore_missing_keys=ignore_missing_keys)
     quickstats.set_verbosity("INFO")
     return xml
+
+def formate_poi_name(poi_name):
+    new_poi=poi_name.split(',')
+    new_poi = [ ( p + '[1~1]') for p in new_poi ]
+    new_poi = ','.join(new_poi)
+    print(new_poi)
+    
+    return new_poi

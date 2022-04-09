@@ -513,6 +513,7 @@ class TaskCombination(TaskBase):
         temp = {}
         for channel in self.channels:
             dirname = os.path.join(self.input_ws_dir, channel)
+            # print(f'{channel} --> {dirname}, {filter_expr}')
             ext_param_points = self.param_parser.get_external_param_points(dirname, filter_expr, exclude_expr)
             for param_point in ext_param_points:
                 basename = param_point['basename']
