@@ -51,15 +51,7 @@ def kl_likelihood(**kwargs):
     other_options += ('--cache' if kwargs['cache'] else '--no-cache')
 
     print(input_files)
-    for input_file, outname in zip(input_files, outnames):
-        # if input_file != "/lustre/collider/zhangyulei/ATLAS/HHHCombination/hh_combination_fw/output/kl_likelihood/combined/nonres/A-bbtautau_bbyy-fullcorr/0_kl.root":
-        #     continue
-        # generate asimov using CLI tool
-        # output_file = input_file.replace(".root", ('_poi_1' if kwargs['splusb'] else '_poi_0') + ".root")
-        # fix_param = f'xsec_br=1,{poi}=1' if kwargs['splusb'] else f'xsec_br=1,{poi}=0'
-        # asimovDataType = -2 if kwargs['splusb'] else -1
-
-        
+    for input_file, outname in zip(input_files, outn):
         output_file = input_file
         outDataSetName = 'combData'
         if hypo_type != 2:
