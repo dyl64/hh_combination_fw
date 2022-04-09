@@ -7,6 +7,8 @@ import click
 
 from quickstats.clis.likelihood_scan import likelihood_scan
 
+DEFAULT_UNBLIND_DATASET = 'obsData'
+
 
 @click.command(name='kl_likelihood')
 @click.option('-p', '--poi', default='klambda', show_default=True,
@@ -15,6 +17,8 @@ from quickstats.clis.likelihood_scan import likelihood_scan
               help='\b Parameter name expression describing the internal parameterisation.\n'
                    '\b Example: "klambda=-10_10_0.2,k2v=1"\n'
                    '\b Refer to documentation for more information\n')
+@click.option('--config', 'config_file', default=None, show_default=True,
+              help='configuration file for task options')
 @click.option('--cache/--no-cache', default=True, show_default=True,
               help='Cache existing result')
 @click.option('-i', '--input_folder', required=True, help='Path to the task.')
@@ -31,41 +35,45 @@ from quickstats.clis.likelihood_scan import likelihood_scan
 def kl_likelihood(**kwargs):
     input_file, output, poi, channels, scheme, kl_options, hypo_type = kwargs['input_folder'], kwargs['output'], kwargs[
         'poi'], kwargs['channels'], kwargs['scheme'], kwargs['kl_options'], int(kwargs['hypothesis_type'])
-    param_expr = kwargs['param_expr']
+    param_expr, config_file = kwargs['param_expr'], kwargs['config_file']
     # output = '/'.join([output, 'kl1' if kwargs['splusb'] else 'kl0'])
     output = '/'.join([output, f'kl{hypo_type}'])
     channels = sorted(channels.split(','), key=lambda x: (x.casefold(), x.swapcase()))
     outdir = f'{input_file}/{output}/'
 
+    config = yaml.safe_load(open(config_file)) if config_file is not None else None
+
+    input_files, out_names, data_names = [], [], []
     if kwargs['include_chan']:
         input_files = [f'{input_file}/rescaled/nonres/{channel}/0_kl.root' for channel in channels]
-        outnames = [f'{channel}_{poi}.json' for channel in channels]
-    else:
-        input_files, outnames = [], []
+        out_names = [f'{channel}_{poi}.json' for channel in channels]
+
+        data_names = [config['dataset'][channel]['unblind'] for channel in channels]
 
     # append combined
     if kwargs['combine']:
         input_files.append(f'{input_file}/combined/nonres/A-{"_".join(channels)}-{scheme}/0_kl.root')
-        outnames.append(f'combined_{poi}.json')
+        out_names.append(f'combined_{poi}.json')
+        data_names.append('combData')
 
     other_options = ''
     other_options += ('--cache' if kwargs['cache'] else '--no-cache')
 
     print(input_files)
-    for input_file, outname in zip(input_files, outnames):
+    for input_file, out_name, data_name in zip(input_files, out_names, data_names):
         output_file = input_file
-        outDataSetName = 'combData'
+        outDataSetName = data_name
         if hypo_type != 2:
             output_file = input_file.replace(".root", f'_poi_{hypo_type}' + ".root")
             fix_param = f'xsec_br=1,{poi}={hypo_type}'
             asimovDataType = -1 - hypo_type
             outDataSetName = f"asimovData_{hypo_type}_NP_Nominal"
-            command = f'quickstats generate_standard_asimov -t {asimovDataType} -p {poi} -d combData -i {input_file} -o {output_file} --fix {fix_param}'
+            command = f'quickstats generate_standard_asimov -t {asimovDataType} -p {poi} -d combData -i {input_file} -o {output_file} --fix {fix_param} -d {data_name}'
             print(command)
             os.system(command)
 
         # scan likelihood using CLI tool
         fix_param = 'xsec_br=1'
-        command = f'quickstats likelihood_scan -i {output_file} --param_expr "{param_expr}" -d {outDataSetName} --parallel -1 --print_level 1 -o {outname} {other_options} --outdir {outdir} --fix {fix_param} {kl_options} '
+        command = f'quickstats likelihood_scan -i {output_file} --param_expr "{param_expr}" -d {outDataSetName} --parallel -1 --print_level 1 -o {out_name} {other_options} --outdir {outdir} --fix {fix_param} {kl_options} '
         print(command)
         os.system(command)
