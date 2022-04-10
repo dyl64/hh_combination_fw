@@ -68,7 +68,7 @@ def kl_likelihood(**kwargs):
             fix_param = f'xsec_br=1,{poi}={hypo_type}'
             asimovDataType = -1 - hypo_type
             outDataSetName = f"asimovData_{hypo_type}_NP_Nominal"
-            command = f'quickstats generate_standard_asimov -t {asimovDataType} -p {poi} -d combData -i {input_file} -o {output_file} --fix {fix_param} -d {data_name}'
+            command = f'quickstats generate_standard_asimov -t {asimovDataType} -p {poi} -i {input_file} -o {output_file} --fix {fix_param} -d {data_name}'
             print(command)
             os.system(command)
 
