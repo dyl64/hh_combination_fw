@@ -273,7 +273,7 @@ class TaskBase:
 class TaskPipelineWS(TaskBase):
     
     def initialize(self, input_dir, output_dir, resonant_type, channel, scaling_release, 
-                   old_poiname, new_poiname, old_dataname, new_dataname, workspace_name='combWS',
+                   old_poiname, new_poiname, dataname, workspace_name='combWS',
                    redefine_parameters=None, rescale_poi=None, **kwargs):
         
         self.input_dir = input_dir
@@ -284,11 +284,10 @@ class TaskPipelineWS(TaskBase):
         self.rescale_poi = rescale_poi
         self.old_poiname = old_poiname
         self.new_poiname = new_poiname
-        self.old_dataname = old_dataname
-        self.new_dataname = new_dataname
+        self.dataname = dataname
         self.workspace_name = workspace_name
         
-        super().initialize(resonant_type, new_poiname, old_dataname, **kwargs)
+        super().initialize(resonant_type, new_poiname, dataname, **kwargs)
         
     def sanity_check(self):
         super().sanity_check()
@@ -395,7 +394,7 @@ class TaskPipelineWS(TaskBase):
         wsc_bin_path = os.path.join(self.WSC_PATH, 'build', 'manager')
                                     
         cmd_regularise = [wsc_bin_path, "-w", "regulate", "-f", input_ws_path, "-p", regularised_ws_path,
-                          "--dataName", self.old_dataname, "--wsName", self.workspace_name]
+                          "--dataName", self.dataname, "--wsName", self.workspace_name]
 
         print(' '.join(cmd_regularise))
         regularise_logfile_path = regularised_ws_path.replace('.root', '.log')
