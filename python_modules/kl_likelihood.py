@@ -5,8 +5,6 @@ import re
 import yaml
 import click
 
-from quickstats.clis.likelihood_scan import likelihood_scan
-
 @click.command(name='kl_likelihood')
 @click.option('--min', 'scan_min', type=float, required=True, 
               help='Minimum POI value to scan.')
