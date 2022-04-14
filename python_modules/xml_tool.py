@@ -4,8 +4,6 @@ from collections import OrderedDict
 import xml.etree.ElementTree as ET
 from string import Formatter
 import quickstats
-from quickstats.components import ExtendedModel
-
 
 class TXMLElement(ET.Element):
     def __init__(self, tag, attrib={}, text=None, tail=None, **extra):
@@ -368,7 +366,8 @@ def create_channel_node(root_node, channel, fname, poi_name, rename_map=None,
         rename_node = channel_node.add_node('RenameMap')
         rename_node.add_node('Syst', OldName='channelCat', NewName='Cat_{}'.format(channel))
         if rename_map is not None:
-            model = ExtendedModel(fname, verbosity="ERROR", binned_likelihood=False,
+            from quickstats.components import ExtendedModel
+            model = ExtendedModel(fname, verbosity="WARNING", binned_likelihood=False,
                                   tag_as_measurement=None)
             constraints = model.pair_constraints(to_str=True)
             np_list = [i.GetName() for i in model.nuisance_parameters]

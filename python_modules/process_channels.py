@@ -66,12 +66,14 @@ DEFAULT_COMB_DATASET = 'combData'
               help='Whether to run likelihood scan.')
 @click.option('--do-pvalue/--skip-pvalue', default=False, show_default=True,
               help='Whether to evaluate pvalue(s).')
+@click.option('--experimental/--official', default=False, show_default=True,
+              help='Whether to use experimental method for workspace modification.')
 def process_channels(input_dir, resonant_type, channels, outdir, file_expr,
                      param_expr, filter_expr, exclude_expr,
                      scaling_release, do_better_bands, CL, blind,
                      config_file, minimizer_options, verbosity, 
                      parallel, cache, save_summary, do_limit,
-                     do_likelihood, do_pvalue):
+                     do_likelihood, do_pvalue, experimental):
     
     if config_file is not None:
         config = yaml.safe_load(open(config_file))
@@ -79,6 +81,7 @@ def process_channels(input_dir, resonant_type, channels, outdir, file_expr,
         config = None
     redefine_parameters = config.get('redefine_parameters', None)
     rescale_poi = config.get('rescale_poi', None)
+    extra_pois = config.get('extra_pois', None)
     
     channels = sorted(channels.split(','), key=lambda x: (x.casefold(), x.swapcase()))
     for channel in channels:
@@ -98,6 +101,11 @@ def process_channels(input_dir, resonant_type, channels, outdir, file_expr,
             channel_rescale_poi = rescale_poi.get(channel, None)
         else:
             channel_rescale_poi = None
+            
+        if extra_pois is not None:
+            channel_extra_pois = extra_pois.get(channel, None)
+        else:
+            channel_extra_pois = None
 
         if config is None:
             task_options = None
@@ -109,7 +117,8 @@ def process_channels(input_dir, resonant_type, channels, outdir, file_expr,
         pipeline = combiner.TaskPipelineWS(input_dir, outdir, resonant_type, channel, scaling_release,
                                            old_poi, new_poi, old_dataname, new_dataname,
                                            redefine_parameters=channel_redefine_parameters, 
-                                           rescale_poi=channel_rescale_poi,                                           
+                                           rescale_poi=channel_rescale_poi,
+                                           extra_pois=channel_extra_pois,
                                            file_expr=file_expr, param_expr=param_expr,
                                            do_better_bands=do_better_bands, CL=CL,
                                            blind=blind, minimizer_options=minimizer_options,
@@ -119,5 +128,6 @@ def process_channels(input_dir, resonant_type, channels, outdir, file_expr,
                                            do_pvalue=do_pvalue,
                                            task_options=task_options,
                                            filter_expr=filter_expr,
-                                           exclude_expr=exclude_expr)
+                                           exclude_expr=exclude_expr,
+                                           experimental=experimental)
         pipeline.run_pipeline()
