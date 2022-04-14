@@ -1,3 +1,10 @@
+workspace:
+  bbtautau: combined
+  bbyy: combWS
+  bbbb: w
+  bbll: w
+  bbVV: combined
+  WWWW: combWS
 dataset:
   bbbb:
     blind: obsData
