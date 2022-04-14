@@ -288,7 +288,7 @@ class TaskPipelineWS(TaskBase):
         self.new_dataname = new_dataname
         self.workspace_name = workspace_name
         
-        super().initialize(resonant_type, new_poiname, new_dataname, **kwargs)
+        super().initialize(resonant_type, new_poiname, old_dataname, **kwargs)
         
     def sanity_check(self):
         super().sanity_check()
