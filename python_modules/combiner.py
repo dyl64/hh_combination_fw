@@ -340,7 +340,7 @@ class TaskPipelineWS(TaskBase):
     @staticmethod
     def create_rescale_cfg_file(cfg_file:str, input_ws:str, output_ws:str, old_poiname:str,
                                 new_poiname:str, poi_scale:float, pois_to_keep:List,
-                                oldpoi_equiv_name:str='mu_old', edefine_parameters:Optional[Dict]=None):
+                                oldpoi_equiv_name:str='mu_old', redefine_parameters:Optional[Dict]=None):
         
         print('INFO: Creating config file: {0}, poi: {1} --> {2}, scaling: {3}'.format(
               cfg_file,  old_poiname, new_poiname, poi_scale))
