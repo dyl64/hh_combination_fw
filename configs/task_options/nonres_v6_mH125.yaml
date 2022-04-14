@@ -4,7 +4,7 @@ workspace:
   bbbb: w
   bbll: w
   bbVV: combined
-  WWWW: combined
+  WWWW: combWS
 dataset:
   bbbb:
     blind: obsData
