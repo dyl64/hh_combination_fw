@@ -160,7 +160,13 @@ HHComb pvalue -i ../output/v3000invfb_20211106_CI/NR/rescaled/nonres/bbyy/0.root
 ## Quick fit
 ```
 # useful to use -d <dataset> -s <snapshot> on profiled asimov to load globs
-HHComb best_fit -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/0.root -d <dataset> -s <snapshot>
+#HHComb best_fit -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/0.root -d <dataset> -s <snapshot>
+quickstats likelihood_fit -i <workspace_name> --export_as_np_pulls --outdir pulls
+```
+Plot pulls and correlation matrix
+```
+quickstats plot_pulls -i pulls/ --sigma_bands --hide_prefit --hide_postfit --theta_max 3 --padding 4 --hide_sigma  --no_sigma_lines --no_ranking_label
+quickstats np_correlation -i <workspace_filename> --save_json --save_plot
 ```
 
 ## Run likelihood scan

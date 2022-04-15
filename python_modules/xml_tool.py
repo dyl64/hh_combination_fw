@@ -4,8 +4,6 @@ from collections import OrderedDict
 import xml.etree.ElementTree as ET
 from string import Formatter
 import quickstats
-from quickstats.components import ExtendedModel
-
 
 class TXMLElement(ET.Element):
     def __init__(self, tag, attrib={}, text=None, tail=None, **extra):
@@ -355,6 +353,7 @@ def _serialize_xml(write, elem, qnames, namespaces,
 def create_channel_node(root_node, channel, fname, poi_name, rename_map=None,
                         ws_name='combWS', mc_name='ModelConfig', data_name='combData',
                         ignore_missing_keys=False):
+<<<<<<< HEAD
     channel_node = root_node.add_node('Channel', Name=channel, 
                                       InputFile=fname,
                                       WorkspaceName=ws_name,

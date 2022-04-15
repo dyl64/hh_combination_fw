@@ -63,11 +63,13 @@ DEFAULT_DATASET = 'combData'
               help='Whether to run likelihood scan.')
 @click.option('--do-pvalue/--skip-pvalue', default=False, show_default=True,
               help='Whether to evaluate pvalue(s).')
+@click.option('--experimental/--official', default=False, show_default=True,
+              help='Whether to use experimental method for workspace modification.')
 def combine_ws(input_dir, resonant_type, channels, file_expr, param_expr,
                filter_expr, exclude_expr,
                correlation_scheme, tag_pattern, do_better_bands, CL, blind,
                config_file, minimizer_options, verbosity, parallel, cache,
-               save_summary, do_limit, do_likelihood, do_pvalue):
+               save_summary, do_limit, do_likelihood, do_pvalue, experimental):
     
     if config_file is not None:
         config = yaml.safe_load(open(config_file))
@@ -100,7 +102,8 @@ def combine_ws(input_dir, resonant_type, channels, file_expr, param_expr,
                                         do_pvalue=do_pvalue,
                                         task_options=task_options,
                                         filter_expr=filter_expr,
-                                        exclude_expr=exclude_expr)
+                                        exclude_expr=exclude_expr,
+                                        experimental=experimental)
     pipeline.run_pipeline()
 
     

@@ -1,7 +1,6 @@
 import os
 import click
 import json
-from quickstats.components import Likelihood
 from concurrent.futures import ProcessPoolExecutor
 import multiprocessing
 from itertools import repeat
@@ -45,7 +44,7 @@ def _best_fit(input_file, poi_name, dataset, snapshot, correlation, fix_param):
         command += '--fix {fix_param}'
     print(command)
     os.system(command)
-
+    from quickstats.components import Likelihood
     likelihood = Likelihood(output_file, data_name="asimovData_1_NP_Nominal", poi_name=poi_name)
 
     poi_val = 0

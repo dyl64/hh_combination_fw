@@ -1,14 +1,13 @@
 from math import sqrt, fabs, erf
 import click
 import json
-from quickstats.components import ExtendedModel
+
 from concurrent.futures import ProcessPoolExecutor
 import multiprocessing
 import utils
 from itertools import repeat
 from glob import glob
 from os import path
-from pdb import set_trace
 
 @click.command(name='gen_asimov')
 @click.option('-i', '--input_path', required=True, help='path or file to the processed workspaces')
@@ -42,6 +41,7 @@ def _asimov(input_file, dataset):
     settings = [
         [1, None],  # for ranking plot S+B asimov
         ]
+    from quickstats.components import ExtendedModel
     for setting in settings:
         model = ExtendedModel(input_file, data_name=dataset)
         model.generate_asimov(poi_name="xsec_br", poi_val = setting[0], poi_profile = setting[1], do_import=True, asimov_name='asimovData_'+str(setting[0])+'_'+str(setting[1]))

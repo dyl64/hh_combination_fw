@@ -5,11 +5,6 @@ import re
 import yaml
 import click
 
-from quickstats.clis.likelihood_scan import likelihood_scan
-
-DEFAULT_UNBLIND_DATASET = 'obsData'
-
-
 @click.command(name='kl_likelihood')
 @click.option('-p', '--poi', default='klambda', show_default=True,
               help='POI to scan. If not specified, the first POI from the workspace is used.')
