@@ -361,6 +361,7 @@ def create_channel_node(root_node, channel, fname, poi_name, rename_map=None,
                                       )
     POI_node = channel_node.add_node('POIList', Input=poi_name)
     rename_node = channel_node.add_node('RenameMap')
+    from quickstats.components import ExtendedModel
     if rename_map is not None:
         model = ExtendedModel(fname, verbosity="ERROR", binned_likelihood=False,
                                 tag_as_measurement=None, data_name=data_name)

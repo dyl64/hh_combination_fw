@@ -618,6 +618,7 @@ class TaskCombination(TaskBase):
         return param_points
     
     def get_ws_data(self, param_point):
+        from quickstats.components import ExtendedModel
         channels = param_point.get("channels", None)
         input_ws_paths = {}
         filename = f"{param_point['basename']}.root"
