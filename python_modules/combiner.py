@@ -298,7 +298,7 @@ class TaskPipelineWS(TaskBase):
         self.new_poiname = new_poiname
         self.workspace_name = workspace_name
         self.dataname = dataname
-        super().initialize(resonant_type, new_poiname, new_dataname, **kwargs)
+        super().initialize(resonant_type, new_poiname, dataname, **kwargs)
         if extra_pois is not None:
             if isinstance(extra_pois, str):
                 extra_pois = extra_pois.split(",")

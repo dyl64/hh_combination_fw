@@ -353,7 +353,6 @@ def _serialize_xml(write, elem, qnames, namespaces,
 def create_channel_node(root_node, channel, fname, poi_name, rename_map=None,
                         ws_name='combWS', mc_name='ModelConfig', data_name='combData',
                         ignore_missing_keys=False):
-<<<<<<< HEAD
     channel_node = root_node.add_node('Channel', Name=channel, 
                                       InputFile=fname,
                                       WorkspaceName=ws_name,
