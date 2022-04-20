@@ -318,16 +318,28 @@ class TaskPipelineWS(TaskBase):
         self.limit_dir       = os.path.join(self.output_dir, 'limits', self.resonant_type, self.channel)
         self.likelihood_dir  = os.path.join(self.output_dir, 'likelihood_scans', self.resonant_type, self.channel)
         self.pvalue_dir      = os.path.join(self.output_dir, 'pvalues', self.resonant_type, self.channel)
-        self.figure_dir           = os.path.join(self.output_dir, 'figures')        
+        #self.figure_dir           = os.path.join(self.output_dir, 'figures')        
         self.rescale_cfg_file_dir = os.path.join(self.output_dir, 'cfg', 'rescale', self.resonant_type, self.channel)
         self.basis_dir = self.rescaled_dir
-        self.datafile_name = "{0}-{1}.dat".format(self.resonant_type, self.channel)       
+        #self.datafile_name = "{0}-{1}.dat".format(self.resonant_type, self.channel)       
         
     def makedirs(self):
-        utils.mkdirs([self.regularised_dir, self.rescaled_dir, self.rescale_cfg_file_dir,
-                      self.limit_dir, self.figure_dir, self.pvalue_dir, self.likelihood_dir])
+        dirs = [self.rescaled_dir]
+        if not self.experimental:
+            dirs.append(self.regularised_dir)
+            dirs.append(self.rescale_cfg_file_dir)
+        if self.do_limit:
+            dirs.append(self.limit_dir)
+        if self.do_likelihood:
+            dirs.append(self.likelihood_dir)
+        if self.do_pvalue:
+            dirs.append(self.pvalue_dir)
+
+        utils.mkdirs(dirs)
         
     def copy_dtd(self):
+        if self.experimental:
+            return
         source_path = os.path.join(f'{self.WSC_PATH}/dtd', 'Organization.dtd')
         if not os.path.exists(source_path):
             raise FileNotFoundError('File {} not found'.format(source_path))
@@ -667,10 +679,18 @@ class TaskCombination(TaskBase):
         self.likelihood_dir = os.path.join(self.input_dir, 'likelihood_scans', self.resonant_type, 'combined', self.tag)
         self.pvalue_dir     = os.path.join(self.input_dir, 'pvalues', self.resonant_type, 'combined', self.tag)
         self.basis_dir = self.output_ws_dir
-        self.datafile_name = "{0}-combined-{1}.dat".format(self.resonant_type, self.tag)
+        #self.datafile_name = "{0}-combined-{1}.dat".format(self.resonant_type, self.tag)
 
-    def makedirs(self):      
-        utils.mkdirs([self.cfg_file_dir, self.output_ws_dir, self.limit_dir, self.pvalue_dir, self.likelihood_dir])
+    def makedirs(self):
+        dirs = [self.cfg_file_dir, self.output_ws_dir]
+        if self.do_limit:
+            dirs.append(self.limit_dir)
+        if self.do_likelihood:
+            dirs.append(self.likelihood_dir)
+        if self.do_pvalue:
+            dirs.append(self.pvalue_dir)
+
+        utils.mkdirs(dirs)
         
     def copy_dtd(self):
         source_path = os.path.join(f'{self.WSC_PATH}/dtd', 'Combination.dtd')
