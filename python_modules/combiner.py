@@ -680,7 +680,7 @@ class TaskCombination(TaskBase):
         config_file_path = os.path.join(self.cfg_file_dir, f"{param_point['basename']}.xml")
         logfile_path = combined_ws_path.replace('.root', '.log')
         
-        wsc_bin_path = os.path.join(self.WSC_PATH, 'bin', 'manager')
+        wsc_bin_path = os.path.join(self.WSC_PATH, 'build', 'manager')
         cmd = [wsc_bin_path, "-w", "combine", "-x", config_file_path, "-f", combined_ws_path, "-s", fit_strategy, "-t", fit_tolerance]
         print(' '.join(cmd))
         

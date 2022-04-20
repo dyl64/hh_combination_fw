@@ -42,8 +42,8 @@ export _DIRCOMB=${PWD}
 
 # Modify to describe your directory structure. Default is to use the a structure where
 # all directories are below the SFrame base directory specified above
-export _BIN_PATH=${_DIRCOMB}/bin
-export _LIB_PATH=${_DIRCOMB}/lib
+export _BIN_PATH=${_DIRCOMB}/build
+export _LIB_PATH=${_DIRCOMB}/build
 
 # The Makefiles depend only on the root-config script to use ROOT,
 # so make sure that is available

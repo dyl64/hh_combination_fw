@@ -26,27 +26,11 @@ rescale_poi:
   bbbb: 1
   bbyy: 1
   bbtautau: 1
-redefine_parameters:
-  bbbb:
-    k2V: 1.0
-    kV: 1.0
-    # kt: 1.0
-  bbtautau:
-    # for kl scan
-    kF: 1.0
-    kH: 1.0
-    kW: 1.0
-    kZ: 1.0
-    kb: 1.0
-    ktau: 1.0
-  bbyy:
-    kb: 1.0
-    # klambda: 1.0
-    # kt: 1.0
-    ktau: 1.0
 
 extra_pois:
   bbbb:
+    - kt
+    - klambda
     - k2V
     - kF
     - kH
@@ -58,6 +42,8 @@ extra_pois:
     - mu_HH_VBF
     - mu_HH_ggF
   bbtautau:
+    - kt
+    - klambda
     - kF
     - kH
     - kV
@@ -66,4 +52,15 @@ extra_pois:
     - kb
     - ktau
   bbyy:
+    - kt
+    - klambda
     - k2V
+    - kF
+    - kH
+    - kV
+    - kW
+    - kZ
+    - kb
+    - ktau
+    - mu_VBFHH
+    - mu_ggFHH
