@@ -45,3 +45,25 @@ redefine_parameters:
     # kt: 1.0
     ktau: 1.0
 
+extra_pois:
+  bbbb:
+    - k2V
+    - kF
+    - kH
+    - kV
+    - kW
+    - kZ
+    - kb
+    - ktau
+    - mu_HH_VBF
+    - mu_HH_ggF
+  bbtautau:
+    - kF
+    - kH
+    - kV
+    - kW
+    - kZ
+    - kb
+    - ktau
+  bbyy:
+    - k2V

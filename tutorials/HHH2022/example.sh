@@ -9,7 +9,7 @@ run_type=$1
 function presetup() {
     workspace_dir=${hh_combination_fw_path} # work directory (including scripts, config files, correlation schemes...)
 
-    output_name="HHH" # output directory name
+    output_name="output_HHH" # output directory name
     output_dir="${hh_combination_fw_path}/${output_name}" # the output directory
     data_dir="${hh_combination_fw_path}/FullRun2Workspaces/original/HHH2022/20220415/" # the data directory
     run_channel='bbyy,bbtautau,bbbb' # how many channels to combine
@@ -40,26 +40,45 @@ function CombineWorkspace() {
     echo
 }
 
+
 # run likelihood scan on pois (kt, klambda, kV, k2V ...)
 function RunXSScan() {
-    declare -A dataset
-    dataset=( ["bbyy"]="combData" ["combined"]="combData"  ["bbtautau"]="obsData" ["bbbb"]="obsData" )
     #scan_type=$1
     #echo "-- Running scan for type ${scan_type}"
     #echo HHComb kl_likelihood -c "${run_channel}" --param_expr  "${kl_kt_scan_range}" --fix "${fix_param}" -i "${output_dir}" -p "${poi}" --config ${workspace_dir}/${config_file} --no-cache "${combine}" --hypothesis_type "${scan_type}" "${skip_individual}"
     ch=$1
 
+    declare -A dataset
+    dataset=( ["bbyy"]="combData" ["combined"]="combData"  ["bbtautau"]="obsData" ["bbbb"]="obsData" )
     if [[ ${ch} == 'combined' ]]; then
-        echo quickstats limit_scan -i ${output_dir}/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root --param_expr '"'${kl_scan_range}'"'  -p xsec_br --unblind --outdir ${output_dir}/xsection_scan/combined -d "${dataset[${ch}]}"
+        echo quickstats limit_scan -i ${output_dir}/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root --outdir ${output_dir}/xsection_scan/${ch} --param_expr '"'${kl_scan_range}'"'  -p xsec_br -d "${dataset[${ch}]}" --unblind
     else
-        echo quickstats limit_scan -i ${output_dir}/rescaled/nonres/${ch}/0_kl.root --param_expr '"'${kl_scan_range}'"'  -p xsec_br --unblind --outdir ${output_dir}/xsection_scan/${ch} -d "${dataset[${ch}]}"
+        echo quickstats limit_scan -i ${output_dir}/rescaled/nonres/${ch}/0_kl.root --outdir ${output_dir}/xsection_scan/${ch} --param_expr '"'${kl_scan_range}'"'  -p xsec_br -d "${dataset[${ch}]}" --unblind
     fi
     echo
 }
 
+function RunLHScan() {
+    ch=$1
 
+    declare -A dataset
+    dataset=( ["bbyy"]="combData" ["combined"]="combData"  ["bbtautau"]="obsData" ["bbbb"]="obsData" )
+    if [[ ${ch} == 'combined' ]]; then
+        echo quickstats likelihood_scan -i ${output_dir}/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root --outdir ${output_dir}/likelihood_scan/${ch} --param_expr '"'${kl_scan_range}'"'  -p xsec_br -d "${dataset[${ch}]}"
+    else
+        echo quickstats likelihood_scan -i ${output_dir}/rescaled/nonres/0_kl.root --outdir ${output_dir}/likelihood_scan/${ch} --param_expr '"'${kl_scan_range}'"'  -p xsec_br -d "${dataset[${ch}]}"
+    fi
+    echo
 
+}
+
+echo -e "##############\n## Combine workspace ###\n###########\n"
 CombineWorkspace
-for i in bbyy bbtautau bbbb combined; do
+echo -e "##############\n## Cross section scan ###\n###########\n"
+for i in bbyy combined bbtautau bbbb ; do
     RunXSScan $i
+done
+echo -e "##############\n## Likelihood scan ###\n###########\n"
+for i in bbyy combined bbtautau bbbb ; do
+    RunLHScan $i
 done
