@@ -12,12 +12,14 @@ kDefaultDataset    = 'combData'
 def process_task_config(config:Dict, blind:bool=True):
     if config is None:
         config = {}
-    poi      = config.get('poi', {}).get("combination", kDefaultPOI)
-    dataset  = config.get('dataset', {}).get("combination", {})
+    poi        = config.get('poi', {}).get("combination", kDefaultPOI)
+    dataset    = config.get('dataset', {}).get("combination", {})
+    extra_pois = config.get('extra_pois', {}).get("combination", None)
     
     task_config = {
-        "poi_name" : poi,
-        "blind"    : blind
+        "poi_name"  : poi,
+        "blind"     : blind,
+        "extra_pois": extra_pois
     }
     
     if blind:
