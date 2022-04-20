@@ -89,8 +89,8 @@ def combine_ws(input_dir, resonant_type, channels, file_expr, param_expr,
         task_options = {
             "likelihood_scan": config.get('likelihood_scan', None),
             "calculate_pvalue": config.get('calculate_pvalue', None),
-        }        
-        
+        }       
+    
     pipeline = combiner.TaskCombination(input_dir, resonant_type, channels, poi_name, data_name,
                                         correlation_scheme, tag_pattern, 
                                         file_expr=file_expr, param_expr=param_expr,
