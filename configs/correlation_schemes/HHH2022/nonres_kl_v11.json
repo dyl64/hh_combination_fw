@@ -941,6 +941,7 @@
     "ATLAS_JET_Pileup_RhoTopology": "ATLAS_JET_Pileup_RhoTopology",
     "ATLAS_JET_fJvtEfficiency": "ATLAS_JET_fJvtEfficiency",
     "ATLAS_KLAMBDA_REWEIGHTING_HH_ggF": "ATLAS_KLAMBDA_REWEIGHTING_HH_ggF",
+    "ATLAS_PARAMETRIZATION_VBF": "ATLAS_KLAMBDA_REWEIGHTING_HH_VBF",
     "ATLAS_LHCmass": "ATLAS_LHC_MHiggs",
     "ATLAS_PH_EFF_ID_Uncertainty": "ATLAS_PH_EFF_ID",
     "ATLAS_PH_EFF_ISO_Uncertainty": "ATLAS_PH_EFF_ISO",

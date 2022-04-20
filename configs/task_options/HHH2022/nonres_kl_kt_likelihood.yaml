@@ -19,7 +19,7 @@ dataset:
 poi:
   bbbb: mu_HH
   bbtautau: mu
-  bbyy: mu_XS_HH
+  bbyy: mu
   combination: xsec_br
 rescale_poi:
   #kl no rescaling needed
