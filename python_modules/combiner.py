@@ -284,8 +284,8 @@ class TaskBase:
 class TaskPipelineWS(TaskBase):
     
     def initialize(self, input_dir:str, output_dir:str, resonant_type:str, channel:str,
-                   scaling_release:str, old_poiname:str, new_poiname:str, dataname:str,
-                   redefine_parameters:Optional[Dict]=None, workspace_name:str='combWS',
+                   scaling_release:str, old_poiname:str, new_poiname:str, old_dataname:str,
+                   new_dataname:str, redefine_parameters:Optional[Dict]=None,
                    rescale_poi:Optional[float]=None, extra_pois:Optional[Union[str, List]]=None, **kwargs):
         
         self.input_dir = input_dir
@@ -296,9 +296,9 @@ class TaskPipelineWS(TaskBase):
         self.rescale_poi = rescale_poi
         self.old_poiname = old_poiname
         self.new_poiname = new_poiname
-        self.workspace_name = workspace_name
-        self.dataname = dataname
-        super().initialize(resonant_type, new_poiname, dataname, **kwargs)
+        self.old_dataname = old_dataname
+        self.new_dataname = new_dataname
+        super().initialize(resonant_type, new_poiname, new_dataname, **kwargs)
         if extra_pois is not None:
             if isinstance(extra_pois, str):
                 extra_pois = extra_pois.split(",")
@@ -339,7 +339,7 @@ class TaskPipelineWS(TaskBase):
        
     @staticmethod
     def create_rescale_cfg_file(cfg_file:str, input_ws:str, output_ws:str, old_poiname:str,
-                                new_poiname:str, poi_scale:float, pois_to_keep:List, workspace_name='combWS',
+                                new_poiname:str, poi_scale:float, pois_to_keep:List,
                                 oldpoi_equiv_name:str='mu_old', redefine_parameters:Optional[Dict]=None):
         
         print('INFO: Creating config file: {0}, poi: {1} --> {2}, scaling: {3}'.format(
@@ -356,25 +356,11 @@ class TaskPipelineWS(TaskBase):
         cfg_xml = TXMLTree(doctype="Organization", system="Organization.dtd")
         
         attrib = {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 86f6fa86281c7ec55a34010bb03b1fa8a4af8a40
             "InFile"   : input_ws,
             "OutFile"  : output_ws,
             "ModelName": mc_name,
             "POINames" : pois_to_keep,
             "WorkspaceName": ws_name
-<<<<<<< HEAD
-=======
-            "InFile": input_ws,
-            "OutFile": output_ws,
-            "ModelName": "dummy",
-            "POINames": pois_to_keep,
-            "WorkspaceName": workspace_name,
->>>>>>> 6fadbd486b2e9a2f7d52d4cf3d5e24d923ce0b88
-=======
->>>>>>> 86f6fa86281c7ec55a34010bb03b1fa8a4af8a40
         }
         cfg_xml.new_root(tag="Organization", attrib=attrib)
         
@@ -427,10 +413,6 @@ class TaskPipelineWS(TaskBase):
         regularised_ws_path = os.path.join(self.regularised_dir, filename)       
         print("INFO: Regularising {0} --> {1}".format(input_ws_path, regularised_ws_path))
         
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 86f6fa86281c7ec55a34010bb03b1fa8a4af8a40
         from quickstats.components import ExtendedModel
         model   = ExtendedModel(input_ws_path, data_name=None, verbosity="WARNING")
         ws_name = model.workspace.GetName()
@@ -439,15 +421,6 @@ class TaskPipelineWS(TaskBase):
                                     
         cmd_regularise = [wsc_bin_path, "-w", "regulate", "-f", input_ws_path, "-p", regularised_ws_path,
                           "--dataName", self.old_dataname, "--wsName", ws_name]
-<<<<<<< HEAD
-=======
-        wsc_bin_path = os.path.join(self.WSC_PATH, 'build', 'manager')
-                                    
-        cmd_regularise = [wsc_bin_path, "-w", "regulate", "-f", input_ws_path, "-p", regularised_ws_path,
-                          "--dataName", self.dataname, "--wsName", self.workspace_name]
->>>>>>> 6fadbd486b2e9a2f7d52d4cf3d5e24d923ce0b88
-=======
->>>>>>> 86f6fa86281c7ec55a34010bb03b1fa8a4af8a40
 
         print(' '.join(cmd_regularise))
         regularise_logfile_path = regularised_ws_path.replace('.root', '.log')
@@ -489,7 +462,7 @@ class TaskPipelineWS(TaskBase):
         pois_to_keep = ','.join(self.pois_to_keep)
         
         self.create_rescale_cfg_file(rescale_cfg_file_path, regularised_ws_path,
-                                     rescaled_ws_path, old_poiname, self.new_poiname, poi_scale, pois_to_keep, workspace_name=self.workspace_name,
+                                     rescaled_ws_path, old_poiname, self.new_poiname, poi_scale, pois_to_keep,
                                      redefine_parameters=self.redefine_parameters)
 
         rescale_logfile_path = rescaled_ws_path.replace('.root', '.log')
@@ -586,14 +559,11 @@ class TaskPipelineWS(TaskBase):
 
 class TaskCombination(TaskBase):
     
-    def __init__(self,*args, **kwargs):
-        self.wd_name={} # diction for workspace and dataset name
+    def __init__(self, *args, **kwargs):
         self.initialize(*args, **kwargs)
         # make sure the NPs are set to nominal values at the beginning
         for k in self.minimizer_options:
             self.minimizer_options[k]['snapshot_name'] = "nominalNuis"
-        
-        
     
     @property
     def channels(self):
@@ -637,13 +607,11 @@ class TaskCombination(TaskBase):
         for param_point in self.param_points:
             param_str = self.param_parser.val_encode_parameters(param_point['parameters'])
             print(f'({param_str}): {param_point["channels"]}')
-            self.get_ws_data(param_point)
         
     def get_param_points(self, filter_expr:Optional[str]=None, exclude_expr:Optional[str]=None):
         temp = {}
         for channel in self.channels:
             dirname = os.path.join(self.input_ws_dir, channel)
-            # print(f'{channel} --> {dirname}, {filter_expr}')
             ext_param_points = self.param_parser.get_external_param_points(dirname, filter_expr, exclude_expr)
             for param_point in ext_param_points:
                 basename = param_point['basename']
@@ -657,17 +625,6 @@ class TaskCombination(TaskBase):
             param_point = {"basename":basename, "channels":channels, "parameters": parameters}
             param_points.append(param_point)
         return param_points
-    
-    def get_ws_data(self, param_point):
-        from quickstats.components import ExtendedModel
-        channels = param_point.get("channels", None)
-        input_ws_paths = {}
-        filename = f"{param_point['basename']}.root"
-        for channel in channels:
-            input_ws_paths[channel] = os.path.join(self.input_ws_dir, channel, filename)
-            model = ExtendedModel(input_ws_paths[channel], data_name=None, verbosity="WARNING", binned_likelihood=False)
-            print(f'{channel}: {model.data_name} in {model.ws_name}')
-            self.wd_name.update({channel: {'ws_name': model.ws_name, 'data_name': model.data_name}})
     
     def sanity_check(self):
         super().sanity_check()
@@ -708,7 +665,7 @@ class TaskCombination(TaskBase):
         combined_ws_path = os.path.join(self.output_ws_dir, filename)
         poi_name = ",".join(self.pois_to_keep)
         xml = create_combination_xml(input_ws_paths, combined_ws_path, poi_name, 
-                                     rename_map=self.correlation_scheme, data_name=data_name, wd_name=self.wd_name)
+                                     rename_map=self.correlation_scheme, data_name=data_name)
         return xml
         
     def create_combination_xml(self, param_point):
@@ -723,7 +680,7 @@ class TaskCombination(TaskBase):
         config_file_path = os.path.join(self.cfg_file_dir, f"{param_point['basename']}.xml")
         logfile_path = combined_ws_path.replace('.root', '.log')
         
-        wsc_bin_path = os.path.join(self.WSC_PATH, 'build', 'manager')
+        wsc_bin_path = os.path.join(self.WSC_PATH, 'bin', 'manager')
         cmd = [wsc_bin_path, "-w", "combine", "-x", config_file_path, "-f", combined_ws_path, "-s", fit_strategy, "-t", fit_tolerance]
         print(' '.join(cmd))
         
