@@ -664,7 +664,7 @@ class TaskCombination(TaskBase):
             channel_attributes[channel]["data_name"] = data_name
         combined_ws_path = os.path.join(self.output_ws_dir, filename)
         poi_name = ",".join(self.pois_to_keep)
-        xml = create_combination_xml(input_ws_paths, combined_ws_path, poi_name, 
+        xml = create_combination_xml(channel_attributes, combined_ws_path, poi_name, 
                                      rename_map=self.correlation_scheme, data_name=data_name)
         return xml
         
