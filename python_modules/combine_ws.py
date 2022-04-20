@@ -1,13 +1,38 @@
+from typing import Dict
 import sys
 import os
-import re
 import yaml
 import click
 
-import combiner
+from combiner import TaskCombination
 
-DEFAULT_POI = "xsec_br"
-DEFAULT_DATASET = 'combData'
+kDefaultPOI         = "xsec_br"
+kDefaultDataset    = 'combData'
+
+def process_task_config(config:Dict, blind:bool=True):
+    if config is None:
+        config = {}
+    poi      = config.get('poi', {}).get("combination", kDefaultPOI)
+    dataset  = config.get('dataset', {}).get("combination", {})
+    
+    task_config = {
+        "poi_name" : poi,
+        "blind"    : blind
+    }
+    
+    if blind:
+        task_config["data_name"] = dataset.get("blind", kDefaultDataset)
+    else:
+        task_config["data_name"] = dataset.get("unblind", kDefaultDataset)
+        
+    task_options = {
+        "likelihood_scan": config.get('likelihood_scan', None),
+        "calculate_pvalue": config.get('calculate_pvalue', None),
+    }
+    
+    task_config["task_options"] = task_options
+    
+    return task_config
 
 @click.command(name='combine_ws')
 @click.option('-i', '--input_dir', required=True, 
@@ -37,9 +62,6 @@ DEFAULT_DATASET = 'combData'
               help='Configuration file for the correlation scheme.')
 @click.option('-t', '--tag', 'tag_pattern', default='A-{channels}-{scheme}', 
               help='Pattern for the output name tag.')
-@click.option('--better_bands/--no-better-bands', 'do_better_bands', default=True, show_default=True,
-              help='Evaluate the proper +1 and +2 sigma limit bands.')
-@click.option('--cl', 'CL', type=float, default=0.95, help='Confidence level.')
 @click.option('--blind/--unblind', default=True, show_default=True,
               help='Perform blind or unblind analysis.')
 @click.option('--config', 'config_file', default=None, 
@@ -55,8 +77,6 @@ DEFAULT_DATASET = 'combData'
                    '\b Case -1: Jobs are run across N_CPU workers.\n')
 @click.option('--cache/--no-cache', default=True, show_default=True,
               help='Cache existing results.')
-@click.option('--save_summary/--skip_summary', default=False, show_default=True,
-              help='Save limit summary.')
 @click.option('--do-limit/--skip-limit', default=True, show_default=True,
               help='Whether to evaluate limits.')
 @click.option('--do-likelihood/--skip-likelihood', default=False, show_default=True,
@@ -65,45 +85,38 @@ DEFAULT_DATASET = 'combData'
               help='Whether to evaluate pvalue(s).')
 @click.option('--experimental/--official', default=False, show_default=True,
               help='Whether to use experimental method for workspace modification.')
-def combine_ws(input_dir, resonant_type, channels, file_expr, param_expr,
-               filter_expr, exclude_expr,
-               correlation_scheme, tag_pattern, do_better_bands, CL, blind,
-               config_file, minimizer_options, verbosity, parallel, cache,
-               save_summary, do_limit, do_likelihood, do_pvalue, experimental):
+def combine_ws(**kwargs):
+    
+    blind       = kwargs['blind']
+    channels    = kwargs['channels']
+    config_file = kwargs["config_file"]
     
     if config_file is not None:
-        config = yaml.safe_load(open(config_file))
+        with open(config_file, "r") as f:
+            config = yaml.safe_load(f)
     else:
         config = None
         
-    channels = sorted(channels.split(','), key=lambda x: (x.casefold(), x.swapcase()))
-    poi_name = DEFAULT_POI if config is None else config['poi']['combination']
-    if blind:
-        data_name = DEFAULT_DATASET if config is None else config['dataset']['combination']['blind']
-    else:
-        data_name = DEFAULT_DATASET if config is None else config['dataset']['combination']['unblind']
-        
-    if config is None:
-        task_options = None
-    else:
-        task_options = {
-            "likelihood_scan": config.get('likelihood_scan', None),
-            "calculate_pvalue": config.get('calculate_pvalue', None),
-        }       
+    channels    = sorted(channels.split(','), key=lambda x: (x.casefold(), x.swapcase()))
+    task_config = process_task_config(config, blind)
     
-    pipeline = combiner.TaskCombination(input_dir, resonant_type, channels, poi_name, data_name,
-                                        correlation_scheme, tag_pattern, 
-                                        file_expr=file_expr, param_expr=param_expr,
-                                        do_better_bands=do_better_bands, CL=CL,
-                                        blind=blind, minimizer_options=minimizer_options,
-                                        verbosity=verbosity, parallel=parallel, cache=cache,
-                                        save_summary=save_summary, do_limit=do_limit,
-                                        do_likelihood=do_likelihood,
-                                        do_pvalue=do_pvalue,
-                                        task_options=task_options,
-                                        filter_expr=filter_expr,
-                                        exclude_expr=exclude_expr,
-                                        experimental=experimental)
+    task_config["input_dir"]                   = kwargs["input_dir"]
+    task_config["resonant_type"]      = kwargs["resonant_type"]
+    task_config["channels"]           = kwargs['channels']
+    task_config["correlation_scheme"] = kwargs['correlation_scheme']
+    task_config["tag_pattern"]        = kwargs['tag_pattern']
+    task_config["file_expr"]         = kwargs["file_expr"]
+    task_config["param_expr"]        = kwargs["param_expr"]
+    task_config["filter_expr"]       = kwargs["filter_expr"]
+    task_config["exclude_expr"]      = kwargs["exclude_expr"]
+    task_config["minimizer_options"] = kwargs["minimizer_options"]
+    task_config["verbosity"]         = kwargs["verbosity"]
+    task_config["parallel"]          = kwargs["parallel"]
+    task_config["cache"]             = kwargs["cache"]
+    task_config["do_limit"]          = kwargs["do_limit"]
+    task_config["do_likelihood"]     = kwargs["do_likelihood"]
+    task_config["do_pvalue"]         = kwargs["do_pvalue"]
+    task_config["experimental"]      = kwargs["experimental"]
+    
+    pipeline = TaskCombination(**task_config)
     pipeline.run_pipeline()
-
-    

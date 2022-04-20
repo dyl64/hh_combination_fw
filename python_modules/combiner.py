@@ -21,26 +21,23 @@ from xml_tool import create_combination_xml
 class TaskBase:
     
     WSC_PATH  = os.environ['WORKSPACECOMBINER_PATH']
-    MERGED_LIMITS_FNAME = 'limits.json'
+    kMergedLimitFileName = 'limits.json'
     
-    def __init__(self, *args, **kwargs):
-        self.initialize(*args, **kwargs)
+    def __init__(self, **kwargs):
+        self.initialize(**kwargs)
 
     def initialize(self, resonant_type:str, poi_name:str, data_name:str, file_expr:Optional[str]=None,
-                   param_expr:Optional[str]=None, do_better_bands:bool=True, CL:float=0.95, blind:bool=True,
-                   verbosity:str="INFO", minimizer_options:Optional[Dict]=None,
-                   parallel:int=-1, cache:bool=True, save_summary:bool=False, do_limit:bool=True, 
-                   do_likelihood:bool=False, do_pvalue:bool=False, task_options:Optional[Dict]=None,
-                   filter_expr:Optional[str]=None, exclude_expr:Optional[str]=None,
-                   experimental:bool=False, **kwargs):
-        self.minimizer_options    = self.parse_minimizer_options(minimizer_options)
+                   param_expr:Optional[str]=None, blind:bool=True, minimizer_options:Optional[Dict]=None, 
+                   do_limit:bool=True, do_likelihood:bool=False, do_pvalue:bool=False,
+                   task_options:Optional[Dict]=None, filter_expr:Optional[str]=None,
+                   exclude_expr:Optional[str]=None, parallel:int=-1, cache:bool=True,
+                   verbosity:str="INFO", experimental:bool=False, **kwargs):
+        self.minimizer_options = self.parse_minimizer_options(minimizer_options)
         config = {}
-        config['data_name']       = data_name
-        config['poi_name']        = poi_name
-        config['do_blind']        = blind
-        config['do_better_bands'] = do_better_bands
-        config['CL']              = CL
-        config['verbosity']       = verbosity
+        config['data_name']    = data_name
+        config['poi_name']     = poi_name
+        config['do_blind']     = blind
+        config['verbosity']    = verbosity
         self.config = config
         
         self.resonant_type = resonant_type
@@ -48,8 +45,7 @@ class TaskBase:
         self.param_expr = param_expr
         
         self.cache = cache
-        self.save_summary = save_summary
-        self.parallel = parallel        
+        self.parallel = parallel
         self.do_limit = do_limit
         self.do_likelihood = do_likelihood
         self.do_pvalue = do_pvalue
@@ -120,10 +116,10 @@ class TaskBase:
             'filter_expr' : self.filter_expr,
             'exclude_expr': self.exclude_expr,
             'outdir'      : self.limit_dir,
-            'outname'     : self.MERGED_LIMITS_FNAME,
+            'outname'     : self.kMergedLimitFileName,
             'cache'       : self.cache,
             'save_log'    : not self.config['verbosity'] == "DEBUG",
-            'save_summary': self.save_summary,
+            'save_summary': self.config['verbosity'] == "DEBUG",
             'parallel'    : self.parallel,
             'config'      : {**self.minimizer_options['limit_setting'], **self.config}
         }
@@ -131,8 +127,7 @@ class TaskBase:
         runner = ParameterisedAsymptoticCLs(**kwargs)
         runner.run()
 
-        
-    def calculate_pvalue(self, param_point):
+    def calculate_pvalue(self, param_point:Dict):
         if (self.task_options is None):
             return None
         options =  self.task_options.get("calculate_pvalue", None)
@@ -186,7 +181,7 @@ class TaskBase:
             with open(outpath, "w") as f:
                 json.dump(fit_result, f, indent=4)
         
-    def likelihood_scan(self, param_point):
+    def likelihood_scan(self, param_point:Dict):
         if (self.task_options is None):
             return None
         scenario_options = self.task_options.get("likelihood_scan", None)
@@ -258,12 +253,13 @@ class TaskBase:
     def finalize(self):
         pass
             
-    def preprocess(self, param_point):
+    def preprocess(self, param_point:Dict):
         raise NotImplementedError("this method should be overridden")
         
     def run_pipeline(self):
         if not self.param_points:
-            print(f"WARNING: No inputs found in {self.input_ws_dir} that satisfy the task requirement. Please double check.")
+            print(f"WARNING: No inputs found in {self.input_ws_dir} that satisfy the task requirement. "
+                  f"Please double check.")
             return None
         start = time.time()
         self.makedirs()
@@ -284,21 +280,25 @@ class TaskBase:
 class TaskPipelineWS(TaskBase):
     
     def initialize(self, input_dir:str, output_dir:str, resonant_type:str, channel:str,
-                   scaling_release:str, old_poiname:str, new_poiname:str, old_dataname:str,
-                   new_dataname:str, redefine_parameters:Optional[Dict]=None,
+                   old_poiname:str, new_poiname:str, old_dataname:str,
+                   new_dataname:str, define_parameters:Optional[Dict]=None,
+                   redefine_parameters:Optional[Dict]=None, rename_parameters:Optional[Dict]=None,
                    rescale_poi:Optional[float]=None, extra_pois:Optional[Union[str, List]]=None, **kwargs):
         
         self.input_dir = input_dir
         self.output_dir = output_dir
         self.channel = channel
-        self.scaling_release = scaling_release
+        self.define_parameters = define_parameters
         self.redefine_parameters = redefine_parameters
+        self.rename_parameters = rename_parameters
         self.rescale_poi = rescale_poi
         self.old_poiname = old_poiname
         self.new_poiname = new_poiname
         self.old_dataname = old_dataname
         self.new_dataname = new_dataname
-        super().initialize(resonant_type, new_poiname, new_dataname, **kwargs)
+        super().initialize(resonant_type=resonant_type,
+                           poi_name=new_poiname,
+                           data_name=new_dataname, **kwargs)
         if extra_pois is not None:
             if isinstance(extra_pois, str):
                 extra_pois = extra_pois.split(",")
@@ -307,7 +307,7 @@ class TaskPipelineWS(TaskBase):
     def sanity_check(self):
         super().sanity_check()
         if not os.path.exists(self.input_dir):
-            raise FileNotFoundError('input workspace directory {} does not exist.'.format(self.input_dir))
+            raise FileNotFoundError(f'input workspace directory {self.input_dir} does not exist.')
                 
     def setup_paths(self):
         self.input_ws_dir    = os.path.join(self.input_dir, self.channel, self.resonant_type)
@@ -340,11 +340,13 @@ class TaskPipelineWS(TaskBase):
     @staticmethod
     def create_rescale_cfg_file(cfg_file:str, input_ws:str, output_ws:str, old_poiname:str,
                                 new_poiname:str, poi_scale:float, pois_to_keep:List,
-                                oldpoi_equiv_name:str='mu_old', redefine_parameters:Optional[Dict]=None):
+                                oldpoi_equiv_name:str='mu_old',
+                                redefine_parameters:Optional[Dict]=None,
+                                rename_parameters:Optional[Dict]=None,
+                                define_parameters:Optional[Dict]=None):
         
         print('INFO: Creating config file: {0}, poi: {1} --> {2}, scaling: {3}'.format(
               cfg_file,  old_poiname, new_poiname, poi_scale))
-        
         
         from quickstats.components import ExtendedModel
         model   = ExtendedModel(input_ws, data_name=None, verbosity="WARNING")
@@ -388,9 +390,16 @@ class TaskPipelineWS(TaskBase):
         if redefine_parameters is not None:
             for param in redefine_parameters:
                 param_val = redefine_parameters[param]
-                cfg_xml.add_node(tag="Item", Name=f"{param}_redef[{param_val}]")
-                mappings.append((param, f"{param}_redef"))
-        
+                cfg_xml.add_node(tag="Item", Name=f"{param}[{param_val}]")
+                
+        if define_parameters is not None:
+            for expr in define_parameters:
+                cfg_xml.add_node(tag="Item", Name=f"{expr}")
+                
+        if rename_parameters is not None:
+            for old_name, new_name in rename_parameters.items():
+                mappings.append((old_name, new_name))
+                
         mappings_str = ", ".join([f"{old_name}={new_name}" for old_name, new_name in mappings])
         cfg_xml.add_node(tag="Map", Name=f"EDIT::NEWPDF(OLDPDF, {mappings_str})")
         
@@ -418,10 +427,15 @@ class TaskPipelineWS(TaskBase):
         ws_name = model.workspace.GetName()
         
         wsc_bin_path = os.path.join(self.WSC_PATH, 'build', 'manager')
-                                    
-        cmd_regularise = [wsc_bin_path, "-w", "regulate", "-f", input_ws_path, "-p", regularised_ws_path,
+        
+        if self.old_dataname != self.new_dataname:
+            tmp_ws_path = regularised_ws_path.replace(".root", "_tmp.root")
+        else:
+            tmp_ws_path = regularised_ws_path
+            
+        cmd_regularise = [wsc_bin_path, "-w", "regulate", "-f", input_ws_path, "-p", tmp_ws_path,
                           "--dataName", self.old_dataname, "--wsName", ws_name]
-
+        
         print(' '.join(cmd_regularise))
         regularise_logfile_path = regularised_ws_path.replace('.root', '.log')
 
@@ -434,7 +448,7 @@ class TaskPipelineWS(TaskBase):
                 proc.wait()
                 
         if self.old_dataname != self.new_dataname:
-            model = ExtendedModel(regularised_ws_path, data_name=None, verbosity="WARNING")
+            model = ExtendedModel(tmp_ws_path, data_name=None, verbosity="WARNING")
             model.rename_dataset({self.old_dataname: self.new_dataname})
             model.save(regularised_ws_path)
                   
@@ -449,21 +463,23 @@ class TaskPipelineWS(TaskBase):
         rescale_cfg_file_path = os.path.join(self.rescale_cfg_file_dir, rescale_cfg_filename)
 
         if self.rescale_poi is None:
-            try:
-                poi_scale = scalings.get_scaling(self.scaling_release, self.channel, self.resonant_type, mass)
-            except:
-                raise RuntimeError('ERROR: cannot find {0} for {1} in python_modules/scalings.py'.format(
-                                   mass, self.channel))
+            poi_scale = 1.0
         else:
             poi_scale = self.rescale_poi
-
-        old_poiname = self.old_poiname if self.old_poiname is not None else self.guess_poi(regularised_ws_path)
+            
+        if self.old_poiname is None:
+            old_poiname = self.guess_poi(regularised_ws_path)
+        else:
+            old_poiname = self.old_poiname
         
         pois_to_keep = ','.join(self.pois_to_keep)
         
         self.create_rescale_cfg_file(rescale_cfg_file_path, regularised_ws_path,
-                                     rescaled_ws_path, old_poiname, self.new_poiname, poi_scale, pois_to_keep,
-                                     redefine_parameters=self.redefine_parameters)
+                                     rescaled_ws_path, old_poiname, self.new_poiname,
+                                     poi_scale, pois_to_keep,
+                                     redefine_parameters=self.redefine_parameters,
+                                     rename_parameters=self.rename_parameters,
+                                     define_parameters=self.define_parameters)
 
         rescale_logfile_path = rescaled_ws_path.replace('.root', '.log')
         
@@ -497,7 +513,7 @@ class TaskPipelineWS(TaskBase):
             "poi_names": self.pois_to_keep,
         }
         
-        config["actions"] = {"define":[], "rename":{}}
+        config["actions"] = {"redefine": [], "define":[], "rename":{}}
         config["actions"]["rename"]["workspace"] = {None: "combWS"}
         config["actions"]["rename"]["dataset"]   = {self.old_dataname: self.new_dataname}
         config["actions"]["rename"]["variable"]  = {}
@@ -505,11 +521,7 @@ class TaskPipelineWS(TaskBase):
         # get poi scale factor
         mass = param_point['parameters']['mass']
         if self.rescale_poi is None:
-            try:
-                poi_scale = scalings.get_scaling(self.scaling_release, self.channel, self.resonant_type, mass)
-            except:
-                raise RuntimeError('ERROR: cannot find {0} for {1} in python_modules/scalings.py'.format(
-                                   mass, self.channel))
+            poi_scale = 1.0
         else:
             poi_scale = self.rescale_poi
         
@@ -540,9 +552,13 @@ class TaskPipelineWS(TaskBase):
         if self.redefine_parameters is not None:
             for param in self.redefine_parameters:
                 param_val = self.redefine_parameters[param]
-                redef_expr = f"{param}_redef[{param_val}]"
-                config["actions"]["define"].append(redef_expr)
-                config["actions"]["rename"]["variable"][param] = f"{param}_redef"
+                redef_expr = f"{param}[{param_val}]"
+                config["actions"]["redefine"].append(redef_expr)
+                
+        if self.define_parameters is not None:
+            for expr in self.define_parameters:
+                config["actions"]["define"].append(expr)
+                
         from quickstats.components.workspaces import XMLWSModifier
         from quickstats.concurrent.logging import standard_log
         print("INFO: Writing rescaling log into {0}".format(rescale_logfile_path))
@@ -600,7 +616,8 @@ class TaskCombination(TaskBase):
         self.correlation_scheme = correlation_scheme
         self.scheme_tag = 'nocorr' if self.correlation_scheme is None else 'fullcorr'
         self.tag = tag_pattern.format(channels='_'.join(self.channels), scheme=self.scheme_tag)
-        super().initialize(resonant_type, poi_name, data_name, **kwargs)
+        super().initialize(resonant_type=resonant_type,
+                           poi_name=poi_name, data_name=data_name, **kwargs)
         if not self.param_points:
             raise RuntimeError("No points to combine")
         print('INFO: Registered the following param points and corresponding channels for combination')
