@@ -30,8 +30,8 @@ class TaskBase:
                    param_expr:Optional[str]=None, blind:bool=True, minimizer_options:Optional[Dict]=None, 
                    do_limit:bool=True, do_likelihood:bool=False, do_pvalue:bool=False,
                    task_options:Optional[Dict]=None, filter_expr:Optional[str]=None,
-                   exclude_expr:Optional[str]=None, parallel:int=-1, cache:bool=True,
-                   verbosity:str="INFO", experimental:bool=False, **kwargs):
+                   exclude_expr:Optional[str]=None, extra_pois:Optional[Union[str, List]]=None,
+                   parallel:int=-1, cache:bool=True, verbosity:str="INFO", experimental:bool=False, **kwargs):
         self.minimizer_options = self.parse_minimizer_options(minimizer_options)
         config = {}
         config['data_name']    = data_name
@@ -64,6 +64,11 @@ class TaskBase:
             param_point = self.int_param_points[0]
             self.pois_to_keep += list(param_point)
         self.pois_to_keep = list(set(self.pois_to_keep))
+        
+        if extra_pois is not None:
+            if isinstance(extra_pois, str):
+                extra_pois = extra_pois.split(",")
+            self.pois_to_keep = list(set(self.pois_to_keep + extra_pois))        
         
         self.experimental = experimental
         
@@ -283,7 +288,7 @@ class TaskPipelineWS(TaskBase):
                    old_poiname:str, new_poiname:str, old_dataname:str,
                    new_dataname:str, define_parameters:Optional[Dict]=None,
                    redefine_parameters:Optional[Dict]=None, rename_parameters:Optional[Dict]=None,
-                   rescale_poi:Optional[float]=None, extra_pois:Optional[Union[str, List]]=None, **kwargs):
+                   rescale_poi:Optional[float]=None, **kwargs):
         
         self.input_dir = input_dir
         self.output_dir = output_dir
@@ -299,10 +304,7 @@ class TaskPipelineWS(TaskBase):
         super().initialize(resonant_type=resonant_type,
                            poi_name=new_poiname,
                            data_name=new_dataname, **kwargs)
-        if extra_pois is not None:
-            if isinstance(extra_pois, str):
-                extra_pois = extra_pois.split(",")
-            self.pois_to_keep = list(set(self.pois_to_keep + extra_pois))
+
         
     def sanity_check(self):
         super().sanity_check()
@@ -550,10 +552,16 @@ class TaskPipelineWS(TaskBase):
         config["actions"]["rename"]["variable"][old_poiname] = oldpoi_equiv_name
         
         if self.redefine_parameters is not None:
-            for param in self.redefine_parameters:
-                param_val = self.redefine_parameters[param]
-                redef_expr = f"{param}[{param_val}]"
-                config["actions"]["redefine"].append(redef_expr)
+            if isinstance(self.redefine_parameters, dict):
+                for param in self.redefine_parameters:
+                    param_val = self.redefine_parameters[param]
+                    redef_expr = f"{param}[{param_val}]"
+                    config["actions"]["redefine"].append(redef_expr)
+            elif isinstance(self.redefine_parameters, list):
+                for expr in self.redefine_parameters:
+                    config["actions"]["redefine"].append(expr)
+            else:
+                raise RuntimeError("invalid redefine expression")
                 
         if self.define_parameters is not None:
             for expr in self.define_parameters:
