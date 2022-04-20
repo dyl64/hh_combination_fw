@@ -54,7 +54,6 @@ extra_pois:
   bbtautau:
     - kt
     - klambda
-    - k2V
     - kF
     - kH
     - kV
@@ -62,8 +61,6 @@ extra_pois:
     - kZ
     - kb
     - ktau
-    - mu_HH_VBF
-    - mu_HH_ggF
   bbyy:
     - kt
     - klambda
@@ -80,7 +77,6 @@ extra_pois:
   combination:
     - kt
     - klambda
-    - k2V
     - kF
     - kH
     - kV
