@@ -357,11 +357,15 @@ class TaskPipelineWS(TaskBase):
         
         attrib = {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 86f6fa86281c7ec55a34010bb03b1fa8a4af8a40
             "InFile"   : input_ws,
             "OutFile"  : output_ws,
             "ModelName": mc_name,
             "POINames" : pois_to_keep,
             "WorkspaceName": ws_name
+<<<<<<< HEAD
 =======
             "InFile": input_ws,
             "OutFile": output_ws,
@@ -369,6 +373,8 @@ class TaskPipelineWS(TaskBase):
             "POINames": pois_to_keep,
             "WorkspaceName": workspace_name,
 >>>>>>> 6fadbd486b2e9a2f7d52d4cf3d5e24d923ce0b88
+=======
+>>>>>>> 86f6fa86281c7ec55a34010bb03b1fa8a4af8a40
         }
         cfg_xml.new_root(tag="Organization", attrib=attrib)
         
@@ -422,6 +428,9 @@ class TaskPipelineWS(TaskBase):
         print("INFO: Regularising {0} --> {1}".format(input_ws_path, regularised_ws_path))
         
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 86f6fa86281c7ec55a34010bb03b1fa8a4af8a40
         from quickstats.components import ExtendedModel
         model   = ExtendedModel(input_ws_path, data_name=None, verbosity="WARNING")
         ws_name = model.workspace.GetName()
@@ -430,12 +439,15 @@ class TaskPipelineWS(TaskBase):
                                     
         cmd_regularise = [wsc_bin_path, "-w", "regulate", "-f", input_ws_path, "-p", regularised_ws_path,
                           "--dataName", self.old_dataname, "--wsName", ws_name]
+<<<<<<< HEAD
 =======
         wsc_bin_path = os.path.join(self.WSC_PATH, 'build', 'manager')
                                     
         cmd_regularise = [wsc_bin_path, "-w", "regulate", "-f", input_ws_path, "-p", regularised_ws_path,
                           "--dataName", self.dataname, "--wsName", self.workspace_name]
 >>>>>>> 6fadbd486b2e9a2f7d52d4cf3d5e24d923ce0b88
+=======
+>>>>>>> 86f6fa86281c7ec55a34010bb03b1fa8a4af8a40
 
         print(' '.join(cmd_regularise))
         regularise_logfile_path = regularised_ws_path.replace('.root', '.log')

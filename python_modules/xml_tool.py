@@ -9,6 +9,9 @@ def create_channel_node(root_node, channel:str, fname:str, poi_name:str, rename_
                         ws_name:Optional[str]=None, mc_name:Optional[str]=None, data_name:str='combData',
                         ignore_missing_keys=False):
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 86f6fa86281c7ec55a34010bb03b1fa8a4af8a40
     from quickstats.components import ExtendedModel
     model = ExtendedModel(fname, verbosity="ERROR", ws_name=ws_name,
                           mc_name=mc_name, data_name=data_name)
@@ -46,6 +49,7 @@ def create_channel_node(root_node, channel:str, fname:str, poi_name:str, rename_
 def create_combination_xml(channel_attributes:Dict, output_ws:str, poi_name:str, rename_map:Dict=None,
                            ws_name:str='combWS', mc_name:str='ModelConfig',
                            data_name:str='combData', ignore_missing_keys:bool=False):
+<<<<<<< HEAD
 =======
     channel_node = root_node.add_node('Channel', Name=channel, 
                                       InputFile=fname,
@@ -80,6 +84,8 @@ def create_combination_xml(input_ws, output_ws, poi_name, rename_map=None, wd_na
                            ws_name='combWS', mc_name='ModelConfig', data_name='combData',
                            ignore_missing_keys=False):
 >>>>>>> 6fadbd486b2e9a2f7d52d4cf3d5e24d923ce0b88
+=======
+>>>>>>> 86f6fa86281c7ec55a34010bb03b1fa8a4af8a40
     quickstats.set_verbosity("WARNING")
     rename_map = {} if rename_map is None else rename_map
     xml = TXMLTree(doctype='Combination', system='Combination.dtd')
@@ -87,6 +93,9 @@ def create_combination_xml(input_ws, output_ws, poi_name, rename_map=None, wd_na
     xml.add_node('POIList', Combined=formate_poi_name(poi_name))
     xml.add_node('Asimov', Name='fit')
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 86f6fa86281c7ec55a34010bb03b1fa8a4af8a40
     for channel in channel_attributes:
         channel_rename_map = rename_map.get(channel, None)
         channel_filename  = channel_attributes[channel]["filename"]
@@ -95,16 +104,20 @@ def create_combination_xml(input_ws, output_ws, poi_name, rename_map=None, wd_na
         channel_data_name = channel_attributes[channel].get("data_name", data_name)
         create_channel_node(xml, channel, channel_filename, poi_name, rename_map=channel_rename_map,
                             ws_name=channel_ws_name, mc_name=channel_mc_name, data_name=channel_data_name,
+<<<<<<< HEAD
 =======
     for channel in input_ws:
         channel_rename_map = rename_map.get(channel, None)
         create_channel_node(xml, channel, input_ws[channel], poi_name, rename_map=channel_rename_map,
                             ws_name=wd_name[channel]['ws_name'], mc_name=mc_name, data_name=wd_name[channel]['data_name'],
 >>>>>>> 6fadbd486b2e9a2f7d52d4cf3d5e24d923ce0b88
+=======
+>>>>>>> 86f6fa86281c7ec55a34010bb03b1fa8a4af8a40
                             ignore_missing_keys=ignore_missing_keys)
     quickstats.set_verbosity("INFO")
     return xml
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 def formate_poi_name(poi_name:str):
     new_poi = [f"{p}[1~1]" for p in poi_name.split(',') if p]
@@ -119,3 +132,9 @@ def formate_poi_name(poi_name):
     
     return new_poi
 >>>>>>> 6fadbd486b2e9a2f7d52d4cf3d5e24d923ce0b88
+=======
+def formate_poi_name(poi_name:str):
+    new_poi = [f"{p}[1~1]" for p in poi_name.split(',') if p]
+    new_poi = ','.join(new_poi)
+    return new_poi
+>>>>>>> 86f6fa86281c7ec55a34010bb03b1fa8a4af8a40
