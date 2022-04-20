@@ -1,3 +1,6 @@
+workspace:
+  bbtautau: combined
+  bbyy: combWS
 dataset:
   bbtautau:
     blind: asimovData

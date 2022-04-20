@@ -11,11 +11,10 @@ import json
 import copy
 
 import utils
-from quickstats.components import ExtendedModel, AnalysisBase
+
 from quickstats.parsers import ParamParser
-from quickstats.concurrent.logging import standard_log
 from quickstats.utils.common_utils import execute_multi_tasks
-from quickstats.concurrent import ParameterisedAsymptoticCLs
+
 import scalings
 from xml_tool import create_combination_xml
 
@@ -32,7 +31,8 @@ class TaskBase:
                    verbosity:str="INFO", minimizer_options:Optional[Dict]=None,
                    parallel:int=-1, cache:bool=True, save_summary:bool=False, do_limit:bool=True, 
                    do_likelihood:bool=False, do_pvalue:bool=False, task_options:Optional[Dict]=None,
-                   filter_expr:Optional[str]=None, exclude_expr:Optional[str]=None, **kwargs):
+                   filter_expr:Optional[str]=None, exclude_expr:Optional[str]=None,
+                   experimental:bool=False, **kwargs):
         self.minimizer_options    = self.parse_minimizer_options(minimizer_options)
         config = {}
         config['data_name']       = data_name
@@ -67,7 +67,10 @@ class TaskBase:
         if len(self.int_param_points) > 0:
             param_point = self.int_param_points[0]
             self.pois_to_keep += list(param_point)
-            
+        self.pois_to_keep = list(set(self.pois_to_keep))
+        
+        self.experimental = experimental
+        
         self.sanity_check()
             
     def parse_minimizer_options(self, config_path:Optional[str]=None):
@@ -111,7 +114,7 @@ class TaskBase:
     def limit_setting(self):
 
         kwargs = {
-            'input_path'     : self.basis_dir,
+            'input_path'  : self.basis_dir,
             'file_expr'   : self.file_expr,
             'param_expr'  : self.param_expr,
             'filter_expr' : self.filter_expr,
@@ -119,11 +122,12 @@ class TaskBase:
             'outdir'      : self.limit_dir,
             'outname'     : self.MERGED_LIMITS_FNAME,
             'cache'       : self.cache,
-            'save_log'    : True,
+            'save_log'    : not self.config['verbosity'] == "DEBUG",
             'save_summary': self.save_summary,
             'parallel'    : self.parallel,
             'config'      : {**self.minimizer_options['limit_setting'], **self.config}
         }
+        from quickstats.concurrent import ParameterisedAsymptoticCLs
         runner = ParameterisedAsymptoticCLs(**kwargs)
         runner.run()
 
@@ -162,6 +166,9 @@ class TaskBase:
             print(f"INFO: Cached p-value output from {outpath}")
             return None
         log_path = os.path.splitext(outpath)[0] + ".log"
+        
+        from quickstats.components import AnalysisBase
+        from quickstats.concurrent.logging import standard_log
         with standard_log(log_path) as logger:
             analysis  = AnalysisBase(filename, data_name=data_name,
                                      poi_name=poi_name, config=config,
@@ -212,8 +219,9 @@ class TaskBase:
                 return None
 
             log_path = os.path.splitext(outpath)[0] + ".log"
-            with standard_log(log_path) as logger:
-                
+            from quickstats.components import AnalysisBase
+            from quickstats.concurrent.logging import standard_log
+            with standard_log(log_path) as logger:    
                 analysis  = AnalysisBase(filename, data_name=data_name,
                                          poi_name=poi_name, config=config,
                                          verbosity=verbosity)
@@ -254,6 +262,9 @@ class TaskBase:
         raise NotImplementedError("this method should be overridden")
         
     def run_pipeline(self):
+        if not self.param_points:
+            print(f"WARNING: No inputs found in {self.input_ws_dir} that satisfy the task requirement. Please double check.")
+            return None
         start = time.time()
         self.makedirs()
         self.copy_dtd()
@@ -272,9 +283,10 @@ class TaskBase:
         
 class TaskPipelineWS(TaskBase):
     
-    def initialize(self, input_dir, output_dir, resonant_type, channel, scaling_release, 
-                   old_poiname, new_poiname, old_dataname, new_dataname, 
-                   redefine_parameters=None, rescale_poi=None, **kwargs):
+    def initialize(self, input_dir:str, output_dir:str, resonant_type:str, channel:str,
+                   scaling_release:str, old_poiname:str, new_poiname:str, dataname:str,
+                   redefine_parameters:Optional[Dict]=None, workspace_name:str='combWS',
+                   rescale_poi:Optional[float]=None, extra_pois:Optional[Union[str, List]]=None, **kwargs):
         
         self.input_dir = input_dir
         self.output_dir = output_dir
@@ -284,9 +296,13 @@ class TaskPipelineWS(TaskBase):
         self.rescale_poi = rescale_poi
         self.old_poiname = old_poiname
         self.new_poiname = new_poiname
-        self.old_dataname = old_dataname
-        self.new_dataname = new_dataname
-        super().initialize(resonant_type, new_poiname, new_dataname, **kwargs)
+        self.workspace_name = workspace_name
+        self.dataname = dataname
+        super().initialize(resonant_type, new_poiname, dataname, **kwargs)
+        if extra_pois is not None:
+            if isinstance(extra_pois, str):
+                extra_pois = extra_pois.split(",")
+            self.pois_to_keep = list(set(self.pois_to_keep + extra_pois))
         
     def sanity_check(self):
         super().sanity_check()
@@ -322,9 +338,9 @@ class TaskPipelineWS(TaskBase):
         return param_points
        
     @staticmethod
-    def create_rescale_cfg_file(cfg_file, input_ws, output_ws, old_poiname, new_poiname,
-                                poi_scale, pois_to_keep, oldpoi_equiv_name='mu_old', 
-                                redefine_parameters=None):
+    def create_rescale_cfg_file(cfg_file:str, input_ws:str, output_ws:str, old_poiname:str,
+                                new_poiname:str, poi_scale:float, pois_to_keep:List, workspace_name='combWS',
+                                oldpoi_equiv_name:str='mu_old', redefine_parameters:Optional[Dict]=None):
         
         print('INFO: Creating config file: {0}, poi: {1} --> {2}, scaling: {3}'.format(
               cfg_file,  old_poiname, new_poiname, poi_scale))
@@ -337,11 +353,13 @@ class TaskPipelineWS(TaskBase):
             "InFile": input_ws,
             "OutFile": output_ws,
             "ModelName": "dummy",
-            "POINames": pois_to_keep
+            "POINames": pois_to_keep,
+            "WorkspaceName": workspace_name,
         }
         cfg_xml.new_root(tag="Organization", attrib=attrib)
         # need to check the default value of the poi
-        model = ExtendedModel(input_ws, data_name=None, verbosity="WARNING", binned_likelihood=False)
+        from quickstats.components import ExtendedModel
+        model = ExtendedModel(input_ws, data_name=None, verbosity="WARNING")
         poi   = model.workspace.var(old_poiname)
         if not poi:
             raise RuntimeError(f'the workspace "{input_ws}" does not contain the parameter "{old_poiname}"')
@@ -375,24 +393,25 @@ class TaskPipelineWS(TaskBase):
 
     @staticmethod
     def guess_poi(input_ws):
+        from quickstats.components import ExtendedModel
         model = ExtendedModel(input_ws, data_name=None, verbosity="WARNING")
-        poi_names = model.get_poi_names(input_ws)
+        poi_names = [poi.GetName() for poi in model.pois]
         if len(poi_names) > 1:
             raise RuntimeError("Unable to deduce POI for the workspace {}. "
                                "Multiple POIs found: ".format(input_ws, ",".join(poi_names)))
         else:
             return poi_names[0]
 
-    def regularise(self, param_point):
+    def regularise(self, param_point:Dict):
         filename = f"{param_point['basename']}.root"
         input_ws_path = param_point['filename']
         regularised_ws_path = os.path.join(self.regularised_dir, filename)       
         print("INFO: Regularising {0} --> {1}".format(input_ws_path, regularised_ws_path))
         
-        wsc_bin_path = os.path.join(self.WSC_PATH, 'bin', 'manager')
+        wsc_bin_path = os.path.join(self.WSC_PATH, 'build', 'manager')
                                     
-        cmd_regularise = [wsc_bin_path, "-w", "decorate", "-f", input_ws_path, "-p", regularised_ws_path,
-                          "-d", self.old_dataname]
+        cmd_regularise = [wsc_bin_path, "-w", "regulate", "-f", input_ws_path, "-p", regularised_ws_path,
+                          "--dataName", self.dataname, "--wsName", self.workspace_name]
 
         print(' '.join(cmd_regularise))
         regularise_logfile_path = regularised_ws_path.replace('.root', '.log')
@@ -405,7 +424,7 @@ class TaskPipelineWS(TaskBase):
                 proc = subprocess.Popen(cmd_regularise, stdout=logfile, stderr=logfile)
                 proc.wait()
                   
-    def rescale(self, param_point):
+    def rescale(self, param_point:Dict):
         filename = f"{param_point['basename']}.root"
         regularised_ws_path = os.path.join(self.regularised_dir, filename)
         rescaled_ws_path = os.path.join(self.rescaled_dir, filename)
@@ -429,14 +448,14 @@ class TaskPipelineWS(TaskBase):
         pois_to_keep = ','.join(self.pois_to_keep)
         
         self.create_rescale_cfg_file(rescale_cfg_file_path, regularised_ws_path,
-                                     rescaled_ws_path, old_poiname, self.new_poiname, poi_scale, pois_to_keep,
+                                     rescaled_ws_path, old_poiname, self.new_poiname, poi_scale, pois_to_keep, workspace_name=self.workspace_name,
                                      redefine_parameters=self.redefine_parameters)
 
         rescale_logfile_path = rescaled_ws_path.replace('.root', '.log')
         
-        wsc_bin_path = os.path.join(self.WSC_PATH, 'bin', 'manager')
+        wsc_bin_path = os.path.join(self.WSC_PATH, 'build', 'manager')
         
-        cmd_rescale = [wsc_bin_path, "-w", "organize", "-x", rescale_cfg_file_path]
+        cmd_rescale = [wsc_bin_path, "-w", "edit", "-x", rescale_cfg_file_path]
         print(' '.join(cmd_rescale))
         
         if os.path.exists(rescaled_ws_path) and self.cache:
@@ -447,17 +466,93 @@ class TaskPipelineWS(TaskBase):
                 proc = subprocess.Popen(cmd_rescale, stdout=logfile, stderr=logfile)
                 proc.wait()
                 
+    def modify_workspace(self, param_point:Dict, oldpoi_equiv_name:str='mu_old'):
+        original_ws_path = param_point['filename']
+        basename = f"{param_point['basename']}.root"
+        rescaled_ws_path = os.path.join(self.rescaled_dir, basename)
+        rescale_logfile_path = rescaled_ws_path.replace('.root', '.log')
+        
+        # cache if already done
+        if os.path.exists(rescaled_ws_path) and self.cache:
+            print("\033[92mSkip: rescaling output {0} exists, skip rescaling\033[0m".format(rescaled_ws_path))
+            return None
+
+        config = {
+            "input_file": original_ws_path,
+            "output_file": rescaled_ws_path,
+            "poi_names": self.pois_to_keep,
+        }
+        
+        config["actions"] = {"define":[], "rename":{}}
+        config["actions"]["rename"]["workspace"] = {None: "combWS"}
+        config["actions"]["rename"]["dataset"]   = {self.old_dataname: self.new_dataname}
+        config["actions"]["rename"]["variable"]  = {}
+
+        # get poi scale factor
+        mass = param_point['parameters']['mass']
+        if self.rescale_poi is None:
+            try:
+                poi_scale = scalings.get_scaling(self.scaling_release, self.channel, self.resonant_type, mass)
+            except:
+                raise RuntimeError('ERROR: cannot find {0} for {1} in python_modules/scalings.py'.format(
+                                   mass, self.channel))
+        else:
+            poi_scale = self.rescale_poi
+        
+        # need to check the default value and range of the poi
+        from quickstats.components import ExtendedModel
+        model = ExtendedModel(original_ws_path, data_name=None, verbosity="WARNING")
+        new_poiname = self.new_poiname
+        old_poiname = self.old_poiname if self.old_poiname is not None else self.guess_poi(original_ws_path)
+        poi   = model.workspace.var(old_poiname)
+        if not poi:
+            raise RuntimeError(f'the workspace "{input_ws}" does not contain the parameter "{old_poiname}"')
+        old_poi_val = poi.getVal()
+        new_poi_val = old_poi_val * poi_scale
+        old_poi_min = poi.getRange()[0]
+        old_poi_max = poi.getRange()[1]
+        if abs(old_poi_min) > 1e10:
+            new_poi_min = old_poi_min
+        else:
+            new_poi_min = old_poi_min * poi_scale
+        if abs(old_poi_max) > 1e10:
+            new_poi_max = old_poi_max
+        else:
+            new_poi_max = old_poi_max * poi_scale
+        new_poi_expr = f"expr::{oldpoi_equiv_name}('@0/{poi_scale}', {new_poiname}[{new_poi_val}, {new_poi_min}, {new_poi_max}])"
+        config["actions"]["define"].append(new_poi_expr)
+        config["actions"]["rename"]["variable"][old_poiname] = oldpoi_equiv_name
+        
+        if self.redefine_parameters is not None:
+            for param in self.redefine_parameters:
+                param_val = self.redefine_parameters[param]
+                redef_expr = f"{param}_redef[{param_val}]"
+                config["actions"]["define"].append(redef_expr)
+                config["actions"]["rename"]["variable"][param] = f"{param}_redef"
+        from quickstats.components.workspaces import XMLWSModifier
+        from quickstats.concurrent.logging import standard_log
+        print("INFO: Writing rescaling log into {0}".format(rescale_logfile_path))
+        with standard_log(rescale_logfile_path) as logger:
+            ws_modifier = XMLWSModifier(config)
+            ws_modifier.create_modified_workspace()
+
     def preprocess(self, param_point):
-        self.regularise(param_point)
-        self.rescale(param_point)
+        if self.experimental:
+            self.modify_workspace(param_point)
+        else:
+            self.regularise(param_point)
+            self.rescale(param_point)
 
 class TaskCombination(TaskBase):
     
-    def __init__(self, *args, **kwargs):
+    def __init__(self,*args, **kwargs):
+        self.wd_name={} # diction for workspace and dataset name
         self.initialize(*args, **kwargs)
         # make sure the NPs are set to nominal values at the beginning
         for k in self.minimizer_options:
             self.minimizer_options[k]['snapshot_name'] = "nominalNuis"
+        
+        
     
     @property
     def channels(self):
@@ -501,11 +596,13 @@ class TaskCombination(TaskBase):
         for param_point in self.param_points:
             param_str = self.param_parser.val_encode_parameters(param_point['parameters'])
             print(f'({param_str}): {param_point["channels"]}')
+            self.get_ws_data(param_point)
         
     def get_param_points(self, filter_expr:Optional[str]=None, exclude_expr:Optional[str]=None):
         temp = {}
         for channel in self.channels:
             dirname = os.path.join(self.input_ws_dir, channel)
+            # print(f'{channel} --> {dirname}, {filter_expr}')
             ext_param_points = self.param_parser.get_external_param_points(dirname, filter_expr, exclude_expr)
             for param_point in ext_param_points:
                 basename = param_point['basename']
@@ -519,6 +616,17 @@ class TaskCombination(TaskBase):
             param_point = {"basename":basename, "channels":channels, "parameters": parameters}
             param_points.append(param_point)
         return param_points
+    
+    def get_ws_data(self, param_point):
+        from quickstats.components import ExtendedModel
+        channels = param_point.get("channels", None)
+        input_ws_paths = {}
+        filename = f"{param_point['basename']}.root"
+        for channel in channels:
+            input_ws_paths[channel] = os.path.join(self.input_ws_dir, channel, filename)
+            model = ExtendedModel(input_ws_paths[channel], data_name=None, verbosity="WARNING", binned_likelihood=False)
+            print(f'{channel}: {model.data_name} in {model.ws_name}')
+            self.wd_name.update({channel: {'ws_name': model.ws_name, 'data_name': model.data_name}})
     
     def sanity_check(self):
         super().sanity_check()
@@ -557,7 +665,7 @@ class TaskCombination(TaskBase):
         poi_name = ",".join(self.pois_to_keep)
         data_name = self.config['data_name']
         xml = create_combination_xml(input_ws_paths, combined_ws_path, poi_name, 
-                                     rename_map=self.correlation_scheme, data_name=data_name)
+                                     rename_map=self.correlation_scheme, data_name=data_name, wd_name=self.wd_name)
         return xml
         
     def create_combination_xml(self, param_point):
@@ -572,7 +680,7 @@ class TaskCombination(TaskBase):
         config_file_path = os.path.join(self.cfg_file_dir, f"{param_point['basename']}.xml")
         logfile_path = combined_ws_path.replace('.root', '.log')
         
-        wsc_bin_path = os.path.join(self.WSC_PATH, 'bin', 'manager')
+        wsc_bin_path = os.path.join(self.WSC_PATH, 'build', 'manager')
         cmd = [wsc_bin_path, "-w", "combine", "-x", config_file_path, "-f", combined_ws_path, "-s", fit_strategy, "-t", fit_tolerance]
         print(' '.join(cmd))
         
