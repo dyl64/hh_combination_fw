@@ -60,6 +60,15 @@ function RunXSScan() {
     echo
 }
 
+function GenCondor() {
+    for i in bbyy combined bbtautau bbbb ; do
+        for j in `seq -6 0.2 12`; do
+            echo Arguments = $i klambda=$j
+            echo Queue 1
+        done
+    done
+}
+
 function RunLHScan() {
     ch=$1
 
@@ -80,6 +89,8 @@ echo -e "##############\n## Cross section scan ###\n###########\n"
 for i in bbyy combined bbtautau bbbb ; do
     RunXSScan $i
 done
+GenCondor
+
 #echo -e "##############\n## Likelihood scan ###\n###########\n"
 #for i in bbyy combined bbtautau bbbb ; do
 #    RunLHScan $i
