@@ -34,6 +34,9 @@ cd submodules/workspaceCombiner
 if [ -d "submodules/workspaceCombiner/build" ] ; then
     rm -r submodules/workspaceCombiner/build
 fi
+if [ -d "submodules/workspaceCombiner/lib" ] ; then
+    rm    submodules/workspaceCombiner/lib/*
+fi
 mkdir -p build && cd build && rm -fr * && cmake .. && make -j8 && cd ..
 cd ${hh_combination_fw_path}
 
@@ -43,4 +46,3 @@ printf "${GREEN}\n
 | Compiling 3/3) submodules/quickstats ...
 ==============================================${NC}\n"
 quickstats compile
-
