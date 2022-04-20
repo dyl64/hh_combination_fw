@@ -9,7 +9,7 @@ run_type=$1
 function presetup() {
     workspace_dir=${hh_combination_fw_path} # work directory (including scripts, config files, correlation schemes...)
 
-    output_name="output_HHH" # output directory name
+    output_name="output_HHH2" # output directory name
     output_dir="${hh_combination_fw_path}/${output_name}" # the output directory
     data_dir="${hh_combination_fw_path}/FullRun2Workspaces/original/HHH2022/20220415/" # the data directory
     run_channel='bbyy,bbtautau,bbbb' # how many channels to combine
@@ -28,7 +28,7 @@ function presetup() {
     kl_scan_range="klambda=-6_12_0.2" # scan range for kl only
     #fix_param="klambda=1,kt=1" # fix_parameter for generating asimov data
     other_poi="klambda=1,kt=1,kF=1,kH=1,kW=1,kV=1,kZ=1,kb=1,ktau=1" # fix other variables that were POI but missed in combined WS
-    fix_auxiliary="--fix \"<auxiliary>\"" # fix other variables that were POI but missed in combined WS
+    fix_auxiliary="--fix \"<auxiliary>\"" # fix hidden variables that were POI but missed in combined WS
 }
 
 ##### setup #####
@@ -53,10 +53,11 @@ function RunXSScan() {
     #declare -A dataset
     #dataset=( ["bbyy"]="combData" ["combined"]="combData"  ["bbtautau"]="obsData" ["bbbb"]="obsData" )  # -d "${dataset[${ch}]}" 
     if [[ ${ch} == 'combined' ]]; then
-        echo quickstats limit_scan -i ${output_dir}/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root --outdir ${output_dir}/xsection_scan/${ch} --param_expr '"'${kl_scan_range}'"'  -p xsec_br --unblind ${fix_auxiliary}
+        input_file="${output_dir}/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root"
     else
-        echo quickstats limit_scan -i ${output_dir}/rescaled/nonres/${ch}/0_kl.root --outdir ${output_dir}/xsection_scan/${ch} --param_expr '"'${kl_scan_range}'"'  -p xsec_br --unblind ${fix_auxiliary}
+        input_file="${output_dir}/rescaled/nonres/${ch}/0_kl.root"
     fi
+    echo quickstats limit_scan -i ${input_file} --outdir ${output_dir}/xsection_scan/${ch} --param_expr '"'${kl_scan_range}'"'  -p xsec_br --unblind ${fix_auxiliary}
     echo
 }
 
@@ -75,23 +76,26 @@ function RunLHScan() {
     #declare -A dataset
     #dataset=( ["bbyy"]="combData" ["combined"]="combData"  ["bbtautau"]="obsData" ["bbbb"]="obsData" )
     if [[ ${ch} == 'combined' ]]; then
-        echo quickstats likelihood_scan -i ${output_dir}/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root --outdir ${output_dir}/likelihood_scan/${ch} --param_expr '"'${kl_scan_range}'"'  -p xsec_br -f '"'${fix_other_poi}'"'
+        input_file="${output_dir}/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root"
     else
-        echo quickstats likelihood_scan -i ${output_dir}/rescaled/nonres/0_kl.root --outdir ${output_dir}/likelihood_scan/${ch} --param_expr '"'${kl_scan_range}'"'  -p xsec_br -f '"'${fix_other_poi}'"'
+        input_file="${output_dir}/rescaled/nonres/${ch}/0_kl.root"
     fi
+    echo quickstats likelihood_scan -i ${input_file} --outdir ${output_dir}/likelihood_scan/${ch}/2D_kl_kt --param_expr '"'${kl_kt_scan_range}'"'   ${fix_auxiliary}
+    echo quickstats likelihood_scan -i ${input_file} --outdir ${output_dir}/likelihood_scan/${ch}/1D_kt_profiled --param_expr '"'${kl_scan_range}'"' --profile kt ${fix_auxiliary}
+    echo quickstats likelihood_scan -i ${input_file} --outdir ${output_dir}/likelihood_scan/${ch}/1D_kt_nominal --param_expr '"'${kl_scan_range}'"'  ${fix_auxiliary}
     echo
 
 }
 
-echo -e "##############\n## Combine workspace ###\n###########\n"
+#echo -e "##############\n## Combine workspace ###\n###########\n"
 #CombineWorkspace
-echo -e "##############\n## Cross section scan ###\n###########\n"
-for i in bbyy combined bbtautau bbbb ; do
-    RunXSScan $i
-done
-GenCondor
-
-#echo -e "##############\n## Likelihood scan ###\n###########\n"
+#echo -e "##############\n## Cross section scan ###\n###########\n"
 #for i in bbyy combined bbtautau bbbb ; do
-#    RunLHScan $i
+#    RunXSScan $i
 #done
+#GenCondor
+
+echo -e "##############\n## Likelihood scan ###\n###########\n"
+for i in bbyy combined bbtautau bbbb ; do
+    RunLHScan $i
+done
