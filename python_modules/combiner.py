@@ -550,10 +550,16 @@ class TaskPipelineWS(TaskBase):
         config["actions"]["rename"]["variable"][old_poiname] = oldpoi_equiv_name
         
         if self.redefine_parameters is not None:
-            for param in self.redefine_parameters:
-                param_val = self.redefine_parameters[param]
-                redef_expr = f"{param}[{param_val}]"
-                config["actions"]["redefine"].append(redef_expr)
+            if isinstance(self.redefine_parameters, dict):
+                for param in self.redefine_parameters:
+                    param_val = self.redefine_parameters[param]
+                    redef_expr = f"{param}[{param_val}]"
+                    config["actions"]["redefine"].append(redef_expr)
+            elif isinstance(self.redefine_parameters, list):
+                for expr in self.redefine_parameters:
+                    config["actions"]["redefine"].append(expr)
+            else:
+                raise RuntimeError("invalid redefine expression")
                 
         if self.define_parameters is not None:
             for expr in self.define_parameters:
