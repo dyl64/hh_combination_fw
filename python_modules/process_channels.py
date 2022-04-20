@@ -11,7 +11,6 @@ DEFAULT_NEW_POI = "xsec_br"
 DEFAULT_BLIND_DATASET = 'asimovData'
 DEFAULT_UNBLIND_DATASET = 'obsData'
 DEFAULT_COMB_DATASET = 'combData'
-DEFAULT_WSName = 'combWS'
 
 @click.command(name='process_channels')
 @click.option('-i', '--input_dir', required=True, 
@@ -89,9 +88,11 @@ def process_channels(input_dir, resonant_type, channels, outdir, file_expr,
         old_poi = None if config is None else config['poi'][channel]
         new_poi = DEFAULT_NEW_POI if config is None else config['poi']['combination']
         if blind:
-            dataname = DEFAULT_BLIND_DATASET if config is None else config['dataset'][channel]['blind']
+            old_dataname = DEFAULT_BLIND_DATASET if config is None else config['dataset'][channel]['blind']
+            new_dataname = DEFAULT_COMB_DATASET if config is None else config['dataset']['combination']['blind']
         else:
-            dataname = DEFAULT_BLIND_DATASET if config is None else config['dataset'][channel]['unblind']
+            old_dataname = DEFAULT_BLIND_DATASET if config is None else config['dataset'][channel]['unblind']
+            new_dataname = DEFAULT_COMB_DATASET if config is None else config['dataset']['combination']['unblind']
         if redefine_parameters is not None:
             channel_redefine_parameters = redefine_parameters.get(channel, None)
         else:
@@ -113,14 +114,8 @@ def process_channels(input_dir, resonant_type, channels, outdir, file_expr,
                 "likelihood_scan": config.get('likelihood_scan', None),
                 "calculate_pvalue": config.get('calculate_pvalue', None),
             }
-            
-        # update for workspace
-        workspace_name = DEFAULT_WSName
-        if config is not None and 'workspace' in config and channel in config['workspace']: 
-            workspace_name = config['workspace'][channel]
-         
         pipeline = combiner.TaskPipelineWS(input_dir, outdir, resonant_type, channel, scaling_release,
-                                           old_poi, new_poi, dataname, workspace_name=workspace_name,
+                                           old_poi, new_poi, old_dataname, new_dataname,
                                            redefine_parameters=channel_redefine_parameters, 
                                            rescale_poi=channel_rescale_poi,
                                            extra_pois=channel_extra_pois,
