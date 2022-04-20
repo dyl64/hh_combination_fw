@@ -623,6 +623,7 @@ class TaskCombination(TaskBase):
                    tag_pattern='A-{channels}-{scheme}', **kwargs):
         self.input_dir = input_dir
         self.channels = channels
+        self.channels.sort()
         self.correlation_scheme = correlation_scheme
         self.scheme_tag = 'nocorr' if self.correlation_scheme is None else 'fullcorr'
         self.tag = tag_pattern.format(channels='_'.join(self.channels), scheme=self.scheme_tag)
