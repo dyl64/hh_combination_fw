@@ -27,6 +27,14 @@ rescale_poi:
   bbyy: 1
   bbtautau: 1
 
+# redefine POIs so that they are set to const
+#redefine_parameters:
+
+# add k2V to bbtautau while waiting for their VBF parametrisation
+define_parameters:
+  bbtautau:
+    - k2V[1]
+
 extra_pois:
   bbbb:
     - kt
@@ -44,6 +52,7 @@ extra_pois:
   bbtautau:
     - kt
     - klambda
+    - k2V
     - kF
     - kH
     - kV
@@ -62,5 +71,22 @@ extra_pois:
     - kZ
     - kb
     - ktau
-    - mu_VBFHH
-    - mu_ggFHH
+    - mu_HH_VBF
+    - mu_HH_ggF
+  combination:
+    - kt
+    - klambda
+    - k2V
+    - kF
+    - kH
+    - kV
+    - kW
+    - kZ
+    - kb
+    - ktau
+    - mu_HH_VBF
+    - mu_HH_ggF
+rename_parameters:
+  bbyy:
+    mu_VBFHH: mu_HH_VBF
+    mu_ggFHH: mu_HH_ggF
