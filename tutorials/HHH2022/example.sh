@@ -25,7 +25,7 @@ function presetup() {
     minimizer_likelihood_scan="configs/minimizer_options/default.json" # include theory cross section uncertainties for likelihood scan
     poi="klambda" # no use but leave it here
     kl_kt_scan_range="klambda=-6_12_0.2,kt=0.8_1.4_0.05" # scan range for two pois
-    kl_scan_range="klambda=-6_12_0.2,kt=1" # scan range for kl only
+    kl_scan_range="klambda=-6_12_0.2" # scan range for kl only
     #fix_param="klambda=1,kt=1" # fix_parameter for generating asimov data
     other_poi="klambda=1,kt=1,kF=1,kH=1,kW=1,kV=1,kZ=1,kb=1,ktau=1" # fix other variables that were POI but missed in combined WS
     fix_auxiliary="--fix \"<auxiliary>\"" # fix other variables that were POI but missed in combined WS
@@ -50,12 +50,12 @@ function RunXSScan() {
     #echo HHComb kl_likelihood -c "${run_channel}" --param_expr  "${kl_kt_scan_range}" --fix "${fix_param}" -i "${output_dir}" -p "${poi}" --config ${workspace_dir}/${config_file} --no-cache "${combine}" --hypothesis_type "${scan_type}" "${skip_individual}"
     ch=$1
 
-    declare -A dataset
-    dataset=( ["bbyy"]="combData" ["combined"]="combData"  ["bbtautau"]="obsData" ["bbbb"]="obsData" )
+    #declare -A dataset
+    #dataset=( ["bbyy"]="combData" ["combined"]="combData"  ["bbtautau"]="obsData" ["bbbb"]="obsData" )  # -d "${dataset[${ch}]}" 
     if [[ ${ch} == 'combined' ]]; then
-        echo quickstats limit_scan -i ${output_dir}/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root --outdir ${output_dir}/xsection_scan/${ch} --param_expr '"'${kl_scan_range}'"'  -p xsec_br -d "${dataset[${ch}]}" --unblind ${fix_auxiliary}
+        echo quickstats limit_scan -i ${output_dir}/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root --outdir ${output_dir}/xsection_scan/${ch} --param_expr '"'${kl_scan_range}'"'  -p xsec_br --unblind ${fix_auxiliary}
     else
-        echo quickstats limit_scan -i ${output_dir}/rescaled/nonres/${ch}/0_kl.root --outdir ${output_dir}/xsection_scan/${ch} --param_expr '"'${kl_scan_range}'"'  -p xsec_br -d "${dataset[${ch}]}" --unblind ${fix_auxiliary}
+        echo quickstats limit_scan -i ${output_dir}/rescaled/nonres/${ch}/0_kl.root --outdir ${output_dir}/xsection_scan/${ch} --param_expr '"'${kl_scan_range}'"'  -p xsec_br --unblind ${fix_auxiliary}
     fi
     echo
 }
@@ -63,23 +63,23 @@ function RunXSScan() {
 function RunLHScan() {
     ch=$1
 
-    declare -A dataset
-    dataset=( ["bbyy"]="combData" ["combined"]="combData"  ["bbtautau"]="obsData" ["bbbb"]="obsData" )
+    #declare -A dataset
+    #dataset=( ["bbyy"]="combData" ["combined"]="combData"  ["bbtautau"]="obsData" ["bbbb"]="obsData" )
     if [[ ${ch} == 'combined' ]]; then
-        echo quickstats likelihood_scan -i ${output_dir}/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root --outdir ${output_dir}/likelihood_scan/${ch} --param_expr '"'${kl_scan_range}'"'  -p xsec_br -d "${dataset[${ch}]}" -f '"'${fix_other_poi}'"'
+        echo quickstats likelihood_scan -i ${output_dir}/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root --outdir ${output_dir}/likelihood_scan/${ch} --param_expr '"'${kl_scan_range}'"'  -p xsec_br -f '"'${fix_other_poi}'"'
     else
-        echo quickstats likelihood_scan -i ${output_dir}/rescaled/nonres/0_kl.root --outdir ${output_dir}/likelihood_scan/${ch} --param_expr '"'${kl_scan_range}'"'  -p xsec_br -d "${dataset[${ch}]}" -f '"'${fix_other_poi}'"'
+        echo quickstats likelihood_scan -i ${output_dir}/rescaled/nonres/0_kl.root --outdir ${output_dir}/likelihood_scan/${ch} --param_expr '"'${kl_scan_range}'"'  -p xsec_br -f '"'${fix_other_poi}'"'
     fi
     echo
 
 }
 
 echo -e "##############\n## Combine workspace ###\n###########\n"
-CombineWorkspace
-#echo -e "##############\n## Cross section scan ###\n###########\n"
-#for i in bbyy combined bbtautau bbbb ; do
-#    RunXSScan $i
-#done
+#CombineWorkspace
+echo -e "##############\n## Cross section scan ###\n###########\n"
+for i in bbyy combined bbtautau bbbb ; do
+    RunXSScan $i
+done
 #echo -e "##############\n## Likelihood scan ###\n###########\n"
 #for i in bbyy combined bbtautau bbbb ; do
 #    RunLHScan $i
