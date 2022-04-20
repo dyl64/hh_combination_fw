@@ -1,0 +1,47 @@
+workspace:
+  bbtautau: combined
+  bbbb: combined
+  bbyy: combWS
+
+dataset:
+  bbbb:
+    blind: obsData
+    unblind: obsData
+  bbtautau:
+    blind: obsData
+    unblind: obsData
+  bbyy:
+    blind: combData
+    unblind: combData
+  combination:
+    blind: combData
+    unblind: combData
+poi:
+  bbbb: mu_HH
+  bbtautau: mu
+  bbyy: mu_XS_HH
+  combination: xsec_br
+rescale_poi:
+  #kl no rescaling needed
+  bbbb: 1
+  bbyy: 1
+  bbtautau: 1
+redefine_parameters:
+  bbbb:
+    k2V: 1.0
+    kV: 1.0
+    # kt: 1.0
+  bbtautau:
+    # for kl scan
+    kF: 1.0
+    kH: 1.0
+    kW: 1.0
+    kZ: 1.0
+    kb: 1.0
+    ktau: 1.0
+  bbyy:
+    kb: 1.0
+    # klambda: 1.0
+    # kt: 1.0
+    ktau: 1.0
+

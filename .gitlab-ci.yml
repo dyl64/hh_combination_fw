@@ -85,8 +85,8 @@ hhCompile:
     other_options: ""
   allow_failure: true
   script:
-    - echo HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/minimizer_options/$mini_option  --config configs/task_options/nonres_v6_mH125.yaml  --do-limit --skip-likelihood
-    - HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/minimizer_options/$mini_option  --config configs/task_options/nonres_v6_mH125.yaml  --do-limit --skip-likelihood
+    - echo HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/minimizer_options/$mini_option  --config configs/task_options/CONF2021/nonres_v6_mH125.yaml  --do-limit --skip-likelihood
+    - HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/minimizer_options/$mini_option  --config configs/task_options/CONF2021/nonres_v6_mH125.yaml  --do-limit --skip-likelihood
 
 NR_mu_pro:
   needs:
