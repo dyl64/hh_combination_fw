@@ -36,7 +36,7 @@ presetup
 # prepare individual workspace file (regulating and skimming)
 function CombineWorkspace() {
     echo HHComb process_channels -i "${data_dir}" -o "${output_dir}" -c ${run_channel} -r nonres --file_expr '"'"<mass[F]>_kl"'"' --config ${workspace_dir}/${config_file} "${do_limit}" --experimental #--param_expr "${kl_kt_scan_range}" --unblind --minimizer_options "${workspace_dir}/${minimizer_crosssection_scan}"
-    echo HHComb combine_ws -i "${output_dir}" -s ${workspace_dir}/${correlation_scheme} -c ${run_channel} -r nonres --file_expr '"'"<mass[F]>_kl"'"' --config ${workspace_dir}/${config_file}  "${do_limit}" --param_expr "${kl_kt_scan_range}" --unblind
+    echo HHComb combine_ws -i "${output_dir}" -s ${workspace_dir}/${correlation_scheme} -c ${run_channel} -r nonres --file_expr '"'"<mass[F]>_kl"'"' --config ${workspace_dir}/${config_file}  "${do_limit}" --unblind --experimental
     echo
 }
 
@@ -74,11 +74,11 @@ function RunLHScan() {
 
 echo -e "##############\n## Combine workspace ###\n###########\n"
 CombineWorkspace
-echo -e "##############\n## Cross section scan ###\n###########\n"
-for i in bbyy combined bbtautau bbbb ; do
-    RunXSScan $i
-done
-echo -e "##############\n## Likelihood scan ###\n###########\n"
-for i in bbyy combined bbtautau bbbb ; do
-    RunLHScan $i
-done
+#echo -e "##############\n## Cross section scan ###\n###########\n"
+#for i in bbyy combined bbtautau bbbb ; do
+#    RunXSScan $i
+#done
+#echo -e "##############\n## Likelihood scan ###\n###########\n"
+#for i in bbyy combined bbtautau bbbb ; do
+#    RunLHScan $i
+#done
