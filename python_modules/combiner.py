@@ -566,7 +566,9 @@ class TaskPipelineWS(TaskBase):
         if self.define_parameters is not None:
             for expr in self.define_parameters:
                 config["actions"]["define"].append(expr)
-                
+        if self.rename_parameters is not None:
+            for old_name, new_name in self.rename_parameters.items():
+                config["actions"]["rename"]["variable"][old_name] = new_name
         from quickstats.components.workspaces import XMLWSModifier
         from quickstats.concurrent.logging import standard_log
         print("INFO: Writing rescaling log into {0}".format(rescale_logfile_path))
