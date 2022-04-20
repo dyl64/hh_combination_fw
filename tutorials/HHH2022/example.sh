@@ -24,8 +24,8 @@ function presetup() {
     minimizer_crosssection_scan="configs/minimizer_options/fix_xs_uncertainty.json" # fix theory cross section uncertainties for cross section scan
     minimizer_likelihood_scan="configs/minimizer_options/default.json" # include theory cross section uncertainties for likelihood scan
     poi="klambda" # no use but leave it here
-    kl_kt_scan_range="klambda=-6_11_0.25,kt=0.8_1.4_0.02" # scan range for two pois
-    kl_scan_range="klambda=-6_11_0.2,kt=1" # scan range for kl only
+    kl_kt_scan_range="klambda=-6_12_0.2,kt=0.8_1.4_0.05" # scan range for two pois
+    kl_scan_range="klambda=-6_12_0.2,kt=1" # scan range for kl only
     fix_param="klambda=1,kt=1" # fix_parameter for generating asimov data
 }
 
@@ -35,8 +35,8 @@ presetup
 
 # prepare individual workspace file (regulating and skimming)
 function CombineWorkspace() {
-    echo HHComb process_channels -i "${data_dir}" -o "${output_dir}" -c ${run_channel} -r nonres --file_expr '"'"<mass[F]>_kl"'"' --config ${workspace_dir}/${config_file} "${do_limit}" --param_expr "${kl_kt_scan_range}" #--unblind --minimizer_options "${workspace_dir}/${minimizer_crosssection_scan}"
-    echo HHComb combine_ws -i "${output_dir}" -s ${workspace_dir}/${correlation_scheme} -c ${run_channel} -r nonres --file_expr '"'"<mass[F]>_kl"'"' --config ${workspace_dir}/${config_file}  "${do_limit}" --param_expr "${kl_kt_scan_range}" # --unblind
+    echo HHComb process_channels -i "${data_dir}" -o "${output_dir}" -c ${run_channel} -r nonres --file_expr '"'"<mass[F]>_kl"'"' --config ${workspace_dir}/${config_file} "${do_limit}" --experimental #--param_expr "${kl_kt_scan_range}" --unblind --minimizer_options "${workspace_dir}/${minimizer_crosssection_scan}"
+    echo HHComb combine_ws -i "${output_dir}" -s ${workspace_dir}/${correlation_scheme} -c ${run_channel} -r nonres --file_expr '"'"<mass[F]>_kl"'"' --config ${workspace_dir}/${config_file}  "${do_limit}" --param_expr "${kl_kt_scan_range}" --unblind
     echo
 }
 
