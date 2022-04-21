@@ -29,6 +29,7 @@ function presetup() {
     #fix_param="klambda=1,kt=1" # fix_parameter for generating asimov data
     other_poi="klambda=1,kt=1,kF=1,kH=1,kW=1,kV=1,kZ=1,kb=1,ktau=1" # fix other variables that were POI but missed in combined WS
     fix_auxiliary="--fix \"<auxiliary>\"" # fix hidden variables that were POI but missed in combined WS
+    fix_theory="--fix \"<auxiliary>,THEO_XS_fixmu_*=0,alpha_THEO_XS_PDFalphas_VBFSMHH*=0,alpha_THEO_XS_PDFalphas_ggFSMHH*=0,alpha_THEO_XS_SCALEMTop_ggFSMHH*=0,THEO_XS_COMBINED_HH_ggF*=0,THEO_XS_PDFalphas_HH_VBF*=0,THEO_XS_PDFalphas_HH_ggF*=0,THEO_XS_SCALE_HH_VBF*=0\""
 }
 
 ##### setup #####
@@ -57,7 +58,7 @@ function RunXSScan() {
     else
         input_file="${output_dir}/rescaled/nonres/${ch}/0_kl.root"
     fi
-    echo quickstats limit_scan -i ${input_file} --outdir ${output_dir}/xsection_scan/${ch} --param_expr '"'${kl_scan_range}'"'  -p xsec_br --unblind ${fix_auxiliary}
+    echo quickstats limit_scan -i ${input_file} --outdir ${output_dir}/xsection_scan/${ch} --param_expr '"'${kl_scan_range}'"'  -p xsec_br --unblind ${fix_theory}
     echo
 }
 
@@ -89,13 +90,13 @@ function RunLHScan() {
 
 #echo -e "##############\n## Combine workspace ###\n###########\n"
 #CombineWorkspace
-#echo -e "##############\n## Cross section scan ###\n###########\n"
-#for i in bbyy combined bbtautau bbbb ; do
-#    RunXSScan $i
-#done
-#GenCondor
-
-echo -e "##############\n## Likelihood scan ###\n###########\n"
+echo -e "##############\n## Cross section scan ###\n###########\n"
 for i in bbyy combined bbtautau bbbb ; do
-    RunLHScan $i
+    RunXSScan $i
 done
+#GenCondor
+#
+#echo -e "##############\n## Likelihood scan ###\n###########\n"
+#for i in bbyy combined bbtautau bbbb ; do
+#    RunLHScan $i
+#done
