@@ -89,9 +89,9 @@ function RunLHScan() {
     else
         input_file="${output_dir}/rescaled/nonres/${ch}/0_kl.root"
     fi
-    echo quickstats likelihood_scan -i ${input_file} --outdir ${output_dir}/likelihood_scan/${ch}/2D_kl_kt --param_expr '"'${kl_kt_scan_range}'"'   ${fix_auxiliary}
-    echo quickstats likelihood_scan -i ${input_file} --outdir ${output_dir}/likelihood_scan/${ch}/1D_kt_profiled --param_expr '"'${kl_scan_range}'"' --profile kt ${fix_auxiliary}
-    echo quickstats likelihood_scan -i ${input_file} --outdir ${output_dir}/likelihood_scan/${ch}/1D_kt_nominal --param_expr '"'${kl_scan_range}'"'  ${fix_auxiliary}
+    echo quickstats likelihood_scan -i ${input_file} --outdir ${output_dir}/likelihood_scan/${ch}/2D_kl_kt --param_expr '"'${kl_kt_scan_range}'"'
+    echo quickstats likelihood_scan -i ${input_file} --outdir ${output_dir}/likelihood_scan/${ch}/1D_kt_profiled --param_expr '"'${kl_scan_range}'"' --profile kt
+    echo quickstats likelihood_scan -i ${input_file} --outdir ${output_dir}/likelihood_scan/${ch}/1D_kt_nominal --param_expr '"'${kl_scan_range}'"'
     echo
 
 }
@@ -99,13 +99,13 @@ function RunLHScan() {
 #echo -e "##############\n## Combine workspace ###\n###########\n"
 #CombineWorkspace
 #echo -e "##############\n## Cross section scan ###\n###########\n"
-#for i in bbyy combined bbtautau bbbb ; do
-#    RunXSScan $i
-#done
+for i in bbyy combined bbtautau bbbb ; do
+    RunXSScan $i
+done
 #GenCondorXS
 
 #echo -e "##############\n## Likelihood scan ###\n###########\n"
-#for i in bbyy combined bbtautau bbbb ; do
-#    RunLHScan $i
-#done
+for i in bbyy combined bbtautau bbbb ; do
+    RunLHScan $i
+done
 #GenCondorLH
