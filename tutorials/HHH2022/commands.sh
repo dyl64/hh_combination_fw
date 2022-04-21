@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# input arg:
-#       0: combine workspace
-#       1: run likelihood scan
-run_type=$1
-
 # presetup
 function presetup() {
     workspace_dir=${hh_combination_fw_path} # work directory (including scripts, config files, correlation schemes...)
@@ -29,7 +24,7 @@ function presetup() {
     #fix_param="klambda=1,kt=1" # fix_parameter for generating asimov data
     other_poi="klambda=1,kt=1,kF=1,kH=1,kW=1,kV=1,kZ=1,kb=1,ktau=1" # fix other variables that were POI but missed in combined WS
     fix_auxiliary="--fix \"<auxiliary>\"" # fix hidden variables that were POI but missed in combined WS
-    fix_theory="--fix \"<auxiliary>,THEO_XS_fixmu_*=0,alpha_THEO_XS_PDFalphas_VBFSMHH*=0,alpha_THEO_XS_PDFalphas_ggFSMHH*=0,alpha_THEO_XS_SCALEMTop_ggFSMHH*=0,THEO_XS_COMBINED_HH_ggF*=0,THEO_XS_PDFalphas_HH_VBF*=0,THEO_XS_PDFalphas_HH_ggF*=0,THEO_XS_SCALE_HH_VBF*=0\""
+    fix_theory="--fix \"THEO_XS_fixmu_*=0,alpha_THEO_XS_PDFalphas_VBFSMHH*=0,alpha_THEO_XS_PDFalphas_ggFSMHH*=0,alpha_THEO_XS_SCALEMTop_ggFSMHH*=0,THEO_XS_COMBINED_HH_ggF*=0,THEO_XS_PDFalphas_HH_VBF*=0,THEO_XS_PDFalphas_HH_ggF*=0,THEO_XS_SCALE_HH_VBF*=0\""
 }
 
 ##### setup #####
@@ -46,8 +41,6 @@ function CombineWorkspace() {
 
 # run likelihood scan on pois (kt, klambda, kV, k2V ...)
 function RunXSScan() {
-    #scan_type=$1
-    #echo "-- Running scan for type ${scan_type}"
     #echo HHComb kl_likelihood -c "${run_channel}" --param_expr  "${kl_kt_scan_range}" --fix "${fix_param}" -i "${output_dir}" -p "${poi}" --config ${workspace_dir}/${config_file} --no-cache "${combine}" --hypothesis_type "${scan_type}" "${skip_individual}"
     ch=$1
 
@@ -62,13 +55,28 @@ function RunXSScan() {
     echo
 }
 
-function GenCondor() {
+function GenCondorXS() {
     for i in bbyy combined bbtautau bbbb ; do
         for j in `seq -6 0.2 12`; do
             echo Arguments = $i klambda=$j
             echo Queue 1
         done
     done
+}
+
+function GenCondorLH() {
+    for i in combined bbbb bbtautau bbyy ; do
+        for j in `seq -6 2 12`; do
+            echo Arguments = $i 2D_kl_kt klambda=${j}_$((j+2))_0.2,kt=0.8_1.4_0.05 nominal
+            echo Queue 1
+            echo Arguments = $i 1D_kt_profiled klambda=${j}_$((j+2))_0.2 nominal
+            echo Queue 1
+            echo Arguments = $i 1D_kt_nominal klambda=${j}_$((j+2))_0.2 profile
+            echo Queue 1
+        done
+    done
+
+
 }
 
 function RunLHScan() {
@@ -90,13 +98,14 @@ function RunLHScan() {
 
 #echo -e "##############\n## Combine workspace ###\n###########\n"
 #CombineWorkspace
-echo -e "##############\n## Cross section scan ###\n###########\n"
-for i in bbyy combined bbtautau bbbb ; do
-    RunXSScan $i
-done
-#GenCondor
+#echo -e "##############\n## Cross section scan ###\n###########\n"
+#for i in bbyy combined bbtautau bbbb ; do
+#    RunXSScan $i
+#done
+#GenCondorXS
 
 #echo -e "##############\n## Likelihood scan ###\n###########\n"
 #for i in bbyy combined bbtautau bbbb ; do
 #    RunLHScan $i
 #done
+#GenCondorLH

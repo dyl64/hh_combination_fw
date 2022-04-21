@@ -27,13 +27,17 @@ rescale_poi:
   bbyy: 1
   bbtautau: 1
 
-#redefine_parameters:
+redefine_parameters:
+  bbbb:
+    - mu_HH_VBF[1,-10000,10000]
+    - mu_HH_ggF[1,-10000,10000]
+    - mu_HH[1,-10000,10000] # does not work! use fix_parameters for the renamed POI
 
 # fix POIs so that they are set to const
 fix_parameters:
   bbyy: <pois>
   bbtautau: <pois>
-  bbbb: <pois>
+  bbbb: <pois>,xsec_br=1_-10000_10000
   combination: <pois>
 
 # add k2V to bbtautau while waiting for their VBF parametrisation
