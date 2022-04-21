@@ -288,7 +288,8 @@ class TaskPipelineWS(TaskBase):
                    old_poiname:str, new_poiname:str, old_dataname:str,
                    new_dataname:str, define_parameters:Optional[Dict]=None,
                    redefine_parameters:Optional[Dict]=None, rename_parameters:Optional[Dict]=None,
-                   rescale_poi:Optional[float]=None, **kwargs):
+                   rescale_poi:Optional[float]=None, fix_parameters:Optional[str]=None,
+                   profile_parameters:Optional[str]=None, **kwargs):
         
         self.input_dir = input_dir
         self.output_dir = output_dir
@@ -296,6 +297,7 @@ class TaskPipelineWS(TaskBase):
         self.define_parameters = define_parameters
         self.redefine_parameters = redefine_parameters
         self.rename_parameters = rename_parameters
+        self.fix_parameters = fix_parameters
         self.rescale_poi = rescale_poi
         self.old_poiname = old_poiname
         self.new_poiname = new_poiname
@@ -430,11 +432,8 @@ class TaskPipelineWS(TaskBase):
         
         wsc_bin_path = os.path.join(self.WSC_PATH, 'build', 'manager')
         
-        if self.old_dataname != self.new_dataname:
-            tmp_ws_path = regularised_ws_path.replace(".root", "_tmp.root")
-        else:
-            tmp_ws_path = regularised_ws_path
-            
+        tmp_ws_path = regularised_ws_path.replace(".root", "_tmp.root")
+
         cmd_regularise = [wsc_bin_path, "-w", "regulate", "-f", input_ws_path, "-p", tmp_ws_path,
                           "--dataName", self.old_dataname, "--wsName", ws_name]
         
@@ -449,10 +448,14 @@ class TaskPipelineWS(TaskBase):
                 proc = subprocess.Popen(cmd_regularise, stdout=logfile, stderr=logfile)
                 proc.wait()
                 
-        if self.old_dataname != self.new_dataname:
-            model = ExtendedModel(tmp_ws_path, data_name=None, verbosity="WARNING")
-            model.rename_dataset({self.old_dataname: self.new_dataname})
-            model.save(regularised_ws_path)
+        # rename datasets and fixing parameters   
+        model = ExtendedModel(tmp_ws_path, data_name=None, verbosity="WARNING")
+        model.rename_dataset({self.old_dataname: self.new_dataname})
+        if self.fix_parameters is not None:
+            model.fix_parameters(self.fix_parameters)
+        if self.profile_parameters is not None:
+            model.profile_parameters(self.profile_parameters)
+        model.save(regularised_ws_path)
                   
     def rescale(self, param_point:Dict):
         filename = f"{param_point['basename']}.root"
@@ -569,6 +572,11 @@ class TaskPipelineWS(TaskBase):
         if self.rename_parameters is not None:
             for old_name, new_name in self.rename_parameters.items():
                 config["actions"]["rename"]["variable"][old_name] = new_name
+        if self.fix_parameters is not None:
+            config["fix_parameters"] = self.fix_parameters
+        if self.profile_parameters is not None:
+            config["profile_parameters"] = self.profile_parameters
+            
         from quickstats.components.workspaces import XMLWSModifier
         from quickstats.concurrent.logging import standard_log
         print("INFO: Writing rescaling log into {0}".format(rescale_logfile_path))

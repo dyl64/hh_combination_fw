@@ -15,12 +15,15 @@ kDefaultCombDataset    = 'combData'
 def process_task_config(config:Dict, channels:List, blind:bool=True):
     if config is None:
         config = {}
-    poi                 = config.get('poi', {})
-    dataset             = config.get('dataset', {})
+    poi                  = config.get('poi', {})
+    dataset              = config.get('dataset', {})
     _extra_pois          = config.get('extra_pois', {})
     _rescale_poi         = config.get('rescale_poi', {})
+    _define_parameters   = config.get('define_parameters', {})
     _redefine_parameters = config.get('redefine_parameters', {})
     _rename_parameters   = config.get('rename_parameters', {})
+    _fix_parameters      = config.get('fix_parameters', {})
+    _profile_parameters  = config.get('profile_parameters', {})
     
     task_config = {}
     for channel in channels:
@@ -35,24 +38,30 @@ def process_task_config(config:Dict, channels:List, blind:bool=True):
         else:
             old_dataname = channel_dataset.get("unblind", kDefaultUnblindDataset)
             new_dataname = comb_dataset.get("unblind", kDefaultCombDataset)
-        redefine_parameters = _redefine_parameters.get(channel, None)
-        rescale_poi         = _rescale_poi.get(channel, None) 
         extra_pois          = _extra_pois.get(channel, None)
+        rescale_poi         = _rescale_poi.get(channel, None) 
+        define_parameters   = _define_parameters.get(channel, None)
+        redefine_parameters = _redefine_parameters.get(channel, None)
         rename_parameters   = _rename_parameters.get(channel, None)
+        fix_parameters      = _fix_parameters.get(channel, None)
+        profile_parameters  = _profile_parameters.get(channel, None)
         task_options = {
             "likelihood_scan": config.get('likelihood_scan', None),
             "calculate_pvalue": config.get('calculate_pvalue', None),
         }
         task_config[channel] = {
+            "blind": blind,
             "old_poiname": old_poiname,
             "new_poiname": new_poiname,
             "old_dataname": old_dataname,
             "new_dataname": new_dataname,
-            "blind": blind,
-            "redefine_parameters": redefine_parameters,
-            "rescale_poi": rescale_poi,
             "extra_pois": extra_pois,
+            "rescale_poi": rescale_poi,
+            "define_parameters": define_parameters,
+            "redefine_parameters": redefine_parameters,
             "rename_parameters": rename_parameters,
+            "fix_parameters": fix_parameters,
+            "profile_parameters": profile_parameters,
             "task_options": task_options
         }
     return task_config
