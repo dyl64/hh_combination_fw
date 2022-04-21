@@ -16,7 +16,7 @@ else
 fi
 
 output_dir="${output_base}/xsection_scan/${ch}"
-command="quickstats limit_scan -i ${input_file} --outdir ${output_dir} --param_expr ${param} -p xsec_br --unblind --fix \"<auxiliary>,THEO_XS_fixmu_*=0,alpha_THEO_XS_PDFalphas_VBFSMHH*=0,alpha_THEO_XS_PDFalphas_ggFSMHH*=0,alpha_THEO_XS_SCALEMTop_ggFSMHH*=0,THEO_XS_COMBINED_HH_ggF*=0,THEO_XS_PDFalphas_HH_VBF*=0,THEO_XS_PDFalphas_HH_ggF*=0,THEO_XS_SCALE_HH_VBF*=0\""
+command="quickstats limit_scan -i ${input_file} --outdir ${output_dir} --param_expr ${param} -p xsec_br --unblind --fix \"<auxiliary>\",THEO_XS_fixmu_*=0,alpha_THEO_XS_PDFalphas_VBFSMHH*=0,alpha_THEO_XS_PDFalphas_ggFSMHH*=0,alpha_THEO_XS_SCALEMTop_ggFSMHH*=0,THEO_XS_COMBINED_HH_ggF*=0,THEO_XS_PDFalphas_HH_VBF*=0,THEO_XS_PDFalphas_HH_ggF*=0,THEO_XS_SCALE_HH_VBF*=0"
 
 echo $command
 $command

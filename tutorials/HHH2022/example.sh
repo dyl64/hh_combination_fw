@@ -9,7 +9,7 @@ run_type=$1
 function presetup() {
     workspace_dir=${hh_combination_fw_path} # work directory (including scripts, config files, correlation schemes...)
 
-    output_name="output_HHH2" # output directory name
+    output_name="output_HHH3" # output directory name
     output_dir="${hh_combination_fw_path}/${output_name}" # the output directory
     data_dir="${hh_combination_fw_path}/FullRun2Workspaces/original/HHH2022/20220415/" # the data directory
     run_channel='bbyy,bbtautau,bbbb' # how many channels to combine
@@ -95,7 +95,7 @@ for i in bbyy combined bbtautau bbbb ; do
     RunXSScan $i
 done
 #GenCondor
-#
+
 #echo -e "##############\n## Likelihood scan ###\n###########\n"
 #for i in bbyy combined bbtautau bbbb ; do
 #    RunLHScan $i
