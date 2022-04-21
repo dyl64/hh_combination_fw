@@ -47,18 +47,33 @@ define_parameters:
     - mu_HH_VBF[1]
     - mu_HH_ggF[1]
 
+## Check if POIs are floated in the input workspace
+## If so, include all POIs here so that process_channel will fix all POI to const
+## This is important if input WS contains multiple POIs
 extra_pois:
   bbbb:
     - kt
     - klambda
     - k2V
+    - kF
+    - kH
     - kV
+    - kW
+    - kZ
+    - kb
+    - ktau
     - mu_HH_VBF
     - mu_HH_ggF
   bbtautau:
     - kt
     - klambda
+    - kF
+    - kH
     - kV
+    - kW
+    - kZ
+    - kb
+    - ktau
   bbyy:
     - kt
     - klambda
