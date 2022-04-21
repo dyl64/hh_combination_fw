@@ -52,24 +52,48 @@ extra_pois:
     - kt
     - klambda
     - k2V
+    - kF
+    - kH
     - kV
+    - kW
+    - kZ
+    - kb
+    - ktau
     - mu_HH_VBF
     - mu_HH_ggF
   bbtautau:
     - kt
     - klambda
+    - kF
+    - kH
     - kV
+    - kW
+    - kZ
+    - kb
+    - ktau
   bbyy:
     - kt
     - klambda
     - k2V
+    - kF
+    - kH
     - kV
+    - kW
+    - kZ
+    - kb
+    - ktau
     - mu_HH_VBF
     - mu_HH_ggF
   combination:
     - kt
     - klambda
+    - kF
+    - kH
     - kV
+    - kW
+    - kZ
+    - kb
+    - ktau
 rename_parameters:
   bbyy:
     mu_VBFHH: mu_HH_VBF

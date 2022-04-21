@@ -8,7 +8,7 @@ source setup.sh 101
 
 ch=$1
 param=$2
-output_base="/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/output_HHH3"
+output_base="/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/output_HHH_20220415_noSgHparam"
 if [[ ${ch} == 'combined' ]]; then
     input_file="${output_base}/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root"
 else

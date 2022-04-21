@@ -9,23 +9,26 @@ source setup.sh 101
 ch=$1
 out=$2
 param=$3
-profile=$4
-if [[ ${profile} == 'profile' ]]; then
-    profile="--profile kt"
-else
-    profile=""
-fi
+obs=$4
 
-output_base="/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/output_HHH3"
+output_base="/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/output_HHH_20220415"
 if [[ ${ch} == 'combined' ]]; then
     input_file="${output_base}/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root"
 else
     input_file="${output_base}/rescaled/nonres/${ch}/0_kl.root"
 fi
 
-output_dir="${output_base}/likelihood_scan/${ch}/${out}"
-command="quickstats likelihood_scan -i ${input_file} --outdir ${output_dir} --param_expr ${param} ${profile}"
+if [[ ${obs} == *'obs'* ]]; then
+    snapshot=""
+    output_dir="${output_base}/likelihood_scan/${obs}/${ch}/${out}"
+else
+    snapshot="-s asimovtype_2_muprof_mu1 -d combData_asimovtype_2_muprof_mu1"
+    input_file=${input_file//0_kl.root/0_kl_asimov${type}.root}
+    output_dir="${output_base}/likelihood_scan/${obs}/${ch}/${out}"
+fi
 
+command="quickstats likelihood_scan -i ${input_file} --outdir ${output_dir} --param_expr ${param} ${snapshot}"
 echo $command
 $command
+
 unset command
