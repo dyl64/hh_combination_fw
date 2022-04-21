@@ -24,8 +24,8 @@ elif [[ $1 == '102' ]] || [[ -z $1 ]]; then
     echo 'setup LCG_102'
     lsetup "views LCG_102rc1 x86_64-centos7-gcc11-opt"
 else
-    echo 'Specify a relase number for LCG, default LCG_98python3'
-    echo 'source setup.sh [98|100]'
+    echo 'Specify a relase number for LCG, default LCG_101'
+    echo 'source setup.sh [98|100|101]'
     return
 fi
 # More memory
@@ -42,8 +42,8 @@ export _DIRCOMB=${PWD}
 
 # Modify to describe your directory structure. Default is to use the a structure where
 # all directories are below the SFrame base directory specified above
-export _BIN_PATH=${_DIRCOMB}/bin
-export _LIB_PATH=${_DIRCOMB}/lib
+export _BIN_PATH=${_DIRCOMB}/build
+export _LIB_PATH=${_DIRCOMB}/build
 
 # The Makefiles depend only on the root-config script to use ROOT,
 # so make sure that is available
