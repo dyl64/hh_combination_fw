@@ -298,6 +298,7 @@ class TaskPipelineWS(TaskBase):
         self.redefine_parameters = redefine_parameters
         self.rename_parameters = rename_parameters
         self.fix_parameters = fix_parameters
+        self.profile_parameters = profile_parameters
         self.rescale_poi = rescale_poi
         self.old_poiname = old_poiname
         self.new_poiname = new_poiname

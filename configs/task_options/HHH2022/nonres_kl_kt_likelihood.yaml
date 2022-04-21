@@ -27,8 +27,14 @@ rescale_poi:
   bbyy: 1
   bbtautau: 1
 
-# redefine POIs so that they are set to const
 #redefine_parameters:
+
+# fix POIs so that they are set to const
+fix_parameters:
+  bbyy: <pois>
+  bbtautau: <pois>
+  bbbb: <pois>
+  combination: <pois>
 
 # add k2V to bbtautau while waiting for their VBF parametrisation
 define_parameters:
