@@ -20,14 +20,16 @@ fi
 
 if [[ ${obs} == *'obs'* ]]; then
     snapshot=""
-    output_dir="${output_base}/likelihood_scan/${obs}/${ch}/${out}"
+elif [[ ${obs} == *'prefit'* ]]; then
+    snapshot="-s asimovtype_n2_prefit_mu1 -d combData_asimovtype_n2_prefit_mu1"
+    input_file=${input_file//0_kl.root/0_kl_asimov.root}
 else
     snapshot="-s asimovtype_2_muprof_mu1 -d combData_asimovtype_2_muprof_mu1"
-    input_file=${input_file//0_kl.root/0_kl_asimov${type}.root}
-    output_dir="${output_base}/likelihood_scan/${obs}/${ch}/${out}"
+    input_file=${input_file//0_kl.root/0_kl_asimov.root}
 fi
+output_dir="${output_base}/likelihood_scan/${obs}/${ch}/${out}"
 
-command="quickstats likelihood_scan -i ${input_file} --outdir ${output_dir} --param_expr ${param} ${snapshot}"
+command="quickstats likelihood_scan --retry 2 -i ${input_file} --outdir ${output_dir} --param_expr ${param} ${snapshot}"
 echo $command
 $command
 

@@ -15,7 +15,7 @@ function presetup() {
     
     combine="--combine" # if to run combined results in likelihood scan
     do_limit="--skip-limit" # don't calculate limit (default: --do-limit)
-    if [[ ${ch} == *'noSgHparam'* ]]; then
+    if [[ ${timestamp} == *'noSgHparam'* ]]; then
         config_file="configs/task_options/HHH2022/nonres_kl_kt_xsection.yaml" # different POI list than likelihood version
     else
         config_file="configs/task_options/HHH2022/nonres_kl_kt_likelihood.yaml" # configuration file
@@ -35,12 +35,15 @@ function presetup() {
 ##### setup #####
 
 
-# prepare individual workspace file (regulating and skimming)
+# prepare individual workspace file
 function CombineWorkspace() {
     presetup $1
     echo HHComb process_channels -i "${data_dir}" -o "${output_dir}" -c ${run_channel} -r nonres --file_expr '"'"<mass[F]>_kl"'"' --config ${workspace_dir}/${config_file} "${do_limit}" --experimental #--param_expr "${kl_kt_scan_range}" --unblind --minimizer_options "${workspace_dir}/${minimizer_crosssection_scan}"
     echo HHComb combine_ws -i "${output_dir}" -s ${workspace_dir}/${correlation_scheme} -c ${run_channel} -r nonres --file_expr '"'"<mass[F]>_kl"'"' --config ${workspace_dir}/${config_file}  "${do_limit}" --unblind --experimental
     echo
+    if [[ $1 != *'noSgHparam'* ]]; then
+        GenAsimov
+    fi
 }
 
 
@@ -73,14 +76,14 @@ function GenCondorXS() {
 
 function GenCondorLH() {
     presetup 20220415_noSgHparam
-    for d in obs asimov; do
+    for d in obs prefit postfit; do
         for i in combined bbbb bbtautau bbyy ; do
             for j in `seq -6 6 12`; do
-                echo Arguments = $i 2D_kl_kt klambda=${j}_$((j+2))_0.2,kt=0.8_1.4_0.05 $d
+                echo Arguments = $i 2D_kl_kt klambda=${j}_$((j+6))_0.2,kt=0.8_1.4_0.05 $d
                 echo Queue 1
-                echo Arguments = $i 1D_kt_profiled klambda=${j}_$((j+2))_0.2 $d
+                echo Arguments = $i 1D_kt_profiled klambda=${j}_$((j+6))_0.2,kt $d
                 echo Queue 1
-                echo Arguments = $i 1D_kt_nominal klambda=${j}_$((j+2))_0.2,kt $d
+                echo Arguments = $i 1D_kt_nominal klambda=${j}_$((j+6))_0.2 $d
                 echo Queue 1
             done
         done
@@ -97,8 +100,8 @@ function GenAsimov() {
         else
             input_file="${output_dir}/rescaled/nonres/${ch}/0_kl.root"
         fi
-        type=2
-        echo quickstats generate_standard_asimov -i ${input_file} -o ${input_file//0_kl.root/0_kl_asimov${type}.root} --asimov_types ${type} --asimov_snapshots asimovtype_${type}_muprof_mu1 --asimov_names combData_asimovtype_${type}_muprof_mu1 -p xsec_br
+        type=2,-2
+        echo quickstats generate_standard_asimov -i ${input_file} -o ${input_file//0_kl.root/0_kl_asimov.root} --asimov_types ${type} --asimov_snapshots asimovtype_2_muprof_mu1,asimovtype_n2_prefit_mu1 --asimov_names combData_asimovtype_2_muprof_mu1,combData_asimovtype_n2_prefit_mu1 -p xsec_br
     done
 }
 
@@ -116,29 +119,32 @@ function RunLHScan() {
     fi
     if [[ ${obs} == *'obs'* ]]; then
         snapshot=""
+    elif [[ ${obs} == *'prefit'* ]]; then
+        snapshot="-s asimovtype_n2_prefit_mu1 -d combData_asimovtype_n2_prefit_mu1"
+        input_file=${input_file//0_kl.root/0_kl_asimov.root}
     else
         snapshot="-s asimovtype_2_muprof_mu1 -d combData_asimovtype_2_muprof_mu1"
-        input_file=${input_file//0_kl.root/0_kl_asimov${type}.root}
+        input_file=${input_file//0_kl.root/0_kl_asimov.root}
     fi
-    echo quickstats likelihood_scan -i ${input_file} --outdir ${output_dir}/likelihood_scan/${obs}/${ch}/2D_kl_kt --param_expr '"'${kl_kt_scan_range}'"' ${snapshot}
-    echo quickstats likelihood_scan -i ${input_file} --outdir ${output_dir}/likelihood_scan/${obs}/${ch}/1D_kt_profiled --param_expr '"'${kl_scan_range},kt'"' ${snapshot}
-    echo quickstats likelihood_scan -i ${input_file} --outdir ${output_dir}/likelihood_scan/${obs}/${ch}/1D_kt_nominal --param_expr '"'${kl_scan_range}'"' ${snapshot}
+    echo quickstats likelihood_scan -i ${input_file} --retry 2 --outdir ${output_dir}/likelihood_scan/${obs}/${ch}/2D_kl_kt --param_expr '"'${kl_kt_scan_range}'"' ${snapshot}
+    echo quickstats likelihood_scan -i ${input_file} --retry 2 --outdir ${output_dir}/likelihood_scan/${obs}/${ch}/1D_kt_profiled --param_expr '"'${kl_scan_range},kt'"' ${snapshot}
+    echo quickstats likelihood_scan -i ${input_file} --retry 2 --outdir ${output_dir}/likelihood_scan/${obs}/${ch}/1D_kt_nominal --param_expr '"'${kl_scan_range}'"' ${snapshot}
     echo
 }
 
 #echo -e "##############\n## Combine workspace ###\n###########\n"
 #CombineWorkspace 20220415
-CombineWorkspace 20220415_noSgHparam
+#CombineWorkspace 20220415_noSgHparam
 #echo -e "##############\n## Cross section scan ###\n###########\n"
 #for i in bbyy combined bbtautau bbbb ; do
 #    RunXSScan $i
 #done
 #GenCondorXS
-#GenAsimov
 
 #echo -e "##############\n## Likelihood scan ###\n###########\n"
 #for i in bbyy combined bbtautau bbbb ; do
 #    RunLHScan $i obs
-#    RunLHScan $i asimov
+#    RunLHScan $i prefit
+#    RunLHScan $i postfit
 #done
-#GenCondorLH
+GenCondorLH
