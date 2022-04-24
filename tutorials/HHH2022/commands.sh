@@ -94,7 +94,6 @@ function GenCondorLH() {
 function GenAsimov() {
     presetup 20220415
     for ch in bbyy combined bbtautau bbbb ; do
-
         if [[ ${ch} == 'combined' ]]; then
             input_file="${output_dir}/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root"
         else
@@ -102,6 +101,7 @@ function GenAsimov() {
         fi
         type=2,-2
         echo quickstats generate_standard_asimov -i ${input_file} -o ${input_file//0_kl.root/0_kl_asimov.root} --asimov_types ${type} --asimov_snapshots asimovtype_2_muprof_mu1,asimovtype_n2_prefit_mu1 --asimov_names combData_asimovtype_2_muprof_mu1,combData_asimovtype_n2_prefit_mu1 -p xsec_br
+        echo quickstats likelihood_fit -i ${input_file} --save_ws ${input_file//0_kl.root/0_kl_fitted.root} --save_snapshot muhatSnapshot --profile "klambda,kt"
     done
 }
 
@@ -113,12 +113,12 @@ function RunLHScan() {
     #declare -A dataset
     #dataset=( ["bbyy"]="combData" ["combined"]="combData"  ["bbtautau"]="obsData" ["bbbb"]="obsData" )
     if [[ ${ch} == 'combined' ]]; then
-        input_file="${output_dir}/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root"
+        input_file="${output_dir}/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl_fitted.root --uncond_snapshot muhatSnapshot"
     else
-        input_file="${output_dir}/rescaled/nonres/${ch}/0_kl.root"
+        input_file="${output_dir}/rescaled/nonres/${ch}/0_kl_fitted.root"
     fi
     if [[ ${obs} == *'obs'* ]]; then
-        snapshot=""
+        snapshot="--snapshot muhatSnapshot"
     elif [[ ${obs} == *'prefit'* ]]; then
         snapshot="-s asimovtype_n2_prefit_mu1 -d combData_asimovtype_n2_prefit_mu1"
         input_file=${input_file//0_kl.root/0_kl_asimov.root}
@@ -133,8 +133,8 @@ function RunLHScan() {
 }
 
 #echo -e "##############\n## Combine workspace ###\n###########\n"
-#CombineWorkspace 20220415
 #CombineWorkspace 20220415_noSgHparam
+CombineWorkspace 20220415
 #echo -e "##############\n## Cross section scan ###\n###########\n"
 #for i in bbyy combined bbtautau bbbb ; do
 #    RunXSScan $i
@@ -142,9 +142,9 @@ function RunLHScan() {
 #GenCondorXS
 
 #echo -e "##############\n## Likelihood scan ###\n###########\n"
-#for i in bbyy combined bbtautau bbbb ; do
-#    RunLHScan $i obs
-#    RunLHScan $i prefit
-#    RunLHScan $i postfit
-#done
-GenCondorLH
+for i in bbyy combined bbtautau bbbb ; do
+    RunLHScan $i obs
+    RunLHScan $i prefit
+    RunLHScan $i postfit
+done
+#GenCondorLH
