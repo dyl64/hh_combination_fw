@@ -24,15 +24,17 @@ if [[ ${obs} == *'obs'* ]]; then
     snapshot="--snapshot muhatSnapshot --uncond_snapshot muhatSnapshot"
 elif [[ ${obs} == *'prefit'* ]]; then
     snapshot="-s asimovtype_n2_prefit_mu1 -d combData_asimovtype_n2_prefit_mu1"
-    input_file=${input_file//0_kl.root/0_kl_asimov.root}
+    input_file=${input_file//0_kl_fitted.root/0_kl_asimov.root}
 else
     snapshot="-s asimovtype_2_muprof_mu1 -d combData_asimovtype_2_muprof_mu1"
-    input_file=${input_file//0_kl.root/0_kl_asimov.root}
+    input_file=${input_file//0_kl_fitted.root/0_kl_asimov.root}
 fi
 output_dir="${output_base}/likelihood_scan/${obs}/${ch}/${out}"
+
 
 command="quickstats likelihood_scan --retry 2 -i ${input_file} --outdir ${output_dir} --param_expr ${param} ${snapshot}"
 echo $command
 $command
 
+cd -
 unset command

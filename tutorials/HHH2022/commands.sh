@@ -101,7 +101,7 @@ function GenAsimov() {
         fi
         type=2,-2
         echo quickstats generate_standard_asimov -i ${input_file} -o ${input_file//0_kl.root/0_kl_asimov.root} --asimov_types ${type} --asimov_snapshots asimovtype_2_muprof_mu1,asimovtype_n2_prefit_mu1 --asimov_names combData_asimovtype_2_muprof_mu1,combData_asimovtype_n2_prefit_mu1 -p xsec_br
-        echo quickstats likelihood_fit -i ${input_file} --save_ws ${input_file//0_kl.root/0_kl_fitted.root} --save_snapshot muhatSnapshot --profile "klambda,kt"
+        echo quickstats likelihood_fit --retry 2 -i ${input_file} --save_ws ${input_file//0_kl.root/0_kl_fitted.root} --save_snapshot muhatSnapshot --profile "klambda,kt"
     done
 }
 
@@ -113,18 +113,18 @@ function RunLHScan() {
     #declare -A dataset
     #dataset=( ["bbyy"]="combData" ["combined"]="combData"  ["bbtautau"]="obsData" ["bbbb"]="obsData" )
     if [[ ${ch} == 'combined' ]]; then
-        input_file="${output_dir}/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl_fitted.root --uncond_snapshot muhatSnapshot"
+        input_file="${output_dir}/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl_fitted.root"
     else
         input_file="${output_dir}/rescaled/nonres/${ch}/0_kl_fitted.root"
     fi
     if [[ ${obs} == *'obs'* ]]; then
-        snapshot="--snapshot muhatSnapshot"
+        snapshot="--snapshot muhatSnapshot --uncond_snapshot muhatSnapshot"
     elif [[ ${obs} == *'prefit'* ]]; then
         snapshot="-s asimovtype_n2_prefit_mu1 -d combData_asimovtype_n2_prefit_mu1"
-        input_file=${input_file//0_kl.root/0_kl_asimov.root}
+        input_file=${input_file//0_kl_fitted.root/0_kl_asimov.root}
     else
         snapshot="-s asimovtype_2_muprof_mu1 -d combData_asimovtype_2_muprof_mu1"
-        input_file=${input_file//0_kl.root/0_kl_asimov.root}
+        input_file=${input_file//0_kl_fitted.root/0_kl_asimov.root}
     fi
     echo quickstats likelihood_scan -i ${input_file} --retry 2 --outdir ${output_dir}/likelihood_scan/${obs}/${ch}/2D_kl_kt --param_expr '"'${kl_kt_scan_range}'"' ${snapshot}
     echo quickstats likelihood_scan -i ${input_file} --retry 2 --outdir ${output_dir}/likelihood_scan/${obs}/${ch}/1D_kt_profiled --param_expr '"'${kl_scan_range},kt'"' ${snapshot}
@@ -134,7 +134,7 @@ function RunLHScan() {
 
 #echo -e "##############\n## Combine workspace ###\n###########\n"
 #CombineWorkspace 20220415_noSgHparam
-CombineWorkspace 20220415
+#CombineWorkspace 20220415
 #echo -e "##############\n## Cross section scan ###\n###########\n"
 #for i in bbyy combined bbtautau bbbb ; do
 #    RunXSScan $i
