@@ -24,7 +24,7 @@ function presetup() {
     minimizer_crosssection_scan="configs/minimizer_options/fix_xs_uncertainty.json" # fix theory cross section uncertainties for cross section scan
     minimizer_likelihood_scan="configs/minimizer_options/default.json" # include theory cross section uncertainties for likelihood scan
     poi="klambda" # no use but leave it here
-    kl_kt_scan_range="klambda=-6_12_0.2,kt=0.8_1.4_0.05" # scan range for two pois
+    kl_kt_scan_range="klambda=-6_12_0.1,kt=0.8_1.4_0.05" # scan range for two pois
     kl_scan_range="klambda=-6_12_0.2" # scan range for kl only
     #fix_param="klambda=1,kt=1" # fix_parameter for generating asimov data
     other_poi="klambda=1,kt=1,kF=1,kH=1,kW=1,kV=1,kZ=1,kb=1,ktau=1" # fix other variables that were POI but missed in combined WS
@@ -79,7 +79,12 @@ function GenCondorLH() {
     for d in obs prefit postfit; do
         for i in combined bbbb bbtautau bbyy ; do
             for j in `seq -6 6 12`; do
-                echo Arguments = $i 2D_kl_kt klambda=${j}_$((j+6))_0.2,kt=0.8_1.4_0.05 $d
+                #echo source ../../condor/wrapper_HHH_llhd.sh $i 2D_kl_kt klambda=${j}_$((j+6))_0.2,kt=0.8_1.4_0.05 $d
+                #echo source ../../condor/wrapper_HHH_llhd.sh $i 1D_kt_profiled klambda=${j}_$((j+6))_0.2,kt $d
+                #echo source ../../condor/wrapper_HHH_llhd.sh $i 1D_kt_nominal klambda=${j}_$((j+6))_0.2 $d
+                #break
+
+                echo Arguments = $i 2D_kl_kt klambda=${j}_$((j+6))_0.1,kt=0.8_1.4_0.05 $d
                 echo Queue 1
                 echo Arguments = $i 1D_kt_profiled klambda=${j}_$((j+6))_0.2,kt $d
                 echo Queue 1
@@ -101,7 +106,8 @@ function GenAsimov() {
         fi
         type=2,-2
         echo quickstats generate_standard_asimov -i ${input_file} -o ${input_file//0_kl.root/0_kl_asimov.root} --asimov_types ${type} --asimov_snapshots asimovtype_2_muprof_mu1,asimovtype_n2_prefit_mu1 --asimov_names combData_asimovtype_2_muprof_mu1,combData_asimovtype_n2_prefit_mu1 -p xsec_br
-        echo quickstats likelihood_fit --retry 2 -i ${input_file} --save_ws ${input_file//0_kl.root/0_kl_fitted.root} --save_snapshot muhatSnapshot --profile "klambda,kt"
+        echo quickstats likelihood_fit --retry 2 -i ${input_file} --save_ws ${input_file//0_kl.root/0_kl_fitted.root} --save_snapshot muhatSnapshot_kl_kt --profile "klambda,kt"
+        echo quickstats likelihood_fit --retry 2 -i ${input_file//0_kl.root/0_kl_fitted.root} --save_ws ${input_file//0_kl.root/0_kl_fitted.root} --save_snapshot muhatSnapshot_kl --profile "klambda"
     done
 }
 
@@ -113,22 +119,29 @@ function RunLHScan() {
     #declare -A dataset
     #dataset=( ["bbyy"]="combData" ["combined"]="combData"  ["bbtautau"]="obsData" ["bbbb"]="obsData" )
     if [[ ${ch} == 'combined' ]]; then
-        input_file="${output_dir}/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl_fitted.root"
+        input_path="${output_dir}/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr"
     else
-        input_file="${output_dir}/rescaled/nonres/${ch}/0_kl_fitted.root"
+        input_path="${output_dir}/rescaled/nonres/${ch}"
     fi
     if [[ ${obs} == *'obs'* ]]; then
-        snapshot="--snapshot muhatSnapshot --uncond_snapshot muhatSnapshot"
-    elif [[ ${obs} == *'prefit'* ]]; then
-        snapshot="-s asimovtype_n2_prefit_mu1 -d combData_asimovtype_n2_prefit_mu1"
-        input_file=${input_file//0_kl_fitted.root/0_kl_asimov.root}
+        snapshot_kl_kt="--snapshot muhatSnapshot_kl_kt --uncond_snapshot muhatSnapshot_kl_kt"
+        snapshot_kl="--snapshot muhatSnapshot_kl --uncond_snapshot muhatSnapshot_kl"
+        input_file=${input_path}/0_kl_fitted.root
+        echo quickstats likelihood_scan --retry 2 -i ${input_file} --outdir ${output_dir}/likelihood_scan/${obs}/${ch}/2D_kl_kt --param_expr '"'${kl_kt_scan_range}'"' ${snapshot_kl_kt}
+        echo quickstats likelihood_scan --retry 2 -i ${input_file} --outdir ${output_dir}/likelihood_scan/${obs}/${ch}/1D_kt_profiled --param_expr '"'${kl_scan_range},kt'"' ${snapshot_kl_kt}
+        echo quickstats likelihood_scan --retry 2 -i ${input_file} --outdir ${output_dir}/likelihood_scan/${obs}/${ch}/1D_kt_nominal --param_expr '"'${kl_scan_range}'"' ${snapshot_kl}
     else
-        snapshot="-s asimovtype_2_muprof_mu1 -d combData_asimovtype_2_muprof_mu1"
-        input_file=${input_file//0_kl_fitted.root/0_kl_asimov.root}
+        if [[ ${obs} == *'prefit'* ]]; then
+            snapshot="-s asimovtype_n2_prefit_mu1 -d combData_asimovtype_n2_prefit_mu1"
+            input_file=${input_path}/0_kl_asimov.root
+        else
+            snapshot="-s asimovtype_2_muprof_mu1 -d combData_asimovtype_2_muprof_mu1"
+            input_file=${input_path}/0_kl_asimov.root
+        fi
+        echo quickstats likelihood_scan --retry 2 -i ${input_file} --outdir ${output_dir}/likelihood_scan/${obs}/${ch}/2D_kl_kt --param_expr '"'${kl_kt_scan_range}'"' ${snapshot}
+        echo quickstats likelihood_scan --retry 2 -i ${input_file} --outdir ${output_dir}/likelihood_scan/${obs}/${ch}/1D_kt_profiled --param_expr '"'${kl_scan_range},kt'"' ${snapshot}
+        echo quickstats likelihood_scan --retry 2 -i ${input_file} --outdir ${output_dir}/likelihood_scan/${obs}/${ch}/1D_kt_nominal --param_expr '"'${kl_scan_range}'"' ${snapshot}
     fi
-    echo quickstats likelihood_scan -i ${input_file} --retry 2 --outdir ${output_dir}/likelihood_scan/${obs}/${ch}/2D_kl_kt --param_expr '"'${kl_kt_scan_range}'"' ${snapshot}
-    echo quickstats likelihood_scan -i ${input_file} --retry 2 --outdir ${output_dir}/likelihood_scan/${obs}/${ch}/1D_kt_profiled --param_expr '"'${kl_scan_range},kt'"' ${snapshot}
-    echo quickstats likelihood_scan -i ${input_file} --retry 2 --outdir ${output_dir}/likelihood_scan/${obs}/${ch}/1D_kt_nominal --param_expr '"'${kl_scan_range}'"' ${snapshot}
     echo
 }
 
@@ -142,9 +155,9 @@ function RunLHScan() {
 #GenCondorXS
 
 #echo -e "##############\n## Likelihood scan ###\n###########\n"
-for i in bbyy combined bbtautau bbbb ; do
-    RunLHScan $i obs
-    RunLHScan $i prefit
-    RunLHScan $i postfit
-done
-#GenCondorLH
+#for i in bbyy combined bbtautau bbbb ; do
+#    RunLHScan $i obs
+#    RunLHScan $i prefit
+#    RunLHScan $i postfit
+#done
+GenCondorLH
