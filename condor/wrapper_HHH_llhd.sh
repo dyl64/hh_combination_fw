@@ -59,10 +59,13 @@ fi
 
 output_dir="${output_base}/likelihood_scan/${obs}/${ch}/${out}"
 
+if [[ ${out} == *'profiled'* ]]; then
+    param="${param}  --profile kt=_0_"
+fi
 
 command="quickstats likelihood_scan --retry 2 -i ${input_file} --outdir ${output_dir} --param_expr ${param} ${snapshot}"
 echo $command
-$command
+#$command
 
 cd -
 unset command
