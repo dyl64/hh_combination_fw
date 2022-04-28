@@ -24,7 +24,7 @@ function presetup() {
     minimizer_crosssection_scan="configs/minimizer_options/fix_xs_uncertainty.json" # fix theory cross section uncertainties for cross section scan
     minimizer_likelihood_scan="configs/minimizer_options/default.json" # include theory cross section uncertainties for likelihood scan
     poi="klambda" # no use but leave it here
-    kl_kt_scan_range="klambda=-15_20_0.4,kt=0.6_1.6_0.1" # scan range for two pois
+    kl_kt_scan_range="klambda=-15_20_0.2,kt=0.6_1.6_0.1" # scan range for two pois
     kl_scan_range="klambda=-15_20_0.2" # scan range for kl only
     #fix_param="klambda=1,kt=1" # fix_parameter for generating asimov data
     other_poi="klambda=1,kt=1,kF=1,kH=1,kW=1,kV=1,kZ=1,kb=1,ktau=1" # fix other variables that were POI but missed in combined WS
@@ -79,17 +79,17 @@ function GenCondorLH() {
     #for d in obs prefit postfit1 postfit2; do
     for d in obs prefit postfit2; do
         for i in combined bbbb bbtautau bbyy ; do
-            for j in `seq -15 5 20`; do
-                #echo source ../../condor/wrapper_HHH_llhd.sh $i 2D_kl_kt klambda=${j}_$((j+6))_0.2,kt=0.6_1.6_0.1 $d
-                #echo source ../../condor/wrapper_HHH_llhd.sh $i 1D_kt_profiled klambda=${j}_$((j+6))_0.2,kt=_0_ $d
-                #echo source ../../condor/wrapper_HHH_llhd.sh $i 1D_kt_nominal klambda=${j}_$((j+6))_0.2 $d
-                #break
+            for j in `seq -15 5 15`; do
+                echo source ../../condor/wrapper_HHH_llhd.sh $i 2D_kl_kt klambda=${j}_$((j+5))_0.2,kt=0.6_1.6_0.1 $d
+                echo source ../../condor/wrapper_HHH_llhd.sh $i 1D_kt_profiled klambda=${j}_$((j+5))_0.2,kt=_0_ $d
+                echo source ../../condor/wrapper_HHH_llhd.sh $i 1D_kt_nominal klambda=${j}_$((j+5))_0.2 $d
+                break
 
-                echo Arguments = $i 2D_kl_kt klambda=${j}_$((j+6))_0.4,kt=0.6_1.6_0.1 $d
+                echo Arguments = $i 2D_kl_kt klambda=${j}_$((j+5))_0.2,kt=0.6_1.6_0.1 $d
                 echo Queue 1
-                echo Arguments = $i 1D_kt_profiled klambda=${j}_$((j+6))_0.2,kt $d
+                echo Arguments = $i 1D_kt_profiled klambda=${j}_$((j+5))_0.2,kt $d
                 echo Queue 1
-                echo Arguments = $i 1D_kt_nominal klambda=${j}_$((j+6))_0.2 $d
+                echo Arguments = $i 1D_kt_nominal klambda=${j}_$((j+5))_0.2 $d
                 echo Queue 1
             done
         done
@@ -162,10 +162,10 @@ function RunLHScan() {
 #GenCondorXS
 
 #echo -e "##############\n## Likelihood scan ###\n###########\n"
-#for i in bbyy combined bbtautau bbbb ; do
-#    RunLHScan $i obs
-#    RunLHScan $i prefit
-###    RunLHScan $i postfit1
-#    RunLHScan $i postfit2
-#done
-GenCondorLH
+for i in bbyy combined bbtautau bbbb ; do
+    RunLHScan $i obs
+    RunLHScan $i prefit
+##    RunLHScan $i postfit1
+    RunLHScan $i postfit2
+done
+#GenCondorLH
