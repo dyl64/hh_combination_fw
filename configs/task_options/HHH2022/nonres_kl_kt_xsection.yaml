@@ -32,10 +32,17 @@ redefine_parameters:
     - mu_HH_VBF[1,-10000,10000]
     - mu_HH_ggF[1,-10000,10000]
     - mu_HH[1,-10000,10000] # does not work! use fix_parameters for the renamed POI
+  bbyy:
+    - k2V[1]
+    - kV[1]
+    - klambda[1]
+    - kt[1]
+    - mu_VBFHH[1]
+    - mu_ggFHH[1]
 
 # fix POIs so that they are set to const
 fix_parameters:
-  bbyy: <pois>
+  bbyy: <pois>,mu_HH_VBF=1,mu_HH_ggF=1
   bbtautau: <pois>
   bbbb: <pois>,xsec_br=1_-10000_10000
   combination: <pois>
@@ -79,6 +86,7 @@ extra_pois:
     - klambda
     - k2V
     - kV
+    - mH
     - mu_HH_VBF
     - mu_HH_ggF
   combination:
