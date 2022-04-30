@@ -269,7 +269,7 @@ class TaskBase:
         start = time.time()
         self.makedirs()
         self.copy_dtd()
-        execute_multi_tasks(self.preprocess, self.param_points, parallel=self.parallel)
+        result = execute_multi_tasks(self.preprocess, self.param_points, parallel=self.parallel)
         if self.do_limit:
             self.limit_setting()
         for param_point in self.param_points:
@@ -460,6 +460,10 @@ class TaskPipelineWS(TaskBase):
                 print("INFO: Writing regularisation log into {0}".format(regularise_logfile_path))
                 proc = subprocess.Popen(cmd_regularise, stdout=logfile, stderr=logfile)
                 proc.wait()
+            status = proc.returncode
+            if status != 0:
+                raise RuntimeError("workspace regularisation failed, please check the log file for "
+                                   f"more details: {regularise_logfile_path}")
                 
         # rename datasets and fixing parameters   
         model = ExtendedModel(tmp_ws_path, data_name=None, verbosity="WARNING")
@@ -513,6 +517,10 @@ class TaskPipelineWS(TaskBase):
                 print("INFO: Writing rescaling log into {0}".format(rescale_logfile_path))
                 proc = subprocess.Popen(cmd_rescale, stdout=logfile, stderr=logfile)
                 proc.wait()
+            status = proc.returncode
+            if status != 0:
+                raise RuntimeError("workspace modification failed, please check the log file for "
+                                   f"more details: {rescale_logfile_path}")
                 
     def modify_workspace(self, param_point:Dict, oldpoi_equiv_name:str='mu_old'):
         original_ws_path = param_point['filename']
@@ -593,9 +601,15 @@ class TaskPipelineWS(TaskBase):
         from quickstats.components.workspaces import XMLWSModifier
         from quickstats.concurrent.logging import standard_log
         print("INFO: Writing rescaling log into {0}".format(rescale_logfile_path))
+
+        status = 0
         with standard_log(rescale_logfile_path) as logger:
             ws_modifier = XMLWSModifier(config)
             ws_modifier.create_modified_workspace()
+            status = 1
+        if not status:
+            raise RuntimeError("workspace modification failed, please check the log file for "
+                               f"more details: {rescale_logfile_path}")
 
     def preprocess(self, param_point):
         if self.experimental:
@@ -752,3 +766,4 @@ class TaskCombination(TaskBase):
     def preprocess(self, param_point):
         self.create_combination_xml(param_point)
         self.create_combined_ws(param_point)
+        return True
