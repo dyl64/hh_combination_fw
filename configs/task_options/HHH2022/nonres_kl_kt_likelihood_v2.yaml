@@ -48,6 +48,8 @@ extra_pois:
     - kF
     - kH
     - kV
+    - kZ
+    - kW
     - kb
     - ktau
     - mu_HH_VBF
@@ -59,6 +61,8 @@ extra_pois:
     - kF
     - kH
     - kV
+    - kZ
+    - kW    
     - kb
     - ktau
   bbyy:
