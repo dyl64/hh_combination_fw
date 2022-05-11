@@ -287,6 +287,7 @@ class TaskPipelineWS(TaskBase):
     def initialize(self, input_dir:str, output_dir:str, resonant_type:str, channel:str,
                    old_poiname:str, new_poiname:str, old_dataname:str,
                    new_dataname:str, define_parameters:Optional[Dict]=None,
+                   define_constraints:Optional[Dict]=None,
                    redefine_parameters:Optional[Dict]=None, rename_parameters:Optional[Dict]=None,
                    rescale_poi:Optional[float]=None, fix_parameters:Optional[str]=None,
                    profile_parameters:Optional[str]=None, **kwargs):
@@ -295,6 +296,7 @@ class TaskPipelineWS(TaskBase):
         self.output_dir = output_dir
         self.channel = channel
         self.define_parameters = define_parameters
+        self.define_constraints = define_constraints
         self.redefine_parameters = redefine_parameters
         self.rename_parameters = rename_parameters
         self.fix_parameters = fix_parameters
@@ -360,7 +362,8 @@ class TaskPipelineWS(TaskBase):
                                 oldpoi_equiv_name:str='mu_old',
                                 redefine_parameters:Optional[Dict]=None,
                                 rename_parameters:Optional[Dict]=None,
-                                define_parameters:Optional[Dict]=None):
+                                define_parameters:Optional[Dict]=None,
+                                define_constraints:Optional[Dict]=None):
         
         print('INFO: Creating config file: {0}, poi: {1} --> {2}, scaling: {3}'.format(
               cfg_file,  old_poiname, new_poiname, poi_scale))
@@ -412,6 +415,13 @@ class TaskPipelineWS(TaskBase):
         if define_parameters is not None:
             for expr in define_parameters:
                 cfg_xml.add_node(tag="Item", Name=f"{expr}")
+                
+        if define_constraints is not None:
+            for constr_data in define_constraints:
+                expr = constr_data['Name']
+                nuis = constr_data['NP']
+                glob = constr_data['GO']
+                cfg_xml.add_node(tag="Item", Name=f"{expr}", Type="constraint", NP=f"{nuis}", GO=f"{glob}")
                 
         if rename_parameters is not None:
             for old_name, new_name in rename_parameters.items():
@@ -501,7 +511,8 @@ class TaskPipelineWS(TaskBase):
                                      poi_scale, pois_to_keep,
                                      redefine_parameters=self.redefine_parameters,
                                      rename_parameters=self.rename_parameters,
-                                     define_parameters=self.define_parameters)
+                                     define_parameters=self.define_parameters,
+                                     define_constraints=self.define_constraints)
 
         rescale_logfile_path = rescaled_ws_path.replace('.root', '.log')
         
@@ -539,7 +550,7 @@ class TaskPipelineWS(TaskBase):
             "poi_names": self.pois_to_keep,
         }
         
-        config["actions"] = {"redefine": [], "define":[], "rename":{}}
+        config["actions"] = {"redefine": [], "define":[], "rename":{}, "constraint":[]}
         config["actions"]["rename"]["workspace"] = {None: "combWS"}
         config["actions"]["rename"]["dataset"]   = {self.old_dataname: self.new_dataname}
         config["actions"]["rename"]["variable"]  = {}
@@ -590,6 +601,9 @@ class TaskPipelineWS(TaskBase):
         if self.define_parameters is not None:
             for expr in self.define_parameters:
                 config["actions"]["define"].append(expr)
+        if self.define_constraints is not None:
+            for constr_dict in self.define_constraints:
+                config["actions"]["constraint"].append(constr_dict)
         if self.rename_parameters is not None:
             for old_name, new_name in self.rename_parameters.items():
                 config["actions"]["rename"]["variable"][old_name] = new_name
