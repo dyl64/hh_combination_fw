@@ -26,9 +26,9 @@ def create_channel_node(root_node, channel:str, fname:str, poi_name:str, rename_
     rename_node = channel_node.add_node('RenameMap')
     
     if rename_map is not None:
-        constraints = model.pair_constraints(to_str=True)
+        pdf_list, nuis_list, globs_list = model.pair_constraints(to_str=True)
         np_list = [i.GetName() for i in model.nuisance_parameters]
-        for (pdf_name, np_name, glob_name) in constraints: 
+        for (pdf_name, np_name, glob_name) in zip(pdf_list, nuis_list, globs_list): 
             if np_name not in np_list:
                 continue
             if (np_name not in rename_map) and (not ignore_missing_keys):
