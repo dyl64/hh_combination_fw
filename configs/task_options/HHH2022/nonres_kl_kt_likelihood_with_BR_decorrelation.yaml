@@ -354,7 +354,7 @@ extra_pois:
     - ktau
     - mu_HH_VBF
     - mu_HH_ggF
-  combined:
+  combination:
     - kt
     - klambda
     - k2V
