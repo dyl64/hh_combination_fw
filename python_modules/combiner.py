@@ -269,7 +269,7 @@ class TaskBase:
         start = time.time()
         self.makedirs()
         self.copy_dtd()
-        execute_multi_tasks(self.preprocess, self.param_points, parallel=self.parallel)
+        result = execute_multi_tasks(self.preprocess, self.param_points, parallel=self.parallel)
         if self.do_limit:
             self.limit_setting()
         for param_point in self.param_points:
@@ -287,6 +287,7 @@ class TaskPipelineWS(TaskBase):
     def initialize(self, input_dir:str, output_dir:str, resonant_type:str, channel:str,
                    old_poiname:str, new_poiname:str, old_dataname:str,
                    new_dataname:str, define_parameters:Optional[Dict]=None,
+                   define_constraints:Optional[Dict]=None,
                    redefine_parameters:Optional[Dict]=None, rename_parameters:Optional[Dict]=None,
                    rescale_poi:Optional[float]=None, fix_parameters:Optional[str]=None,
                    profile_parameters:Optional[str]=None, **kwargs):
@@ -295,6 +296,7 @@ class TaskPipelineWS(TaskBase):
         self.output_dir = output_dir
         self.channel = channel
         self.define_parameters = define_parameters
+        self.define_constraints = define_constraints
         self.redefine_parameters = redefine_parameters
         self.rename_parameters = rename_parameters
         self.fix_parameters = fix_parameters
@@ -360,7 +362,8 @@ class TaskPipelineWS(TaskBase):
                                 oldpoi_equiv_name:str='mu_old',
                                 redefine_parameters:Optional[Dict]=None,
                                 rename_parameters:Optional[Dict]=None,
-                                define_parameters:Optional[Dict]=None):
+                                define_parameters:Optional[Dict]=None,
+                                define_constraints:Optional[Dict]=None):
         
         print('INFO: Creating config file: {0}, poi: {1} --> {2}, scaling: {3}'.format(
               cfg_file,  old_poiname, new_poiname, poi_scale))
@@ -413,6 +416,13 @@ class TaskPipelineWS(TaskBase):
             for expr in define_parameters:
                 cfg_xml.add_node(tag="Item", Name=f"{expr}")
                 
+        if define_constraints is not None:
+            for constr_data in define_constraints:
+                expr = constr_data['Name']
+                nuis = constr_data['NP']
+                glob = constr_data['GO']
+                cfg_xml.add_node(tag="Item", Name=f"{expr}", Type="constraint", NP=f"{nuis}", GO=f"{glob}")
+                
         if rename_parameters is not None:
             for old_name, new_name in rename_parameters.items():
                 mappings.append((old_name, new_name))
@@ -460,6 +470,10 @@ class TaskPipelineWS(TaskBase):
                 print("INFO: Writing regularisation log into {0}".format(regularise_logfile_path))
                 proc = subprocess.Popen(cmd_regularise, stdout=logfile, stderr=logfile)
                 proc.wait()
+            status = proc.returncode
+            if status != 0:
+                raise RuntimeError("workspace regularisation failed, please check the log file for "
+                                   f"more details: {regularise_logfile_path}")
                 
         # rename datasets and fixing parameters   
         model = ExtendedModel(tmp_ws_path, data_name=None, verbosity="WARNING")
@@ -497,7 +511,8 @@ class TaskPipelineWS(TaskBase):
                                      poi_scale, pois_to_keep,
                                      redefine_parameters=self.redefine_parameters,
                                      rename_parameters=self.rename_parameters,
-                                     define_parameters=self.define_parameters)
+                                     define_parameters=self.define_parameters,
+                                     define_constraints=self.define_constraints)
 
         rescale_logfile_path = rescaled_ws_path.replace('.root', '.log')
         
@@ -513,6 +528,10 @@ class TaskPipelineWS(TaskBase):
                 print("INFO: Writing rescaling log into {0}".format(rescale_logfile_path))
                 proc = subprocess.Popen(cmd_rescale, stdout=logfile, stderr=logfile)
                 proc.wait()
+            status = proc.returncode
+            if status != 0:
+                raise RuntimeError("workspace modification failed, please check the log file for "
+                                   f"more details: {rescale_logfile_path}")
                 
     def modify_workspace(self, param_point:Dict, oldpoi_equiv_name:str='mu_old'):
         original_ws_path = param_point['filename']
@@ -531,7 +550,7 @@ class TaskPipelineWS(TaskBase):
             "poi_names": self.pois_to_keep,
         }
         
-        config["actions"] = {"redefine": [], "define":[], "rename":{}}
+        config["actions"] = {"redefine": [], "define":[], "rename":{}, "constraint":[]}
         config["actions"]["rename"]["workspace"] = {None: "combWS"}
         config["actions"]["rename"]["dataset"]   = {self.old_dataname: self.new_dataname}
         config["actions"]["rename"]["variable"]  = {}
@@ -582,6 +601,9 @@ class TaskPipelineWS(TaskBase):
         if self.define_parameters is not None:
             for expr in self.define_parameters:
                 config["actions"]["define"].append(expr)
+        if self.define_constraints is not None:
+            for constr_dict in self.define_constraints:
+                config["actions"]["constraint"].append(constr_dict)
         if self.rename_parameters is not None:
             for old_name, new_name in self.rename_parameters.items():
                 config["actions"]["rename"]["variable"][old_name] = new_name
@@ -593,9 +615,15 @@ class TaskPipelineWS(TaskBase):
         from quickstats.components.workspaces import XMLWSModifier
         from quickstats.concurrent.logging import standard_log
         print("INFO: Writing rescaling log into {0}".format(rescale_logfile_path))
+
+        status = 0
         with standard_log(rescale_logfile_path) as logger:
             ws_modifier = XMLWSModifier(config)
             ws_modifier.create_modified_workspace()
+            status = 1
+        if not status:
+            raise RuntimeError("workspace modification failed, please check the log file for "
+                               f"more details: {rescale_logfile_path}")
 
     def preprocess(self, param_point):
         if self.experimental:
@@ -752,3 +780,4 @@ class TaskCombination(TaskBase):
     def preprocess(self, param_point):
         self.create_combination_xml(param_point)
         self.create_combined_ws(param_point)
+        return True

@@ -1,0 +1,365 @@
+dataset:
+  bbbb:
+    blind: obsData
+    unblind: obsData
+  bbtautau:
+    blind: obsData
+    unblind: obsData
+  bbyy:
+    blind: combData
+    unblind: combData
+  combination:
+    blind: combData
+    unblind: combData
+    
+poi:
+  bbbb: mu_HH
+  bbtautau: mu
+  bbyy: mu
+  combination: xsec_br
+  
+rescale_poi:
+  #kl no rescaling needed
+  bbbb: 1
+  bbyy: 1
+  bbtautau: 1
+  
+define_parameters:
+  bbbb:
+    - one[1]
+    - unitPDF[1]
+    - zero[0]
+    - kappa_value_BR_param_alphaS_bb[0.9922]
+    - kappa_value_BR_param_mB_bb[1.0071]
+    - kappa_value_BR_param_mC_bb[0.9985]
+    - kappa_value_BR_HiggsDecayWidthTHU_hbb_bb[1.0021]
+    - kappa_value_BR_HiggsDecayWidthTHU_hgg_bb[0.9974]
+    - kappa_value_BR_HiggsDecayWidthTHU_hVV_bb[0.9988]
+    - TheorySig_QCDalphaS[0,-5,5]
+    - TheorySig_BR_param_mB[0,-5,5]
+    - TheorySig_BR_param_mC[0,-5,5]
+    - TheorySig_BR_HiggsDecayWidthTHU_hbb[0,-5,5]
+    - TheorySig_BR_HiggsDecayWidthTHU_hgg[0,-5,5]
+    - TheorySig_BR_HiggsDecayWidthTHU_hVV[0,-5,5]
+    - TheorySig_QCDalphaS_In[0]
+    - TheorySig_BR_param_mB_In[0]
+    - TheorySig_BR_param_mC_In[0]
+    - TheorySig_BR_HiggsDecayWidthTHU_hbb_In[0]
+    - TheorySig_BR_HiggsDecayWidthTHU_hgg_In[0]
+    - TheorySig_BR_HiggsDecayWidthTHU_hVV_In[0]
+    - expr::expected_BR_param_alphaS_bb('pow(@0,@1)',kappa_value_BR_param_alphaS_bb,TheorySig_QCDalphaS)
+    - expr::expected_BR_param_mB_bb('pow(@0,@1)',kappa_value_BR_param_mB_bb,TheorySig_BR_param_mB)
+    - expr::expected_BR_param_mC_bb('pow(@0,@1)',kappa_value_BR_param_mC_bb,TheorySig_BR_param_mC)
+    - expr::expected_BR_HiggsDecayWidthTHU_hbb_bb('pow(@0,@1)',kappa_value_BR_HiggsDecayWidthTHU_hbb_bb,TheorySig_BR_HiggsDecayWidthTHU_hbb)
+    - expr::expected_BR_HiggsDecayWidthTHU_hgg_bb('pow(@0,@1)',kappa_value_BR_HiggsDecayWidthTHU_hgg_bb,TheorySig_BR_HiggsDecayWidthTHU_hgg)
+    - expr::expected_BR_HiggsDecayWidthTHU_hVV_bb('pow(@0,@1)',kappa_value_BR_HiggsDecayWidthTHU_hVV_bb,TheorySig_BR_HiggsDecayWidthTHU_hVV)
+    - prod::mu_BR_bb_composite(expected_BR_param_alphaS_bb,expected_BR_param_mB_bb,expected_BR_param_mC_bb,expected_BR_HiggsDecayWidthTHU_hbb_bb,expected_BR_HiggsDecayWidthTHU_hgg_bb,expected_BR_HiggsDecayWidthTHU_hVV_bb)
+    - prod::mu_HH_ggF_modified(mu_HH_ggF,mu_BR_bb_composite,mu_BR_bb_composite)
+    - prod::mu_HH_VBF_modified(mu_HH_VBF,mu_BR_bb_composite,mu_BR_bb_composite)
+  bbyy:
+    # need to define the kappa parameters here since they are used in the other definitions
+    - mu_HH_ggF[1]
+    - mu_HH_VBF[1]
+    - one[1]
+    - unitPDF[1]
+    - zero[0]
+    - kappa_value_BR_param_alphaS_bb[0.9922]
+    - kappa_value_BR_param_mB_bb[1.0071]
+    - kappa_value_BR_param_mC_bb[0.9985]
+    - kappa_value_BR_HiggsDecayWidthTHU_hbb_bb[1.0021]
+    - kappa_value_BR_HiggsDecayWidthTHU_hgg_bb[0.9974]
+    - kappa_value_BR_HiggsDecayWidthTHU_hVV_bb[0.9988]
+    - kappa_value_BR_param_alphaS_gamgam[1.0063]
+    - kappa_value_BR_param_mB_gamgam[0.9901]
+    - kappa_value_BR_param_mC_gamgam[0.9985]
+    - kappa_value_BR_HiggsDecayWidthTHU_hbb_gamgam[0.9971]
+    - kappa_value_BR_HiggsDecayWidthTHU_hgg_gamgam[0.9974]
+    - kappa_value_BR_HiggsDecayWidthTHU_hVV_gamgam[0.9988]
+    - kappa_value_BR_HiggsDecayWidthTHU_hyy_gamgam[1.0100]
+    - TheorySig_QCDalphaS[0,-5,5]
+    - TheorySig_BR_param_mB[0,-5,5]
+    - TheorySig_BR_param_mC[0,-5,5]
+    - TheorySig_BR_HiggsDecayWidthTHU_hbb[0,-5,5]
+    - TheorySig_BR_HiggsDecayWidthTHU_hgg[0,-5,5]
+    - TheorySig_BR_HiggsDecayWidthTHU_hVV[0,-5,5]
+    - TheorySig_BR_HiggsDecayWidthTHU_hyy[0,-5,5]
+    - TheorySig_QCDalphaS_In[0]
+    - TheorySig_BR_param_mB_In[0]
+    - TheorySig_BR_param_mC_In[0]
+    - TheorySig_BR_HiggsDecayWidthTHU_hbb_In[0]
+    - TheorySig_BR_HiggsDecayWidthTHU_hgg_In[0]
+    - TheorySig_BR_HiggsDecayWidthTHU_hVV_In[0]
+    - TheorySig_BR_HiggsDecayWidthTHU_hyy_In[0]
+    - RooGaussian::TheorySig_QCDalphaS_ConstraintPdf(TheorySig_QCDalphaS,TheorySig_QCDalphaS_In,1)
+    - RooGaussian::TheorySig_BR_param_mB_ConstraintPdf(TheorySig_BR_param_mB,TheorySig_BR_param_mB_In,1)
+    - RooGaussian::TheorySig_BR_param_mC_ConstraintPdf(TheorySig_BR_param_mC,TheorySig_BR_param_mC_In,1)
+    - RooGaussian::TheorySig_BR_HiggsDecayWidthTHU_hbb_ConstraintPdf(TheorySig_BR_HiggsDecayWidthTHU_hbb,TheorySig_BR_HiggsDecayWidthTHU_hbb_In,1)
+    - RooGaussian::TheorySig_BR_HiggsDecayWidthTHU_hgg_ConstraintPdf(TheorySig_BR_HiggsDecayWidthTHU_hgg,TheorySig_BR_HiggsDecayWidthTHU_hgg_In,1)
+    - RooGaussian::TheorySig_BR_HiggsDecayWidthTHU_hVV_ConstraintPdf(TheorySig_BR_HiggsDecayWidthTHU_hVV,TheorySig_BR_HiggsDecayWidthTHU_hVV_In,1)
+    - RooGaussian::TheorySig_BR_HiggsDecayWidthTHU_hyy_ConstraintPdf(TheorySig_BR_HiggsDecayWidthTHU_hyy,TheorySig_BR_HiggsDecayWidthTHU_hyy_In,1)
+    - expr::expected_BR_param_alphaS_bb('pow(@0,@1)',kappa_value_BR_param_alphaS_bb,TheorySig_QCDalphaS)
+    - expr::expected_BR_param_mB_bb('pow(@0,@1)',kappa_value_BR_param_mB_bb,TheorySig_BR_param_mB)
+    - expr::expected_BR_param_mC_bb('pow(@0,@1)',kappa_value_BR_param_mC_bb,TheorySig_BR_param_mC)
+    - expr::expected_BR_HiggsDecayWidthTHU_hbb_bb('pow(@0,@1)',kappa_value_BR_HiggsDecayWidthTHU_hbb_bb,TheorySig_BR_HiggsDecayWidthTHU_hbb)
+    - expr::expected_BR_HiggsDecayWidthTHU_hgg_bb('pow(@0,@1)',kappa_value_BR_HiggsDecayWidthTHU_hgg_bb,TheorySig_BR_HiggsDecayWidthTHU_hgg)
+    - expr::expected_BR_HiggsDecayWidthTHU_hVV_bb('pow(@0,@1)',kappa_value_BR_HiggsDecayWidthTHU_hVV_bb,TheorySig_BR_HiggsDecayWidthTHU_hVV)
+    - expr::expected_BR_param_alphaS_gamgam('pow(@0,@1)',kappa_value_BR_param_alphaS_gamgam,TheorySig_QCDalphaS)
+    - expr::expected_BR_param_mB_gamgam('pow(@0,@1)',kappa_value_BR_param_mB_gamgam,TheorySig_BR_param_mB)
+    - expr::expected_BR_param_mC_gamgam('pow(@0,@1)',kappa_value_BR_param_mC_gamgam,TheorySig_BR_param_mC)
+    - expr::expected_BR_HiggsDecayWidthTHU_hbb_gamgam('pow(@0,@1)',kappa_value_BR_HiggsDecayWidthTHU_hbb_gamgam,TheorySig_BR_HiggsDecayWidthTHU_hbb)
+    - expr::expected_BR_HiggsDecayWidthTHU_hgg_gamgam('pow(@0,@1)',kappa_value_BR_HiggsDecayWidthTHU_hgg_gamgam,TheorySig_BR_HiggsDecayWidthTHU_hgg)
+    - expr::expected_BR_HiggsDecayWidthTHU_hVV_gamgam('pow(@0,@1)',kappa_value_BR_HiggsDecayWidthTHU_hVV_gamgam,TheorySig_BR_HiggsDecayWidthTHU_hVV)
+    - expr::expected_BR_HiggsDecayWidthTHU_hyy_gamgam('pow(@0,@1)',kappa_value_BR_HiggsDecayWidthTHU_hyy_gamgam,TheorySig_BR_HiggsDecayWidthTHU_hyy)
+    - prod::mu_BR_yy_composite(expected_BR_param_alphaS_gamgam,expected_BR_param_mB_gamgam,expected_BR_param_mC_gamgam,expected_BR_HiggsDecayWidthTHU_hbb_gamgam,expected_BR_HiggsDecayWidthTHU_hgg_gamgam,expected_BR_HiggsDecayWidthTHU_hVV_gamgam,expected_BR_HiggsDecayWidthTHU_hyy_gamgam)
+    - prod::mu_BR_bb_composite(expected_BR_param_alphaS_bb,expected_BR_param_mB_bb,expected_BR_param_mC_bb,expected_BR_HiggsDecayWidthTHU_hbb_bb,expected_BR_HiggsDecayWidthTHU_hgg_bb,expected_BR_HiggsDecayWidthTHU_hVV_bb)
+    - prod::mu_singleH_modified(mu_BR_yy_composite)
+    - prod::mu_HH_ggF_modified(mu_HH_ggF,mu_BR_yy_composite,mu_BR_bb_composite)
+    - prod::mu_HH_VBF_modified(mu_HH_VBF,mu_BR_yy_composite,mu_BR_bb_composite)
+  bbtautau:
+    # need to define the kappa parameters here since they are used in the other definitions
+    - klambda[1]
+    - kt[1]
+    - kb[1]
+    - ktau[1]
+    - kV[1]
+    - sum::kc(kt)
+    - sum::kmu(ktau)
+    - one[1]
+    - unitPDF[1]
+    - zero[0]
+    # decay model modifiers
+    - expr::kyy2('(@0*@0)*@4+(@1*@1)*@5+(@2*@2)*@6+(@0*@1)*@7+(@0*@2)*@8+(@1*@2)*@9+(@3*@3)*@10+(@0*@3)*@11+(@1*@3)*@12+(@2*@3)*@13',kt,kb,kV,ktau,G_tt_o_G_HGaGa[0.0715],G_bb_o_G_HGaGa[0.0000],G_WW_o_G_HGaGa[1.5887],G_tb_o_G_HGaGa[-0.0018],G_tW_o_G_HGaGa[-0.6740],G_bW_o_G_HGaGa[0.0083],G_ll_o_G_HGaGa[0.0000],G_tl_o_G_HGaGa[-0.0019],G_bl_o_G_HGaGa[0.0000],G_lW_o_G_HGaGa[0.0090])
+    - expr::kZy2('(@0*@0)*@4+(@1*@1)*@5+(@2*@2)*@6+(@0*@1)*@7+(@0*@2)*@8+(@1*@2)*@9+(@3*@3)*@10+(@0*@3)*@11+(@1*@3)*@12+(@2*@3)*@13',kt,kb,kV,ktau,G_tt_o_G_HZGa[0.0035],G_bb_o_G_HZGa[0.0000],G_WW_o_G_HZGa[1.1180],G_tb_o_G_HZGa[-0.0002],G_tW_o_G_HZGa[-0.1245],G_bW_o_G_HZGa[0.0032],G_ll_o_G_HZGa[0.0000],G_tl_o_G_HZGa[-0.0000],G_bl_o_G_HZGa[0.0000],G_lW_o_G_HZGa[0.0001])
+    - expr::kgg2('(@0*@0)*@2+(@1*@1)*@3+(@0*@1)*@4',kt,kb,G_tt_o_G_gg_HGlGl[1.1114],G_bb_o_G_gg_HGlGl[0.0116],G_tb_o_G_gg_HGlGl[-0.1229])
+    # the theoretical prediction numbers regarding decays
+    - C1_gamgam[0.0049]
+    - BR_125_gamgam[0.00227]
+    - C1_ZZ[0.0083]
+    - BR_125_ZZ[0.02641]
+    - C1_WW[0.0073]
+    - BR_125_WW[0.2152]
+    - BR_125_bb[0.5809]
+    - BR_125_tautau[0.06256]
+    - BR_125_Zgam[0.001541]
+    - C1_gg[0.0066]
+    - BR_125_gg[0.08180]
+    - BR_125_mumu[0.0002171]
+    - BR_125_ss[0.0004]
+    - BR_125_cc[0.02884]
+    # tt channel, added by Fabio, but didn't make a difference in final results since they are zero
+    - C1_tt[0]
+    - BR_125_tt[0.0000]
+    ################################################################################################
+    - expr::num_mu_gamgam('@0+((@1-1)*@2)',kyy2,klambda,C1_gamgam)
+    - prod::den_mu_gamgam(BR_125_gamgam,num_mu_gamgam)
+    - expr::num_mu_ZZ('(@0*@0)+((@1-1)*@2)',kV,klambda,C1_ZZ)
+    - prod::den_mu_ZZ(BR_125_ZZ,num_mu_ZZ)
+    - expr::num_mu_WW('(@0*@0)+((@1-1)*@2)',kV,klambda,C1_WW)
+    - prod::den_mu_WW(BR_125_WW,num_mu_WW)
+    - prod::num_mu_bb(kb,kb)
+    - prod::den_mu_bb(BR_125_bb,num_mu_bb)
+    - prod::num_mu_tautau(ktau,ktau)
+    - prod::den_mu_tautau(BR_125_tautau,num_mu_tautau)
+    - prod::den_mu_Zgam(BR_125_Zgam,kZy2)
+    - expr::num_mu_gg('@0+((@1-1)*@2)',kgg2,klambda,C1_gg)
+    - prod::den_mu_gg(BR_125_gg,num_mu_gg)
+    - prod::num_mu_mumu(kmu,kmu)
+    - prod::den_mu_mumu(BR_125_mumu,num_mu_mumu)
+    - prod::num_mu_ss(kb,kb)
+    - prod::den_mu_ss(BR_125_ss,num_mu_ss)
+    - prod::num_mu_cc(kc,kc)
+    - prod::den_mu_cc(BR_125_cc,num_mu_cc)
+    - expr::num_mu_tt('(@0*@0)+((@1-1)*@2)',kt,klambda,C1_tt)
+    - expr::den_mu_tt('@0*((@1*@1)+((@2-1)*@3))',BR_125_tt,kt,klambda,C1_tt)
+    - sum::den_mu(den_mu_gamgam,den_mu_ZZ,den_mu_WW,den_mu_bb,den_mu_tautau,den_mu_Zgam,den_mu_gg,den_mu_mumu,den_mu_ss,den_mu_cc,den_mu_tt)
+    - expr::mu_klambda_tautau_modified('@0/@1',num_mu_tautau,den_mu)
+    - expr::mu_klambda_bb_modified('@0/@1',num_mu_bb,den_mu)
+    - kappa_value_BR_param_alphaS_bb[0.9922]
+    - kappa_value_BR_param_mB_bb[1.0071]
+    - kappa_value_BR_param_mC_bb[0.9985]
+    - kappa_value_BR_HiggsDecayWidthTHU_hbb_bb[1.0021]
+    - kappa_value_BR_HiggsDecayWidthTHU_hgg_bb[0.9974]
+    - kappa_value_BR_HiggsDecayWidthTHU_hVV_bb[0.9988]
+    - kappa_value_BR_param_alphaS_tautau[1.0063]
+    - kappa_value_BR_param_mB_tautau[0.9901]
+    - kappa_value_BR_param_mC_tautau[0.9985]
+    - kappa_value_BR_HiggsDecayWidthTHU_hbb_tautau[0.9971]
+    - kappa_value_BR_HiggsDecayWidthTHU_htautau_tautau[1.0047]
+    - kappa_value_BR_HiggsDecayWidthTHU_hgg_tautau[0.9974]
+    - kappa_value_BR_HiggsDecayWidthTHU_hVV_tautau[0.9988]
+    - TheorySig_QCDalphaS[0,-5,5]
+    - TheorySig_BR_param_mB[0,-5,5]
+    - TheorySig_BR_param_mC[0,-5,5]
+    - TheorySig_BR_HiggsDecayWidthTHU_hbb[0,-5,5]
+    - TheorySig_BR_HiggsDecayWidthTHU_hgg[0,-5,5]
+    - TheorySig_BR_HiggsDecayWidthTHU_hVV[0,-5,5]
+    - TheorySig_BR_HiggsDecayWidthTHU_htautau[0,-5,5]
+    - TheorySig_QCDalphaS_In[0]
+    - TheorySig_BR_param_mB_In[0]
+    - TheorySig_BR_param_mC_In[0]
+    - TheorySig_BR_HiggsDecayWidthTHU_hbb_In[0]
+    - TheorySig_BR_HiggsDecayWidthTHU_hgg_In[0]
+    - TheorySig_BR_HiggsDecayWidthTHU_hVV_In[0]
+    - TheorySig_BR_HiggsDecayWidthTHU_htautau_In[0]
+    - expr::expected_BR_param_alphaS_bb('pow(@0,@1)',kappa_value_BR_param_alphaS_bb,TheorySig_QCDalphaS)
+    - expr::expected_BR_param_mB_bb('pow(@0,@1)',kappa_value_BR_param_mB_bb,TheorySig_BR_param_mB)
+    - expr::expected_BR_param_mC_bb('pow(@0,@1)',kappa_value_BR_param_mC_bb,TheorySig_BR_param_mC)
+    - expr::expected_BR_HiggsDecayWidthTHU_hbb_bb('pow(@0,@1)',kappa_value_BR_HiggsDecayWidthTHU_hbb_bb,TheorySig_BR_HiggsDecayWidthTHU_hbb)
+    - expr::expected_BR_HiggsDecayWidthTHU_hgg_bb('pow(@0,@1)',kappa_value_BR_HiggsDecayWidthTHU_hgg_bb,TheorySig_BR_HiggsDecayWidthTHU_hgg)
+    - expr::expected_BR_HiggsDecayWidthTHU_hVV_bb('pow(@0,@1)',kappa_value_BR_HiggsDecayWidthTHU_hVV_bb,TheorySig_BR_HiggsDecayWidthTHU_hVV)
+    - expr::expected_BR_param_alphaS_tautau('pow(@0,@1)',kappa_value_BR_param_alphaS_tautau,TheorySig_QCDalphaS)
+    - expr::expected_BR_param_mB_tautau('pow(@0,@1)',kappa_value_BR_param_mB_tautau,TheorySig_BR_param_mB)
+    - expr::expected_BR_param_mC_tautau('pow(@0,@1)',kappa_value_BR_param_mC_tautau,TheorySig_BR_param_mC)
+    - expr::expected_BR_HiggsDecayWidthTHU_hbb_tautau('pow(@0,@1)',kappa_value_BR_HiggsDecayWidthTHU_hbb_tautau,TheorySig_BR_HiggsDecayWidthTHU_hbb)
+    - expr::expected_BR_HiggsDecayWidthTHU_hgg_tautau('pow(@0,@1)',kappa_value_BR_HiggsDecayWidthTHU_hgg_tautau,TheorySig_BR_HiggsDecayWidthTHU_hgg)
+    - expr::expected_BR_HiggsDecayWidthTHU_hVV_tautau('pow(@0,@1)',kappa_value_BR_HiggsDecayWidthTHU_hVV_tautau,TheorySig_BR_HiggsDecayWidthTHU_hVV)
+    - expr::expected_BR_HiggsDecayWidthTHU_htautau_tautau('pow(@0,@1)',kappa_value_BR_HiggsDecayWidthTHU_htautau_tautau,TheorySig_BR_HiggsDecayWidthTHU_htautau)
+    - prod::mu_BR_tautau_composite(mu_klambda_tautau_modified,expected_BR_param_alphaS_tautau,expected_BR_param_mB_tautau,expected_BR_param_mC_tautau,expected_BR_HiggsDecayWidthTHU_hbb_tautau,expected_BR_HiggsDecayWidthTHU_hgg_tautau,expected_BR_HiggsDecayWidthTHU_hVV_tautau,expected_BR_HiggsDecayWidthTHU_htautau_tautau)
+    - prod::mu_BR_bb_composite(mu_klambda_bb_modified,expected_BR_param_alphaS_bb,expected_BR_param_mB_bb,expected_BR_param_mC_bb,expected_BR_HiggsDecayWidthTHU_hbb_bb,expected_BR_HiggsDecayWidthTHU_hgg_bb,expected_BR_HiggsDecayWidthTHU_hVV_bb)
+    
+define_constraints:
+  bbbb:
+    - Name: RooGaussian::TheorySig_QCDalphaS_ConstraintPdf(TheorySig_QCDalphaS,TheorySig_QCDalphaS_In,1)
+      NP: TheorySig_QCDalphaS
+      GO: TheorySig_QCDalphaS_In
+    - Name: RooGaussian::TheorySig_BR_param_mB_ConstraintPdf(TheorySig_BR_param_mB,TheorySig_BR_param_mB_In,1)
+      NP: TheorySig_BR_param_mB
+      GO: TheorySig_BR_param_mB_In
+    - Name: RooGaussian::TheorySig_BR_param_mC_ConstraintPdf(TheorySig_BR_param_mC,TheorySig_BR_param_mC_In,1)
+      NP: TheorySig_BR_param_mC
+      GO: TheorySig_BR_param_mC_In
+    - Name: RooGaussian::TheorySig_BR_HiggsDecayWidthTHU_hbb_ConstraintPdf(TheorySig_BR_HiggsDecayWidthTHU_hbb,TheorySig_BR_HiggsDecayWidthTHU_hbb_In,1)
+      NP: TheorySig_BR_HiggsDecayWidthTHU_hbb
+      GO: TheorySig_BR_HiggsDecayWidthTHU_hbb_In
+    - Name: RooGaussian::TheorySig_BR_HiggsDecayWidthTHU_hgg_ConstraintPdf(TheorySig_BR_HiggsDecayWidthTHU_hgg,TheorySig_BR_HiggsDecayWidthTHU_hgg_In,1)
+      NP: TheorySig_BR_HiggsDecayWidthTHU_hgg
+      GO: TheorySig_BR_HiggsDecayWidthTHU_hgg_In
+    - Name: RooGaussian::TheorySig_BR_HiggsDecayWidthTHU_hVV_ConstraintPdf(TheorySig_BR_HiggsDecayWidthTHU_hVV,TheorySig_BR_HiggsDecayWidthTHU_hVV_In,1)
+      NP: TheorySig_BR_HiggsDecayWidthTHU_hVV
+      GO: TheorySig_BR_HiggsDecayWidthTHU_hVV_In
+  bbyy:
+    - Name: RooGaussian::TheorySig_QCDalphaS_ConstraintPdf(TheorySig_QCDalphaS,TheorySig_QCDalphaS_In,1)
+      NP: TheorySig_QCDalphaS
+      GO: TheorySig_QCDalphaS_In
+    - Name: RooGaussian::TheorySig_BR_param_mB_ConstraintPdf(TheorySig_BR_param_mB,TheorySig_BR_param_mB_In,1)
+      NP: TheorySig_BR_param_mB
+      GO: TheorySig_BR_param_mB_In
+    - Name: RooGaussian::TheorySig_BR_param_mC_ConstraintPdf(TheorySig_BR_param_mC,TheorySig_BR_param_mC_In,1)
+      NP: TheorySig_BR_param_mC
+      GO: TheorySig_BR_param_mC_In
+    - Name: RooGaussian::TheorySig_BR_HiggsDecayWidthTHU_hbb_ConstraintPdf(TheorySig_BR_HiggsDecayWidthTHU_hbb,TheorySig_BR_HiggsDecayWidthTHU_hbb_In,1)
+      NP: TheorySig_BR_HiggsDecayWidthTHU_hbb
+      GO: TheorySig_BR_HiggsDecayWidthTHU_hbb_In
+    - Name: RooGaussian::TheorySig_BR_HiggsDecayWidthTHU_hgg_ConstraintPdf(TheorySig_BR_HiggsDecayWidthTHU_hgg,TheorySig_BR_HiggsDecayWidthTHU_hgg_In,1)
+      NP: TheorySig_BR_HiggsDecayWidthTHU_hgg
+      GO: TheorySig_BR_HiggsDecayWidthTHU_hgg_In
+    - Name: RooGaussian::TheorySig_BR_HiggsDecayWidthTHU_hyy_ConstraintPdf(TheorySig_BR_HiggsDecayWidthTHU_hyy,TheorySig_BR_HiggsDecayWidthTHU_hyy_In,1)
+      NP: TheorySig_BR_HiggsDecayWidthTHU_hyy
+      GO: TheorySig_BR_HiggsDecayWidthTHU_hyy_In
+    - Name: RooGaussian::TheorySig_BR_HiggsDecayWidthTHU_hVV_ConstraintPdf(TheorySig_BR_HiggsDecayWidthTHU_hVV,TheorySig_BR_HiggsDecayWidthTHU_hVV_In,1)
+      NP: TheorySig_BR_HiggsDecayWidthTHU_hVV
+      GO: TheorySig_BR_HiggsDecayWidthTHU_hVV_In
+  bbtautau:
+    - Name: RooGaussian::TheorySig_QCDalphaS_ConstraintPdf(TheorySig_QCDalphaS,TheorySig_QCDalphaS_In,1)
+      NP: TheorySig_QCDalphaS
+      GO: TheorySig_QCDalphaS_In
+    - Name: RooGaussian::TheorySig_BR_param_mB_ConstraintPdf(TheorySig_BR_param_mB,TheorySig_BR_param_mB_In,1)
+      NP: TheorySig_BR_param_mB
+      GO: TheorySig_BR_param_mB_In
+    - Name: RooGaussian::TheorySig_BR_param_mC_ConstraintPdf(TheorySig_BR_param_mC,TheorySig_BR_param_mC_In,1)
+      NP: TheorySig_BR_param_mC
+      GO: TheorySig_BR_param_mC_In
+    - Name: RooGaussian::TheorySig_BR_HiggsDecayWidthTHU_hbb_ConstraintPdf(TheorySig_BR_HiggsDecayWidthTHU_hbb,TheorySig_BR_HiggsDecayWidthTHU_hbb_In,1)
+      NP: TheorySig_BR_HiggsDecayWidthTHU_hbb
+      GO: TheorySig_BR_HiggsDecayWidthTHU_hbb_In
+    - Name: RooGaussian::TheorySig_BR_HiggsDecayWidthTHU_hgg_ConstraintPdf(TheorySig_BR_HiggsDecayWidthTHU_hgg,TheorySig_BR_HiggsDecayWidthTHU_hgg_In,1)
+      NP: TheorySig_BR_HiggsDecayWidthTHU_hgg
+      GO: TheorySig_BR_HiggsDecayWidthTHU_hgg_In
+    - Name: RooGaussian::TheorySig_BR_HiggsDecayWidthTHU_hVV_ConstraintPdf(TheorySig_BR_HiggsDecayWidthTHU_hVV,TheorySig_BR_HiggsDecayWidthTHU_hVV_In,1)
+      NP: TheorySig_BR_HiggsDecayWidthTHU_hVV
+      GO: TheorySig_BR_HiggsDecayWidthTHU_hVV_In
+    - Name: RooGaussian::TheorySig_BR_HiggsDecayWidthTHU_htautau_ConstraintPdf(TheorySig_BR_HiggsDecayWidthTHU_htautau,TheorySig_BR_HiggsDecayWidthTHU_htautau_In,1)
+      NP: TheorySig_BR_HiggsDecayWidthTHU_htautau
+      GO: TheorySig_BR_HiggsDecayWidthTHU_htautau_In
+
+rename_parameters:
+  bbbb:
+    mu_HH_ggF: mu_HH_ggF_modified
+    mu_HH_VBF: mu_HH_VBF_modified
+  bbyy:
+    mu_HH_ggF: mu_HH_ggF_modified
+    mu_HH_VBF: mu_HH_VBF_modified
+    mu_singleH: mu_singleH_modified
+    THEO_BR_Hbb: zero
+    THEO_BR_Hyy: zero
+    constr__THEO_BR_Hbb: unitPDF
+    constr__THEO_BR_Hyy: unitPDF
+  bbtautau:
+    mu_kl_Hbb: mu_BR_bb_composite
+    mu_kl_Htautau: mu_BR_tautau_composite
+    alpha_THEO_BR_Hbb: zero
+    alpha_THEO_BR_Htautau: zero
+    alpha_THEO_BR_HbbConstraint: unitPDF
+    alpha_THEO_BR_HtautauConstraint: unitPDF
+
+redefine_parameters:
+  bbbb:
+    - mu_HH_VBF[1,-10000,10000]
+    - mu_HH_ggF[1,-10000,10000]
+    - mu_HH[1,-10000,10000] # does not work! use fix_parameters for the renamed POI
+
+# fix POIs so that they are set to const
+fix_parameters:
+  bbyy: <pois>
+  bbtautau: <pois>
+  bbbb: <pois>,xsec_br=1_-10000_10000
+  combination: <pois>
+
+## Check if POIs are floated in the input workspace
+## If so, include all POIs here so that process_channel will fix all POI to const
+## This is important if input WS contains multiple POIs
+extra_pois:
+  bbbb:
+    - kt
+    - klambda
+    - k2V
+    - kF
+    - kH
+    - kV
+    - kb
+    - ktau
+    - kZ
+    - kW
+    - mu_HH_VBF
+    - mu_HH_ggF
+  bbtautau:
+    - kt
+    - klambda
+    - k2V
+    - kF
+    - kH
+    - kV
+    - kb
+    - ktau
+    - kZ
+    - kW
+  bbyy:
+    - kt
+    - klambda
+    - k2V
+    - kF
+    - kH
+    - kV
+    - kb
+    - ktau
+    - mu_HH_VBF
+    - mu_HH_ggF
+  combined:
+    - kt
+    - klambda
+    - k2V
+    - kF
+    - kH
+    - kV
+    - kb
+    - ktau
