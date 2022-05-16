@@ -10,7 +10,9 @@ fi
 
 command=$1
 command=${command//____/ }
+command=${command//^/}
 
 echo $command
 $command
 unset command
+cd -
