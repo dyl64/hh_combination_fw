@@ -287,16 +287,18 @@ class TaskPipelineWS(TaskBase):
     def initialize(self, input_dir:str, output_dir:str, resonant_type:str, channel:str,
                    old_poiname:str, new_poiname:str, old_dataname:str,
                    new_dataname:str, define_parameters:Optional[Dict]=None,
-                   define_constraints:Optional[Dict]=None,
+                   define_constraints:Optional[Dict]=None, 
                    redefine_parameters:Optional[Dict]=None, rename_parameters:Optional[Dict]=None,
                    rescale_poi:Optional[float]=None, fix_parameters:Optional[str]=None,
-                   profile_parameters:Optional[str]=None, **kwargs):
+                   profile_parameters:Optional[str]=None, add_product_terms:Optional[Dict]=None,
+                   **kwargs):
         
         self.input_dir = input_dir
         self.output_dir = output_dir
         self.channel = channel
         self.define_parameters = define_parameters
         self.define_constraints = define_constraints
+        self.add_product_terms = add_product_terms
         self.redefine_parameters = redefine_parameters
         self.rename_parameters = rename_parameters
         self.fix_parameters = fix_parameters
@@ -363,7 +365,8 @@ class TaskPipelineWS(TaskBase):
                                 redefine_parameters:Optional[Dict]=None,
                                 rename_parameters:Optional[Dict]=None,
                                 define_parameters:Optional[Dict]=None,
-                                define_constraints:Optional[Dict]=None):
+                                define_constraints:Optional[Dict]=None,
+                                add_product_terms:Optional[Dict]=None):
         
         print('INFO: Creating config file: {0}, poi: {1} --> {2}, scaling: {3}'.format(
               cfg_file,  old_poiname, new_poiname, poi_scale))
@@ -422,6 +425,9 @@ class TaskPipelineWS(TaskBase):
                 nuis = constr_data['NP']
                 glob = constr_data['GO']
                 cfg_xml.add_node(tag="Item", Name=f"{expr}", Type="constraint", NP=f"{nuis}", GO=f"{glob}")
+        if add_product_terms is not None:
+            for name, terms in add_product_terms.items():
+                cfg_xml.add_node(tag="Item", Name=f"{name}", Terms=",".join(terms))
                 
         if rename_parameters is not None:
             for old_name, new_name in rename_parameters.items():
@@ -604,6 +610,8 @@ class TaskPipelineWS(TaskBase):
         if self.define_constraints is not None:
             for constr_dict in self.define_constraints:
                 config["actions"]["constraint"].append(constr_dict)
+        if self.add_product_terms is not None:
+                config["actions"]["add_product_terms"] = self.add_product_terms
         if self.rename_parameters is not None:
             for old_name, new_name in self.rename_parameters.items():
                 config["actions"]["rename"]["variable"][old_name] = new_name
@@ -617,6 +625,8 @@ class TaskPipelineWS(TaskBase):
         print("INFO: Writing rescaling log into {0}".format(rescale_logfile_path))
 
         status = 0
+        if self.config["verbosity"] == "DEBUG":
+            rescale_logfile_path = None
         with standard_log(rescale_logfile_path) as logger:
             ws_modifier = XMLWSModifier(config)
             ws_modifier.create_modified_workspace()
