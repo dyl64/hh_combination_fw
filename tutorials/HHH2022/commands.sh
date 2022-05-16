@@ -153,9 +153,9 @@ function RunLHScan() {
 }
 
 #echo -e "##############\n## Combine workspace ###\n###########\n"
-#CombineWorkspace 20220415_noSgHparam
-#CombineWorkspace 20220415
-#echo -e "##############\n## Cross section scan ###\n###########\n"
+CombineWorkspace 20220514_noSgHparam
+CombineWorkspace 20220514
+echo -e "##############\n## Cross section scan ###\n###########\n"
 for i in bbyy combined bbtautau bbbb ; do
     RunXSScan $i
 done
