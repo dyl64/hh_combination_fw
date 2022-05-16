@@ -11,13 +11,13 @@ dataset:
   combination:
     blind: combData
     unblind: combData
-    
+
 poi:
   bbbb: mu_HH
   bbtautau: mu
   bbyy: mu
   combination: xsec_br
-  
+
 rescale_poi:
   #kl no rescaling needed
   bbbb: 1
@@ -48,10 +48,10 @@ extra_pois:
     - kF
     - kH
     - kV
-    - kb  
+    - kb
     - ktau
     - kZ
-    - kW    
+    - kW
     - mu_HH_VBF
     - mu_HH_ggF
   bbtautau:
@@ -64,7 +64,7 @@ extra_pois:
     - kb
     - ktau
     - kZ
-    - kW    
+    - kW
   bbyy:
     - kt
     - klambda
