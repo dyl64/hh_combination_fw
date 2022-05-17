@@ -1,6 +1,6 @@
 import os, glob
 
-id='6982775'
+id='6987301'
 files = glob.glob(f'log/{id}*.err')
 for name in files:
     file_size = os.stat(name).st_size
