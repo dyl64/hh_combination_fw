@@ -16,8 +16,8 @@ OnExitRemove         = TRUE
 +JobType="analysis"
 +AccountingGroup ="group_u_ATLASWISC.all"
 RequestCpus = 6
-Request_memory = 1000 MB
-Request_disk   = 1000 MB
+Request_memory = 4000 MB
+Request_disk   = 4000 MB
 
 
 # Channel: bbbb

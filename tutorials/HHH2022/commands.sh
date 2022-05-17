@@ -153,19 +153,20 @@ function RunLHScan() {
 }
 
 #echo -e "##############\n## Combine workspace ###\n###########\n"
-CombineWorkspace 20220514_noSgHparam
+#CombineWorkspace 20220514_noSgHparam
 CombineWorkspace 20220514
-echo -e "##############\n## Cross section scan ###\n###########\n"
-for i in bbyy combined bbtautau bbbb ; do
-    RunXSScan $i
-done
+#echo -e "##############\n## Cross section scan ###\n###########\n"
+#for i in bbyy combined bbtautau bbbb ; do
+#    RunXSScan $i
+#done
 #GenCondorXS
 
-#echo -e "##############\n## Likelihood scan ###\n###########\n"
+echo -e "##############\n## Likelihood scan ###\n###########\n"
 #for i in bbyy combined bbtautau bbbb ; do
-#    RunLHScan $i obs
+for i in bbyy bbtautau ; do
+    RunLHScan $i obs
 #    RunLHScan $i prefit
-###    RunLHScan $i postfit1
-#    RunLHScan $i postfit2
-#done
+##    RunLHScan $i postfit1
+    RunLHScan $i postfit2
+done
 #GenCondorLH
