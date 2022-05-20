@@ -54,6 +54,7 @@
     "alpha_JET_EtaIntercalibration_TotalStat": "ATLAS_JET_EtaIntercalibration_TotalStat",
     "alpha_JET_Flavor_Composition": "ATLAS_JET_Flavor_Composition",
     "alpha_JET_Flavor_Response": "ATLAS_JET_Flavor_Response",
+    "alpha_JET_JER_DataVsMC_MC16": "ATLAS_JET_JER_DataVsMC_MC16",
     "alpha_JET_JER_EffectiveNP_1": "ATLAS_JET_JER_EffectiveNP_1",
     "alpha_JET_JER_EffectiveNP_10": "ATLAS_JET_JER_EffectiveNP_10",
     "alpha_JET_JER_EffectiveNP_11": "ATLAS_JET_JER_EffectiveNP_11",

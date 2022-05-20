@@ -15,4 +15,4 @@ command=${command//^/}
 echo $command
 $command
 unset command
-cd -
+cd /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/condor
