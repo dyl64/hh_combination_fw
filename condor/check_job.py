@@ -1,7 +1,7 @@
 from pdb import set_trace
 import os, glob, sys
 
-id='7002750'
+id='7005995'
 files = glob.glob(f'log/*/{id}*.err')
 failed_jobs = []
 for name in files:
