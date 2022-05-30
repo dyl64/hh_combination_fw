@@ -1,0 +1,730 @@
+#Agent jdl file
+Universe        = vanilla
+Notification    = Never
+initialdir      = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor
+Executable      = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor/wrapper_HHH_quick.sh
+GetEnv          = True
+Error           = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor/log/rank/$(ClusterId).$(ProcId).err
+Log             = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor/log/rank/$(ClusterId).log
+Output          = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor/log/rank/$(ClusterId).$(ProcId).out
+stream_output   = False
+stream_error    = False
+Requirements = ((Arch == "X86_64") && (regexp("CentOS7",OpSysAndVer)))
+WhenToTransferOutput = ON_EXIT_OR_EVICT
+OnExitRemove         = TRUE
++JobFlavour = "tomorrow"
++JobType="analysis"
++AccountingGroup ="group_u_ATLASWISC.all"
+RequestCpus = 1
+Request_memory = 2000 MB
+Request_disk   = 2000 MB
+
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_EG_RESOLUTION_ALL
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_EG_SCALE_AF2
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_EG_SCALE_ALL_bbtautau
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_EG_SCALE_ALL_bbyy
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FF_TTBAR_ANTITAU_DIFF
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FF_TTBAR_ANTITAU_TAU25EF_EIGEN0
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FF_TTBAR_ANTITAU_TAU25RNN_EIGEN0
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FF_TTBAR_ANTITAU_TAU25_EIGEN0
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FF_TTBAR_EXTRAPOL_FF
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FF_TTBAR_EXTRAPOL_TF_FT_1P
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FF_TTBAR_EXTRAPOL_TF_FT_3P
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FF_TTBAR_EXTRAPOL_TF_FT_PS
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FF_TTBAR_TAU25EF_EIGEN0
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FF_TTBAR_TAU25EF_EIGEN1
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FF_TTBAR_TAU25EF_EIGEN2
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FF_TTBAR_TAU25RNN_EIGEN0
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FF_TTBAR_TAU25RNN_EIGEN1
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FF_TTBAR_TAU25RNN_EIGEN2
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FF_TTBAR_TAU25_EIGEN0
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FF_TTBAR_TAU25_EIGEN1
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FF_TTBAR_TAU25_EIGEN2
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FF_TTBAR_TAU25_EIGEN3
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FT_EFF_Eigen_B_0
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FT_EFF_Eigen_B_1
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FT_EFF_Eigen_B_2
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FT_EFF_Eigen_C_0
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FT_EFF_Eigen_C_1
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FT_EFF_Eigen_C_2
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FT_EFF_Eigen_C_3
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FT_EFF_Eigen_Light_0
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FT_EFF_Eigen_Light_1
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FT_EFF_Eigen_Light_2
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FT_EFF_Eigen_Light_3
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FT_EFF_Eigen_Light_4
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FT_EFF_extrapolation
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_FT_EFF_extrapolation_from_charm
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_BJES_Response
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_EffectiveNP_Detector1
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_EffectiveNP_Detector2
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_EffectiveNP_Mixed1
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_EffectiveNP_Mixed2
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_EffectiveNP_Mixed3
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_EffectiveNP_Modelling1
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_EffectiveNP_Modelling2
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_EffectiveNP_Modelling3
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_EffectiveNP_Modelling4
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_EffectiveNP_Statistical1
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_EffectiveNP_Statistical2
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_EffectiveNP_Statistical3
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_EffectiveNP_Statistical4
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_EffectiveNP_Statistical5
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_EffectiveNP_Statistical6
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_EtaIntercalibration_Modelling
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_EtaIntercalibration_NonClosure_2018data
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_EtaIntercalibration_NonClosure_highE
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_EtaIntercalibration_NonClosure_negEta
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_EtaIntercalibration_NonClosure_posEta
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_EtaIntercalibration_TotalStat
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_Flavor_Composition
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_Flavor_Response
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_JER_DataVsMC_MC16
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_JER_EffectiveNP_10
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_JER_EffectiveNP_11
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_JER_EffectiveNP_12restTerm
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_JER_EffectiveNP_1
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_JER_EffectiveNP_2
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_JER_EffectiveNP_3
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_JER_EffectiveNP_4
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_JER_EffectiveNP_5
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_JER_EffectiveNP_6
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_JER_EffectiveNP_7
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_JER_EffectiveNP_8
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_JER_EffectiveNP_9
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_JVT
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_JvtEfficiency
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_Pileup_OffsetMu
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_Pileup_OffsetNPV
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_Pileup_PtTerm
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_Pileup_RhoTopology
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_PunchThrough_MC16
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_SingleParticle_HighPt
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_JET_fJvtEfficiency
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_KLAMBDA_REWEIGHTING_HH_VBF
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_KLAMBDA_REWEIGHTING_HH_ggF
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_LHC_MHiggs
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_LUMI_Run2
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_MET_SoftTrk_ResoPara
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_MET_SoftTrk_ResoPerp
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_MET_SoftTrk_ScaleUp
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_MUON_EFF_ISO_STAT
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_MUON_EFF_ISO_SYS
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_MUON_EFF_RECO_SYS_LOWPT
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_MUON_EFF_TrigStatUncertainty
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_MUON_EFF_TrigSystUncertainty
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_MUON_ID
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_MUON_MS
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_MUON_SAGITTA_RESBIAS
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_MUON_SCALE
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_PH_EFF_ID
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_PH_EFF_ISO
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_PH_EFF_TRIGGER
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_PU_PRW_DATASF
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_TAUS_TRUEELECTRON_EFF_ELEBDT_STAT
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_TAUS_TRUEELECTRON_EFF_ELEBDT_SYST
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_TAUS_TRUEHADTAU_EFF_ELEOLR_TOTAL
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_TAUS_TRUEHADTAU_EFF_RECO_TOTAL
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPTGE40
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_TAUS_TRUEHADTAU_EFF_RNNID_SYST
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA161718
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA1718
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA2016
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA2018AFTTS1
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATDATA2018
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_STATMC2018
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_TAUS_TRUEHADTAU_EFF_TRIGGER_SYSTMU161718
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_TAUS_TRUEHADTAU_SME_TES_INSITUEXP
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_TAUS_TRUEHADTAU_SME_TES_INSITUFIT
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_TAUS_TRUEHADTAU_SME_TES_MODEL_CLOSURE
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_TAUS_TRUEHADTAU_SME_TES_PHYSICSLIST
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_bbtautau_FF_StatQCD
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_bbtautau_FF_StatTtbar
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_bbtautau_FF_StatrQCD
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_bbtautau_FF_VarrQCD
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_bbtautau_FF__OSSS
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_bbtautau_FF__OTHER_SUBTRACTION
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_bbtautau_FF__Stat_HadHadSR
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_bbtautau_FF__TRUE_TTBAR_SUBTRACTION
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_bbtautau_TF_STAT_1P_LEAD
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_bbtautau_TF_STAT_1P_SUBL
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_bbtautau_TF_STAT_3P_LEAD
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_bbtautau_TF_STAT_3P_SUBL
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_bbtautau_TTBAR_reweight
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_bbtautau_subtr_bkg
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_bbyy_Spurious_BSM_1
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_bbyy_Spurious_BSM_2
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_bbyy_Spurious_SM_1
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____ATLAS_bbyy_Spurious_SM_2
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_Diboson
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_FSR_ttH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_FSR_ttbar
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_GEN_ttH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_HF_VBFH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_HF_WH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_HF_ggFH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_ISR_ttH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_ISR_ttbar
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_ME_ttbar
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_PDFalphas_VBFHH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_PDFalphas_ZHtautau
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_PDFalphas_ggFHH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_PDFalphas_ttbar
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_PS_VBFHH_bbbb
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_PS_VBFHH_bbtautau
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_PS_VBFHH_bbyy
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_PS_ZH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_PS_ZHbb
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_PS_ggFHH_bbbb
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_PS_ggFHH_bbtautau
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_PS_ggFHH_bbyy
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_PS_ttH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_PS_ttbar_HadHad
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_PS_ttbar_LTT
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_PS_ttbar_SLT
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_SCALE_VBFHH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_SCALE_VBFHH_shape
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_SCALE_ZHbb
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_SCALE_ZHtautau
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_SCALE_ggFHH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_SCALE_ttH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_StopWt_FSR
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_StopWt_ISR
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_StopWt_ME
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_StopWt_PDF
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_StopWt_PS
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_StopWt_TopInterference
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_Stopst
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_W
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_Zhf_CKKW
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_Zhf_GENERATOR
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_Zhf_PDFChoice
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_Zhf_PDFalphas
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_Zhf_QSF
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_Zhf_SCALE
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_ACC_Zlf
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_BR_Hbb
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_XS_Diboson
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_XS_PDFalphas_VBFH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_XS_PDFalphas_WH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_XS_PDFalphas_ggFH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_XS_PDFalphas_ggZH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_XS_PDFalphas_qqZH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_XS_PDFalphas_ttH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_XS_SCALE_ggFH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_XS_SCALE_ggZH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_XS_SCALE_ttH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_XS_Stop
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_XS_V
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_XS_fixmu_PDFalphas_VBFHH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_XS_fixmu_PDFalphas_ggFHH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_XS_fixmu_SCALEMTop_VBFHH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_XS_fixmu_SCALEMTop_ggFHH
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____THEO_YIELD_SCALE_ZHyy
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____TheorySig_BR_HiggsDecayWidthTHU_hVV
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____TheorySig_BR_HiggsDecayWidthTHU_hbb
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____TheorySig_BR_HiggsDecayWidthTHU_hgg
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____TheorySig_BR_HiggsDecayWidthTHU_htautau
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____TheorySig_BR_HiggsDecayWidthTHU_hyy
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____TheorySig_BR_param_mB
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____TheorySig_BR_param_mC
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____TheorySig_QCDalphaS
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____bbbb_CR12_E_ggf_Y16
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____bbbb_CR12_E_ggf_Y17
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____bbbb_CR12_E_ggf_Y18
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____bbbb_CR12_E_vbf_Y161718
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____bbbb_CR12_N_ggf_Y16
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____bbbb_CR12_N_ggf_Y17
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____bbbb_CR12_N_ggf_Y18
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____bbbb_CR12_N_vbf_Y161718
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____bbbb_CR12_S_ggf_Y16
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____bbbb_CR12_S_ggf_Y17
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____bbbb_CR12_S_ggf_Y18
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____bbbb_CR12_S_vbf_Y161718
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____bbbb_CR12_W_ggf_Y16
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____bbbb_CR12_W_ggf_Y17
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____bbbb_CR12_W_ggf_Y18
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____bbbb_CR12_W_vbf_Y161718
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____bbbb_NC_3b1f_ggf_Y16
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____bbbb_NC_3b1f_ggf_Y17
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____bbbb_NC_3b1f_ggf_Y18
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____bbbb_TRIG_HLT_Jet
+Queue 1
+
+Arguments = quickstats____run_pulls____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/combined/nonres/A-bbbb_bbtautau_bbyy-fullcorr/0_kl.root____--poi____xsec_br____-o____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/HHH2022/outputs_HHH2022_20220520_with_BR_decorrelation/ranking/combined____-p____bbbb_TRIG_L1_Jet
+Queue 1
+
