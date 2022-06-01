@@ -1,0 +1,124 @@
+dataset:
+  bbbb:
+    blind: obsData
+    unblind: obsData
+  bbtautau:
+    blind: obsData
+    unblind: obsData
+  bbyy:
+    blind: combData
+    unblind: combData
+  combination:
+    blind: combData
+    unblind: combData
+
+poi:
+  bbbb: mu_HH
+  bbtautau: mu
+  bbyy: mu
+  combination: xsec_br
+
+rescale_poi:
+  #kl no rescaling needed
+  bbbb: 1
+  bbyy: 1
+  bbtautau: 1
+
+define_parameters:
+  bbtautau:
+    # need to define the mu parameters to rescale mh->125.09 GeV
+    - mu_HH_ggF_bbtautau[0.99391876]
+    - mu_HH_VBF_bbtautau[0.99315078]
+    - mu_HH_ggF[1.]
+    - mu_HH_VBF[1.]
+    - prod::mu_HH_ggF_modified_bbtautau(mu_HH_ggF_bbtautau,mu_HH_ggF)
+    - prod::mu_HH_VBF_modified_bbtautau(mu_HH_VBF_bbtautau,mu_HH_VBF)
+
+rename_parameters:
+  bbtautau:
+    mu_HH_ggF: mu_HH_ggF_modified_bbtautau
+    mu_HH_VBF: mu_HH_VBF_modified_bbtautau
+
+redefine_parameters:
+  bbtautau:
+    # to be implemented once HH NF are ready
+    #ATLAS_norm_hhttbb: (6.256/6.272)*(5.809/5.824) * 31.02/31.05 = 0.99391876
+    #ATLAS_norm_hhttbbVBF: (6.256/6.272)*(5.809/5.824) * 1.723/1.726 = 0.99315078
+   # - mu_HH_ggF[0.99391876]
+   # - mu_HH_VBF[0.99315078]
+
+    #ATLAS_norm_VBFHtautau: 1/1.0012985 * 0.99744898 = 0.99615547
+    #ATLAS_norm_ggFHtautau: 1/1.0007939 * 0.99744898 = 0.99665773
+    - mu_VBFHtautau[0.99615547]
+    - mu_ggFHtautau[0.99665773]
+    # these are single H XS Htautau br (6.256/6.272 = 0.99744898) or Hbb br (5.809/5.824 = 0.99742445)
+    # https://twiki.cern.ch/twiki/bin/view/LHCPhysics/CERNYellowReportPageAt13TeV#ppZH_Total_Cross_Section_with_ap
+    #        ZH      ggZH    qqZH
+    #125.00  0.8839  0.1227  0.7612
+    #125.09  0.8824  0.1227  0.7597
+    #ATLAS_norm_qqZHbb: (0.7597/0.7612) * 0.99742445 = 0.99545895
+    #ATLAS_norm_ggZHbb: (1. * 0.99742445)
+    #ATLAS_norm_ttH: 1/1.0011846 * 0.99744898 = 0.99626880
+    #ATLAS_norm_WHbb: 1/1.0025569 * 0.99742445 = 0.99488064
+    #ATLAS_norm_qqZHtautau: (0.7597/0.7612) * 0.99744898 = 0.99548343
+    #ATLAS_norm_ggZHtautau: 1. * 0.99744898
+    #ATLAS_norm_WHtautau: 1/1.0025569 * 0.99744898 = 0.99490511
+    - mu_qqZHbb[0.99545895]
+    - mu_ggZHbb[0.99742445]
+    - mu_ttH[0.99626880]
+    - mu_WHbb[0.99488064]
+    - mu_qqZHtautau[0.99548343]
+    - mu_ggZHtautau[0.99744898]
+    - mu_WHtautau[0.99490511]
+
+  bbbb:
+  # Apply a scale factor to both ggF and VBF capturing this, 
+  # ie SF = BR(mH=125.09)/BR(mH=125.00) * cross-section-<ggF/VBF>(mH=125.09)/cross-section-<ggF/VBF>(mH=125.00) 
+  # So we get: 
+  # SF_HH_ggF: (5.809/5.824)*(5.809/5.824) * 31.02/31.05 = 0.9938943214770098
+  # SF_HH_VBF: (5.809/5.824)*(5.809/5.824) * 1.723/1.726 = 0.9931263534393534
+    - bbbb_norm_HH_ggF[0.99389432]
+    - bbbb_norm_HH_VBF[0.99312635]
+    - mu_HH_VBF[1,-10000,10000]
+    - mu_HH_ggF[1,-10000,10000]
+    - mu_HH[1,-10000,10000] # does not work! use fix_parameters for the renamed POI! This will add an auxiliary to the workspace
+
+# fix POIs so that they are set to const
+fix_parameters:
+  bbyy: <pois>
+  bbtautau: <pois>
+  bbbb: <pois>,xsec_br=1_-10000_10000
+  combination: <pois>
+
+## If POIs are floated in the input workspace,
+## include all POIs here so that process_channel will fix all POI to const
+## This is very important if input WS contains multiple POIs (non-resonant)
+extra_pois:
+  bbbb:
+    - kt
+    - klambda
+    - k2V
+    - kV
+    - mu_HH_VBF
+    - mu_HH_ggF
+  bbtautau:
+    - k2V
+    - kH
+    - kV
+    - klambda
+    - kt
+  bbyy:
+    - kt
+    - klambda
+    - k2V
+    - kV
+    - mu_HH_VBF
+    - mu_HH_ggF
+    - mH
+  combination:
+    - kt
+    - klambda
+    - k2V
+    - kV
+    - mu_HH_VBF
+    - mu_HH_ggF
