@@ -54,6 +54,8 @@ extra_pois:
     - kV
     - klambda
     - kt
+    - mu_HH_VBF
+    - mu_HH_ggF
   bbyy:
     - kt
     - klambda
@@ -67,3 +69,5 @@ extra_pois:
     - klambda
     - k2V
     - kV
+    - mu_HH_VBF
+    - mu_HH_ggF
