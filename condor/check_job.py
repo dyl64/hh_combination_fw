@@ -2,6 +2,9 @@ from pdb import set_trace
 import os, glob, sys
 
 id='7005995'
+if len(sys.argv) > 1:
+    id=str(sys.argv[1])
+    print('test', sys.argv[1])
 files = glob.glob(f'log/*/{id}*.err')
 failed_jobs = []
 for name in files:
@@ -44,10 +47,36 @@ for i in failed_jobs:
     print(i)
 print()
 
+log_folder = 'llh' if 'likelihood_scan' in lines[0] else 'xsec'
+header=f'''#Agent jdl file
+Universe        = vanilla
+Notification    = Never
+initialdir      = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor
+Executable      = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor/wrapper_HHH_quick.sh
+GetEnv          = True
+Error           = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor/log/{log_folder}/$(ClusterId).$(ProcId).err
+Log             = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor/log/{log_folder}/$(ClusterId).log
+Output          = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor/log/{log_folder}/$(ClusterId).$(ProcId).out
+stream_output   = False
+stream_error    = False
+Requirements = ((Arch == "X86_64") && (regexp("CentOS7",OpSysAndVer)))
+WhenToTransferOutput = ON_EXIT_OR_EVICT
+OnExitRemove         = TRUE
++JobFlavour = "tomorrow"
++JobType="analysis"
++AccountingGroup ="group_u_ATLASWISC.all"
+RequestCpus = 6
+Request_memory = 4000 MB
+Request_disk   = 4000 MB
+
+
+
+'''
 
 set_trace()
 original_stdout = sys.stdout
 sys.stdout = open(f'{id}.jdl', 'w')
+print(header)
 for i in lines:
     print(i)
     print('Queue 1')
