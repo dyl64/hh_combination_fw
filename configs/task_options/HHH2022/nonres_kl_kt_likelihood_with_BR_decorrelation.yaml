@@ -343,6 +343,8 @@ extra_pois:
     - ktau
     - kZ
     - kW
+    - mu_HH_VBF
+    - mu_HH_ggF
   bbyy:
     - kt
     - klambda
@@ -363,3 +365,5 @@ extra_pois:
     - kV
     - kb
     - ktau
+    - mu_HH_VBF
+    - mu_HH_ggF
