@@ -787,8 +787,32 @@ class TaskCombination(TaskBase):
                 print("INFO: Writing combination log into {0}".format(logfile_path))
                 proc = subprocess.Popen(cmd, stdout=logfile, stderr=logfile)
                 proc.wait()
+    
+    def create_combined_ws_experimental(self, param_point):
+        combined_ws_path = os.path.join(self.output_ws_dir, f"{param_point['basename']}.root")
+        config_file_path = os.path.join(self.cfg_file_dir, f"{param_point['basename']}.xml")
+        logfile_path = combined_ws_path.replace('.root', '.log')
+
+        if os.path.exists(combined_ws_path) and self.cache:
+                print("\033[92mSkip: combined workspace {0} exists, skip workspace creation\033[0m\033[0m".format(combined_ws_path))
+        else:
+            if self.config["verbosity"] == "DEBUG":
+                logfile_path = None
+            if logfile_path is not None:
+                print("INFO: Writing combination log into {0}".format(logfile_path))
+            status = 0
+            with standard_log(logfile_path) as logger:
+                ws_combiner = XMLWSCombiner(config_file_path)
+                ws_combiner.run()
+                status = 1
+            if not status:
+                raise RuntimeError("workspace combination failed, please check the log file for "
+                                   f"more details: {logfile_path}")
                 
     def preprocess(self, param_point):
         self.create_combination_xml(param_point)
-        self.create_combined_ws(param_point)
+        if self.experimental:
+            self.create_combined_ws_experimental(param_point)
+        else:
+            self.create_combined_ws(param_point)
         return True
