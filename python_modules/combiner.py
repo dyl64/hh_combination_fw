@@ -31,7 +31,7 @@ class TaskBase:
                    do_limit:bool=True, do_likelihood:bool=False, do_pvalue:bool=False,
                    task_options:Optional[Dict]=None, filter_expr:Optional[str]=None,
                    exclude_expr:Optional[str]=None, extra_pois:Optional[Union[str, List]]=None,
-                   parallel:int=-1, cache:bool=True, verbosity:str="INFO", experimental:bool=False, **kwargs):
+                   parallel:int=-1, cache:bool=True, verbosity:str="INFO", experimental:bool=False, prefix_dir:Optional[str]=None, **kwargs):
         self.minimizer_options = self.parse_minimizer_options(minimizer_options)
         config = {}
         config['data_name']    = data_name
@@ -50,6 +50,7 @@ class TaskBase:
         self.do_likelihood = do_likelihood
         self.do_pvalue = do_pvalue
         self.task_options = task_options
+        self.prefix_dir = prefix_dir if prefix_dir else ''
         self.setup_paths()
         
         self.param_parser = ParamParser(self.file_expr, self.param_expr)
@@ -720,11 +721,11 @@ class TaskCombination(TaskBase):
     
     def setup_paths(self):
         self.input_ws_dir   = os.path.join(self.input_dir, 'rescaled', self.resonant_type)
-        self.cfg_file_dir   = os.path.join(self.input_dir, 'cfg', 'combination', self.resonant_type, self.tag)
-        self.output_ws_dir  = os.path.join(self.input_dir, 'combined', self.resonant_type, self.tag)
-        self.limit_dir      = os.path.join(self.input_dir, 'limits', self.resonant_type, 'combined', self.tag)
-        self.likelihood_dir = os.path.join(self.input_dir, 'likelihood_scans', self.resonant_type, 'combined', self.tag)
-        self.pvalue_dir     = os.path.join(self.input_dir, 'pvalues', self.resonant_type, 'combined', self.tag)
+        self.cfg_file_dir   = os.path.join(self.input_dir, self.prefix_dir+'cfg', 'combination', self.resonant_type, self.tag)
+        self.output_ws_dir  = os.path.join(self.input_dir, self.prefix_dir+'combined', self.resonant_type, self.tag)
+        self.limit_dir      = os.path.join(self.input_dir, self.prefix_dir+'limits', self.resonant_type, 'combined', self.tag)
+        self.likelihood_dir = os.path.join(self.input_dir, self.prefix_dir+'likelihood_scans', self.resonant_type, 'combined', self.tag)
+        self.pvalue_dir     = os.path.join(self.input_dir, self.prefix_dir+'pvalues', self.resonant_type, 'combined', self.tag)
         self.basis_dir = self.output_ws_dir
         #self.datafile_name = "{0}-combined-{1}.dat".format(self.resonant_type, self.tag)
 

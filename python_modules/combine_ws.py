@@ -87,6 +87,8 @@ def process_task_config(config:Dict, blind:bool=True):
               help='Whether to evaluate pvalue(s).')
 @click.option('--experimental/--official', default=False, show_default=True,
               help='Whether to use experimental method for workspace modification.')
+@click.option('--prefix', 'prefix_dir', default='', show_default=True,
+              help='Prefix of folders for combined workspace, limits, pvalues, and likelihood results.')
 def combine_ws(**kwargs):
     
     blind       = kwargs['blind']
@@ -119,6 +121,7 @@ def combine_ws(**kwargs):
     task_config["do_likelihood"]     = kwargs["do_likelihood"]
     task_config["do_pvalue"]         = kwargs["do_pvalue"]
     task_config["experimental"]      = kwargs["experimental"]
+    task_config["prefix_dir"]      = kwargs["prefix_dir"]
     
     pipeline = TaskCombination(**task_config)
     pipeline.run_pipeline()

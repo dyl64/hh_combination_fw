@@ -1,0 +1,598 @@
+#Agent jdl file
+Universe        = vanilla
+Notification    = Never
+initialdir      = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor
+Executable      = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor/wrapper_HHH_llhd.sh
+GetEnv          = True
+Error           = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor/log/$(ClusterId).$(ProcId).err
+Log             = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor/log/$(ClusterId).log
+Output          = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor/log/$(ClusterId).$(ProcId).out
+stream_output   = False
+stream_error    = False
+Requirements = ((Arch == "X86_64") && (regexp("CentOS7",OpSysAndVer)))
+WhenToTransferOutput = ON_EXIT_OR_EVICT
+OnExitRemove         = TRUE
++JobFlavour = "tomorrow"
++JobType="analysis"
++AccountingGroup ="group_u_ATLASWISC.all"
+RequestCpus = 4
+Request_memory = 500 MB
+Request_disk   = 500 MB
+
+
+Arguments = combined 2D_kl_kt klambda=-15_-9_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = combined 1D_kt_profiled klambda=-15_-9_0.2,kt obs
+Queue 1
+Arguments = combined 1D_kt_nominal klambda=-15_-9_0.2 obs
+Queue 1
+Arguments = combined 2D_kl_kt klambda=-10_-4_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = combined 1D_kt_profiled klambda=-10_-4_0.2,kt obs
+Queue 1
+Arguments = combined 1D_kt_nominal klambda=-10_-4_0.2 obs
+Queue 1
+Arguments = combined 2D_kl_kt klambda=-5_1_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = combined 1D_kt_profiled klambda=-5_1_0.2,kt obs
+Queue 1
+Arguments = combined 1D_kt_nominal klambda=-5_1_0.2 obs
+Queue 1
+Arguments = combined 2D_kl_kt klambda=0_6_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = combined 1D_kt_profiled klambda=0_6_0.2,kt obs
+Queue 1
+Arguments = combined 1D_kt_nominal klambda=0_6_0.2 obs
+Queue 1
+Arguments = combined 2D_kl_kt klambda=5_11_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = combined 1D_kt_profiled klambda=5_11_0.2,kt obs
+Queue 1
+Arguments = combined 1D_kt_nominal klambda=5_11_0.2 obs
+Queue 1
+Arguments = combined 2D_kl_kt klambda=10_16_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = combined 1D_kt_profiled klambda=10_16_0.2,kt obs
+Queue 1
+Arguments = combined 1D_kt_nominal klambda=10_16_0.2 obs
+Queue 1
+Arguments = combined 2D_kl_kt klambda=15_21_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = combined 1D_kt_profiled klambda=15_21_0.2,kt obs
+Queue 1
+Arguments = combined 1D_kt_nominal klambda=15_21_0.2 obs
+Queue 1
+Arguments = combined 2D_kl_kt klambda=20_26_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = combined 1D_kt_profiled klambda=20_26_0.2,kt obs
+Queue 1
+Arguments = combined 1D_kt_nominal klambda=20_26_0.2 obs
+Queue 1
+Arguments = bbbb 2D_kl_kt klambda=-15_-9_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = bbbb 1D_kt_profiled klambda=-15_-9_0.2,kt obs
+Queue 1
+Arguments = bbbb 1D_kt_nominal klambda=-15_-9_0.2 obs
+Queue 1
+Arguments = bbbb 2D_kl_kt klambda=-10_-4_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = bbbb 1D_kt_profiled klambda=-10_-4_0.2,kt obs
+Queue 1
+Arguments = bbbb 1D_kt_nominal klambda=-10_-4_0.2 obs
+Queue 1
+Arguments = bbbb 2D_kl_kt klambda=-5_1_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = bbbb 1D_kt_profiled klambda=-5_1_0.2,kt obs
+Queue 1
+Arguments = bbbb 1D_kt_nominal klambda=-5_1_0.2 obs
+Queue 1
+Arguments = bbbb 2D_kl_kt klambda=0_6_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = bbbb 1D_kt_profiled klambda=0_6_0.2,kt obs
+Queue 1
+Arguments = bbbb 1D_kt_nominal klambda=0_6_0.2 obs
+Queue 1
+Arguments = bbbb 2D_kl_kt klambda=5_11_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = bbbb 1D_kt_profiled klambda=5_11_0.2,kt obs
+Queue 1
+Arguments = bbbb 1D_kt_nominal klambda=5_11_0.2 obs
+Queue 1
+Arguments = bbbb 2D_kl_kt klambda=10_16_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = bbbb 1D_kt_profiled klambda=10_16_0.2,kt obs
+Queue 1
+Arguments = bbbb 1D_kt_nominal klambda=10_16_0.2 obs
+Queue 1
+Arguments = bbbb 2D_kl_kt klambda=15_21_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = bbbb 1D_kt_profiled klambda=15_21_0.2,kt obs
+Queue 1
+Arguments = bbbb 1D_kt_nominal klambda=15_21_0.2 obs
+Queue 1
+Arguments = bbbb 2D_kl_kt klambda=20_26_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = bbbb 1D_kt_profiled klambda=20_26_0.2,kt obs
+Queue 1
+Arguments = bbbb 1D_kt_nominal klambda=20_26_0.2 obs
+Queue 1
+Arguments = bbtautau 2D_kl_kt klambda=-15_-9_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = bbtautau 1D_kt_profiled klambda=-15_-9_0.2,kt obs
+Queue 1
+Arguments = bbtautau 1D_kt_nominal klambda=-15_-9_0.2 obs
+Queue 1
+Arguments = bbtautau 2D_kl_kt klambda=-10_-4_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = bbtautau 1D_kt_profiled klambda=-10_-4_0.2,kt obs
+Queue 1
+Arguments = bbtautau 1D_kt_nominal klambda=-10_-4_0.2 obs
+Queue 1
+Arguments = bbtautau 2D_kl_kt klambda=-5_1_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = bbtautau 1D_kt_profiled klambda=-5_1_0.2,kt obs
+Queue 1
+Arguments = bbtautau 1D_kt_nominal klambda=-5_1_0.2 obs
+Queue 1
+Arguments = bbtautau 2D_kl_kt klambda=0_6_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = bbtautau 1D_kt_profiled klambda=0_6_0.2,kt obs
+Queue 1
+Arguments = bbtautau 1D_kt_nominal klambda=0_6_0.2 obs
+Queue 1
+Arguments = bbtautau 2D_kl_kt klambda=5_11_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = bbtautau 1D_kt_profiled klambda=5_11_0.2,kt obs
+Queue 1
+Arguments = bbtautau 1D_kt_nominal klambda=5_11_0.2 obs
+Queue 1
+Arguments = bbtautau 2D_kl_kt klambda=10_16_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = bbtautau 1D_kt_profiled klambda=10_16_0.2,kt obs
+Queue 1
+Arguments = bbtautau 1D_kt_nominal klambda=10_16_0.2 obs
+Queue 1
+Arguments = bbtautau 2D_kl_kt klambda=15_21_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = bbtautau 1D_kt_profiled klambda=15_21_0.2,kt obs
+Queue 1
+Arguments = bbtautau 1D_kt_nominal klambda=15_21_0.2 obs
+Queue 1
+Arguments = bbtautau 2D_kl_kt klambda=20_26_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = bbtautau 1D_kt_profiled klambda=20_26_0.2,kt obs
+Queue 1
+Arguments = bbtautau 1D_kt_nominal klambda=20_26_0.2 obs
+Queue 1
+Arguments = bbyy 2D_kl_kt klambda=-15_-9_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = bbyy 1D_kt_profiled klambda=-15_-9_0.2,kt obs
+Queue 1
+Arguments = bbyy 1D_kt_nominal klambda=-15_-9_0.2 obs
+Queue 1
+Arguments = bbyy 2D_kl_kt klambda=-10_-4_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = bbyy 1D_kt_profiled klambda=-10_-4_0.2,kt obs
+Queue 1
+Arguments = bbyy 1D_kt_nominal klambda=-10_-4_0.2 obs
+Queue 1
+Arguments = bbyy 2D_kl_kt klambda=-5_1_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = bbyy 1D_kt_profiled klambda=-5_1_0.2,kt obs
+Queue 1
+Arguments = bbyy 1D_kt_nominal klambda=-5_1_0.2 obs
+Queue 1
+Arguments = bbyy 2D_kl_kt klambda=0_6_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = bbyy 1D_kt_profiled klambda=0_6_0.2,kt obs
+Queue 1
+Arguments = bbyy 1D_kt_nominal klambda=0_6_0.2 obs
+Queue 1
+Arguments = bbyy 2D_kl_kt klambda=5_11_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = bbyy 1D_kt_profiled klambda=5_11_0.2,kt obs
+Queue 1
+Arguments = bbyy 1D_kt_nominal klambda=5_11_0.2 obs
+Queue 1
+Arguments = bbyy 2D_kl_kt klambda=10_16_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = bbyy 1D_kt_profiled klambda=10_16_0.2,kt obs
+Queue 1
+Arguments = bbyy 1D_kt_nominal klambda=10_16_0.2 obs
+Queue 1
+Arguments = bbyy 2D_kl_kt klambda=15_21_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = bbyy 1D_kt_profiled klambda=15_21_0.2,kt obs
+Queue 1
+Arguments = bbyy 1D_kt_nominal klambda=15_21_0.2 obs
+Queue 1
+Arguments = bbyy 2D_kl_kt klambda=20_26_0.4,kt=0.6_1.6_0.1 obs
+Queue 1
+Arguments = bbyy 1D_kt_profiled klambda=20_26_0.2,kt obs
+Queue 1
+Arguments = bbyy 1D_kt_nominal klambda=20_26_0.2 obs
+Queue 1
+Arguments = combined 2D_kl_kt klambda=-15_-9_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = combined 1D_kt_profiled klambda=-15_-9_0.2,kt prefit
+Queue 1
+Arguments = combined 1D_kt_nominal klambda=-15_-9_0.2 prefit
+Queue 1
+Arguments = combined 2D_kl_kt klambda=-10_-4_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = combined 1D_kt_profiled klambda=-10_-4_0.2,kt prefit
+Queue 1
+Arguments = combined 1D_kt_nominal klambda=-10_-4_0.2 prefit
+Queue 1
+Arguments = combined 2D_kl_kt klambda=-5_1_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = combined 1D_kt_profiled klambda=-5_1_0.2,kt prefit
+Queue 1
+Arguments = combined 1D_kt_nominal klambda=-5_1_0.2 prefit
+Queue 1
+Arguments = combined 2D_kl_kt klambda=0_6_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = combined 1D_kt_profiled klambda=0_6_0.2,kt prefit
+Queue 1
+Arguments = combined 1D_kt_nominal klambda=0_6_0.2 prefit
+Queue 1
+Arguments = combined 2D_kl_kt klambda=5_11_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = combined 1D_kt_profiled klambda=5_11_0.2,kt prefit
+Queue 1
+Arguments = combined 1D_kt_nominal klambda=5_11_0.2 prefit
+Queue 1
+Arguments = combined 2D_kl_kt klambda=10_16_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = combined 1D_kt_profiled klambda=10_16_0.2,kt prefit
+Queue 1
+Arguments = combined 1D_kt_nominal klambda=10_16_0.2 prefit
+Queue 1
+Arguments = combined 2D_kl_kt klambda=15_21_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = combined 1D_kt_profiled klambda=15_21_0.2,kt prefit
+Queue 1
+Arguments = combined 1D_kt_nominal klambda=15_21_0.2 prefit
+Queue 1
+Arguments = combined 2D_kl_kt klambda=20_26_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = combined 1D_kt_profiled klambda=20_26_0.2,kt prefit
+Queue 1
+Arguments = combined 1D_kt_nominal klambda=20_26_0.2 prefit
+Queue 1
+Arguments = bbbb 2D_kl_kt klambda=-15_-9_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = bbbb 1D_kt_profiled klambda=-15_-9_0.2,kt prefit
+Queue 1
+Arguments = bbbb 1D_kt_nominal klambda=-15_-9_0.2 prefit
+Queue 1
+Arguments = bbbb 2D_kl_kt klambda=-10_-4_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = bbbb 1D_kt_profiled klambda=-10_-4_0.2,kt prefit
+Queue 1
+Arguments = bbbb 1D_kt_nominal klambda=-10_-4_0.2 prefit
+Queue 1
+Arguments = bbbb 2D_kl_kt klambda=-5_1_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = bbbb 1D_kt_profiled klambda=-5_1_0.2,kt prefit
+Queue 1
+Arguments = bbbb 1D_kt_nominal klambda=-5_1_0.2 prefit
+Queue 1
+Arguments = bbbb 2D_kl_kt klambda=0_6_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = bbbb 1D_kt_profiled klambda=0_6_0.2,kt prefit
+Queue 1
+Arguments = bbbb 1D_kt_nominal klambda=0_6_0.2 prefit
+Queue 1
+Arguments = bbbb 2D_kl_kt klambda=5_11_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = bbbb 1D_kt_profiled klambda=5_11_0.2,kt prefit
+Queue 1
+Arguments = bbbb 1D_kt_nominal klambda=5_11_0.2 prefit
+Queue 1
+Arguments = bbbb 2D_kl_kt klambda=10_16_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = bbbb 1D_kt_profiled klambda=10_16_0.2,kt prefit
+Queue 1
+Arguments = bbbb 1D_kt_nominal klambda=10_16_0.2 prefit
+Queue 1
+Arguments = bbbb 2D_kl_kt klambda=15_21_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = bbbb 1D_kt_profiled klambda=15_21_0.2,kt prefit
+Queue 1
+Arguments = bbbb 1D_kt_nominal klambda=15_21_0.2 prefit
+Queue 1
+Arguments = bbbb 2D_kl_kt klambda=20_26_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = bbbb 1D_kt_profiled klambda=20_26_0.2,kt prefit
+Queue 1
+Arguments = bbbb 1D_kt_nominal klambda=20_26_0.2 prefit
+Queue 1
+Arguments = bbtautau 2D_kl_kt klambda=-15_-9_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = bbtautau 1D_kt_profiled klambda=-15_-9_0.2,kt prefit
+Queue 1
+Arguments = bbtautau 1D_kt_nominal klambda=-15_-9_0.2 prefit
+Queue 1
+Arguments = bbtautau 2D_kl_kt klambda=-10_-4_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = bbtautau 1D_kt_profiled klambda=-10_-4_0.2,kt prefit
+Queue 1
+Arguments = bbtautau 1D_kt_nominal klambda=-10_-4_0.2 prefit
+Queue 1
+Arguments = bbtautau 2D_kl_kt klambda=-5_1_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = bbtautau 1D_kt_profiled klambda=-5_1_0.2,kt prefit
+Queue 1
+Arguments = bbtautau 1D_kt_nominal klambda=-5_1_0.2 prefit
+Queue 1
+Arguments = bbtautau 2D_kl_kt klambda=0_6_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = bbtautau 1D_kt_profiled klambda=0_6_0.2,kt prefit
+Queue 1
+Arguments = bbtautau 1D_kt_nominal klambda=0_6_0.2 prefit
+Queue 1
+Arguments = bbtautau 2D_kl_kt klambda=5_11_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = bbtautau 1D_kt_profiled klambda=5_11_0.2,kt prefit
+Queue 1
+Arguments = bbtautau 1D_kt_nominal klambda=5_11_0.2 prefit
+Queue 1
+Arguments = bbtautau 2D_kl_kt klambda=10_16_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = bbtautau 1D_kt_profiled klambda=10_16_0.2,kt prefit
+Queue 1
+Arguments = bbtautau 1D_kt_nominal klambda=10_16_0.2 prefit
+Queue 1
+Arguments = bbtautau 2D_kl_kt klambda=15_21_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = bbtautau 1D_kt_profiled klambda=15_21_0.2,kt prefit
+Queue 1
+Arguments = bbtautau 1D_kt_nominal klambda=15_21_0.2 prefit
+Queue 1
+Arguments = bbtautau 2D_kl_kt klambda=20_26_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = bbtautau 1D_kt_profiled klambda=20_26_0.2,kt prefit
+Queue 1
+Arguments = bbtautau 1D_kt_nominal klambda=20_26_0.2 prefit
+Queue 1
+Arguments = bbyy 2D_kl_kt klambda=-15_-9_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = bbyy 1D_kt_profiled klambda=-15_-9_0.2,kt prefit
+Queue 1
+Arguments = bbyy 1D_kt_nominal klambda=-15_-9_0.2 prefit
+Queue 1
+Arguments = bbyy 2D_kl_kt klambda=-10_-4_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = bbyy 1D_kt_profiled klambda=-10_-4_0.2,kt prefit
+Queue 1
+Arguments = bbyy 1D_kt_nominal klambda=-10_-4_0.2 prefit
+Queue 1
+Arguments = bbyy 2D_kl_kt klambda=-5_1_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = bbyy 1D_kt_profiled klambda=-5_1_0.2,kt prefit
+Queue 1
+Arguments = bbyy 1D_kt_nominal klambda=-5_1_0.2 prefit
+Queue 1
+Arguments = bbyy 2D_kl_kt klambda=0_6_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = bbyy 1D_kt_profiled klambda=0_6_0.2,kt prefit
+Queue 1
+Arguments = bbyy 1D_kt_nominal klambda=0_6_0.2 prefit
+Queue 1
+Arguments = bbyy 2D_kl_kt klambda=5_11_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = bbyy 1D_kt_profiled klambda=5_11_0.2,kt prefit
+Queue 1
+Arguments = bbyy 1D_kt_nominal klambda=5_11_0.2 prefit
+Queue 1
+Arguments = bbyy 2D_kl_kt klambda=10_16_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = bbyy 1D_kt_profiled klambda=10_16_0.2,kt prefit
+Queue 1
+Arguments = bbyy 1D_kt_nominal klambda=10_16_0.2 prefit
+Queue 1
+Arguments = bbyy 2D_kl_kt klambda=15_21_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = bbyy 1D_kt_profiled klambda=15_21_0.2,kt prefit
+Queue 1
+Arguments = bbyy 1D_kt_nominal klambda=15_21_0.2 prefit
+Queue 1
+Arguments = bbyy 2D_kl_kt klambda=20_26_0.4,kt=0.6_1.6_0.1 prefit
+Queue 1
+Arguments = bbyy 1D_kt_profiled klambda=20_26_0.2,kt prefit
+Queue 1
+Arguments = bbyy 1D_kt_nominal klambda=20_26_0.2 prefit
+Queue 1
+Arguments = combined 2D_kl_kt klambda=-15_-9_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = combined 1D_kt_profiled klambda=-15_-9_0.2,kt postfit2
+Queue 1
+Arguments = combined 1D_kt_nominal klambda=-15_-9_0.2 postfit2
+Queue 1
+Arguments = combined 2D_kl_kt klambda=-10_-4_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = combined 1D_kt_profiled klambda=-10_-4_0.2,kt postfit2
+Queue 1
+Arguments = combined 1D_kt_nominal klambda=-10_-4_0.2 postfit2
+Queue 1
+Arguments = combined 2D_kl_kt klambda=-5_1_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = combined 1D_kt_profiled klambda=-5_1_0.2,kt postfit2
+Queue 1
+Arguments = combined 1D_kt_nominal klambda=-5_1_0.2 postfit2
+Queue 1
+Arguments = combined 2D_kl_kt klambda=0_6_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = combined 1D_kt_profiled klambda=0_6_0.2,kt postfit2
+Queue 1
+Arguments = combined 1D_kt_nominal klambda=0_6_0.2 postfit2
+Queue 1
+Arguments = combined 2D_kl_kt klambda=5_11_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = combined 1D_kt_profiled klambda=5_11_0.2,kt postfit2
+Queue 1
+Arguments = combined 1D_kt_nominal klambda=5_11_0.2 postfit2
+Queue 1
+Arguments = combined 2D_kl_kt klambda=10_16_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = combined 1D_kt_profiled klambda=10_16_0.2,kt postfit2
+Queue 1
+Arguments = combined 1D_kt_nominal klambda=10_16_0.2 postfit2
+Queue 1
+Arguments = combined 2D_kl_kt klambda=15_21_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = combined 1D_kt_profiled klambda=15_21_0.2,kt postfit2
+Queue 1
+Arguments = combined 1D_kt_nominal klambda=15_21_0.2 postfit2
+Queue 1
+Arguments = combined 2D_kl_kt klambda=20_26_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = combined 1D_kt_profiled klambda=20_26_0.2,kt postfit2
+Queue 1
+Arguments = combined 1D_kt_nominal klambda=20_26_0.2 postfit2
+Queue 1
+Arguments = bbbb 2D_kl_kt klambda=-15_-9_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = bbbb 1D_kt_profiled klambda=-15_-9_0.2,kt postfit2
+Queue 1
+Arguments = bbbb 1D_kt_nominal klambda=-15_-9_0.2 postfit2
+Queue 1
+Arguments = bbbb 2D_kl_kt klambda=-10_-4_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = bbbb 1D_kt_profiled klambda=-10_-4_0.2,kt postfit2
+Queue 1
+Arguments = bbbb 1D_kt_nominal klambda=-10_-4_0.2 postfit2
+Queue 1
+Arguments = bbbb 2D_kl_kt klambda=-5_1_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = bbbb 1D_kt_profiled klambda=-5_1_0.2,kt postfit2
+Queue 1
+Arguments = bbbb 1D_kt_nominal klambda=-5_1_0.2 postfit2
+Queue 1
+Arguments = bbbb 2D_kl_kt klambda=0_6_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = bbbb 1D_kt_profiled klambda=0_6_0.2,kt postfit2
+Queue 1
+Arguments = bbbb 1D_kt_nominal klambda=0_6_0.2 postfit2
+Queue 1
+Arguments = bbbb 2D_kl_kt klambda=5_11_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = bbbb 1D_kt_profiled klambda=5_11_0.2,kt postfit2
+Queue 1
+Arguments = bbbb 1D_kt_nominal klambda=5_11_0.2 postfit2
+Queue 1
+Arguments = bbbb 2D_kl_kt klambda=10_16_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = bbbb 1D_kt_profiled klambda=10_16_0.2,kt postfit2
+Queue 1
+Arguments = bbbb 1D_kt_nominal klambda=10_16_0.2 postfit2
+Queue 1
+Arguments = bbbb 2D_kl_kt klambda=15_21_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = bbbb 1D_kt_profiled klambda=15_21_0.2,kt postfit2
+Queue 1
+Arguments = bbbb 1D_kt_nominal klambda=15_21_0.2 postfit2
+Queue 1
+Arguments = bbbb 2D_kl_kt klambda=20_26_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = bbbb 1D_kt_profiled klambda=20_26_0.2,kt postfit2
+Queue 1
+Arguments = bbbb 1D_kt_nominal klambda=20_26_0.2 postfit2
+Queue 1
+Arguments = bbtautau 2D_kl_kt klambda=-15_-9_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = bbtautau 1D_kt_profiled klambda=-15_-9_0.2,kt postfit2
+Queue 1
+Arguments = bbtautau 1D_kt_nominal klambda=-15_-9_0.2 postfit2
+Queue 1
+Arguments = bbtautau 2D_kl_kt klambda=-10_-4_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = bbtautau 1D_kt_profiled klambda=-10_-4_0.2,kt postfit2
+Queue 1
+Arguments = bbtautau 1D_kt_nominal klambda=-10_-4_0.2 postfit2
+Queue 1
+Arguments = bbtautau 2D_kl_kt klambda=-5_1_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = bbtautau 1D_kt_profiled klambda=-5_1_0.2,kt postfit2
+Queue 1
+Arguments = bbtautau 1D_kt_nominal klambda=-5_1_0.2 postfit2
+Queue 1
+Arguments = bbtautau 2D_kl_kt klambda=0_6_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = bbtautau 1D_kt_profiled klambda=0_6_0.2,kt postfit2
+Queue 1
+Arguments = bbtautau 1D_kt_nominal klambda=0_6_0.2 postfit2
+Queue 1
+Arguments = bbtautau 2D_kl_kt klambda=5_11_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = bbtautau 1D_kt_profiled klambda=5_11_0.2,kt postfit2
+Queue 1
+Arguments = bbtautau 1D_kt_nominal klambda=5_11_0.2 postfit2
+Queue 1
+Arguments = bbtautau 2D_kl_kt klambda=10_16_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = bbtautau 1D_kt_profiled klambda=10_16_0.2,kt postfit2
+Queue 1
+Arguments = bbtautau 1D_kt_nominal klambda=10_16_0.2 postfit2
+Queue 1
+Arguments = bbtautau 2D_kl_kt klambda=15_21_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = bbtautau 1D_kt_profiled klambda=15_21_0.2,kt postfit2
+Queue 1
+Arguments = bbtautau 1D_kt_nominal klambda=15_21_0.2 postfit2
+Queue 1
+Arguments = bbtautau 2D_kl_kt klambda=20_26_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = bbtautau 1D_kt_profiled klambda=20_26_0.2,kt postfit2
+Queue 1
+Arguments = bbtautau 1D_kt_nominal klambda=20_26_0.2 postfit2
+Queue 1
+Arguments = bbyy 2D_kl_kt klambda=-15_-9_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = bbyy 1D_kt_profiled klambda=-15_-9_0.2,kt postfit2
+Queue 1
+Arguments = bbyy 1D_kt_nominal klambda=-15_-9_0.2 postfit2
+Queue 1
+Arguments = bbyy 2D_kl_kt klambda=-10_-4_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = bbyy 1D_kt_profiled klambda=-10_-4_0.2,kt postfit2
+Queue 1
+Arguments = bbyy 1D_kt_nominal klambda=-10_-4_0.2 postfit2
+Queue 1
+Arguments = bbyy 2D_kl_kt klambda=-5_1_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = bbyy 1D_kt_profiled klambda=-5_1_0.2,kt postfit2
+Queue 1
+Arguments = bbyy 1D_kt_nominal klambda=-5_1_0.2 postfit2
+Queue 1
+Arguments = bbyy 2D_kl_kt klambda=0_6_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = bbyy 1D_kt_profiled klambda=0_6_0.2,kt postfit2
+Queue 1
+Arguments = bbyy 1D_kt_nominal klambda=0_6_0.2 postfit2
+Queue 1
+Arguments = bbyy 2D_kl_kt klambda=5_11_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = bbyy 1D_kt_profiled klambda=5_11_0.2,kt postfit2
+Queue 1
+Arguments = bbyy 1D_kt_nominal klambda=5_11_0.2 postfit2
+Queue 1
+Arguments = bbyy 2D_kl_kt klambda=10_16_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = bbyy 1D_kt_profiled klambda=10_16_0.2,kt postfit2
+Queue 1
+Arguments = bbyy 1D_kt_nominal klambda=10_16_0.2 postfit2
+Queue 1
+Arguments = bbyy 2D_kl_kt klambda=15_21_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = bbyy 1D_kt_profiled klambda=15_21_0.2,kt postfit2
+Queue 1
+Arguments = bbyy 1D_kt_nominal klambda=15_21_0.2 postfit2
+Queue 1
+Arguments = bbyy 2D_kl_kt klambda=20_26_0.4,kt=0.6_1.6_0.1 postfit2
+Queue 1
+Arguments = bbyy 1D_kt_profiled klambda=20_26_0.2,kt postfit2
+Queue 1
+Arguments = bbyy 1D_kt_nominal klambda=20_26_0.2 postfit2
+Queue 1

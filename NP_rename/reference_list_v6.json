@@ -5,16 +5,35 @@
     "display": false,
     "format": "{NAME}"
   },
-  "4BBACKGROUND": {
+  "4BBACKGROUND_CR12": {
     "description": "4B Background Uncertainty",
-    "pattern": "alpha_Sys_4b",
+    "pattern": "alpha_CR12",
     "replace": {
-      "alpha_Sys_4b_": "",
-      "_D": "_",
-      "Y2016":"Y16",
-      "Y2017":"Y17",
-      "Y2018":"Y18",
-      "_Y6051":""
+      "alpha_": "",
+      "shape_": "",
+      "16":"Y16",
+      "17":"Y17",
+      "18":"Y18",
+      "-1":"Y161718"
+    },
+    "format": "bbbb_{NAME}"
+  },  
+  "4BBACKGROUND_NC_3b1f": {
+    "description": "4B Background Uncertainty",
+    "pattern": "alpha_NC_3b1f",
+    "replace": {
+      "alpha_": "",
+      "16":"Y16",
+      "17":"Y17",
+      "18":"Y18"
+    },
+    "format": "bbbb_{NAME}"
+  },
+  "4BTRIGGER": {
+    "description": "4B Trigger SF Uncertainty",
+    "pattern": "_TRIG_",
+    "replace": {
+      "alpha_": ""
     },
     "format": "bbbb_{NAME}"
   },
@@ -182,7 +201,12 @@
       "THEO_BR_Hyy": "THEO_BR_Hyy",
       "alpha_SysTHEO_ACC_PS_ggFHH_PNN": "THEO_ACC_PS_ggFHH_spin0_shape_bbtautau",
       "alpha_THEO_ACC_PS_ggFHH": "THEO_ACC_PS_ggFHH_spin0_bbtautau",
-
+      "alpha_THEO_ACC_PDFalphas_ggf": "THEO_ACC_PDFalphas_ggFHH",
+      "alpha_THEO_ACC_PDFalphas_vbf": "THEO_ACC_PDFalphas_VBFHH",
+      "alpha_THEO_ACC_SCALE_ggf": "THEO_ACC_SCALE_ggFHH",
+      "alpha_THEO_ACC_SCALE_vbf": "THEO_ACC_SCALE_VBFHH",
+      "alpha_THEO_ACC_PS_ggf": "THEO_ACC_PS_ggFHH_bbbb",
+      "alpha_THEO_ACC_PS_vbf": "THEO_ACC_PS_VBFHH_bbbb",
       "alpha_THEO_ACC_AF2_ggFHH": "THEO_ACC_AF2_ggFHH",
       "alpha_THEO_BR_Htautau": "THEO_BR_Htautau",
 
@@ -191,7 +215,7 @@
       "THEO_XS_Parton_Shower_res": "THEO_ACC_PS_ggFHH_spin0_bbyy",
       "THEO_XS_QCD_Mtop_ggHH": "THEO_XS_SCALEMTop_ggFHH",
       "THEO_XS_alphas_ggHH": "THEO_XS_PDFalphas_ggFHH",
-      "THEO_XS_QCD_VBFHH": "THEO_XS_SCALE_VBFHH",
+      "THEO_XS_QCD_VBFHH": "THEO_XS_SCALEMTop_VBFHH",
       "THEO_XS_alphas_VBFHH": "THEO_XS_PDFalphas_VBFHH",
 
       "alpha_Theory": "THEO_ACC_PS_ggFHH_spin0_bbbb",
@@ -208,7 +232,11 @@
       "THEO_XS_COMBINED_HH_ggF": "THEO_XS_fixmu_SCALEMTop_ggFHH",
       "THEO_XS_PDFalphas_HH_ggF": "THEO_XS_fixmu_PDFalphas_ggFHH",
       "THEO_XS_PDFalphas_HH_VBF": "THEO_XS_fixmu_PDFalphas_VBFHH",
-      "THEO_XS_SCALE_HH_VBF": "THEO_XS_fixmu_SCALE_VBFHH"
+      "THEO_XS_SCALE_HH_VBF": "THEO_XS_fixmu_SCALEMTop_VBFHH",
+      "alpha_THEO_XS_PDFalphas_ggf": "THEO_XS_fixmu_PDFalphas_ggFHH",
+      "alpha_THEO_XS_PDFalphas_vbf" : "THEO_XS_fixmu_PDFalphas_VBFHH",
+      "alpha_THEO_XS_SCALEMTop_ggf" : "THEO_XS_fixmu_SCALEMTop_ggFHH",
+      "alpha_THEO_XS_SCALEMTop_vbf" : "THEO_XS_fixmu_SCALEMTop_VBFHH"
     }
   },
   "ELECTRON": {
@@ -536,7 +564,8 @@
           "ATLAS_JET_MassRes_Hbb_comb",
           "ATLAS_JET_LargeR_TopologyUncertainty_V",
           "ATLAS_JET_LargeR_TopologyUncertainty_top",
-          "ATLAS_JET_MassRes_Hbb_comb"
+          "ATLAS_JET_MassRes_Hbb_comb",
+          "ATLAS_JET_JVT"
         ]
       },
       "ENERGY_RESOLUTION": {
@@ -739,7 +768,11 @@
   },
   "KLAMBDA_REWEIGHTING_HH_VBF": {
     "description": "LC_CLOSURE_VBFSMHH",
-    "pattern": "LC_CLOSURE_VBFSMHH",
+    "pattern": [
+        "LC_CLOSURE_VBFSMHH",
+        "KLAMBDA_REWEIGHTING_HH_VBF",
+        "PARAMETRIZATION_VBF"
+    ],
     "format": "ATLAS_KLAMBDA_REWEIGHTING_HH_VBF"
   }
 }
