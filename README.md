@@ -23,13 +23,6 @@ Caveats:
 git clone --recursive ssh://git@gitlab.cern.ch:7999/atlas-physics/HDBS/DiHiggs/combination/hh_combination_fw.git
 ```
 Make sure all folders in submodules are not empty.
-### Patch `workspaceCombiner`
-The dataset name is not customisable in `workspaceCombiner` and the [TList indexing bug](https://indico.cern.ch/event/1025636/contributions/4311962/attachments/2222485/3763797/HHcomb20210408.pdf) needs a fix.
-Apply the patch:
-```
-cd submodules/workspaceCombiner
-git apply --whitespace=nowarn ../../workspaceCombiner.patch
-```
 ### For the first time (need a compilation)
 ```
 source compile.sh
