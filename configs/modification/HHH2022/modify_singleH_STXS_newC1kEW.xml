@@ -1,0 +1,1225 @@
+<!DOCTYPE Organization  SYSTEM 'Organization.dtd'>
+<!-- In the future the input workspace should be with theory uncertainties -->
+<Organization InFile = "dummy" OutFile = "dummy" POINames = "k3,kV,kt,kb,ktau" >
+<!-- POI -->
+<Item Name="k3[1]"/>
+<Item Name="kV[1]"/>
+<Item Name="sum::kW(kV)"/>
+<Item Name="sum::kZ(kV)"/>
+<Item Name="kt[1]"/>
+<Item Name="kb[1]"/>
+<Item Name="ktau[1]"/>
+<Item Name="unit[1]"/>
+
+<Item Name="sum::kc(kt)"/>
+<Item Name="sum::ks(kb)"/>
+<Item Name="sum::kmu(ktau)"/>
+
+<Item Name="expr::kb2('@0*@0',kb)"/>
+<!-- Modifiers -->
+<!-- Production mode modifiers -->
+<Item Name="expr::kggF2('(@0*@0)*@3+(@1*@1)*@4+(@0*@1)*@5+(@0*@2)*@6+(@1*@2)*@7+(@2*@2)*@8',kt,kb,kc,sigma_tt_o_sigma_ggH_GlGlH_13TeV[1.040],sigma_bb_o_sigma_ggH_GlGlH_13TeV[0.0020],sigma_tb_o_sigma_ggH_GlGlH_13TeV[-0.0380],sigma_tc_o_sigma_ggH_GlGlH_13TeV[-0.0050],sigma_bc_o_sigma_ggH_GlGlH_13TeV[0.0004],sigma_cc_o_sigma_ggH_GlGlH_13TeV[0.00002])"/>
+<Item Name="expr::kVBF2('((@0*@0)*@2+(@1*@1)*@3)',kZ,kW,CZFracVBF_13TeV[0.267],CWFracVBF_13TeV[0.733])"/>
+<Item Name="expr::ktHj2('((@0*@0)*@2+(@1*@1)*@3+(@0*@1)*@4)',kt,kW,sigma_tt_o_sigma_tHqb_13TeV[2.633],sigma_WW_o_sigma_tHqb_13TeV[3.578],sigma_tW_o_sigma_tHqb_13TeV[-5.211])"/>
+<Item Name="expr::ktHW2('((@0*@0)*@2+(@1*@1)*@3+(@0*@1)*@4)',kt,kW,sigma_tt_o_sigma_tHW_13TeV[2.909],sigma_WW_o_sigma_tHW_13TeV[2.310],sigma_tW_o_sigma_tHW_13TeV[-4.220])"/>
+<Item Name="expr::kggZH2('((@0*@0)*@3+(@1*@1)*@4+(@2*@2)*@5+(@0*@1)*@6+(@0*@2)*@7+(@1*@2)*@8)',kt,kb,kZ,sigma_tt_o_sigma_ggZH_13TeV[0.456],sigma_bb_o_sigma_ggZH_13TeV[0.0004],sigma_ZZ_o_sigma_ggZH_13TeV[2.456],sigma_tb_o_sigma_ggZH_13TeV[0.003],sigma_tZ_o_sigma_ggZH_13TeV[-1.903],sigma_bZ_o_sigma_ggZH_13TeV[-0.011])"/>
+
+<!-- Decay mode modifiers -->
+<Item Name="expr::kyy2('(@0*@0)*@4+(@1*@1)*@5+(@2*@2)*@6+(@0*@1)*@7+(@0*@2)*@8+(@1*@2)*@9+(@3*@3)*@10+(@0*@3)*@11+(@1*@3)*@12+(@2*@3)*@13',kt,kb,kW,ktau,G_tt_o_G_HGaGa[0.0715],G_bb_o_G_HGaGa[0.0000],G_WW_o_G_HGaGa[1.5887],G_tb_o_G_HGaGa[-0.0018],G_tW_o_G_HGaGa[-0.6740],G_bW_o_G_HGaGa[0.0083],G_ll_o_G_HGaGa[0.0000],G_tl_o_G_HGaGa[-0.0019],G_bl_o_G_HGaGa[0.0000],G_lW_o_G_HGaGa[0.0090])"/>
+<Item Name="expr::kZy2('(@0*@0)*@4+(@1*@1)*@5+(@2*@2)*@6+(@0*@1)*@7+(@0*@2)*@8+(@1*@2)*@9+(@3*@3)*@10+(@0*@3)*@11+(@1*@3)*@12+(@2*@3)*@13',kt,kb,kW,ktau,G_tt_o_G_HZGa[0.0035],G_bb_o_G_HZGa[0.0000],G_WW_o_G_HZGa[1.1180],G_tb_o_G_HZGa[-0.0002],G_tW_o_G_HZGa[-0.1245],G_bW_o_G_HZGa[0.0032],G_ll_o_G_HZGa[0.0000],G_tl_o_G_HZGa[-0.0000],G_bl_o_G_HZGa[0.0000],G_lW_o_G_HZGa[0.0001])"/>
+<Item Name="expr::kgg2('(@0*@0)*@2+(@1*@1)*@3+(@0*@1)*@4',kt,kb,G_tt_o_G_gg_HGlGl[1.1114],G_bb_o_G_gg_HGlGl[0.0116],G_tb_o_G_gg_HGlGl[-0.1229])"/>
+
+<!-- K3 framkework formulas -->
+<Item Name="deltaZH[-1.536E-03]"/>
+<Item Name="C1_ggF[0.0066]"/>
+<Item Name="KEW_ggF[1.049]"/>
+<Item Name="C1_VBF[0.0063]"/>
+<Item Name="KEW_VBF[0.932]"/>
+<Item Name="C1_WH[0.0103]"/>
+<Item Name="KEW_WH[0.93]"/>
+<Item Name="C1_ZH[0.0119]"/>
+<Item Name="KEW_ZH[0.947]"/>
+<Item Name="C1_ttH[0.0352]"/>
+<Item Name="KEW_ttH[1.014]"/>
+<Item Name="C1_ggZH[0.]"/>
+<Item Name="KEW_ggZH[1.]"/>
+<Item Name="C1_tHj[0.0091]"/>
+<Item Name="KEW_tHj[0.95]"/>
+<Item Name="C1_tHW[0.]"/>
+<Item Name="KEW_tHW[1.]"/>	
+<Item Name="C1_bbH[0.]"/>
+<Item Name="KEW_bbH[1.]"/>
+
+<!-- POI: VBF: Sum yields and compute C1 [updated] -->
+<Item Name="C1_VBF_QQ2HQQ_0J[0.00893]"/>
+<Item Name="C1_VBF_QQ2HQQ_1J[0.00777]"/>
+<Item Name="C1_VBF_QQ2HQQ_GE2J_MJJ_0_60[0.00747]"/>
+<Item Name="C1_VBF_QQ2HQQ_GE2J_MJJ_60_120[0.00832]"/>
+<Item Name="C1_VBF_QQ2HQQ_GE2J_MJJ_120_350[0.00692]"/>
+    
+<Item Name="C1_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200[0.00508]"/>
+    
+<Item Name="C1_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25[0.00626]"/>
+<Item Name="C1_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25[0.00612]"/>
+    
+<Item Name="C1_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25[0.00624]"/>
+<Item Name="C1_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25[0.00598]"/>
+    
+    
+<Item Name="C1_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200[0.00509]"/>
+    
+<Item Name="C1_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25[0.00626]"/>
+<Item Name="C1_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25[0.00596]"/>
+    
+<Item Name="C1_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200[0.00508]"/>
+    
+<Item Name="C1_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25[0.00626]"/>
+<Item Name="C1_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25[0.00596]"/>
+<Item Name="C1_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200[0.00506]"/>
+    
+<Item Name="KEW_VBF_QQ2HQQ_0J[1.0]"/> 
+<Item Name="KEW_VBF_QQ2HQQ_1J[1.0]"/> 
+<Item Name="KEW_VBF_QQ2HQQ_GE2J_MJJ_0_60[0.981]"/> 
+<Item Name="KEW_VBF_QQ2HQQ_GE2J_MJJ_60_120[0.938]"/> 
+<Item Name="KEW_VBF_QQ2HQQ_GE2J_MJJ_120_350[0.981]"/> 
+<Item Name="KEW_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200[0.927]"/> 
+<Item Name="KEW_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25[0.955]"/> 
+<Item Name="KEW_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25[0.955]"/> 
+    
+<Item Name="KEW_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25[0.937]"/> 
+<Item Name="KEW_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25[0.937]"/> 
+    
+<Item Name="KEW_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200[0.907]"/> 
+    
+<Item Name="KEW_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25[0.921]"/>
+<Item Name="KEW_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25[0.921]"/> 
+    
+<Item Name="KEW_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200[0.883]"/>
+    
+<Item Name="KEW_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25[0.899]"/> 
+<Item Name="KEW_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25[0.899]"/> 
+<Item Name="KEW_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200[0.851]"/> 
+
+
+<!-- C1: WH: [updated] -->
+<Item Name="C1_WH_QQ2HLNU_PTV_0_75_0J[0.01399]"/>
+<Item Name="C1_WH_QQ2HLNU_PTV_75_150_0J[0.00747]"/>
+<Item Name="C1_WH_QQ2HLNU_PTV_150_250_0J[0.00250]"/>
+<Item Name="C1_WH_QQ2HLNU_PTV_250_400_0J[0.00018]"/>
+<Item Name="C1_WH_QQ2HLNU_PTV_GT400_0J[-0.00059]"/> 
+<Item Name="C1_WH_QQ2HLNU_PTV_0_75_1J[0.01399]"/>
+<Item Name="C1_WH_QQ2HLNU_PTV_75_150_1J[0.00747]"/>   
+<Item Name="C1_WH_QQ2HLNU_PTV_150_250_1J[0.00250]"/> 
+<Item Name="C1_WH_QQ2HLNU_PTV_250_400_1J[0.00018]"/> 
+<Item Name="C1_WH_QQ2HLNU_PTV_GT400_1J[-0.00059]"/> 
+<Item Name="C1_WH_QQ2HLNU_PTV_0_75_GE2J[0.01399]"/> 
+<Item Name="C1_WH_QQ2HLNU_PTV_75_150_GE2J[0.00747]"/> 
+<Item Name="C1_WH_QQ2HLNU_PTV_150_250_GE2J[0.00250]"/>     
+<Item Name="C1_WH_QQ2HLNU_PTV_250_400_GE2J[0.00018]"/> 
+<Item Name="C1_WH_QQ2HLNU_PTV_GT400_GE2J[-0.00059]"/> 
+    
+<Item Name="KEW_WH_QQ2HLNU_PTV_0_75_0J[0.937]"/>
+<Item Name="KEW_WH_QQ2HLNU_PTV_75_150_0J[0.910]"/>
+<Item Name="KEW_WH_QQ2HLNU_PTV_150_250_0J[0.879]"/>
+<Item Name="KEW_WH_QQ2HLNU_PTV_250_400_0J[0.835]"/>
+<Item Name="KEW_WH_QQ2HLNU_PTV_GT400_0J[0.779]"/> 
+<Item Name="KEW_WH_QQ2HLNU_PTV_0_75_1J[0.937]"/>
+<Item Name="KEW_WH_QQ2HLNU_PTV_75_150_1J[0.910]"/>   
+<Item Name="KEW_WH_QQ2HLNU_PTV_150_250_1J[0.879]"/> 
+<Item Name="KEW_WH_QQ2HLNU_PTV_250_400_1J[0.835]"/> 
+<Item Name="KEW_WH_QQ2HLNU_PTV_GT400_1J[0.779]"/> 
+<Item Name="KEW_WH_QQ2HLNU_PTV_0_75_GE2J[0.937]"/> 
+<Item Name="KEW_WH_QQ2HLNU_PTV_75_150_GE2J[0.910]"/> 
+<Item Name="KEW_WH_QQ2HLNU_PTV_150_250_GE2J[0.879]"/>     
+<Item Name="KEW_WH_QQ2HLNU_PTV_250_400_GE2J[0.835]"/> 
+<Item Name="KEW_WH_QQ2HLNU_PTV_GT400_GE2J[0.779]"/> 
+    
+<!-- C1: ZH: [updated] -->
+<Item Name="C1_ZH_QQ2HLL_PTV_0_75_0J[0.01633]"/>    
+<Item Name="C1_ZH_QQ2HLL_PTV_75_150_0J[0.00871]"/>   
+<Item Name="C1_ZH_QQ2HLL_PTV_150_250_0J[0.00293]"/>    
+<Item Name="C1_ZH_QQ2HLL_PTV_250_400_0J[0.00018]"/>   
+<Item Name="C1_ZH_QQ2HLL_PTV_GT400_0J[-0.00069]"/>       
+<Item Name="C1_ZH_QQ2HLL_PTV_0_75_1J[0.01633]"/>    
+<Item Name="C1_ZH_QQ2HLL_PTV_75_150_1J[0.00871]"/>    
+<Item Name="C1_ZH_QQ2HLL_PTV_150_250_1J[0.00293]"/>   
+<Item Name="C1_ZH_QQ2HLL_PTV_250_400_1J[0.00018]"/>   
+<Item Name="C1_ZH_QQ2HLL_PTV_GT400_GE2J[-0.00069]"/>    
+<Item Name="C1_ZH_QQ2HLL_PTV_GT400_1J[-0.00069]"/>    
+<Item Name="C1_ZH_QQ2HLL_PTV_0_75_GE2J[0.01633]"/>    
+<Item Name="C1_ZH_QQ2HLL_PTV_75_150_GE2J[0.00871]"/>   
+<Item Name="C1_ZH_QQ2HLL_PTV_150_250_GE2J[0.00293]"/>    
+<Item Name="C1_ZH_QQ2HLL_PTV_250_400_GE2J[0.00018]"/>    
+    
+<Item Name="KEW_ZH_QQ2HLL_PTV_0_75_0J[0.950]"/>    
+<Item Name="KEW_ZH_QQ2HLL_PTV_75_150_0J[0.943]"/>   
+<Item Name="KEW_ZH_QQ2HLL_PTV_150_250_0J[0.937]"/>    
+<Item Name="KEW_ZH_QQ2HLL_PTV_250_400_0J[0.897]"/>   
+<Item Name="KEW_ZH_QQ2HLL_PTV_GT400_0J[0.841]"/>       
+<Item Name="KEW_ZH_QQ2HLL_PTV_0_75_1J[0.950]"/>    
+<Item Name="KEW_ZH_QQ2HLL_PTV_75_150_1J[0.943]"/>    
+<Item Name="KEW_ZH_QQ2HLL_PTV_150_250_1J[0.937]"/>   
+<Item Name="KEW_ZH_QQ2HLL_PTV_250_400_1J[0.897]"/>   
+<Item Name="KEW_ZH_QQ2HLL_PTV_GT400_GE2J[0.841]"/>    
+<Item Name="KEW_ZH_QQ2HLL_PTV_GT400_1J[0.841]"/>    
+<Item Name="KEW_ZH_QQ2HLL_PTV_0_75_GE2J[0.950]"/>    
+<Item Name="KEW_ZH_QQ2HLL_PTV_75_150_GE2J[0.943]"/>   
+<Item Name="KEW_ZH_QQ2HLL_PTV_150_250_GE2J[0.937]"/>    
+<Item Name="KEW_ZH_QQ2HLL_PTV_250_400_GE2J[0.897]"/>    
+    
+<!-- POI: TTH_PTH: ADDED FABIO [updated] --> 
+<Item Name="C1_TTH_PTH_0_60[0.05143]"/> 
+<Item Name="C1_TTH_PTH_60_120[0.04225]"/> 
+<Item Name="C1_TTH_PTH_120_200[0.02921]"/> 
+<Item Name="C1_TTH_PTH_200_300[0.01678]"/> 
+<Item Name="C1_TTH_PTH_300_450[0.00812]"/> 
+<Item Name="C1_TTH_PTH_GT450[0.00259]"/> 
+    
+<Item Name="KEW_TTH_PTH_0_60[1.041]"/> 
+<Item Name="KEW_TTH_PTH_60_120[1.025]"/> 
+<Item Name="KEW_TTH_PTH_120_200[1.002]"/> 
+<Item Name="KEW_TTH_PTH_200_300[0.978]"/> 
+<Item Name="KEW_TTH_PTH_300_450[0.956]"/> 
+<Item Name="KEW_TTH_PTH_GT450[0.923]"/> 
+    
+    
+ 
+<Item Name="expr::ZH_BSM('1/(1-(((@0*@0)-1)*@1))',k3,deltaZH)"/>
+
+
+<!-- POI: delta_mu VBF inclusive [updated] -->
+<Item Name="expr::delta_mu_ggF('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_ggF,KEW_ggF)"/>
+<Item Name="expr::delta_mu_VBF('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF,KEW_VBF)"/>
+<Item Name="expr::delta_mu_WH('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_WH,KEW_WH)"/>
+<Item Name="expr::delta_mu_ZH('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_ZH,KEW_ZH)"/>
+<Item Name="expr::delta_mu_ttH('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_ttH,KEW_ttH)"/>
+<Item Name="expr::delta_mu_tHj('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_tHj,KEW_tHj)"/>
+    
+<!-- C1 = 0, but dependence coming from ZhBSM [updated] -->
+<Item Name="expr::delta_mu_ggZH('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_ggZH,KEW_ggZH)"/>
+<Item Name="expr::delta_mu_tHW('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_tHW,KEW_tHW)"/>
+<Item Name="expr::delta_mu_bbH('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_bbH,KEW_bbH)"/>
+ 
+
+<!-- POI: delta_mu VBF STXS [updated] -->
+<Item Name="expr::delta_mu_VBF_QQ2HQQ_0J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_0J,KEW_VBF_QQ2HQQ_0J)"/>
+<Item Name="expr::delta_mu_VBF_QQ2HQQ_1J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_1J,KEW_VBF_QQ2HQQ_1J)"/>
+<Item Name="expr::delta_mu_VBF_QQ2HQQ_GE2J_MJJ_0_60('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_0_60,KEW_VBF_QQ2HQQ_GE2J_MJJ_0_60)"/>
+<Item Name="expr::delta_mu_VBF_QQ2HQQ_GE2J_MJJ_60_120('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_60_120,KEW_VBF_QQ2HQQ_GE2J_MJJ_60_120)"/>
+<Item Name="expr::delta_mu_VBF_QQ2HQQ_GE2J_MJJ_120_350('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_120_350,KEW_VBF_QQ2HQQ_GE2J_MJJ_120_350)"/>
+<Item Name="expr::delta_mu_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200,KEW_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200)"/>
+
+<Item Name="expr::delta_mu_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25,KEW_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25)"/>
+
+<Item Name="expr::delta_mu_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25,KEW_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25)"/>
+
+<Item Name="expr::delta_mu_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25,KEW_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25)"/>
+
+
+<Item Name="expr::delta_mu_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25,KEW_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25)"/>
+
+
+<Item Name="expr::delta_mu_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200,KEW_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200)"/>
+
+<Item Name="expr::delta_mu_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25,KEW_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25)"/>
+
+<Item Name="expr::delta_mu_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25,KEW_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25)"/>
+
+<Item Name="expr::delta_mu_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200,KEW_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200)"/>
+
+<Item Name="expr::delta_mu_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25,KEW_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25)"/>
+
+<Item Name="expr::delta_mu_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25,KEW_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25)"/>
+
+<Item Name="expr::delta_mu_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200,KEW_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200)"/>
+    
+<Item Name="expr::delta_mu_WH_QQ2HQQ_0J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_0J,KEW_VBF_QQ2HQQ_0J)"/>
+<Item Name="expr::delta_mu_WH_QQ2HQQ_1J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_1J,KEW_VBF_QQ2HQQ_1J)"/>
+<Item Name="expr::delta_mu_WH_QQ2HQQ_GE2J_MJJ_0_60('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_0_60,KEW_VBF_QQ2HQQ_GE2J_MJJ_0_60)"/>
+<Item Name="expr::delta_mu_WH_QQ2HQQ_GE2J_MJJ_60_120('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_60_120,KEW_VBF_QQ2HQQ_GE2J_MJJ_60_120)"/>
+<Item Name="expr::delta_mu_WH_QQ2HQQ_GE2J_MJJ_120_350('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_120_350,KEW_VBF_QQ2HQQ_GE2J_MJJ_120_350)"/>
+
+<Item Name="expr::delta_mu_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200,KEW_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200)"/>
+
+<Item Name="expr::delta_mu_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25,KEW_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25)"/>
+
+<Item Name="expr::delta_mu_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25,KEW_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25)"/>
+
+<Item Name="expr::delta_mu_WH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25,KEW_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25)"/>
+
+
+<Item Name="expr::delta_mu_WH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25,KEW_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25)"/>
+
+
+<Item Name="expr::delta_mu_WH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200,KEW_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200)"/>
+
+<Item Name="expr::delta_mu_WH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25,KEW_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25)"/>
+
+<Item Name="expr::delta_mu_WH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25,KEW_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25)"/>
+
+<Item Name="expr::delta_mu_WH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200,KEW_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200)"/>
+
+<Item Name="expr::delta_mu_WH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25,KEW_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25)"/>
+
+<Item Name="expr::delta_mu_WH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25,KEW_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25)"/>
+
+<Item Name="expr::delta_mu_WH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200,KEW_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200)"/>
+    
+
+    
+<Item Name="expr::delta_mu_ZH_QQ2HQQ_0J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_0J,KEW_VBF_QQ2HQQ_0J)"/>
+<Item Name="expr::delta_mu_ZH_QQ2HQQ_1J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_1J,KEW_VBF_QQ2HQQ_1J)"/>
+<Item Name="expr::delta_mu_ZH_QQ2HQQ_GE2J_MJJ_0_60('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_0_60,KEW_VBF_QQ2HQQ_GE2J_MJJ_0_60)"/>
+<Item Name="expr::delta_mu_ZH_QQ2HQQ_GE2J_MJJ_60_120('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_60_120,KEW_VBF_QQ2HQQ_GE2J_MJJ_60_120)"/>
+<Item Name="expr::delta_mu_ZH_QQ2HQQ_GE2J_MJJ_120_350('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_120_350,KEW_VBF_QQ2HQQ_GE2J_MJJ_120_350)"/>
+<Item Name="expr::delta_mu_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200,KEW_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200)"/>
+
+<Item Name="expr::delta_mu_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25,KEW_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25)"/>
+
+<Item Name="expr::delta_mu_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25,KEW_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25)"/>
+
+<Item Name="expr::delta_mu_ZH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25,KEW_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25)"/>
+
+
+<Item Name="expr::delta_mu_ZH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25,KEW_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25)"/>
+
+
+<Item Name="expr::delta_mu_ZH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200,KEW_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200)"/>
+
+<Item Name="expr::delta_mu_ZH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25,KEW_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25)"/>
+
+<Item Name="expr::delta_mu_ZH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25,KEW_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25)"/>
+
+<Item Name="expr::delta_mu_ZH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200,KEW_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200)"/>
+
+<Item Name="expr::delta_mu_ZH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25,KEW_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25)"/>
+
+<Item Name="expr::delta_mu_ZH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25,KEW_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25)"/>
+
+<Item Name="expr::delta_mu_ZH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200,KEW_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200)"/>
+    
+<!-- POI: delta_mu WH: ADDED FABIO -->
+<Item Name="expr::delta_mu_WH_QQ2HLNU_PTV_0_75_0J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_WH_QQ2HLNU_PTV_0_75_0J,KEW_WH_QQ2HLNU_PTV_0_75_0J)"/>
+<Item Name="expr::delta_mu_WH_QQ2HLNU_PTV_75_150_0J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_WH_QQ2HLNU_PTV_75_150_0J,KEW_WH_QQ2HLNU_PTV_75_150_0J)"/>
+<Item Name="expr::delta_mu_WH_QQ2HLNU_PTV_150_250_0J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_WH_QQ2HLNU_PTV_150_250_0J,KEW_WH_QQ2HLNU_PTV_150_250_0J)"/>
+<Item Name="expr::delta_mu_WH_QQ2HLNU_PTV_250_400_0J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_WH_QQ2HLNU_PTV_250_400_0J,KEW_WH_QQ2HLNU_PTV_250_400_0J)"/>
+<Item Name="expr::delta_mu_WH_QQ2HLNU_PTV_GT400_0J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_WH_QQ2HLNU_PTV_GT400_0J,KEW_WH_QQ2HLNU_PTV_GT400_0J)"/>
+
+<Item Name="expr::delta_mu_WH_QQ2HLNU_PTV_0_75_1J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_WH_QQ2HLNU_PTV_0_75_1J,KEW_WH_QQ2HLNU_PTV_0_75_1J)"/>
+<Item Name="expr::delta_mu_WH_QQ2HLNU_PTV_75_150_1J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_WH_QQ2HLNU_PTV_75_150_1J,KEW_WH_QQ2HLNU_PTV_75_150_1J)"/>
+<Item Name="expr::delta_mu_WH_QQ2HLNU_PTV_150_250_1J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_WH_QQ2HLNU_PTV_150_250_1J,KEW_WH_QQ2HLNU_PTV_150_250_1J)"/>
+<Item Name="expr::delta_mu_WH_QQ2HLNU_PTV_250_400_1J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_WH_QQ2HLNU_PTV_250_400_1J,KEW_WH_QQ2HLNU_PTV_250_400_1J)"/>
+<Item Name="expr::delta_mu_WH_QQ2HLNU_PTV_GT400_1J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_WH_QQ2HLNU_PTV_GT400_1J,KEW_WH_QQ2HLNU_PTV_GT400_1J)"/>
+
+<Item Name="expr::delta_mu_WH_QQ2HLNU_PTV_0_75_GE2J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_WH_QQ2HLNU_PTV_0_75_GE2J,KEW_WH_QQ2HLNU_PTV_0_75_GE2J)"/>
+<Item Name="expr::delta_mu_WH_QQ2HLNU_PTV_75_150_GE2J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_WH_QQ2HLNU_PTV_75_150_GE2J,KEW_WH_QQ2HLNU_PTV_75_150_GE2J)"/>
+<Item Name="expr::delta_mu_WH_QQ2HLNU_PTV_150_250_GE2J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_WH_QQ2HLNU_PTV_150_250_GE2J,KEW_WH_QQ2HLNU_PTV_150_250_GE2J)"/>
+<Item Name="expr::delta_mu_WH_QQ2HLNU_PTV_250_400_GE2J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_WH_QQ2HLNU_PTV_250_400_GE2J,KEW_WH_QQ2HLNU_PTV_250_400_GE2J)"/>
+<Item Name="expr::delta_mu_WH_QQ2HLNU_PTV_GT400_GE2J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_WH_QQ2HLNU_PTV_GT400_GE2J,KEW_WH_QQ2HLNU_PTV_GT400_GE2J)"/>
+    
+<!-- POI: delta_mu ZH: ADDED FABIO -->    
+<Item Name="expr::delta_mu_ZH_QQ2HLL_PTV_0_75_0J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_ZH_QQ2HLL_PTV_0_75_0J,KEW_ZH_QQ2HLL_PTV_0_75_0J)"/>
+<Item Name="expr::delta_mu_ZH_QQ2HLL_PTV_75_150_0J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_ZH_QQ2HLL_PTV_75_150_0J,KEW_ZH_QQ2HLL_PTV_75_150_0J)"/>
+<Item Name="expr::delta_mu_ZH_QQ2HLL_PTV_150_250_0J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_ZH_QQ2HLL_PTV_150_250_0J,KEW_ZH_QQ2HLL_PTV_150_250_0J)"/>
+<Item Name="expr::delta_mu_ZH_QQ2HLL_PTV_250_400_0J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_ZH_QQ2HLL_PTV_250_400_0J,KEW_ZH_QQ2HLL_PTV_250_400_0J)"/>
+<Item Name="expr::delta_mu_ZH_QQ2HLL_PTV_GT400_0J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_ZH_QQ2HLL_PTV_GT400_0J,KEW_ZH_QQ2HLL_PTV_GT400_0J)"/>
+
+<Item Name="expr::delta_mu_ZH_QQ2HLL_PTV_0_75_1J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_ZH_QQ2HLL_PTV_0_75_1J,KEW_ZH_QQ2HLL_PTV_0_75_1J)"/>
+<Item Name="expr::delta_mu_ZH_QQ2HLL_PTV_75_150_1J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_ZH_QQ2HLL_PTV_75_150_1J,KEW_ZH_QQ2HLL_PTV_75_150_1J)"/>
+<Item Name="expr::delta_mu_ZH_QQ2HLL_PTV_150_250_1J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_ZH_QQ2HLL_PTV_150_250_1J,KEW_ZH_QQ2HLL_PTV_150_250_1J)"/>
+<Item Name="expr::delta_mu_ZH_QQ2HLL_PTV_250_400_1J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_ZH_QQ2HLL_PTV_250_400_1J,KEW_ZH_QQ2HLL_PTV_250_400_1J)"/>
+<Item Name="expr::delta_mu_ZH_QQ2HLL_PTV_GT400_1J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_ZH_QQ2HLL_PTV_GT400_1J,KEW_ZH_QQ2HLL_PTV_GT400_1J)"/>
+
+
+<Item Name="expr::delta_mu_ZH_QQ2HLL_PTV_0_75_GE2J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_ZH_QQ2HLL_PTV_0_75_GE2J,KEW_ZH_QQ2HLL_PTV_0_75_GE2J)"/>
+<Item Name="expr::delta_mu_ZH_QQ2HLL_PTV_75_150_GE2J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_ZH_QQ2HLL_PTV_75_150_GE2J,KEW_ZH_QQ2HLL_PTV_75_150_GE2J)"/>
+<Item Name="expr::delta_mu_ZH_QQ2HLL_PTV_150_250_GE2J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_ZH_QQ2HLL_PTV_150_250_GE2J,KEW_ZH_QQ2HLL_PTV_150_250_GE2J)"/>
+<Item Name="expr::delta_mu_ZH_QQ2HLL_PTV_250_400_GE2J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_ZH_QQ2HLL_PTV_250_400_GE2J,KEW_ZH_QQ2HLL_PTV_250_400_GE2J)"/>
+<Item Name="expr::delta_mu_ZH_QQ2HLL_PTV_GT400_GE2J('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_ZH_QQ2HLL_PTV_GT400_GE2J,KEW_ZH_QQ2HLL_PTV_GT400_GE2J)"/>
+
+<!-- POI: delta_mu TTH: ADDED FABIO [updated] --> 
+<Item Name="expr::delta_mu_TTH_PTH_0_60('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_TTH_PTH_0_60,KEW_TTH_PTH_0_60)"/>
+<Item Name="expr::delta_mu_TTH_PTH_60_120('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_TTH_PTH_60_120,KEW_TTH_PTH_60_120)"/>
+<Item Name="expr::delta_mu_TTH_PTH_120_200('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_TTH_PTH_120_200,KEW_TTH_PTH_120_200)"/>
+<Item Name="expr::delta_mu_TTH_PTH_200_300('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_TTH_PTH_200_300,KEW_TTH_PTH_200_300)"/>
+<Item Name="expr::delta_mu_TTH_PTH_300_450('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_TTH_PTH_300_450,KEW_TTH_PTH_300_450)"/>
+<Item Name="expr::delta_mu_TTH_PTH_GT450('@0*(((@1-1)*@2)/@3)',ZH_BSM,k3,C1_TTH_PTH_GT450,KEW_TTH_PTH_GT450)"/>
+ 
+   
+    
+
+<!-- POI: mu_k3 inclusive [updated] -->   
+<Item Name="expr::mu_k3_ggF('@0+@1*@2',delta_mu_ggF,ZH_BSM,kggF2)"/>
+<Item Name="expr::mu_k3_VBF('@0+@1*@2',delta_mu_VBF,ZH_BSM,kVBF2)"/>
+<Item Name="expr::mu_k3_WH('@0+(@1*(@2*@2))',delta_mu_WH,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_ZH('@0+(@1*(@2*@2))',delta_mu_ZH,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ttH('@0+(@1*(@2*@2))',delta_mu_ttH,ZH_BSM,kt)"/>
+<Item Name="expr::mu_k3_tHj('@0+@1*@2',delta_mu_tHj,ZH_BSM,ktHj2)"/>
+    
+<!-- C1 = 0, but dependence coming from ZhBSM [updated] -->
+<Item Name="expr::mu_k3_ggZH('@0+@1*@2',delta_mu_ggZH,ZH_BSM,kggZH2)"/>
+<Item Name="expr::mu_k3_tHW('@0+@1*@2',delta_mu_tHW,ZH_BSM,ktHW2)"/>
+<Item Name="expr::mu_k3_bbH('@0+@1*@2',delta_mu_bbH,ZH_BSM,kb2)"/>
+    
+
+<!-- POI: mu_k3 VBF: [updated] --> 
+<Item Name="expr::mu_k3_VBF_QQ2HQQ_0J('@0+(@1*@2)',delta_mu_VBF_QQ2HQQ_0J,ZH_BSM,kVBF2)"/>
+<Item Name="expr::mu_k3_VBF_QQ2HQQ_1J('@0+(@1*@2)',delta_mu_VBF_QQ2HQQ_1J,ZH_BSM,kVBF2)"/>
+<Item Name="expr::mu_k3_VBF_QQ2HQQ_GE2J_MJJ_0_60('@0+(@1*@2)',delta_mu_VBF_QQ2HQQ_GE2J_MJJ_0_60,ZH_BSM,kVBF2)"/>
+<Item Name="expr::mu_k3_VBF_QQ2HQQ_GE2J_MJJ_60_120('@0+(@1*@2)',delta_mu_VBF_QQ2HQQ_GE2J_MJJ_60_120,ZH_BSM,kVBF2)"/>
+<Item Name="expr::mu_k3_VBF_QQ2HQQ_GE2J_MJJ_120_350('@0+(@1*@2)',delta_mu_VBF_QQ2HQQ_GE2J_MJJ_120_350,ZH_BSM,kVBF2)"/>
+<Item Name="expr::mu_k3_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200('@0+(@1*@2)',delta_mu_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200,ZH_BSM,kVBF2)"/>
+<Item Name="expr::mu_k3_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25('@0+(@1*@2)',delta_mu_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25,ZH_BSM,kVBF2)"/>
+<Item Name="expr::mu_k3_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25('@0+(@1*@2)',delta_mu_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25,ZH_BSM,kVBF2)"/>
+<Item Name="expr::mu_k3_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25('@0+(@1*@2)',delta_mu_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25,ZH_BSM,kVBF2)"/>
+<Item Name="expr::mu_k3_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25('@0+(@1*@2)',delta_mu_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25,ZH_BSM,kVBF2)"/>
+<Item Name="expr::mu_k3_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200('@0+(@1*@2)',delta_mu_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200,ZH_BSM,kVBF2)"/>
+<Item Name="expr::mu_k3_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25('@0+(@1*@2)',delta_mu_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25,ZH_BSM,kVBF2)"/>
+<Item Name="expr::mu_k3_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25('@0+(@1*@2)',delta_mu_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25,ZH_BSM,kVBF2)"/>
+<Item Name="expr::mu_k3_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200('@0+(@1*@2)',delta_mu_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200,ZH_BSM,kVBF2)"/>
+<Item Name="expr::mu_k3_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25('@0+(@1*@2)',delta_mu_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25,ZH_BSM,kVBF2)"/>
+<Item Name="expr::mu_k3_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25('@0+(@1*@2)',delta_mu_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25,ZH_BSM,kVBF2)"/>
+<Item Name="expr::mu_k3_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200('@0+(@1*@2)',delta_mu_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200,ZH_BSM,kVBF2)"/>
+    
+<Item Name="expr::mu_k3_WH_QQ2HQQ_0J('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HQQ_0J,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HQQ_1J('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HQQ_1J,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HQQ_GE2J_MJJ_0_60('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HQQ_GE2J_MJJ_0_60,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HQQ_GE2J_MJJ_60_120('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HQQ_GE2J_MJJ_60_120,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HQQ_GE2J_MJJ_120_350('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HQQ_GE2J_MJJ_120_350,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200,ZH_BSM,kW)"/>
+    
+<Item Name="expr::mu_k3_ZH_QQ2HQQ_0J('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HQQ_0J,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HQQ_1J('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HQQ_1J,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HQQ_GE2J_MJJ_0_60('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HQQ_GE2J_MJJ_0_60,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HQQ_GE2J_MJJ_60_120('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HQQ_GE2J_MJJ_60_120,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HQQ_GE2J_MJJ_120_350('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HQQ_GE2J_MJJ_120_350,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200,ZH_BSM,kZ)"/>
+    
+<!-- POI: mu_k3 WH: ADDED FABIO -->  
+<Item Name="expr::mu_k3_WH_QQ2HLNU_PTV_0_75_0J('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HLNU_PTV_0_75_0J,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HLNU_PTV_75_150_0J('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HLNU_PTV_75_150_0J,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HLNU_PTV_150_250_0J('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HLNU_PTV_150_250_0J,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HLNU_PTV_250_400_0J('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HLNU_PTV_250_400_0J,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HLNU_PTV_GT400_0J('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HLNU_PTV_GT400_0J,ZH_BSM,kW)"/>
+
+<Item Name="expr::mu_k3_WH_QQ2HLNU_PTV_0_75_1J('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HLNU_PTV_0_75_1J,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HLNU_PTV_75_150_1J('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HLNU_PTV_75_150_1J,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HLNU_PTV_150_250_1J('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HLNU_PTV_150_250_1J,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HLNU_PTV_250_400_1J('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HLNU_PTV_250_400_1J,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HLNU_PTV_GT400_1J('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HLNU_PTV_GT400_1J,ZH_BSM,kW)"/>
+
+<Item Name="expr::mu_k3_WH_QQ2HLNU_PTV_0_75_GE2J('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HLNU_PTV_0_75_GE2J,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HLNU_PTV_75_150_GE2J('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HLNU_PTV_75_150_GE2J,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HLNU_PTV_150_250_GE2J('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HLNU_PTV_150_250_GE2J,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HLNU_PTV_250_400_GE2J('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HLNU_PTV_250_400_GE2J,ZH_BSM,kW)"/>
+<Item Name="expr::mu_k3_WH_QQ2HLNU_PTV_GT400_GE2J('@0+(@1*(@2*@2))',delta_mu_WH_QQ2HLNU_PTV_GT400_GE2J,ZH_BSM,kW)"/>
+
+
+
+    
+<!-- POI: mu_k3 ZH: ADDED FABIO -->    
+<Item Name="expr::mu_k3_ZH_QQ2HLL_PTV_0_75_0J('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HLL_PTV_0_75_0J,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HLL_PTV_75_150_0J('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HLL_PTV_75_150_0J,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HLL_PTV_150_250_0J('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HLL_PTV_150_250_0J,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HLL_PTV_250_400_0J('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HLL_PTV_250_400_0J,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HLL_PTV_GT400_0J('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HLL_PTV_GT400_0J,ZH_BSM,kZ)"/>
+
+<Item Name="expr::mu_k3_ZH_QQ2HLL_PTV_0_75_1J('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HLL_PTV_0_75_1J,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HLL_PTV_75_150_1J('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HLL_PTV_75_150_1J,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HLL_PTV_150_250_1J('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HLL_PTV_150_250_1J,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HLL_PTV_250_400_1J('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HLL_PTV_250_400_1J,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HLL_PTV_GT400_1J('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HLL_PTV_GT400_1J,ZH_BSM,kZ)"/>
+ 
+<Item Name="expr::mu_k3_ZH_QQ2HLL_PTV_0_75_GE2J('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HLL_PTV_0_75_GE2J,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HLL_PTV_75_150_GE2J('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HLL_PTV_75_150_GE2J,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HLL_PTV_150_250_GE2J('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HLL_PTV_150_250_GE2J,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HLL_PTV_250_400_GE2J('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HLL_PTV_250_400_GE2J,ZH_BSM,kZ)"/>
+<Item Name="expr::mu_k3_ZH_QQ2HLL_PTV_GT400_GE2J('@0+(@1*(@2*@2))',delta_mu_ZH_QQ2HLL_PTV_GT400_GE2J,ZH_BSM,kZ)"/>
+ 
+    
+ <!-- POI: mu_k3 TTH: ADDED FABIO -->   
+<Item Name="expr::mu_k3_TTH_PTH_0_60('@0+(@1*(@2*@2))',delta_mu_TTH_PTH_0_60,ZH_BSM,kt)"/>
+<Item Name="expr::mu_k3_TTH_PTH_60_120('@0+(@1*(@2*@2))',delta_mu_TTH_PTH_60_120,ZH_BSM,kt)"/>
+<Item Name="expr::mu_k3_TTH_PTH_120_200('@0+(@1*(@2*@2))',delta_mu_TTH_PTH_120_200,ZH_BSM,kt)"/>
+<Item Name="expr::mu_k3_TTH_PTH_200_300('@0+(@1*(@2*@2))',delta_mu_TTH_PTH_200_300,ZH_BSM,kt)"/>
+<Item Name="expr::mu_k3_TTH_PTH_300_450('@0+(@1*(@2*@2))',delta_mu_TTH_PTH_300_450,ZH_BSM,kt)"/>
+<Item Name="expr::mu_k3_TTH_PTH_GT450('@0+(@1*(@2*@2))',delta_mu_TTH_PTH_GT450,ZH_BSM,kt)"/>
+ 
+
+
+<Item Name="C1_gamgam[0.0049]"/>
+<Item Name="BR_125_gamgam[0.00227]"/>
+<Item Name="C1_ZZ[0.0083]"/>
+<Item Name="BR_125_ZZ[0.02641]"/>
+<Item Name="C1_WW[0.0073]"/>
+<Item Name="BR_125_WW[0.2152]"/>
+<Item Name="C1_bb[0]"/>
+<Item Name="BR_125_bb[0.5809]"/>
+<Item Name="C1_tautau[0]"/>
+<Item Name="BR_125_tautau[0.06256]"/>
+<Item Name="C1_Zgam[0.0072]"/>
+<Item Name="BR_125_Zgam[0.001541]"/>
+<Item Name="C1_gg[0.0066]"/>
+<Item Name="BR_125_gg[0.08180]"/>
+<Item Name="C1_mumu[0]"/>
+<Item Name="BR_125_mumu[0.0002171]"/>
+<Item Name="C1_ss[0]"/>
+<Item Name="BR_125_ss[0.0004]"/>
+<Item Name="C1_cc[0]"/>
+<Item Name="BR_125_cc[0.02884]"/>
+<Item Name="C1_tt[0]"/>
+<Item Name="BR_125_tt[0.0000]"/>
+
+<Item Name="expr::num_mu_gamgam('@0+((@1-1)*@2)',kyy2,k3,C1_gamgam)"/>
+<Item Name="expr::den_mu_gamgam('@0*(@1+((@2-1)*@3))',BR_125_gamgam,kyy2,k3,C1_gamgam)"/>
+
+<Item Name="expr::num_mu_ZZ('(@0*@0)+((@1-1)*@2)',kZ,k3,C1_ZZ)"/>
+<Item Name="expr::den_mu_ZZ('@0*((@1*@1)+((@2-1)*@3))',BR_125_ZZ,kZ,k3,C1_ZZ)"/>
+
+<Item Name="expr::num_mu_WW('(@0*@0)+((@1-1)*@2)',kW,k3,C1_WW)"/>
+<Item Name="expr::den_mu_WW('@0*((@1*@1)+((@2-1)*@3))',BR_125_WW,kW,k3,C1_WW)"/>
+
+<Item Name="expr::num_mu_bb('(@0*@0)+((@1-1)*@2)',kb,k3,C1_bb)"/>
+<Item Name="expr::den_mu_bb('@0*((@1*@1)+((@2-1)*@3))',BR_125_bb,kb,k3,C1_bb)"/>
+
+<Item Name="expr::num_mu_tautau('(@0*@0)+((@1-1)*@2)',ktau,k3,C1_tautau)"/>
+<Item Name="expr::den_mu_tautau('@0*((@1*@1)+((@2-1)*@3))',BR_125_tautau,ktau,k3,C1_tautau)"/>
+
+<Item Name="expr::num_mu_Zgam('@0+((@1-1)*@2)',kZy2,k3,C1_Zgam)"/>
+<Item Name="expr::den_mu_Zgam('@0*(@1+((@2-1)*@3))',BR_125_Zgam,kZy2,k3,C1_Zgam)"/>
+
+<Item Name="expr::num_mu_gg('@0+((@1-1)*@2)',kgg2,k3,C1_gg)"/>
+<Item Name="expr::den_mu_gg('@0*(@1+((@2-1)*@3))',BR_125_gg,kgg2,k3,C1_gg)"/>
+
+<Item Name="expr::num_mu_mumu('(@0*@0)+((@1-1)*@2)',kmu,k3,C1_mumu)"/>
+<Item Name="expr::den_mu_mumu('@0*((@1*@1)+((@2-1)*@3))',BR_125_mumu,kmu,k3,C1_mumu)"/>
+
+<Item Name="expr::num_mu_ss('(@0*@0)+((@1-1)*@2)',ks,k3,C1_ss)"/>
+<Item Name="expr::den_mu_ss('@0*((@1*@1)+((@2-1)*@3))',BR_125_ss,ks,k3,C1_ss)"/>
+
+<Item Name="expr::num_mu_cc('(@0*@0)+((@1-1)*@2)',kc,k3,C1_cc)"/>
+<Item Name="expr::den_mu_cc('@0*((@1*@1)+((@2-1)*@3))',BR_125_cc,kc,k3,C1_cc)"/>
+
+<Item Name="expr::num_mu_tt('(@0*@0)+((@1-1)*@2)',kt,k3,C1_tt)"/>
+<Item Name="expr::den_mu_tt('@0*((@1*@1)+((@2-1)*@3))',BR_125_tt,kt,k3,C1_tt)"/>
+
+<Item Name="expr::den_mu('@0+@1+@2+@3+@4+@5+@6+@7+@8+@9+@10',den_mu_gamgam,den_mu_ZZ,den_mu_WW,den_mu_bb,den_mu_tautau,den_mu_Zgam,den_mu_gg,den_mu_mumu,den_mu_ss,den_mu_cc,den_mu_tt)"/>
+
+<Item Name="expr::mu_k3_gamgam('@0/@1',num_mu_gamgam,den_mu)"/>
+<Item Name="expr::mu_k3_ZZ('@0/@1',num_mu_ZZ,den_mu)"/>
+<Item Name="expr::mu_k3_WW('@0/@1',num_mu_WW,den_mu)"/>
+<Item Name="expr::mu_k3_bb('@0/@1',num_mu_bb,den_mu)"/>
+<Item Name="expr::mu_k3_tautau('@0/@1',num_mu_tautau,den_mu)"/>
+
+<!-- PDF -->
+<Map Name= "EDIT::NEWPDF(OLDPDF,
+			BR_BB_O_ZZ=unit,
+			BR_TAUTAU_O_ZZ=unit,
+			BR_WW_O_ZZ=unit,
+			BR_YY_O_ZZ=unit,
+			mu=unit,
+			mu_BBH=kb2,
+			mu_BBH_TAUTAU=unit,
+			mu_BBH_YY=unit,
+			mu_BR_BB=mu_k3_bb,
+			mu_BR_TAUTAU=mu_k3_tautau,
+			mu_BR_WW=mu_k3_WW,
+			mu_BR_YY=mu_k3_gamgam,
+			mu_BR_ZZ=mu_k3_ZZ,
+			mu_GGF_GG2H_0J_PTH_0_10=mu_k3_ggF,
+			mu_GGF_GG2H_0J_PTH_0_10_WW=unit,
+			mu_GGF_GG2H_0J_PTH_0_10_YY=unit,
+			mu_GGF_GG2H_0J_PTH_0_10_ZZ=unit,
+			mu_GGF_GG2H_0J_PTH_GT10=mu_k3_ggF,
+			mu_GGF_GG2H_0J_PTH_GT10_TAUTAU=unit,
+			mu_GGF_GG2H_0J_PTH_GT10_WW=unit,
+			mu_GGF_GG2H_0J_PTH_GT10_YY=unit,
+			mu_GGF_GG2H_0J_PTH_GT10_ZZ=unit,
+			mu_GGF_GG2H_1J_PTH_0_60=mu_k3_ggF,
+			mu_GGF_GG2H_1J_PTH_0_60_TAUTAU=unit,
+			mu_GGF_GG2H_1J_PTH_0_60_WW=unit,
+			mu_GGF_GG2H_1J_PTH_0_60_YY=unit,
+			mu_GGF_GG2H_1J_PTH_0_60_ZZ=unit,
+			mu_GGF_GG2H_1J_PTH_120_200=mu_k3_ggF,
+			mu_GGF_GG2H_1J_PTH_120_200_BB=unit,
+			mu_GGF_GG2H_1J_PTH_120_200_TAUTAU=unit,
+			mu_GGF_GG2H_1J_PTH_120_200_WW=unit,
+			mu_GGF_GG2H_1J_PTH_120_200_YY=unit,
+			mu_GGF_GG2H_1J_PTH_120_200_ZZ=unit,
+			mu_GGF_GG2H_1J_PTH_60_120=mu_k3_ggF,
+			mu_GGF_GG2H_1J_PTH_60_120_BB=unit,
+			mu_GGF_GG2H_1J_PTH_60_120_TAUTAU=unit,
+			mu_GGF_GG2H_1J_PTH_60_120_WW=unit,
+			mu_GGF_GG2H_1J_PTH_60_120_YY=unit,
+			mu_GGF_GG2H_1J_PTH_60_120_ZZ=unit,
+			mu_GGF_GG2H_GE2J_MJJ_0_350_PTH_0_60=mu_k3_ggF,
+			mu_GGF_GG2H_GE2J_MJJ_0_350_PTH_0_60_BB=unit,
+			mu_GGF_GG2H_GE2J_MJJ_0_350_PTH_0_60_TAUTAU=unit,
+			mu_GGF_GG2H_GE2J_MJJ_0_350_PTH_0_60_WW=unit,
+			mu_GGF_GG2H_GE2J_MJJ_0_350_PTH_0_60_YY=unit,
+			mu_GGF_GG2H_GE2J_MJJ_0_350_PTH_0_60_ZZ=unit,
+			mu_GGF_GG2H_GE2J_MJJ_0_350_PTH_120_200=mu_k3_ggF,
+			mu_GGF_GG2H_GE2J_MJJ_0_350_PTH_120_200_BB=unit,
+			mu_GGF_GG2H_GE2J_MJJ_0_350_PTH_120_200_TAUTAU=unit,
+			mu_GGF_GG2H_GE2J_MJJ_0_350_PTH_120_200_WW=unit,
+			mu_GGF_GG2H_GE2J_MJJ_0_350_PTH_120_200_YY=unit,
+			mu_GGF_GG2H_GE2J_MJJ_0_350_PTH_120_200_ZZ=unit,
+			mu_GGF_GG2H_GE2J_MJJ_0_350_PTH_60_120=mu_k3_ggF,
+			mu_GGF_GG2H_GE2J_MJJ_0_350_PTH_60_120_BB=unit,
+			mu_GGF_GG2H_GE2J_MJJ_0_350_PTH_60_120_TAUTAU=unit,
+			mu_GGF_GG2H_GE2J_MJJ_0_350_PTH_60_120_WW=unit,
+			mu_GGF_GG2H_GE2J_MJJ_0_350_PTH_60_120_YY=unit,
+			mu_GGF_GG2H_GE2J_MJJ_0_350_PTH_60_120_ZZ=unit,
+			mu_GGF_GG2H_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25=mu_k3_ggF,
+			mu_GGF_GG2H_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25_BB=unit,
+			mu_GGF_GG2H_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25_TAUTAU=unit,
+			mu_GGF_GG2H_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25_WW=unit,
+			mu_GGF_GG2H_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25_YY=unit,
+			mu_GGF_GG2H_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25_ZZ=unit,
+			mu_GGF_GG2H_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25=mu_k3_ggF,
+			mu_GGF_GG2H_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25_BB=unit,
+			mu_GGF_GG2H_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25_TAUTAU=unit,
+			mu_GGF_GG2H_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25_WW=unit,
+			mu_GGF_GG2H_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25_YY=unit,
+			mu_GGF_GG2H_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25_ZZ=unit,
+			mu_GGF_GG2H_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25=mu_k3_ggF,
+			mu_GGF_GG2H_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25_BB=unit,
+			mu_GGF_GG2H_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25_TAUTAU=unit,
+			mu_GGF_GG2H_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25_WW=unit,
+			mu_GGF_GG2H_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25_YY=unit,
+			mu_GGF_GG2H_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25_ZZ=unit,
+			mu_GGF_GG2H_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25=mu_k3_ggF,
+			mu_GGF_GG2H_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25_BB=unit,
+			mu_GGF_GG2H_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25_TAUTAU=unit,
+			mu_GGF_GG2H_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25_WW=unit,
+			mu_GGF_GG2H_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25_YY=unit,
+			mu_GGF_GG2H_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25_ZZ=unit,
+			mu_GGF_GG2H_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25=mu_k3_ggF,
+			mu_GGF_GG2H_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25_BB=unit,
+			mu_GGF_GG2H_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25_TAUTAU=unit,
+			mu_GGF_GG2H_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25_WW=unit,
+			mu_GGF_GG2H_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25_YY=unit,
+			mu_GGF_GG2H_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25_ZZ=unit,
+			mu_GGF_GG2H_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25=mu_k3_ggF,
+			mu_GGF_GG2H_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25_BB=unit,
+			mu_GGF_GG2H_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25_TAUTAU=unit,
+			mu_GGF_GG2H_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25_WW=unit,
+			mu_GGF_GG2H_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25_YY=unit,
+			mu_GGF_GG2H_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25_ZZ=unit,
+			mu_GGF_GG2H_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25=mu_k3_ggF,
+			mu_GGF_GG2H_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25_BB=unit,
+			mu_GGF_GG2H_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25_TAUTAU=unit,
+			mu_GGF_GG2H_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25_WW=unit,
+			mu_GGF_GG2H_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25_YY=unit,
+			mu_GGF_GG2H_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25_ZZ=unit,
+			mu_GGF_GG2H_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25=mu_k3_ggF,
+			mu_GGF_GG2H_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25_BB=unit,
+			mu_GGF_GG2H_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25_TAUTAU=unit,
+			mu_GGF_GG2H_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25_WW=unit,
+			mu_GGF_GG2H_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25_YY=unit,
+			mu_GGF_GG2H_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25_ZZ=unit,
+			mu_GGF_GG2H_PTH_200_300=mu_k3_ggF,
+			mu_GGF_GG2H_PTH_200_300_BB=unit,
+			mu_GGF_GG2H_PTH_200_300_TAUTAU=unit,
+			mu_GGF_GG2H_PTH_200_300_WW=unit,
+			mu_GGF_GG2H_PTH_200_300_YY=unit,
+			mu_GGF_GG2H_PTH_200_300_ZZ=unit,
+			mu_GGF_GG2H_PTH_300_450=mu_k3_ggF,
+			mu_GGF_GG2H_PTH_300_450_BB=unit,
+			mu_GGF_GG2H_PTH_300_450_TAUTAU=unit,
+			mu_GGF_GG2H_PTH_300_450_WW=unit,
+			mu_GGF_GG2H_PTH_300_450_YY=unit,
+			mu_GGF_GG2H_PTH_300_450_ZZ=unit,
+			mu_GGF_GG2H_PTH_450_650=mu_k3_ggF,
+			mu_GGF_GG2H_PTH_450_650_BB=unit,
+			mu_GGF_GG2H_PTH_450_650_TAUTAU=unit,
+			mu_GGF_GG2H_PTH_450_650_WW=unit,
+			mu_GGF_GG2H_PTH_450_650_YY=unit,
+			mu_GGF_GG2H_PTH_450_650_ZZ=unit,
+			mu_GGF_GG2H_PTH_GT650=mu_k3_ggF,
+			mu_GGF_GG2H_PTH_GT650_BB=unit,
+			mu_GGF_GG2H_PTH_GT650_TAUTAU=unit,
+			mu_GGF_GG2H_PTH_GT650_WW=unit,
+			mu_GGF_GG2H_PTH_GT650_YY=unit,
+			mu_GGF_GG2H_PTH_GT650_ZZ=unit,
+			mu_GGZH_GG2HLL_PTV_0_75_0J=kggZH2,
+			mu_GGZH_GG2HLL_PTV_0_75_0J_BB=unit,
+			mu_GGZH_GG2HLL_PTV_0_75_0J_YY=unit,
+			mu_GGZH_GG2HLL_PTV_0_75_0J_ZZ=unit,
+			mu_GGZH_GG2HLL_PTV_0_75_1J=kggZH2,
+			mu_GGZH_GG2HLL_PTV_0_75_1J_BB=unit,
+			mu_GGZH_GG2HLL_PTV_0_75_1J_YY=unit,
+			mu_GGZH_GG2HLL_PTV_0_75_1J_ZZ=unit,
+			mu_GGZH_GG2HLL_PTV_0_75_GE2J=kggZH2,
+			mu_GGZH_GG2HLL_PTV_0_75_GE2J_BB=unit,
+			mu_GGZH_GG2HLL_PTV_0_75_GE2J_YY=unit,
+			mu_GGZH_GG2HLL_PTV_0_75_GE2J_ZZ=unit,
+			mu_GGZH_GG2HLL_PTV_150_250_0J=kggZH2,
+			mu_GGZH_GG2HLL_PTV_150_250_0J_BB=unit,
+			mu_GGZH_GG2HLL_PTV_150_250_0J_YY=unit,
+			mu_GGZH_GG2HLL_PTV_150_250_0J_ZZ=unit,
+			mu_GGZH_GG2HLL_PTV_150_250_1J=kggZH2,
+			mu_GGZH_GG2HLL_PTV_150_250_1J_BB=unit,
+			mu_GGZH_GG2HLL_PTV_150_250_1J_YY=unit,
+			mu_GGZH_GG2HLL_PTV_150_250_1J_ZZ=unit,
+			mu_GGZH_GG2HLL_PTV_150_250_GE2J=kggZH2,
+			mu_GGZH_GG2HLL_PTV_150_250_GE2J_BB=unit,
+			mu_GGZH_GG2HLL_PTV_150_250_GE2J_YY=unit,
+			mu_GGZH_GG2HLL_PTV_150_250_GE2J_ZZ=unit,
+			mu_GGZH_GG2HLL_PTV_250_400_0J=kggZH2,
+			mu_GGZH_GG2HLL_PTV_250_400_0J_BB=unit,
+			mu_GGZH_GG2HLL_PTV_250_400_0J_YY=unit,
+			mu_GGZH_GG2HLL_PTV_250_400_0J_ZZ=unit,
+			mu_GGZH_GG2HLL_PTV_250_400_1J=kggZH2,
+			mu_GGZH_GG2HLL_PTV_250_400_1J_BB=unit,
+			mu_GGZH_GG2HLL_PTV_250_400_1J_YY=unit,
+			mu_GGZH_GG2HLL_PTV_250_400_1J_ZZ=unit,
+			mu_GGZH_GG2HLL_PTV_250_400_GE2J=kggZH2,
+			mu_GGZH_GG2HLL_PTV_250_400_GE2J_BB=unit,
+			mu_GGZH_GG2HLL_PTV_250_400_GE2J_YY=unit,
+			mu_GGZH_GG2HLL_PTV_250_400_GE2J_ZZ=unit,
+			mu_GGZH_GG2HLL_PTV_75_150_0J=kggZH2,
+			mu_GGZH_GG2HLL_PTV_75_150_0J_BB=unit,
+			mu_GGZH_GG2HLL_PTV_75_150_0J_YY=unit,
+			mu_GGZH_GG2HLL_PTV_75_150_0J_ZZ=unit,
+			mu_GGZH_GG2HLL_PTV_75_150_1J=kggZH2,
+			mu_GGZH_GG2HLL_PTV_75_150_1J_BB=unit,
+			mu_GGZH_GG2HLL_PTV_75_150_1J_YY=unit,
+			mu_GGZH_GG2HLL_PTV_75_150_1J_ZZ=unit,
+			mu_GGZH_GG2HLL_PTV_75_150_GE2J=kggZH2,
+			mu_GGZH_GG2HLL_PTV_75_150_GE2J_BB=unit,
+			mu_GGZH_GG2HLL_PTV_75_150_GE2J_YY=unit,
+			mu_GGZH_GG2HLL_PTV_75_150_GE2J_ZZ=unit,
+			mu_GGZH_GG2HLL_PTV_GT400_0J=kggZH2,
+			mu_GGZH_GG2HLL_PTV_GT400_0J_BB=unit,
+			mu_GGZH_GG2HLL_PTV_GT400_0J_YY=unit,
+			mu_GGZH_GG2HLL_PTV_GT400_0J_ZZ=unit,
+			mu_GGZH_GG2HLL_PTV_GT400_1J=kggZH2,
+			mu_GGZH_GG2HLL_PTV_GT400_1J_BB=unit,
+			mu_GGZH_GG2HLL_PTV_GT400_1J_YY=unit,
+			mu_GGZH_GG2HLL_PTV_GT400_1J_ZZ=unit,
+			mu_GGZH_GG2HLL_PTV_GT400_GE2J=kggZH2,
+			mu_GGZH_GG2HLL_PTV_GT400_GE2J_BB=unit,
+			mu_GGZH_GG2HLL_PTV_GT400_GE2J_YY=unit,
+			mu_GGZH_GG2HLL_PTV_GT400_GE2J_ZZ=unit,
+			mu_GGZH_GG2H_0J_PTH_0_10=kggZH2,
+			mu_GGZH_GG2H_0J_PTH_0_10_YY=unit,
+			mu_GGZH_GG2H_0J_PTH_0_10_ZZ=unit,
+			mu_GGZH_GG2H_0J_PTH_GT10=kggZH2,
+			mu_GGZH_GG2H_0J_PTH_GT10_YY=unit,
+			mu_GGZH_GG2H_0J_PTH_GT10_ZZ=unit,
+			mu_GGZH_GG2H_1J_PTH_0_60=kggZH2,
+			mu_GGZH_GG2H_1J_PTH_0_60_YY=unit,
+			mu_GGZH_GG2H_1J_PTH_0_60_ZZ=unit,
+			mu_GGZH_GG2H_1J_PTH_120_200=kggZH2,
+			mu_GGZH_GG2H_1J_PTH_120_200_TAUTAU=unit,
+			mu_GGZH_GG2H_1J_PTH_120_200_YY=unit,
+			mu_GGZH_GG2H_1J_PTH_120_200_ZZ=unit,
+			mu_GGZH_GG2H_1J_PTH_60_120=kggZH2,
+			mu_GGZH_GG2H_1J_PTH_60_120_TAUTAU=unit,
+			mu_GGZH_GG2H_1J_PTH_60_120_YY=unit,
+			mu_GGZH_GG2H_1J_PTH_60_120_ZZ=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_0_350_PTH_0_60=kggZH2,
+			mu_GGZH_GG2H_GE2J_MJJ_0_350_PTH_0_60_TAUTAU=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_0_350_PTH_0_60_YY=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_0_350_PTH_0_60_ZZ=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_0_350_PTH_120_200=kggZH2,
+			mu_GGZH_GG2H_GE2J_MJJ_0_350_PTH_120_200_TAUTAU=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_0_350_PTH_120_200_YY=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_0_350_PTH_120_200_ZZ=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_0_350_PTH_60_120=kggZH2,
+			mu_GGZH_GG2H_GE2J_MJJ_0_350_PTH_60_120_TAUTAU=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_0_350_PTH_60_120_YY=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_0_350_PTH_60_120_ZZ=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25=kggZH2,
+			mu_GGZH_GG2H_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25_YY=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25_ZZ=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25=kggZH2,
+			mu_GGZH_GG2H_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25_TAUTAU=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25_YY=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25_ZZ=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25=kggZH2,
+			mu_GGZH_GG2H_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25_TAUTAU=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25_YY=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25_ZZ=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25=kggZH2,
+			mu_GGZH_GG2H_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25_TAUTAU=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25_YY=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25_ZZ=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25=kggZH2,
+			mu_GGZH_GG2H_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25_YY=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25_ZZ=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25=kggZH2,
+			mu_GGZH_GG2H_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25_TAUTAU=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25_YY=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25_ZZ=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25=kggZH2,
+			mu_GGZH_GG2H_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25_YY=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25_ZZ=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25=kggZH2,
+			mu_GGZH_GG2H_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25_YY=unit,
+			mu_GGZH_GG2H_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25_ZZ=unit,
+			mu_GGZH_GG2H_PTH_200_300=kggZH2,
+			mu_GGZH_GG2H_PTH_200_300_TAUTAU=unit,
+			mu_GGZH_GG2H_PTH_200_300_YY=unit,
+			mu_GGZH_GG2H_PTH_200_300_ZZ=unit,
+			mu_GGZH_GG2H_PTH_300_450=kggZH2,
+			mu_GGZH_GG2H_PTH_300_450_BB=unit,
+			mu_GGZH_GG2H_PTH_300_450_TAUTAU=unit,
+			mu_GGZH_GG2H_PTH_300_450_YY=unit,
+			mu_GGZH_GG2H_PTH_300_450_ZZ=unit,
+			mu_GGZH_GG2H_PTH_450_650=kggZH2,
+			mu_GGZH_GG2H_PTH_450_650_BB=unit,
+			mu_GGZH_GG2H_PTH_450_650_TAUTAU=unit,
+			mu_GGZH_GG2H_PTH_450_650_YY=unit,
+			mu_GGZH_GG2H_PTH_450_650_ZZ=unit,
+			mu_GGZH_GG2H_PTH_GT650=kggZH2,
+			mu_GGZH_GG2H_PTH_GT650_BB=unit,
+			mu_GGZH_GG2H_PTH_GT650_YY=unit,
+			mu_GGZH_GG2H_PTH_GT650_ZZ=unit,
+			mu_THQB=mu_k3_tHj,
+			mu_THQB_BB=unit,
+			mu_THQB_TAUTAU=unit,
+			mu_THQB_YY=unit,
+			mu_THQB_ZZ=unit,
+			mu_THW=ktHW2,
+			mu_THW_BB=unit,
+			mu_THW_TAUTAU=unit,
+			mu_THW_YY=unit,
+			mu_THW_ZZ=unit,
+			mu_TTH_PTH_0_60=mu_k3_TTH_PTH_0_60,
+			mu_TTH_PTH_0_60_BB=unit,
+			mu_TTH_PTH_0_60_TAUTAU=unit,
+			mu_TTH_PTH_0_60_WW=unit,
+			mu_TTH_PTH_0_60_YY=unit,
+			mu_TTH_PTH_0_60_ZZ=unit,
+			mu_TTH_PTH_120_200=mu_k3_TTH_PTH_120_200,
+			mu_TTH_PTH_120_200_BB=unit,
+			mu_TTH_PTH_120_200_TAUTAU=unit,
+			mu_TTH_PTH_120_200_WW=unit,
+			mu_TTH_PTH_120_200_YY=unit,
+			mu_TTH_PTH_120_200_ZZ=unit,
+			mu_TTH_PTH_200_300=mu_k3_TTH_PTH_200_300,
+			mu_TTH_PTH_200_300_BB=unit,
+			mu_TTH_PTH_200_300_TAUTAU=unit,
+			mu_TTH_PTH_200_300_WW=unit,
+			mu_TTH_PTH_200_300_YY=unit,
+			mu_TTH_PTH_200_300_ZZ=unit,
+			mu_TTH_PTH_300_450=mu_k3_TTH_PTH_300_450,
+			mu_TTH_PTH_300_450_BB=unit,
+			mu_TTH_PTH_300_450_TAUTAU=unit,
+			mu_TTH_PTH_300_450_WW=unit,
+			mu_TTH_PTH_300_450_YY=unit,
+			mu_TTH_PTH_300_450_ZZ=unit,
+			mu_TTH_PTH_60_120=mu_k3_TTH_PTH_60_120,
+			mu_TTH_PTH_60_120_BB=unit,
+			mu_TTH_PTH_60_120_TAUTAU=unit,
+			mu_TTH_PTH_60_120_WW=unit,
+			mu_TTH_PTH_60_120_YY=unit,
+			mu_TTH_PTH_60_120_ZZ=unit,
+			mu_TTH_PTH_GT450=mu_k3_TTH_PTH_GT450,
+			mu_TTH_PTH_GT450_BB=unit,
+			mu_TTH_PTH_GT450_TAUTAU=unit,
+			mu_TTH_PTH_GT450_WW=unit,
+			mu_TTH_PTH_GT450_YY=unit,
+			mu_TTH_PTH_GT450_ZZ=unit,
+			mu_VBF_QQ2HQQ_0J=mu_k3_VBF_QQ2HQQ_0J,
+			mu_VBF_QQ2HQQ_0J_WW=unit,
+			mu_VBF_QQ2HQQ_0J_YY=unit,
+			mu_VBF_QQ2HQQ_0J_ZZ=unit,
+			mu_VBF_QQ2HQQ_1J=mu_k3_VBF_QQ2HQQ_1J,
+			mu_VBF_QQ2HQQ_1J_BB=unit,
+			mu_VBF_QQ2HQQ_1J_TAUTAU=unit,
+			mu_VBF_QQ2HQQ_1J_WW=unit,
+			mu_VBF_QQ2HQQ_1J_YY=unit,
+			mu_VBF_QQ2HQQ_1J_ZZ=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_0_60=mu_k3_VBF_QQ2HQQ_GE2J_MJJ_0_60,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_0_60_BB=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_0_60_TAUTAU=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_0_60_WW=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_0_60_YY=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_0_60_ZZ=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25=mu_k3_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25_BB=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25_TAUTAU=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25_WW=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25_YY=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25_ZZ=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25=mu_k3_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25_BB=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25_TAUTAU=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25_WW=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25_YY=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25_ZZ=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200=mu_k3_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200_BB=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200_TAUTAU=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200_WW=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200_YY=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200_ZZ=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_120_350=mu_k3_VBF_QQ2HQQ_GE2J_MJJ_120_350,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_120_350_BB=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_120_350_TAUTAU=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_120_350_WW=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_120_350_YY=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_120_350_ZZ=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25=mu_k3_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25_BB=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25_TAUTAU=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25_WW=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25_YY=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25_ZZ=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25=mu_k3_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25_BB=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25_TAUTAU=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25_WW=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25_YY=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25_ZZ=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200=mu_k3_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200_BB=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200_TAUTAU=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200_WW=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200_YY=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200_ZZ=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_60_120=mu_k3_VBF_QQ2HQQ_GE2J_MJJ_60_120,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_60_120_BB=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_60_120_TAUTAU=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_60_120_WW=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_60_120_YY=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_60_120_ZZ=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25=mu_k3_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25_BB=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25_TAUTAU=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25_WW=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25_YY=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25_ZZ=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25=mu_k3_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25_BB=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25_TAUTAU=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25_WW=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25_YY=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25_ZZ=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200=mu_k3_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200_BB=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200_TAUTAU=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200_WW=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200_YY=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200_ZZ=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25=mu_k3_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25_BB=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25_TAUTAU=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25_WW=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25_YY=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25_ZZ=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25=mu_k3_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25_BB=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25_TAUTAU=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25_WW=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25_YY=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25_ZZ=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200=mu_k3_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200_BB=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200_TAUTAU=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200_WW=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200_YY=unit,
+			mu_VBF_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200_ZZ=unit,
+			mu_WH_QQ2HLNU_PTV_0_75_0J=mu_k3_WH_QQ2HLNU_PTV_0_75_0J,
+			mu_WH_QQ2HLNU_PTV_0_75_0J_BB=unit,
+			mu_WH_QQ2HLNU_PTV_0_75_0J_YY=unit,
+			mu_WH_QQ2HLNU_PTV_0_75_0J_ZZ=unit,
+			mu_WH_QQ2HLNU_PTV_0_75_1J=mu_k3_WH_QQ2HLNU_PTV_0_75_1J,
+			mu_WH_QQ2HLNU_PTV_0_75_1J_BB=unit,
+			mu_WH_QQ2HLNU_PTV_0_75_1J_TAUTAU=unit,
+			mu_WH_QQ2HLNU_PTV_0_75_1J_YY=unit,
+			mu_WH_QQ2HLNU_PTV_0_75_1J_ZZ=unit,
+			mu_WH_QQ2HLNU_PTV_0_75_GE2J=mu_k3_WH_QQ2HLNU_PTV_0_75_GE2J,
+			mu_WH_QQ2HLNU_PTV_0_75_GE2J_BB=unit,
+			mu_WH_QQ2HLNU_PTV_0_75_GE2J_TAUTAU=unit,
+			mu_WH_QQ2HLNU_PTV_0_75_GE2J_YY=unit,
+			mu_WH_QQ2HLNU_PTV_0_75_GE2J_ZZ=unit,
+			mu_WH_QQ2HLNU_PTV_150_250_0J=mu_k3_WH_QQ2HLNU_PTV_150_250_0J,
+			mu_WH_QQ2HLNU_PTV_150_250_0J_BB=unit,
+			mu_WH_QQ2HLNU_PTV_150_250_0J_TAUTAU=unit,
+			mu_WH_QQ2HLNU_PTV_150_250_0J_YY=unit,
+			mu_WH_QQ2HLNU_PTV_150_250_0J_ZZ=unit,
+			mu_WH_QQ2HLNU_PTV_150_250_1J=mu_k3_WH_QQ2HLNU_PTV_150_250_1J,
+			mu_WH_QQ2HLNU_PTV_150_250_1J_BB=unit,
+			mu_WH_QQ2HLNU_PTV_150_250_1J_TAUTAU=unit,
+			mu_WH_QQ2HLNU_PTV_150_250_1J_YY=unit,
+			mu_WH_QQ2HLNU_PTV_150_250_1J_ZZ=unit,
+			mu_WH_QQ2HLNU_PTV_150_250_GE2J=mu_k3_WH_QQ2HLNU_PTV_150_250_GE2J,
+			mu_WH_QQ2HLNU_PTV_150_250_GE2J_BB=unit,
+			mu_WH_QQ2HLNU_PTV_150_250_GE2J_TAUTAU=unit,
+			mu_WH_QQ2HLNU_PTV_150_250_GE2J_YY=unit,
+			mu_WH_QQ2HLNU_PTV_150_250_GE2J_ZZ=unit,
+			mu_WH_QQ2HLNU_PTV_250_400_0J=mu_k3_WH_QQ2HLNU_PTV_250_400_0J,
+			mu_WH_QQ2HLNU_PTV_250_400_0J_BB=unit,
+			mu_WH_QQ2HLNU_PTV_250_400_0J_TAUTAU=unit,
+			mu_WH_QQ2HLNU_PTV_250_400_0J_YY=unit,
+			mu_WH_QQ2HLNU_PTV_250_400_0J_ZZ=unit,
+			mu_WH_QQ2HLNU_PTV_250_400_1J=mu_k3_WH_QQ2HLNU_PTV_250_400_1J,
+			mu_WH_QQ2HLNU_PTV_250_400_1J_BB=unit,
+			mu_WH_QQ2HLNU_PTV_250_400_1J_TAUTAU=unit,
+			mu_WH_QQ2HLNU_PTV_250_400_1J_YY=unit,
+			mu_WH_QQ2HLNU_PTV_250_400_1J_ZZ=unit,
+			mu_WH_QQ2HLNU_PTV_250_400_GE2J=mu_k3_WH_QQ2HLNU_PTV_250_400_GE2J,
+			mu_WH_QQ2HLNU_PTV_250_400_GE2J_BB=unit,
+			mu_WH_QQ2HLNU_PTV_250_400_GE2J_TAUTAU=unit,
+			mu_WH_QQ2HLNU_PTV_250_400_GE2J_YY=unit,
+			mu_WH_QQ2HLNU_PTV_250_400_GE2J_ZZ=unit,
+			mu_WH_QQ2HLNU_PTV_75_150_0J=mu_k3_WH_QQ2HLNU_PTV_75_150_0J,
+			mu_WH_QQ2HLNU_PTV_75_150_0J_BB=unit,
+			mu_WH_QQ2HLNU_PTV_75_150_0J_TAUTAU=unit,
+			mu_WH_QQ2HLNU_PTV_75_150_0J_YY=unit,
+			mu_WH_QQ2HLNU_PTV_75_150_0J_ZZ=unit,
+			mu_WH_QQ2HLNU_PTV_75_150_1J=mu_k3_WH_QQ2HLNU_PTV_75_150_1J,
+			mu_WH_QQ2HLNU_PTV_75_150_1J_BB=unit,
+			mu_WH_QQ2HLNU_PTV_75_150_1J_TAUTAU=unit,
+			mu_WH_QQ2HLNU_PTV_75_150_1J_YY=unit,
+			mu_WH_QQ2HLNU_PTV_75_150_1J_ZZ=unit,
+			mu_WH_QQ2HLNU_PTV_75_150_GE2J=mu_k3_WH_QQ2HLNU_PTV_75_150_GE2J,
+			mu_WH_QQ2HLNU_PTV_75_150_GE2J_BB=unit,
+			mu_WH_QQ2HLNU_PTV_75_150_GE2J_TAUTAU=unit,
+			mu_WH_QQ2HLNU_PTV_75_150_GE2J_YY=unit,
+			mu_WH_QQ2HLNU_PTV_75_150_GE2J_ZZ=unit,
+			mu_WH_QQ2HLNU_PTV_GT400_0J=mu_k3_WH_QQ2HLNU_PTV_GT400_0J,
+			mu_WH_QQ2HLNU_PTV_GT400_0J_BB=unit,
+			mu_WH_QQ2HLNU_PTV_GT400_0J_YY=unit,
+			mu_WH_QQ2HLNU_PTV_GT400_0J_ZZ=unit,
+			mu_WH_QQ2HLNU_PTV_GT400_1J=mu_k3_WH_QQ2HLNU_PTV_GT400_1J,
+			mu_WH_QQ2HLNU_PTV_GT400_1J_BB=unit,
+			mu_WH_QQ2HLNU_PTV_GT400_1J_YY=unit,
+			mu_WH_QQ2HLNU_PTV_GT400_1J_ZZ=unit,
+			mu_WH_QQ2HLNU_PTV_GT400_GE2J=mu_k3_WH_QQ2HLNU_PTV_GT400_GE2J,
+			mu_WH_QQ2HLNU_PTV_GT400_GE2J_BB=unit,
+			mu_WH_QQ2HLNU_PTV_GT400_GE2J_TAUTAU=unit,
+			mu_WH_QQ2HLNU_PTV_GT400_GE2J_YY=unit,
+			mu_WH_QQ2HLNU_PTV_GT400_GE2J_ZZ=unit,
+			mu_WH_QQ2HQQ_0J=mu_k3_WH_QQ2HQQ_0J,
+			mu_WH_QQ2HQQ_0J_YY=unit,
+			mu_WH_QQ2HQQ_0J_ZZ=unit,
+			mu_WH_QQ2HQQ_1J=mu_k3_WH_QQ2HQQ_1J,
+			mu_WH_QQ2HQQ_1J_BB=unit,
+			mu_WH_QQ2HQQ_1J_TAUTAU=unit,
+			mu_WH_QQ2HQQ_1J_YY=unit,
+			mu_WH_QQ2HQQ_1J_ZZ=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_0_60=mu_k3_WH_QQ2HQQ_GE2J_MJJ_0_60,
+			mu_WH_QQ2HQQ_GE2J_MJJ_0_60_TAUTAU=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_0_60_YY=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_0_60_ZZ=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25=mu_k3_WH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25,
+			mu_WH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25_YY=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25_ZZ=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25=mu_k3_WH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25,
+			mu_WH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25_TAUTAU=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25_YY=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25_ZZ=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200=mu_k3_WH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200,
+			mu_WH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200_BB=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200_TAUTAU=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200_YY=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200_ZZ=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_120_350=mu_k3_WH_QQ2HQQ_GE2J_MJJ_120_350,
+			mu_WH_QQ2HQQ_GE2J_MJJ_120_350_BB=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_120_350_TAUTAU=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_120_350_YY=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_120_350_ZZ=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25=mu_k3_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25,
+			mu_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25_TAUTAU=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25_YY=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25_ZZ=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25=mu_k3_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25,
+			mu_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25_TAUTAU=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25_YY=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25_ZZ=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200=mu_k3_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200,
+			mu_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200_BB=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200_TAUTAU=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200_YY=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200_ZZ=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_60_120=mu_k3_WH_QQ2HQQ_GE2J_MJJ_60_120,
+			mu_WH_QQ2HQQ_GE2J_MJJ_60_120_BB=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_60_120_TAUTAU=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_60_120_YY=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_60_120_ZZ=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25=mu_k3_WH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25,
+			mu_WH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25_YY=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25_ZZ=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25=mu_k3_WH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25,
+			mu_WH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25_TAUTAU=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25_YY=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25_ZZ=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200=mu_k3_WH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200,
+			mu_WH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200_BB=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200_TAUTAU=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200_YY=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200_ZZ=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25=mu_k3_WH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25,
+			mu_WH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25_YY=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25_ZZ=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25=mu_k3_WH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25,
+			mu_WH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25_YY=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25_ZZ=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200=mu_k3_WH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200,
+			mu_WH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200_BB=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200_YY=unit,
+			mu_WH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200_ZZ=unit,
+			mu_ZH_QQ2HLL_PTV_0_75_0J=mu_k3_ZH_QQ2HLL_PTV_0_75_0J,
+			mu_ZH_QQ2HLL_PTV_0_75_0J_BB=unit,
+			mu_ZH_QQ2HLL_PTV_0_75_0J_TAUTAU=unit,
+			mu_ZH_QQ2HLL_PTV_0_75_0J_YY=unit,
+			mu_ZH_QQ2HLL_PTV_0_75_0J_ZZ=unit,
+			mu_ZH_QQ2HLL_PTV_0_75_1J=mu_k3_ZH_QQ2HLL_PTV_0_75_1J,
+			mu_ZH_QQ2HLL_PTV_0_75_1J_BB=unit,
+			mu_ZH_QQ2HLL_PTV_0_75_1J_TAUTAU=unit,
+			mu_ZH_QQ2HLL_PTV_0_75_1J_YY=unit,
+			mu_ZH_QQ2HLL_PTV_0_75_1J_ZZ=unit,
+			mu_ZH_QQ2HLL_PTV_0_75_GE2J=mu_k3_ZH_QQ2HLL_PTV_0_75_GE2J,
+			mu_ZH_QQ2HLL_PTV_0_75_GE2J_BB=unit,
+			mu_ZH_QQ2HLL_PTV_0_75_GE2J_TAUTAU=unit,
+			mu_ZH_QQ2HLL_PTV_0_75_GE2J_YY=unit,
+			mu_ZH_QQ2HLL_PTV_0_75_GE2J_ZZ=unit,
+			mu_ZH_QQ2HLL_PTV_150_250_0J=mu_k3_ZH_QQ2HLL_PTV_150_250_0J,
+			mu_ZH_QQ2HLL_PTV_150_250_0J_BB=unit,
+			mu_ZH_QQ2HLL_PTV_150_250_0J_YY=unit,
+			mu_ZH_QQ2HLL_PTV_150_250_0J_ZZ=unit,
+			mu_ZH_QQ2HLL_PTV_150_250_1J=mu_k3_ZH_QQ2HLL_PTV_150_250_1J,
+			mu_ZH_QQ2HLL_PTV_150_250_1J_BB=unit,
+			mu_ZH_QQ2HLL_PTV_150_250_1J_YY=unit,
+			mu_ZH_QQ2HLL_PTV_150_250_1J_ZZ=unit,
+			mu_ZH_QQ2HLL_PTV_150_250_GE2J=mu_k3_ZH_QQ2HLL_PTV_150_250_GE2J,
+			mu_ZH_QQ2HLL_PTV_150_250_GE2J_BB=unit,
+			mu_ZH_QQ2HLL_PTV_150_250_GE2J_TAUTAU=unit,
+			mu_ZH_QQ2HLL_PTV_150_250_GE2J_YY=unit,
+			mu_ZH_QQ2HLL_PTV_150_250_GE2J_ZZ=unit,
+			mu_ZH_QQ2HLL_PTV_250_400_0J=mu_k3_ZH_QQ2HLL_PTV_250_400_0J,
+			mu_ZH_QQ2HLL_PTV_250_400_0J_BB=unit,
+			mu_ZH_QQ2HLL_PTV_250_400_0J_YY=unit,
+			mu_ZH_QQ2HLL_PTV_250_400_0J_ZZ=unit,
+			mu_ZH_QQ2HLL_PTV_250_400_1J=mu_k3_ZH_QQ2HLL_PTV_250_400_1J,
+			mu_ZH_QQ2HLL_PTV_250_400_1J_BB=unit,
+			mu_ZH_QQ2HLL_PTV_250_400_1J_YY=unit,
+			mu_ZH_QQ2HLL_PTV_250_400_1J_ZZ=unit,
+			mu_ZH_QQ2HLL_PTV_250_400_GE2J=mu_k3_ZH_QQ2HLL_PTV_250_400_GE2J,
+			mu_ZH_QQ2HLL_PTV_250_400_GE2J_BB=unit,
+			mu_ZH_QQ2HLL_PTV_250_400_GE2J_YY=unit,
+			mu_ZH_QQ2HLL_PTV_250_400_GE2J_ZZ=unit,
+			mu_ZH_QQ2HLL_PTV_75_150_0J=mu_k3_ZH_QQ2HLL_PTV_75_150_0J,
+			mu_ZH_QQ2HLL_PTV_75_150_0J_BB=unit,
+			mu_ZH_QQ2HLL_PTV_75_150_0J_TAUTAU=unit,
+			mu_ZH_QQ2HLL_PTV_75_150_0J_YY=unit,
+			mu_ZH_QQ2HLL_PTV_75_150_0J_ZZ=unit,
+			mu_ZH_QQ2HLL_PTV_75_150_1J=mu_k3_ZH_QQ2HLL_PTV_75_150_1J,
+			mu_ZH_QQ2HLL_PTV_75_150_1J_BB=unit,
+			mu_ZH_QQ2HLL_PTV_75_150_1J_TAUTAU=unit,
+			mu_ZH_QQ2HLL_PTV_75_150_1J_YY=unit,
+			mu_ZH_QQ2HLL_PTV_75_150_1J_ZZ=unit,
+			mu_ZH_QQ2HLL_PTV_75_150_GE2J=mu_k3_ZH_QQ2HLL_PTV_75_150_GE2J,
+			mu_ZH_QQ2HLL_PTV_75_150_GE2J_BB=unit,
+			mu_ZH_QQ2HLL_PTV_75_150_GE2J_TAUTAU=unit,
+			mu_ZH_QQ2HLL_PTV_75_150_GE2J_YY=unit,
+			mu_ZH_QQ2HLL_PTV_75_150_GE2J_ZZ=unit,
+			mu_ZH_QQ2HLL_PTV_GT400_0J=mu_k3_ZH_QQ2HLL_PTV_GT400_0J,
+			mu_ZH_QQ2HLL_PTV_GT400_0J_BB=unit,
+			mu_ZH_QQ2HLL_PTV_GT400_0J_YY=unit,
+			mu_ZH_QQ2HLL_PTV_GT400_0J_ZZ=unit,
+			mu_ZH_QQ2HLL_PTV_GT400_1J=mu_k3_ZH_QQ2HLL_PTV_GT400_1J,
+			mu_ZH_QQ2HLL_PTV_GT400_1J_BB=unit,
+			mu_ZH_QQ2HLL_PTV_GT400_1J_YY=unit,
+			mu_ZH_QQ2HLL_PTV_GT400_1J_ZZ=unit,
+			mu_ZH_QQ2HLL_PTV_GT400_GE2J=mu_k3_ZH_QQ2HLL_PTV_GT400_GE2J,
+			mu_ZH_QQ2HLL_PTV_GT400_GE2J_BB=unit,
+			mu_ZH_QQ2HLL_PTV_GT400_GE2J_YY=unit,
+			mu_ZH_QQ2HLL_PTV_GT400_GE2J_ZZ=unit,
+			mu_ZH_QQ2HQQ_0J=mu_k3_ZH_QQ2HQQ_0J,
+			mu_ZH_QQ2HQQ_0J_YY=unit,
+			mu_ZH_QQ2HQQ_0J_ZZ=unit,
+			mu_ZH_QQ2HQQ_1J=mu_k3_ZH_QQ2HQQ_1J,
+			mu_ZH_QQ2HQQ_1J_BB=unit,
+			mu_ZH_QQ2HQQ_1J_TAUTAU=unit,
+			mu_ZH_QQ2HQQ_1J_YY=unit,
+			mu_ZH_QQ2HQQ_1J_ZZ=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_0_60=mu_k3_ZH_QQ2HQQ_GE2J_MJJ_0_60,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_0_60_TAUTAU=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_0_60_YY=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_0_60_ZZ=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25=mu_k3_ZH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25_YY=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_0_25_ZZ=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25=mu_k3_ZH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25_BB=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25_YY=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_0_200_PTHJJ_GT25_ZZ=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200=mu_k3_ZH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200_BB=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200_YY=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_1000_1500_PTH_GT200_ZZ=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_120_350=mu_k3_ZH_QQ2HQQ_GE2J_MJJ_120_350,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_120_350_BB=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_120_350_TAUTAU=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_120_350_YY=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_120_350_ZZ=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25=mu_k3_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25_TAUTAU=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25_YY=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_0_25_ZZ=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25=mu_k3_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25_TAUTAU=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25_YY=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_0_200_PTHJJ_GT25_ZZ=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200=mu_k3_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200_BB=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200_TAUTAU=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200_YY=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_350_700_PTH_GT200_ZZ=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_60_120=mu_k3_ZH_QQ2HQQ_GE2J_MJJ_60_120,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_60_120_BB=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_60_120_TAUTAU=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_60_120_YY=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_60_120_ZZ=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25=mu_k3_ZH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25_YY=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_0_25_ZZ=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25=mu_k3_ZH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25_TAUTAU=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25_YY=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_0_200_PTHJJ_GT25_ZZ=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200=mu_k3_ZH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200_BB=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200_TAUTAU=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200_YY=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_700_1000_PTH_GT200_ZZ=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25=mu_k3_ZH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25_YY=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_0_25_ZZ=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25=mu_k3_ZH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25_YY=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_0_200_PTHJJ_GT25_ZZ=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200=mu_k3_ZH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200_BB=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200_YY=unit,
+			mu_ZH_QQ2HQQ_GE2J_MJJ_GT1500_PTH_GT200_ZZ=unit
+)"/>
+</Organization>
