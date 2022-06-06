@@ -288,16 +288,18 @@ class TaskPipelineWS(TaskBase):
     def initialize(self, input_dir:str, output_dir:str, resonant_type:str, channel:str,
                    old_poiname:str, new_poiname:str, old_dataname:str,
                    new_dataname:str, define_parameters:Optional[Dict]=None,
-                   define_constraints:Optional[Dict]=None,
+                   define_constraints:Optional[Dict]=None, 
                    redefine_parameters:Optional[Dict]=None, rename_parameters:Optional[Dict]=None,
                    rescale_poi:Optional[float]=None, fix_parameters:Optional[str]=None,
-                   profile_parameters:Optional[str]=None, **kwargs):
+                   profile_parameters:Optional[str]=None, add_product_terms:Optional[Dict]=None,
+                   **kwargs):
         
         self.input_dir = input_dir
         self.output_dir = output_dir
         self.channel = channel
         self.define_parameters = define_parameters
         self.define_constraints = define_constraints
+        self.add_product_terms = add_product_terms
         self.redefine_parameters = redefine_parameters
         self.rename_parameters = rename_parameters
         self.fix_parameters = fix_parameters
@@ -364,7 +366,8 @@ class TaskPipelineWS(TaskBase):
                                 redefine_parameters:Optional[Dict]=None,
                                 rename_parameters:Optional[Dict]=None,
                                 define_parameters:Optional[Dict]=None,
-                                define_constraints:Optional[Dict]=None):
+                                define_constraints:Optional[Dict]=None,
+                                add_product_terms:Optional[Dict]=None):
         
         print('INFO: Creating config file: {0}, poi: {1} --> {2}, scaling: {3}'.format(
               cfg_file,  old_poiname, new_poiname, poi_scale))
@@ -423,6 +426,9 @@ class TaskPipelineWS(TaskBase):
                 nuis = constr_data['NP']
                 glob = constr_data['GO']
                 cfg_xml.add_node(tag="Item", Name=f"{expr}", Type="constraint", NP=f"{nuis}", GO=f"{glob}")
+        if add_product_terms is not None:
+            for name, terms in add_product_terms.items():
+                cfg_xml.add_node(tag="Item", Name=f"{name}", Terms=",".join(terms))
                 
         if rename_parameters is not None:
             for old_name, new_name in rename_parameters.items():
@@ -605,6 +611,8 @@ class TaskPipelineWS(TaskBase):
         if self.define_constraints is not None:
             for constr_dict in self.define_constraints:
                 config["actions"]["constraint"].append(constr_dict)
+        if self.add_product_terms is not None:
+                config["actions"]["add_product_terms"] = self.add_product_terms
         if self.rename_parameters is not None:
             for old_name, new_name in self.rename_parameters.items():
                 config["actions"]["rename"]["variable"][old_name] = new_name
@@ -618,6 +626,8 @@ class TaskPipelineWS(TaskBase):
         print("INFO: Writing rescaling log into {0}".format(rescale_logfile_path))
 
         status = 0
+        if self.config["verbosity"] == "DEBUG":
+            rescale_logfile_path = None
         with standard_log(rescale_logfile_path) as logger:
             ws_modifier = XMLWSModifier(config)
             ws_modifier.create_modified_workspace()
@@ -777,8 +787,32 @@ class TaskCombination(TaskBase):
                 print("INFO: Writing combination log into {0}".format(logfile_path))
                 proc = subprocess.Popen(cmd, stdout=logfile, stderr=logfile)
                 proc.wait()
+    
+    def create_combined_ws_experimental(self, param_point):
+        combined_ws_path = os.path.join(self.output_ws_dir, f"{param_point['basename']}.root")
+        config_file_path = os.path.join(self.cfg_file_dir, f"{param_point['basename']}.xml")
+        logfile_path = combined_ws_path.replace('.root', '.log')
+
+        if os.path.exists(combined_ws_path) and self.cache:
+                print("\033[92mSkip: combined workspace {0} exists, skip workspace creation\033[0m\033[0m".format(combined_ws_path))
+        else:
+            if self.config["verbosity"] == "DEBUG":
+                logfile_path = None
+            if logfile_path is not None:
+                print("INFO: Writing combination log into {0}".format(logfile_path))
+            status = 0
+            with standard_log(logfile_path) as logger:
+                ws_combiner = XMLWSCombiner(config_file_path)
+                ws_combiner.run()
+                status = 1
+            if not status:
+                raise RuntimeError("workspace combination failed, please check the log file for "
+                                   f"more details: {logfile_path}")
                 
     def preprocess(self, param_point):
         self.create_combination_xml(param_point)
-        self.create_combined_ws(param_point)
+        if self.experimental:
+            self.create_combined_ws_experimental(param_point)
+        else:
+            self.create_combined_ws(param_point)
         return True

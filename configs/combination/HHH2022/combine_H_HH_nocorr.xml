@@ -1,0 +1,13 @@
+<!DOCTYPE Combination  SYSTEM 'Combination.dtd'>
+<Combination WorkspaceName = "combWS" ModelConfigName = "ModelConfig" DataName = "combData" OutputFile="dummy">
+<POIList Combined="klambda[1~1],k2V[1~1],kV[1~1],kt[1~1],kb[1~1],ktau[1~1]"/>
+
+<Channel Name="channel_singleH" InputFile = "dummy" WorkspaceName = "combWS" ModelConfigName = "ModelConfig" DataName = "combData"> 
+	<POIList Input="k3,dummy,kV,kt,kb,ktau"/>
+</Channel>
+
+<Channel Name="channel_HHComb" InputFile = "dummy" WorkspaceName = "combWS" ModelConfigName = "ModelConfig" DataName = "combData"> 
+	<POIList Input="klambda,k2V,kV,kt,kb,ktau"/>
+</Channel>
+    
+</Combination>

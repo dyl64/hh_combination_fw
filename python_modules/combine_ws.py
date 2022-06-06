@@ -86,7 +86,7 @@ def process_task_config(config:Dict, blind:bool=True):
 @click.option('--do-pvalue/--skip-pvalue', default=False, show_default=True,
               help='Whether to evaluate pvalue(s).')
 @click.option('--experimental/--official', default=False, show_default=True,
-              help='Whether to use experimental method for workspace modification.')
+              help='Whether to use experimental method for workspace combination.')
 @click.option('--prefix', 'prefix_dir', default='', show_default=True,
               help='Prefix of folders for combined workspace, limits, pvalues, and likelihood results.')
 def combine_ws(**kwargs):

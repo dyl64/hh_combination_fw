@@ -15,19 +15,35 @@ fi
 
 printf "${GREEN}\n
 ==================================================
-| Compiling 1/2) submodules/RooFitExtensions  ...
+| Compiling 1/3) submodules/RooFitExtensions  ...
 ==================================================${NC}\n"
-cd submodules/RooFitExtensions
+cd ${hh_combination_fw_path}
 if [ -d "submodules/RooFitExtensions/build" ] ; then
     rm -r submodules/RooFitExtensions/build
 fi
+cd submodules/RooFitExtensions
 mkdir -p build && cd build && rm -fr * && cmake .. && make -j8 && cd ..
 source build/setup.sh
 cd ${hh_combination_fw_path}
 
 printf "${GREEN}\n
+==================================================
+| Compiling 2/3) submodules/workspaceCombiner ...
+==================================================${NC}\n"
+cd ${hh_combination_fw_path}
+if [ -d "submodules/workspaceCombiner/build" ] ; then
+    rm -r submodules/workspaceCombiner/build
+fi
+if [ -d "submodules/workspaceCombiner/lib" ] ; then
+    rm    submodules/workspaceCombiner/lib/*
+fi
+cd submodules/workspaceCombiner
+mkdir -p build && cd build && rm -fr * && cmake .. && make -j8 && cd ..
+cd ${hh_combination_fw_path}
+
+printf "${GREEN}\n
 ==============================================
-| Compiling 2/2) submodules/quickstats ...
+| Compiling 3/3) submodules/quickstats ...
 ==============================================${NC}\n"
 quickstats compile
 
