@@ -286,6 +286,8 @@ rename_parameters:
   bbbb:
     mu_HH_ggF: mu_HH_ggF_modified
     mu_HH_VBF: mu_HH_VBF_modified
+    alpha_THEO_BR_Hbb: zero
+    alpha_THEO_BR_HbbConstraint: unitPDF
   bbyy:
     mu_HH_ggF: mu_HH_ggF_modified
     mu_HH_VBF: mu_HH_VBF_modified
