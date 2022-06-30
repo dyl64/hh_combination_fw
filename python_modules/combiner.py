@@ -14,6 +14,7 @@ import utils
 
 from quickstats.parsers import ParamParser
 from quickstats.utils.common_utils import execute_multi_tasks
+from quickstats.concurrent.logging import standard_log
 
 import scalings
 from xml_tool import create_combination_xml
@@ -169,7 +170,6 @@ class TaskBase:
         log_path = os.path.splitext(outpath)[0] + ".log"
         
         from quickstats.components import AnalysisBase
-        from quickstats.concurrent.logging import standard_log
         with standard_log(log_path) as logger:
             analysis  = AnalysisBase(filename, data_name=data_name,
                                      poi_name=poi_name, config=config,
@@ -789,6 +789,7 @@ class TaskCombination(TaskBase):
                 proc.wait()
     
     def create_combined_ws_experimental(self, param_point):
+        from quickstats.components.workspaces import XMLWSCombiner
         combined_ws_path = os.path.join(self.output_ws_dir, f"{param_point['basename']}.root")
         config_file_path = os.path.join(self.cfg_file_dir, f"{param_point['basename']}.xml")
         logfile_path = combined_ws_path.replace('.root', '.log')
