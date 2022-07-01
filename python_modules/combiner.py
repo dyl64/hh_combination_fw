@@ -269,7 +269,7 @@ class TaskBase:
             return None
         start = time.time()
         self.makedirs()
-        #self.copy_dtd()
+        self.copy_dtd()
         result = execute_multi_tasks(self.preprocess, self.param_points, parallel=self.parallel)
         if self.do_limit:
             self.limit_setting()
