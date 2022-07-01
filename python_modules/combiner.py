@@ -269,7 +269,7 @@ class TaskBase:
             return None
         start = time.time()
         self.makedirs()
-        self.copy_dtd()
+        #self.copy_dtd()
         result = execute_multi_tasks(self.preprocess, self.param_points, parallel=self.parallel)
         if self.do_limit:
             self.limit_setting()
@@ -801,9 +801,11 @@ class TaskCombination(TaskBase):
             if logfile_path is not None:
                 print("INFO: Writing combination log into {0}".format(logfile_path))
             status = 0
+            from quickstats.concurrent.logging import standard_log
+            from quickstats.components.workspaces import XMLWSCombiner
             with standard_log(logfile_path) as logger:
                 ws_combiner = XMLWSCombiner(config_file_path)
-                ws_combiner.run()
+                ws_combiner.create_combined_workspace()
                 status = 1
             if not status:
                 raise RuntimeError("workspace combination failed, please check the log file for "
