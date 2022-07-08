@@ -32,10 +32,10 @@ redefine_parameters:
 
 # fix POIs so that they are set to const
 fix_parameters:
-  bbyy: <pois>
-  bbtautau: <pois>
-  bbbb: <pois>,xsec_br=1_-10000_10000
-  combination: <pois>
+  bbyy: <poi>
+  bbtautau: <poi>
+  bbbb: <poi>,xsec_br=1_-10000_10000
+  combination: <poi>
 
 ## If POIs are floated in the input workspace,
 ## include all POIs here so that process_channel will fix all POI to const
