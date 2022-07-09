@@ -1,6 +1,7 @@
 {
   "bbbb": {
     "Lumi": "fix_Lumi",
+    "Lumi_new": "ATLAS_LUMI_Run2",
     "alpha_BackgroundNorm16": "bbbb_BackgroundNorm16",
     "alpha_BackgroundNorm17": "bbbb_BackgroundNorm17",
     "alpha_BackgroundNorm18": "bbbb_BackgroundNorm18",

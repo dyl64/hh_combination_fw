@@ -61,18 +61,17 @@ redefine_parameters:
     mHNom_SM_2: 125
     mHNom_BSM_1: 125
     mHNom_BSM_2: 125
-  # Below are to fix the luminosity definition in 4b that used top-level lumi definition
-  bbbb:
-    nominalLumi: 0
 
 # Below are to fix the luminosity definition in 4b that used top-level lumi definition
 
 define_parameters:
   bbbb:
     - unit[1]
+    # The Global Obs
     - nominal_Lumi_new[1]
-    - Lumi_new[0, -5, 5]
     - RNDM__Lumi_new[0, -5, 5]
+    # The new NP
+    - Lumi_new[0, -5, 5]
     - prod::Lumi_new_times_beta(Lumi_new, beta_Lumi_new[1])
     - uncertSymm__Lumi_new[0.017]
     - prod::expected__Lumi_new(expr::uncert_logn_Lumi_new('exp(@0*@1)', Lumi_new_times_beta, expr::log_kappa_Lumi_new('log(1+@0/@1)', uncertSymm__Lumi_new, nominal_Lumi_new)), nominal_Lumi_new)
