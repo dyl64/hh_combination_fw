@@ -10,6 +10,7 @@ quickstats harmonize_np -i NP_rename/input_list_nonres.json -r NP_rename/referen
 quickstats harmonize_np -i NP_rename/input_list_spin0.json -r NP_rename/reference_list_v2.json -b <ws_input> -o configs/np_map_spin0_v1.json
 # e.g.
 quickstats harmonize_np -i NP_rename/input_list_spin0.json -r NP_rename/reference_list_v5.json -o configs/np_map_spin0_v6.json -b /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/original/20210914/
+quickstats harmonize_np -i NP_rename/input_list_spin0.json -r NP_rename/reference_list_v6.json -b output3/rescaled/spin0/ -o test.json
 ```
 
 The outputs are used to generate the XML card via `--scheme` option in `HHComb combine_ws`, eg

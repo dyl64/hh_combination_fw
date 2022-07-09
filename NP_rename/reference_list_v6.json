@@ -81,6 +81,7 @@
       "nbkg_BSM_2": "bbyy_nbkg_BSM_2",
       "ATLAS_LHCmass": "ATLAS_LHC_MHiggs",
       "Lumi": "fix_Lumi",
+      "Lumi_new": "ATLAS_LUMI_Run2",
       "THEO_Lumi_Run2": "ATLAS_LUMI_Run2"
     }
   },
