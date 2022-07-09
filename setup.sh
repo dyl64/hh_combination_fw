@@ -8,7 +8,6 @@ export hh_combination_fw_path="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" >/dev
 
 # Setup workspaceCombiner
 # Copied from workspaceCombiner/setup.sh (Rui Zhang)
-cd submodules/workspaceCombiner
 export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase # use your path
 source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh
 if [[ $1 == '98' ]]; then
@@ -17,17 +16,18 @@ if [[ $1 == '98' ]]; then
 elif [[ $1 == '100' ]]; then
     echo 'setup LCG_100'
     lsetup "views LCG_100 x86_64-centos7-gcc8-opt"
-elif [[ $1 == '101' ]] || [[ -z $1 ]]; then
-    echo 'setup LCG_101'
+elif [[ $1 == '101' ]]; then
+    echo 'setup LCG_101, ROOT 6.24'
     lsetup "views LCG_101 x86_64-centos7-gcc8-opt"
-elif [[ $1 == '102' ]] || [[ -z $1 ]]; then
-    echo 'setup LCG_102'
-    lsetup "views LCG_102rc1 x86_64-centos7-gcc11-opt"
+elif [[ $1 == '102' ]] || [[ -z $1 ]]; then # The default
+    echo 'setup LCG_102, ROOT 6.26'
+    lsetup "views LCG_102 x86_64-centos7-gcc11-opt"
 else
-    echo 'Specify a relase number for LCG, default LCG_101'
+    echo 'Specify a relase number for LCG, default LCG_102'
     echo 'source setup.sh [98|100|101]'
     return
 fi
+
 # More memory
 ulimit -S -s unlimited
 
@@ -38,7 +38,8 @@ if [ $_DIRCOMB ]; then
 fi
 
 # speficy the SFRAME base directory, i.e. the directory in which this file lives
-export _DIRCOMB=${PWD}
+export _DIRCOMB=${hh_combination_fw_path}/submodules/workspaceCombiner
+
 
 # Modify to describe your directory structure. Default is to use the a structure where
 # all directories are below the SFrame base directory specified above

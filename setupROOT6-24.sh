@@ -10,8 +10,8 @@ export hh_combination_fw_path="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" >/dev
 # Copied from workspaceCombiner/setup.sh (Rui Zhang)
 export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase # use your path
 source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh
-echo 'setup LCG_102'
-lsetup "views LCG_102rc1 x86_64-centos7-gcc11-opt"
+echo 'setup LCG_101'
+lsetup "views LCG_101 x86_64-centos7-gcc11-opt"
 
 # More memory
 ulimit -S -s unlimited
