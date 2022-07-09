@@ -94,7 +94,7 @@ NR_mu_pro:
   extends: .NRProcess
   variables:
     output_dir: output/NR_blind
-    channel: bbbb,bbtautau,bbyy,bbll,bbVV
+    channel: bbbb,bbtautau,bbyy,bbll,bbVV,WWWW
   only:
     - branches
     - tags
@@ -135,7 +135,7 @@ NR_ALL6_comb_blind:
   extends: .NRCombine_ws
   variables:
     input_dir: output/NR_blind
-    channels: bbbb,bbtautau,bbyy,bbll,bbVV
+    channels: bbbb,bbtautau,bbyy,bbll,bbVV,WWWW
 
 NR_N-ll_comb_blind:
   needs:
@@ -144,7 +144,7 @@ NR_N-ll_comb_blind:
   extends: .NRCombine_ws
   variables:
     input_dir: output/NR_blind
-    channels: bbbb,bbtautau,bbyy,bbVV
+    channels: bbbb,bbtautau,bbyy,bbVV,WWWW
 
 NR_N-VV_comb_blind:
   needs:
@@ -153,7 +153,7 @@ NR_N-VV_comb_blind:
   extends: .NRCombine_ws
   variables:
     input_dir: output/NR_blind
-    channels: bbbb,bbtautau,bbyy,bbll
+    channels: bbbb,bbtautau,bbyy,bbll,WWWW
 
 NR_N-WW_comb_blind:
   needs:
