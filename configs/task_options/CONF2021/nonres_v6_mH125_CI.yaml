@@ -1,0 +1,90 @@
+workspace:
+  bbtautau: combined
+  bbyy: combWS
+  bbbb: w
+  bbll: w
+  bbVV: combined
+  WWWW: combWS
+dataset:
+  bbbb:
+    blind: obsData
+    unblind: obsData
+  bbtautau:
+    blind: obsData
+    unblind: obsData
+  bbyy:
+    blind: combData
+    unblind: combData
+  bbll:
+    blind: obsData
+    unblind: obsData
+  bbVV:
+    blind: obsData
+    unblind: obsData
+  WWWW:
+    blind: asimovData
+    unblind: asimovData
+  combination:
+    blind: combData
+    unblind: combData
+poi:
+  bbbb: mu
+  bbtautau: SigXsecOverSM
+  bbyy: mu_XS_HH
+  bbll: mu_SIG
+  bbVV: SigXsecOverSM
+  WWWW: SigXsecOverSM
+  combination: xsec_br
+rescale_poi:
+  # not 0.032743 because of extra factors in mu_XS_HH_ggF and mu_XS_HH_VBF
+  bbyy: 0.032776
+  bbtautau: 32.776
+  bbbb: 1
+  bbll: 0.03105
+  bbVV: 0.03105
+  WWWW: 0.03105
+redefine_parameters:
+  bbyy:
+    # these are Hbb br, XS taken by rescale_poi
+    #mu_XS_HH_ggF: 1./0.9974244505494505 *  31.05/31.02 = 1.0035518
+    #mu_XS_HH_VBF: 1./0.9974244505494505 * 1.726/1.723 = 1.0043278
+    mu_XS_HH_ggF: 1.0035518
+    mu_XS_HH_VBF: 1.0043278
+    # these are single H XS without br since Hyy br doesn't depend on mH @125/@125.09
+    mu_XS_ggH: 1.0012985
+    mu_XS_VBF: 1.0007939
+    mu_XS_WH: 1.0025569
+    mu_XS_ZH: 1.0016889
+    mu_XS_tHjb: 0.99992221
+    mu_XS_ttH: 1.0011846
+    mHNom_SM_1: 125
+    mHNom_SM_2: 125
+    mHNom_BSM_1: 125
+    mHNom_BSM_2: 125
+
+# Below are to fix the luminosity definition in 4b that used top-level lumi definition
+
+define_parameters:
+  bbbb:
+    - unit[1]
+    # The Global Obs
+    - nominal_Lumi_new[1]
+    - RNDM__Lumi_new[0, -5, 5]
+    # The new NP
+    - Lumi_new[0, -5, 5]
+    - prod::Lumi_new_times_beta(Lumi_new, beta_Lumi_new[1])
+    - uncertSymm__Lumi_new[0.017]
+    - prod::expected__Lumi_new(expr::uncert_logn_Lumi_new('exp(@0*@1)', Lumi_new_times_beta, expr::log_kappa_Lumi_new('log(1+@0/@1)', uncertSymm__Lumi_new, nominal_Lumi_new)), nominal_Lumi_new)
+
+rename_parameters:
+  # Remove the old Lumi uncertainty
+  bbbb:
+    lumiConstraint: unit
+    Lumi: expected__Lumi_new
+
+define_constraints:
+  bbbb:
+    - Name: RooGaussian::constr__Lumi_new(Lumi_new,RNDM__Lumi_new,1)
+      NP: Lumi_new
+      GO: RNDM__Lumi_new
+      Independent: true
