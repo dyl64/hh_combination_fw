@@ -1,0 +1,15 @@
+workspace:
+  bbbb: w
+dataset:
+  bbbb:
+    blind: combData
+    unblind: combData
+poi:
+  bbbb: xsec_br
+
+rescale_poi:
+  #1.0/(1000 * 0.3392)
+  bbbb: 0.00294811320754717
+
+fix_parameters:
+  bbbb: Lumi=1_1_1

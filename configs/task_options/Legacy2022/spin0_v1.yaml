@@ -1,0 +1,53 @@
+workspace:
+  bbtautau: combined
+  bbyy: combWS
+  bbbb: w
+dataset:
+  bbbb:
+    blind: combData
+    unblind: combData
+  bbtautau:
+    blind: obsData
+    unblind: obsData
+  bbyy:
+    blind: combData
+    unblind: combData
+  combination:
+    blind: combData
+    unblind: combData
+poi:
+  bbbb: xsec_br
+  bbtautau: SigXsecOverSM
+  bbyy: XS_HH_res
+  combination: xsec_br
+
+rescale_poi:
+  #1.0/(1000 * 0.3392)
+  bbbb: 0.00294811320754717
+
+# Below are to fix the luminosity definition in 4b that used top-level lumi definition
+define_parameters:
+  bbbb:
+    - unit[1]
+    # central value of https://twiki.cern.ch/twiki/bin/viewauth/AtlasProtected/XmlAnaWSBuilderNew?sortcol=0;table=4;up=0#sorted_table
+    - nominal_Lumi_new[1]
+    # The Global Obs
+    - RNDM__Lumi_new[0, -5, 5]
+    # The new NP
+    - Lumi_new[0, -5, 5]
+    - prod::Lumi_new_times_beta(Lumi_new, beta_Lumi_new[1])
+    - uncertSymm__Lumi_new[0.017]
+    - prod::expected__Lumi_new(expr::uncert_logn_Lumi_new('exp(@0*@1)', Lumi_new_times_beta, expr::log_kappa_Lumi_new('log(1+@0/@1)', uncertSymm__Lumi_new, nominal_Lumi_new)), nominal_Lumi_new)
+
+rename_parameters:
+  # Remove the old Lumi uncertainty
+  bbbb:
+    lumiConstraint: unit
+    Lumi: expected__Lumi_new
+
+define_constraints:
+  bbbb:
+    - Name: RooGaussian::constr__Lumi_new(Lumi_new,RNDM__Lumi_new,1)
+      NP: Lumi_new
+      GO: RNDM__Lumi_new
+      Independent: true
