@@ -67,8 +67,9 @@ redefine_parameters:
 define_parameters:
   bbbb:
     - unit[1]
-    # The Global Obs
+    # central value of https://twiki.cern.ch/twiki/bin/viewauth/AtlasProtected/XmlAnaWSBuilderNew?sortcol=0;table=4;up=0#sorted_table
     - nominal_Lumi_new[1]
+    # The Global Obs
     - RNDM__Lumi_new[0, -5, 5]
     # The new NP
     - Lumi_new[0, -5, 5]
