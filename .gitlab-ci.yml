@@ -85,8 +85,8 @@ hhCompile:
     other_options: ""
   allow_failure: true
   script:
-    - echo HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/minimizer_options/$mini_option  --config configs/task_options/CONF2021/nonres_v6_mH125_CI.yaml  --do-limit --skip-likelihood
-    - HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/minimizer_options/$mini_option  --config configs/task_options/CONF2021/nonres_v6_mH125_CI.yaml  --do-limit --skip-likelihood
+    - echo HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/minimizer_options/$mini_option  --config configs/task_options/CONF2021/nonres_v6_mH125_CI.yaml  --do-limit --skip-likelihood --experimental
+    - HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/minimizer_options/$mini_option  --config configs/task_options/CONF2021/nonres_v6_mH125_CI.yaml  --do-limit --skip-likelihood --experimental
 
 NR_mu_pro:
   needs:
@@ -94,7 +94,7 @@ NR_mu_pro:
   extends: .NRProcess
   variables:
     output_dir: output/NR_blind
-    channel: bbbb,bbtautau,bbyy,bbll,bbVV
+    channel: bbbb,bbtautau,bbyy,bbll,bbVV,WWWW
   only:
     - branches
     - tags
@@ -111,8 +111,8 @@ NR_mu_pro:
     other_options: ""
   allow_failure: true
   script:
-    - echo HHComb combine_ws -i $input_dir -c $channels -r nonres --minimizer_options configs/minimizer_options/$mini_option --scheme configs/correlation_schemes/$np_option --do-limit --skip-likelihood $other_options
-    - HHComb combine_ws -i $input_dir -c $channels -r nonres --minimizer_options configs/minimizer_options/$mini_option --scheme configs/correlation_schemes/$np_option --do-limit --skip-likelihood $other_options
+    - echo HHComb combine_ws -i $input_dir -c $channels -r nonres --minimizer_options configs/minimizer_options/$mini_option --scheme configs/correlation_schemes/$np_option --do-limit --skip-likelihood $other_options --experimental
+    - HHComb combine_ws -i $input_dir -c $channels -r nonres --minimizer_options configs/minimizer_options/$mini_option --scheme configs/correlation_schemes/$np_option --do-limit --skip-likelihood $other_options --experimental
   only:
     - tags
     - master
@@ -135,7 +135,7 @@ NR_ALL6_comb_blind:
   extends: .NRCombine_ws
   variables:
     input_dir: output/NR_blind
-    channels: bbbb,bbtautau,bbyy,bbll,bbVV
+    channels: bbbb,bbtautau,bbyy,bbll,bbVV,WWWW
 
 NR_N-ll_comb_blind:
   needs:
@@ -144,7 +144,7 @@ NR_N-ll_comb_blind:
   extends: .NRCombine_ws
   variables:
     input_dir: output/NR_blind
-    channels: bbbb,bbtautau,bbyy,bbVV
+    channels: bbbb,bbtautau,bbyy,bbVV,WWWW
 
 NR_N-VV_comb_blind:
   needs:
@@ -153,7 +153,7 @@ NR_N-VV_comb_blind:
   extends: .NRCombine_ws
   variables:
     input_dir: output/NR_blind
-    channels: bbbb,bbtautau,bbyy,bbll
+    channels: bbbb,bbtautau,bbyy,bbll,WWWW
 
 NR_N-WW_comb_blind:
   needs:

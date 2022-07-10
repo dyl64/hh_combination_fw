@@ -1,5 +1,5 @@
 {
-    "bbbb": "bbbb/spin0/*.root",
-    "bbtautau": "bbtautau/spin0/*.root",
-    "bbyy": "bbyy/spin0/*.root"
+    "bbbb": "bbbb/*.root",
+    "bbtautau": "bbtautau/*.root",
+    "bbyy": "bbyy/*.root"
 }
