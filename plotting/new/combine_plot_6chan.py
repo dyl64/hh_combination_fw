@@ -22,7 +22,7 @@ class DataReader(object):
         if args.all:
             self.json_files_main = {
                 'combined': f'{infolder}/limits/nonres/combined/A-WWWW_bbVV_bbbb_bbll_bbtautau_bbyy-fullcorr/limits.json',
-                'combined5ll': f'{infolder}/limits/nonres/combined//A-WWWW_bbbb_bbtautau_bbVV_bbyy-fullcorr/limits.json',
+                'combined5ll': f'{infolder}/limits/nonres/combined/A-WWWW_bbVV_bbbb_bbtautau_bbyy-fullcorr/limits.json',
                 'combined5VV': f'{infolder}/limits/nonres/combined/A-WWWW_bbbb_bbll_bbtautau_bbyy-fullcorr/limits.json',
                 'combined5WW': f'{infolder}/limits/nonres/combined/A-bbbb_bbll_bbtautau_bbVV_bbyy-fullcorr/limits.json',
                 'bbll': f'{infolder}/limits/nonres/bbll/limits.json',
