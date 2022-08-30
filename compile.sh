@@ -10,7 +10,11 @@ if [[ ! -v hh_combination_fw_path ]]; then
 ==================================
 | Sourcing   source setup.sh  ...
 ==================================${NC}\n"
-    source setup.sh
+    if [[ -z $1 ]]; then
+        source setup.sh
+    else
+        source setup.sh $1
+    fi
 fi
 
 printf "${GREEN}\n
