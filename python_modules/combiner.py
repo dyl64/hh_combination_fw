@@ -236,22 +236,21 @@ class TaskBase:
                 if 'dataset' in options:
                     data_name = options['dataset']
                     analysis.set_data(data_name)
+                param_expr = f"{poi_name}={options['min']}_{options['max']}_{options['step']}"
                 kwargs = {
-                    'filename': filename,
-                    'poi_min': float(options['min']),
-                    'poi_max': float(options['max']),
-                    'poi_step': float(options['step']),
-                    'poi_name': poi_name,
+                    'input_file': filename,
+                    'param_expr': param_expr,
                     'cache': self.cache,
                     'outname': outname,
                     'outdir': outdir,
                     'data_name': data_name,
-                    'snapshot_name': config.get('snapshot_name', None),
+                    'config': {
+                        **config,
+                        'snapshot_name': config.get('snapshot_name', None)
+                    },
                     'parallel' : self.parallel,
                     'save_log': True
                 }
-                kwargs = {**config, **kwargs}
-
                 from quickstats.concurrent import ParameterisedLikelihood
                 runner = ParameterisedLikelihood(**kwargs)
                 runner.run()
