@@ -119,7 +119,7 @@ def process_task_config(config:Dict, channels:List, blind:bool=True):
               help='Whether to run likelihood scan.')
 @click.option('--do-pvalue/--skip-pvalue', default=False, show_default=True,
               help='Whether to evaluate pvalue(s).')
-@click.option('--experimental/--official', default=False, show_default=True,
+@click.option('--experimental/--official', default=True, show_default=True,
               help='Whether to use experimental method for workspace modification.')
 def process_channels(**kwargs):
     
