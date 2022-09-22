@@ -411,9 +411,16 @@ class TaskPipelineWS(TaskBase):
         mappings = [(old_poiname, oldpoi_equiv_name)]
 
         if redefine_parameters is not None:
-            for param in redefine_parameters:
-                param_val = redefine_parameters[param]
-                cfg_xml.add_node(tag="Item", Name=f"{param}[{param_val}]")
+            if isinstance(self.redefine_parameters, dict):
+                for param in self.redefine_parameters:
+                    param_val = self.redefine_parameters[param]
+                    redef_expr = f"{param}[{param_val}]"
+                    cfg_xml.add_node(tag="Item", Name=redef_expr)
+            elif isinstance(self.redefine_parameters, list):
+                for expr in self.redefine_parameters:
+                    cfg_xml.add_node(tag="Item", Name=expr)
+            else:
+                raise RuntimeError("invalid redefine expression")
                 
         if define_parameters is not None:
             for expr in define_parameters:
