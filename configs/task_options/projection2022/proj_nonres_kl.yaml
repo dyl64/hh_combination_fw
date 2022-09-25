@@ -74,3 +74,7 @@ likelihood_scan:
     max : 8
     step: 0.2
 
+calculate_pvalue:
+  mu: 0
+  generate_asimov: -2
+  fix: mu_HH_VBF=1,mu_HH_ggF=1
