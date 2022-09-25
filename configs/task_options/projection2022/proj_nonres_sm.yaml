@@ -1,0 +1,52 @@
+workspace:
+  bbbb: combWS
+  bbtautau: combined
+  bbyy: combWS
+dataset:
+  bbbb:
+    blind: asimovData
+  bbtautau:
+    blind: asimovData
+  bbyy:
+    blind: combData
+  combination:
+    blind: combData
+poi:
+  bbbb: mu_HH
+  bbtautau: SigXsecOverSM
+  bbyy: mu_XS_HH
+  combination: xsec_br
+rescale_poi:
+  bbbb: 1.0
+  bbtautau: 1.0
+  bbyy: 1.0
+
+redefine_parameters:
+  bbbb:
+    - mu_HH_VBF[1,-10000,10000]
+    - mu_HH_ggF[1,-10000,10000]
+    - k2V[1,-10000,10000]
+
+calculate_pvalue:
+  mu: 0
+  generate_asimov: -2
+  dataset: asimovData_1_NP_Nominal
+# fix POIs so that they are set to const
+fix_parameters:
+  bbyy: <poi>
+  bbtautau: <poi>
+  bbbb: <poi> ,xsec_br=1_-10000_10000
+  combination: <poi>
+
+extra_pois:
+  bbbb:
+    - k2V
+    - kV
+    - klambda
+    - kt
+    - mu_HH_VBF
+    - mu_HH_ggF
+  bbtautau:
+  bbyy:
+  combination:
+
