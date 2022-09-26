@@ -1,0 +1,25 @@
+#Agent jdl file
+Universe        = vanilla
+Notification    = Never
+initialdir      = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor
+Executable      = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor/wrapper_project.sh
+GetEnv          = True
+Error           = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor/log/$(ClusterId).$(ProcId).err
+Log             = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor/log/$(ClusterId).log
+Output          = /afs/cern.ch/user/z/zhangr/work/HHcomb/hh_combination_fw/hh_combination_fw/condor/log/$(ClusterId).$(ProcId).out
+stream_output   = False
+stream_error    = False
+Requirements = ((Arch == "X86_64") && (regexp("CentOS7",OpSysAndVer)))
+WhenToTransferOutput = ON_EXIT_OR_EVICT
+OnExitRemove         = TRUE
++JobFlavour = "tomorrow"
++JobType="analysis"
++AccountingGroup ="group_u_ATLASWISC.all"
+RequestCpus = 6
+Request_memory = 500 MB
+Request_disk   = 500 MB
+
+
+Arguments = HHComb____process_channels____-i____/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20220822_proj_all/lumi1000ifb/stat_only____-o____${hh_combination_fw_path}/tutorials/projection2022/output/20220822_proj_all/lumi1000ifb/stat_only/SM____-c____bbyy,bbtautau,bbbb____-r____nonres____--file_expr____<mass[F]>____--config____${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml____--minimizer_options____${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_stat_only.json____--do-limit____--skip-likelihood____--do-pvalue
+Queue 1
+

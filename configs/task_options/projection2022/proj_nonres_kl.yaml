@@ -1,0 +1,80 @@
+workspace:
+  bbbb: combined
+  bbtautau: combined
+  bbyy: combWS
+dataset:
+  bbbb:
+    blind: asimovData
+  bbtautau:
+    blind: asimovData
+  bbyy:
+    blind: combData
+  combination:
+    blind: combData
+
+poi:
+  bbbb: mu_HH
+  bbtautau: mu
+  bbyy: mu_XS_HH
+  combination: xsec_br
+
+rescale_poi:
+  #kl no rescaling needed
+  bbyy: 1.0
+  bbtautau: 1.0
+  bbbb: 1.0
+
+redefine_parameters:
+  bbbb:
+    - mu_HH_VBF[1,-10000,10000]
+    - mu_HH_ggF[1,-10000,10000]
+    - k2V[1,-10000,10000]
+
+# # fix POIs so that they are set to const
+# fix_parameters:
+#   bbyy: <pois>
+#   bbtautau: <pois>
+#   bbbb: <pois>,xsec_br=1_-10000_10000
+#   combination: <pois>
+
+
+extra_pois:
+  bbbb:
+    - k2V
+    - kV
+    - klambda
+    - kt
+    - mu_HH_VBF
+    - mu_HH_ggF
+  bbtautau:
+    - klambda
+  bbyy:
+    - klambda
+  combination:
+    - klambda
+
+likelihood_scan:
+  klambda_0:
+    # generate prefit asimov dataset at kl = 0, xsec_br = 1
+    generate_asimov: -1
+    dataset: asimovData_0_NP_Nominal
+    poi_name: klambda
+    # fix kl = 0 to make sure the initial value of kl is 0 (instead of -999) when doing unconditional fit
+    fix: xsec_br=1,klambda=0
+    min : -2
+    max : 8
+    step: 0.2
+  klambda_1:
+    generate_asimov: -2
+    dataset: asimovData_1_NP_Nominal
+    poi_name: klambda
+    # fix kl = 1 to make sure the initial value of kl is 1 (instead of -999) when doing unconditional fit
+    fix: xsec_br=1,klambda=1
+    min : -2
+    max : 8
+    step: 0.2
+
+calculate_pvalue:
+  mu: 0
+  generate_asimov: -2
+  fix: mu_HH_VBF=1,mu_HH_ggF=1

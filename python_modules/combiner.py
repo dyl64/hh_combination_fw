@@ -1,4 +1,5 @@
 from typing import Optional, Union, Dict, List
+from pdb import set_trace
 import os
 import sys
 import re
@@ -9,12 +10,14 @@ import subprocess
 import glob
 import json
 import copy
+from itertools import repeat
 
 import utils
 
 from quickstats.parsers import ParamParser
 from quickstats.utils.common_utils import execute_multi_tasks
 from quickstats.concurrent.logging import standard_log
+from quickstats.maths.numerics import str_encode_value, str_decode_value
 
 import scalings
 from xml_tool import create_combination_xml
@@ -134,6 +137,55 @@ class TaskBase:
         runner = ParameterisedAsymptoticCLs(**kwargs)
         runner.run()
 
+    def compute_significance(self, filename:str, data_name:str, poi_name:str, verbosity:str, scan_point:Union[Dict, str]=""):
+        if isinstance(scan_point, str):
+            scan_fix_param = None
+            scan_str = scan_point
+        elif isinstance(scan_point, dict):
+            scan_name = list(scan_point.keys())[0]
+            scan_value = list(scan_point.values())[0]
+            scan_fix_param = f"{scan_name}={scan_value}"
+            scan_str = scan_name + "_" + str_encode_value(round(scan_value, 2))
+        else:
+            assert(0), scan_point
+
+        options =  self.task_options.get("calculate_pvalue", None)
+        config    = self.minimizer_options['pvalue']
+        newfix = ""
+        if 'fix' in options:
+            newfix += ("," + options['fix'])
+        if 'fix_param' in self.config:
+            newfix += ("," + self.config['fix_param'])
+        if scan_fix_param:
+            config["fix_param"] += ("," + scan_fix_param)
+        if config.get('fix_param', False):
+            config['fix_param'] += newfix
+        else:
+            config['fix_param'] = newfix[1:]
+
+        log_path = os.path.join(self.pvalue_dir, "cache")
+        if not os.path.exists(log_path):
+            os.makedirs(log_path, exist_ok=True)
+        log_file = os.path.join(log_path, f"{scan_str}__asimovData_1_NP_Nominal_mu_0.log")
+        outpath = log_file.replace(".log", ".json")
+        if os.path.exists(outpath) and self.cache:
+            print(f"INFO: Cached pvalue output from {outpath}")
+            return None
+        print(f"INFO: Evaluating pvalue for {filename} {scan_str}")
+
+        mu = options.get('mu', 0)
+        do_minos = options.get('do_minos', False)
+        from quickstats.components import AnalysisBase
+        
+        with standard_log(log_file) as logger:
+            sys.stdout.write(f"INFO: Evaluating significance for {scan_point}\n")
+            analysis = AnalysisBase(filename, data_name=data_name, poi_name=poi_name, config=config, verbosity=verbosity)
+            analysis.generate_standard_asimov(asimov_types=[-2], asimov_names=[f"asimovData_1_NP_Nominal_{scan_str}"])
+            analysis.set_data(f"asimovData_1_NP_Nominal_{scan_str}")
+            fit_result = analysis.nll_fit(poi_val=mu, mode=0, do_minos=do_minos)
+            with open(outpath, "w") as f:
+                json.dump(fit_result, f, indent=4)
+
     def calculate_pvalue(self, param_point:Dict):
         if (self.task_options is None):
             return None
@@ -142,50 +194,38 @@ class TaskBase:
             return None
         filename  = os.path.join(self.basis_dir, f"{param_point['basename']}.root")
         data_name = self.config['data_name']
-        if 'poi_name' in options:
-            poi_name = options['poi_name']
-        else:
-            poi_name  = self.config['poi_name']
-        config    = self.minimizer_options['pvalue']
+        poi_name = options.get('poi_name', self.config['poi_name'])
         verbosity = self.config['verbosity']
-        
+
         if 'dataset' in options:
             _data_name = options['dataset']
 
-        if 'mu' in options:
-            mu = options['mu']
+        if self.int_param_points:
+            arguments = (repeat(filename), repeat(data_name), repeat(poi_name), repeat(verbosity), self.int_param_points)
         else:
-            mu = 0
-        
-        if 'do_minos' in options:
-            do_minos = options['do_minos']
-        else:
-            do_minos = False
-        
-        print(f"INFO: Evaluating p-value (dataset={_data_name}, mu={round(mu, 8)}) for the workspace {filename}")
-        outpath = os.path.join(self.pvalue_dir, f"{param_point['basename']}_{_data_name}_mu_{mu}.json")
-        if os.path.exists(outpath) and self.cache:
-            print(f"INFO: Cached p-value output from {outpath}")
-            return None
-        log_path = os.path.splitext(outpath)[0] + ".log"
-        
-        from quickstats.components import AnalysisBase
-        with standard_log(log_path) as logger:
-            analysis  = AnalysisBase(filename, data_name=data_name,
-                                     poi_name=poi_name, config=config,
-                                     verbosity=verbosity)
-            if 'generate_asimov' in options:
-                asimov_type = options['generate_asimov']
-                analysis.generate_standard_asimov(asimov_type)
-                asimov_savepath = os.path.join(self.pvalue_dir, f"{param_point['basename']}_asimov.root")
-                analysis.save(asimov_savepath)
+            arguments = (repeat(filename), repeat(data_name), repeat(poi_name), repeat(verbosity), repeat(param_point['basename'], 1))
+        _ = execute_multi_tasks(self.compute_significance, *arguments, parallel=self.parallel)
 
-            analysis.set_data(_data_name)
+        # Merge json
+        json_files = glob.glob(os.path.join(self.pvalue_dir, "cache", "*json"))
+        json_files.sort()
+        result = {"scan_value": [], "significance": [], "pvalue": []}
+        for ifile in json_files:
+            try:
+                scan_str = os.path.splitext(os.path.basename(ifile))[0].split('__')[0]
+                scan_name = scan_str.split("_")[0]
+                scan_value = str_decode_value(scan_str.split("_")[-1])
+                data = json.load(open(ifile))
+                result["scan_value"].append(scan_value)
+                result["significance"].append(data["significance"])
+                result["pvalue"].append(data["pvalue"])
+            except:
+                print("ERROR: ", ifile)
+                return
 
-            fit_result = analysis.nll_fit(poi_val=mu, mode=0, do_minos=do_minos)
-            
-            with open(outpath, "w") as f:
-                json.dump(fit_result, f, indent=4)
+        with open(os.path.join(self.pvalue_dir, "pvalue.json"), "w") as fp:
+            print("INFO: Save to", os.path.join(self.pvalue_dir, "pvalue.json"))
+            json.dump(result, fp, indent = 4)
         
     def likelihood_scan(self, param_point:Dict):
         if (self.task_options is None):
