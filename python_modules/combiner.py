@@ -202,14 +202,16 @@ class TaskBase:
             arguments = (repeat(filename), repeat(data_name), repeat(poi_name), repeat(verbosity), repeat(param_point['basename'], 1))
         _ = execute_multi_tasks(self.compute_significance, *arguments, parallel=self.parallel)
 
+        # Merge json
         json_files = glob.glob(os.path.join(self.pvalue_dir, "cache", "*json"))
-        result = {"klambda": [], "significance": [], "pvalue": []}
+        result = {"scan_value": [], "significance": [], "pvalue": []}
         for ifile in json_files:
             try:
                 scan_str = os.path.splitext(os.path.basename(ifile))[0].split('__')[0]
-                klambda = str_decode_value(scan_str.split("_")[1])
+                scan_name = str_decode_value(scan_str.split("_")[0])
+                scan_value = str_decode_value(scan_str.split("_")[-1])
                 data = json.load(open(ifile))
-                result["klambda"].append(klambda)
+                result["scan_value"].append(scan_value)
                 result["significance"].append(data["significance"])
                 result["pvalue"].append(data["pvalue"])
             except:
