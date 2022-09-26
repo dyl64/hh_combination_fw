@@ -202,15 +202,14 @@ def get_likelihood_data(scenario, klhypo):
 def get_pvalue_SM(scenario, lumi):
     data = {}
     for channel in channels:
-        limit_path = os.path.join(outdir.replace("lumi3000ifb", f"lumi{lumi}ifb"), scenario, 'SM', 'pvalues', resonant_type, channel, '0_asimovData_1_NP_Nominal_mu_0.json')
+        limit_path = os.path.join(outdir.replace("lumi3000ifb", f"lumi{lumi}ifb"), scenario, 'SM', 'pvalues', resonant_type, channel, 'pvalue.json')
         data[channel] = json.load(open(limit_path))
-    limit_path = os.path.join(outdir.replace("lumi3000ifb", f"lumi{lumi}ifb"), scenario, 'SM', 'pvalues', resonant_type, 'combined', combine_tag, '0_asimovData_1_NP_Nominal_mu_0.json')
+    limit_path = os.path.join(outdir.replace("lumi3000ifb", f"lumi{lumi}ifb"), scenario, 'SM', 'pvalues', resonant_type, 'combined', combine_tag, 'pvalue.json')
     data['combined'] = json.load(open(limit_path))
     # filter columns
     results = {}
     for channel in data:
-        results[channel] = {k:[v] for k,v in data[channel].items() if k in ['pvalue', 'significance', 'qmu']}
-        results[channel].update({k:[v] for k,v in data[channel]['uncond_fit'].items() if k in ['muhat', 'muhat_errlo', 'muhat_errhi']})
+        results[channel] = {k:v for k,v in data[channel].items() if k in ['pvalue', 'significance', 'qmu']}
         results[channel]['lumi'] = [lumi]
     return results
 
@@ -245,25 +244,16 @@ def merge_pvalue_SM_scen():
 
 ## 1.6.5 Get pvalue/significance data for all individual kl for one scenario
 def merge_pvalue_kl(scenario, kl_study='kl_parameterised'):
-    from quickstats.parsers import ParamParser
-    file_expr = "<mass[F]>_kl_<klambda[P]>"
-    param_expr = 'kl=-2_8_0.2'
-    para = ParamParser(file_expr, param_expr)
-    int_param_points = para.get_internal_param_points()
-    columns = ['kl', 'pvalue', 'significance']
+    #from quickstats.parsers import ParamParser
+    #file_expr = "<mass[F]>_kl_<klambda[P]>"
+    #param_expr = 'kl=-2_8_0.2'
+    #para = ParamParser(file_expr, param_expr)
+    #int_param_points = para.get_internal_param_points()
     data = {}
     for channel in channels+['combined']:
         data[channel] = {}
-        for column in columns:
-            data[channel][column] = []
-        for point in int_param_points:
-            file_prefix = '0_'+para.str_encode_parameters(point)
-            limit_path = os.path.join(outdir, scenario, kl_study, 'pvalues', resonant_type, channel, combine_tag if channel == 'combined' else '', file_prefix+'_asimovData_1_NP_Nominal_mu_0.json')
-            result = json.load(open(limit_path))
-            data[channel]['kl'].append(point['kl'])
-            for column in columns[1:]:
-                data[channel][column].append(result[column])
-        #json.dump(data[channel][channel], f'significance_kl_{channel}.json', indent=2)
+        limit_path = os.path.join(outdir, scenario, kl_study, 'pvalues', resonant_type, channel, combine_tag if channel == 'combined' else '', 'pvalue.json')
+        data[channel] = json.load(open(limit_path))
     return data
 
 ## 1.6.7 (not used)
@@ -736,9 +726,8 @@ def plot_significance_chan():
     significance_df, significance_df2 = merge_pvalue_data_kl_scen()
     for channel in channels + ['combined']:
         channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel] + '//Asimov data (' + r'$\mathrm{\kappa_{\lambda}}$'+ ')'}
-        plotter = Likelihood1DPlot(significance_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map_options, styles=styles, analysis_label_options=channel_analysis_label_options)
-        plotter.config = combine_dict(plotter.config, config)
-        plotter.draw(xattrib='kl', yattrib='significance', xlabel=r"$\mathrm{\kappa_{\lambda}}$", ylabel="Significance [$\sigma$]", ymax=12, xmin=-2, xmax=8, draw_sigma_line=True, draw_sm_line=True)
+        plotter = Likelihood1DPlot(significance_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map_options, styles=styles, analysis_label_options=channel_analysis_label_options, config=config)
+        plotter.draw(xattrib='scan_value', yattrib='significance', xlabel=r"$\mathrm{\kappa_{\lambda}}$", ylabel="Significance [$\sigma$]", ymax=12, xmin=-2, xmax=8, draw_sigma_line=True, draw_sm_line=True)
         #plt.gca().set_yticks(ticks=[0,1,2,3,4,5,6,7,8,9,10,11,12])
         os.makedirs("plots/significance/", exist_ok=True)
         plt.savefig(f"plots/significance/significance_scan_{channel}.pdf", bbox_inches="tight")
@@ -783,8 +772,7 @@ def plot_significance_lumi():
     for channel in channels + ['combined']:
         channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel] + '//Asimov data (' + r'$\mathrm{\kappa_{\lambda}}$ = 1'+ ')'}
         plotter = Likelihood1DPlot(pvalue_lumi_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map['scenario'], 
-                                   styles=styles, analysis_label_options=channel_analysis_label_options)
-        plotter.config = combine_dict(plotter.config, config)
+                                   styles=styles, analysis_label_options=channel_analysis_label_options, config=config)
         plotter.draw(xattrib='lumi', yattrib='significance', xlabel=r"Integrated Luminosity [fb$^{-1}$]", ylabel="Significance [$\sigma$]", ymax=7, xmin=800, xmax=3200, draw_sigma_line=True)
         os.makedirs("plots/lumi/", exist_ok=True)
         plt.savefig(f"plots/lumi/significance_lumi_{channel}.pdf", bbox_inches="tight")
@@ -829,23 +817,22 @@ def plot_limit_lumi():
         if channel == 'bbyy':
             channel_analysis_label_options['loc'] = (0.05, 0.35)
             styles['legend']['loc'] = (0.52, 0.05)
-        plotter = Likelihood1DPlot(limit_lumi_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map['scenario'], styles=styles, analysis_label_options=channel_analysis_label_options)
-        plotter.config = combine_dict(plotter.config, config)
+        plotter = Likelihood1DPlot(limit_lumi_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map['scenario'], styles=styles, analysis_label_options=channel_analysis_label_options, config=config)
         plotter.draw(xattrib='lumi', yattrib='0', xlabel=r"Integrated Luminosity [fb$^{-1}$]", ylabel="95% CL Upper Limit on Signal Strength", ymax=3, xmin=800, xmax=3200, draw_sigma_line=True)
         os.makedirs("plots/lumi/", exist_ok=True)
         plt.savefig(f"plots/lumi/limit_lumi_{channel}.pdf", bbox_inches="tight")
         print("Save fig", f"plots/lumi/limit_lumi_{channel}.pdf")
 
-#plotting_SM()
-#kl_limit = []
-#for syst in syst_scenarios:
-#    kl_limit.append(plotting_kl_indiv(syst))
-#    kl_limit.append(plotting_kl_param(syst))
-#for i in kl_limit:
-#    print(i)
-#for i in [0, 1]:
-#    plot_lh_chan(i)
-#    plot_lh_scen(i)
+plotting_SM()
+kl_limit = []
+for syst in syst_scenarios:
+    kl_limit.append(plotting_kl_indiv(syst))
+    kl_limit.append(plotting_kl_param(syst))
+for i in kl_limit:
+    print(i)
+for i in [0, 1]:
+    plot_lh_chan(i)
+    plot_lh_scen(i)
 plot_significance_chan()
 plot_significance_lumi()
 plot_limit_lumi()

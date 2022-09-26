@@ -151,14 +151,18 @@ class TaskBase:
 
         options =  self.task_options.get("calculate_pvalue", None)
         config    = self.minimizer_options['pvalue']
+        newfix = ""
         if 'fix' in options:
-            if 'fix_param' in self.config:
-                config['fix_param'] = self.config['fix_param'] + "," + options['fix']
-            else:
-                config['fix_param'] = options['fix']
-
+            newfix += ("," + options['fix'])
+        if 'fix_param' in self.config:
+            newfix += ("," + self.config['fix_param'])
         if scan_fix_param:
             config["fix_param"] += ("," + scan_fix_param)
+        if config.get('fix_param', False):
+            config['fix_param'] += newfix
+        else:
+            config['fix_param'] = newfix[1:]
+
         log_path = os.path.join(self.pvalue_dir, "cache")
         if not os.path.exists(log_path):
             os.makedirs(log_path, exist_ok=True)
@@ -204,11 +208,12 @@ class TaskBase:
 
         # Merge json
         json_files = glob.glob(os.path.join(self.pvalue_dir, "cache", "*json"))
+        json_files.sort()
         result = {"scan_value": [], "significance": [], "pvalue": []}
         for ifile in json_files:
             try:
                 scan_str = os.path.splitext(os.path.basename(ifile))[0].split('__')[0]
-                scan_name = str_decode_value(scan_str.split("_")[0])
+                scan_name = scan_str.split("_")[0]
                 scan_value = str_decode_value(scan_str.split("_")[-1])
                 data = json.load(open(ifile))
                 result["scan_value"].append(scan_value)
@@ -219,6 +224,7 @@ class TaskBase:
                 return
 
         with open(os.path.join(self.pvalue_dir, "pvalue.json"), "w") as fp:
+            print("INFO: Save to", os.path.join(self.pvalue_dir, "pvalue.json"))
             json.dump(result, fp, indent = 4)
         
     def likelihood_scan(self, param_point:Dict):
