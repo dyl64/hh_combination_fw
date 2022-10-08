@@ -157,7 +157,7 @@ class TaskBase:
         if 'fix_param' in self.config:
             newfix += ("," + self.config['fix_param'])
         if scan_fix_param:
-            config["fix_param"] += ("," + scan_fix_param)
+            newfix += ("," + scan_fix_param)
         if config.get('fix_param', False):
             config['fix_param'] += newfix
         else:
@@ -209,7 +209,7 @@ class TaskBase:
         # Merge json
         json_files = glob.glob(os.path.join(self.pvalue_dir, "cache", "*json"))
         json_files.sort()
-        result = {"scan_value": [], "significance": [], "pvalue": []}
+        result = {"scan_value": [], "significance": [], "pvalue": [], "best_fit": [], "best_fit_up": [], "best_fit_down": []}
         for ifile in json_files:
             try:
                 scan_str = os.path.splitext(os.path.basename(ifile))[0].split('__')[0]
@@ -219,6 +219,9 @@ class TaskBase:
                 result["scan_value"].append(scan_value)
                 result["significance"].append(data["significance"])
                 result["pvalue"].append(data["pvalue"])
+                result["best_fit"].append(data["uncond_fit"]["muhat"]["xsec_br"])
+                result["best_fit_up"].append(data["uncond_fit"]["muhat_errhi"]["xsec_br"])
+                result["best_fit_down"].append(data["uncond_fit"]["muhat_errlo"]["xsec_br"])
             except:
                 print("ERROR: ", ifile)
                 return

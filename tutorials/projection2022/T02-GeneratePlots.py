@@ -209,7 +209,7 @@ def get_pvalue_SM(scenario, lumi):
     # filter columns
     results = {}
     for channel in data:
-        results[channel] = {k:v for k,v in data[channel].items() if k in ['pvalue', 'significance', 'qmu']}
+        results[channel] = {k:v for k,v in data[channel].items() if k in ['pvalue', 'significance', 'qmu', "best_fit", "best_fit_up", "best_fit_down"]}
         results[channel]['lumi'] = [lumi]
     return results
 
@@ -272,8 +272,8 @@ def get_pvalue_data_kl(scenario):
 
 ## Global settings
 analysis_label_options_default = {
-    #'status': 'int',
-    'status': 'prelim',
+    'status': 'int',
+    #'status': 'prelim',
     'energy': '14 TeV',
     'lumi': '3000 fb$^{-1}$',
     'fontsize': 30,
@@ -503,8 +503,13 @@ def plotting_kl_param(syst_scenario):
         plotter = UpperLimit2DPlot(kl_param_limit_df2[channel][syst_scenario], scale_factor=scale_factor, styles=styles, analysis_label_options=analysis_label_options)
         plotter.add_curve(klambda_theory_values, theory_xs_values, theory_xs_lower, theory_xs_upper, label="Theory prediction")
         plotter.add_highlight(1, xs_HH(1, s=14), label="SM prediction")
-        ax = plotter.draw(xlabel=r"$\mathrm{\kappa_{\lambda}}$", ylabel=r"$\sigma_{ggF+VBF}(HH) [fb]$", draw_observed=False, log=True, ylim=[7, 1.5e3], xlim=[-2,6])
+        try:
+            ax = plotter.draw(xlabel=r"$\mathrm{\kappa_{\lambda}}$", ylabel=r"$\sigma_{ggF+VBF}(HH) [fb]$", draw_observed=False, log=True, ylim=[7, 1.5e3], xlim=[-2,6])
+        except:
+            set_trace()
         intersections = get_intersections(klambda_values, original_theory_xs_values - scale_factor*kl_param_limit_df2[channel][syst_scenario]['0'], 0)
+        if len(intersections) > 10:
+            intersections = [(-0,0)]
         intersection_str = r" \cup ".join([f"[{lo:.{dp}f}, {hi:.{dp}f}]" for (lo, hi) in intersections])
         line += intersection_str
         x_pos = {
@@ -823,10 +828,28 @@ def plot_limit_lumi():
         plt.savefig(f"plots/lumi/limit_lumi_{channel}.pdf", bbox_inches="tight")
         print("Save fig", f"plots/lumi/limit_lumi_{channel}.pdf")
 
-plotting_SM()
+def collect_best_fit():
+    data_all = []
+    lumi = 3000
+    for scenario in syst_scenarios:
+        data = get_pvalue_SM(scenario, lumi)
+        data_all.append(data)
+
+    for key, value in data_all[0].items():
+        for key2, value2 in value.items():
+            for data_new in data_all[1:]:
+                value2.extend(data_new[key][key2])
+    channel = 'combined'
+    df = pd.DataFrame(data_all[0][channel]).dropna()
+    df.index = syst_scenarios
+    df.to_csv(f"plots/csv/SM_bestfit__{lumi}_{channel}.csv")
+    print("Save bestfit", f"plots/csv/SM_bestfit__{lumi}_{channel}.csv")
+    return df
+
+#plotting_SM()
 kl_limit = []
 for syst in syst_scenarios:
-    kl_limit.append(plotting_kl_indiv(syst))
+#    kl_limit.append(plotting_kl_indiv(syst))
     kl_limit.append(plotting_kl_param(syst))
 for i in kl_limit:
     print(i)
@@ -836,3 +859,4 @@ for i in [0, 1]:
 plot_significance_chan()
 plot_significance_lumi()
 plot_limit_lumi()
+#collect_best_fit()
