@@ -364,8 +364,20 @@ styles_default = {
 
 ## 2. SM Limit Plot
 
+def SM_error(ggf_cv, ggf_up, ggf_dn, vbf_cv, vbf_up, vbf_dn):
+    up = 1 + np.sqrt(ggf_cv*ggf_cv*ggf_up*ggf_up + vbf_cv*vbf_cv*vbf_up*vbf_up) / (ggf_cv + vbf_cv)
+    dn = 1 - np.sqrt(ggf_cv*ggf_cv*ggf_dn*ggf_dn + vbf_cv*vbf_cv*vbf_dn*vbf_dn) / (ggf_cv + vbf_cv)
+    return up, dn
+
 def plotting_SM(study='SM_mu'):
     sm_limit_df, sm_limit_df2 = merge_limit_SM_scen(study)
+    if study=='SM_xsec':
+        # https://twiki.cern.ch/twiki/bin/view/LHCPhysics/LHCHWGHH?redirectedfrom=LHCPhysics.LHCHXSWGHH#Latest_recommendations_for_gluon
+        total_cross = 2.055+36.69 # 14TeV, mH=125 # xs_HH(kl=1, s=14)
+        for scen in sm_limit_df:
+            sm_limit_df[scen] *= total_cross
+        for scen in sm_limit_df2:
+            sm_limit_df2[scen] *= total_cross
     os.makedirs("plots/csv/", exist_ok=True)
     for key, value in sm_limit_df.items():
         value.to_csv(f"plots/csv/{study}_limit__{key}.csv")
@@ -376,15 +388,34 @@ def plotting_SM(study='SM_mu'):
         'top_margin': 3.0,
 
     }
-    for channel in ['bbyy', 'bbtautau', 'bbbb', 'combined']:
+    if study == 'SM_xsec':
+        xerrhi, xerrlo = SM_error(ggf_cv=xs_ggF(kl=1), ggf_up=np.sqrt(np.square(0.03)+np.square(0.06)), ggf_dn=np.sqrt(np.square(0.03)+np.square(0.23)), vbf_cv=xs_VBF(kl=1), vbf_up=np.sqrt(np.square(0.0003)+np.square(0.021)), vbf_dn=np.sqrt(np.square(0.0004)+np.square(0.021)))
+        print(xerrhi, xerrlo)
+        xerrhi, xerrlo = xerrhi * total_cross, xerrlo * total_cross
+        print(study, total_cross, xerrlo, xerrhi, '-', xerrlo-total_cross, '+', xerrhi-total_cross)
+        xsec_value = f'{total_cross:.1f}_' + '{' + f'{xerrlo-total_cross:.1f}' + '}^{+' + f'{xerrhi-total_cross:.1f}' + '}'
+
+
+    for channel in channels + ['combined']:
         analysis_label_options_new = {
             'loc': (0.05, 0.97),
-            'extra_text': channel_text[channel] + '//Asimov data (bkg. only)//' + r'$\sigma_{ggF+VBF}^{SM}=38.79$ fb',
+            'extra_text': channel_text[channel] + '//Asimov data (bkg. only)//' + r'$\sigma_{ggF+VBF}^{SM}=38.7$ fb' if study != 'SM_xsec' else r'$\sigma_{ggF+VBF}^{SM} (\mathit{HH})=$' + r'${}$'.format(xsec_value) + ' fb'
             }
         analysis_label_options = combine_dict(analysis_label_options_default, analysis_label_options_new)
+        sm_limit_df2[channel].rename(index={"inj": "stat"}, inplace=True)
         plotter = UpperLimit1DPlot(sm_limit_df2[channel], syst_scenario_label_map, analysis_label_options=analysis_label_options)
         plotter.config = combine_dict(plotter.config, config)
-        plotter.draw(xlabel=r"95% CL upper limit on signal strength", draw_observed=False)
+
+        if study == 'SM_xsec':
+            plotter.add_curve(x=total_cross, xerrlo=xerrlo, xerrhi=xerrhi, label=f"Theory prediction")
+            xlabel = r"$\sigma_{ggF+VBF}(\mathit{HH})$ [fb]"
+            sig_fig = 0
+        else:
+            xlabel = r"95% CL upper limit on signal strength"
+            sig_fig = 2
+
+        plotter.draw(xlabel=xlabel, draw_observed=False, sig_fig=sig_fig)
+
         os.makedirs("plots/SM/", exist_ok=True)
         plt.savefig(f"plots/SM/{study}_limit_{channel}.pdf", bbox_inches="tight")
         print('Save fig', f"plots/SM/{study}_limit_{channel}.pdf")
@@ -418,7 +449,7 @@ def data_loading_indiv():
     return kl_individual_limit_df, kl_individual_limit_df2
 
 
-def plotting_kl_indiv(syst_scenario):
+def plotting_kl_indiv(syst_scenario, show_number = True):
     kl_individual_limit_df, kl_individual_limit_df2 = data_loading_indiv()
     os.makedirs("plots/csv/", exist_ok=True)
     for channel, value in kl_individual_limit_df2.items():
@@ -434,7 +465,7 @@ def plotting_kl_indiv(syst_scenario):
     }
     dp = 2
     line = syst_names[syst_scenario] + ' indiv'
-    for channel in ['bbyy', 'bbtautau', 'bbbb', 'combined']:
+    for channel in channels + ['combined']:
         analysis_label_options_new = {
             'loc': (0.10, 0.95),
             'extra_text':channel_text[channel] + '//Asimov data (bkg. only)//'
@@ -449,15 +480,16 @@ def plotting_kl_indiv(syst_scenario):
         ax = plotter.draw(xlabel=r"$\mathrm{\kappa_{\lambda}}$", ylabel=r"$\sigma_{ggF+VBF}(HH) [fb]$", draw_observed=False, log=True, ylim=[7, 1.5e3], xlim=[-2,6])
         intersections = get_intersections(klambda_values, original_theory_xs_values - scale_factor*kl_individual_limit_df2[channel][syst_scenario]['0'], 0)
         intersection_str = r" \cup ".join([f"[{lo:.{dp}f}, {hi:.{dp}f}]" for (lo, hi) in intersections])
-        line += intersection_str
+        line += (intersection_str + ' & ')
         x_pos = {
             'stat_only': 0.63,
             'theo_exp_baseline': 0.62,
             'theo_only': 0.05,
             'run2_syst':0.60,
         }
-        ax.annotate(syst_scenario_label_map[syst_scenario]+" scenario", (x_pos[syst_scenario], 0.15), xycoords = 'axes fraction', fontsize = 20)
-        ax.annotate(r'Expected: $\kappa_\lambda \in %s$' % (intersection_str), (x_pos[syst_scenario], 0.08), xycoords = 'axes fraction', fontsize = 20)
+        if show_number:
+            ax.annotate(syst_scenario_label_map[syst_scenario]+" scenario", (x_pos[syst_scenario], 0.15), xycoords = 'axes fraction', fontsize = 20)
+            ax.annotate(r'Expected: $\kappa_\lambda \in %s$' % (intersection_str), (x_pos[syst_scenario], 0.08), xycoords = 'axes fraction', fontsize = 20)
         os.makedirs("plots/kl_limit_indiv/", exist_ok=True)
         plt.savefig(f"plots/kl_limit_indiv/kl_limit_{syst_scenario}_individual_ws_{channel}.pdf", bbox_inches="tight")
         print("Save fig", f"plots/kl_limit_indiv/kl_limit_{syst_scenario}_individual_ws_{channel}.pdf")
@@ -481,7 +513,7 @@ def data_loading_param():
             kl_param_limit_df2[channel][scenario] = df
     return kl_param_limit_df, kl_param_limit_df2
 
-def plotting_kl_param(syst_scenario):
+def plotting_kl_param(syst_scenario, show_number = True):
     kl_param_limit_df, kl_param_limit_df2 = data_loading_param()
     syst_names = {
         'stat_only':         'No systematic uncertainties',
@@ -490,10 +522,9 @@ def plotting_kl_param(syst_scenario):
         'run2_syst':         'Run 2 systematic uncertainties',
 
     }
-    dp = 1
+    dp = 2
     line = syst_names[syst_scenario] + ' param'
-    #for channel in ['bbyy', 'bbtautau', 'bbbb', 'combined']:
-    for channel in ['bbbb']:
+    for channel in channels + ['combined']:
         analysis_label_options_new = {
             'extra_text':channel_text[channel] + '//Asimov data (bkg. only)//'
         }
@@ -515,18 +546,21 @@ def plotting_kl_param(syst_scenario):
         if len(intersections) > 10:
             intersections = [(-0,0)]
         intersection_str = r" \cup ".join([f"[{lo:.{dp}f}, {hi:.{dp}f}]" for (lo, hi) in intersections])
-        line += intersection_str
+        line += (intersection_str + ' & ')
         x_pos = {
             'stat_only': 0.63,
             'theo_exp_baseline': 0.62,
             'theo_only': 0.05,
             'run2_syst':0.60,
         }
-        ax.annotate(syst_scenario_label_map[syst_scenario]+" scenario", (x_pos[syst_scenario], 0.15), xycoords = 'axes fraction', fontsize = 20)
-        ax.annotate(r'Expected: $\kappa_\lambda \in %s$' % (intersection_str), (x_pos[syst_scenario], 0.08), xycoords = 'axes fraction', fontsize = 20)
+        if show_number:
+            ax.annotate(syst_scenario_label_map[syst_scenario]+" scenario", (x_pos[syst_scenario], 0.15), xycoords = 'axes fraction', fontsize = 20)
+            ax.annotate(r'Expected: $\kappa_\lambda \in %s$' % (intersection_str), (x_pos[syst_scenario], 0.08), xycoords = 'axes fraction', fontsize = 20)
         os.makedirs("plots/kl_limit_param/", exist_ok=True)
         plt.savefig(f"plots/kl_limit_param/kl_limit_{syst_scenario}_parameterised_ws_{channel}.pdf", bbox_inches="tight")
         print('Save fig', f"plots/kl_limit_param/kl_limit_{syst_scenario}_parameterised_ws_{channel}.pdf")
+    line += r" \\"
+    return line
 
 
 
@@ -620,6 +654,9 @@ def get_intersections2(df, level):
 def plot_lh_chan(klhypo):
     
     config = {
+        'sigma_values': (1, 3.84),
+        'sigma_levels': ('1sigma', '0.95'),
+        'sigma_names': ('68%', '95%'),
         'sigma_interval_styles':{
             'decimal_place': 2
         }
@@ -643,14 +680,14 @@ def plot_lh_chan(klhypo):
                 df.to_csv(f"plots/csv/likelihood_scan_mu_{kl}_{channel}_{scenario}.csv")
 
     intersects = {}
-    for channel in ['combined']:
+    for channel in channels + ['combined']:
         channel_analysis_label_options = {**analysis_label_options, 'extra_text':channel_text[channel] + '//Asimov data (' + r"$\mathrm{\kappa_{\lambda}}$ = " + f'{klhypo})'}
         plotter = Likelihood1DPlot(likelihood_df2[klhypo][channel], label_map=syst_scenario_label_map, styles_map=styles_map['scenario'], styles=styles, analysis_label_options=channel_analysis_label_options, config=config)
 
         intersects[channel] = {}
         for scenario, df in likelihood_df2[klhypo][channel].items():
             intersects[channel][scenario] = {}
-            for level in [1, 4]:
+            for level in [1, 3.84]:
                 intersections = get_intersections2(df, level)
                 intersects[channel][scenario][level] = intersections.tolist()
 
@@ -668,7 +705,10 @@ def plot_lh_chan(klhypo):
 #### 4.2 Scenario-based plot
 def plot_lh_scen(klhypo):
     config = {
-        'sigma_pos': 1.01
+        'sigma_pos': 1.01,
+        'sigma_values': (1, 3.84),
+        'sigma_levels': ('1sigma', '0.95'),
+        'sigma_names': ('68%', '95%'),
     }
     analysis_label_options_new = {
         1: {
@@ -797,6 +837,11 @@ def merge_limit_SM_lumi_scen(study='SM_mu'):
         data = merge_limit_SM_lumi(scenario, study)
         for channel in data:
             df = pd.DataFrame(data[channel]).dropna()
+            if study=='SM_xsec':
+                # https://twiki.cern.ch/twiki/bin/view/LHCPhysics/LHCHWGHH?redirectedfrom=LHCPhysics.LHCHXSWGHH#Latest_recommendations_for_gluon
+                total_cross = 2.055+36.69 # 14TeV, mH=125 # xs_HH(kl=1, s=14)
+                for i in ['0', '2', '1', '-1', '-2', 'obs', 'inj']:
+                    df[i] *= total_cross
             if channel not in limit_lumi_df2:
                 limit_lumi_df2[channel] = {}
             limit_lumi_df[scenario][channel] = df
@@ -817,7 +862,7 @@ def plot_limit_lumi(study='SM_mu'):
     os.makedirs("plots/csv/", exist_ok=True)
     for channel, value in limit_lumi_df2.items():
         for scenario, df in value.items():
-            df.to_csv(f"plots/csv/limit_lumi_{channel}__{scenario}.csv")
+            df.to_csv(f"plots/csv/limit_lumi_{study}_{channel}__{scenario}.csv")
     analysis_label_options = analysis_label_options_default
     analysis_label_options['lumi'] = None
     for channel in channels + ['combined']:
@@ -827,7 +872,16 @@ def plot_limit_lumi(study='SM_mu'):
             channel_analysis_label_options['loc'] = (0.05, 0.35)
             styles['legend']['loc'] = (0.52, 0.05)
         plotter = Likelihood1DPlot(limit_lumi_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map['scenario'], styles=styles, analysis_label_options=channel_analysis_label_options, config=config)
-        plotter.draw(xattrib='lumi', yattrib='0', xlabel=r"Integrated Luminosity [fb$^{-1}$]", ylabel="95% CL Upper Limit on Signal Strength", ymax=3, xmin=800, xmax=3200, draw_sigma_line=True)
+        if study == 'SM_xsec':
+            ylabel = r"95% CL Upper Limit on $\sigma_{ggF+VBF}(HH) [fb]$"
+            total_cross = 2.055+36.69 # 14TeV, mH=125 # xs_HH(kl=1, s=14)
+            ymax = 2 * total_cross
+            if channel == 'bbbb':
+                ymax = 8 * total_cross
+        else:
+            ylabel = "95% CL Upper Limit on Signal Strength"
+            ymax = 2.5
+        plotter.draw(xattrib='lumi', yattrib='0', xlabel=r"Integrated Luminosity [fb$^{-1}$]", ylabel=ylabel, ymax=ymax, xmin=800, xmax=3200, draw_sigma_line=True)
         os.makedirs("plots/lumi/", exist_ok=True)
         plt.savefig(f"plots/lumi/limit_lumi_{study}_{channel}.pdf", bbox_inches="tight")
         print("Save fig", f"plots/lumi/limit_lumi_{study}_{channel}.pdf")
@@ -858,13 +912,14 @@ def collect_best_fit():
 #for syst in syst_scenarios:
 #    kl_limit.append(plotting_kl_indiv(syst))
 #    kl_limit.append(plotting_kl_param(syst))
-#for i in kl_limit:
-#    print(i)
+#with open(f"plots/csv/kl_xsec_scan.txt", "w") as f:
+#    f.write(' & '.join(channels + ['combined'])+'\n')
+#    f.write('\n'.join(kl_limit))
 #for i in [0, 1]:
 #    plot_lh_chan(i)
 #    plot_lh_scen(i)
 #plot_significance_chan()
 #plot_significance_lumi()
-plot_limit_lumi()
+#plot_limit_lumi()
 plot_limit_lumi('SM_xsec')
-collect_best_fit()
+#collect_best_fit()

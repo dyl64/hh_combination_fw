@@ -18,7 +18,8 @@ from pdb import set_trace
 #poi_name = "xsec_br"
 
 
-filename = "../../FullRun2Workspaces/original/PUBHL2022/20220919_proj_all/lumi3000ifb/theo_exp_baseline/bbbb/nonres/0_kl.root"
+#filename = "../../FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi3000ifb/stat_only/bbbb/nonres/0_kl.root"
+filename = "/eos/user/c/colm/hh4b/forHHcombo/nominal_wksps/noSyst_3000.root"
 data_name = "asimovData"
 poi_name = "mu_HH"
 
