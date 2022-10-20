@@ -18,12 +18,12 @@ from pdb import set_trace
 ## 1.1 Global variables related to input
 if "hh_combination_fw_path" not in os.environ:
     os.environ['hh_combination_fw_path'] = os.path.abspath("../../")
-outdir = "/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/projection2022/output/20220919_proj_all/lumi3000ifb/"
+outdir = "/afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/tutorials/projection2022/output/20221018_proj_all/lumi3000ifb/"
 outdir = os.path.expandvars(outdir)
 
 
 syst_scenarios = ['stat_only', 'theo_exp_baseline', 'theo_only', 'run2_syst']
-studies = ['SM', 'kl_param', 'kl_individual']
+studies = ['SM_mu', 'SM_xsec', 'kl_param', 'kl_individual']
 channels = ['bbtautau', 'bbyy', 'bbbb']
 resonant_type = 'nonres'
 combine_tag = 'A-bbbb_bbtautau_bbyy-fullcorr'
@@ -148,7 +148,7 @@ def get_limit_SM(scenario, study, lumi=None):
     return data
 
 ## 1.4.2 get SM limit data for one scenario all lumi
-def merge_limit_SM_lumi(scenario, study='SM'):
+def merge_limit_SM_lumi(scenario, study='SM_mu'):
     data_all = []
     for lumi in [1000, 1500, 2000, 2500, 3000]:
         data = get_limit_SM(scenario, study, lumi)
@@ -161,11 +161,11 @@ def merge_limit_SM_lumi(scenario, study='SM'):
     return data_all[0]
 
 ## 1.4.3 get SM limit data for one scenario one lumi
-def merge_limit_SM_scen():
+def merge_limit_SM_scen(study):
     sm_limit_df = {}
     sm_limit_df2 = {}
     for scenario in syst_scenarios[::-1]:
-        data = get_limit_SM(scenario, 'SM')
+        data = get_limit_SM(scenario, study)
         # flatten 1 point limit
         for k,v in data.items():
             for p,v_ in v.items():
@@ -202,9 +202,9 @@ def get_likelihood_data(scenario, klhypo):
 def get_pvalue_SM(scenario, lumi):
     data = {}
     for channel in channels:
-        limit_path = os.path.join(outdir.replace("lumi3000ifb", f"lumi{lumi}ifb"), scenario, 'SM', 'pvalues', resonant_type, channel, 'pvalue.json')
+        limit_path = os.path.join(outdir.replace("lumi3000ifb", f"lumi{lumi}ifb"), scenario, 'SM_mu', 'pvalues', resonant_type, channel, 'pvalue.json')
         data[channel] = json.load(open(limit_path))
-    limit_path = os.path.join(outdir.replace("lumi3000ifb", f"lumi{lumi}ifb"), scenario, 'SM', 'pvalues', resonant_type, 'combined', combine_tag, 'pvalue.json')
+    limit_path = os.path.join(outdir.replace("lumi3000ifb", f"lumi{lumi}ifb"), scenario, 'SM_mu', 'pvalues', resonant_type, 'combined', combine_tag, 'pvalue.json')
     data['combined'] = json.load(open(limit_path))
     # filter columns
     results = {}
@@ -262,7 +262,7 @@ def get_pvalue_data_kl(scenario):
     for channel in channels:
         limit_path = os.path.join(outdir, scenario, 'kl_individual', 'pvalues', resonant_type, channel, 'result_asimovData_1_NP_Nominal_mu_0.json')
         data[channel] = json.load(open(limit_path))
-    limit_path = os.path.join(outdir, scenario, 'SM', 'pvalues', resonant_type, 'combined', combine_tag, 'result_asimovData_1_NP_Nominal_mu_0.json')
+    limit_path = os.path.join(outdir, scenario, 'SM_mu', 'pvalues', resonant_type, 'combined', combine_tag, 'result_asimovData_1_NP_Nominal_mu_0.json')
     data['combined'] = json.load(open(limit_path))
     for channel in data:
         data[channel] = {k:v for k,v in data[channel].items() if k in ['pvalue', 'significance', 'qmu']}
@@ -364,13 +364,13 @@ styles_default = {
 
 ## 2. SM Limit Plot
 
-def plotting_SM():
-    sm_limit_df, sm_limit_df2 = merge_limit_SM_scen()
+def plotting_SM(study='SM_mu'):
+    sm_limit_df, sm_limit_df2 = merge_limit_SM_scen(study)
     os.makedirs("plots/csv/", exist_ok=True)
     for key, value in sm_limit_df.items():
-        value.to_csv(f"plots/csv/SM_limit__{key}.csv")
+        value.to_csv(f"plots/csv/{study}_limit__{key}.csv")
     for key, value in sm_limit_df2.items():
-        value.to_csv(f"plots/csv/SM_limit__{key}.csv")
+        value.to_csv(f"plots/csv/{study}_limit__{key}.csv")
 
     config = {
         'top_margin': 3.0,
@@ -386,8 +386,8 @@ def plotting_SM():
         plotter.config = combine_dict(plotter.config, config)
         plotter.draw(xlabel=r"95% CL upper limit on signal strength", draw_observed=False)
         os.makedirs("plots/SM/", exist_ok=True)
-        plt.savefig(f"plots/SM/SM_limit_{channel}.pdf", bbox_inches="tight")
-        print('Save fig', f"plots/SM/SM_limit_{channel}.pdf")
+        plt.savefig(f"plots/SM/{study}_limit_{channel}.pdf", bbox_inches="tight")
+        print('Save fig', f"plots/SM/{study}_limit_{channel}.pdf")
 
 
 ## 3. KL Limit Scan
@@ -789,12 +789,12 @@ def plot_significance_lumi():
 
 
 ## 
-def merge_limit_SM_lumi_scen():
+def merge_limit_SM_lumi_scen(study='SM_mu'):
     limit_lumi_df  = {}
     limit_lumi_df2 = {}
     for scenario in syst_scenarios:
         limit_lumi_df[scenario] = {}
-        data = merge_limit_SM_lumi(scenario)
+        data = merge_limit_SM_lumi(scenario, study)
         for channel in data:
             df = pd.DataFrame(data[channel]).dropna()
             if channel not in limit_lumi_df2:
@@ -804,7 +804,7 @@ def merge_limit_SM_lumi_scen():
     return limit_lumi_df, limit_lumi_df2
 
 
-def plot_limit_lumi():
+def plot_limit_lumi(study='SM_mu'):
     config = {
         'sigma_values': (),
         'sigma_line_styles':{
@@ -813,7 +813,7 @@ def plot_limit_lumi():
         }
     }
 
-    limit_lumi_df, limit_lumi_df2 = merge_limit_SM_lumi_scen()
+    limit_lumi_df, limit_lumi_df2 = merge_limit_SM_lumi_scen(study)
     os.makedirs("plots/csv/", exist_ok=True)
     for channel, value in limit_lumi_df2.items():
         for scenario, df in value.items():
@@ -829,8 +829,8 @@ def plot_limit_lumi():
         plotter = Likelihood1DPlot(limit_lumi_df2[channel], label_map=syst_scenario_label_map, styles_map=styles_map['scenario'], styles=styles, analysis_label_options=channel_analysis_label_options, config=config)
         plotter.draw(xattrib='lumi', yattrib='0', xlabel=r"Integrated Luminosity [fb$^{-1}$]", ylabel="95% CL Upper Limit on Signal Strength", ymax=3, xmin=800, xmax=3200, draw_sigma_line=True)
         os.makedirs("plots/lumi/", exist_ok=True)
-        plt.savefig(f"plots/lumi/limit_lumi_{channel}.pdf", bbox_inches="tight")
-        print("Save fig", f"plots/lumi/limit_lumi_{channel}.pdf")
+        plt.savefig(f"plots/lumi/limit_lumi_{study}_{channel}.pdf", bbox_inches="tight")
+        print("Save fig", f"plots/lumi/limit_lumi_{study}_{channel}.pdf")
 
 def collect_best_fit():
     data_all = []
@@ -847,12 +847,13 @@ def collect_best_fit():
         try:
             df = pd.DataFrame(data_all[0][channel]).dropna()
             df.index = syst_scenarios
-            df.to_csv(f"plots/csv/SM_bestfit__{lumi}_{channel}.csv")
-            print("Save bestfit", f"plots/csv/SM_bestfit__{lumi}_{channel}.csv")
+            df.to_csv(f"plots/csv/SM_mu_bestfit__{lumi}_{channel}.csv")
+            print("Save bestfit", f"plots/csv/SM_mu_bestfit__{lumi}_{channel}.csv")
         except:
             set_trace()
 
-plotting_SM()
+#plotting_SM()
+#plotting_SM("SM_xsec")
 #kl_limit = []
 #for syst in syst_scenarios:
 #    kl_limit.append(plotting_kl_indiv(syst))
@@ -864,5 +865,6 @@ plotting_SM()
 #    plot_lh_scen(i)
 #plot_significance_chan()
 #plot_significance_lumi()
-#plot_limit_lumi()
-#collect_best_fit()
+plot_limit_lumi()
+plot_limit_lumi('SM_xsec')
+collect_best_fit()
