@@ -2,65 +2,129 @@
 
 HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi1000ifb/stat_only -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1000ifb/stat_only/SM_mu -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
 
+# lumi = 1000, syst = stat_only, task_scenario = SM_xsec
+
+HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi1000ifb/stat_only -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1000ifb/stat_only/SM_xsec -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
+
 # lumi = 1000, syst = theo_exp_baseline, task_scenario = SM_mu
 
 HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi1000ifb/theo_exp_baseline -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1000ifb/theo_exp_baseline/SM_mu -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_no_kl_unc.json --do-limit --skip-likelihood --do-pvalue
+
+# lumi = 1000, syst = theo_exp_baseline, task_scenario = SM_xsec
+
+HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi1000ifb/theo_exp_baseline -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1000ifb/theo_exp_baseline/SM_xsec -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --do-pvalue
 
 # lumi = 1000, syst = theo_only, task_scenario = SM_mu
 
 HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi1000ifb/theo_only -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1000ifb/theo_only/SM_mu -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --do-limit --skip-likelihood --do-pvalue
 
+# lumi = 1000, syst = theo_only, task_scenario = SM_xsec
+
+HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi1000ifb/theo_only -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1000ifb/theo_only/SM_xsec -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --do-pvalue
+
 # lumi = 1000, syst = run2_syst, task_scenario = SM_mu
 
 HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi1000ifb/run2_syst -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1000ifb/run2_syst/SM_mu -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --do-limit --skip-likelihood --do-pvalue
+
+# lumi = 1000, syst = run2_syst, task_scenario = SM_xsec
+
+HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi1000ifb/run2_syst -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1000ifb/run2_syst/SM_xsec -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --do-pvalue
 
 # lumi = 1500, syst = stat_only, task_scenario = SM_mu
 
 HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi1500ifb/stat_only -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1500ifb/stat_only/SM_mu -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
 
+# lumi = 1500, syst = stat_only, task_scenario = SM_xsec
+
+HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi1500ifb/stat_only -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1500ifb/stat_only/SM_xsec -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
+
 # lumi = 1500, syst = theo_exp_baseline, task_scenario = SM_mu
 
 HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi1500ifb/theo_exp_baseline -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1500ifb/theo_exp_baseline/SM_mu -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_no_kl_unc.json --do-limit --skip-likelihood --do-pvalue
+
+# lumi = 1500, syst = theo_exp_baseline, task_scenario = SM_xsec
+
+HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi1500ifb/theo_exp_baseline -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1500ifb/theo_exp_baseline/SM_xsec -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --do-pvalue
 
 # lumi = 1500, syst = theo_only, task_scenario = SM_mu
 
 HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi1500ifb/theo_only -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1500ifb/theo_only/SM_mu -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --do-limit --skip-likelihood --do-pvalue
 
+# lumi = 1500, syst = theo_only, task_scenario = SM_xsec
+
+HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi1500ifb/theo_only -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1500ifb/theo_only/SM_xsec -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --do-pvalue
+
 # lumi = 1500, syst = run2_syst, task_scenario = SM_mu
 
 HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi1500ifb/run2_syst -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1500ifb/run2_syst/SM_mu -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --do-limit --skip-likelihood --do-pvalue
+
+# lumi = 1500, syst = run2_syst, task_scenario = SM_xsec
+
+HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi1500ifb/run2_syst -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1500ifb/run2_syst/SM_xsec -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --do-pvalue
 
 # lumi = 2000, syst = stat_only, task_scenario = SM_mu
 
 HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi2000ifb/stat_only -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2000ifb/stat_only/SM_mu -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
 
+# lumi = 2000, syst = stat_only, task_scenario = SM_xsec
+
+HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi2000ifb/stat_only -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2000ifb/stat_only/SM_xsec -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
+
 # lumi = 2000, syst = theo_exp_baseline, task_scenario = SM_mu
 
 HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi2000ifb/theo_exp_baseline -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2000ifb/theo_exp_baseline/SM_mu -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_no_kl_unc.json --do-limit --skip-likelihood --do-pvalue
+
+# lumi = 2000, syst = theo_exp_baseline, task_scenario = SM_xsec
+
+HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi2000ifb/theo_exp_baseline -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2000ifb/theo_exp_baseline/SM_xsec -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --do-pvalue
 
 # lumi = 2000, syst = theo_only, task_scenario = SM_mu
 
 HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi2000ifb/theo_only -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2000ifb/theo_only/SM_mu -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --do-limit --skip-likelihood --do-pvalue
 
+# lumi = 2000, syst = theo_only, task_scenario = SM_xsec
+
+HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi2000ifb/theo_only -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2000ifb/theo_only/SM_xsec -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --do-pvalue
+
 # lumi = 2000, syst = run2_syst, task_scenario = SM_mu
 
 HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi2000ifb/run2_syst -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2000ifb/run2_syst/SM_mu -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --do-limit --skip-likelihood --do-pvalue
+
+# lumi = 2000, syst = run2_syst, task_scenario = SM_xsec
+
+HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi2000ifb/run2_syst -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2000ifb/run2_syst/SM_xsec -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --do-pvalue
 
 # lumi = 2500, syst = stat_only, task_scenario = SM_mu
 
 HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi2500ifb/stat_only -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2500ifb/stat_only/SM_mu -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
 
+# lumi = 2500, syst = stat_only, task_scenario = SM_xsec
+
+HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi2500ifb/stat_only -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2500ifb/stat_only/SM_xsec -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
+
 # lumi = 2500, syst = theo_exp_baseline, task_scenario = SM_mu
 
 HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi2500ifb/theo_exp_baseline -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2500ifb/theo_exp_baseline/SM_mu -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_no_kl_unc.json --do-limit --skip-likelihood --do-pvalue
+
+# lumi = 2500, syst = theo_exp_baseline, task_scenario = SM_xsec
+
+HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi2500ifb/theo_exp_baseline -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2500ifb/theo_exp_baseline/SM_xsec -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --do-pvalue
 
 # lumi = 2500, syst = theo_only, task_scenario = SM_mu
 
 HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi2500ifb/theo_only -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2500ifb/theo_only/SM_mu -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --do-limit --skip-likelihood --do-pvalue
 
+# lumi = 2500, syst = theo_only, task_scenario = SM_xsec
+
+HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi2500ifb/theo_only -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2500ifb/theo_only/SM_xsec -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --do-pvalue
+
 # lumi = 2500, syst = run2_syst, task_scenario = SM_mu
 
 HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi2500ifb/run2_syst -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2500ifb/run2_syst/SM_mu -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --do-limit --skip-likelihood --do-pvalue
+
+# lumi = 2500, syst = run2_syst, task_scenario = SM_xsec
+
+HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/hh_combination_fw/FullRun2Workspaces/original/PUBHL2022/20221018_proj_all/lumi2500ifb/run2_syst -o ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2500ifb/run2_syst/SM_xsec -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --do-pvalue
 
 # lumi = 3000, syst = stat_only, task_scenario = SM_mu
 
@@ -134,65 +198,129 @@ HHComb process_channels -i /afs/cern.ch/work/z/zhangr/HHcomb/hh_combination_fw/h
 
 HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1000ifb/stat_only/SM_mu -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
 
+# lumi = 1000, syst = stat_only, task_scenario = SM_xsec
+
+HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1000ifb/stat_only/SM_xsec -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
+
 # lumi = 1000, syst = theo_exp_baseline, task_scenario = SM_mu
 
 HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1000ifb/theo_exp_baseline/SM_mu -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_no_kl_unc.json --do-limit --skip-likelihood --do-pvalue
+
+# lumi = 1000, syst = theo_exp_baseline, task_scenario = SM_xsec
+
+HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1000ifb/theo_exp_baseline/SM_xsec -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --do-pvalue
 
 # lumi = 1000, syst = theo_only, task_scenario = SM_mu
 
 HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1000ifb/theo_only/SM_mu -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --do-limit --skip-likelihood --do-pvalue
 
+# lumi = 1000, syst = theo_only, task_scenario = SM_xsec
+
+HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1000ifb/theo_only/SM_xsec -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --do-pvalue
+
 # lumi = 1000, syst = run2_syst, task_scenario = SM_mu
 
 HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1000ifb/run2_syst/SM_mu -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --do-limit --skip-likelihood --do-pvalue
+
+# lumi = 1000, syst = run2_syst, task_scenario = SM_xsec
+
+HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1000ifb/run2_syst/SM_xsec -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --do-pvalue
 
 # lumi = 1500, syst = stat_only, task_scenario = SM_mu
 
 HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1500ifb/stat_only/SM_mu -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
 
+# lumi = 1500, syst = stat_only, task_scenario = SM_xsec
+
+HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1500ifb/stat_only/SM_xsec -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
+
 # lumi = 1500, syst = theo_exp_baseline, task_scenario = SM_mu
 
 HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1500ifb/theo_exp_baseline/SM_mu -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_no_kl_unc.json --do-limit --skip-likelihood --do-pvalue
+
+# lumi = 1500, syst = theo_exp_baseline, task_scenario = SM_xsec
+
+HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1500ifb/theo_exp_baseline/SM_xsec -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --do-pvalue
 
 # lumi = 1500, syst = theo_only, task_scenario = SM_mu
 
 HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1500ifb/theo_only/SM_mu -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --do-limit --skip-likelihood --do-pvalue
 
+# lumi = 1500, syst = theo_only, task_scenario = SM_xsec
+
+HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1500ifb/theo_only/SM_xsec -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --do-pvalue
+
 # lumi = 1500, syst = run2_syst, task_scenario = SM_mu
 
 HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1500ifb/run2_syst/SM_mu -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --do-limit --skip-likelihood --do-pvalue
+
+# lumi = 1500, syst = run2_syst, task_scenario = SM_xsec
+
+HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi1500ifb/run2_syst/SM_xsec -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --do-pvalue
 
 # lumi = 2000, syst = stat_only, task_scenario = SM_mu
 
 HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2000ifb/stat_only/SM_mu -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
 
+# lumi = 2000, syst = stat_only, task_scenario = SM_xsec
+
+HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2000ifb/stat_only/SM_xsec -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
+
 # lumi = 2000, syst = theo_exp_baseline, task_scenario = SM_mu
 
 HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2000ifb/theo_exp_baseline/SM_mu -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_no_kl_unc.json --do-limit --skip-likelihood --do-pvalue
+
+# lumi = 2000, syst = theo_exp_baseline, task_scenario = SM_xsec
+
+HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2000ifb/theo_exp_baseline/SM_xsec -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --do-pvalue
 
 # lumi = 2000, syst = theo_only, task_scenario = SM_mu
 
 HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2000ifb/theo_only/SM_mu -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --do-limit --skip-likelihood --do-pvalue
 
+# lumi = 2000, syst = theo_only, task_scenario = SM_xsec
+
+HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2000ifb/theo_only/SM_xsec -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --do-pvalue
+
 # lumi = 2000, syst = run2_syst, task_scenario = SM_mu
 
 HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2000ifb/run2_syst/SM_mu -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --do-limit --skip-likelihood --do-pvalue
+
+# lumi = 2000, syst = run2_syst, task_scenario = SM_xsec
+
+HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2000ifb/run2_syst/SM_xsec -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --do-pvalue
 
 # lumi = 2500, syst = stat_only, task_scenario = SM_mu
 
 HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2500ifb/stat_only/SM_mu -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
 
+# lumi = 2500, syst = stat_only, task_scenario = SM_xsec
+
+HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2500ifb/stat_only/SM_xsec -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_stat_only.json --do-limit --skip-likelihood --do-pvalue
+
 # lumi = 2500, syst = theo_exp_baseline, task_scenario = SM_mu
 
 HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2500ifb/theo_exp_baseline/SM_mu -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_no_kl_unc.json --do-limit --skip-likelihood --do-pvalue
+
+# lumi = 2500, syst = theo_exp_baseline, task_scenario = SM_xsec
+
+HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2500ifb/theo_exp_baseline/SM_xsec -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --do-pvalue
 
 # lumi = 2500, syst = theo_only, task_scenario = SM_mu
 
 HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2500ifb/theo_only/SM_mu -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --do-limit --skip-likelihood --do-pvalue
 
+# lumi = 2500, syst = theo_only, task_scenario = SM_xsec
+
+HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2500ifb/theo_only/SM_xsec -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --do-pvalue
+
 # lumi = 2500, syst = run2_syst, task_scenario = SM_mu
 
 HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2500ifb/run2_syst/SM_mu -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --do-limit --skip-likelihood --do-pvalue
+
+# lumi = 2500, syst = run2_syst, task_scenario = SM_xsec
+
+HHComb combine_ws -i ${hh_combination_fw_path}/tutorials/projection2022/output/20221018_proj_all/lumi2500ifb/run2_syst/SM_xsec -s ${hh_combination_fw_path}/configs/correlation_schemes/projection2022/nonres_kl_v14.json -c bbyy,bbtautau,bbbb -r nonres --file_expr "<mass[F]>" --config ${hh_combination_fw_path}/configs/task_options/projection2022/proj_nonres_sm.yaml --minimizer_options ${hh_combination_fw_path}/configs/minimizer_options/projection2021/projection_fix_xs_uncertainty.json --do-limit --skip-likelihood --do-pvalue
 
 # lumi = 3000, syst = stat_only, task_scenario = SM_mu
 
