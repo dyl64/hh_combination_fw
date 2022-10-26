@@ -5,7 +5,7 @@ import copy
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from quickstats.plots import UpperLimit1DPlot
+from upper_limit_1D_plot import UpperLimit1DPlot
 from quickstats.plots import UpperLimit2DPlot
 from quickstats.plots import Likelihood1DPlot
 from quickstats.plots.color_schemes import QUICKSTATS_PALETTES
@@ -44,7 +44,7 @@ channel_text = {
     'bbyy': r'$\mathit{HH\rightarrow b\bar{b}\gamma\gamma}$'+'//Projection from Run 2 data',
     'bbtautau': r'$\mathit{HH\rightarrow b\bar{b}\tau^+\tau^-}$'+'//Projection from Run 2 data',
     'bbbb': r'$\mathit{HH\rightarrow b\bar{b}b\bar{b}}$'+'//Projection from Run 2 data',
-    'combined': r'$\mathit{HH\rightarrow b\bar{b}\gamma\gamma + b\bar{b}\tau^+\tau^-} + b\bar{b}b\bar{b}$'+'//Projection from Run 2 data',
+    'combined': r'$\mathit{HH\rightarrow b\bar{b}\gamma\gamma + b\bar{b}\tau^+\tau^- + b\bar{b}b\bar{b}}$'+'//Projection from Run 2 data',
 }
 syst_scenario_text = {
     'stat_only': r"Non-resonant HH" + "//No syst. unc.",
@@ -280,6 +280,15 @@ analysis_label_options_default = {
     'loc': (0.05, 0.95),
 }
 styles_default = {
+'sm_limit': {
+    'text':{
+        'format': 'numeric',
+        'steps': [1, 10],
+        },
+    'ytick':{
+        'steps': [1,2,4],
+        }
+    },
 'kl_likelihood_chan_mu1': {
     'legend':{
         'loc': (0.21, 0.42),
@@ -391,8 +400,10 @@ def plotting_SM(study='SM_mu'):
     if study == 'SM_xsec':
         xerrhi, xerrlo = SM_error(ggf_cv=xs_ggF(kl=1), ggf_up=np.sqrt(np.square(0.03)+np.square(0.06)), ggf_dn=np.sqrt(np.square(0.03)+np.square(0.23)), vbf_cv=xs_VBF(kl=1), vbf_up=np.sqrt(np.square(0.0003)+np.square(0.021)), vbf_dn=np.sqrt(np.square(0.0004)+np.square(0.021)))
         print(xerrhi, xerrlo)
+        xerrhi_half, xerrlo_half = ((xerrhi-1)/2 +1) * total_cross, (1 - (1-xerrlo)/2) * total_cross
         xerrhi, xerrlo = xerrhi * total_cross, xerrlo * total_cross
         print(study, total_cross, xerrlo, xerrhi, '-', xerrlo-total_cross, '+', xerrhi-total_cross)
+        print(study, total_cross, xerrlo, xerrhi, '-', xerrlo_half-total_cross, '+', xerrhi_half-total_cross)
         xsec_value = f'{total_cross:.1f}_' + '{' + f'{xerrlo-total_cross:.1f}' + '}^{+' + f'{xerrhi-total_cross:.1f}' + '}'
 
 
@@ -407,7 +418,8 @@ def plotting_SM(study='SM_mu'):
         plotter.config = combine_dict(plotter.config, config)
 
         if study == 'SM_xsec':
-            plotter.add_curve(x=total_cross, xerrlo=xerrlo, xerrhi=xerrhi, label=f"Theory prediction")
+            plotter.add_curve(x=total_cross, xerrlo=xerrlo, xerrhi=xerrhi, label=f"Theory prediction", fill_styles = {'facecolor': 'hh:darkpink', 'alpha': 0.5})
+            plotter.add_curve(x=total_cross, xerrlo=xerrlo_half, xerrhi=xerrhi_half, label=f"Theory unc. halved", fill_styles = {'hatch': '///', 'facecolor': 'hh:darkpink', 'alpha': 0.0}, line_styles={'linewidth': 0})
             xlabel = r"$\sigma_{ggF+VBF}(\mathit{HH})$ [fb]"
             sig_fig = 0
         else:
