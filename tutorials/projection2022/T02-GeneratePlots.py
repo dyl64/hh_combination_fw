@@ -272,8 +272,8 @@ def get_pvalue_data_kl(scenario):
 
 ## Global settings
 analysis_label_options_default = {
-    'status': 'int',
-    #'status': 'prelim',
+    #'status': 'int',
+    'status': 'prelim',
     'energy': '14 TeV',
     'lumi': '3000 fb$^{-1}$',
     'fontsize': 30,
