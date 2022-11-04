@@ -16,10 +16,10 @@ if [[ $1 == '98' ]]; then
 elif [[ $1 == '100' ]]; then
     echo 'setup LCG_100'
     lsetup "views LCG_100 x86_64-centos7-gcc8-opt"
-elif [[ $1 == '101' ]] || [[ -z $1 ]]; then
+elif [[ $1 == '101' ]]; then
     echo 'setup LCG_101, ROOT 6.24'
     lsetup "views LCG_101 x86_64-centos7-gcc8-opt"
-elif [[ $1 == '102' ]]; then 
+elif [[ $1 == '102' ]] || [[ -z $1 ]]; then # The default
     echo 'setup LCG_102, ROOT 6.26'
     lsetup "views LCG_102 x86_64-centos7-gcc11-opt"
 else
