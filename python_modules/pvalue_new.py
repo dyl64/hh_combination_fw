@@ -11,8 +11,8 @@ from quickstats.components import AnalysisBase
 def pvalue_new(input_file, poi_name, dataset, output):
     uncap=True
     
-    analysis = AnalysisBase(input_file, data_name=dataset, config={"snapshot_name":"nominalNuis"})
-    analysis.generate_standard_asimov(quickstats.AsimovType.S_NP_Nom)
+    analysis = AnalysisBase(input_file, data_name=dataset, poi_name=poi_name, config={"snapshot_name":"nominalNuis"})
+    analysis.generate_standard_asimov(asimov_types=[-2])
     if output:
         analysis.model.workspace.writeToFile(output)
     analysis.set_data("asimovData_1_NP_Nominal")
@@ -24,3 +24,6 @@ def pvalue_new(input_file, poi_name, dataset, output):
         json.dump(fit_result, f, indent=4)
     print('Save to', output_file)
     print(fit_result)
+
+if __name__ == '__main__':
+    pvalue_new()

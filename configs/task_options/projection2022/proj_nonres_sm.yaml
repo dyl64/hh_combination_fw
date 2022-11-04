@@ -31,6 +31,7 @@ calculate_pvalue:
   mu: 0
   generate_asimov: -2
   dataset: asimovData_1_NP_Nominal
+  do_minos: True
 
 # fix POIs so that they are set to const
 fix_parameters:
