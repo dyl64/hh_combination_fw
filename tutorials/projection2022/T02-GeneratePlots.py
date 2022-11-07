@@ -272,8 +272,8 @@ def get_pvalue_data_kl(scenario):
 
 ## Global settings
 analysis_label_options_default = {
-    #'status': 'int',
-    'status': 'prelim',
+    'status': 'int',
+    #'status': 'prelim',
     'energy': '14 TeV',
     'lumi': '3000 fb$^{-1}$',
     'fontsize': 30,
@@ -409,8 +409,8 @@ def plotting_SM(study='SM_mu'):
 
     for channel in channels + ['combined']:
         analysis_label_options_new = {
-            'loc': (0.05, 0.97),
-            'extra_text': channel_text[channel] + '//Asimov data (bkg. only)//' + r'$\sigma_{ggF+VBF}^{SM}=38.7$ fb' if study != 'SM_xsec' else r'$\sigma_{ggF+VBF}^{SM} (\mathit{HH})=$' + r'${}$'.format(xsec_value) + ' fb'
+            'loc': (0.03, 0.97),
+            'extra_text': channel_text[channel] + '//Asimov data (bkg. only)//' + (r'$\sigma_{ggF+VBF}^{SM}=38.7$ fb' if study != 'SM_xsec' else r'$\sigma_{ggF+VBF}^{SM} (\mathit{HH})=$' + r'${}$'.format(xsec_value) + ' fb')
             }
         analysis_label_options = combine_dict(analysis_label_options_default, analysis_label_options_new)
         sm_limit_df2[channel].rename(index={"inj": "stat"}, inplace=True)
@@ -419,7 +419,7 @@ def plotting_SM(study='SM_mu'):
 
         if study == 'SM_xsec':
             plotter.add_curve(x=total_cross, xerrlo=xerrlo, xerrhi=xerrhi, label=f"Theory prediction", fill_styles = {'facecolor': 'hh:darkpink', 'alpha': 0.5})
-            plotter.add_curve(x=total_cross, xerrlo=xerrlo_half, xerrhi=xerrhi_half, label=f"Theory unc. halved", fill_styles = {'hatch': '///', 'facecolor': 'hh:darkpink', 'alpha': 0.0}, line_styles={'linewidth': 0})
+            plotter.add_curve(x=total_cross, xerrlo=xerrlo_half, xerrhi=xerrhi_half, label=f"Theory unc. halved", fill_styles = {'hatch': '///', 'alpha': 0.99, 'color': 'None','edgecolor': 'k', 'linewidth': 0.0}, line_styles={'linewidth': 0})
             xlabel = r"$\sigma_{ggF+VBF}(\mathit{HH})$ [fb]"
             sig_fig = 0
         else:
@@ -919,19 +919,19 @@ def collect_best_fit():
             set_trace()
 
 plotting_SM()
-plotting_SM("SM_xsec")
-kl_limit = []
-for syst in syst_scenarios:
-    kl_limit.append(plotting_kl_indiv(syst, show_number = False))
-    kl_limit.append(plotting_kl_param(syst, show_number = False))
-with open(f"plots/csv/kl_xsec_scan.txt", "w") as f:
-    f.write(' & '.join(channels + ['combined'])+'\n')
-    f.write('\n'.join(kl_limit))
-for i in [0, 1]:
-    plot_lh_chan(i)
-    plot_lh_scen(i)
-plot_significance_chan()
-plot_significance_lumi()
-plot_limit_lumi()
-plot_limit_lumi('SM_xsec')
-collect_best_fit()
+#plotting_SM("SM_xsec")
+#kl_limit = []
+#for syst in syst_scenarios:
+#    kl_limit.append(plotting_kl_indiv(syst, show_number = False))
+#    kl_limit.append(plotting_kl_param(syst, show_number = False))
+#with open(f"plots/csv/kl_xsec_scan.txt", "w") as f:
+#    f.write(' & '.join(channels + ['combined'])+'\n')
+#    f.write('\n'.join(kl_limit))
+#for i in [0, 1]:
+#    plot_lh_chan(i)
+#    plot_lh_scen(i)
+#plot_significance_chan()
+#plot_significance_lumi()
+#plot_limit_lumi()
+#plot_limit_lumi('SM_xsec')
+#collect_best_fit()
