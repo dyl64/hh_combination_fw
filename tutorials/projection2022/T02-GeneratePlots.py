@@ -272,8 +272,8 @@ def get_pvalue_data_kl(scenario):
 
 ## Global settings
 analysis_label_options_default = {
-    'status': 'int',
-    #'status': 'prelim',
+    #'status': 'int',
+    'status': 'prelim',
     'energy': '14 TeV',
     'lumi': '3000 fb$^{-1}$',
     'fontsize': 30,
@@ -918,7 +918,7 @@ def collect_best_fit():
         except:
             set_trace()
 
-plotting_SM()
+#plotting_SM()
 #plotting_SM("SM_xsec")
 #kl_limit = []
 #for syst in syst_scenarios:
@@ -933,5 +933,5 @@ plotting_SM()
 #plot_significance_chan()
 #plot_significance_lumi()
 #plot_limit_lumi()
-#plot_limit_lumi('SM_xsec')
+plot_limit_lumi('SM_xsec')
 #collect_best_fit()
