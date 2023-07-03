@@ -67,7 +67,7 @@
     "alpha_JET_JER_EffectiveNP_7": "ATLAS_JET_JER_EffectiveNP_7",
     "alpha_JET_JER_EffectiveNP_8": "ATLAS_JET_JER_EffectiveNP_8",
     "alpha_JET_JER_EffectiveNP_9": "ATLAS_JET_JER_EffectiveNP_9",
-    "alpha_JET_JVT": "ATLAS_JET_JVT",
+    "alpha_JET_JVT": "ATLAS_JET_JvtEfficiency",
     "alpha_JET_Pileup_OffsetMu": "ATLAS_JET_Pileup_OffsetMu",
     "alpha_JET_Pileup_OffsetNPV": "ATLAS_JET_Pileup_OffsetNPV",
     "alpha_JET_Pileup_PtTerm": "ATLAS_JET_Pileup_PtTerm",
