@@ -17,11 +17,14 @@ elif [[ $1 == '100' ]]; then
     echo 'setup LCG_100'
     lsetup "views LCG_100 x86_64-centos7-gcc8-opt"
 elif [[ $1 == '101' ]]; then
-    echo 'setup LCG_101, ROOT 6.24'
+    echo 'setup LCG_101, ROOT 6.24/06'
     lsetup "views LCG_101 x86_64-centos7-gcc8-opt"
 elif [[ $1 == '102' ]] || [[ -z $1 ]]; then # The default
-    echo 'setup LCG_102, ROOT 6.26'
+    echo 'setup LCG_102, ROOT 6.26/04'
     lsetup "views LCG_102 x86_64-centos7-gcc11-opt"
+elif [[ $1 == '102b' ]]; then
+    echo 'setup LCG_102b, ROOT 6.26/08'
+    lsetup "views LCG_102b x86_64-centos7-gcc11-opt"
 else
     echo 'Specify a relase number for LCG, default LCG_102'
     echo 'source setup.sh [98|100|101]'
