@@ -333,7 +333,7 @@ class TaskPipelineWS(TaskBase):
                    define_constraints:Optional[Dict]=None, 
                    redefine_parameters:Optional[Dict]=None, rename_parameters:Optional[Dict]=None,
                    rescale_poi:Optional[float]=None, fix_parameters:Optional[str]=None,
-                   profile_parameters:Optional[str]=None, add_product_terms:Optional[Dict]=None,
+                   profile_parameters:Optional[str]=None, reset_parameters:Optional[str]=None, add_product_terms:Optional[Dict]=None,
                    **kwargs):
         
         self.input_dir = input_dir
@@ -346,6 +346,7 @@ class TaskPipelineWS(TaskBase):
         self.rename_parameters = rename_parameters
         self.fix_parameters = fix_parameters
         self.profile_parameters = profile_parameters
+        self.reset_parameters = reset_parameters
         self.rescale_poi = rescale_poi
         self.old_poiname = old_poiname
         self.new_poiname = new_poiname
@@ -538,6 +539,8 @@ class TaskPipelineWS(TaskBase):
             model.fix_parameters(self.fix_parameters)
         if self.profile_parameters is not None:
             model.profile_parameters(self.profile_parameters)
+        if self.reset_parameters is not None:
+            model.reset_parameters(self.reset_parameters)
         model.save(regularised_ws_path)
                   
     def rescale(self, param_point:Dict):
@@ -669,6 +672,8 @@ class TaskPipelineWS(TaskBase):
             config["fix_parameters"] = self.fix_parameters
         if self.profile_parameters is not None:
             config["profile_parameters"] = self.profile_parameters
+        if self.reset_parameters is not None:
+            config["reset_parameters"] = self.reset_parameters
             
         from quickstats.components.workspaces import XMLWSModifier
         from quickstats.concurrent.logging import standard_log
