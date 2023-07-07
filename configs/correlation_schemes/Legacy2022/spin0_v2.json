@@ -1,7 +1,6 @@
 {
   "bbbb": {
     "Lumi": "fix_Lumi",
-    "Lumi_new": "ATLAS_LUMI_Run2",
     "alpha_ATLAS_LUMI_RUN2": "ATLAS_LUMI_Run2",
     "alpha_ATLAS_LUMI_Run2": "ATLAS_LUMI_Run2",
     "alpha_ATLAS_MODEL_BkgStat1_HH4b_b2b": "THEO_Boosted_ATLAS_BkgStat1_HH4b_b2b",
@@ -79,7 +78,7 @@
     "alpha_ATLAS_NORM_EXTRAP_HH4b_b4b": "THEO_Boosted_ATLAS_NORM_EXTRAP_HH4b_b4b",
     "alpha_ATLAS_NORM_EXTRAP_HH4b_b4b_boosted": "THEO_Boosted_ATLAS_NORM_EXTRAP_HH4b_b4b_boosted",
     "alpha_ATLAS_PU_PRW_DATASF": "ATLAS_PU_PRW_DATASF",
-    "alpha_ATLAS_PU_PRW_DATASF_boosted": "ATLAS_PU_PRW_DATASF",
+    "alpha_ATLAS_PU_PRW_DATASF_boosted": "ATLAS_PU_PRW_DATASF_boosted",
     "alpha_ATLAS_R10_FT_EFF_Eigen_B_0": "ATLAS_Boosted_FT_EFF_Eigen_B_0",
     "alpha_ATLAS_R10_FT_EFF_Eigen_B_0_boosted": "ATLAS_Boosted_FT_EFF_Eigen_B_0",
     "alpha_ATLAS_R10_FT_EFF_Eigen_B_1": "ATLAS_Boosted_FT_EFF_Eigen_B_1",
