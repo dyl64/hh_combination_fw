@@ -72,32 +72,24 @@ fi
      echo "Error: ROOT environment doesn't seem to be configured!"
  fi
 
-# # remove dependence on workspaceCombiner
-# # speficy the SFRAME base directory, i.e. the directory in which this file lives
-# export _DIRCOMB=${hh_combination_fw_path}/submodules/workspaceCombiner
-# 
-# 
-# # Modify to describe your directory structure. Default is to use the a structure where
-# # all directories are below the SFrame base directory specified above
-# export _BIN_PATH=${_DIRCOMB}/build
-# export _LIB_PATH=${_DIRCOMB}/build
-# 
-# # The Makefiles depend only on the root-config script to use ROOT,
-# # so make sure that is available
-# if [[ `which root-config` == "" ]]; then
-#     echo "Error: ROOT environment doesn't seem to be configured!"
-# fi
-# 
-# if [[ `root-config --platform` == "macosx" ]]; then
-#     export DYLD_LIBRARY_PATH=${_LIB_PATH}:${DYLD_LIBRARY_PATH}
-# else
-#     export LD_LIBRARY_PATH=${_LIB_PATH}:${LD_LIBRARY_PATH}
-# fi
-# export PATH=${_BIN_PATH}:${PATH}
-# cd ${hh_combination_fw_path}
-# WORKSPACECOMBINER_PATH=${hh_combination_fw_path}/submodules/workspaceCombiner/
-# export WORKSPACECOMBINER_PATH
+# TODO: remove dependence on workspaceCombiner
+# speficy the SFRAME base directory, i.e. the directory in which this file lives
 
+WORKSPACECOMBINER_PATH=${hh_combination_fw_path}/submodules/workspaceCombiner/
+export WORKSPACECOMBINER_PATH
+# Modify to describe your directory structure. Default is to use the a structure where
+# all directories are below the SFrame base directory specified above
+export _BIN_PATH=${WORKSPACECOMBINER_PATH}/build
+export _LIB_PATH=${WORKSPACECOMBINER_PATH}/build
+
+if [[ `root-config --platform` == "macosx" ]]; then
+    export DYLD_LIBRARY_PATH=${_LIB_PATH}:${DYLD_LIBRARY_PATH}
+else
+    export LD_LIBRARY_PATH=${_LIB_PATH}:${LD_LIBRARY_PATH}
+fi
+
+export PATH=${_BIN_PATH}:${PATH}
+cd ${hh_combination_fw_path}
 
 # Setup RooFitExtensions
 cd ${hh_combination_fw_path}/submodules/RooFitExtensions
