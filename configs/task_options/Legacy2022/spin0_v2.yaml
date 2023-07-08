@@ -1,0 +1,31 @@
+workspace:
+  bbtautau: combined
+  bbyy: combWS
+  bbbb: w
+dataset:
+  bbbb:
+    blind: combData
+    unblind: combData
+  bbtautau:
+    blind: obsData
+    unblind: obsData
+  bbyy:
+    blind: combData
+    unblind: combData
+  combination:
+    blind: combData
+    unblind: combData
+poi:
+  bbbb: xsec_br
+  bbtautau: SigXsecOverSM
+  bbyy: XS_HH_res
+  combination: xsec_br
+
+rescale_poi:
+  bbbb: 0.00294811320754717
+
+fix_parameters:
+  bbbb: Lumi=1_1_1
+
+reset_parameters:
+  bbbb: alpha_*=0.0,gamma_*=1.0,xsec_br=0.0
