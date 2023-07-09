@@ -238,6 +238,12 @@ def rescale(df, columns, SM_HH_xsec = 31.05 / 1000, absolute=False):
         df['xsec_p1s_NP_profiled'] = df['xsec_exp_NP_profiled'] + df['xsec_p1s_NP_profiled']
     return df
 
+def correct_basename(filepath):
+    folder = path.dirname(filepath)
+    if path.basename(folder) == 'cache':
+        folder = path.dirname(folder)
+    return path.basename(folder)
+
 def plot_spin0(args):
     ind_list = sorted(args.dat_list)
     com_list = args.com_list
@@ -252,8 +258,8 @@ def plot_spin0(args):
         for dat in ind_list:
             with open(dat) as f:
                 dfs.append(pd.DataFrame([json.load(f)]))
-            file_name = path.basename(path.dirname(dat))
-            dfs[-1]['parameter'] = float(path.basename(dat).split('.json')[0])
+            file_name = correct_basename(dat)
+            dfs[-1]['parameter'] = float(path.basename(dat).split('.json')[0].split('_')[-1])
             dfs[-1]['channel'] = file_name
             dfs[-1] = dfs[-1].rename(columns={'-2': 'xsec_m2s_NP_profiled', '2': 'xsec_p2s_NP_profiled', '-1': 'xsec_m1s_NP_profiled', '1': 'xsec_p1s_NP_profiled', '0': 'xsec_exp_NP_profiled', 'obs': 'xsec_obs_NP_profiled'}).drop(columns=['inj'])
         
@@ -263,8 +269,8 @@ def plot_spin0(args):
         for dat in com_list + ind_list:
             with open(dat) as f:
                 com_dfs.append(pd.DataFrame([json.load(f)]))
-            file_name = path.basename(path.dirname(dat))
-            com_dfs[-1]['parameter'] = float(path.basename(dat).split('.json')[0])
+            file_name = correct_basename(dat)
+            com_dfs[-1]['parameter'] = float(path.basename(dat).split('.json')[0].split('_')[-1])
             com_dfs[-1]['filename'] = file_name
             com_dfs[-1]['channels'] = file_name.split('-')[-2].replace('_', ', ') if 'A-' in file_name else file_name
             com_dfs[-1] = com_dfs[-1].rename(columns={'-2': 'xsec_m2s_NP_profiled', '2': 'xsec_p2s_NP_profiled', '-1': 'xsec_m1s_NP_profiled', '1': 'xsec_p1s_NP_profiled', '0': 'xsec_exp_NP_profiled', 'obs': 'xsec_obs_NP_profiled'}).drop(columns=['inj'])
@@ -337,7 +343,7 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
         ax.set_xlim([230, 4000])
     else:
         ax.set_ylim([0.5, 20000])
-        ax.set_xlim([230, 3500])
+        ax.set_xlim([230, 5000])
 
     def plot_individual():
         # Plot individual
@@ -401,7 +407,7 @@ def plot_spin0_from_df(args, ind_dfs, reversed = False, references = None):
         plot_combined()
 
     ax.set_yscale('log')
-    ax.ticklabel_format(axis='both', style='plain')
+    # ax.ticklabel_format(axis='both', style='plain')
 
     # Set log scale
     if args.logx:
@@ -643,7 +649,7 @@ def plot_common(args, fig, ax, textlable, fontsize, legendsize):
     if args.command == 'nonres':
         drawATLASlabel(fig, ax, senergy = configur['project3000']['lumi'][0], lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else configur['project3000']['lumi'][1], internal=True, reg_text=textlable, xmin=0.03, ymax=0.9, xmin2=0.03, fontsize_title=22, fontsize_label=fontsize-1, line_spacing=1.1)
     elif args.command == 'spin0':
-        drawATLASlabel(fig, ax, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'126 '+u'\u2212'+' 139', internal=True, reg_text=textlable, xmin=0.04 if args.summary_json else 0.19, ymax=0.9, xmin2=0.19, fontsize_title=22, fontsize_label=fontsize+1, line_spacing=1.)
+        drawATLASlabel(fig, ax, senergy=13, lumi = r'27.5$-$139' if (args.summary_json or args.csv_list) else r'126 '+u'\u2212'+' 139', internal=True, reg_text=textlable, xmin=0.04 if args.summary_json else 0.19, ymax=0.9, xmin2=0.19, fontsize_title=22, fontsize_label=fontsize+1, line_spacing=1.)
 
 
     # Legend
