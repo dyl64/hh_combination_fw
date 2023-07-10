@@ -28,6 +28,9 @@ def get_masses_and_pvalues(files, value='pvalue'):
 
     X = np.array(list(data.keys()), dtype=float)
     Y = np.array(list(data.values()))
+    null_index = (Y == None)
+    X = X[~null_index]
+    Y = Y[~null_index]
     indices = np.argsort(X)
     x = X[indices]
     y = Y[indices]
@@ -179,12 +182,13 @@ def plot_local_pvalue(input_paths, color_maps=None, label_maps=None,
     plt.ylabel(ylabel, fontsize=20, loc='top')
     plt.xscale('log')
     plt.yscale('log')
+    plt.ylim(2e-5, 1.5)
     plt.legend(fontsize=19, loc='lower right', bbox_to_anchor=(0.98, 0.02), frameon=False)
     
-    majorticks = [200, 300, 500, 1000, 2000, 3000]
+    majorticks = [200, 300, 500, 1000, 2000, 3000, 5000]
     ax.set_xticks(majorticks)
     ax.set_xticklabels(majorticks)
-    minorticks = list(np.arange(200, 300, 20)) + list(np.arange(200, 2000, 100)) + list(np.arange(2000, 3000, 500))
+    minorticks = list(np.arange(200, 300, 20)) + list(np.arange(200, 2000, 100)) + list(np.arange(2000, 3000, 500)) + list(np.arange(3000, 5000, 1000))
     ax.set_xticks(minorticks, minor=True)
     ax.set_xticklabels([], minor=True)
     ax.tick_params(axis="y", which="major", direction='in', right=True,length=10, width=1.5, labelsize=20)
