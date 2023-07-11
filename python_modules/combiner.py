@@ -12,8 +12,6 @@ import json
 import copy
 from itertools import repeat
 
-import utils
-
 from quickstats.parsers import ParamParser
 from quickstats.utils.common_utils import execute_multi_tasks
 from quickstats.concurrent.logging import standard_log
@@ -29,6 +27,13 @@ class TaskBase:
     
     def __init__(self, **kwargs):
         self.initialize(**kwargs)
+        
+    @staticmethod
+    def _makedirs(dirnames:List[str]):
+        for dirname in dirnames:
+            abs_dirname = os.path.abspath(dirname)
+            if not os.path.exists(abs_dirname):
+                os.makedirs(abs_dirname)
 
     def initialize(self, resonant_type:str, poi_name:str, data_name:str, file_expr:Optional[str]=None,
                    param_expr:Optional[str]=None, blind:bool=True, minimizer_options:Optional[Dict]=None, 
@@ -386,7 +391,7 @@ class TaskPipelineWS(TaskBase):
         if self.do_pvalue:
             dirs.append(self.pvalue_dir)
 
-        utils.mkdirs(dirs)
+        self._makedirs(dirs)
         
     def copy_dtd(self):
         if self.experimental:
@@ -792,7 +797,7 @@ class TaskCombination(TaskBase):
         if self.do_pvalue:
             dirs.append(self.pvalue_dir)
 
-        utils.mkdirs(dirs)
+        self._makedirs(dirs)
         
     def copy_dtd(self):
         source_path = os.path.join(f'{self.WSC_PATH}/dtd', 'Combination.dtd')
