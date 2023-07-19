@@ -13,7 +13,7 @@ from quickstats.components import AnalysisBase
 @click.option('-o', '--output', required=False, default='./pvalue.json', help='json file to store')
 def pvalue_new(input_file, poi_name, dataset, snapshot, do_blind, cache, output):
     uncap=True
-    analysis = AnalysisBase(input_file, data_name=dataset, poi_name=poi_name, config={"snapshot_name":snapshot})
+    analysis = AnalysisBase(input_file, data_name=dataset, poi_name=poi_name, eps=0.1, config={"snapshot_name":snapshot})
 
     if do_blind:
         # use S+B prefit asimov

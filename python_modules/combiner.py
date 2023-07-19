@@ -185,7 +185,7 @@ class TaskBase:
         
         with standard_log(log_file) as logger:
             sys.stdout.write(f"INFO: Evaluating significance for {scan_point}\n")
-            analysis = AnalysisBase(filename, data_name=data_name, poi_name=poi_name, config=config, verbosity=verbosity)
+            analysis = AnalysisBase(filename, data_name=data_name, eps=0.1, poi_name=poi_name, config=config, verbosity=verbosity)
             if self.config['do_blind']:
                 analysis.generate_standard_asimov(asimov_types=[-2], asimov_names=[f"asimovData_1_NP_Nominal_{scan_str}"])
                 analysis.set_data(f"asimovData_1_NP_Nominal_{scan_str}")
