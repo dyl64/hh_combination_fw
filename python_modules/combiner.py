@@ -141,7 +141,7 @@ class TaskBase:
         runner = ParameterisedAsymptoticCLs(**kwargs)
         runner.run()
 
-    def compute_significance(self, filename:str, data_name:str, poi_name:str, verbosity:str, scan_point:Union[Dict, str]=""):
+    def compute_significance(self, filename:str, data_name:str, poi_name:str, verbosity:str, scan_point:Union[Dict, str]="", eps:float=0.1):
         if isinstance(scan_point, str):
             scan_fix_param = None
             scan_str = scan_point
@@ -189,7 +189,7 @@ class TaskBase:
         
         with standard_log(log_file) as logger:
             sys.stdout.write(f"INFO: Evaluating significance for {scan_point}\n")
-            analysis = AnalysisBase(filename, data_name=data_name, poi_name=poi_name, config=config, verbosity=verbosity)
+            analysis = AnalysisBase(filename, data_name=data_name, eps=eps, poi_name=poi_name, config=config, verbosity=verbosity)
             if self.config['do_blind']:
                 analysis.generate_standard_asimov(asimov_types=[-2], asimov_names=[f"asimovData_1_NP_Nominal_{scan_str}"])
                 analysis.set_data(f"asimovData_1_NP_Nominal_{scan_str}")
@@ -205,6 +205,7 @@ class TaskBase:
         data_name = self.config['data_name']
         poi_name  = self.config['poi_name']
         verbosity = self.config['verbosity']
+        eps = self.config['eps'] if 'eps' in self.config else 0.1
         if options is not None:
             if 'poi_name' in options:
                 poi_name = options['poi_name']
@@ -212,10 +213,10 @@ class TaskBase:
                 _data_name = options['dataset']
 
         if self.int_param_points:
-            arguments = (repeat(filename), repeat(data_name), repeat(poi_name), repeat(verbosity), self.int_param_points)
+            arguments = (repeat(filename), repeat(data_name), repeat(poi_name), repeat(verbosity), self.int_param_points, repeat(eps))
             _ = execute_multi_tasks(self.compute_significance, *arguments, parallel=self.parallel)
         else:
-            arguments = (filename, data_name, poi_name, verbosity, param_point['basename'])
+            arguments = (filename, data_name, poi_name, verbosity, param_point['basename'], eps)
             self.compute_significance(*arguments)
 
         # Merge json

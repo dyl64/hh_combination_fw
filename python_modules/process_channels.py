@@ -26,7 +26,7 @@ def process_task_config(config:Dict, channels:List, blind:bool=True):
     _rename_parameters   = config.get('rename_parameters', {})
     _fix_parameters      = config.get('fix_parameters', {})
     _profile_parameters  = config.get('profile_parameters', {})
-    _reset_parameters  = config.get('reset_parameters', {})
+    _reset_parameters    = config.get('reset_parameters', {})
     
     task_config = {}
     for channel in channels:
