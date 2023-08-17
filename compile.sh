@@ -30,6 +30,7 @@ mkdir -p build && cd build && rm -fr * && cmake .. && make -j8 && cd ..
 source build/setup.sh
 cd ${hh_combination_fw_path}
 
+# TODO: remove dependence on workspaceCombiner
 printf "${GREEN}\n
 ==================================================
 | Compiling 2/3) submodules/workspaceCombiner ...

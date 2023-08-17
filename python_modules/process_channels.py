@@ -77,7 +77,7 @@ def process_task_config(config:Dict, channels:List, blind:bool=True):
                         
 @click.command(name='process_channels')
 @click.option('-i', '--input_dir', required=True, 
-              help='Path to the processed workspaces.')
+              help='Path to the input workspaces.')
 @click.option('-r', '--resonant_type', required=True, 
               type=click.Choice(['nonres', 'spin0'], case_sensitive=False), 
               help='Type of analysis (resonant or non-resonant).')

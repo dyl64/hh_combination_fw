@@ -12,14 +12,11 @@ import json
 import copy
 from itertools import repeat
 
-import utils
-
 from quickstats.parsers import ParamParser
 from quickstats.utils.common_utils import execute_multi_tasks
 from quickstats.concurrent.logging import standard_log
 from quickstats.maths.numerics import str_encode_value, str_decode_value
 
-import scalings
 from xml_tool import create_combination_xml
 
 class TaskBase:
@@ -29,6 +26,13 @@ class TaskBase:
     
     def __init__(self, **kwargs):
         self.initialize(**kwargs)
+        
+    @staticmethod
+    def _makedirs(dirnames:List[str]):
+        for dirname in dirnames:
+            abs_dirname = os.path.abspath(dirname)
+            if not os.path.exists(abs_dirname):
+                os.makedirs(abs_dirname)
 
     def initialize(self, resonant_type:str, poi_name:str, data_name:str, file_expr:Optional[str]=None,
                    param_expr:Optional[str]=None, blind:bool=True, minimizer_options:Optional[Dict]=None, 
@@ -137,7 +141,7 @@ class TaskBase:
         runner = ParameterisedAsymptoticCLs(**kwargs)
         runner.run()
 
-    def compute_significance(self, filename:str, data_name:str, poi_name:str, verbosity:str, scan_point:Union[Dict, str]=""):
+    def compute_significance(self, filename:str, data_name:str, poi_name:str, verbosity:str, scan_point:Union[Dict, str]="", eps:float=0.1):
         if isinstance(scan_point, str):
             scan_fix_param = None
             scan_str = scan_point
@@ -185,7 +189,7 @@ class TaskBase:
         
         with standard_log(log_file) as logger:
             sys.stdout.write(f"INFO: Evaluating significance for {scan_point}\n")
-            analysis = AnalysisBase(filename, data_name=data_name, eps=0.1, poi_name=poi_name, config=config, verbosity=verbosity)
+            analysis = AnalysisBase(filename, data_name=data_name, eps=eps, poi_name=poi_name, config=config, verbosity=verbosity)
             if self.config['do_blind']:
                 analysis.generate_standard_asimov(asimov_types=[-2], asimov_names=[f"asimovData_1_NP_Nominal_{scan_str}"])
                 analysis.set_data(f"asimovData_1_NP_Nominal_{scan_str}")
@@ -201,6 +205,7 @@ class TaskBase:
         data_name = self.config['data_name']
         poi_name  = self.config['poi_name']
         verbosity = self.config['verbosity']
+        eps = self.config['eps'] if 'eps' in self.config else 0.1
         if options is not None:
             if 'poi_name' in options:
                 poi_name = options['poi_name']
@@ -208,10 +213,10 @@ class TaskBase:
                 _data_name = options['dataset']
 
         if self.int_param_points:
-            arguments = (repeat(filename), repeat(data_name), repeat(poi_name), repeat(verbosity), self.int_param_points)
+            arguments = (repeat(filename), repeat(data_name), repeat(poi_name), repeat(verbosity), self.int_param_points, repeat(eps))
             _ = execute_multi_tasks(self.compute_significance, *arguments, parallel=self.parallel)
         else:
-            arguments = (filename, data_name, poi_name, verbosity, param_point['basename'])
+            arguments = (filename, data_name, poi_name, verbosity, param_point['basename'], eps)
             self.compute_significance(*arguments)
 
         # Merge json
@@ -346,7 +351,8 @@ class TaskPipelineWS(TaskBase):
                    define_constraints:Optional[Dict]=None, 
                    redefine_parameters:Optional[Dict]=None, rename_parameters:Optional[Dict]=None,
                    rescale_poi:Optional[float]=None, fix_parameters:Optional[str]=None,
-                   profile_parameters:Optional[str]=None, reset_parameters:Optional[str]=None, add_product_terms:Optional[Dict]=None,
+                   profile_parameters:Optional[str]=None, reset_parameters:Optional[str]=None, 
+                   add_product_terms:Optional[Dict]=None,
                    **kwargs):
         
         self.input_dir = input_dir
@@ -399,7 +405,7 @@ class TaskPipelineWS(TaskBase):
         if self.do_pvalue:
             dirs.append(self.pvalue_dir)
 
-        utils.mkdirs(dirs)
+        self._makedirs(dirs)
         
     def copy_dtd(self):
         if self.experimental:
@@ -805,7 +811,7 @@ class TaskCombination(TaskBase):
         if self.do_pvalue:
             dirs.append(self.pvalue_dir)
 
-        utils.mkdirs(dirs)
+        self._makedirs(dirs)
         
     def copy_dtd(self):
         source_path = os.path.join(f'{self.WSC_PATH}/dtd', 'Combination.dtd')
