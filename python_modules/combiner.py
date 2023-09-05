@@ -21,7 +21,6 @@ from xml_tool import create_combination_xml
 
 class TaskBase:
     
-    WSC_PATH  = os.environ['WORKSPACECOMBINER_PATH']
     kMergedLimitFileName = 'limits.json'
     
     def __init__(self, **kwargs):
@@ -39,7 +38,7 @@ class TaskBase:
                    do_limit:bool=True, do_likelihood:bool=False, do_pvalue:bool=False,
                    task_options:Optional[Dict]=None, filter_expr:Optional[str]=None,
                    exclude_expr:Optional[str]=None, extra_pois:Optional[Union[str, List]]=None,
-                   parallel:int=-1, cache:bool=True, verbosity:str="INFO", experimental:bool=False, prefix_dir:Optional[str]=None, **kwargs):
+                   parallel:int=-1, cache:bool=True, verbosity:str="INFO", experimental:bool=True, prefix_dir:Optional[str]=None, **kwargs):
         self.minimizer_options = self.parse_minimizer_options(minimizer_options)
         config = {}
         config['data_name']    = data_name
@@ -79,8 +78,6 @@ class TaskBase:
                 extra_pois = extra_pois.split(",")
             self.pois_to_keep = list(set(self.pois_to_keep + extra_pois))        
         
-        self.experimental = experimental
-        
         self.sanity_check()
             
     def parse_minimizer_options(self, config_path:Optional[str]=None):
@@ -102,8 +99,6 @@ class TaskBase:
         return minimizer_options
     
     def sanity_check(self):
-        if not os.path.exists(self.WSC_PATH):
-            raise FileNotFoundError('workspace combiner directory {} does not exist.'.format(self.WSC_PATH))
         try:
             import quickstats
         except ImportError as e:
@@ -395,9 +390,6 @@ class TaskPipelineWS(TaskBase):
         
     def makedirs(self):
         dirs = [self.rescaled_dir]
-        if not self.experimental:
-            dirs.append(self.regularised_dir)
-            dirs.append(self.rescale_cfg_file_dir)
         if self.do_limit:
             dirs.append(self.limit_dir)
         if self.do_likelihood:
@@ -408,12 +400,7 @@ class TaskPipelineWS(TaskBase):
         self._makedirs(dirs)
         
     def copy_dtd(self):
-        if self.experimental:
-            return
-        source_path = os.path.join(f'{self.WSC_PATH}/dtd', 'Organization.dtd')
-        if not os.path.exists(source_path):
-            raise FileNotFoundError('File {} not found'.format(source_path))
-        shutil.copy2(source_path, self.rescale_cfg_file_dir)
+        return
         
     def get_param_points(self, filter_expr:Optional[str]=None, exclude_expr:Optional[str]=None):
         param_points = self.param_parser.get_external_param_points(self.input_ws_dir,
@@ -519,98 +506,6 @@ class TaskPipelineWS(TaskBase):
         else:
             return poi_names[0]
 
-    def regularise(self, param_point:Dict):
-        filename = f"{param_point['basename']}.root"
-        input_ws_path = param_point['filename']
-        regularised_ws_path = os.path.join(self.regularised_dir, filename)       
-        print("INFO: Regularising {0} --> {1}".format(input_ws_path, regularised_ws_path))
-        
-        from quickstats.components import ExtendedModel
-        model   = ExtendedModel(input_ws_path, data_name=None, verbosity="WARNING")
-        ws_name = model.workspace.GetName()
-        
-        wsc_bin_path = os.path.join(self.WSC_PATH, 'build', 'manager')
-        
-        tmp_ws_path = regularised_ws_path.replace(".root", "_tmp.root")
-
-        cmd_regularise = [wsc_bin_path, "-w", "regulate", "-f", input_ws_path, "-p", tmp_ws_path,
-                          "--dataName", self.old_dataname, "--wsName", ws_name]
-        
-        print(' '.join(cmd_regularise))
-        regularise_logfile_path = regularised_ws_path.replace('.root', '.log')
-
-        if os.path.exists(regularised_ws_path) and self.cache:
-                print("\033[92mSkip: regularisation output {0} exists, skip regularisation\033[0m\033[0m".format(regularised_ws_path))
-        else:
-            with open(regularise_logfile_path, "w") as logfile:
-                print("INFO: Writing regularisation log into {0}".format(regularise_logfile_path))
-                proc = subprocess.Popen(cmd_regularise, stdout=logfile, stderr=logfile)
-                proc.wait()
-            status = proc.returncode
-            if status != 0:
-                raise RuntimeError("workspace regularisation failed, please check the log file for "
-                                   f"more details: {regularise_logfile_path}")
-                
-        # rename datasets and fixing parameters   
-        model = ExtendedModel(tmp_ws_path, data_name=None, verbosity="WARNING")
-        model.rename_dataset({self.old_dataname: self.new_dataname})
-        if self.fix_parameters is not None:
-            model.fix_parameters(self.fix_parameters)
-        if self.profile_parameters is not None:
-            model.profile_parameters(self.profile_parameters)
-        if self.reset_parameters is not None:
-            model.reset_parameters(self.reset_parameters)
-        model.save(regularised_ws_path)
-                  
-    def rescale(self, param_point:Dict):
-        filename = f"{param_point['basename']}.root"
-        regularised_ws_path = os.path.join(self.regularised_dir, filename)
-        rescaled_ws_path = os.path.join(self.rescaled_dir, filename)
-        if "mass" not in param_point['parameters']:
-            raise ValueError(f"mass attribute not inferred from file name: {filename}")
-        mass = param_point['parameters']['mass']
-        rescale_cfg_filename = f"{param_point['basename']}.xml"
-        rescale_cfg_file_path = os.path.join(self.rescale_cfg_file_dir, rescale_cfg_filename)
-
-        if self.rescale_poi is None:
-            poi_scale = 1.0
-        else:
-            poi_scale = self.rescale_poi
-            
-        if self.old_poiname is None:
-            old_poiname = self.guess_poi(regularised_ws_path)
-        else:
-            old_poiname = self.old_poiname
-        
-        pois_to_keep = ','.join(self.pois_to_keep)
-        
-        self.create_rescale_cfg_file(rescale_cfg_file_path, regularised_ws_path,
-                                     rescaled_ws_path, old_poiname, self.new_poiname,
-                                     poi_scale, pois_to_keep,
-                                     redefine_parameters=self.redefine_parameters,
-                                     rename_parameters=self.rename_parameters,
-                                     define_parameters=self.define_parameters,
-                                     define_constraints=self.define_constraints)
-
-        rescale_logfile_path = rescaled_ws_path.replace('.root', '.log')
-        
-        wsc_bin_path = os.path.join(self.WSC_PATH, 'build', 'manager')
-        
-        cmd_rescale = [wsc_bin_path, "-w", "edit", "-x", rescale_cfg_file_path]
-        print(' '.join(cmd_rescale))
-        
-        if os.path.exists(rescaled_ws_path) and self.cache:
-            print("\033[92mSkip: rescaling output {0} exists, skip rescaling\033[0m".format(rescaled_ws_path))
-        else:
-            with open(rescale_logfile_path, "w") as logfile:
-                print("INFO: Writing rescaling log into {0}".format(rescale_logfile_path))
-                proc = subprocess.Popen(cmd_rescale, stdout=logfile, stderr=logfile)
-                proc.wait()
-            status = proc.returncode
-            if status != 0:
-                raise RuntimeError("workspace modification failed, please check the log file for "
-                                   f"more details: {rescale_logfile_path}")
-                
     def modify_workspace(self, param_point:Dict, oldpoi_equiv_name:str='mu_old'):
         original_ws_path = param_point['filename']
         basename = f"{param_point['basename']}.root"
@@ -710,11 +605,7 @@ class TaskPipelineWS(TaskBase):
                                f"more details: {rescale_logfile_path}")
 
     def preprocess(self, param_point):
-        if self.experimental:
-            self.modify_workspace(param_point)
-        else:
-            self.regularise(param_point)
-            self.rescale(param_point)
+        self.modify_workspace(param_point)
 
 class TaskCombination(TaskBase):
     
@@ -844,23 +735,6 @@ class TaskCombination(TaskBase):
         param_str = self.param_parser.val_encode_parameters(param_point['parameters'])
         print(f'INFO: Combination config for the point "{param_str}" saved as "{xml_fname}"')
         
-    def create_combined_ws(self, param_point, fit_strategy='0', fit_tolerance='-1'):
-        combined_ws_path = os.path.join(self.output_ws_dir, f"{param_point['basename']}.root")
-        config_file_path = os.path.join(self.cfg_file_dir, f"{param_point['basename']}.xml")
-        logfile_path = combined_ws_path.replace('.root', '.log')
-        
-        wsc_bin_path = os.path.join(self.WSC_PATH, 'build', 'manager')
-        cmd = [wsc_bin_path, "-w", "combine", "-x", config_file_path, "-f", combined_ws_path, "-s", fit_strategy, "-t", fit_tolerance]
-        print(' '.join(cmd))
-        
-        if os.path.exists(combined_ws_path) and self.cache:
-                print("\033[92mSkip: combined workspace {0} exists, skip workspace creation\033[0m\033[0m".format(combined_ws_path))
-        else:
-            with open(logfile_path, "w") as logfile:
-                print("INFO: Writing combination log into {0}".format(logfile_path))
-                proc = subprocess.Popen(cmd, stdout=logfile, stderr=logfile)
-                proc.wait()
-    
     def create_combined_ws_experimental(self, param_point):
         from quickstats.components.workspaces import XMLWSCombiner
         combined_ws_path = os.path.join(self.output_ws_dir, f"{param_point['basename']}.root")
@@ -887,8 +761,5 @@ class TaskCombination(TaskBase):
                 
     def preprocess(self, param_point):
         self.create_combination_xml(param_point)
-        if self.experimental:
-            self.create_combined_ws_experimental(param_point)
-        else:
-            self.create_combined_ws(param_point)
+        self.create_combined_ws_experimental(param_point)
         return True
