@@ -26,7 +26,7 @@ def process_task_config(config:Dict, channels:List, blind:bool=True):
     _rename_parameters   = config.get('rename_parameters', {})
     _fix_parameters      = config.get('fix_parameters', {})
     _profile_parameters  = config.get('profile_parameters', {})
-    _reset_parameters    = config.get('reset_parameters', {})
+    _set_parameters    = config.get('set_parameters', {})
     
     task_config = {}
     for channel in channels:
@@ -50,7 +50,7 @@ def process_task_config(config:Dict, channels:List, blind:bool=True):
         rename_parameters   = _rename_parameters.get(channel, None)
         fix_parameters      = _fix_parameters.get(channel, None)
         profile_parameters  = _profile_parameters.get(channel, None)
-        reset_parameters  = _reset_parameters.get(channel, None)
+        set_parameters  = _set_parameters.get(channel, None)
         task_options = {
             "likelihood_scan": config.get('likelihood_scan', None),
             "calculate_pvalue": config.get('calculate_pvalue', None),
@@ -70,7 +70,7 @@ def process_task_config(config:Dict, channels:List, blind:bool=True):
             "rename_parameters": rename_parameters,
             "fix_parameters": fix_parameters,
             "profile_parameters": profile_parameters,
-            "reset_parameters": reset_parameters,
+            "set_parameters": set_parameters,
             "task_options": task_options
         }
     return task_config
