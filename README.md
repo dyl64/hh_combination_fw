@@ -200,6 +200,21 @@ HHComb gen_asimov -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination
 HHComb gen_asimov -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output_unblind/combined/nonres/A-bbtautau_bbyy-fullcorr/
 ```
 
+## Guidelines
+
+### ATLAS + CMS Run 2 nonresonant combination
+
+To setup the environment, you need to include the CMS dedicated macros in quickstats:
+```
+quickstats add_macros -i ${hh_combination_fw_path}/macros/CMSSWCore_HHComb
+quickstats compile -m CMSSWCore_HHComb
+```
+
+In case of errors, try recompiling the framework:
+```
+source ${hh_combination_fw_path}/compile.sh
+```
+
 </p>
 </details>
 <details><summary>Old README</summary>

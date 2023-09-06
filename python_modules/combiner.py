@@ -342,7 +342,7 @@ class TaskPipelineWS(TaskBase):
                    define_constraints:Optional[Dict]=None, 
                    redefine_parameters:Optional[Dict]=None, rename_parameters:Optional[Dict]=None,
                    rescale_poi:Optional[float]=None, fix_parameters:Optional[str]=None,
-                   profile_parameters:Optional[str]=None, reset_parameters:Optional[str]=None, 
+                   profile_parameters:Optional[str]=None, set_parameters:Optional[str]=None, 
                    add_product_terms:Optional[Dict]=None,
                    **kwargs):
         
@@ -356,7 +356,7 @@ class TaskPipelineWS(TaskBase):
         self.rename_parameters = rename_parameters
         self.fix_parameters = fix_parameters
         self.profile_parameters = profile_parameters
-        self.reset_parameters = reset_parameters
+        self.set_parameters = set_parameters
         self.rescale_poi = rescale_poi
         self.old_poiname = old_poiname
         self.new_poiname = new_poiname
@@ -579,8 +579,8 @@ class TaskPipelineWS(TaskBase):
             config["fix_parameters"] = self.fix_parameters
         if self.profile_parameters is not None:
             config["profile_parameters"] = self.profile_parameters
-        if self.reset_parameters is not None:
-            config["reset_parameters"] = self.reset_parameters
+        if self.set_parameters is not None:
+            config["set_parameters"] = self.set_parameters
             
         from quickstats.components.workspaces import XMLWSModifier
         from quickstats.concurrent.logging import standard_log
