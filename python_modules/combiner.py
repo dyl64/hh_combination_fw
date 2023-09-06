@@ -38,7 +38,7 @@ class TaskBase:
                    do_limit:bool=True, do_likelihood:bool=False, do_pvalue:bool=False,
                    task_options:Optional[Dict]=None, filter_expr:Optional[str]=None,
                    exclude_expr:Optional[str]=None, extra_pois:Optional[Union[str, List]]=None,
-                   parallel:int=-1, cache:bool=True, verbosity:str="INFO", experimental:bool=True, prefix_dir:Optional[str]=None, **kwargs):
+                   parallel:int=-1, cache:bool=True, verbosity:str="INFO", prefix_dir:Optional[str]=None, **kwargs):
         self.minimizer_options = self.parse_minimizer_options(minimizer_options)
         config = {}
         config['data_name']    = data_name
@@ -110,9 +110,6 @@ class TaskBase:
     def makedirs(self):
         raise NotImplementedError("this method should be overridden")
     
-    def copy_dtd(self):
-        raise NotImplementedError("this method should be overridden")
-        
     def get_param_points(self):
         raise NotImplementedError("this method should be overridden")        
         
@@ -319,7 +316,6 @@ class TaskBase:
             return None
         start = time.time()
         self.makedirs()
-        self.copy_dtd()
         result = execute_multi_tasks(self.preprocess, self.param_points, parallel=self.parallel)
         if self.do_limit:
             self.limit_setting()
@@ -398,9 +394,6 @@ class TaskPipelineWS(TaskBase):
             dirs.append(self.pvalue_dir)
 
         self._makedirs(dirs)
-        
-    def copy_dtd(self):
-        return
         
     def get_param_points(self, filter_expr:Optional[str]=None, exclude_expr:Optional[str]=None):
         param_points = self.param_parser.get_external_param_points(self.input_ws_dir,
@@ -704,12 +697,6 @@ class TaskCombination(TaskBase):
 
         self._makedirs(dirs)
         
-    def copy_dtd(self):
-        source_path = os.path.join(f'{self.WSC_PATH}/dtd', 'Combination.dtd')
-        if not os.path.exists(source_path):
-            raise FileNotFoundError('File {} not found'.format(source_path))
-        shutil.copy2(source_path, self.cfg_file_dir)
-        
     def get_combination_xml(self, param_point):
         channels = param_point.get("channels", None)
         param_str = self.param_parser.val_encode_parameters(param_point['parameters'])
@@ -735,7 +722,7 @@ class TaskCombination(TaskBase):
         param_str = self.param_parser.val_encode_parameters(param_point['parameters'])
         print(f'INFO: Combination config for the point "{param_str}" saved as "{xml_fname}"')
         
-    def create_combined_ws_experimental(self, param_point):
+    def create_combined_ws(self, param_point):
         from quickstats.components.workspaces import XMLWSCombiner
         combined_ws_path = os.path.join(self.output_ws_dir, f"{param_point['basename']}.root")
         config_file_path = os.path.join(self.cfg_file_dir, f"{param_point['basename']}.xml")
@@ -761,5 +748,5 @@ class TaskCombination(TaskBase):
                 
     def preprocess(self, param_point):
         self.create_combination_xml(param_point)
-        self.create_combined_ws_experimental(param_point)
+        self.create_combined_ws(param_point)
         return True
