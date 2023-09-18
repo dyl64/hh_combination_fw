@@ -1745,6 +1745,7 @@
     "THEO_XS_QCD_WH": "THEO_ACC_HF_WH",
     "THEO_XS_QCD_ZH": "THEO_XS_SCALE_qqZH",
     "THEO_XS_QCD_ttH": "THEO_XS_SCALE_ttH",
+    "THEO_XS_QCD_ggH": "THEO_ACC_HF_ggFH",
     "THEO_XS_QCDi_ggH": "THEO_ACC_HF_ggFH",
     "THEO_XS_alphas_VBFHH": "THEO_XS_PDFalphas_VBFHH",
     "THEO_XS_alphas_ZH": "THEO_XS_PDFalphas_qqZH",
