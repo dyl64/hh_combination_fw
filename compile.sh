@@ -26,7 +26,7 @@ if [ -d "submodules/RooFitExtensions/build" ] ; then
     rm -fr submodules/RooFitExtensions/build
 fi
 cd submodules/RooFitExtensions
-mkdir -p build && cd build && rm -fr * && cmake .. && make -j8 && cd ..
+mkdir -p build && cd build && rm -fr * && cmake .. && make -j$(nproc) && cd ..
 source build/setup.sh
 cd ${hh_combination_fw_path}
 
@@ -43,7 +43,7 @@ if [ -d "submodules/workspaceCombiner/lib" ] ; then
     rm -fr submodules/workspaceCombiner/lib/*
 fi
 cd submodules/workspaceCombiner
-mkdir -p build && cd build && rm -fr * && cmake .. && make -j8 && cd ..
+mkdir -p build && cd build && rm -fr * && cmake .. && make -j$(nproc) && cd ..
 cd ${hh_combination_fw_path}
 
 printf "${GREEN}\n
