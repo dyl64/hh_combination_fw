@@ -9,6 +9,9 @@ image: atlasadc/atlas-grid-centos7
 
 hhCompile:
   stage: build
+  tags:
+    # Make you job be executed in a shared runner that has CVMFS mounted
+    - cvmfs
   variables:
     GIT_SUBMODULE_STRATEGY: recursive
     GIT_SSL_NO_VERIFY: "true"
@@ -18,8 +21,6 @@ hhCompile:
     - export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
     - alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
     - base_path=$(pwd)
-    - cd submodules/workspaceCombiner
-    - git apply --whitespace=nowarn ../../workspaceCombiner.patch
     - git status
     - cd $base_path
     - source compile.sh
@@ -33,6 +34,9 @@ hhCompile:
 
 .IStep1:
   stage: process
+  tags:
+    # Make you job be executed in a shared runner that has CVMFS mounted
+    - cvmfs
   needs:
     - job: hhCompile
   variables:
@@ -59,6 +63,9 @@ hhCompile:
       - $output_dir
 
 .IStep2:
+  tags:
+    # Make you job be executed in a shared runner that has CVMFS mounted
+    - cvmfs
   stage: combine
   variables:
     GIT_SSL_NO_VERIFY: "true"
@@ -78,6 +85,9 @@ hhCompile:
 ###################################
 .NRProcess:
   extends: .IStep1
+  tags:
+    # Make you job be executed in a shared runner that has CVMFS mounted
+    - cvmfs
   variables:
     output_dir: output/NR
     mini_option: default.json
@@ -85,12 +95,15 @@ hhCompile:
     other_options: ""
   allow_failure: true
   script:
-    - echo HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/minimizer_options/$mini_option  --config configs/task_options/CONF2021/nonres_v6_mH125_CI.yaml  --do-limit --skip-likelihood --experimental
-    - HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/minimizer_options/$mini_option  --config configs/task_options/CONF2021/nonres_v6_mH125_CI.yaml  --do-limit --skip-likelihood --experimental
+    - echo HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/minimizer_options/$mini_option  --config configs/task_options/CONF2021/nonres_v6_mH125_CI.yaml  --do-limit --skip-likelihood
+    - HHComb process_channels -i $input_dir/$version -c $channel -r nonres -o $output_dir --minimizer_options configs/minimizer_options/$mini_option  --config configs/task_options/CONF2021/nonres_v6_mH125_CI.yaml  --do-limit --skip-likelihood
 
 NR_mu_pro:
   needs:
     - job: hhCompile
+  tags:
+    # Make you job be executed in a shared runner that has CVMFS mounted
+    - cvmfs
   extends: .NRProcess
   variables:
     output_dir: output/NR_blind
@@ -105,14 +118,17 @@ NR_mu_pro:
 # Default is correlated (bbtautau and bbyy)
 .NRCombine_ws:
   extends: .IStep2
+  tags:
+    # Make you job be executed in a shared runner that has CVMFS mounted
+    - cvmfs
   variables:
     mini_option: default.json
     np_option: CONF2021/nonres_v10.json
     other_options: ""
   allow_failure: true
   script:
-    - echo HHComb combine_ws -i $input_dir -c $channels -r nonres --minimizer_options configs/minimizer_options/$mini_option --scheme configs/correlation_schemes/$np_option --do-limit --skip-likelihood $other_options --experimental
-    - HHComb combine_ws -i $input_dir -c $channels -r nonres --minimizer_options configs/minimizer_options/$mini_option --scheme configs/correlation_schemes/$np_option --do-limit --skip-likelihood $other_options --experimental
+    - echo HHComb combine_ws -i $input_dir -c $channels -r nonres --minimizer_options configs/minimizer_options/$mini_option --scheme configs/correlation_schemes/$np_option --do-limit --skip-likelihood $other_options
+    - HHComb combine_ws -i $input_dir -c $channels -r nonres --minimizer_options configs/minimizer_options/$mini_option --scheme configs/correlation_schemes/$np_option --do-limit --skip-likelihood $other_options
   only:
     - tags
     - master
@@ -124,6 +140,9 @@ NR_BTY_comb_blind:
     - job: hhCompile
     - job: NR_mu_pro
   extends: .NRCombine_ws
+  tags:
+    # Make you job be executed in a shared runner that has CVMFS mounted
+    - cvmfs
   variables:
     input_dir: output/NR_blind
     channels: bbbb,bbtautau,bbyy
@@ -133,6 +152,9 @@ NR_ALL6_comb_blind:
     - job: hhCompile
     - job: NR_mu_pro
   extends: .NRCombine_ws
+  tags:
+    # Make you job be executed in a shared runner that has CVMFS mounted
+    - cvmfs
   variables:
     input_dir: output/NR_blind
     channels: bbbb,bbtautau,bbyy,bbll,bbVV,WWWW
@@ -142,6 +164,9 @@ NR_N-ll_comb_blind:
     - job: hhCompile
     - job: NR_mu_pro
   extends: .NRCombine_ws
+  tags:
+    # Make you job be executed in a shared runner that has CVMFS mounted
+    - cvmfs
   variables:
     input_dir: output/NR_blind
     channels: bbbb,bbtautau,bbyy,bbVV,WWWW
@@ -151,6 +176,9 @@ NR_N-VV_comb_blind:
     - job: hhCompile
     - job: NR_mu_pro
   extends: .NRCombine_ws
+  tags:
+    # Make you job be executed in a shared runner that has CVMFS mounted
+    - cvmfs
   variables:
     input_dir: output/NR_blind
     channels: bbbb,bbtautau,bbyy,bbll,WWWW
@@ -160,6 +188,9 @@ NR_N-WW_comb_blind:
     - job: hhCompile
     - job: NR_mu_pro
   extends: .NRCombine_ws
+  tags:
+    # Make you job be executed in a shared runner that has CVMFS mounted
+    - cvmfs
   variables:
     input_dir: output/NR_blind
     channels: bbbb,bbtautau,bbyy,bbll,bbVV
@@ -169,6 +200,9 @@ NR_N-WW_comb_blind:
 ###################################
 .plot:
   stage: plotting
+  tags:
+    # Make you job be executed in a shared runner that has CVMFS mounted
+    - cvmfs
   variables:
     GIT_SSL_NO_VERIFY: "true"
     configuration: project3000
@@ -193,6 +227,9 @@ NRPlot:
     - job: NR_N-ll_comb_blind
     - job: NR_N-VV_comb_blind
     - job: NR_N-WW_comb_blind
+  tags:
+    # Make you job be executed in a shared runner that has CVMFS mounted
+    - cvmfs
   variables:
     input_dir: output/NR_blind
   script:
@@ -209,6 +246,9 @@ NRPlot:
 #####################################
 Artifacts:
   stage: download
+  tags:
+    # Make you job be executed in a shared runner that has CVMFS mounted
+    - cvmfs
   variables:
     GIT_SSL_NO_VERIFY: "true"
     output: output

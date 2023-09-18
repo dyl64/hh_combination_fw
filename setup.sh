@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Further clean up should make them set at proper places and time (Rui Zhang)
 
