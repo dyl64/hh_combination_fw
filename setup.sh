@@ -102,7 +102,7 @@ fi
 export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:${hh_combination_fw_path}/submodules/RooFitExtensions
 
 # setup hh combination fw
-export PYTHONPATH=$PYTHONPATH:${hh_combination_fw_path}/python_modules/
+export PYTHONPATH=$PYTHONPATH:${hh_combination_fw_path}
 export PATH=${hh_combination_fw_path}/bin:$PATH
 
 # setup quickstats
