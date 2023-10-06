@@ -127,8 +127,8 @@ NR_mu_pro:
     other_options: ""
   allow_failure: true
   script:
-    - echo HHComb combine_ws -i $input_dir -c $channels -n nonres --minimizer_options configs/minimizer_options/$mini_option --scheme configs/correlation_schemes/$np_option --tasks "combination,limit" $other_options --config configs/task_options/CONF2021/nonres_v6_mH125_CI.yaml
-    - HHComb combine_ws -i $input_dir -c $channels -n nonres --minimizer_options configs/minimizer_options/$mini_option --scheme configs/correlation_schemes/$np_option --tasks "combination,limit"  $other_options --config configs/task_options/CONF2021/nonres_v6_mH125_CI.yaml
+    - echo HHComb combine_channels -i $input_dir -c $channels -n nonres --minimizer_options configs/minimizer_options/$mini_option --scheme configs/correlation_schemes/$np_option --tasks "combination,limit" $other_options --config configs/task_options/CONF2021/nonres_v6_mH125_CI.yaml
+    - HHComb combine_channels -i $input_dir -c $channels -n nonres --minimizer_options configs/minimizer_options/$mini_option --scheme configs/correlation_schemes/$np_option --tasks "combination,limit"  $other_options --config configs/task_options/CONF2021/nonres_v6_mH125_CI.yaml
   only:
     - tags
     - master
