@@ -1,6 +1,7 @@
 from typing import Optional, Union, List, Dict
 import json
 from string import Formatter
+
 import quickstats
 
 from quickstats.utils.xml_tools import TXMLTree
@@ -48,7 +49,8 @@ def create_combination_xml(channel_attributes:Dict, output_ws:str, poi_name:str,
     quickstats.set_verbosity("WARNING")
     rename_map = {} if rename_map is None else rename_map
     xml = TXMLTree(doctype='Combination', system='Combination.dtd')
-    xml.new_root('Combination', WorkspaceName=ws_name, ModelConfigName=mc_name, DataName=data_name, OutputFile=output_ws)
+    xml.new_root('Combination', WorkspaceName=ws_name, ModelConfigName=mc_name,
+                 DataName=data_name, OutputFile=output_ws)
     xml.add_node('POIList', Combined=formate_poi_name(poi_name))
     xml.add_node('Asimov', Name='fit')
     for channel in channel_attributes:

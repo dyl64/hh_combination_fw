@@ -89,3 +89,15 @@ define_constraints:
       NP: Lumi_new
       GO: RNDM__Lumi_new
       Independent: true
+
+tasks:
+  limit:
+    - scenario: nominal
+      channels:
+       - bbbb
+       - bbtautau
+       - bbyy
+       - bbll
+       - bbVV
+       - WWWW
+       - combination
