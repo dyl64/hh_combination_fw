@@ -5,18 +5,15 @@ The latest workspaces to use are documented in [HHcomb Twiki](https://twiki.cern
 Current relevant folders are:
 
     |-- scripts
-    |-- python_modules
+    |-- hh_combination_fw
     |-- README.md
     |-- setup.sh
     |-- compile.sh
     |-- doc
     |-- submodules
         |-- RooFitExtensions
-        |-- workspaceCombiner
         |-- quickstats
 
-Caveats:
-- Currently stuck at some commit on workspaceCombiner:development branch.
 ## How to run (on lxplus)
 ### Check out the packages
 ```
@@ -26,34 +23,149 @@ Make sure all folders in submodules are not empty.
 ### For the first time (need a compilation)
 ```
 source compile.sh
-source setup.sh
-HHComb process_channels -i <input> -c <channel> -r nonres -o <output> --config configs/regularization_nonres_v3.yaml
-...
-HHComb combine_ws -i <output> -c bbbb,bbtautau,bbyy,WWWW,bbll,bbVV
-...
-
 ```
-You need to make sure the workspace can be found in `<input>/<channel>/nonres`.
-
-### For the future time
+### Future use
 ```
 source setup.sh
-HHComb process_channels -i <input> -c <channel> -r nonres -o <output> --config configs/regularization_nonres_v3.yaml
-...
-HHComb combine_ws -i <output> -c bbbb,bbtautau,bbyy,WWWW,bbll,bbVV
-...
 ```
 
-### Plotting
-Plot for non-resonant and spin0:
+## To use the framework
 ```
-# export PATH=/afs/cern.ch/work/c/chlcheng/public/local/conda/miniconda/envs/ml-base/bin:$PATH
+### For non-resonant study
+HHComb process_channels -i <input> -c <channel> -n nonres --file_expr '<mX[F]>_kl' -o <output> --config <config_file> --tasks modification,limit,significance,likelihood
+HHComb combine_channels -i <output> -n nonres --file_expr '<mX[F]>_kl' -c <channel>  --config <config_file> --tasks combination,limit,significance,likelihood
+
+### For resonant study
+HHComb process_channels -i <input> -c <channel> -n spin0 --file_expr '<mX[F]>' -o <output> --config <config_file> --tasks modification,limit,significance
+HHComb combine_channels -i <output> -n spin0 --file_expr '<mX[F]>' -c <channel>  --config <config_file> --tasks combination,limit,significance
+```
+You need to make sure the workspace with naming scheme defined via `file_expr` can be found in `<input>/<channel>/{nonres|spin0}`. The `file_expr` for non-resonant study could be changed regarding to input format, it should be `'<mX[F]>_kl_<klambda[P]>'` if the input file is `0_kl_1p0.root`. 
+
+Attach `--unblind` in each command to analyze real data.
+
+To consider correlation among channels, add `-s <correlation_scheme>` in the line of `HHComb combine_ws`.
+
+The config file and correlation scheme can be found in `${hh_combination_fw_path}/configs/task_options` and `${hh_combination_fw_path}/configs/correlation_schemes` respectively.
+
+You can specify the task option in config file to do different kind of scan, for example, you can add following lines to get two extra CLs limits.
+```
+tasks:
+  limit:
+    - scenario: nominal
+      channels:
+       - bbbb
+       - bbtautau
+       - bbyy
+       - combination
+    - scenario: mu_HH_ggF_limit
+      channels:
+       - bbyy
+      options:
+       - poi_name: mu_HH_ggF
+   - scenario: kl_scan
+      channels:
+       - bbyy
+      options:
+       - poi_name: mu_HH
+       - param_expr: kl=-10_10_0.1
+```
+
+### Help
+```
+Usage: HHComb process_channels [OPTIONS]
+
+Options:
+  -i, --input_dir TEXT            Path to the input workspaces.  [required]
+  -n, --analysis TEXT             Name of analysis (e.g. resonant or non-
+                                  resonant).  [required]
+  -c, --channels TEXT             analysis channels (separated by commas)
+                                  [default: bbbb,bbtautau,bbyy]
+  -o, --outdir TEXT               output directory  [default: ./output]
+  --file_expr TEXT                File name expression describing the external parameterisation.
+                                  Example: "<mX[F]>_kl_<klambda[P]>"
+                                  Refer to documentation for more information  [default: <mX[F]>]
+  --param_expr TEXT               Parameter name expression describing the internal parameterisation.
+                                  Example: "klambda=-10_10_0.2,k2v=(0, 1)"
+                                  Refer to documentation for more information
+  -f, --filter TEXT               Filter parameter points by expression.
+                                  Example: "mX=(2*,350,400,450)"
+                                  Refer to documentation for more information
+  -e, --exclude TEXT              Exclude parameter points by expression.
+                                  Example: "mX=(2*,350,400,450)"
+                                  Refer to documentation for more information
+  --blind / --unblind             Perform blind or unblind analysis.
+                                  [default: blind]
+  --config TEXT                   configuration file for task options
+  --minimizer_options TEXT        configuration file for minimizer options
+  -t, --tasks TEXT                Tasks to perform (separated by commas). Available options:
+                                  modification  : modify workspaces
+                                  limit         : upper limit scans
+                                  likelihood    : likelihood scans
+                                  significance  : significance scans  [default: modification]
+  --cache / --no-cache            Cache existing results.  [default: cache]
+  --parallel INTEGER              Parallelize job across the N workers.
+                                  Case  0: Jobs are run sequentially (for debugging).
+                                  Case -1: Jobs are run across N_CPU workers.  [default: -1]
+  -v, --verbosity [DEBUG|INFO|WARNING|ERROR]
+                                  Verbosity level.  [default: INFO]
+  --help                          Show this message and exit.
+```
+```
+Usage: HHComb combine_channels [OPTIONS]
+
+Options:
+  -i, --input_dir TEXT            Path to the processed workspaces.
+                                  [required]
+  -n, --analysis TEXT             Name of analysis (e.g. resonant or non-
+                                  resonant).  [required]
+  -c, --channels TEXT             Channels to combine (separated by commas).
+                                  [default: bbbb,bbtautau,bbyy]
+  --file_expr TEXT                File name expression describing the external parameterisation.
+                                  Example: "<mX[F]>_kl_<klambda[P]>"
+                                  Refer to documentation for more information  [default: <mX[F]>]
+  --param_expr TEXT               Parameter name expression describing the internal parameterisation.
+                                  Example: "klambda=-10_10_0.2,k2v=(0, 1)"
+                                  Refer to documentation for more information
+  -f, --filter TEXT               Filter parameter points by expression.
+                                  Example: "mX=(2*,350,400,450)"
+                                  Refer to documentation for more information
+  -e, --exclude TEXT              Exclude parameter points by expression.
+                                  Example: "mX=(2*,350,400,450)"
+                                  Refer to documentation for more information
+  -s, --scheme TEXT               Configuration file for the correlation
+                                  scheme.
+  -t, --tag TEXT                  Pattern for the output name tag.
+  --blind / --unblind             Perform blind or unblind analysis.
+                                  [default: blind]
+  --config TEXT                   Configuration file (yaml) for task options.
+  --minimizer_options TEXT        configuration file (json) for minimizer
+                                  options
+  -t, --tasks TEXT                Tasks to perform (separated by commas). Available options:
+                                  combination  : combine workspaces
+                                  limit        : upper limit scans
+                                  likelihood   : likelihood scans
+                                  significance : significance scans  [default: combination]
+  --cache / --no-cache            Cache existing results.  [default: cache]
+  --parallel INTEGER              Parallelize job across the N workers.
+                                  Case  0: Jobs are run sequentially (for debugging).
+                                  Case -1: Jobs are run across N_CPU workers.  [default: -1]
+  -v, --verbosity [DEBUG|INFO|WARNING|ERROR]
+                                  Verbosity level.  [default: INFO]
+  --help                          Show this message and exit.
+```
+
+## Plotting
+Original script:
+```
+### For non-resonant study
 python plotting/xsection/combination_plotting.py nonres  --logx --dat_list $input_dir/limits/root-files/nonres/*/*[0-9].json $input_dir/limits/root-files/nonres/combined/A-bbtautau_bbyy-fullcorr/0.json --stat $input_dir_stat/limits/root-files/nonres/*/*[0-9].json $input_dir_stat/limits/root-files/nonres/combined/A-bb*/0.json --unblind
 
+### For resonant study
 python plotting/xsection/combination_plotting.py spin0  --logx --dat_list $input_dir/limits/root-files/spin0/*/cache/*[0-9].json --com_list $input_dir/limits/root-files/spin0/combined/A-*-nocorr/cache/*[0-9].json --unblind
 python plotting/pvalue/plotting_pvalue.py -i $input_dir/pvalues/ -a spin0 -o $input_dir/figures/
-
 ```
+However, writing your own code in Jupyter Notebook is recommended because you can freely adjust the style according to the needs of different analyses. You can find some examples in [tutorials/HHH2022/GenPlots_new.ipynb](tutorials/HHH2022/GenPlots_new.ipynb) and [tutorials/LegacyHHResonant/tutorial.ipynb](tutorials/LegacyHHResonant/tutorial.ipynb).
+
 ## Check and download results from gitlab CI
 The whole workflow is running on gitlab CI.
 Go to `CI/CD > Pipelines` and click on any of the recent `passed` task, then you will see the following display:
@@ -63,43 +175,52 @@ To check the final result, click on the `Plotting` jobs and click on the `Browse
 
 You can download the whole output from the `Download` button.
 
-## Run kappa-lambda xsec scan (on individual input workspaces, with names `0_kl_1p0.root`, `0_kl_n1p0.root`)
-To run xsec limit for each kl value, two input formats are supported.
-The first format is a workspace file per each kl value.
-This is useful when channels do not have parametrised single workspace.
+## Some useful tips
+### Inspect workspaces
 ```
-# HHComb process_channels -i ~/work/HHcomb/FullRun2Workspaces/original/20210922/ -o output_directory_v4 -r nonres -c bbtautau  --config configs/regularization_nonres_v6_mH125p09.yaml --file_format "<mass[F]>_kl_1p0" --unblind
-
-HHComb process_channels -i <input_ws_directory> -o <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_nonres_v6_mH125.yaml --file_format "<mass[F]>_kl_<kl[P]>" --unblind
-
-HHComb combine_ws -i <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --scheme configs/np_map_kl_v10.json --file_format "<mass[F]>_kl_<kl[P]>" --unblind
+quickstats inspect_ws -i <input_root_file>
 ```
 
-## Run kappa-lambda xsec scan (on parametrised input workspaces, with a name `0_kl.root`)
+### Generate scheme files for NP correlation
+Refer to [NP_rename/README.md](NP_rename/README.md) for details.
+
+### Run best fit on a workspace
 ```
-The second format is more preferred that has a single workspace with `klambda` as an additional POI.
-Following is to run the combination on this format.
-HHComb process_channels -i <input_ws_directory> -c bbyy,bbtautau  -r nonres --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_kl.yaml --skip-limit --no-cache --file_format "<mass[F]>_kl" -o <output_directory>
-
-HHComb combine_ws -i <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_kl.yaml --scheme configs/np_map_kl_v10.json --file_format "<mass[F]>_kl" --skip-limit --no-cache
-
+quickstats likelihood_fit -i <input_root_file> --poi xsec_br --print_level 1 --strategy 1 --snapshot nominalNuis
 ```
 
-## Run kappa-lambda likelihood scan (on parametrised input workspaces, with a name `0_kl.root`)
+### Run limit on a workspace
 ```
-HHComb process_channels -i <input_ws_directory> -c bbyy -r nonres --minimizer_options configs/minimizer_options_robust.json --config configs/regularization_kl.yaml --skip-limit --no-cache --file_format "<mass[F]>_kl" --param_expr "klambda=-10_10_0.2" -o <output_directory>
-
-HHComb combine_ws -i <output_directory> -r nonres -c bbyy,bbtautau --minimizer_options configs/minimizer_options_robust.json --scheme configs/np_map_kl_v10.json --param klambda=<-low>_<high>_<step> --file_format "<mass[F]>_kl" --param_expr "klambda=-10_10_0.2"
-
-HComb kl_likelihood -i <output_directory> -c bbyy,bbtautau --min=-2 --max=10 --step=0.2 --no-cache
-python likelihood_plotting.py -a nonres -i <output_directory>/output/likelihood/ -c combined_klambda.json -t bbtautau_klambda.json -y bbyy_klambda.json -o <output_directory>/figure --threshold 12
+quickstats cls_limit -i <input_root_file> --poi xsec_br --print_level 1 --strategy 1 --snapshot nominalNuis
 ```
 
-## Run pulls (best fit) and plotting
+## Run likelihood scan
+```
+# 1D scan
+quickstats likelihood_scan -i <input_root_file> --outdir <output_path> --param_expr "klambda=-15_20_0.2" --snapshot muhatSnapshot_kl --uncond_snapshot muhatSnapshot_kl
+
+# 2D scan
+quickstats likelihood_scan -i <input_root_file> --outdir <output_path> --param_expr "klambda=-15_20_0.2,kt=0.6_1.6_0.1" --snapshot muhatSnapshot_kl_kt --uncond_snapshot muhatSnapshot_kl_kt
+```
+
+### Generate Asimov
+```
+quickstats generate_standard_asimov -i <input_root_file> -o <output_path> --asimov_types 1,2,-2 --asimov_snapshots asimovtype_1_mu1_mu1,asimovtype_2_muprof_mu1,asimovtype_n2_prefit_mu1 --asimov_names combData_asimovtype_1_mu1_mu1,combData_asimovtype_2_muprof_mu1,combData_asimovtype_n2_prefit_mu1 -p xsec_br
+```
+
+## Run p-value
+*important note*
+If running on rescaled nonres workspace, require a caution on what the POI was scaled to during the rescaling step (check `regularization.yaml`, eg for Run2 CONF note, -n=0.032776 and for projection and spin0, -n=1)
+```
+quickstats significance_scan -i <workspace_file> -p xsec_br --mu_exp 1
+```
+
+## Run pulls (best fit), plotting and correlation matrix
 
 ```
 quickstats likelihood_fit -i <workspace_file> -d combData --save_log --export_as_np_pulls
 quickstats plot_pulls -i pulls/ --sigma_bands --hide_prefit --hide_postfit --theta_max 3 --padding 4 --hide_sigma  --no_sigma_lines --no_ranking_label
+quickstats np_correlation -i <workspace_filename> --save_json --save_plot
 ```
 
 ## Run ranking and impact
@@ -115,100 +236,14 @@ Then plot ranking plot with
 quickstats plot_pulls --poi xsec_br -i pulls/ --outdir rank_plot -o channel
 ```
 
-## Run ranking and impact in batch
-```
-cd NP_ranking
-# if you want to generate an asimov instead of using obs (for nonres it is true due to deficit of bbyy obs)
-source get_profiled_asimov.sh
-
-# run all ranking
-python run_ranking.py nonres <input_folder>
-
-# harmonise NP names for individual channels to match the combined
-python harmonise_name.py nonres <input_folder>
-```
-
-## Run p-value
-*important note*
-If running on rescaled nonres workspace, require a caution on what the POI was scaled to during the rescaling step (check `regularization.yaml`, eg for Run2 CONF note, -n=0.032776 and for projection and spin0, -n=1)
-```
-# 
-HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210924_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/1100.root
-## to run all *.root files in parallel:
-HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210924_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr
-```
-To run expected p-value (but profiled to obs data):
-```
-## (obselete) profile NP to POI=0 or 1 or float (-1), then generate asimov; then set the global observable to the fitted NP values and calculate the pvalue
-#HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr --expected [0|1]
-
-# use type=2 to profile best-fit NPs with POI floated and generate asimov; then load the best-fit NP values to globs via `conditionalGlobs_None` and calculate p-value
-quickstats generate_standard_asimov -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210924_CI/output_mu_unblind/rescaled/nonres/bbtautau/0.root -o /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210924_CI/output_mu_unblind/rescaled/nonres/bbtautau/asimov2_0.root --poi xsec_br --poi_scale 0.032776 --asimov_types 2
-HHComb pvalue -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210924_CI/output_mu_unblind/rescaled/nonres/bbtautau/asimov2_0.root -d asimovData_muhat_NP_Profile  -s conditionalGlobs_None
-```
-To run blinded p-value:
-```
-HHComb pvalue -i ../output/v3000invfb_20211106_CI/NR/rescaled/nonres/bbyy/0.root --blind
-```
-
-## Quick fit
-```
-# useful to use -d <dataset> -s <snapshot> on profiled asimov to load globs
-#HHComb best_fit -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output/combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/0.root -d <dataset> -s <snapshot>
-quickstats likelihood_fit -i <workspace_name> --export_as_np_pulls --outdir pulls
-```
-Plot pulls and correlation matrix
-```
-quickstats plot_pulls -i pulls/ --sigma_bands --hide_prefit --hide_postfit --theta_max 3 --padding 4 --hide_sigma  --no_sigma_lines --no_ranking_label
-quickstats np_correlation -i <workspace_filename> --save_json --save_plot
-```
-
-## Run likelihood scan
-```
-cd v140invfb_20210821_CI/output
-mkdir likelihood_scan
-quickstats likelihood_scan --min -0.2 --max 1.0 --step 0.01 -i combined/spin0/A-bbbb_bbtautau_bbyy-fullcorr/<Mass>.root -o <Mass>
-```
-
-## Generate scheme files for NP correlation
-
-Refer to [NP_rename/README.md](NP_rename/README.md) for details.
-
-
-## Some useful tips
-### Run best fit on a workspace
-```
-quickstats likelihood_fit -i <input_root_file> --poi xsec_br --print_level 1 --strategy 1 --snapshot nominalNuis
-```
-
-### Run limit on a workspace
-```
-quickstats cls_limit --i <input_root_file> --poi xsec_br --print_level 1 --strategy 1 --snapshot nominalNuis
-```
-
-### Inspect workspaces
-```
-quickstats inspect_ws -i <input_root_file>
-```
-
-### Generate Asimov
-CLI tool (if you check `python_modules/gen_asimov.py`, two asimov workspaces will be created:
-- POI=0, do_conditional=True:
-- POI=1, do_conditional=True:
-```
-HHComb gen_asimov -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output_unblind/combined/nonres/A-bbtautau_bbyy-fullcorr/0.root
-HHComb gen_asimov -i /eos/atlas/atlascerngroupdisk/phys-hdbs/diHiggs/combination/FullRun2Workspaces/batches/v140invfb_20210821_CI/output_unblind/combined/nonres/A-bbtautau_bbyy-fullcorr/
-```
-
-## Guidelines
-
-### ATLAS + CMS Run 2 nonresonant combination
+## ATLAS + CMS Run 2 nonresonant combination
 
 To setup the environment, you need to include the CMS dedicated macros in quickstats:
 ```
 quickstats add_macros -i ${hh_combination_fw_path}/macros/CMSSWCore_HHComb
 quickstats compile -m CMSSWCore_HHComb
 ```
+For now, the above code has been integrated into [compile.sh](compile.sh), so you don't need to do anything additionally.
 
 In case of errors, try recompiling the framework:
 ```
