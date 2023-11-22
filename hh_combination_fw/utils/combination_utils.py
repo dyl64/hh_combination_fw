@@ -65,6 +65,28 @@ def create_combination_xml(channel_attributes:Dict, output_ws:str, poi_name:str,
     quickstats.set_verbosity("INFO")
     return xml
 
+def create_combination_xml_bsm(channel_attributes:Dict, output_ws:str, poi_names:Dict, rename_map:Dict=None,
+                           ws_name:str='combWS', mc_name:str='ModelConfig',
+                           data_name:str='combData', ignore_missing_keys:bool=False):
+    quickstats.set_verbosity("WARNING")
+    rename_map = {} if rename_map is None else rename_map
+    xml = TXMLTree(doctype='Combination', system='Combination.dtd')
+    xml.new_root('Combination', WorkspaceName=ws_name, ModelConfigName=mc_name, DataName=data_name, OutputFile=output_ws)
+    xml.add_node('POIList', Combined=formate_poi_name(poi_names['combination']))
+    xml.add_node('Asimov', Name='fit')
+    for channel in channel_attributes:
+        channel_rename_map = rename_map.get(channel, None)
+        channel_filename  = channel_attributes[channel]["filename"]
+        channel_ws_name   = channel_attributes[channel].get("ws_name", None)
+        channel_mc_name   = channel_attributes[channel].get("mc_name", None)
+        channel_data_name = channel_attributes[channel].get("data_name", data_name)
+        poi_name          = poi_names[channel]
+        create_channel_node(xml, channel, channel_filename, poi_name, rename_map=channel_rename_map,
+                            ws_name=channel_ws_name, mc_name=channel_mc_name, data_name=channel_data_name,
+                            ignore_missing_keys=ignore_missing_keys)
+    quickstats.set_verbosity("INFO")
+    return xml
+
 def formate_poi_name(poi_name:str):
     new_poi = [f"{p}[1~1]" for p in poi_name.split(',') if p]
     new_poi = ','.join(new_poi)

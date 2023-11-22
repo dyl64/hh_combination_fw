@@ -1,0 +1,48 @@
+dataset:
+  bbbb:
+    blind: combData
+    unblind: combData
+  bbtautau:
+    blind: obsData
+    unblind: obsData
+  bbyy:
+    blind: combData
+    unblind: combData
+  combination:
+    blind: combData
+    unblind: combData
+
+define_parameters:
+  bbbb:
+    - expr::mu_SM_normalized('@0/((0.5809*0.5809)/(@1*@1))', xsec[0,-1,20], br_h_bb[0.5,0,1])
+  bbtautau:
+    - expr::mu_SM_normalized('@0*(@1*@1*@2)/(0.5809*0.5809*0.1077)', xsec[0,-1,20], br_h_bb[0.5,0,1], r_br_tautau_bb[1,0,100])
+  bbyy:
+    - expr::mu_SM_normalized('@0*(@1*@1*@2)/(0.5809*0.5809*0.00391)', xsec[0,-1,20], br_h_bb[0.5,0,1], r_br_yy_bb[1,0,100])
+
+rename_parameters:
+  bbbb:
+    xsec_br: mu_SM_normalized
+  bbtautau:
+    xsec_br: mu_SM_normalized
+  bbyy:
+    xsec_br: mu_SM_normalized
+
+reparam_pois:
+  bbbb:
+    - xsec
+    - br_h_bb
+  bbtautau:
+    - xsec
+    - br_h_bb
+    - r_br_tautau_bb
+  bbyy:
+    - xsec
+    - br_h_bb
+    - r_br_yy_bb
+
+comb_pois:
+  bbbb: xsec,dummy,br_h_bb,dummy
+  bbtautau: xsec,dummy,br_h_bb,r_br_tautau_bb
+  bbyy: xsec,r_br_yy_bb,br_h_bb,dummy
+  combination: xsec,r_br_yy_bb,br_h_bb,r_br_tautau_bb
