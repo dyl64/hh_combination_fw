@@ -15,26 +15,26 @@ class DataReader(object):
     def __init__(self, args):
         infolder = args.input_folder
         self.json_files_main = {
-            'combined': f'{infolder}/limits/nonres/combined/A-bbtautau_bbyy-fullcorr/limits.json',
+            'combined': f'{infolder}/limits/nonres/combined/bbtautau_bbyy-fullcorr/limits.json',
             'bbyy': f'{infolder}/limits/nonres/bbyy/limits.json',
             'bbtautau': f'{infolder}/limits/nonres/bbtautau/limits.json',
         }
         if args.all:
             self.json_files_main = {
-                'combined': f'{infolder}/limits/nonres/combined/A-WWWW_bbVV_bbbb_bbll_bbtautau_bbyy-fullcorr/limits.json',
-                'combined5ll': f'{infolder}/limits/nonres/combined/A-WWWW_bbVV_bbbb_bbtautau_bbyy-fullcorr/limits.json',
-                'combined5VV': f'{infolder}/limits/nonres/combined/A-WWWW_bbbb_bbll_bbtautau_bbyy-fullcorr/limits.json',
-                'combined5WW': f'{infolder}/limits/nonres/combined/A-bbVV_bbbb_bbll_bbtautau_bbyy-fullcorr/limits.json',
+                'combined': f'{infolder}/limits/nonres/combined/bbVV_bbbb_bbll_bbtautau_bbyy_WWWW-fullcorr/limits.json',
+                'combined5ll': f'{infolder}/limits/nonres/combined/bbVV_bbbb_bbtautau_bbyy_WWWW-fullcorr/limits.json',
+                'combined5VV': f'{infolder}/limits/nonres/combined/bbbb_bbll_bbtautau_bbyy_WWWW-fullcorr/limits.json',
+                'combined5WW': f'{infolder}/limits/nonres/combined/bbVV_bbbb_bbll_bbtautau_bbyy-fullcorr/limits.json',
                 'bbll': f'{infolder}/limits/nonres/bbll/limits.json',
                 'bbVV': f'{infolder}/limits/nonres/bbVV/limits.json',
                 'WWWW': f'{infolder}/limits/nonres/WWWW/limits.json',
-                'combined3': f'{infolder}/limits/nonres/combined/A-bbbb_bbtautau_bbyy-fullcorr/limits.json',
+                'combined3': f'{infolder}/limits/nonres/combined/bbbb_bbtautau_bbyy-fullcorr/limits.json',
                 'bbbb': f'{infolder}/limits/nonres/bbbb/limits.json',
                 'bbyy': f'{infolder}/limits/nonres/bbyy/limits.json',
                 'bbtautau': f'{infolder}/limits/nonres/bbtautau/limits.json',
             }
         self.json_files_addition = {
-            'combined': f'{infolder}/stat/limits/nonres/combined/A-bbtautau_bbyy-fullcorr/0.json',
+            'combined': f'{infolder}/stat/limits/nonres/combined/bbtautau_bbyy-fullcorr/0.json',
             'bbyy': f'{infolder}/stat/limits/nonres/bbyy/0.json',
             'bbtautau': f'{infolder}/stat/limits/nonres/bbtautau/0.json',
         }
