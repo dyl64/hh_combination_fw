@@ -36,6 +36,7 @@ class TaskCombineChannel(TaskBase):
         correlation_scheme = self.parse_correlation_scheme(kwargs['correlation_scheme'])
         scheme = "nocorr" if correlation_scheme is None else "fullcorr"
         channels = kwargs['channels']
+        channels = sorted(channels.split(','), key=lambda x: (x.casefold(), x.swapcase()))
         self._channels = channels
         channel_str = '_'.join(channels)
         channel = f"combined/{tag_pattern.format(channels=channel_str, scheme=scheme)}"
