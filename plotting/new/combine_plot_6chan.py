@@ -31,7 +31,7 @@ class DataReader(object):
                 'combined3': f'{infolder}/limit/nonres/combined/bbbb_bbtautau_bbyy-fullcorr/nominal/limits_xsec_br.json',
                 'bbbb': f'{infolder}/limit/nonres/bbbb/nominal/limits_xsec_br.json',
                 'bbyy': f'{infolder}/limit/nonres/bbyy/nominal/limits_xsec_br.json',
-                'bbtautau': f'{infolder}/limitsnonres/bbtautau/nominal/limits_xsec_br.json',
+                'bbtautau': f'{infolder}/limit/nonres/bbtautau/nominal/limits_xsec_br.json',
             }
         self.json_files_addition = {
             'combined': f'{infolder}/stat/limits/nonres/combined/bbtautau_bbyy-fullcorr/0.json',
