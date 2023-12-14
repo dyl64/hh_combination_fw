@@ -240,10 +240,11 @@ quickstats plot_pulls --poi xsec_br -i pulls/ --outdir rank_plot -o channel
 
 To setup the environment, you need to include the CMS dedicated macros in quickstats:
 ```
-quickstats add_macros -i ${hh_combination_fw_path}/macros/CMSSWCore_HHComb
+quickstats add_macro -i ${hh_combination_fw_path}/macros/CMSSWCore_HHComb
 quickstats compile -m CMSSWCore_HHComb
 ```
-For now, the above code has been integrated into [compile.sh](compile.sh), so you don't need to do anything additionally.
+These will add a bunch of files in ${hh_combination_fw_path}/submodules/quickstats/quickstats/macros/CMSSWCore_HHComb/
+Note that the above code has been integrated into [compile.sh](compile.sh), so you don't need to do anything additionally.
 
 In case of errors, try recompiling the framework:
 ```

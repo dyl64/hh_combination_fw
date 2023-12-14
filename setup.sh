@@ -26,22 +26,22 @@ if [[ -z "${SWAN_HOME}" ]] && [[ -z "${USER_ENV_SCRIPT}" ]]; then
     # Copied from workspaceCombiner/setup.sh (Rui Zhang)
     export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase # use your path
     source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh
-    if [[ "$EnvironmentName" = '98' ]]; then
+    if [[ "$EnvironmentName" == '98' ]]; then
         echo 'setup LCG_98python3'
         lsetup "views LCG_98python3 x86_64-centos7-gcc8-opt"
-    elif [[ "$EnvironmentName" = "100" ]]; then
+    elif [[ "$EnvironmentName" == "100" ]]; then
         echo 'setup LCG_100'
         lsetup "views LCG_100 x86_64-centos7-gcc8-opt"
-    elif [[ "$EnvironmentName" = "101" ]]; then
+    elif [[ "$EnvironmentName" == "101" ]]; then
         echo 'setup LCG_101, ROOT 6.24/06'
         lsetup "views LCG_101 x86_64-centos7-gcc8-opt"
-    elif [[ "$EnvironmentName" = "102" ]]; then
+    elif [[ "$EnvironmentName" == "102" ]]; then
         echo 'setup LCG_102, ROOT 6.26/04'
         lsetup "views LCG_102 x86_64-centos7-gcc11-opt"
-    elif [[ "$EnvironmentName" = "102b" ]]; then
+    elif [[ "$EnvironmentName" == "102b" ]]; then
         echo 'setup LCG_102b, ROOT 6.26/08'
         lsetup "views LCG_102b x86_64-centos7-gcc11-opt"
-    elif [[ "$EnvironmentName" = "103" ]]; then
+    elif [[ "$EnvironmentName" == "103" ]]; then
         echo 'setup LCG_103, ROOT 6.28/00'
         lsetup "views LCG_103 x86_64-centos7-gcc11-opt"
     else
@@ -113,3 +113,4 @@ cd ${hh_combination_fw_path}
 
 jupyter notebook --port 8933 > jupyter.log 2>&1 &
 
+unset EnvironmentName
