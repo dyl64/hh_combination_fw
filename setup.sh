@@ -110,3 +110,6 @@ export PATH=${hh_combination_fw_path}/submodules/quickstats/bin:$PATH
 export PYTHONPATH=${hh_combination_fw_path}/submodules/quickstats:$PYTHONPATH
 
 cd ${hh_combination_fw_path}
+
+jupyter notebook --port 8933 > jupyter.log 2>&1 &
+
