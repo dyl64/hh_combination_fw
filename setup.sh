@@ -11,7 +11,7 @@ if [[ -z "${SWAN_HOME}" ]] && [[ -z "${USER_ENV_SCRIPT}" ]]; then
     then
         EnvironmentName=$1
     else
-        EnvironmentName="102b"
+        EnvironmentName="104c"
     fi
     
     SOURCE="${BASH_SOURCE[0]}"
@@ -44,9 +44,12 @@ if [[ -z "${SWAN_HOME}" ]] && [[ -z "${USER_ENV_SCRIPT}" ]]; then
     elif [[ "$EnvironmentName" == "103" ]]; then
         echo 'setup LCG_103, ROOT 6.28/00'
         lsetup "views LCG_103 x86_64-centos7-gcc11-opt"
+    elif [[ "$EnvironmentName" == "104c" ]]; then
+        echo 'setup LCG_104c, ROOT 6.28/10'
+        lsetup "views LCG_104c_ATLAS_2 x86_64-centos7-gcc11-opt"
     else
         echo 'Specify a relase number for LCG, default LCG_102b'
-        echo 'source setup.sh [98|100|101|102|102b|103]'
+        echo 'source setup.sh [98|100|101|102|102b|103|104c]'
         return
     fi
     
