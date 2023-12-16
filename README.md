@@ -61,13 +61,13 @@ tasks:
       channels:
        - bbyy
       options:
-       - poi_name: mu_HH_ggF
+       poi_name: mu_HH_ggF
    - scenario: kl_scan
       channels:
        - bbyy
       options:
-       - poi_name: mu_HH
-       - param_expr: kl=-10_10_0.1
+       poi_name: mu_HH
+       param_expr: kl=-10_10_0.1
 ```
 
 ### Help
