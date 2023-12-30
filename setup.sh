@@ -11,7 +11,7 @@ if [[ -z "${SWAN_HOME}" ]] && [[ -z "${USER_ENV_SCRIPT}" ]]; then
     then
         EnvironmentName=$1
     else
-        EnvironmentName="104c"
+        EnvironmentName="102b"
     fi
     
     SOURCE="${BASH_SOURCE[0]}"
@@ -47,6 +47,7 @@ if [[ -z "${SWAN_HOME}" ]] && [[ -z "${USER_ENV_SCRIPT}" ]]; then
     elif [[ "$EnvironmentName" == "104c" ]]; then
         echo 'setup LCG_104c, ROOT 6.28/10'
         lsetup "views LCG_104c_ATLAS_2 x86_64-centos7-gcc11-opt"
+        lsetup cmake
     else
         echo 'Specify a relase number for LCG, default LCG_102b'
         echo 'source setup.sh [98|100|101|102|102b|103|104c]'
@@ -58,22 +59,22 @@ else
   export hh_combination_fw_path=$(dirname "$USER_ENV_SCRIPT")
 fi
 
- # More memory
- ulimit -S -s unlimited
- 
- # Greet the user
- if [ $_DIRCOMB ]; then
-     echo _DIRCOMB is already defined, use a clean shell
-     return 0
- fi
- 
- export _DIRCOMB=$hh_combination_fw_path
- 
- # The Makefiles depend only on the root-config script to use ROOT,
- # so make sure that is available
- if [[ `which root-config` == "" ]]; then
-     echo "Error: ROOT environment doesn't seem to be configured!"
- fi
+# More memory
+ulimit -S -s unlimited
+
+# Greet the user
+if [ $_DIRCOMB ]; then
+    echo _DIRCOMB is already defined, use a clean shell
+    return 0
+fi
+
+export _DIRCOMB=$hh_combination_fw_path
+
+# The Makefiles depend only on the root-config script to use ROOT,
+# so make sure that is available
+if [[ `which root-config` == "" ]]; then
+    echo "Error: ROOT environment doesn't seem to be configured!"
+fi
 
 # TODO: remove dependence on workspaceCombiner
 # speficy the SFRAME base directory, i.e. the directory in which this file lives
@@ -114,6 +115,6 @@ export PYTHONPATH=${hh_combination_fw_path}/submodules/quickstats:$PYTHONPATH
 
 cd ${hh_combination_fw_path}
 
-jupyter notebook --port 8933 > jupyter.log 2>&1 &
+# jupyter notebook --port 8933 > jupyter.log 2>&1 &
 
 unset EnvironmentName

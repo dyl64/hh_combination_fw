@@ -1,0 +1,88 @@
+workspace:
+  bbll: combined
+  bbbb: combined
+  bbyy: combWS
+  bbtautau: combined
+
+dataset:
+  bbll:
+    blind: asimovData_1_NP_Nominal
+    unblind: combData
+  bbbb:
+    blind: asimovData_1_NP_Nominal
+    unblind: obsData
+  bbyy:
+    blind: asimovData_1_NP_Nominal
+    unblind: combData
+  bbtautau:
+    blind: asimovData_1_NP_Nominal
+    unblind: combData
+  combination:
+    blind: asimovData_1_NP_Nominal
+    unblind: combData
+
+poi:
+  bbll: kappa2V
+  bbbb: k2V
+  bbyy: k2v
+  bbtautau: kappa2V
+  combination: k2v
+
+fix_parameters:
+  bbll: <poi>
+  bbbb: <poi>
+  bbyy: <poi>
+  bbtautau: <poi>
+  combination: <poi>
+
+gen_asimov:
+  bbll: 2,-2
+  bbbb: 2,-2
+  bbyy: 2,-2
+  bbtautau: 2,-2
+  combination: 2,-2
+
+rename_parameters:
+  bbll:
+    kappaL: klambda
+  bbtautau:
+    kappaL: klambda
+  bbbb:
+  bbyy:
+    kl: klambda
+
+extra_pois:
+  bbll: klambda
+  bbtautau: klambda
+  bbbb: klambda,kV,mu_HH,kt,mu_HH_VBF,mu_HH_ggF
+  bbyy: klambda,kv,mu_H,mu_HH,mu_HH_VBF,mu_HH_ggF,mu_HM_1,mu_HM_2,mu_HM_3,mu_H_HH,mu_LM_1,mu_LM_2,mu_LM_3,mu_LM_4,mu_VBFH,mu_WmH,mu_WpH,mu_ZH,mu_bbH,mu_ggH,mu_ggZH,mu_tHjb,mu_tWH,mu_ttH
+  combination: klambda
+
+set_parameters:
+  bbll: <GAUSSIAN_CONSTRAINT_NP>=0,<POISSON_CONSTRAINT_NP>=1
+  bbtautau: <GAUSSIAN_CONSTRAINT_NP>=0,<POISSON_CONSTRAINT_NP>=1
+  bbbb: <GAUSSIAN_CONSTRAINT_NP>=0,<POISSON_CONSTRAINT_NP>=1
+  bbyy: <GAUSSIAN_CONSTRAINT_NP>=0,<POISSON_CONSTRAINT_NP>=1
+
+tasks:
+  likelihood:
+    - scenario: nominal
+      channels:
+        - bbll
+        - bbtautau
+        - bbbb
+        - bbyy
+        - combination
+      options:
+        param_expr: k2v=-3_6_0.1
+    - scenario: expected
+      channels:
+        - bbll
+        - bbtautau
+        - bbbb
+        - bbyy
+        - combination
+      options:
+        param_expr: k2v=-3_6_0.1
+        data_name: asimovData_muhat_NP_Profile
+        snapshot_name: asimovData_muhat_NP_Profile

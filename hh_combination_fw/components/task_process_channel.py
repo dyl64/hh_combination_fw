@@ -105,7 +105,7 @@ class TaskProcessChannel(TaskBase):
                 for name, val in redefine_parameters.items():
                     redef_expr = f"{name}[{val}]"
                     action_config["redefine"].append(redef_expr)
-            elif isinstasnce(redefine_parameters, list):
+            elif isinstance(redefine_parameters, list):
                 for expr in redefine_parameters:
                     action_config["redefine"].append(expr)
             else:
@@ -134,6 +134,18 @@ class TaskProcessChannel(TaskBase):
             config[option] = modification_options[option]
         return config
 
+    def run_asimov(self,outfile:str,asimov_types:str):
+        from quickstats.components import AsimovGenerator
+        from quickstats.utils.string_utils import split_str
+        generator = AsimovGenerator(outfile, poi_name=self.config["poi_name"],
+                                    data_name=self.config["data_name"])
+        try:
+            asimov_types = split_str(asimov_types, sep=",", cast=int)
+        except Exception:
+            asimov_types = split_str(asimov_types, sep=",")
+        generator.generate_standard_asimov(asimov_types)
+        generator.save(outfile, rebuild=True)
+
     def run_modification(self, param_point:Dict):
         input_ws_path = param_point['filename']
         basename = os.path.basename(input_ws_path)
@@ -159,3 +171,6 @@ class TaskProcessChannel(TaskBase):
         if not status:
             raise RuntimeError("workspace modification failed, please check the log file for "
                                f"more details: {output_log_path}")
+
+        if self.modification_options["gen_asimov"] is not None:
+            self.run_asimov(output_ws_path,str(self.modification_options["gen_asimov"]))

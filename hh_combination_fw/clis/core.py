@@ -94,6 +94,8 @@ def parse_task_config(config:Dict,
             task_config[channel]["modification_options"] = {}
             for attrib in channel_mod_attribs:
                 task_config[channel]["modification_options"][attrib] = get_channel_config(channel, attrib)
+        else:
+            task_config[channel]["gen_asimov"] = get_channel_config(channel, "gen_asimov")
     task_options = parse_task_options(config.get("tasks", {}), channels)
     for channel in channels:
         task_config[channel]["task_options"] = task_options[channel]
