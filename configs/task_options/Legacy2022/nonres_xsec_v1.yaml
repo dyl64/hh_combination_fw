@@ -76,4 +76,4 @@ tasks:
         - ml
         - combination
       options:
-        fix_param: "gamma_saturated_model*=1,*THEO_XS_COMBINED*=0,*THEO_XS_PDF*HH=0,*HH_PDF*=0,*HH_Alphas=0,*HH_Scale=0,*THEO_XS_*SCALE*HH=0,*THEO_XS_*ggf=0,*THEO_XS_*vbf=0,*THEO_*_SIG=0"
+        fix_param: "gamma_saturated_model*=1,*THEO_XS_COMBINED*=0,*THEO_XS_PDF*HH=0,*HH_PDF*=0,*HH_Alphas=0,*HH_Scale=0,*THEO_XS_*SCALE*HH=0,*THEO_XS_*ggf=0,*THEO_XS_*vbf=0,*THEO_*_SIG=0,THEO_XS_VBFHH*=0,THEO_XS_ggFHH*=0"
