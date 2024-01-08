@@ -43,6 +43,7 @@ class TaskCombineChannel(TaskBase):
         super().initialize(channel=channel, **kwargs)
         self._config['tag_pattern'] = tag_pattern
         self._correlation_scheme = correlation_scheme
+        self.asimov_types = kwargs['gen_asimov']
 
         # make sure the NPs are set to nominal values at the beginning
         for task in self.minimizer_options:
@@ -131,6 +132,18 @@ class TaskCombineChannel(TaskBase):
         xml.save(filename)
         param_str = ParamParser.val_encode_parameters(param_point['parameters'])
         self.stdout.info(f'Combination config for the point "{param_str}" saved as "{filename}"')
+
+    def run_asimov(self,outfile:str,asimov_types:str):
+        from quickstats.components import AsimovGenerator
+        from quickstats.utils.string_utils import split_str
+        generator = AsimovGenerator(outfile, poi_name=self.config["poi_name"],
+                                    data_name=self.config["data_name"])
+        try:
+            asimov_types = split_str(asimov_types, sep=",", cast=int)
+        except Exception:
+            asimov_types = split_str(asimov_types, sep=",")
+        generator.generate_standard_asimov(asimov_types)
+        generator.save(outfile, rebuild=True)
         
     def create_combined_ws(self, param_point):
         from quickstats.components.workspaces import XMLWSCombiner
@@ -166,7 +179,10 @@ class TaskCombineChannel(TaskBase):
             if not status:
                 raise RuntimeError("workspace combination failed, please check the log file for "
                                    f"more details: {logfile_path}")
-                
+            
+        if self.asimov_types is not None:
+            self.run_asimov(output_ws_path,self.asimov_types)
+
     def run_combination(self, param_point):
         self.create_combination_xml(param_point)
         self.create_combined_ws(param_point)

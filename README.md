@@ -207,6 +207,15 @@ quickstats likelihood_scan -i <input_root_file> --outdir <output_path> --param_e
 ```
 quickstats generate_standard_asimov -i <input_root_file> -o <output_path> --asimov_types 1,2,-2 --asimov_snapshots asimovtype_1_mu1_mu1,asimovtype_2_muprof_mu1,asimovtype_n2_prefit_mu1 --asimov_names combData_asimovtype_1_mu1_mu1,combData_asimovtype_2_muprof_mu1,combData_asimovtype_n2_prefit_mu1 -p xsec_br
 ```
+You are able to generate Asimov dataset on the fly if there is a `gen_asimov` action in your config
+``````
+gen_asimov:
+  bbll: 2,-2
+  bbbb: 2,-2
+  bbyy: 2,-2
+  bbtautau: 2,-2
+  combination: 2,-2
+``````
 
 ## Run p-value
 *important note*
