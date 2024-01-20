@@ -7,7 +7,7 @@ from quickstats.utils.common_utils import combine_dict
 class CombinationPathManager(PathManager):
 
     DEFAULT_FILES = {
-        "likelihood_output"   : ("likelihood", "likelihoods_{param_names}.json"),
+        "likelihood_output"   : ("likelihood", "likelihoods_{poi_names}.json"),
         "limit_output"        : ("limit", "limits_{poi_name}.json"),
         "significance_output" : ("significance", "significance_{param_names}.json")
     }
