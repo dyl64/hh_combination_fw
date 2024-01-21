@@ -3,7 +3,7 @@ workspace:
   bbbb: combined
   bbtautau: combined
   bbyy: combWS
-  ml: combWS
+  ml: combined
 
 dataset:
   bbll:
@@ -34,12 +34,12 @@ poi:
   combination: xsec_br
 
 fix_parameters:
-  bbll: <poi>
-  bbbb: <poi>
-  bbtautau: <poi>
-  bbyy: <poi>
-  ml: <poi>
-  combination: <poi>
+  bbll: <poi>=1
+  bbbb: <poi>=1
+  bbtautau: <poi>=1
+  bbyy: <poi>=1
+  ml: <poi>=1
+  combination: <poi>=1
 
 extra_pois:
   bbll:
