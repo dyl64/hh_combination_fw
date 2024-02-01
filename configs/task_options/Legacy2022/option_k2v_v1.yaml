@@ -33,7 +33,7 @@ fix_parameters:
   bbbb: <poi>=1
   bbyy: <poi>=1
   bbtautau: <poi>=1
-  combination: <poi>=1,mu*bbtautau=1
+  combination: <poi>=1
 
 gen_asimov:
   bbll: 2,-2
