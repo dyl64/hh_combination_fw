@@ -123,7 +123,7 @@ def parse_cli_inputs(combination:bool=False, **kwargs):
                  "exclude_expr", "minimizer_options",
                  "blind", "verbosity", "parallel", "cache"]
     if combination:
-        arg_names.extend(['tag_pattern', 'correlation_scheme', 'useCMSOptPDF'])
+        arg_names.extend(['tag_pattern', 'correlation_scheme', 'use_cms_opt_pdf'])
     # setup configs for each channel
     for channel in task_config:
         task_config[channel]["channel"] = channel
@@ -240,7 +240,7 @@ def process_channels(**kwargs):
 @click.option('-v', '--verbosity', default='INFO', show_default=True,
               type=click.Choice(["DEBUG", "INFO", "WARNING", "ERROR"], case_sensitive=False),
               help='Verbosity level.')
-@click.option('--useCMSOptPDF/--no-useCMSOptPDF', 'useCMSOptPDF', default=True, show_default=True,
+@click.option('--use-cms-opt-pdf/--no-use-cms-opt-pdf', 'use_cms_opt_pdf', default=True, show_default=True,
               help='Use CMS Optimal PDF to make combined workspace when there is CMS workspace in inputs.')
 def combine_channels(**kwargs):
     kwargs['output_dir'] = kwargs['input_dir']
