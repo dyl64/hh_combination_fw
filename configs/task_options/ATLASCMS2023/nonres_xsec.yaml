@@ -1,0 +1,39 @@
+workspace:
+  atlas: combWS
+  cms: w
+
+dataset:
+  atlas:
+    blind: asimovData_1_NP_Nominal
+    unblind: combData
+  cms:
+    blind: asimovData_1_NP_Nominal
+    unblind: data_obs
+  combination:
+    blind: asimovData_1_NP_Nominal
+    unblind: combData
+
+poi:
+  atlas: xsec_br
+  cms: r
+  combination: xsec_br
+
+tasks:
+  limit:
+    - scenario: nominal
+      channels:
+       - atlas
+       - cms
+       - combination
+      options:
+        strategy: 0
+    
+  significance:
+    - scenario: nominal
+      channels:
+       - atlas
+       - cms
+       - combination
+      options:
+        data_name: combData
+        strategy: 0

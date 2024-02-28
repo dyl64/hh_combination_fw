@@ -5,6 +5,7 @@ import json
 from quickstats.parsers import ParamParser
 from quickstats.concurrent.logging import standard_log
 from quickstats.components.workspaces import XMLWSCombiner
+from quickstats.utils.common_utils import combine_dict
 
 from hh_combination_fw.utils.combination_utils import create_combination_xml
 from .task_base import TaskBase
@@ -44,6 +45,7 @@ class TaskCombineChannel(TaskBase):
         self._config['tag_pattern'] = tag_pattern
         self._correlation_scheme = correlation_scheme
         self.asimov_types = kwargs['gen_asimov']
+        self.use_cms_opt_pdf = kwargs['use_cms_opt_pdf']
 
         # make sure the NPs are set to nominal values at the beginning
         for task in self.minimizer_options:
@@ -164,7 +166,7 @@ class TaskCombineChannel(TaskBase):
         status = 0
         self.stdout.info(f'Creating combined workspace "{output_ws_path}".')
         with standard_log(output_log_path) as logger:
-            ws_combiner = XMLWSCombiner(config_path)
+            ws_combiner = XMLWSCombiner(config_path, use_cms_opt_pdf=self.use_cms_opt_pdf)
             ws_combiner.create_combined_workspace()
             status = 1
         if not status:
