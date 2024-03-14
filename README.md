@@ -228,7 +228,7 @@ quickstats significance_scan -i <workspace_file> -p xsec_br --mu_exp 1
 
 ```
 quickstats likelihood_fit -i <workspace_file> -d combData --save_log --export_as_np_pulls
-quickstats plot_pulls -i pulls/ --sigma_bands --hide_prefit --hide_postfit --theta_max 3 --padding 4 --hide_sigma  --no_sigma_lines --no_ranking_label
+quickstats plot_pulls -i pulls/ --sigma_bands --hide_prefit --hide_postfit --theta_max 3 --padding 4 --hide_sigma  --no_sigma_lines --no_ranking_label --version 1
 quickstats np_correlation -i <workspace_filename> --save_json --save_plot
 ```
 
