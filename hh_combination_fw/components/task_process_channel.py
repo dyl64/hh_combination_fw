@@ -1,10 +1,12 @@
 from typing import Optional, List, Dict, Union
 import os
+import uuid
+import fnmatch
 
 from quickstats import semistaticmethod
 from quickstats.utils.common_utils import combine_dict
 from quickstats.components import ExtendedModel
-from quickstats.components.workspaces import XMLWSModifier
+from quickstats.components.workspaces import XMLWSModifier, XMLWSBase
 from quickstats.concurrent.logging import standard_log
 
 from hh_combination_fw.core.settings import *
@@ -76,6 +78,20 @@ class TaskProcessChannel(TaskBase):
             poi_scale = 1.0
         else:
             poi_scale = modification_options['rescale_poi']
+        if isinstance(poi_scale, dict):
+            basename = os.path.basename(input_filename)
+            if basename in poi_scale:
+                poi_scale = poi_scale[basename]
+            else:
+                keys = list(poi_scale)
+                matched_keys = [key for key in keys if fnmatch.fnmatch(basename, str(key))]
+                if len(matched_keys) == 0:
+                    poi_scale = 1.0
+                elif len(matched_keys) == 1:
+                    poi_scale = poi_scale[matched_keys[0]]
+                else:
+                    raise RuntimeError(f'found multiple matched keys for the rescale_poi options: {matched_keys}')
+                
         # need to check the default value and range of the poi
         model = ExtendedModel(input_filename, data_name=None, verbosity="WARNING")
         poi = model.get_poi(old_poi_name)
@@ -94,10 +110,6 @@ class TaskProcessChannel(TaskBase):
             new_poi_max = old_poi_max
         else:
             new_poi_max = old_poi_max / poi_scale
-        poi_expr = (f"expr::{kRescaledOldPOIName}('@0/{poi_scale}', "
-                    f"{poi_name}[{new_poi_val}, {new_poi_min}, {new_poi_max}])")
-        action_config["define"].append(poi_expr)
-        action_config["rename"]["variable"][old_poi_name] = kRescaledOldPOIName
 
         redefine_parameters = modification_options['redefine_parameters']
         if redefine_parameters is not None:
@@ -110,11 +122,21 @@ class TaskProcessChannel(TaskBase):
                     action_config["redefine"].append(expr)
             else:
                 raise RuntimeError("invalid redefine parameter options")
-
+                
         define_parameters = modification_options["define_parameters"]
         if define_parameters is not None:
             for expr in define_parameters:
-                action_config["define"].append(expr)
+                action_config["define"].append(expr)                
+
+        if kRescaledOldPOIName == poi_name:
+            raise ValueError(f'can not define poi name as "{kRescaledOldPOIName}" which is a reserved name')
+        poi_expr_1 = f"{poi_name}[{new_poi_val}, {new_poi_min}, {new_poi_max}]"
+        poi_expr_2 = f"expr::{kRescaledOldPOIName}('@0/{poi_scale}', {poi_name})"
+        # put the define of poi at the end to not override custom defines
+        action_config["define"].append(poi_expr_1)
+        action_config["define"].append(poi_expr_2)
+        action_config["rename"]["variable"][old_poi_name] = kRescaledOldPOIName
+
         define_constraints = modification_options["define_constraints"]
         if define_constraints is not None:
             for constr_dict in define_constraints:
