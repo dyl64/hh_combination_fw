@@ -140,8 +140,8 @@ def parse_cli_inputs(combination:bool=False, **kwargs):
 @cli.command(name='process_channels')
 @click.option('-i', '--input_dir', required=True, 
               help='Path to the input workspaces.')
-@click.option('-n', '--analysis', 'analysis_name', required=True,
-              help='Name of analysis (e.g. resonant or non-resonant).')
+@click.option('-n', '--analysis', 'analysis_name', default=None,
+              help='Name of analysis (e.g. resonant or non-resonant). Affects input and output path name only. Defaults to None.')
 @click.option('-c', '--channels', default='bbbb,bbtautau,bbyy', show_default=True,
               help='analysis channels (separated by commas)')
 @click.option('-o', '--outdir', "output_dir", default="./output", show_default=True,

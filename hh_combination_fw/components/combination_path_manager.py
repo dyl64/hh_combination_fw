@@ -28,12 +28,16 @@ class CombinationPathManager(PathManager):
         self.update()
 
     def get_channel_input_path(self):
-        return os.path.join(self.input_dir, self.channel, self.analysis_name)
+        if self.analysis_name is not None:
+            return os.path.join(self.input_dir, self.channel, self.analysis_name)
+        return os.path.join(self.input_dir, self.channel)
 
     def get_channel_output_path(self, output_type:str, channel:Optional[str]=None):
         if channel is None:
             channel = self.channel
-        return os.path.join(self.output_dir, output_type, self.analysis_name, channel)
+        if self.analysis_name is not None:
+            return os.path.join(self.output_dir, output_type, self.analysis_name, channel)
+        return os.path.join(self.output_dir, output_type, channel)
         
     def update(self):
         directories = {

@@ -51,7 +51,7 @@ class TaskBase(AbstractObject):
         super().__init__(verbosity=verbosity)
         self.initialize(**kwargs)
 
-    def initialize(self, analysis_name:str='analysis',
+    def initialize(self, analysis_name:Optional[str]=None,
                    channel:str='combined',
                    input_dir:Optional[str]=None,
                    output_dir:Optional[str]=None,
