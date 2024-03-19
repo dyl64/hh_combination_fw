@@ -195,8 +195,8 @@ def process_channels(**kwargs):
 @cli.command(name='combine_channels')
 @click.option('-i', '--input_dir', required=True, 
               help='Path to the processed workspaces.')
-@click.option('-n', '--analysis', 'analysis_name', required=True,
-              help='Name of analysis (e.g. resonant or non-resonant).')
+@click.option('-n', '--analysis', 'analysis_name', default=None,
+              help='Name of analysis (e.g. resonant or non-resonant). Affects input and output path name only. Defaults to None.')
 @click.option('-c', '--channels', default='bbbb,bbtautau,bbyy', show_default=True,
               help='Channels to combine (separated by commas).')
 @click.option('--file_expr', default="<mX[F]>", show_default=True,
