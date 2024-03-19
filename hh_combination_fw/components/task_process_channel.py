@@ -79,7 +79,7 @@ class TaskProcessChannel(TaskBase):
         else:
             poi_scale = modification_options['rescale_poi']
         if isinstance(poi_scale, dict):
-            basename = os.path.basename(input_filename)
+            basename = os.path.splitext(os.path.basename(input_filename))[0]
             if basename in poi_scale:
                 poi_scale = poi_scale[basename]
             else:
