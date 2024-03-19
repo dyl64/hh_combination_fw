@@ -190,10 +190,11 @@ class TaskBase(AbstractObject):
         default_options = combine_dict(default_options, extra_options)
         for task_options in tasks:
             scenario = task_options['scenario']
+            cache_only = task_options.get('merge_only', False)
             task_options = self.combine_task_options(default_options, task_options)
             self.stdout.info(f'Executing subtask for the scenario "{scenario}"')
             runner = method(**task_options)
-            runner.run()
+            runner.run(cache_only=cache_only)
             
     def run_limit(self):
         from quickstats.concurrent import ParameterisedAsymptoticCLs
