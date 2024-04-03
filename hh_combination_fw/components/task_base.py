@@ -61,7 +61,8 @@ class TaskBase(AbstractObject):
                    blind:bool=True, minimizer_options:Optional[Union[str, Dict]]=None, 
                    tasks:Optional[List]=None, task_options:Optional[Dict]=None,
                    extra_pois:Optional[List[str]]=None,
-                   parallel:int=-1, cache:bool=True, verbosity:str="INFO", **kwargs):
+                   parallel:int=-1, cache:bool=True, asimov_type:Optional[int]=None,
+                   verbosity:str="INFO", **kwargs):
         config = {}
         config['extra_pois']   = extra_pois
         config['data_name']    = data_name
@@ -73,6 +74,7 @@ class TaskBase(AbstractObject):
         config['exclude_expr'] = exclude_expr
         config['cache']        = cache
         config['parallel']     = parallel
+        config['asimov_type']  = asimov_type
         self._config = config
         self.setup_paths(analysis_name=analysis_name,
                          channel=channel,
@@ -224,7 +226,8 @@ class TaskBase(AbstractObject):
         from quickstats.concurrent import ParameterisedSignificance
         extra_options = {
             'poi_name'  : self.config['poi_name'],
-            'data_name' : self.config['data_name']
+            'data_name' : self.config['data_name'],
+            'asimov_type': self.config['asimov_type']
         }
         self.run_parameterised_method(ParameterisedSignificance,
                                       'significance', 'significance_output',
