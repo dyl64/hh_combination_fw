@@ -26,7 +26,7 @@ kCombLimitFileName      = 'limits.json'
 kModificationOptionList = ["rescale_poi",
                            "define_parameters", "define_constraints",
                            "redefine_parameters", "rename_parameters",
-                           "add_product_terms", "gen_asimov",
+                           "add_product_terms", "add_syst", "gen_asimov",
                            "fix_parameters", "profile_parameters", "set_parameters"]
 kRescaledOldPOIName     = "mu_old"
 kCombWSName             = "combWS"

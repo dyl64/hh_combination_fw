@@ -143,7 +143,11 @@ class TaskProcessChannel(TaskBase):
                 action_config["constraint"].append(constr_dict)
         add_product_terms = modification_options["add_product_terms"]
         if add_product_terms is not None:
-                action_config["add_product_terms"] = add_product_terms
+            action_config["add_product_terms"] = add_product_terms
+        add_syst_terms = modification_options["add_syst"]
+        if add_syst_terms is not None:
+            from quickstats.utils.string_utils import split_str
+            action_config["add_syst"] = split_str(add_syst_terms, ',', remove_empty=True)
         rename_parameters = modification_options["rename_parameters"]
         if rename_parameters is not None:
             for old_name, new_name in rename_parameters.items():

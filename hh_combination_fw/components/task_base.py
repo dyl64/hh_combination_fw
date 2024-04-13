@@ -2,7 +2,7 @@ from typing import Optional, Union, Dict, List
 import os
 import json
 
-from quickstats import AbstractObject, Timer
+from quickstats import AbstractObject, timer
 from quickstats.parsers import ParamParser
 from quickstats.utils.common_utils import execute_multi_tasks, combine_dict
 
@@ -243,7 +243,7 @@ class TaskBase(AbstractObject):
             if not task_method:
                 raise RuntimeError(f'no method defined for the task: {task_name}')
             self.stdout.info(f'Executing task "{task_name}"')
-            with Timer() as t:
+            with timer() as t:
                 # create directory for outputs
                 output_type = task.output_type
                 if output_type is None:
