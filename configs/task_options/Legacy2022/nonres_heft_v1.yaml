@@ -1,0 +1,160 @@
+workspace:
+  bbbb: combined
+  bbtautau: combined
+  bbyy: combWS
+
+dataset:
+  bbbb:
+    blind: asimovData_muhat_NP_Profile
+    unblind: obsData
+  bbtautau:
+    blind: asimovData_muhat_NP_Profile
+    unblind: combData
+  bbyy:
+    blind: asimovData_muhat_NP_Profile
+    unblind: combData
+  combination:
+    blind: asimovData_muhat_NP_Profile
+    unblind: combData
+
+gen_asimov:
+  bbbb: 2,-2
+  bbyy: 2,-2
+  bbtautau: 2,-2
+  combination: 2,-2
+
+poi:
+  bbbb: mu_HH
+  bbtautau: mu
+  bbyy: mu
+  combination: mu_HH
+
+rename_parameters:
+  bbbb:
+    kl: chhh
+    cg: cggh
+    c2g: cgghh
+    kt: ctth
+    c2: ctthh
+
+fix_parameters:
+  bbbb: chhh=1,cgghh=0,ctthh=0,cggh=0,ctth=1,mu_HH_ggF,mu,mu_HH=1_-50_200
+  bbtautau: chhh=1,cgghh=0,ctthh=0,mu_GGF,mu_VBFHtautau,mu_WHbb,mu_WHtautau,mu_ggFHtautau,mu_ggZHbb,mu_ggZHtautau,mu_qqZHbb,mu_qqZHtautau,mu_ttH,mu_HH=1_-50_200
+  bbyy: chhh=1,cgghh=0,ctthh=0,cggh=0,ctth=1,kl,mu_ggF,mu_HH=1_-50_200
+
+extra_pois:
+  bbbb: chhh,cgghh,ctthh,cggh,ctth
+  bbtautau: chhh,cgghh,ctthh
+  bbyy: chhh,cgghh,ctthh,cggh,ctth
+  combination: chhh,cgghh,ctthh
+
+set_parameters:
+  bbbb: <GAUSSIAN_CONSTRAINT_NP>=0,<POISSON_CONSTRAINT_NP>=1
+  bbtautau: <GAUSSIAN_CONSTRAINT_NP>=0,<POISSON_CONSTRAINT_NP>=1
+  bbyy: <GAUSSIAN_CONSTRAINT_NP>=0,<POISSON_CONSTRAINT_NP>=1
+
+tasks:
+  likelihood:
+    - scenario: cgghh_obs # 1d
+      channels:
+        - bbbb
+        - bbyy
+        - bbtautau
+        - combination
+      options:
+        profile_param: cgghh=0.5
+        param_expr: cgghh=-2_3_0.2
+        eps: 0.1
+    - scenario: cgghh_exp # 1d
+      channels:
+        - bbyy
+        - bbtautau
+        - combination
+      options:
+        param_expr: cgghh=-2_3_0.2
+        data_name: asimovData_muhat_NP_Profile
+        snapshot_name: asimovData_muhat_NP_Profile
+        eps: 0.1
+    - scenario: ctthh_obs # 1d
+      channels:
+        - bbbb
+        - bbyy
+        - bbtautau
+        - combination
+      options:
+        profile_param: ctthh=0.5
+        param_expr: ctthh=-2_3_0.2
+        eps: 0.1
+    - scenario: ctthh_exp # 1d
+      channels:
+        - bbyy
+        - bbtautau
+        - combination
+      options:
+        param_expr: ctthh=-2_3_0.2
+        data_name: asimovData_muhat_NP_Profile
+        snapshot_name: asimovData_muhat_NP_Profile
+        eps: 0.1
+    - scenario: cgghh_ctthh_obs # 2d 
+      channels:
+        - bbbb
+        - bbyy
+        - bbtautau
+        - combination
+      options:
+        param_expr: cgghh=-2_3_0.2,ctthh=-2_3_0.2
+        profile_param: ctthh=0.5,cgghh=0.5
+        eps: 0.1
+    - scenario: cgghh_ctthh_exp # 2d 
+      channels:
+        - bbbb
+        - bbyy
+        - bbtautau
+        - combination
+      options:
+        param_expr: cgghh=-2_3_0.2,ctthh=-2_3_0.2
+        data_name: asimovData_muhat_NP_Profile
+        snapshot_name: asimovData_muhat_NP_Profile
+        eps: 0.1
+    - scenario: chhh_cgghh_obs # 2d 
+      channels:
+        - bbbb
+        - bbyy
+        - bbtautau
+        - combination
+      options:
+        param_expr: chhh=-10_20_0.5,cgghh=-2_3_0.2
+        profile_param: chhh=5,cgghh=-0.5
+        eps: 0.1
+    - scenario: chhh_cgghh_exp # 2d 
+      channels:
+        - bbbb
+        - bbyy
+        - bbtautau
+        - combination
+      options:
+        param_expr: chhh=-10_20_0.5,cgghh=-2_3_0.2
+        data_name: asimovData_muhat_NP_Profile
+        snapshot_name: asimovData_muhat_NP_Profile
+        eps: 0.1
+    - scenario: chhh_ctthh_obs # 2d 
+      channels:
+        - bbbb
+        - bbyy
+        - bbtautau
+        - combination
+      options:
+        param_expr: chhh=-10_20_0.5,ctthh=-2_3_0.2
+        profile_param: chhh=1,ctthh=0.5
+        eps: 0.1
+    - scenario: chhh_ctthh_exp # 2d 
+      channels:
+        - bbbb
+        - bbyy
+        - bbtautau
+        - combination
+      options:
+        param_expr: chhh=-10_20_0.5,ctthh=-2_3_0.2
+        data_name: asimovData_muhat_NP_Profile
+        snapshot_name: asimovData_muhat_NP_Profile
+        eps: 0.1
