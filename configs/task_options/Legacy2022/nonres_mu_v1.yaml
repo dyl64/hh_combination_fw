@@ -7,22 +7,22 @@ workspace:
 
 dataset:
   bbll:
-    blind: asimovData_1_NP_Nominal
+    blind: asimovData_muhat_NP_Profile
     unblind: combData
   bbbb:
-    blind: asimovData_1_NP_Nominal
+    blind: asimovData_muhat_NP_Profile
     unblind: obsData
   bbyy:
-    blind: asimovData_1_NP_Nominal
+    blind: asimovData_muhat_NP_Profile
     unblind: combData
   bbtautau:
-    blind: asimovData_1_NP_Nominal
+    blind: asimovData_muhat_NP_Profile
     unblind: combData
   ml:
-    blind: asimovData_1_NP_Nominal
+    blind: asimovData_muhat_NP_Profile
     unblind: obsData
   combination:
-    blind: asimovData_1_NP_Nominal
+    blind: asimovData_muhat_NP_Profile
     unblind: combData
 
 poi:
@@ -91,7 +91,6 @@ tasks:
       options:
         asimov_type: 2
         eps: 0.1
-        minos: 1
         fix_param: "alpha_ATLAS_KLAMBDA_REWEIGHTING_HH_ggF_HH,alpha_ATLAS_LC_CLOSURE_VBFSMHH_HH,alpha_ATLAS_HEFT_REWEIGHTING_HH_ggF_HH,alpha_SysSIGNAL_KLRW_STAT_HH,ATLAS_GGF_Parametrization,ATLAS_VBF_Parametrization,ATLAS_ggF_Parametrization,HEFT_HHReW_systUncert,alpha_THEO_KAPPA_LAMBDA_HH,ATLAS_KAPPA_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_HH_VBF,ATLAS_HEFT_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_STAT_HH"
   limit:
     - scenario: mu
