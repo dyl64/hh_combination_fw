@@ -197,29 +197,29 @@ tasks:
         param_expr: kl=-10_20_1,k2v=-3_6_0.3
         data_name: asimovData_muhat_NP_Profile
         snapshot_name: asimovData_muhat_NP_Profile
-    - scenario: muVBF_muggF_obs # 2d scan
-      channels:
-        - bbll
-        - bbbb
-        - bbyy
-        - bbtautau
-        - combination
-      options:
-        eps: 0.1
-        fix_param: mu_VBF=1_-100_160,mu_ggF=1_-10_16
-        param_expr: mu_ggF=-10_16_1,mu_VBF=-100_160_10
-        fix_param: "alpha_ATLAS_KLAMBDA_REWEIGHTING_HH_ggF_HH,alpha_ATLAS_LC_CLOSURE_VBFSMHH_HH,alpha_ATLAS_HEFT_REWEIGHTING_HH_ggF_HH,alpha_SysSIGNAL_KLRW_STAT_HH,ATLAS_GGF_Parametrization,ATLAS_VBF_Parametrization,ATLAS_ggF_Parametrization,HEFT_HHReW_systUncert,alpha_THEO_KAPPA_LAMBDA_HH,ATLAS_KAPPA_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_HH_VBF,ATLAS_HEFT_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_STAT_HH"
-    - scenario: muVBF_muggF_exp # 2d scan
-      channels:
-        - bbll
-        - bbbb
-        - bbyy
-        - bbtautau
-        - combination
-      options:
-        eps: 0.1
-        fix_param: mu_VBF=1_-100_160,mu_ggF=1_-10_16
-        param_expr: mu_ggF=-10_16_1,mu_VBF=-100_160_10
-        data_name: asimovData_muhat_NP_Profile
-        snapshot_name: asimovData_muhat_NP_Profile
-        fix_param: "alpha_ATLAS_KLAMBDA_REWEIGHTING_HH_ggF_HH,alpha_ATLAS_LC_CLOSURE_VBFSMHH_HH,alpha_ATLAS_HEFT_REWEIGHTING_HH_ggF_HH,alpha_SysSIGNAL_KLRW_STAT_HH,ATLAS_GGF_Parametrization,ATLAS_VBF_Parametrization,ATLAS_ggF_Parametrization,HEFT_HHReW_systUncert,alpha_THEO_KAPPA_LAMBDA_HH,ATLAS_KAPPA_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_HH_VBF,ATLAS_HEFT_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_STAT_HH"
+    # - scenario: muVBF_muggF_obs # 2d scan
+    #   channels:
+    #     - bbll
+    #     - bbbb
+    #     - bbyy
+    #     - bbtautau
+    #     - combination
+    #   options:
+    #     eps: 0.1
+    #     fix_param: mu_VBF=1_-100_160,mu_ggF=1_-10_16
+    #     param_expr: mu_ggF=-10_16_1,mu_VBF=-100_160_10
+    #     fix_param: "alpha_ATLAS_KLAMBDA_REWEIGHTING_HH_ggF_HH,alpha_ATLAS_LC_CLOSURE_VBFSMHH_HH,alpha_ATLAS_HEFT_REWEIGHTING_HH_ggF_HH,alpha_SysSIGNAL_KLRW_STAT_HH,ATLAS_GGF_Parametrization,ATLAS_VBF_Parametrization,ATLAS_ggF_Parametrization,HEFT_HHReW_systUncert,alpha_THEO_KAPPA_LAMBDA_HH,ATLAS_KAPPA_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_HH_VBF,ATLAS_HEFT_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_STAT_HH"
+    # - scenario: muVBF_muggF_exp # 2d scan
+    #   channels:
+    #     - bbll
+    #     - bbbb
+    #     - bbyy
+    #     - bbtautau
+    #     - combination
+    #   options:
+    #     eps: 0.1
+    #     fix_param: mu_VBF=1_-100_160,mu_ggF=1_-10_16
+    #     param_expr: mu_ggF=-10_16_1,mu_VBF=-100_160_10
+    #     data_name: asimovData_muhat_NP_Profile
+    #     snapshot_name: asimovData_muhat_NP_Profile
+    #     fix_param: "alpha_ATLAS_KLAMBDA_REWEIGHTING_HH_ggF_HH,alpha_ATLAS_LC_CLOSURE_VBFSMHH_HH,alpha_ATLAS_HEFT_REWEIGHTING_HH_ggF_HH,alpha_SysSIGNAL_KLRW_STAT_HH,ATLAS_GGF_Parametrization,ATLAS_VBF_Parametrization,ATLAS_ggF_Parametrization,HEFT_HHReW_systUncert,alpha_THEO_KAPPA_LAMBDA_HH,ATLAS_KAPPA_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_HH_VBF,ATLAS_HEFT_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_STAT_HH"
