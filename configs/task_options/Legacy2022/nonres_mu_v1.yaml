@@ -1,0 +1,117 @@
+workspace:
+  bbll: combined
+  bbbb: combined
+  bbyy: combWS
+  bbtautau: combined
+  ml: combined
+
+dataset:
+  bbll:
+    blind: asimovData_muhat_NP_Profile
+    unblind: combData
+  bbbb:
+    blind: asimovData_muhat_NP_Profile
+    unblind: obsData
+  bbyy:
+    blind: asimovData_muhat_NP_Profile
+    unblind: combData
+  bbtautau:
+    blind: asimovData_muhat_NP_Profile
+    unblind: combData
+  ml:
+    blind: asimovData_muhat_NP_Profile
+    unblind: obsData
+  combination:
+    blind: asimovData_muhat_NP_Profile
+    unblind: combData
+
+poi:
+  bbll: mu_HH
+  bbbb: mu
+  bbyy: mu_HH
+  bbtautau: mu
+  ml: mu_XS_hh
+  combination: mu
+
+fix_parameters:
+  bbll: <poi>=1
+  bbbb: <poi>=1
+  bbyy: <poi>=1
+  bbtautau: <poi>=1
+  ml: <poi>=1
+  combination: <poi>=1
+
+gen_asimov:
+  bbll: 2,-2
+  bbbb: 2,-2
+  bbyy: 2,-2
+  bbtautau: 2,-2
+  ml: 2,-2
+  combination: 2,-2
+
+add_syst:
+  bbll: mu_ZHF_VBF_HH,mu_ZHF_vetoVBF_HH,mu_singletop_VBF_HH,mu_singletop_vetoVBF_HH,mu_ttbar_VBF_HH,mu_ttbar_vetoVBF_HH
+
+extra_pois:
+  bbll: kappa2V,kappaL,mu_VBF,mu_ggF
+  bbbb: k2V,kV,kLambda,kt,mu_VBF,mu_ggF
+  bbyy: mu_H,mu_HH_VBF,mu_HH_ggF,mu_HM_1,mu_HM_2,mu_HM_3,mu_H_HH,mu_LM_1,mu_LM_2,mu_LM_3,mu_LM_4,mu_VBFH,mu_WmH,mu_WpH,mu_ZH,mu_bbH,mu_ggH,mu_ggZH,mu_tHjb,mu_tWH,mu_ttH
+  bbtautau: kappa2V,kappaL,mu_GGF,mu_VBF,mu_VBFHtautau,mu_WHbb,mu_WHtautau,mu_ggFHtautau,mu_ggZHbb,mu_ggZHtautau,mu_qqZHbb,mu_qqZHtautau,mu_ttH
+  ml:
+
+set_parameters:
+  bbll: <GAUSSIAN_CONSTRAINT_NP>=0,<POISSON_CONSTRAINT_NP>=1
+  bbbb: <GAUSSIAN_CONSTRAINT_NP>=0,<POISSON_CONSTRAINT_NP>=1
+  bbyy: <GAUSSIAN_CONSTRAINT_NP>=0,<POISSON_CONSTRAINT_NP>=1
+  bbtautau: <GAUSSIAN_CONSTRAINT_NP>=0,<POISSON_CONSTRAINT_NP>=1
+  ml: <GAUSSIAN_CONSTRAINT_NP>=0,<POISSON_CONSTRAINT_NP>=1
+
+tasks:
+  significance:
+    - scenario: observed
+      channels:
+        - bbll
+        - bbbb
+        - bbyy
+        - bbtautau
+        - ml
+        - combination
+      options:
+        eps: 0.1
+        minos: 1
+        fix_param: "alpha_ATLAS_KLAMBDA_REWEIGHTING_HH_ggF_HH,alpha_ATLAS_LC_CLOSURE_VBFSMHH_HH,alpha_ATLAS_HEFT_REWEIGHTING_HH_ggF_HH,alpha_SysSIGNAL_KLRW_STAT_HH,ATLAS_GGF_Parametrization,ATLAS_VBF_Parametrization,ATLAS_ggF_Parametrization,HEFT_HHReW_systUncert,alpha_THEO_KAPPA_LAMBDA_HH,ATLAS_KAPPA_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_HH_VBF,ATLAS_HEFT_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_STAT_HH"
+    - scenario: expected
+      channels:
+        - bbll
+        - bbbb
+        - bbyy
+        - bbtautau
+        - ml
+        - combination
+      options:
+        asimov_type: 2
+        eps: 0.1
+        fix_param: "alpha_ATLAS_KLAMBDA_REWEIGHTING_HH_ggF_HH,alpha_ATLAS_LC_CLOSURE_VBFSMHH_HH,alpha_ATLAS_HEFT_REWEIGHTING_HH_ggF_HH,alpha_SysSIGNAL_KLRW_STAT_HH,ATLAS_GGF_Parametrization,ATLAS_VBF_Parametrization,ATLAS_ggF_Parametrization,HEFT_HHReW_systUncert,alpha_THEO_KAPPA_LAMBDA_HH,ATLAS_KAPPA_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_HH_VBF,ATLAS_HEFT_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_STAT_HH"
+  limit:
+    - scenario: mu
+      channels:
+        - bbll
+        - bbbb
+        - bbyy
+        - bbtautau
+        - ml
+        - combination
+      options:
+        eps: 0.1
+        fix_param: "alpha_ATLAS_KLAMBDA_REWEIGHTING_HH_ggF_HH,alpha_ATLAS_LC_CLOSURE_VBFSMHH_HH,alpha_ATLAS_HEFT_REWEIGHTING_HH_ggF_HH,alpha_SysSIGNAL_KLRW_STAT_HH,ATLAS_GGF_Parametrization,ATLAS_VBF_Parametrization,ATLAS_ggF_Parametrization,HEFT_HHReW_systUncert,alpha_THEO_KAPPA_LAMBDA_HH,ATLAS_KAPPA_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_HH_VBF,ATLAS_HEFT_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_STAT_HH"
+    - scenario: xsec
+      channels:
+        - bbll
+        - bbbb
+        - bbyy
+        - bbtautau
+        - ml
+        - combination
+      options:
+        eps: 0.1
+        fix_param: "alpha_ATLAS_KLAMBDA_REWEIGHTING_HH_ggF_HH,alpha_ATLAS_LC_CLOSURE_VBFSMHH_HH,alpha_ATLAS_HEFT_REWEIGHTING_HH_ggF_HH,alpha_SysSIGNAL_KLRW_STAT_HH,ATLAS_GGF_Parametrization,ATLAS_VBF_Parametrization,ATLAS_ggF_Parametrization,HEFT_HHReW_systUncert,alpha_THEO_KAPPA_LAMBDA_HH,ATLAS_KAPPA_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_HH_VBF,ATLAS_HEFT_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_STAT_HH,alpha_PDFaSXS_ggF,alpha_THEO_XS_PDFalphas_ggf,alpha_ScalemtopXS_ggF,alpha_THEO_XS_SCALEMTop_ggf,alpha_SysTHEO_XS_PDFalphas_ggFSMHH_HH,alpha_SysTHEO_XS_SCALEMTop_ggFSMHH_HH,THEO_XS_COMBINED_ggFHH,THEO_XS_PDF_alphaS_ggFHH,alpha_THEO_PDFALPHAS_SIG,alpha_THEO_SCALEMTOP_SIG,alpha_THEO_PDFALPHAS_SIG_HH,alpha_THEO_SCALEMTOP_SIG_HH,alpha_THEO_XS_ggFHH_PDFAlphas,alpha_THEO_XS_ggFHH_SCALEMTop,THEO_XS_ggFHH_SCALEMTop,THEO_XS_ggFHH_PDFalphaS,alpha_PDFaSXS_VBF,alpha_THEO_XS_SCALEMTop_vbf,alpha_SysTHEO_XS_PDFalphas_VBFSMHH_HH,THEO_XS_PDF_alphaS_VBFHH,THEO_XS_QCD_SCALE_VBFHH,alpha_THEO_PDFALPHAS_SIGVBF_HH,alpha_THEO_XS_VBFHH_PDFAlphas,THEO_XS_VBFHH_PDFalphaS,THEO_XS_VBFHH_SCALEMTop"
