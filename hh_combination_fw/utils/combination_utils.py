@@ -32,6 +32,7 @@ def create_channel_node(root_node, channel:str, fname:str, poi_name:str, rename_
         for (pdf_name, np_name, glob_name) in zip(pdf_list, nuis_list, globs_list): 
             if np_name not in np_list:
                 continue
+            np_list.remove(np_name)
             if (np_name not in rename_map) and (not ignore_missing_keys):
                 raise ValueError(f'missing mapping for the nuisance parameter "{np_name}" '
                                  f'in the workspace "{fname}"')
@@ -42,6 +43,11 @@ def create_channel_node(root_node, channel:str, fname:str, poi_name:str, rename_
                 continue
             old_name_full = f'{pdf_name}( {np_name}, {glob_name})'
             rename_node.add_node('Syst', OldName=old_name_full, NewName=new_name)
+        for np_name in np_list:
+            if (np_name not in rename_map) and (not ignore_missing_keys):
+                raise ValueError(f'missing mapping for the nuisance parameter "{np_name}" '
+                                 f'in the workspace "{fname}"')
+            rename_node.add_node('Syst', OldName=np_name, NewName=rename_map[np_name])
     
 def create_combination_xml(channel_attributes:Dict, output_ws:str, poi_name:str, rename_map:Dict=None,
                            ws_name:str='combWS', mc_name:str='ModelConfig',
