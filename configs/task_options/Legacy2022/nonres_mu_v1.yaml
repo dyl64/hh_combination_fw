@@ -68,6 +68,19 @@ set_parameters:
 
 tasks:
   significance:
+    - scenario: compatibility_SM
+      channels:
+        - bbll
+        - bbbb
+        - bbyy
+        - bbtautau
+        - ml
+        - combination
+      options:
+        eps: 0.1
+        minos: 1
+        mu_exp: 1
+        fix_param: "alpha_ATLAS_KLAMBDA_REWEIGHTING_HH_ggF_HH,alpha_ATLAS_LC_CLOSURE_VBFSMHH_HH,alpha_ATLAS_HEFT_REWEIGHTING_HH_ggF_HH,alpha_SysSIGNAL_KLRW_STAT_HH,ATLAS_GGF_Parametrization,ATLAS_VBF_Parametrization,ATLAS_ggF_Parametrization,HEFT_HHReW_systUncert,alpha_THEO_KAPPA_LAMBDA_HH,ATLAS_KAPPA_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_HH_VBF,ATLAS_HEFT_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_STAT_HH"
     - scenario: observed
       channels:
         - bbll
@@ -89,8 +102,10 @@ tasks:
         - ml
         - combination
       options:
-        asimov_type: 2
+        data_name: asimovData_1_NP_Profile
+        snapshot_name: asimovData_1_NP_Profile
         eps: 0.1
+        minos: 1
         fix_param: "alpha_ATLAS_KLAMBDA_REWEIGHTING_HH_ggF_HH,alpha_ATLAS_LC_CLOSURE_VBFSMHH_HH,alpha_ATLAS_HEFT_REWEIGHTING_HH_ggF_HH,alpha_SysSIGNAL_KLRW_STAT_HH,ATLAS_GGF_Parametrization,ATLAS_VBF_Parametrization,ATLAS_ggF_Parametrization,HEFT_HHReW_systUncert,alpha_THEO_KAPPA_LAMBDA_HH,ATLAS_KAPPA_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_HH_VBF,ATLAS_HEFT_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_STAT_HH"
   limit:
     - scenario: mu
@@ -115,3 +130,16 @@ tasks:
       options:
         eps: 0.1
         fix_param: "alpha_ATLAS_KLAMBDA_REWEIGHTING_HH_ggF_HH,alpha_ATLAS_LC_CLOSURE_VBFSMHH_HH,alpha_ATLAS_HEFT_REWEIGHTING_HH_ggF_HH,alpha_SysSIGNAL_KLRW_STAT_HH,ATLAS_GGF_Parametrization,ATLAS_VBF_Parametrization,ATLAS_ggF_Parametrization,HEFT_HHReW_systUncert,alpha_THEO_KAPPA_LAMBDA_HH,ATLAS_KAPPA_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_HH_VBF,ATLAS_HEFT_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_STAT_HH,alpha_PDFaSXS_ggF,alpha_THEO_XS_PDFalphas_ggf,alpha_ScalemtopXS_ggF,alpha_THEO_XS_SCALEMTop_ggf,alpha_SysTHEO_XS_PDFalphas_ggFSMHH_HH,alpha_SysTHEO_XS_SCALEMTop_ggFSMHH_HH,THEO_XS_COMBINED_ggFHH,THEO_XS_PDF_alphaS_ggFHH,alpha_THEO_PDFALPHAS_SIG,alpha_THEO_SCALEMTOP_SIG,alpha_THEO_PDFALPHAS_SIG_HH,alpha_THEO_SCALEMTOP_SIG_HH,alpha_THEO_XS_ggFHH_PDFAlphas,alpha_THEO_XS_ggFHH_SCALEMTop,THEO_XS_ggFHH_SCALEMTop,THEO_XS_ggFHH_PDFalphaS,alpha_PDFaSXS_VBF,alpha_THEO_XS_SCALEMTop_vbf,alpha_SysTHEO_XS_PDFalphas_VBFSMHH_HH,THEO_XS_PDF_alphaS_VBFHH,THEO_XS_QCD_SCALE_VBFHH,alpha_THEO_PDFALPHAS_SIGVBF_HH,alpha_THEO_XS_VBFHH_PDFAlphas,THEO_XS_VBFHH_PDFalphaS,THEO_XS_VBFHH_SCALEMTop"
+    - scenario: mu_exp_1
+      channels:
+        - bbll
+        - bbbb
+        - bbyy
+        - bbtautau
+        - ml
+        - combination
+      options:
+        eps: 0.1
+        data_name: asimovData_1_NP_Profile
+        snapshot_name: asimovData_1_NP_Profile
+        fix_param: "alpha_ATLAS_KLAMBDA_REWEIGHTING_HH_ggF_HH,alpha_ATLAS_LC_CLOSURE_VBFSMHH_HH,alpha_ATLAS_HEFT_REWEIGHTING_HH_ggF_HH,alpha_SysSIGNAL_KLRW_STAT_HH,ATLAS_GGF_Parametrization,ATLAS_VBF_Parametrization,ATLAS_ggF_Parametrization,HEFT_HHReW_systUncert,alpha_THEO_KAPPA_LAMBDA_HH,ATLAS_KAPPA_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_HH_VBF,ATLAS_HEFT_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_STAT_HH"

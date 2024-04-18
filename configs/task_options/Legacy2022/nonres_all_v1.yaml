@@ -83,6 +83,31 @@ set_parameters:
   # ml: <GAUSSIAN_CONSTRAINT_NP>=0,<POISSON_CONSTRAINT_NP>=1
 
 tasks:
+  significance:
+    - scenario: kl
+      channels:
+        - bbll
+        - bbbb
+        - bbyy
+        - bbtautau
+        - combination
+      options:
+        eps: 0.1
+        minos: 1
+        mu_exp: 1
+        poi_name: kl
+    - scenario: k2v
+      channels:
+        - bbll
+        - bbbb
+        - bbyy
+        - bbtautau
+        - combination
+      options:
+        eps: 0.1
+        minos: 1
+        mu_exp: 1
+        poi_name: k2v
   limit:
     - scenario: mu_VBF
       channels:
