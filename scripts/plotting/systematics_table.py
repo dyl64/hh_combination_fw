@@ -107,7 +107,7 @@ def get_table_start():
         r"\begin{table}[ht]""\n"
         r"    \centering""\n"
         r"    \caption{""\n"
-        r"        Impact of systematic uncertainties grouped by similar sources.""\n"
+        r"        Impact of systematic uncertainties grouped by similar sources of uncertainty.""\n"
         r"        The uncertainty on the POI $\mu_{\HH}$ is evaluated with Minos.""\n"
         r"    }""\n"
         r"    \resizebox{\columnwidth}{!}{""\n"
