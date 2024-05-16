@@ -1,0 +1,48 @@
+workspace:
+  bbbb: combined
+  bbtautau: combined
+  bbyy: combWS
+
+dataset:
+  bbbb:
+    blind: asimovData_muhat_NP_Profile
+    unblind: obsData
+  bbtautau:
+    blind: asimovData_muhat_NP_Profile
+    unblind: obsData
+  bbyy:
+    blind: asimovData_muhat_NP_Profile
+    unblind: combData
+  combination:
+    blind: asimovData_muhat_NP_Profile
+    unblind: combData
+
+poi:
+  bbbb: ggf_mu
+  bbyy: mu
+  bbtautau: SigXsecOverSM
+  combination: mu_HH
+
+rescale_poi:
+  bbtautau: 5.7774025985
+
+fix_parameters:
+  bbyy: mu_ggF,mu_HH=1_-50_200,chhh=2.79,ctth=0.9,cggh=-0.333333333,cgghh=-0.5,ctthh=-0.1666666667
+
+set_parameters:
+  bbbb: <GAUSSIAN_CONSTRAINT_NP>=0,<POISSON_CONSTRAINT_NP>=1
+  bbyy: <GAUSSIAN_CONSTRAINT_NP>=0,<POISSON_CONSTRAINT_NP>=1
+  bbtautau: <GAUSSIAN_CONSTRAINT_NP>=0,<POISSON_CONSTRAINT_NP>=1
+
+tasks:
+  limit:
+    - scenario: BM4
+      channels:
+        - bbbb
+        - bbyy
+        - bbtautau
+        - combination
+      options:
+        poi_name: mu_HH
+        eps: 0.1
+        fix_param: "alpha_PDFaSXS_ggF,alpha_THEO_XS_PDFalphas_ggf,alpha_ScalemtopXS_ggF,alpha_THEO_XS_SCALEMTop_ggf,alpha_SysTHEO_XS_PDFalphas_ggFSMHH_HH,alpha_SysTHEO_XS_SCALEMTop_ggFSMHH_HH,THEO_XS_COMBINED_ggFHH,THEO_XS_PDF_alphaS_ggFHH,alpha_THEO_PDFALPHAS_SIG,alpha_THEO_SCALEMTOP_SIG,alpha_THEO_PDFALPHAS_SIG_HH,alpha_THEO_SCALEMTOP_SIG_HH,alpha_THEO_XS_ggFHH_PDFAlphas,alpha_THEO_XS_ggFHH_SCALEMTop,THEO_XS_ggFHH_SCALEMTop,THEO_XS_ggFHH_PDFalphaS,alpha_PDFaSXS_VBF,alpha_THEO_XS_SCALEMTop_vbf,alpha_SysTHEO_XS_PDFalphas_VBFSMHH_HH,THEO_XS_PDF_alphaS_VBFHH,THEO_XS_QCD_SCALE_VBFHH,alpha_THEO_PDFALPHAS_SIGVBF_HH,alpha_THEO_XS_VBFHH_PDFAlphas,THEO_XS_VBFHH_PDFalphaS,THEO_XS_VBFHH_SCALEMTop"
