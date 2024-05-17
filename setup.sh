@@ -40,7 +40,15 @@ if [[ -z "${SWAN_HOME}" ]] && [[ -z "${USER_ENV_SCRIPT}" ]]; then
         lsetup "views LCG_102 x86_64-centos7-gcc11-opt"
     elif [[ "$EnvironmentName" == "102b" ]]; then
         echo 'setup LCG_102b, ROOT 6.26/08'
-        lsetup "views LCG_102b x86_64-centos7-gcc11-opt"
+        kernel_info=$(uname -a)
+        if [[ $kernel_info =~ el7 ]] && [[ $kernel_info =~ x86_64 ]]; then
+            lsetup "views LCG_102b x86_64-centos7-gcc11-opt"
+        elif [[ $kernel_info =~ el9 ]] && [[ $kernel_info =~ x86_64 ]]; then
+            lsetup "views LCG_102b x86_64-centos9-gcc11-opt"
+        else
+            echo "Please define the LCG version for your system in setup.sh"
+            echo "Your kernel_info is: $kernel_info"
+        fi
     elif [[ "$EnvironmentName" == "103" ]]; then
         echo 'setup LCG_103, ROOT 6.28/00'
         lsetup "views LCG_103 x86_64-centos7-gcc11-opt"

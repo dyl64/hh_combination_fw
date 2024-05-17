@@ -29,23 +29,15 @@ poi:
   bbyy: mu
   combination: mu_HH
 
-rename_parameters:
-  bbbb:
-    kl: chhh
-    cg: cggh
-    c2g: cgghh
-    kt: ctth
-    c2: ctthh
-
 fix_parameters:
-  bbbb: chhh=1_-50_50,cgghh=0_-20_20,ctthh=0_-20_20,cggh=0,ctth=1,mu_HH_ggF,mu,mu_HH=1_-50_200
+  bbbb: chhh=1_-50_50,cgghh=0_-20_20,ctthh=0_-20_20,mu_HH_ggF,mu,mu_HH=1_-50_200
   bbtautau: chhh=1_-50_50,cgghh=0_-20_20,ctthh=0_-20_20,mu_GGF,mu_VBFHtautau,mu_WHbb,mu_WHtautau,mu_ggFHtautau,mu_ggZHbb,mu_ggZHtautau,mu_qqZHbb,mu_qqZHtautau,mu_ttH,mu_HH=1_-50_200
   bbyy: chhh=1_-50_50,cgghh=0_-20_20,ctthh=0_-20_20,cggh=0,ctth=1,kl,mu_ggF,mu_HH=1_-50_200
 
 extra_pois:
-  bbbb: chhh,cgghh,ctthh,cggh,ctth
+  bbbb: chhh,cgghh,ctthh
   bbtautau: chhh,cgghh,ctthh
-  bbyy: chhh,cgghh,ctthh,cggh,ctth
+  bbyy: chhh,cgghh,ctthh
   combination: chhh,cgghh,ctthh
 
 set_parameters:
@@ -105,7 +97,7 @@ tasks:
         - combination
       options:
         param_expr: cgghh=-2_3_0.2,ctthh=-2_3_0.2
-        profile_param: ctthh=0.5,cgghh=0.5
+        profile_param: ctthh=0.5,cgghh=-0.4
         eps: 0.1
     - scenario: cgghh_ctthh_exp # 2d 
       channels:
