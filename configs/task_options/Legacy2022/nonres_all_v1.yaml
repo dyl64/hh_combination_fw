@@ -108,8 +108,7 @@ tasks:
         - ml
         - combination
       options:
-        data_name: asimovData_muhat_NP_Profile
-        snapshot_name: asimovData_muhat_NP_Profile
+        asimov_type: 2
         eps: 0.1
         minos: 1
         mu_exp: 0
@@ -128,7 +127,7 @@ tasks:
         minos: 1
         mu_exp: 0
         poi_name: mu
-        fix_param: "alpha_ATLAS_KLAMBDA_REWEIGHTING_HH_ggF_HH,alpha_ATLAS_LC_CLOSURE_VBFSMHH_HH,alpha_ATLAS_HEFT_REWEIGHTING_HH_ggF_HH,alpha_SysSIGNAL_KLRW_STAT_HH,ATLAS_GGF_Parametrization,ATLAS_VBF_Parametrization,ATLAS_ggF_Parametrization,HEFT_HHReW_systUncert,alpha_THEO_KAPPA_LAMBDA_HH,ATLAS_KAPPA_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_HH_VBF,ATLAS_HEFT_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_STAT_HH"
+        fix_param: "alpha_ATLAS_KLAMBDA_REWEIGHTING_HH_ggF_HH,alpha_ATLAS_LC_CLOSURE_VBFSMHH_HH,alpha_ATLAS_HEFT_REWEIGHTING_HH_ggF_HH,alpha_SysSIGNAL_KLRW_STAT_HH,ATLAS_GGF_Parametrization,ATLAS_VBF_Parametrization,ATLAS_ggF_Parametrization,HEFT_HHReW_systUncert,alpha_THEO_KAPPA_LAMBDA_HH,ATLAS_KAPPA_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_HH_VBF,ATLAS_HEFT_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_STAT_HH,alpha_PDFaSXS_ggF,alpha_THEO_XS_PDFalphas_ggf,alpha_ScalemtopXS_ggF,alpha_THEO_XS_SCALEMTop_ggf,alpha_SysTHEO_XS_PDFalphas_ggFSMHH_HH,alpha_SysTHEO_XS_SCALEMTop_ggFSMHH_HH,THEO_XS_COMBINED_ggFHH,THEO_XS_PDF_alphaS_ggFHH,alpha_THEO_PDFALPHAS_SIG,alpha_THEO_SCALEMTOP_SIG,alpha_THEO_PDFALPHAS_SIG_HH,alpha_THEO_SCALEMTOP_SIG_HH,alpha_THEO_XS_ggFHH_PDFAlphas,alpha_THEO_XS_ggFHH_SCALEMTop,THEO_XS_ggFHH_SCALEMTop,THEO_XS_ggFHH_PDFalphaS,alpha_PDFaSXS_VBF,alpha_THEO_XS_SCALEMTop_vbf,alpha_SysTHEO_XS_PDFalphas_VBFSMHH_HH,THEO_XS_PDF_alphaS_VBFHH,THEO_XS_QCD_SCALE_VBFHH,alpha_THEO_PDFALPHAS_SIGVBF_HH,alpha_THEO_XS_VBFHH_PDFAlphas,THEO_XS_VBFHH_PDFalphaS,THEO_XS_VBFHH_SCALEMTop"
     - scenario: expected_discovery
       channels:
         - bbll
@@ -138,13 +137,12 @@ tasks:
         - ml
         - combination
       options:
-        data_name: asimovData_muhat_NP_Profile
-        snapshot_name: asimovData_muhat_NP_Profile
+        asimov_type: 2
         eps: 0.1
-        minos: 1
+        # minos: 1
         mu_exp: 0
         poi_name: mu
-        fix_param: "alpha_ATLAS_KLAMBDA_REWEIGHTING_HH_ggF_HH,alpha_ATLAS_LC_CLOSURE_VBFSMHH_HH,alpha_ATLAS_HEFT_REWEIGHTING_HH_ggF_HH,alpha_SysSIGNAL_KLRW_STAT_HH,ATLAS_GGF_Parametrization,ATLAS_VBF_Parametrization,ATLAS_ggF_Parametrization,HEFT_HHReW_systUncert,alpha_THEO_KAPPA_LAMBDA_HH,ATLAS_KAPPA_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_HH_VBF,ATLAS_HEFT_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_STAT_HH"
+        fix_param: "alpha_ATLAS_KLAMBDA_REWEIGHTING_HH_ggF_HH,alpha_ATLAS_LC_CLOSURE_VBFSMHH_HH,alpha_ATLAS_HEFT_REWEIGHTING_HH_ggF_HH,alpha_SysSIGNAL_KLRW_STAT_HH,ATLAS_GGF_Parametrization,ATLAS_VBF_Parametrization,ATLAS_ggF_Parametrization,HEFT_HHReW_systUncert,alpha_THEO_KAPPA_LAMBDA_HH,ATLAS_KAPPA_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_HH_VBF,ATLAS_HEFT_REWEIGHTING_HH_ggF,ATLAS_KAPPA_REWEIGHTING_STAT_HH,alpha_PDFaSXS_ggF,alpha_THEO_XS_PDFalphas_ggf,alpha_ScalemtopXS_ggF,alpha_THEO_XS_SCALEMTop_ggf,alpha_SysTHEO_XS_PDFalphas_ggFSMHH_HH,alpha_SysTHEO_XS_SCALEMTop_ggFSMHH_HH,THEO_XS_COMBINED_ggFHH,THEO_XS_PDF_alphaS_ggFHH,alpha_THEO_PDFALPHAS_SIG,alpha_THEO_SCALEMTOP_SIG,alpha_THEO_PDFALPHAS_SIG_HH,alpha_THEO_SCALEMTOP_SIG_HH,alpha_THEO_XS_ggFHH_PDFAlphas,alpha_THEO_XS_ggFHH_SCALEMTop,THEO_XS_ggFHH_SCALEMTop,THEO_XS_ggFHH_PDFalphaS,alpha_PDFaSXS_VBF,alpha_THEO_XS_SCALEMTop_vbf,alpha_SysTHEO_XS_PDFalphas_VBFSMHH_HH,THEO_XS_PDF_alphaS_VBFHH,THEO_XS_QCD_SCALE_VBFHH,alpha_THEO_PDFALPHAS_SIGVBF_HH,alpha_THEO_XS_VBFHH_PDFAlphas,THEO_XS_VBFHH_PDFalphaS,THEO_XS_VBFHH_SCALEMTop"
     - scenario: mu_compatible_SM
       channels:
         - bbll
