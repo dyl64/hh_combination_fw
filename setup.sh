@@ -48,6 +48,8 @@ if [[ -z "${SWAN_HOME}" ]] && [[ -z "${USER_ENV_SCRIPT}" ]]; then
         else
             echo "Please define the LCG version for your system in setup.sh"
             echo "Your kernel_info is: $kernel_info"
+            echo "If this is running on gitlab-CI runner, centos7 will be setup"
+            lsetup "views LCG_102b x86_64-centos7-gcc11-opt"
         fi
     elif [[ "$EnvironmentName" == "103" ]]; then
         echo 'setup LCG_103, ROOT 6.28/00'
